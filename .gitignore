@@ -1,0 +1,8 @@
+/node_modules
+/openapi
+/package-lock.json
+/template.hbs
+/zodios_endpoints.js
+/lib
+urls.txt
+zodios_endpoints.js
