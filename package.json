@@ -19,6 +19,9 @@
   "dependencies": {
     "zod": "^3.21.4"
   },
+  "repository": {
+    "url": "https://github.com/alexop1000/RoZod"
+  },
   "devDependencies": {
     "@apidevtools/swagger-parser": "^10.1.0",
     "@types/jest": "^29.5.1",

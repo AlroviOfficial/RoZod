@@ -69,14 +69,29 @@ async function fetchApi<S extends EndpointSchema>(
     const extendedParams = { ...defaultValues, ...params };
 
     let body: string | undefined;
-    let query = '';
-    if (method !== 'get' && requestFormat === 'json') {
-        body = JSON.stringify(extendedParams);
-    } else {
-        query = '?' + new URLSearchParams(extendedParams as Record<string, string>).toString();
+    let processedPath = path;
+    const queryParams: Record<string, string> = {};
+
+    for (const key in extendedParams) {
+        const value = extendedParams[key as keyof ExtractParams<S>];
+        const pathParamPattern = new RegExp(`:${key}`);
+
+        if (pathParamPattern.test(processedPath)) {
+            processedPath = processedPath.replace(pathParamPattern, String(value));
+        } else {
+            queryParams[key] = String(value);
+        }
     }
 
-    const response = await fetch(endpoint.baseUrl + path + query, {
+    const query = Object.keys(queryParams).length
+        ? "?" + new URLSearchParams(queryParams).toString()
+        : "";
+
+    if (method !== "get" && requestFormat === "json") {
+        body = JSON.stringify(extendedParams);
+    }
+
+    const response = await fetch(endpoint.baseUrl + processedPath + query, {
         method,
         body,
         ...requestOptions,

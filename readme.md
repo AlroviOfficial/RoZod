@@ -21,7 +21,7 @@ First, import the necessary functions and an example endpoint from the RoZod pac
 
 ```ts
 import { fetchApi, fetchApiSplit, fetchApiPages, fetchApiPagesGenerator } from 'rozod';
-import { getV1tradesTradeStatusType } from 'rozod/endpoints/tradesv1';
+import { getV1tradesTradeStatusType } from 'rozod/lib/endpoints/tradesv1';
 ```
 
 ### Simple API Request
