@@ -58,7 +58,7 @@ for await (const page of pages) {
 }
 ```
 
-Custom Endpoints
+## Custom Endpoints
 To create a custom endpoint, define an EndpointSchema object and export it. Here's an example of an endpoint from tradesv1.ts:
 ```ts
 import { z } from 'zod';
