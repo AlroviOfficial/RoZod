@@ -92,8 +92,5 @@ export const getV1tradesTradeStatusType = {
 ```
 Replace the response with your own Zod schema to validate the response data.
 
-## Support
-If you encounter any issues or have questions, feel free to open an issue on the GitHub repository. We'll do our best to assist you.
-
 ## Disclaimer
 RoZod is not affiliated with, maintained, authorized, endorsed, or sponsored by Roblox Corporation or any of its affiliates.
