@@ -10,11 +10,11 @@ type EndpointSchema = {
     requestFormat: RequestFormat;
     parameters: Record<string, z.Schema<any>>;
     response: z.Schema<any>;
-    errors: Array<{
+    errors: {
         status: number;
         description: string;
         schema: z.Schema<any>;
-    }>;
+    }[];
 };
 
 type ExtractRequiredParams<S extends EndpointSchema> = {
@@ -117,7 +117,7 @@ async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
     max?: Partial<{ [K in keyof ExtractParams<S>]: number }>,
     transform: (response: ExtractResponse<S>) => T = (response: ExtractResponse<S>) => response as unknown as T,
     requestOptions?: RequestInit,
-): Promise<Array<T>> {
+): Promise<T[]> {
     const fetchTransformed = async (transformparams: ExtractParams<S>) => {
         const response = await fetchApi(endpoint, transformparams, requestOptions);
         return transform ? transform(response) : (response as T);
@@ -127,7 +127,7 @@ async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
         return [await fetchTransformed(params)];
     }
 
-    const splitParams: Array<ExtractParams<S>> = [];
+    const splitParams: ExtractParams<S>[] = [];
     for (const key in max) {
         if (!{}.hasOwnProperty.call(max, key) || !{}.hasOwnProperty.call(params, key)) {
             continue;
@@ -148,10 +148,10 @@ async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
         return [await fetchTransformed(params)];
     }
 
-    const allResults: Array<ExtractResponse<S>> = [];
+    const allResults: ExtractResponse<S>[] = [];
 
     for (const splitParam of splitParams) {
-        let transformedResponse = await fetchTransformed(splitParam);
+        const transformedResponse = await fetchTransformed(splitParam);
         allResults.push(transformedResponse);
     }
 
@@ -172,9 +172,9 @@ async function fetchApiPages<S extends EndpointSchema>(
     initialParams: Omit<ExtractParams<S>, 'cursor'>,
     requestOptions?: RequestInit,
     limit: number = 1000,
-): Promise<Array<ExtractResponse<S>>> {
+): Promise<ExtractResponse<S>[]> {
     let cursor: string | undefined;
-    const allResults: Array<ExtractResponse<S>> = [];
+    const allResults: ExtractResponse<S>[] = [];
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
