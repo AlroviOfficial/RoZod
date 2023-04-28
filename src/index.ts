@@ -4,51 +4,48 @@ type RequestMethod = 'get' | 'post' | 'put' | 'delete';
 type RequestFormat = 'json' | 'text';
 
 type EndpointSchema = {
-    method: RequestMethod;
-    path: string;
-    baseUrl: string;
-    requestFormat: RequestFormat;
-    parameters: Record<string, z.Schema<any>>;
-    response: z.Schema<any>;
-    errors: {
-        status: number;
-        description: string;
-        schema: z.Schema<any>;
-    }[];
+  method: RequestMethod;
+  path: string;
+  baseUrl: string;
+  requestFormat: RequestFormat;
+  parameters: Record<string, z.Schema<any>>;
+  response: z.Schema<any>;
+  errors: {
+    status: number;
+    description: string;
+    schema: z.Schema<any>;
+  }[];
 };
 
 type ExtractRequiredParams<S extends EndpointSchema> = {
-    [K in keyof S['parameters']]: S['parameters'][K] extends z.ZodOptional<any> | z.ZodDefault<any> ? never : K;
+  [K in keyof S['parameters']]: S['parameters'][K] extends z.ZodOptional<any> | z.ZodDefault<any> ? never : K;
 }[keyof S['parameters']];
 
 type ExtractOptionalParams<S extends EndpointSchema> = {
-    [K in keyof S['parameters']]: S['parameters'][K] extends z.ZodOptional<any> | z.ZodDefault<any> ? K : never;
+  [K in keyof S['parameters']]: S['parameters'][K] extends z.ZodOptional<any> | z.ZodDefault<any> ? K : never;
 }[keyof S['parameters']];
 
 type ExtractParams<S extends EndpointSchema> = {
-    [K in ExtractRequiredParams<S>]: z.infer<S['parameters'][K]>;
+  [K in ExtractRequiredParams<S>]: z.infer<S['parameters'][K]>;
 } & Partial<{ [K in ExtractOptionalParams<S>]: z.infer<S['parameters'][K]> }>;
 
 type ExtractResponse<S extends EndpointSchema> = z.infer<S['response']>;
 
-function extractDefaultValues<S extends EndpointSchema>(
-    endpoint: S
-): Partial<ExtractParams<S>> {
-    const defaultValues: Partial<ExtractParams<S>> = {};
+function extractDefaultValues<S extends EndpointSchema>(endpoint: S): Partial<ExtractParams<S>> {
+  const defaultValues: Partial<ExtractParams<S>> = {};
 
-    type ParamKey = keyof S["parameters"];
-    const paramKeys = Object.keys(endpoint.parameters) as ParamKey[];
+  type ParamKey = keyof S['parameters'];
+  const paramKeys = Object.keys(endpoint.parameters) as ParamKey[];
 
-    for (const key of paramKeys) {
-        const schema = endpoint.parameters[key as string];
-        if (schema instanceof z.ZodDefault) {
-            (defaultValues as Record<string, unknown>)[key as string] = schema._def.defaultValue();
-        }
+  for (const key of paramKeys) {
+    const schema = endpoint.parameters[key as string];
+    if (schema instanceof z.ZodDefault) {
+      (defaultValues as Record<string, unknown>)[key as string] = schema._def.defaultValue();
     }
+  }
 
-    return defaultValues;
+  return defaultValues;
 }
-
 
 /**
  * Fetches the data from the given endpoint and returns it.
@@ -59,59 +56,57 @@ function extractDefaultValues<S extends EndpointSchema>(
  * @returns The response from the endpoint.
  */
 async function fetchApi<S extends EndpointSchema>(
-    endpoint: S,
-    params: ExtractParams<S>,
-    requestOptions: RequestInit = { mode: 'cors', credentials: 'include' },
+  endpoint: S,
+  params: ExtractParams<S>,
+  requestOptions: RequestInit = { mode: 'cors', credentials: 'include' },
 ): Promise<ExtractResponse<S>> {
-    const { method, path, requestFormat } = endpoint;
+  const { method, path, requestFormat } = endpoint;
 
-    const defaultValues = extractDefaultValues(endpoint);
-    const extendedParams = { ...defaultValues, ...params };
+  const defaultValues = extractDefaultValues(endpoint);
+  const extendedParams = { ...defaultValues, ...params };
 
-    let body: string | undefined;
-    let processedPath = path;
-    const queryParams: Record<string, string> = {};
+  let body: string | undefined;
+  let processedPath = path;
+  const queryParams: Record<string, string> = {};
 
-    for (const key in extendedParams) {
-        if (!{}.hasOwnProperty.call(extendedParams, key)) {
-            continue;
-        }
-        const value = extendedParams[key as keyof ExtractParams<S>];
-        const pathParamPattern = new RegExp(`:${key}`);
-
-        if (pathParamPattern.test(processedPath)) {
-            processedPath = processedPath.replace(pathParamPattern, String(value));
-        } else {
-            queryParams[key] = String(value);
-        }
+  for (const key in extendedParams) {
+    if (!{}.hasOwnProperty.call(extendedParams, key)) {
+      continue;
     }
+    const value = extendedParams[key as keyof ExtractParams<S>];
+    const pathParamPattern = new RegExp(`:${key}`);
 
-    const query = Object.keys(queryParams).length
-        ? "?" + new URLSearchParams(queryParams).toString()
-        : "";
-
-    if (method !== "get" && requestFormat === "json") {
-        body = JSON.stringify(extendedParams);
+    if (pathParamPattern.test(processedPath)) {
+      processedPath = processedPath.replace(pathParamPattern, String(value));
+    } else {
+      queryParams[key] = String(value);
     }
+  }
 
-    const response = await fetch(endpoint.baseUrl + processedPath + query, {
-        method,
-        body,
-        ...requestOptions,
-    });
+  const query = Object.keys(queryParams).length ? '?' + new URLSearchParams(queryParams).toString() : '';
 
-    const error = endpoint.errors.find(({ status }) => status === response.status);
-    if (error) {
-        throw new Error(error.description);
-    }
+  if (method !== 'get' && requestFormat === 'json') {
+    body = JSON.stringify(extendedParams);
+  }
 
-    const data = await response.json();
-    const validationResult = endpoint.response.safeParse(data);
-    if (!validationResult.success) {
-        throw new Error('Invalid response data');
-    }
+  const response = await fetch(endpoint.baseUrl + processedPath + query, {
+    method,
+    body,
+    ...requestOptions,
+  });
 
-    return validationResult.data as ExtractResponse<S>;
+  const error = endpoint.errors.find(({ status }) => status === response.status);
+  if (error) {
+    throw new Error(error.description);
+  }
+
+  const data = await response.json();
+  const validationResult = endpoint.response.safeParse(data);
+  if (!validationResult.success) {
+    throw new Error('Invalid response data');
+  }
+
+  return validationResult.data as ExtractResponse<S>;
 }
 
 /**
@@ -130,50 +125,50 @@ async function fetchApi<S extends EndpointSchema>(
  * ```
  */
 async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
-    endpoint: S,
-    params: ExtractParams<S>,
-    max?: Partial<{ [K in keyof ExtractParams<S>]: number }>,
-    transform: (response: ExtractResponse<S>) => T = (response: ExtractResponse<S>) => response as unknown as T,
-    requestOptions?: RequestInit,
+  endpoint: S,
+  params: ExtractParams<S>,
+  max?: Partial<{ [K in keyof ExtractParams<S>]: number }>,
+  transform: (response: ExtractResponse<S>) => T = (response: ExtractResponse<S>) => response as unknown as T,
+  requestOptions?: RequestInit,
 ): Promise<T[]> {
-    const fetchTransformed = async (transformparams: ExtractParams<S>) => {
-        const response = await fetchApi(endpoint, transformparams, requestOptions);
-        return transform ? transform(response) : (response as T);
-    };
+  const fetchTransformed = async (transformparams: ExtractParams<S>) => {
+    const response = await fetchApi(endpoint, transformparams, requestOptions);
+    return transform ? transform(response) : (response as T);
+  };
 
-    if (!max) {
-        return [await fetchTransformed(params)];
+  if (!max) {
+    return [await fetchTransformed(params)];
+  }
+
+  const splitParams: ExtractParams<S>[] = [];
+  for (const key in max) {
+    if (!{}.hasOwnProperty.call(max, key) || !{}.hasOwnProperty.call(params, key)) {
+      continue;
     }
-
-    const splitParams: ExtractParams<S>[] = [];
-    for (const key in max) {
-        if (!{}.hasOwnProperty.call(max, key) || !{}.hasOwnProperty.call(params, key)) {
-            continue;
-        }
-        const maxItems = max[key as keyof ExtractParams<S>];
-        const items = params[key as keyof ExtractParams<S>];
-        if (Array.isArray(items)) {
-            // eslint-disable-next-line max-depth
-            for (let i = 0; i < items.length; i = i + (maxItems || 1)) {
-                const itemsSubset = items.slice(i, i + (maxItems || 1));
-                const newParams = { ...params, [key]: itemsSubset } as ExtractParams<S>;
-                splitParams.push(newParams);
-            }
-        }
+    const maxItems = max[key as keyof ExtractParams<S>];
+    const items = params[key as keyof ExtractParams<S>];
+    if (Array.isArray(items)) {
+      // eslint-disable-next-line max-depth
+      for (let i = 0; i < items.length; i = i + (maxItems || 1)) {
+        const itemsSubset = items.slice(i, i + (maxItems || 1));
+        const newParams = { ...params, [key]: itemsSubset } as ExtractParams<S>;
+        splitParams.push(newParams);
+      }
     }
+  }
 
-    if (splitParams.length === 0) {
-        return [await fetchTransformed(params)];
-    }
+  if (splitParams.length === 0) {
+    return [await fetchTransformed(params)];
+  }
 
-    const allResults: ExtractResponse<S>[] = [];
+  const allResults: ExtractResponse<S>[] = [];
 
-    for (const splitParam of splitParams) {
-        const transformedResponse = await fetchTransformed(splitParam);
-        allResults.push(transformedResponse);
-    }
+  for (const splitParam of splitParams) {
+    const transformedResponse = await fetchTransformed(splitParam);
+    allResults.push(transformedResponse);
+  }
 
-    return allResults;
+  return allResults;
 }
 
 /**
@@ -186,33 +181,33 @@ async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
  * @returns An array of all results.
  */
 async function fetchApiPages<S extends EndpointSchema>(
-    endpoint: S,
-    initialParams: Omit<ExtractParams<S>, 'cursor'>,
-    requestOptions?: RequestInit,
-    limit: number = 1000,
+  endpoint: S,
+  initialParams: Omit<ExtractParams<S>, 'cursor'>,
+  requestOptions?: RequestInit,
+  limit: number = 1000,
 ): Promise<ExtractResponse<S>[]> {
-    let cursor: string | undefined;
-    const allResults: ExtractResponse<S>[] = [];
+  let cursor: string | undefined;
+  const allResults: ExtractResponse<S>[] = [];
 
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-        const paramsWithCursor = { ...initialParams, cursor } as ExtractParams<S>;
-        const response = await fetchApi(endpoint, paramsWithCursor, requestOptions);
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const paramsWithCursor = { ...initialParams, cursor } as ExtractParams<S>;
+    const response = await fetchApi(endpoint, paramsWithCursor, requestOptions);
 
-        allResults.push(response);
+    allResults.push(response);
 
-        if ('nextPageCursor' in response) {
-            cursor = response.nextPageCursor;
-        } else {
-            break;
-        }
-
-        if (allResults.length >= limit) {
-            break;
-        }
+    if ('nextPageCursor' in response) {
+      cursor = response.nextPageCursor;
+    } else {
+      break;
     }
 
-    return allResults;
+    if (allResults.length >= limit) {
+      break;
+    }
+  }
+
+  return allResults;
 }
 
 /**
@@ -234,30 +229,30 @@ async function fetchApiPages<S extends EndpointSchema>(
  * ```
  */
 async function* fetchApiPagesGenerator<S extends EndpointSchema>(
-    endpoint: S,
-    initialParams: Omit<ExtractParams<S>, 'cursor'>,
-    requestOptions?: RequestInit,
-    limit: number = 1000,
+  endpoint: S,
+  initialParams: Omit<ExtractParams<S>, 'cursor'>,
+  requestOptions?: RequestInit,
+  limit: number = 1000,
 ): AsyncGenerator<ExtractResponse<S>, void, unknown> {
-    let cursor: string | undefined;
+  let cursor: string | undefined;
 
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-        const paramsWithCursor = { ...initialParams, cursor } as ExtractParams<S>;
-        const response = await fetchApi(endpoint, paramsWithCursor, requestOptions);
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const paramsWithCursor = { ...initialParams, cursor } as ExtractParams<S>;
+    const response = await fetchApi(endpoint, paramsWithCursor, requestOptions);
 
-        yield response;
+    yield response;
 
-        if ('nextPageCursor' in response) {
-            cursor = response.nextPageCursor;
-        } else {
-            break;
-        }
-
-        if (limit-- <= 0) {
-            break;
-        }
+    if ('nextPageCursor' in response) {
+      cursor = response.nextPageCursor;
+    } else {
+      break;
     }
+
+    if (limit-- <= 0) {
+      break;
+    }
+  }
 }
 
 export { fetchApi, fetchApiSplit, fetchApiPages, fetchApiPagesGenerator };
