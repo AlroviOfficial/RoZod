@@ -15,7 +15,7 @@
     "version": "npm run format && git add -A src"
   },
   "author": "alexop1000",
-  "license": "MIT",
+  "license": "ISC",
   "dependencies": {
     "zod": "^3.21.4"
   },
