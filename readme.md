@@ -52,8 +52,10 @@ console.log(allPages);
 To fetch pages one at a time using an async generator, use the `fetchApiPagesGenerator` function:
 
 ```ts
-const allPages = await fetchApiPages(getV2groupsGroupIdgames, { groupId: 11479637 });
-console.log(allPages);
+const pages = fetchApiPagesGenerator(getV2groupsGroupIdgames, { groupId: 11479637 });
+for await (const page of pages) {
+    console.log(page);
+}
 ```
 
 Custom Endpoints
