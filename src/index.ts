@@ -73,6 +73,9 @@ async function fetchApi<S extends EndpointSchema>(
     const queryParams: Record<string, string> = {};
 
     for (const key in extendedParams) {
+        if (!{}.hasOwnProperty.call(extendedParams, key)) {
+            continue;
+        }
         const value = extendedParams[key as keyof ExtractParams<S>];
         const pathParamPattern = new RegExp(`:${key}`);
 
