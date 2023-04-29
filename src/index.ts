@@ -3,31 +3,50 @@ import { z } from 'zod';
 type RequestMethod = 'get' | 'post' | 'put' | 'delete';
 type RequestFormat = 'json' | 'text';
 
-type EndpointSchema = {
+export type EndpointSchema = {
   method: RequestMethod;
   path: string;
   baseUrl: string;
-  requestFormat: RequestFormat;
-  parameters: Record<string, z.Schema<any>>;
+  requestFormat?: RequestFormat;
+  parameters?: Record<string, z.Schema<any>>;
   response: z.Schema<any>;
-  errors: {
+  errors?: {
     status: number;
     description: string;
     schema: z.Schema<any>;
   }[];
 };
 
-type ExtractRequiredParams<S extends EndpointSchema> = {
-  [K in keyof S['parameters']]: S['parameters'][K] extends z.ZodOptional<any> | z.ZodDefault<any> ? never : K;
-}[keyof S['parameters']];
+type ExtractOptionalParams<S extends EndpointSchema> = S["parameters"] extends Record<string, z.ZodType<any, z.ZodTypeDef>>
+  ? {
+      [K in keyof S["parameters"]]: S["parameters"][K] extends z.ZodOptional<any> | z.ZodDefault<any>
+        ? K
+        : never;
+    }[keyof S["parameters"]]
+  : never;
 
-type ExtractOptionalParams<S extends EndpointSchema> = {
-  [K in keyof S['parameters']]: S['parameters'][K] extends z.ZodOptional<any> | z.ZodDefault<any> ? K : never;
-}[keyof S['parameters']];
+type ExtractRequiredParams<S extends EndpointSchema> = S["parameters"] extends Record<string, z.ZodType<any, z.ZodTypeDef>>
+  ? {
+      [K in keyof S["parameters"]]: S["parameters"][K] extends z.ZodOptional<any> | z.ZodDefault<any>
+        ? never
+        : K;
+    }[keyof S["parameters"]]
+  : never;
 
-type ExtractParams<S extends EndpointSchema> = {
-  [K in ExtractRequiredParams<S>]: z.infer<S['parameters'][K]>;
-} & Partial<{ [K in ExtractOptionalParams<S>]: z.infer<S['parameters'][K]> }>;
+type ExtractParams<S extends EndpointSchema> = S["parameters"] extends Record<string, z.ZodType<any, z.ZodTypeDef>>
+  ? {
+      [K in ExtractRequiredParams<S>]: S["parameters"][K] extends z.ZodType<any, z.ZodTypeDef>
+        ? S["parameters"][K]["_output"]
+        : never;
+    } &
+      {
+        [K in ExtractOptionalParams<S>]?: S["parameters"][K] extends z.ZodDefault<infer T>
+          ? T
+          : S["parameters"][K] extends z.ZodOptional<infer T>
+          ? T["_output"]
+          : undefined;
+      }
+  : {};
 
 type ExtractResponse<S extends EndpointSchema> = z.infer<S['response']>;
 
@@ -35,10 +54,10 @@ function extractDefaultValues<S extends EndpointSchema>(endpoint: S): Partial<Ex
   const defaultValues: Partial<ExtractParams<S>> = {};
 
   type ParamKey = keyof S['parameters'];
-  const paramKeys = Object.keys(endpoint.parameters) as ParamKey[];
+  const paramKeys = Object.keys(endpoint.parameters as any) as ParamKey[];
 
   for (const key of paramKeys) {
-    const schema = endpoint.parameters[key as string];
+    const schema = endpoint.parameters?.[key as string];
     if (schema instanceof z.ZodDefault) {
       (defaultValues as Record<string, unknown>)[key as string] = schema._def.defaultValue();
     }
@@ -46,6 +65,35 @@ function extractDefaultValues<S extends EndpointSchema>(endpoint: S): Partial<Ex
 
   return defaultValues;
 }
+
+/**
+ * Fetches the data from the given endpoint and returns it.
+ * 
+ * @param endpoint The endpoint to fetch from.
+ * @param params The parameters to pass to the endpoint.
+ * @param requestOptions Any additional options to pass to fetch.
+ * @returns The response from the endpoint.
+*/
+async function fetchApi<S extends EndpointSchema>(
+  endpoint: S,
+  params: ExtractParams<S>,
+  requestOptions?: RequestInit,
+): Promise<ExtractResponse<S>>;
+
+
+/**
+ * Fetches the data from the given endpoint and returns it.
+ *
+ * @param endpoint The endpoint to fetch from.
+ * @param params Optional parameters to pass to the endpoint.
+ * @param requestOptions Any additional options to pass to fetch.
+ * @returns The response from the endpoint.
+ */
+async function fetchApi<S extends EndpointSchema>(
+  endpoint: S & { parameters?: undefined },
+  params?: ExtractParams<S>,
+  requestOptions?: RequestInit,
+): Promise<ExtractResponse<S>>;
 
 /**
  * Fetches the data from the given endpoint and returns it.
@@ -57,13 +105,13 @@ function extractDefaultValues<S extends EndpointSchema>(endpoint: S): Partial<Ex
  */
 async function fetchApi<S extends EndpointSchema>(
   endpoint: S,
-  params: ExtractParams<S>,
+  params?: ExtractParams<S>,
   requestOptions: RequestInit = { mode: 'cors', credentials: 'include' },
 ): Promise<ExtractResponse<S>> {
-  const { method, path, requestFormat } = endpoint;
+  const { method, path, requestFormat = "json" } = endpoint;
 
   const defaultValues = extractDefaultValues(endpoint);
-  const extendedParams = { ...defaultValues, ...params };
+  const extendedParams = { ...defaultValues, ...params } as ExtractParams<S>;
 
   let body: string | undefined;
   let processedPath = path;
@@ -73,7 +121,7 @@ async function fetchApi<S extends EndpointSchema>(
     if (!{}.hasOwnProperty.call(extendedParams, key)) {
       continue;
     }
-    const value = extendedParams[key as keyof ExtractParams<S>];
+    const value = extendedParams[key];
     const pathParamPattern = new RegExp(`:${key}`);
 
     if (pathParamPattern.test(processedPath)) {
@@ -95,7 +143,7 @@ async function fetchApi<S extends EndpointSchema>(
     ...requestOptions,
   });
 
-  const error = endpoint.errors.find(({ status }) => status === response.status);
+  const error = endpoint.errors?.find(({ status }) => status === response.status);
   if (error) {
     throw new Error(error.description);
   }
