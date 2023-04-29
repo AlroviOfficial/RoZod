@@ -1,6 +1,6 @@
 # RoZod
 
-RoZod is a TypeScript package designed to simplify fetching data from the Roblox API. It provides a set of utility functions that automatically validate request and response data using the Zod validation library.
+RoZod is a TypeScript package designed to simplify fetching data from the Roblox API. It provides a set of functions that automatically validate request and response data using the Zod validation library. This allows you to get fully typesafe data from the Roblox API with minimal effort.
 
 ## Features
 
@@ -65,7 +65,7 @@ import { z } from 'zod';
 
 export const getV1tradesTradeStatusType = {
   method: 'get' as const,
-  path: '/v1/trades/:tradeStatusType',
+  path: '/v1/trades/:tradeStatusType', // Path parameters are optional
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json' as const,
   parameters: {
@@ -76,23 +76,15 @@ export const getV1tradesTradeStatusType = {
       .default(10),
     cursor: z.string().optional(),
     sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
-  },
-  response: ...,
-  errors: [
-    {
-      status: 400,
-      description: `1: Invalid trade status type.`,
-      schema: z.void(),
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-  ],
+  }, // Parameters are optional
+  response: ..., // Zod schema
 };
 ```
-Replace the response with your own Zod schema to validate the response data.
+You can then use the endpoint with the `fetchApi` function:
+```ts
+const response = await fetchApi(getV1tradesTradeStatusType, { tradeStatusType: 1 });
+console.log(response);
+```
 
 ## Disclaimer
 RoZod is not affiliated with, maintained, authorized, endorsed, or sponsored by Roblox Corporation or any of its affiliates.
