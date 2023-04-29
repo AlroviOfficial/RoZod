@@ -52,11 +52,13 @@ console.log(allPages);
 To fetch pages one at a time using an async generator, use the `fetchApiPagesGenerator` function:
 
 ```ts
-const allPages = await fetchApiPages(getV2groupsGroupIdgames, { groupId: 11479637 });
-console.log(allPages);
+const pages = fetchApiPagesGenerator(getV2groupsGroupIdgames, { groupId: 11479637 });
+for await (const page of pages) {
+    console.log(page);
+}
 ```
 
-Custom Endpoints
+## Custom Endpoints
 To create a custom endpoint, define an EndpointSchema object and export it. Here's an example of an endpoint from tradesv1.ts:
 ```ts
 import { z } from 'zod';
