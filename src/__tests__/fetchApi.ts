@@ -39,18 +39,22 @@ test('fetch omni recommendations', async () => {
     requestFormat: 'json' as const,
     response: z.object({
       contentMetadata: z.object({
-          Game: z.array(z.object({
-              id: z.number(),
-              rootPlaceId: z.number()
-          }))
+        Game: z.array(
+          z.object({
+            id: z.number(),
+            rootPlaceId: z.number(),
+          }),
+        ),
       }),
-      sorts: z.array(z.object({
+      sorts: z.array(
+        z.object({
           topic: z.string(),
-          recommendationList: z.number().array()
-      }))
-    })
+          recommendationList: z.number().array(),
+        }),
+      ),
+    }),
   };
   return fetchApi(endpoint, {}).catch((error: Error) => {
     expect(error.message).toBe('Cannot convert undefined or null to object');
   });
-})
+});
