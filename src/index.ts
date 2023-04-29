@@ -150,13 +150,14 @@ async function fetchApi<S extends EndpointSchema>(
     throw new Error('Invalid response data');
   }
 
-  const data = await response.json();
-  const validationResult = endpoint.response.safeParse(data);
-  if (!validationResult.success) {
-    throw new Error('Invalid response data');
+  let data;
+  if (requestFormat === 'json') {
+    data = await response.json();
+  } else {
+    data = await response.text();
   }
 
-  return validationResult.data as ExtractResponse<S>;
+  return data as ExtractResponse<S>;
 }
 
 /**
