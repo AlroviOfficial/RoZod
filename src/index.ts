@@ -53,7 +53,7 @@ function extractDefaultValues<S extends EndpointSchema>(endpoint: S): Partial<Ex
   const defaultValues: Partial<ExtractParams<S>> = {};
 
   type ParamKey = keyof S['parameters'];
-  const paramKeys = Object.keys(endpoint.parameters as any) as ParamKey[];
+  const paramKeys = Object.keys(endpoint.parameters || {}) as ParamKey[];
 
   for (const key of paramKeys) {
     const schema = endpoint.parameters?.[key as string];
