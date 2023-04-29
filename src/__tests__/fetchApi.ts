@@ -7,7 +7,9 @@ import { z } from 'zod';
 test('fetch game icons', async () => {
   return fetchApiSplit(
     getV1gamesicons,
-    { universeIds: [1534453623, 65241, 110181652, 2585430167, 3262314006] },
+    {
+      universeIds: [1534453623, 65241, 110181652, 2585430167, 3262314006], format: 'Png'
+    },
     { universeIds: 100 },
     (response) => response.data,
   ).then((data) => {
@@ -54,7 +56,7 @@ test('fetch omni recommendations', async () => {
       ),
     }),
   };
-  return fetchApi(endpoint, {}).catch((error: Error) => {
+  return fetchApi(endpoint).catch((error: Error) => {
     expect(error.message).toBe('Cannot convert undefined or null to object');
   });
 });
