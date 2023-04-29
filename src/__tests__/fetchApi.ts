@@ -57,7 +57,8 @@ test('fetch omni recommendations', async () => {
       ),
     }),
   };
-  return fetchApi(endpoint).catch((error: Error) => {
-    expect(error.message).toBe('Cannot convert undefined or null to object');
+  return fetchApi(endpoint)
+  .catch((error: Error) => {
+    expect(error.message).toBe('Invalid response data');
   });
 });

@@ -146,6 +146,10 @@ async function fetchApi<S extends EndpointSchema>(
     throw new Error(error.description);
   }
 
+  if (requestFormat === 'json' && !response.headers.get('content-type')?.includes('application/json')) {
+    throw new Error('Invalid response data');
+  }
+
   const data = await response.json();
   const validationResult = endpoint.response.safeParse(data);
   if (!validationResult.success) {
