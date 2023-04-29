@@ -42,8 +42,8 @@ type ExtractParams<S extends EndpointSchema> = S["parameters"] extends Record<st
       {
         [K in ExtractOptionalParams<S>]?: S["parameters"][K] extends z.ZodDefault<infer T>
           ? T
-          : S["parameters"][K] extends z.ZodOptional<infer T>
-          ? T["_output"]
+          : S["parameters"][K] extends z.ZodOptional<infer D>
+          ? D["_output"]
           : undefined;
       }
   : {};
@@ -73,7 +73,7 @@ function extractDefaultValues<S extends EndpointSchema>(endpoint: S): Partial<Ex
  * @param params The parameters to pass to the endpoint.
  * @param requestOptions Any additional options to pass to fetch.
  * @returns The response from the endpoint.
-*/
+ */
 async function fetchApi<S extends EndpointSchema>(
   endpoint: S,
   params: ExtractParams<S>,
