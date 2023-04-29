@@ -8,7 +8,8 @@ test('fetch game icons', async () => {
   return fetchApiSplit(
     getV1gamesicons,
     {
-      universeIds: [1534453623, 65241, 110181652, 2585430167, 3262314006], format: 'Png'
+      universeIds: [1534453623, 65241, 110181652, 2585430167, 3262314006],
+      format: 'Png',
     },
     { universeIds: 100 },
     (response) => response.data,

@@ -22,8 +22,8 @@ type ExtractOptionalParams<S extends EndpointSchema> = S['parameters'] extends R
   z.ZodType<any, z.ZodTypeDef>
 >
   ? {
-    [K in keyof S['parameters']]: S['parameters'][K] extends z.ZodOptional<any> | z.ZodDefault<any> ? K : never;
-  }[keyof S['parameters']]
+      [K in keyof S['parameters']]: S['parameters'][K] extends z.ZodOptional<any> | z.ZodDefault<any> ? K : never;
+    }[keyof S['parameters']]
   : never;
 
 type ExtractRequiredParams<S extends EndpointSchema> = S['parameters'] extends Record<
@@ -31,20 +31,20 @@ type ExtractRequiredParams<S extends EndpointSchema> = S['parameters'] extends R
   z.ZodType<any, z.ZodTypeDef>
 >
   ? {
-    [K in keyof S['parameters']]: S['parameters'][K] extends z.ZodOptional<any> | z.ZodDefault<any> ? never : K;
-  }[keyof S['parameters']]
+      [K in keyof S['parameters']]: S['parameters'][K] extends z.ZodOptional<any> | z.ZodDefault<any> ? never : K;
+    }[keyof S['parameters']]
   : never;
 
 type ExtractParams<S extends EndpointSchema> = S['parameters'] extends Record<string, z.ZodType<any, z.ZodTypeDef>>
   ? {
-    [K in ExtractRequiredParams<S>]: S['parameters'][K]['_output'];
-  } & {
-    [K in ExtractOptionalParams<S>]?: S['parameters'][K] extends z.ZodOptional<infer T>
-    ? T['_output']
-    : S['parameters'][K] extends z.ZodDefault<infer D>
-    ? D['_output']
-    : never;
-  }
+      [K in ExtractRequiredParams<S>]: S['parameters'][K]['_output'];
+    } & {
+      [K in ExtractOptionalParams<S>]?: S['parameters'][K] extends z.ZodOptional<infer T>
+        ? T['_output']
+        : S['parameters'][K] extends z.ZodDefault<infer D>
+        ? D['_output']
+        : never;
+    }
   : {};
 
 type ExtractResponse<S extends EndpointSchema> = z.infer<S['response']>;
