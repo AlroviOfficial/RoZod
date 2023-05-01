@@ -233,11 +233,11 @@ export const getEmail = {
   ],
 };
 /**
- * @api patch https://accountsettings.roblox.com/v1/email
+ * @api post https://accountsettings.roblox.com/v1/email
  * @param body The request body.
  */
-export const patchEmail = {
-  method: 'patch' as const,
+export const postEmail = {
+  method: 'post' as const,
   path: '/v1/email',
   baseUrl: 'https://accountsettings.roblox.com',
   requestFormat: 'json' as const,
@@ -283,11 +283,11 @@ export const patchEmail = {
   ],
 };
 /**
- * @api post https://accountsettings.roblox.com/v1/email
+ * @api patch https://accountsettings.roblox.com/v1/email
  * @param body The request body.
  */
-export const postEmail = {
-  method: 'post' as const,
+export const patchEmail = {
+  method: 'patch' as const,
   path: '/v1/email',
   baseUrl: 'https://accountsettings.roblox.com',
   requestFormat: 'json' as const,

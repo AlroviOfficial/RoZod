@@ -9,10 +9,11 @@
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
-    "version": "npm run format && git add -A src"
+    "prepare": "npx run build",
+    "prepublishOnly": "npx test && npx run lint",
+    "preversion": "npx run lint",
+    "version": "npx run format && git add -A src",
+    "generate": "node ./zodios-endpoints.js"
   },
   "author": "alexop1000",
   "license": "ISC",

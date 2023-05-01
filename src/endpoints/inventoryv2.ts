@@ -187,7 +187,7 @@ export const getUsersUseridInventory = {
   requestFormat: 'json' as const,
   parameters: {
     userId: z.number().int(),
-    assetTypes: z.array(z.unknown()),
+    assetTypes: z.array(z.object({}).partial()),
     filterDisapprovedAssets: z.boolean().optional(),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])

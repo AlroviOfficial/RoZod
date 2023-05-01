@@ -40,11 +40,11 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Badges_Api_BadgeResponse_ 
   nextPageCursor: z.string(),
   data: z.array(Roblox_Badges_Api_BadgeResponse),
 });
-const postUniversesUniverseidBadges_Body = z.object({
+const universeId_badges_body = z.object({
   name: z.string(),
   description: z.string(),
   paymentSourceType: z.union([z.literal(1), z.literal(2)]),
-  files: z.unknown(),
+  files: z.instanceof(File),
   expectedCost: z.number().int(),
 });
 const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Badges_BadgeAwarderType_ = z.object({
@@ -87,7 +87,7 @@ const schemas = {
   Roblox_Web_WebAPI_ApiEmptyResponseModel,
   Roblox_Badges_Api_BadgeMetadataResponse,
   Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Badges_Api_BadgeResponse_,
-  postUniversesUniverseidBadges_Body,
+  universeId_badges_body,
   Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Badges_BadgeAwarderType_,
   Roblox_Web_Responses_Badges_BadgeResponseV2,
   Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Badges_BadgeResponseV2_,
@@ -207,7 +207,7 @@ export const postUniversesUniverseidBadges = {
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'form-data' as const,
   parameters: {
-    body: postUniversesUniverseidBadges_Body,
+    body: universeId_badges_body,
     universeId: z.number().int(),
   },
   response: Roblox_Web_Responses_Badges_BadgeResponseV2,

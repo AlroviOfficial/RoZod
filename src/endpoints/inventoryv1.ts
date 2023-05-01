@@ -40,7 +40,7 @@ const Roblox_Inventory_Api_CategoriesModel = z.object({
   categories: z.array(Roblox_Inventory_Api_AssetsExplorerCategoryModel),
 });
 const Roblox_Inventory_Api_Models_InventoryPageResponse = z.object({
-  data: z.array(z.unknown()),
+  data: z.array(z.object({})),
   total: z.number().int(),
   includesAccessories: z.boolean(),
 });
@@ -71,42 +71,6 @@ const schemas = {
   Roblox_Web_WebAPI_ApiEmptyResponseModel,
 };
 
-/**
- * @api delete https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
- * @param itemType
- * @param itemTargetId
- */
-export const deleteCollectionsItemsItemtypeItemtargetid = {
-  method: 'delete' as const,
-  path: '/v1/collections/items/:itemType/:itemTargetId',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
-  parameters: {
-    itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    itemTargetId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: The item type does not exist.
-2: The asset does not exist.
-3: The bundle does not exist.`,
-      schema: z.void(),
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-8: The item is not in the collection.`,
-      schema: z.void(),
-    },
-  ],
-};
 /**
  * @api post https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
  * @param itemType
@@ -143,6 +107,42 @@ export const postCollectionsItemsItemtypeItemtargetid = {
 6: Items of this type are not allowed in collections.
 7: The item is already in the collection.
 9: The collection is full.`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
+ * @api delete https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
+ * @param itemType
+ * @param itemTargetId
+ */
+export const deleteCollectionsItemsItemtypeItemtargetid = {
+  method: 'delete' as const,
+  path: '/v1/collections/items/:itemType/:itemTargetId',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
+  parameters: {
+    itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+    itemTargetId: z.number().int(),
+  },
+  response: z.object({}),
+  errors: [
+    {
+      status: 400,
+      description: `1: The item type does not exist.
+2: The asset does not exist.
+3: The bundle does not exist.`,
+      schema: z.void(),
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+8: The item is not in the collection.`,
       schema: z.void(),
     },
   ],

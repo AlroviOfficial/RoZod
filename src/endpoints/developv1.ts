@@ -76,15 +76,17 @@ const Roblox_Api_Develop_Models_DeveloperProductRevenue = z.object({
   developerProductName: z.string(),
   revenueAmount: z.number().int(),
 });
+const Roblox_Api_Develop_Models_DeveloperProductAggregationResponse_developerProductRevenueByDevice = z.object({
+  Computer: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+  Phone: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+  Tablet: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+  Console: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+  VR: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+});
 const Roblox_Api_Develop_Models_DeveloperProductAggregationResponse = z.object({
   allDevicesDeveloperProductRevenue: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-  developerProductRevenueByDevice: z.object({
-    Computer: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    Phone: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    Tablet: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    Console: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    VR: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-  }),
+  developerProductRevenueByDevice:
+    Roblox_Api_Develop_Models_DeveloperProductAggregationResponse_developerProductRevenueByDevice,
 });
 const Roblox_Api_Develop_Models_Response_StatisticsAgeDataResponse = z.object({
   isAgeDataAvailable: z.boolean(),
@@ -208,9 +210,6 @@ const Roblox_Api_Develop_Models_UpdateTeamCreateSettingsRequest = z.object({
   isEnabled: z.boolean(),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
-const Roblox_Api_Develop_Models_TeamCreateMembershipRequest = z.object({
-  userId: z.number().int(),
-});
 const Roblox_Api_Develop_Models_UserResponse = z.object({
   buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   userId: z.number().int(),
@@ -221,6 +220,9 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UserRes
   previousPageCursor: z.string(),
   nextPageCursor: z.string(),
   data: z.array(Roblox_Api_Develop_Models_UserResponse),
+});
+const Roblox_Api_Develop_Models_TeamCreateMembershipRequest = z.object({
+  userId: z.number().int(),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseModel_ = z.object({
   data: z.array(Roblox_Api_Develop_Models_UniverseModel),
@@ -299,6 +301,7 @@ const schemas = {
   Roblox_Api_Develop_Models_Response_StatisticsRange,
   Roblox_Api_Develop_Models_StatisticsResponse,
   Roblox_Api_Develop_Models_DeveloperProductRevenue,
+  Roblox_Api_Develop_Models_DeveloperProductAggregationResponse_developerProductRevenueByDevice,
   Roblox_Api_Develop_Models_DeveloperProductAggregationResponse,
   Roblox_Api_Develop_Models_Response_StatisticsAgeDataResponse,
   Roblox_Web_Responses_Users_SkinnyUserResponse,
@@ -316,9 +319,9 @@ const schemas = {
   Roblox_Api_Develop_Models_Response_TeamCreateSettingsResponse,
   Roblox_Api_Develop_Models_UpdateTeamCreateSettingsRequest,
   Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Api_Develop_Models_TeamCreateMembershipRequest,
   Roblox_Api_Develop_Models_UserResponse,
   Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UserResponse_,
+  Roblox_Api_Develop_Models_TeamCreateMembershipRequest,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseModel_,
   Roblox_Api_Develop_Models_UniverseIdPermissionsModel,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseIdPermissionsModel_,
@@ -512,12 +515,12 @@ export const getGroupsGroupidUniverses = {
   ],
 };
 /**
- * @api patch https://develop.roblox.com/v1/places/:placeId
+ * @api post https://develop.roblox.com/v1/places/:placeId
  * @param body
  * @param placeId
  */
-export const patchPlacesPlaceid = {
-  method: 'patch' as const,
+export const postPlacesPlaceid = {
+  method: 'post' as const,
   path: '/v1/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
   description: `Currently the only supported functionality for updating the configuration is around Name, and Description.`,
@@ -547,12 +550,12 @@ export const patchPlacesPlaceid = {
   ],
 };
 /**
- * @api post https://develop.roblox.com/v1/places/:placeId
+ * @api patch https://develop.roblox.com/v1/places/:placeId
  * @param body
  * @param placeId
  */
-export const postPlacesPlaceid = {
-  method: 'post' as const,
+export const patchPlacesPlaceid = {
+  method: 'patch' as const,
   path: '/v1/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
   description: `Currently the only supported functionality for updating the configuration is around Name, and Description.`,
@@ -677,7 +680,7 @@ export const getPlacesPlaceidStatsTypeLegacyFlot = {
     startTime: z.string().datetime().optional(),
     endTime: z.string().datetime().optional(),
   },
-  response: z.unknown(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -893,7 +896,7 @@ export const getSearchUniverses = {
 IMPORTANT: filter names, values, sort values - are case sensitive!`,
   requestFormat: 'json' as const,
   parameters: {
-    search: z.string(),
+    search: z.unknown(),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
@@ -901,7 +904,7 @@ IMPORTANT: filter names, values, sort values - are case sensitive!`,
     cursor: z.string().optional(),
     sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
     q: z.string().optional(),
-    sort: z.array(z.unknown()).optional(),
+    sort: z.array(z.any()).optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UniverseModel_,
   errors: [
@@ -1543,40 +1546,6 @@ export const patchUniversesUniverseidTeamcreate = {
   ],
 };
 /**
- * @api delete https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
- * @param body The request body.
- * @param universeId
- */
-export const deleteUniversesUniverseidTeamcreateMemberships = {
-  method: 'delete' as const,
-  path: '/v1/universes/:universeId/teamcreate/memberships',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json' as const,
-  parameters: {
-    body: z.object({ userId: z.number().int() }),
-    universeId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUniverse OR Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUser`,
-      schema: z.void(),
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-    {
-      status: 403,
-      description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.TeamCreateDisabled
-0: Token Validation Failed`,
-      schema: z.void(),
-    },
-  ],
-};
-/**
  * @api get https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
  * @param universeId
  * @param limit
@@ -1612,6 +1581,40 @@ export const getUniversesUniverseidTeamcreateMemberships = {
     {
       status: 403,
       description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.TeamCreateDisabled`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
+ * @api delete https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
+ * @param body The request body.
+ * @param universeId
+ */
+export const deleteUniversesUniverseidTeamcreateMemberships = {
+  method: 'delete' as const,
+  path: '/v1/universes/:universeId/teamcreate/memberships',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json' as const,
+  parameters: {
+    body: z.object({ userId: z.number().int() }),
+    universeId: z.number().int(),
+  },
+  response: z.object({}),
+  errors: [
+    {
+      status: 400,
+      description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUniverse OR Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUser`,
+      schema: z.void(),
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+    {
+      status: 403,
+      description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.TeamCreateDisabled
+0: Token Validation Failed`,
       schema: z.void(),
     },
   ],

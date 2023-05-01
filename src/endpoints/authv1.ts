@@ -1,15 +1,15 @@
 import { z } from 'zod';
 
+const Roblox_Authentication_Api_Models_AccountPinStatusResponse = z.object({
+  isEnabled: z.boolean(),
+  unlockedUntil: z.number(),
+});
 const Roblox_Authentication_Api_Models_AccountPinRequest = z.object({
   pin: z.string(),
   reauthenticationToken: z.string(),
 });
 const Roblox_Web_WebAPI_Models_ApiSuccessResponse = z.object({
   success: z.boolean(),
-});
-const Roblox_Authentication_Api_Models_AccountPinStatusResponse = z.object({
-  isEnabled: z.boolean(),
-  unlockedUntil: z.number(),
 });
 const Roblox_Authentication_Api_Models_AuthMetaDataResponse = z.object({
   cookieLawNoticeTimeout: z.number().int(),
@@ -260,9 +260,9 @@ const Roblox_Authentication_Api_Models_XboxCollectionsOfUserResponse = z.object(
 });
 
 const schemas = {
+  Roblox_Authentication_Api_Models_AccountPinStatusResponse,
   Roblox_Authentication_Api_Models_AccountPinRequest,
   Roblox_Web_WebAPI_Models_ApiSuccessResponse,
-  Roblox_Authentication_Api_Models_AccountPinStatusResponse,
   Roblox_Authentication_Api_Models_AuthMetaDataResponse,
   Roblox_Authentication_Api_Models_CanSendCredentialsVerificationMessageResponse,
   Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest,
@@ -307,6 +307,49 @@ const schemas = {
 };
 
 /**
+ * @api get https://auth.roblox.com/v1/account/pin
+ */
+export const getAccountPin = {
+  method: 'get' as const,
+  path: '/v1/account/pin',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
+  response: Roblox_Authentication_Api_Models_AccountPinStatusResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
+ * @api post https://auth.roblox.com/v1/account/pin
+ * @param body The Roblox.Authentication.Api.Models.AccountPinRequest.
+ */
+export const postAccountPin = {
+  method: 'post' as const,
+  path: '/v1/account/pin',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
+  parameters: {
+    body: Roblox_Authentication_Api_Models_AccountPinRequest,
+  },
+  response: z.object({ success: z.boolean() }),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
  * @api delete https://auth.roblox.com/v1/account/pin
  * @param body
  */
@@ -333,54 +376,11 @@ export const deleteAccountPin = {
   ],
 };
 /**
- * @api get https://auth.roblox.com/v1/account/pin
- */
-export const getAccountPin = {
-  method: 'get' as const,
-  path: '/v1/account/pin',
-  baseUrl: 'https://auth.roblox.com',
-  requestFormat: 'json' as const,
-  response: Roblox_Authentication_Api_Models_AccountPinStatusResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-  ],
-};
-/**
  * @api patch https://auth.roblox.com/v1/account/pin
  * @param body The request body.
  */
 export const patchAccountPin = {
   method: 'patch' as const,
-  path: '/v1/account/pin',
-  baseUrl: 'https://auth.roblox.com',
-  requestFormat: 'json' as const,
-  parameters: {
-    body: Roblox_Authentication_Api_Models_AccountPinRequest,
-  },
-  response: z.object({ success: z.boolean() }),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-      schema: z.void(),
-    },
-  ],
-};
-/**
- * @api post https://auth.roblox.com/v1/account/pin
- * @param body The Roblox.Authentication.Api.Models.AccountPinRequest.
- */
-export const postAccountPin = {
-  method: 'post' as const,
   path: '/v1/account/pin',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
@@ -1094,7 +1094,7 @@ export const postUsername = {
 10: This username is already in use
 11: Username not appropriate for Roblox
 12: Usernames can be 3 to 20 characters long
-13: Usernames can’t start or end with _ and can have at most one _
+13: Usernames can�t start or end with _ and can have at most one _
 14: Only a-z, A-Z, 0-9, and _ are allowed
 15: Username is null
 16: Username might contain private information

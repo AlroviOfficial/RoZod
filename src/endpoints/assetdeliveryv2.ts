@@ -70,7 +70,7 @@ const schemas = {
  */
 export const getAliasAlias = {
   method: 'get' as const,
-  path: '/v2/alias/:alias',
+  path: '/v1/alias/:alias',
   baseUrl: 'https://assetdelivery.roblox.com',
   requestFormat: 'json' as const,
   parameters: {

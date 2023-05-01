@@ -608,33 +608,6 @@ export const postPromotionChannels = {
   ],
 };
 /**
- * @api delete https://accountinformation.roblox.com/v1/star-code-affiliates
- */
-export const deleteStarCodeAffiliates = {
-  method: 'delete' as const,
-  path: '/v1/star-code-affiliates',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
-  response: z.object({}),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-      schema: z.void(),
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occured.`,
-      schema: z.void(),
-    },
-  ],
-};
-/**
  * @api get https://accountinformation.roblox.com/v1/star-code-affiliates
  */
 export const getStarCodeAffiliates = {
@@ -675,6 +648,33 @@ export const postStarCodeAffiliates = {
       description: `1: The code was invalid.`,
       schema: z.void(),
     },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+      schema: z.void(),
+    },
+    {
+      status: 500,
+      description: `0: An unknown error occured.`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
+ * @api delete https://accountinformation.roblox.com/v1/star-code-affiliates
+ */
+export const deleteStarCodeAffiliates = {
+  method: 'delete' as const,
+  path: '/v1/star-code-affiliates',
+  baseUrl: 'https://accountinformation.roblox.com',
+  requestFormat: 'json' as const,
+  response: z.object({}),
+  errors: [
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,

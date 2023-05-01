@@ -56,12 +56,12 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_BundleDetailsM
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_BundleDetailsModel_ = z.object({
   data: z.array(Roblox_Catalog_Api_BundleDetailsModel),
 });
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Catalog_Api_AssetFavoriteModel = z.object({
   assetId: z.number().int(),
   userId: z.number().int(),
   created: z.string().datetime(),
 });
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Catalog_Api_BundleFavoriteModel = z.object({
   bundleId: z.number().int(),
   userId: z.number().int(),
@@ -266,8 +266,8 @@ const schemas = {
   Roblox_Catalog_Api_BundleDetailsModel,
   Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_BundleDetailsModel_,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_BundleDetailsModel_,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
   Roblox_Catalog_Api_AssetFavoriteModel,
+  Roblox_Web_WebAPI_ApiEmptyResponseModel,
   Roblox_Catalog_Api_BundleFavoriteModel,
   Roblox_Catalog_Api_FavoriteBundlesResponse,
   Roblox_Catalog_Api_OwnedBundleModel,
@@ -523,51 +523,6 @@ export const getFavoritesBundlesBundleidCount = {
   ],
 };
 /**
- * @api delete https://catalog.roblox.com/v1/favorites/users/:userId/assets/:assetId/favorite
- * @param userId
- * @param assetId
- */
-export const deleteFavoritesUsersUseridAssetsAssetidFavorite = {
-  method: 'delete' as const,
-  path: '/v1/favorites/users/:userId/assets/:assetId/favorite',
-  baseUrl: 'https://catalog.roblox.com',
-  requestFormat: 'json' as const,
-  parameters: {
-    userId: z.number().int(),
-    assetId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: Invalid user Id.
-2: Invalid asset Id.`,
-      schema: z.void(),
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-6: You are not authorized to perform this action.`,
-      schema: z.void(),
-    },
-    {
-      status: 409,
-      description: `4: Asset is already not favorited.`,
-      schema: z.void(),
-    },
-    {
-      status: 429,
-      description: `5: This action was floodchecked. Please try again later.`,
-      schema: z.void(),
-    },
-  ],
-};
-/**
  * @api get https://catalog.roblox.com/v1/favorites/users/:userId/assets/:assetId/favorite
  * @param userId
  * @param assetId
@@ -642,25 +597,25 @@ export const postFavoritesUsersUseridAssetsAssetidFavorite = {
   ],
 };
 /**
- * @api delete https://catalog.roblox.com/v1/favorites/users/:userId/bundles/:bundleId/favorite
+ * @api delete https://catalog.roblox.com/v1/favorites/users/:userId/assets/:assetId/favorite
  * @param userId
- * @param bundleId
+ * @param assetId
  */
-export const deleteFavoritesUsersUseridBundlesBundleidFavorite = {
+export const deleteFavoritesUsersUseridAssetsAssetidFavorite = {
   method: 'delete' as const,
-  path: '/v1/favorites/users/:userId/bundles/:bundleId/favorite',
+  path: '/v1/favorites/users/:userId/assets/:assetId/favorite',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
   parameters: {
     userId: z.number().int(),
-    bundleId: z.number().int(),
+    assetId: z.number().int(),
   },
   response: z.object({}),
   errors: [
     {
       status: 400,
       description: `1: Invalid user Id.
-2: Invalid bundle Id.`,
+2: Invalid asset Id.`,
       schema: z.void(),
     },
     {
@@ -676,7 +631,7 @@ export const deleteFavoritesUsersUseridBundlesBundleidFavorite = {
     },
     {
       status: 409,
-      description: `4: Bundle is already not favorited.`,
+      description: `4: Asset is already not favorited.`,
       schema: z.void(),
     },
     {
@@ -751,6 +706,51 @@ export const postFavoritesUsersUseridBundlesBundleidFavorite = {
     {
       status: 409,
       description: `3: Bundle is already favorited.`,
+      schema: z.void(),
+    },
+    {
+      status: 429,
+      description: `5: This action was floodchecked. Please try again later.`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
+ * @api delete https://catalog.roblox.com/v1/favorites/users/:userId/bundles/:bundleId/favorite
+ * @param userId
+ * @param bundleId
+ */
+export const deleteFavoritesUsersUseridBundlesBundleidFavorite = {
+  method: 'delete' as const,
+  path: '/v1/favorites/users/:userId/bundles/:bundleId/favorite',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
+  parameters: {
+    userId: z.number().int(),
+    bundleId: z.number().int(),
+  },
+  response: z.object({}),
+  errors: [
+    {
+      status: 400,
+      description: `1: Invalid user Id.
+2: Invalid bundle Id.`,
+      schema: z.void(),
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+6: You are not authorized to perform this action.`,
+      schema: z.void(),
+    },
+    {
+      status: 409,
+      description: `4: Bundle is already not favorited.`,
       schema: z.void(),
     },
     {
