@@ -21,7 +21,7 @@ First, import the necessary functions and an example endpoint from the RoZod pac
 
 ```ts
 import { fetchApi, fetchApiSplit, fetchApiPages, fetchApiPagesGenerator } from 'rozod';
-import { getV1tradesTradeStatusType } from 'rozod/lib/endpoints/tradesv1';
+import { getTradesTradestatustype } from 'rozod/lib/endpoints/tradesv1';
 ```
 
 ### Simple API Request
@@ -29,7 +29,7 @@ import { getV1tradesTradeStatusType } from 'rozod/lib/endpoints/tradesv1';
 To make a simple API request, use the `fetchApi` function, and any endpoint from our exports:
 
 ```ts
-const response = await fetchApi(getV1tradesTradeStatusType, { tradeStatusType: 1 });
+const response = await fetchApi(getTradesTradestatustype, { tradeStatusType: 1 });
 console.log(response);
 ```
 
@@ -37,7 +37,7 @@ console.log(response);
 To split a request into multiple requests based on specified parameters, use the `fetchApiSplit` function:
 
 ```ts
-const data = await fetchApiSplit(getV1gamesicons, { universeIds: [1534453623, 65241, ...] }, { universeIds: 100 });
+const data = await fetchApiSplit(getGamesIcons, { universeIds: [1534453623, 65241, ...] }, { universeIds: 100 });
 console.log(data);
 ```
 
@@ -45,14 +45,14 @@ console.log(data);
 To fetch all pages of a paginated endpoint, use the `fetchApiPages` function:
 
 ```ts
-const allPages = await fetchApiPages(getV2groupsGroupIdgames, { groupId: 11479637 });
+const allPages = await fetchApiPages(getGroupsGroupidWallPosts, { groupId: 11479637 });
 console.log(allPages);
 ```
 ### Fetching Pages with a Generator
 To fetch pages one at a time using an async generator, use the `fetchApiPagesGenerator` function:
 
 ```ts
-const pages = fetchApiPagesGenerator(getV2groupsGroupIdgames, { groupId: 11479637 });
+const pages = fetchApiPagesGenerator(getGroupsGroupidWallPosts, { groupId: 11479637 });
 for await (const page of pages) {
     console.log(page);
 }
