@@ -1,16 +1,23 @@
 import { z } from 'zod';
 
-const Roblox_Translations_Api_TranslationsResponse = z.object({ url: z.string(), locale: z.string() }).partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Translations_Api_TranslationsResponse_ = z
-  .object({ data: z.array(Roblox_Translations_Api_TranslationsResponse) })
-  .partial();
+const Roblox_Translations_Api_TranslationsResponse = z.object({
+  url: z.string(),
+  locale: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Translations_Api_TranslationsResponse_ = z.object({
+  data: z.array(Roblox_Translations_Api_TranslationsResponse),
+});
 
 const schemas = {
   Roblox_Translations_Api_TranslationsResponse,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Translations_Api_TranslationsResponse_,
 };
 
-export const getV1translations = {
+/**
+ * @api get https://translations.roblox.com/v1/translations
+ * @param consumerType
+ */
+export const getTranslations = {
   method: 'get' as const,
   path: '/v1/translations',
   baseUrl: 'https://translations.roblox.com',
@@ -47,7 +54,12 @@ export const getV1translations = {
     },
   ],
 };
-export const getV1translationsLocale = {
+/**
+ * @api get https://translations.roblox.com/v1/translations/:locale
+ * @param locale
+ * @param consumerType
+ */
+export const getTranslationsLocale = {
   method: 'get' as const,
   path: '/v1/translations/:locale',
   baseUrl: 'https://translations.roblox.com',
@@ -86,7 +98,14 @@ export const getV1translationsLocale = {
     },
   ],
 };
-export const getV1translationslanguageResources = {
+/**
+ * @api get https://translations.roblox.com/v1/translations/language-resources
+ * @param consumerType
+ * @param contentNamespace
+ * @param keys
+ * @param localeCode
+ */
+export const getTranslationsLanguageResources = {
   method: 'get' as const,
   path: '/v1/translations/language-resources',
   baseUrl: 'https://translations.roblox.com',

@@ -1,22 +1,25 @@
 import { z } from 'zod';
 
-const Roblox_Authentication_Api_TwoStepVerificationLoginRequest = z
-  .object({
-    challengeId: z.string(),
-    verificationToken: z.string(),
-    rememberDevice: z.boolean(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z
-  .object({ identityVerificationLoginTicket: z.string() })
-  .partial();
+const Roblox_Authentication_Api_TwoStepVerificationLoginRequest = z.object({
+  challengeId: z.string(),
+  verificationToken: z.string(),
+  rememberDevice: z.boolean(),
+});
+const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z.object({
+  identityVerificationLoginTicket: z.string(),
+});
 
 const schemas = {
   Roblox_Authentication_Api_TwoStepVerificationLoginRequest,
   Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse,
 };
 
-export const postV3usersUserIdtwoStepVerificationlogin = {
+/**
+ * @api post https://auth.roblox.com/v3/users/:userId/two-step-verification/login
+ * @param body The Roblox.Authentication.Api.TwoStepVerificationLoginRequest.
+ * @param userId
+ */
+export const postUsersUseridTwoStepVerificationLogin = {
   method: 'post' as const,
   path: '/v3/users/:userId/two-step-verification/login',
   baseUrl: 'https://auth.roblox.com',
@@ -25,7 +28,7 @@ export const postV3usersUserIdtwoStepVerificationlogin = {
     body: Roblox_Authentication_Api_TwoStepVerificationLoginRequest,
     userId: z.number().int(),
   },
-  response: z.object({ identityVerificationLoginTicket: z.string() }).partial(),
+  response: z.object({ identityVerificationLoginTicket: z.string() }),
   errors: [
     {
       status: 400,

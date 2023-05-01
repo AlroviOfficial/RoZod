@@ -1,112 +1,31 @@
 import { z } from 'zod';
 
-const Roblox_Api_Develop_AssetVersion = z
-  .object({
-    Id: z.number().int(),
-    assetId: z.number().int(),
-    assetVersionNumber: z.number().int(),
-    creatorType: z.string(),
-    creatorTargetId: z.number().int(),
-    creatingUniverseId: z.number().int(),
-    created: z.string().datetime(),
-    isEqualToCurrentPublishedVersion: z.boolean(),
-    isPublished: z.boolean(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_AssetVersion_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Api_Develop_AssetVersion),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_PlaceModelV2 = z
-  .object({
-    maxPlayerCount: z.number().int(),
-    socialSlotType: z.string(),
-    customSocialSlotsCount: z.number().int(),
-    allowCopying: z.boolean(),
-    currentSavedVersion: z.number().int(),
-    isAllGenresAllowed: z.boolean(),
-    allowedGearTypes: z.array(
-      z.union([
-        z.literal(0),
-        z.literal(8),
-        z.literal(9),
-        z.literal(10),
-        z.literal(11),
-        z.literal(12),
-        z.literal(13),
-        z.literal(14),
-        z.literal(21),
-        z.literal(22),
-      ]),
-    ),
-    maxPlayersAllowed: z.number().int(),
-    id: z.number().int(),
-    universeId: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    isRootPlace: z.boolean(),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_PlaceConfigurationModelV2 = z
-  .object({
-    name: z.string(),
-    description: z.string(),
-    maxPlayerCount: z.number().int(),
-    socialSlotType: z.string(),
-    customSocialSlotsCount: z.number().int(),
-    allowCopying: z.boolean(),
-    allowedGearTypes: z.array(z.string()),
-    isAllGenresAllowed: z.boolean(),
-  })
-  .partial();
-const Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel = z
-  .object({
-    assetID: z.number().int(),
-    assetTypeID: z.number().int(),
-    isPlayerChoice: z.boolean(),
-  })
-  .partial();
-const Roblox_Web_Responses_Avatar_ScaleModel = z
-  .object({
-    height: z.number(),
-    width: z.number(),
-    head: z.number(),
-    depth: z.number(),
-    proportion: z.number(),
-    bodyType: z.number(),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_UniversePluginPermissions = z
-  .object({
-    IsThirdPartyTeleportAllowed: z.boolean(),
-    IsThirdPartyAssetAllowed: z.boolean(),
-    IsThirdPartyPurchaseAllowed: z.boolean(),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z
-  .object({
-    allowPrivateServers: z.boolean(),
-    privateServerPrice: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
-    universeAnimationType: z.union([z.literal(1), z.literal(2)]),
-    universeCollisionType: z.union([z.literal(1), z.literal(2)]),
-    universeJointPositioningType: z.union([z.literal(1), z.literal(2)]),
-    isArchived: z.boolean(),
-    isFriendsOnly: z.boolean(),
-    genre: z.union([
+const Roblox_Api_Develop_AssetVersion = z.object({
+  Id: z.number().int(),
+  assetId: z.number().int(),
+  assetVersionNumber: z.number().int(),
+  creatorType: z.string(),
+  creatorTargetId: z.number().int(),
+  creatingUniverseId: z.number().int(),
+  created: z.string().datetime(),
+  isEqualToCurrentPublishedVersion: z.boolean(),
+  isPublished: z.boolean(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_AssetVersion_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Api_Develop_AssetVersion),
+});
+const Roblox_Api_Develop_Models_PlaceModelV2 = z.object({
+  maxPlayerCount: z.number().int(),
+  socialSlotType: z.string(),
+  customSocialSlotsCount: z.number().int(),
+  allowCopying: z.boolean(),
+  currentSavedVersion: z.number().int(),
+  isAllGenresAllowed: z.boolean(),
+  allowedGearTypes: z.array(
+    z.union([
       z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
       z.literal(8),
       z.literal(9),
       z.literal(10),
@@ -114,64 +33,128 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z
       z.literal(12),
       z.literal(13),
       z.literal(14),
+      z.literal(21),
+      z.literal(22),
     ]),
-    playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
-    isForSale: z.boolean(),
-    price: z.number().int(),
-    universeAvatarAssetOverrides: z.array(Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel),
-    universeAvatarMinScales: Roblox_Web_Responses_Avatar_ScaleModel,
-    universeAvatarMaxScales: Roblox_Web_Responses_Avatar_ScaleModel,
-    studioAccessToApisAllowed: z.boolean(),
-    permissions: Roblox_Api_Develop_Models_UniversePluginPermissions,
-    optInRegions: z.array(z.union([z.literal(0), z.literal(1)])),
-    optOutRegions: z.array(z.union([z.literal(0), z.literal(1)])),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_UniverseModerationPolicyStatus = z
-  .object({ region: z.union([z.literal(0), z.literal(1)]), status: z.string() })
-  .partial();
-const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z
-  .object({
-    allowPrivateServers: z.boolean(),
-    privateServerPrice: z.number().int(),
-    optInRegions: z.array(Roblox_Api_Develop_Models_UniverseModerationPolicyStatus),
-    id: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
-    universeAnimationType: z.union([z.literal(1), z.literal(2)]),
-    universeCollisionType: z.union([z.literal(1), z.literal(2)]),
-    universeJointPositioningType: z.union([z.literal(1), z.literal(2)]),
-    isArchived: z.boolean(),
-    isFriendsOnly: z.boolean(),
-    genre: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-      z.literal(9),
-      z.literal(10),
-      z.literal(11),
-      z.literal(12),
-      z.literal(13),
-      z.literal(14),
-    ]),
-    playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
-    isForSale: z.boolean(),
-    price: z.number().int(),
-    universeAvatarAssetOverrides: z.array(Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel),
-    universeAvatarMinScales: Roblox_Web_Responses_Avatar_ScaleModel,
-    universeAvatarMaxScales: Roblox_Web_Responses_Avatar_ScaleModel,
-    studioAccessToApisAllowed: z.boolean(),
-    permissions: Roblox_Api_Develop_Models_UniversePluginPermissions,
-  })
-  .partial();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).partial();
+  ),
+  maxPlayersAllowed: z.number().int(),
+  id: z.number().int(),
+  universeId: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  isRootPlace: z.boolean(),
+});
+const Roblox_Api_Develop_Models_PlaceConfigurationModelV2 = z.object({
+  name: z.string(),
+  description: z.string(),
+  maxPlayerCount: z.number().int(),
+  socialSlotType: z.string(),
+  customSocialSlotsCount: z.number().int(),
+  allowCopying: z.boolean(),
+  allowedGearTypes: z.array(z.string()),
+  isAllGenresAllowed: z.boolean(),
+});
+const Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel = z.object({
+  assetID: z.number().int(),
+  assetTypeID: z.number().int(),
+  isPlayerChoice: z.boolean(),
+});
+const Roblox_Web_Responses_Avatar_ScaleModel = z.object({
+  height: z.number(),
+  width: z.number(),
+  head: z.number(),
+  depth: z.number(),
+  proportion: z.number(),
+  bodyType: z.number(),
+});
+const Roblox_Api_Develop_Models_UniversePluginPermissions = z.object({
+  IsThirdPartyTeleportAllowed: z.boolean(),
+  IsThirdPartyAssetAllowed: z.boolean(),
+  IsThirdPartyPurchaseAllowed: z.boolean(),
+});
+const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
+  allowPrivateServers: z.boolean(),
+  privateServerPrice: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  universeAnimationType: z.union([z.literal(1), z.literal(2)]),
+  universeCollisionType: z.union([z.literal(1), z.literal(2)]),
+  universeJointPositioningType: z.union([z.literal(1), z.literal(2)]),
+  isArchived: z.boolean(),
+  isFriendsOnly: z.boolean(),
+  genre: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+    z.literal(10),
+    z.literal(11),
+    z.literal(12),
+    z.literal(13),
+    z.literal(14),
+  ]),
+  playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
+  isForSale: z.boolean(),
+  price: z.number().int(),
+  universeAvatarAssetOverrides: z.array(Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel),
+  universeAvatarMinScales: Roblox_Web_Responses_Avatar_ScaleModel,
+  universeAvatarMaxScales: Roblox_Web_Responses_Avatar_ScaleModel,
+  studioAccessToApisAllowed: z.boolean(),
+  permissions: Roblox_Api_Develop_Models_UniversePluginPermissions,
+  optInRegions: z.array(z.union([z.literal(0), z.literal(1)])),
+  optOutRegions: z.array(z.union([z.literal(0), z.literal(1)])),
+});
+const Roblox_Api_Develop_Models_UniverseModerationPolicyStatus = z.object({
+  region: z.union([z.literal(0), z.literal(1)]),
+  status: z.string(),
+});
+const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z.object({
+  allowPrivateServers: z.boolean(),
+  privateServerPrice: z.number().int(),
+  optInRegions: z.array(Roblox_Api_Develop_Models_UniverseModerationPolicyStatus),
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  universeAnimationType: z.union([z.literal(1), z.literal(2)]),
+  universeCollisionType: z.union([z.literal(1), z.literal(2)]),
+  universeJointPositioningType: z.union([z.literal(1), z.literal(2)]),
+  isArchived: z.boolean(),
+  isFriendsOnly: z.boolean(),
+  genre: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+    z.literal(10),
+    z.literal(11),
+    z.literal(12),
+    z.literal(13),
+    z.literal(14),
+  ]),
+  playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
+  isForSale: z.boolean(),
+  price: z.number().int(),
+  universeAvatarAssetOverrides: z.array(Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel),
+  universeAvatarMinScales: Roblox_Web_Responses_Avatar_ScaleModel,
+  universeAvatarMaxScales: Roblox_Web_Responses_Avatar_ScaleModel,
+  studioAccessToApisAllowed: z.boolean(),
+  permissions: Roblox_Api_Develop_Models_UniversePluginPermissions,
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 const schemas = {
   Roblox_Api_Develop_AssetVersion,
@@ -187,7 +170,15 @@ const schemas = {
   Roblox_Web_WebAPI_ApiEmptyResponseModel,
 };
 
-export const getV2assetsIdversions = {
+/**
+ * @api get https://develop.roblox.com/v2/assets/:id/versions
+ * @param id
+ * @param Roblox-Place-Id
+ * @param limit
+ * @param cursor
+ * @param sortOrder
+ */
+export const getAssetsIdVersions = {
   method: 'get' as const,
   path: '/v2/assets/:id/versions',
   baseUrl: 'https://develop.roblox.com',
@@ -205,7 +196,11 @@ export const getV2assetsIdversions = {
   response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_AssetVersion_,
   errors: [],
 };
-export const getV2placesPlaceId = {
+/**
+ * @api get https://develop.roblox.com/v2/places/:placeId
+ * @param placeId
+ */
+export const getPlacesPlaceid = {
   method: 'get' as const,
   path: '/v2/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
@@ -232,7 +227,12 @@ export const getV2placesPlaceId = {
     },
   ],
 };
-export const patchV2placesPlaceId = {
+/**
+ * @api patch https://develop.roblox.com/v2/places/:placeId
+ * @param body
+ * @param placeId
+ */
+export const patchPlacesPlaceid = {
   method: 'patch' as const,
   path: '/v2/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
@@ -261,7 +261,12 @@ export const patchV2placesPlaceId = {
     },
   ],
 };
-export const deleteV2teamtestPlaceId = {
+/**
+ * @api delete https://develop.roblox.com/v2/teamtest/:placeId
+ * @param placeId
+ * @param gameId
+ */
+export const deleteTeamtestPlaceid = {
   method: 'delete' as const,
   path: '/v2/teamtest/:placeId',
   baseUrl: 'https://develop.roblox.com',
@@ -270,7 +275,7 @@ export const deleteV2teamtestPlaceId = {
     placeId: z.number().int(),
     gameId: z.string().uuid(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -284,7 +289,12 @@ export const deleteV2teamtestPlaceId = {
     },
   ],
 };
-export const patchV2universesUniverseIdconfiguration = {
+/**
+ * @api patch https://develop.roblox.com/v2/universes/:universeId/configuration
+ * @param body The Roblox.Api.Develop.Models.UniverseSettingsRequest model.
+ * @param universeId
+ */
+export const patchUniversesUniverseidConfiguration = {
   method: 'patch' as const,
   path: '/v2/universes/:universeId/configuration',
   baseUrl: 'https://develop.roblox.com',

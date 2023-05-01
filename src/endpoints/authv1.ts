@@ -1,287 +1,263 @@
 import { z } from 'zod';
 
-const Roblox_Authentication_Api_Models_AccountPinRequest = z
-  .object({ pin: z.string(), reauthenticationToken: z.string() })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiSuccessResponse = z.object({ success: z.boolean() }).partial();
-const Roblox_Authentication_Api_Models_AccountPinStatusResponse = z
-  .object({ isEnabled: z.boolean(), unlockedUntil: z.number() })
-  .partial();
-const Roblox_Authentication_Api_Models_AuthMetaDataResponse = z
-  .object({ cookieLawNoticeTimeout: z.number().int() })
-  .partial();
-const Roblox_Authentication_Api_Models_CanSendCredentialsVerificationMessageResponse = z
-  .object({ canSend: z.boolean() })
-  .partial();
-const Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest = z
-  .object({
-    credentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-    credentialValue: z.string(),
-    password: z.string(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_MetadataResponse = z
-  .object({
-    isUpdateUsernameEnabled: z.boolean(),
-    ftuxAvatarAssetMap: z.string(),
-    IsEmailUpsellAtLogoutEnabled: z.boolean(),
-    ShouldFetchEmailUpsellIXPValuesAtLogout: z.boolean(),
-    IsAccountRecoveryPromptEnabled: z.boolean(),
-    IsContactMethodRequiredAtSignup: z.boolean(),
-    IsUserAgreementsSignupIntegrationEnabled: z.boolean(),
-    IsKoreaIdVerificationEnabled: z.boolean(),
-    IsPasswordRequiredForUsernameChange: z.boolean(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_PasswordValidationResponse = z
-  .object({
-    code: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
-    message: z.string(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_PasswordValidationModel = z
-  .object({ username: z.string(), password: z.string() })
-  .partial();
-const Roblox_Authentication_Api_Models_RecoveryMetadataResponse = z
-  .object({
-    isOnPhone: z.boolean(),
-    codeLength: z.number().int(),
-    isPhoneFeatureEnabledForUsername: z.boolean(),
-    isPhoneFeatureEnabledForPassword: z.boolean(),
-    isBedev2CaptchaEnabledForPasswordReset: z.boolean(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_RevertAccountInfoResponse = z
-  .object({
-    isTwoStepVerificationEnabled: z.boolean(),
-    isEmailVerified: z.boolean(),
-    isEmailChanged: z.boolean(),
-    isPhoneVerified: z.boolean(),
-    userId: z.number().int(),
-    username: z.string(),
-    ticket: z.string(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_RevertAccountSubmitRequest = z
-  .object({
-    UserId: z.number().int(),
-    NewPassword: z.string(),
-    NewPasswordRepeated: z.string(),
-    Ticket: z.string(),
-    TwoStepVerificationChallengeId: z.string(),
-    TwoStepVerificationToken: z.string(),
-  })
-  .partial();
-const Roblox_Web_Responses_Users_SkinnyUserResponse = z
-  .object({ id: z.number().int(), name: z.string(), displayName: z.string() })
-  .partial();
-const Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse = z
-  .object({
-    mediaType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-    ticket: z.string(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_LoginResponse = z
-  .object({
-    user: Roblox_Web_Responses_Users_SkinnyUserResponse,
-    twoStepVerificationData: Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse,
-    identityVerificationLoginTicket: z.string(),
-    isBanned: z.boolean(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_ProviderInfoModel = z
-  .object({ provider: z.string(), identifier: z.string() })
-  .partial();
-const Roblox_Authentication_Api_Models_SocialProvidersResponse = z
-  .object({
-    providers: z.array(Roblox_Authentication_Api_Models_ProviderInfoModel),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_TwoStepVerificationMetadataResponse = z
-  .object({
-    codeLength: z.number().int(),
-    loadingImageUrl: z.string(),
-    supportUrl: z.string(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_UsernamesResponse = z.object({ usernames: z.array(z.string()) }).partial();
-const Roblox_Authentication_Api_Models_UsernameValidationResponse = z
-  .object({
-    code: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(10),
-      z.literal(12),
-    ]),
-    message: z.string(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_UsernameValidationRequest = z
-  .object({
-    username: z.string(),
-    birthday: z.string().datetime(),
-    context: z.union([z.literal(0), z.literal(1), z.literal(2)]),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_EmailValidationResponse = z.object({ isEmailValid: z.boolean() }).partial();
-const Roblox_Authentication_Api_Models_RecommendedUsernameResponse = z
-  .object({
-    didGenerateNewUsername: z.boolean(),
-    suggestedUsernames: z.array(z.string()),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_XboxConnectionModel = z
-  .object({ hasConnectedXboxAccount: z.boolean() })
-  .partial();
-const Roblox_Authentication_Api_Models_XboxLoginConsecutiveDaysResponse = z
-  .object({ count: z.number().int() })
-  .partial();
-const Roblox_Authentication_Api_Models_AccountPinResponse = z.object({ unlockedUntil: z.number() }).partial();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).partial();
-const Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest = z
-  .object({ loginTicket: z.string(), resultToken: z.string() })
-  .partial();
-const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel = z
-  .object({
-    clientPublicKey: z.string(),
-    clientEpochTimestamp: z.number().int(),
-    saiSignature: z.string(),
-    serverNonce: z.string(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_LoginRequest = z
-  .object({
-    ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-    cvalue: z.string(),
-    password: z.string(),
-    userId: z.number().int(),
-    securityQuestionSessionId: z.string(),
-    securityQuestionRedemptionToken: z.string(),
-    secureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
-    captchaId: z.string(),
-    captchaToken: z.string(),
-    captchaProvider: z.string(),
-    challengeId: z.string(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_ReferralDataModel = z
-  .object({
-    acquisitionTime: z.string().datetime(),
-    acquisitionReferrer: z.string(),
-    medium: z.string(),
-    source: z.string(),
-    campaign: z.string(),
-    adGroup: z.string(),
-    keyword: z.string(),
-    matchType: z.string(),
-    sendInfo: z.boolean(),
-    requestSessionId: z.string(),
-    offerId: z.string(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_Request_OtpSessionModel = z
-  .object({
-    otpSessionToken: z.string(),
-    otpContactType: z.union([z.literal(1), z.literal(2)]),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_SignupRequest = z
-  .object({
-    username: z.string(),
-    password: z.string(),
-    gender: z.union([z.literal(1), z.literal(2), z.literal(3)]),
-    birthday: z.string().datetime(),
-    isTosAgreementBoxChecked: z.boolean(),
-    email: z.string(),
-    locale: z.string(),
-    assetIds: z.array(z.number()),
-    bodyColorId: z.number().int(),
-    bodyTypeScale: z.number(),
-    headScale: z.number(),
-    heightScale: z.number(),
-    widthScale: z.number(),
-    proportionScale: z.number(),
-    referralData: Roblox_Authentication_Api_Models_ReferralDataModel,
-    agreementIds: z.array(z.string()),
-    identityVerificationResultToken: z.string(),
-    secureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
-    otpSession: Roblox_Authentication_Api_Models_Request_OtpSessionModel,
-    captchaId: z.string(),
-    captchaToken: z.string(),
-    captchaProvider: z.string(),
-    challengeId: z.string(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_SignupResponse = z
-  .object({ userId: z.number().int(), starterPlaceId: z.number().int() })
-  .partial();
-const Roblox_Authentication_Api_Models_SocialAuthenticationDisconnectRequest = z
-  .object({ Password: z.string() })
-  .partial();
-const Roblox_Authentication_Api_Models_TwoStepVerificationTicketRequest = z
-  .object({
-    username: z.string(),
-    ticket: z.string(),
-    actionType: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-    ]),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_TwoStepVerificationVerifyRequest = z
-  .object({
-    username: z.string(),
-    ticket: z.string(),
-    code: z.string(),
-    rememberDevice: z.boolean(),
-    actionType: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-    ]),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_PasswordChangeModel = z
-  .object({ currentPassword: z.string(), newPassword: z.string() })
-  .partial();
-const Roblox_Authentication_Api_Models_UsernameChangeRequest = z
-  .object({ username: z.string(), password: z.string() })
-  .partial();
-const Roblox_Authentication_Api_Models_RecoverUsernameRequest = z
-  .object({
-    targetType: z.union([z.literal(0), z.literal(1)]),
-    target: z.string(),
-  })
-  .partial();
-const Roblox_Authentication_Api_Models_RecoverUsernameResponse = z
-  .object({ transmissionType: z.union([z.literal(0), z.literal(1)]) })
-  .partial();
-const Roblox_Authentication_Api_Models_XboxTranslateRequest = z.object({ ids: z.array(z.string()) }).partial();
-const Roblox_Authentication_Api_Models_XboxUserModel = z
-  .object({ Id: z.string(), UserId: z.number().int(), Username: z.string() })
-  .partial();
-const Roblox_Authentication_Api_Models_XboxCollectionsOfUserResponse = z
-  .object({ Users: z.array(Roblox_Authentication_Api_Models_XboxUserModel) })
-  .partial();
+const Roblox_Authentication_Api_Models_AccountPinRequest = z.object({
+  pin: z.string(),
+  reauthenticationToken: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiSuccessResponse = z.object({
+  success: z.boolean(),
+});
+const Roblox_Authentication_Api_Models_AccountPinStatusResponse = z.object({
+  isEnabled: z.boolean(),
+  unlockedUntil: z.number(),
+});
+const Roblox_Authentication_Api_Models_AuthMetaDataResponse = z.object({
+  cookieLawNoticeTimeout: z.number().int(),
+});
+const Roblox_Authentication_Api_Models_CanSendCredentialsVerificationMessageResponse = z.object({
+  canSend: z.boolean(),
+});
+const Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest = z.object({
+  credentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  credentialValue: z.string(),
+  password: z.string(),
+});
+const Roblox_Authentication_Api_Models_MetadataResponse = z.object({
+  isUpdateUsernameEnabled: z.boolean(),
+  ftuxAvatarAssetMap: z.string(),
+  IsEmailUpsellAtLogoutEnabled: z.boolean(),
+  ShouldFetchEmailUpsellIXPValuesAtLogout: z.boolean(),
+  IsAccountRecoveryPromptEnabled: z.boolean(),
+  IsContactMethodRequiredAtSignup: z.boolean(),
+  IsUserAgreementsSignupIntegrationEnabled: z.boolean(),
+  IsKoreaIdVerificationEnabled: z.boolean(),
+  IsPasswordRequiredForUsernameChange: z.boolean(),
+});
+const Roblox_Authentication_Api_Models_PasswordValidationResponse = z.object({
+  code: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+  message: z.string(),
+});
+const Roblox_Authentication_Api_Models_PasswordValidationModel = z.object({
+  username: z.string(),
+  password: z.string(),
+});
+const Roblox_Authentication_Api_Models_RecoveryMetadataResponse = z.object({
+  isOnPhone: z.boolean(),
+  codeLength: z.number().int(),
+  isPhoneFeatureEnabledForUsername: z.boolean(),
+  isPhoneFeatureEnabledForPassword: z.boolean(),
+  isBedev2CaptchaEnabledForPasswordReset: z.boolean(),
+});
+const Roblox_Authentication_Api_Models_RevertAccountInfoResponse = z.object({
+  isTwoStepVerificationEnabled: z.boolean(),
+  isEmailVerified: z.boolean(),
+  isEmailChanged: z.boolean(),
+  isPhoneVerified: z.boolean(),
+  userId: z.number().int(),
+  username: z.string(),
+  ticket: z.string(),
+});
+const Roblox_Authentication_Api_Models_RevertAccountSubmitRequest = z.object({
+  UserId: z.number().int(),
+  NewPassword: z.string(),
+  NewPasswordRepeated: z.string(),
+  Ticket: z.string(),
+  TwoStepVerificationChallengeId: z.string(),
+  TwoStepVerificationToken: z.string(),
+});
+const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse = z.object({
+  mediaType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  ticket: z.string(),
+});
+const Roblox_Authentication_Api_Models_LoginResponse = z.object({
+  user: Roblox_Web_Responses_Users_SkinnyUserResponse,
+  twoStepVerificationData: Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse,
+  identityVerificationLoginTicket: z.string(),
+  isBanned: z.boolean(),
+});
+const Roblox_Authentication_Api_Models_ProviderInfoModel = z.object({
+  provider: z.string(),
+  identifier: z.string(),
+});
+const Roblox_Authentication_Api_Models_SocialProvidersResponse = z.object({
+  providers: z.array(Roblox_Authentication_Api_Models_ProviderInfoModel),
+});
+const Roblox_Authentication_Api_Models_TwoStepVerificationMetadataResponse = z.object({
+  codeLength: z.number().int(),
+  loadingImageUrl: z.string(),
+  supportUrl: z.string(),
+});
+const Roblox_Authentication_Api_Models_UsernamesResponse = z.object({
+  usernames: z.array(z.string()),
+});
+const Roblox_Authentication_Api_Models_UsernameValidationResponse = z.object({
+  code: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(10),
+    z.literal(12),
+  ]),
+  message: z.string(),
+});
+const Roblox_Authentication_Api_Models_UsernameValidationRequest = z.object({
+  username: z.string(),
+  birthday: z.string().datetime(),
+  context: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+});
+const Roblox_Authentication_Api_Models_EmailValidationResponse = z.object({
+  isEmailValid: z.boolean(),
+});
+const Roblox_Authentication_Api_Models_RecommendedUsernameResponse = z.object({
+  didGenerateNewUsername: z.boolean(),
+  suggestedUsernames: z.array(z.string()),
+});
+const Roblox_Authentication_Api_Models_XboxConnectionModel = z.object({
+  hasConnectedXboxAccount: z.boolean(),
+});
+const Roblox_Authentication_Api_Models_XboxLoginConsecutiveDaysResponse = z.object({ count: z.number().int() });
+const Roblox_Authentication_Api_Models_AccountPinResponse = z.object({
+  unlockedUntil: z.number(),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest = z.object({
+  loginTicket: z.string(),
+  resultToken: z.string(),
+});
+const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel = z.object({
+  clientPublicKey: z.string(),
+  clientEpochTimestamp: z.number().int(),
+  saiSignature: z.string(),
+  serverNonce: z.string(),
+});
+const Roblox_Authentication_Api_Models_LoginRequest = z.object({
+  ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  cvalue: z.string(),
+  password: z.string(),
+  userId: z.number().int(),
+  securityQuestionSessionId: z.string(),
+  securityQuestionRedemptionToken: z.string(),
+  secureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
+  captchaId: z.string(),
+  captchaToken: z.string(),
+  captchaProvider: z.string(),
+  challengeId: z.string(),
+});
+const Roblox_Authentication_Api_Models_ReferralDataModel = z.object({
+  acquisitionTime: z.string().datetime(),
+  acquisitionReferrer: z.string(),
+  medium: z.string(),
+  source: z.string(),
+  campaign: z.string(),
+  adGroup: z.string(),
+  keyword: z.string(),
+  matchType: z.string(),
+  sendInfo: z.boolean(),
+  requestSessionId: z.string(),
+  offerId: z.string(),
+});
+const Roblox_Authentication_Api_Models_Request_OtpSessionModel = z.object({
+  otpSessionToken: z.string(),
+  otpContactType: z.union([z.literal(1), z.literal(2)]),
+});
+const Roblox_Authentication_Api_Models_SignupRequest = z.object({
+  username: z.string(),
+  password: z.string(),
+  gender: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  birthday: z.string().datetime(),
+  isTosAgreementBoxChecked: z.boolean(),
+  email: z.string(),
+  locale: z.string(),
+  assetIds: z.array(z.number()),
+  bodyColorId: z.number().int(),
+  bodyTypeScale: z.number(),
+  headScale: z.number(),
+  heightScale: z.number(),
+  widthScale: z.number(),
+  proportionScale: z.number(),
+  referralData: Roblox_Authentication_Api_Models_ReferralDataModel,
+  agreementIds: z.array(z.string()),
+  identityVerificationResultToken: z.string(),
+  secureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
+  otpSession: Roblox_Authentication_Api_Models_Request_OtpSessionModel,
+  captchaId: z.string(),
+  captchaToken: z.string(),
+  captchaProvider: z.string(),
+  challengeId: z.string(),
+});
+const Roblox_Authentication_Api_Models_SignupResponse = z.object({
+  userId: z.number().int(),
+  starterPlaceId: z.number().int(),
+});
+const Roblox_Authentication_Api_Models_SocialAuthenticationDisconnectRequest = z.object({ Password: z.string() });
+const Roblox_Authentication_Api_Models_TwoStepVerificationTicketRequest = z.object({
+  username: z.string(),
+  ticket: z.string(),
+  actionType: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+  ]),
+});
+const Roblox_Authentication_Api_Models_TwoStepVerificationVerifyRequest = z.object({
+  username: z.string(),
+  ticket: z.string(),
+  code: z.string(),
+  rememberDevice: z.boolean(),
+  actionType: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+  ]),
+});
+const Roblox_Authentication_Api_Models_PasswordChangeModel = z.object({
+  currentPassword: z.string(),
+  newPassword: z.string(),
+});
+const Roblox_Authentication_Api_Models_UsernameChangeRequest = z.object({
+  username: z.string(),
+  password: z.string(),
+});
+const Roblox_Authentication_Api_Models_RecoverUsernameRequest = z.object({
+  targetType: z.union([z.literal(0), z.literal(1)]),
+  target: z.string(),
+});
+const Roblox_Authentication_Api_Models_RecoverUsernameResponse = z.object({
+  transmissionType: z.union([z.literal(0), z.literal(1)]),
+});
+const Roblox_Authentication_Api_Models_XboxTranslateRequest = z.object({
+  ids: z.array(z.string()),
+});
+const Roblox_Authentication_Api_Models_XboxUserModel = z.object({
+  Id: z.string(),
+  UserId: z.number().int(),
+  Username: z.string(),
+});
+const Roblox_Authentication_Api_Models_XboxCollectionsOfUserResponse = z.object({
+  Users: z.array(Roblox_Authentication_Api_Models_XboxUserModel),
+});
 
 const schemas = {
   Roblox_Authentication_Api_Models_AccountPinRequest,
@@ -330,7 +306,11 @@ const schemas = {
   Roblox_Authentication_Api_Models_XboxCollectionsOfUserResponse,
 };
 
-export const deleteV1accountpin = {
+/**
+ * @api delete https://auth.roblox.com/v1/account/pin
+ * @param body
+ */
+export const deleteAccountPin = {
   method: 'delete' as const,
   path: '/v1/account/pin',
   baseUrl: 'https://auth.roblox.com',
@@ -338,7 +318,7 @@ export const deleteV1accountpin = {
   parameters: {
     body: Roblox_Authentication_Api_Models_AccountPinRequest,
   },
-  response: z.object({ success: z.boolean() }).partial(),
+  response: z.object({ success: z.boolean() }),
   errors: [
     {
       status: 401,
@@ -352,7 +332,10 @@ export const deleteV1accountpin = {
     },
   ],
 };
-export const getV1accountpin = {
+/**
+ * @api get https://auth.roblox.com/v1/account/pin
+ */
+export const getAccountPin = {
   method: 'get' as const,
   path: '/v1/account/pin',
   baseUrl: 'https://auth.roblox.com',
@@ -366,7 +349,11 @@ export const getV1accountpin = {
     },
   ],
 };
-export const patchV1accountpin = {
+/**
+ * @api patch https://auth.roblox.com/v1/account/pin
+ * @param body The request body.
+ */
+export const patchAccountPin = {
   method: 'patch' as const,
   path: '/v1/account/pin',
   baseUrl: 'https://auth.roblox.com',
@@ -374,7 +361,7 @@ export const patchV1accountpin = {
   parameters: {
     body: Roblox_Authentication_Api_Models_AccountPinRequest,
   },
-  response: z.object({ success: z.boolean() }).partial(),
+  response: z.object({ success: z.boolean() }),
   errors: [
     {
       status: 401,
@@ -388,7 +375,11 @@ export const patchV1accountpin = {
     },
   ],
 };
-export const postV1accountpin = {
+/**
+ * @api post https://auth.roblox.com/v1/account/pin
+ * @param body The Roblox.Authentication.Api.Models.AccountPinRequest.
+ */
+export const postAccountPin = {
   method: 'post' as const,
   path: '/v1/account/pin',
   baseUrl: 'https://auth.roblox.com',
@@ -396,7 +387,7 @@ export const postV1accountpin = {
   parameters: {
     body: Roblox_Authentication_Api_Models_AccountPinRequest,
   },
-  response: z.object({ success: z.boolean() }).partial(),
+  response: z.object({ success: z.boolean() }),
   errors: [
     {
       status: 401,
@@ -410,12 +401,15 @@ export const postV1accountpin = {
     },
   ],
 };
-export const postV1accountpinlock = {
+/**
+ * @api post https://auth.roblox.com/v1/account/pin/lock
+ */
+export const postAccountPinLock = {
   method: 'post' as const,
   path: '/v1/account/pin/lock',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
-  response: z.object({ success: z.boolean() }).partial(),
+  response: z.object({ success: z.boolean() }),
   errors: [
     {
       status: 401,
@@ -429,7 +423,11 @@ export const postV1accountpinlock = {
     },
   ],
 };
-export const postV1accountpinunlock = {
+/**
+ * @api post https://auth.roblox.com/v1/account/pin/unlock
+ * @param body The Roblox.Authentication.Api.Models.AccountPinRequest containing the entered pin.
+ */
+export const postAccountPinUnlock = {
   method: 'post' as const,
   path: '/v1/account/pin/unlock',
   baseUrl: 'https://auth.roblox.com',
@@ -437,7 +435,7 @@ export const postV1accountpinunlock = {
   parameters: {
     body: Roblox_Authentication_Api_Models_AccountPinRequest,
   },
-  response: z.object({ unlockedUntil: z.number() }).partial(),
+  response: z.object({ unlockedUntil: z.number() }),
   errors: [
     {
       status: 401,
@@ -451,15 +449,24 @@ export const postV1accountpinunlock = {
     },
   ],
 };
-export const getV1authmetadata = {
+/**
+ * @api get https://auth.roblox.com/v1/auth/metadata
+ */
+export const getAuthMetadata = {
   method: 'get' as const,
   path: '/v1/auth/metadata',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
-  response: z.object({ cookieLawNoticeTimeout: z.number().int() }).partial(),
+  response: z.object({ cookieLawNoticeTimeout: z.number().int() }),
   errors: [],
 };
-export const getV1credentialsverification = {
+/**
+ * @api get https://auth.roblox.com/v1/credentials/verification
+ * @param CredentialType
+ * @param CredentialValue
+ * @param Password
+ */
+export const getCredentialsVerification = {
   method: 'get' as const,
   path: '/v1/credentials/verification',
   baseUrl: 'https://auth.roblox.com',
@@ -469,7 +476,7 @@ export const getV1credentialsverification = {
     CredentialValue: z.string(),
     Password: z.string(),
   },
-  response: z.object({ canSend: z.boolean() }).partial(),
+  response: z.object({ canSend: z.boolean() }),
   errors: [
     {
       status: 400,
@@ -489,7 +496,11 @@ export const getV1credentialsverification = {
     },
   ],
 };
-export const postV1credentialsverification = {
+/**
+ * @api post https://auth.roblox.com/v1/credentials/verification
+ * @param body Request model with a credential value, type, and password.
+ */
+export const postCredentialsVerification = {
   method: 'post' as const,
   path: '/v1/credentials/verification',
   baseUrl: 'https://auth.roblox.com',
@@ -497,7 +508,7 @@ export const postV1credentialsverification = {
   parameters: {
     body: Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest,
   },
-  response: z.object({ canSend: z.boolean() }).partial(),
+  response: z.object({ canSend: z.boolean() }),
   errors: [
     {
       status: 400,
@@ -522,7 +533,11 @@ export const postV1credentialsverification = {
     },
   ],
 };
-export const postV1credentialsverificationsend = {
+/**
+ * @api post https://auth.roblox.com/v1/credentials/verification/send
+ * @param body Request model with a credential value, type, and password.
+ */
+export const postCredentialsVerificationSend = {
   method: 'post' as const,
   path: '/v1/credentials/verification/send',
   baseUrl: 'https://auth.roblox.com',
@@ -530,7 +545,7 @@ export const postV1credentialsverificationsend = {
   parameters: {
     body: Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest,
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -557,7 +572,11 @@ export const postV1credentialsverificationsend = {
     },
   ],
 };
-export const postV1identityVerificationlogin = {
+/**
+ * @api post https://auth.roblox.com/v1/identity-verification/login
+ * @param body
+ */
+export const postIdentityVerificationLogin = {
   method: 'post' as const,
   path: '/v1/identity-verification/login',
   baseUrl: 'https://auth.roblox.com',
@@ -565,7 +584,7 @@ export const postV1identityVerificationlogin = {
   parameters: {
     body: Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest,
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 403,
@@ -578,7 +597,11 @@ export const postV1identityVerificationlogin = {
     },
   ],
 };
-export const postV1login = {
+/**
+ * @api post https://auth.roblox.com/v1/login
+ * @param body Roblox.Authentication.Api.Models.LoginRequest.
+ */
+export const postLogin = {
   method: 'post' as const,
   path: '/v1/login',
   baseUrl: 'https://auth.roblox.com',
@@ -622,12 +645,15 @@ export const postV1login = {
     },
   ],
 };
-export const postV1logout = {
+/**
+ * @api post https://auth.roblox.com/v1/logout
+ */
+export const postLogout = {
   method: 'post' as const,
   path: '/v1/logout',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -641,12 +667,15 @@ export const postV1logout = {
     },
   ],
 };
-export const postV1logoutfromallsessionsandreauthenticate = {
+/**
+ * @api post https://auth.roblox.com/v1/logoutfromallsessionsandreauthenticate
+ */
+export const postLogoutfromallsessionsandreauthenticate = {
   method: 'post' as const,
   path: '/v1/logoutfromallsessionsandreauthenticate',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -660,7 +689,10 @@ export const postV1logoutfromallsessionsandreauthenticate = {
     },
   ],
 };
-export const getV1metadata = {
+/**
+ * @api get https://auth.roblox.com/v1/metadata
+ */
+export const getMetadata = {
   method: 'get' as const,
   path: '/v1/metadata',
   baseUrl: 'https://auth.roblox.com',
@@ -668,7 +700,12 @@ export const getV1metadata = {
   response: Roblox_Authentication_Api_Models_MetadataResponse,
   errors: [],
 };
-export const getV1passwordsvalidate = {
+/**
+ * @api get https://auth.roblox.com/v1/passwords/validate
+ * @param Username
+ * @param Password
+ */
+export const getPasswordsValidate = {
   method: 'get' as const,
   path: '/v1/passwords/validate',
   baseUrl: 'https://auth.roblox.com',
@@ -686,7 +723,11 @@ export const getV1passwordsvalidate = {
     },
   ],
 };
-export const postV1passwordsvalidate = {
+/**
+ * @api post https://auth.roblox.com/v1/passwords/validate
+ * @param body The Roblox.Authentication.Api.Models.PasswordValidationModel.
+ */
+export const postPasswordsValidate = {
   method: 'post' as const,
   path: '/v1/passwords/validate',
   baseUrl: 'https://auth.roblox.com',
@@ -708,7 +749,10 @@ export const postV1passwordsvalidate = {
     },
   ],
 };
-export const getV1recoverymetadata = {
+/**
+ * @api get https://auth.roblox.com/v1/recovery/metadata
+ */
+export const getRecoveryMetadata = {
   method: 'get' as const,
   path: '/v1/recovery/metadata',
   baseUrl: 'https://auth.roblox.com',
@@ -722,7 +766,11 @@ export const getV1recoverymetadata = {
     },
   ],
 };
-export const getV1revertaccount = {
+/**
+ * @api get https://auth.roblox.com/v1/revert/account
+ * @param ticket
+ */
+export const getRevertAccount = {
   method: 'get' as const,
   path: '/v1/revert/account',
   baseUrl: 'https://auth.roblox.com',
@@ -744,7 +792,11 @@ export const getV1revertaccount = {
     },
   ],
 };
-export const postV1revertaccount = {
+/**
+ * @api post https://auth.roblox.com/v1/revert/account
+ * @param body The Roblox.Authentication.Api.Models.RevertAccountSubmitRequest containing the necessary information to revert account.
+ */
+export const postRevertAccount = {
   method: 'post' as const,
   path: '/v1/revert/account',
   baseUrl: 'https://auth.roblox.com',
@@ -776,7 +828,11 @@ export const postV1revertaccount = {
     },
   ],
 };
-export const postV1signup = {
+/**
+ * @api post https://auth.roblox.com/v1/signup
+ * @param body Roblox.Authentication.Api.Models.SignupRequest
+ */
+export const postSignup = {
   method: 'post' as const,
   path: '/v1/signup',
   baseUrl: 'https://auth.roblox.com',
@@ -826,16 +882,21 @@ export const postV1signup = {
     },
   ],
 };
-export const postV1socialProviderdisconnect = {
+/**
+ * @api post https://auth.roblox.com/v1/social/:provider/disconnect
+ * @param body The request body for additional parameters that may be required for disconnect
+ * @param provider
+ */
+export const postSocialProviderDisconnect = {
   method: 'post' as const,
   path: '/v1/social/:provider/disconnect',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
   parameters: {
-    body: z.object({ Password: z.string() }).partial(),
+    body: z.object({ Password: z.string() }),
     provider: z.string(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -863,7 +924,10 @@ export const postV1socialProviderdisconnect = {
     },
   ],
 };
-export const getV1socialconnectedProviders = {
+/**
+ * @api get https://auth.roblox.com/v1/social/connected-providers
+ */
+export const getSocialConnectedProviders = {
   method: 'get' as const,
   path: '/v1/social/connected-providers',
   baseUrl: 'https://auth.roblox.com',
@@ -877,7 +941,10 @@ export const getV1socialconnectedProviders = {
     },
   ],
 };
-export const getV1twostepverificationmetadata = {
+/**
+ * @api get https://auth.roblox.com/v1/twostepverification/metadata
+ */
+export const getTwostepverificationMetadata = {
   method: 'get' as const,
   path: '/v1/twostepverification/metadata',
   baseUrl: 'https://auth.roblox.com',
@@ -885,7 +952,11 @@ export const getV1twostepverificationmetadata = {
   response: Roblox_Authentication_Api_Models_TwoStepVerificationMetadataResponse,
   errors: [],
 };
-export const postV1twostepverificationresend = {
+/**
+ * @api post https://auth.roblox.com/v1/twostepverification/resend
+ * @param body The request.
+ */
+export const postTwostepverificationResend = {
   method: 'post' as const,
   path: '/v1/twostepverification/resend',
   baseUrl: 'https://auth.roblox.com',
@@ -924,7 +995,11 @@ export const postV1twostepverificationresend = {
     },
   ],
 };
-export const postV1twostepverificationverify = {
+/**
+ * @api post https://auth.roblox.com/v1/twostepverification/verify
+ * @param body The request model containing information needed to verify with two step verification.
+ */
+export const postTwostepverificationVerify = {
   method: 'post' as const,
   path: '/v1/twostepverification/verify',
   baseUrl: 'https://auth.roblox.com',
@@ -932,7 +1007,7 @@ export const postV1twostepverificationverify = {
   parameters: {
     body: Roblox_Authentication_Api_Models_TwoStepVerificationVerifyRequest,
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -959,7 +1034,11 @@ export const postV1twostepverificationverify = {
     },
   ],
 };
-export const postV1userpasswordschange = {
+/**
+ * @api post https://auth.roblox.com/v1/user/passwords/change
+ * @param body The request model including the current password, and the new password.
+ */
+export const postUserPasswordsChange = {
   method: 'post' as const,
   path: '/v1/user/passwords/change',
   baseUrl: 'https://auth.roblox.com',
@@ -968,7 +1047,7 @@ export const postV1userpasswordschange = {
   parameters: {
     body: Roblox_Authentication_Api_Models_PasswordChangeModel,
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -995,7 +1074,11 @@ export const postV1userpasswordschange = {
     },
   ],
 };
-export const postV1username = {
+/**
+ * @api post https://auth.roblox.com/v1/username
+ * @param body The Roblox.Authentication.Api.Models.UsernameChangeRequest
+ */
+export const postUsername = {
   method: 'post' as const,
   path: '/v1/username',
   baseUrl: 'https://auth.roblox.com',
@@ -1003,7 +1086,7 @@ export const postV1username = {
   parameters: {
     body: Roblox_Authentication_Api_Models_UsernameChangeRequest,
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1046,7 +1129,11 @@ export const postV1username = {
     },
   ],
 };
-export const getV1usernames = {
+/**
+ * @api get https://auth.roblox.com/v1/usernames
+ * @param username
+ */
+export const getUsernames = {
   method: 'get' as const,
   path: '/v1/usernames',
   baseUrl: 'https://auth.roblox.com',
@@ -1058,7 +1145,11 @@ export const getV1usernames = {
   response: Roblox_Authentication_Api_Models_UsernamesResponse,
   errors: [],
 };
-export const postV1usernamesrecover = {
+/**
+ * @api post https://auth.roblox.com/v1/usernames/recover
+ * @param body
+ */
+export const postUsernamesRecover = {
   method: 'post' as const,
   path: '/v1/usernames/recover',
   baseUrl: 'https://auth.roblox.com',
@@ -1088,7 +1179,13 @@ export const postV1usernamesrecover = {
     },
   ],
 };
-export const getV1usernamesvalidate = {
+/**
+ * @api get https://auth.roblox.com/v1/usernames/validate
+ * @param Username
+ * @param Birthday
+ * @param Context
+ */
+export const getUsernamesValidate = {
   method: 'get' as const,
   path: '/v1/usernames/validate',
   baseUrl: 'https://auth.roblox.com',
@@ -1108,7 +1205,11 @@ export const getV1usernamesvalidate = {
     },
   ],
 };
-export const postV1usernamesvalidate = {
+/**
+ * @api post https://auth.roblox.com/v1/usernames/validate
+ * @param body The Roblox.Authentication.Api.Models.UsernameValidationRequest.
+ */
+export const postUsernamesValidate = {
   method: 'post' as const,
   path: '/v1/usernames/validate',
   baseUrl: 'https://auth.roblox.com',
@@ -1131,7 +1232,11 @@ export const postV1usernamesvalidate = {
     },
   ],
 };
-export const getV1validatorsemail = {
+/**
+ * @api get https://auth.roblox.com/v1/validators/email
+ * @param Email
+ */
+export const getValidatorsEmail = {
   method: 'get' as const,
   path: '/v1/validators/email',
   baseUrl: 'https://auth.roblox.com',
@@ -1139,10 +1244,15 @@ export const getV1validatorsemail = {
   parameters: {
     Email: z.string(),
   },
-  response: z.object({ isEmailValid: z.boolean() }).partial(),
+  response: z.object({ isEmailValid: z.boolean() }),
   errors: [],
 };
-export const getV1validatorsusername = {
+/**
+ * @api get https://auth.roblox.com/v1/validators/username
+ * @param Username
+ * @param BirthDay
+ */
+export const getValidatorsUsername = {
   method: 'get' as const,
   path: '/v1/validators/username',
   baseUrl: 'https://auth.roblox.com',
@@ -1154,12 +1264,15 @@ export const getV1validatorsusername = {
   response: Roblox_Authentication_Api_Models_RecommendedUsernameResponse,
   errors: [],
 };
-export const getV1xboxconnection = {
+/**
+ * @api get https://auth.roblox.com/v1/xbox/connection
+ */
+export const getXboxConnection = {
   method: 'get' as const,
   path: '/v1/xbox/connection',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
-  response: z.object({ hasConnectedXboxAccount: z.boolean() }).partial(),
+  response: z.object({ hasConnectedXboxAccount: z.boolean() }),
   errors: [
     {
       status: 401,
@@ -1172,12 +1285,15 @@ export const getV1xboxconnection = {
     },
   ],
 };
-export const postV1xboxdisconnect = {
+/**
+ * @api post https://auth.roblox.com/v1/xbox/disconnect
+ */
+export const postXboxDisconnect = {
   method: 'post' as const,
   path: '/v1/xbox/disconnect',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
-  response: z.object({ success: z.boolean() }).partial(),
+  response: z.object({ success: z.boolean() }),
   errors: [
     {
       status: 401,
@@ -1192,12 +1308,15 @@ export const postV1xboxdisconnect = {
     },
   ],
 };
-export const getV1xboxgetLoginConsecutiveDays = {
+/**
+ * @api get https://auth.roblox.com/v1/xbox/get-login-consecutive-days
+ */
+export const getXboxGetLoginConsecutiveDays = {
   method: 'get' as const,
   path: '/v1/xbox/get-login-consecutive-days',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
-  response: z.object({ count: z.number().int() }).partial(),
+  response: z.object({ count: z.number().int() }),
   errors: [
     {
       status: 400,
@@ -1215,7 +1334,11 @@ export const getV1xboxgetLoginConsecutiveDays = {
     },
   ],
 };
-export const postV1xboxtranslate = {
+/**
+ * @api post https://auth.roblox.com/v1/xbox/translate
+ * @param body
+ */
+export const postXboxTranslate = {
   method: 'post' as const,
   path: '/v1/xbox/translate',
   baseUrl: 'https://auth.roblox.com',

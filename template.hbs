@@ -1,0 +1,83 @@
+import { z } from "zod";
+
+{{#if imports}}
+{{#each imports}}
+import { {{{@key}}} } from "./{{{this}}}"
+{{/each}}
+{{/if}}
+
+{{#if types}}
+{{#each types}}
+{{{this}}};
+{{/each}}
+{{/if}}
+
+{{#each schemas}}
+const {{@key}}{{#if (lookup ../circularTypeByName @key)}}: z.ZodType<{{@key}}>{{/if}} = {{{this}}};
+{{/each}}
+
+{{#ifNotEmptyObj schemas}}
+const schemas = {
+{{#each schemas}}
+	{{@key}},
+{{/each}}
+};
+{{/ifNotEmptyObj}}
+
+{{#each endpoints}}
+/**
+ * @api {{method}} {{#if @root.options.baseUrl}}{{@root.options.baseUrl}}{{/if}}{{path}}
+ {{#if summary}}
+ * {{summary}}
+ {{/if}}
+ {{#if parameters}}
+ {{#each parameters}}
+ * @param {{{name}}} {{{description}}}
+ {{/each}}
+ {{/if}}
+ {{#if tags}}
+ * @tags {{{tags}}}
+ {{/if}}
+ */
+export const {{alias}} = {
+	method: "{{method}}" as const,
+	path: "{{path}}",
+	{{#if @root.options.baseUrl}}
+	baseUrl: "{{@root.options.baseUrl}}",
+	{{/if}}
+	{{#if description}}
+	description: `{{description}}`,
+	{{/if}}
+	{{#if requestFormat}}
+	requestFormat: "{{requestFormat}}" as const,
+	{{/if}}
+	{{#if parameters}}
+	parameters: {
+		{{#each parameters}}
+		"{{name}}": {{{schema}}},
+		{{/each}}
+	},
+	{{/if}}
+	response: {{{response}}},
+	{{#if errors.length}}
+	errors: [
+		{{#each errors}}
+		{
+			{{#ifeq status "default" }}
+			status: "default",
+			{{else}}
+			status: {{status}},
+			{{/ifeq}}
+			{{#if description}}
+			description: `{{description}}`,
+			{{/if}}
+			schema: {{{schema}}}
+		},
+		{{/each}}
+	]
+	{{/if}}
+	{{#unless errors.length}}
+	errors: [],
+	{{/unless}}
+};
+{{/each}}

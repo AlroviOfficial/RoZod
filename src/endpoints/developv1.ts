@@ -1,332 +1,290 @@
 import { z } from 'zod';
 
-const Roblox_Api_Develop_Models_Response_AssetVotingModel = z
-  .object({
-    assetId: z.number().int(),
-    hasUserVoted: z.boolean(),
-    canUserVote: z.boolean(),
-    shouldShowVotes: z.boolean(),
-    upVotes: z.number().int(),
-    downVotes: z.number().int(),
-    reasonForNotAbleToVote: z.string(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_Response_AssetVotingModel_ = z
-  .object({
-    data: z.array(Roblox_Api_Develop_Models_Response_AssetVotingModel),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_UniverseModel = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    isArchived: z.boolean(),
-    rootPlaceId: z.number().int(),
-    isActive: z.boolean(),
-    privacyType: z.string(),
-    creatorType: z.string(),
-    creatorTargetId: z.number().int(),
-    creatorName: z.string(),
-    created: z.string().datetime(),
-    updated: z.string().datetime(),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_GameTemplateModel = z
-  .object({
-    gameTemplateType: z.string(),
-    hasTutorials: z.boolean(),
-    universe: Roblox_Api_Develop_Models_UniverseModel,
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GameTemplateModel_ = z
-  .object({ data: z.array(Roblox_Api_Develop_Models_GameTemplateModel) })
-  .partial();
-const Roblox_Api_Develop_Models_GameUpdateMessageModel = z
-  .object({
-    universeId: z.number().int(),
-    createdOn: z.string().datetime(),
-    createdOnKey: z.string(),
-    creatorType: z.string(),
-    creatorId: z.number().int(),
-    creatorName: z.string(),
-    expiredOn: z.string().datetime(),
-    content: z.string(),
-    impressions: z.number().int(),
-    plays: z.number().int(),
-    unfollows: z.number().int(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UniverseModel_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Api_Develop_Models_UniverseModel),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_PlaceCompatibilityModel = z
-  .object({
-    status: z.union([z.literal(0), z.literal(1), z.literal(2)]),
-    platformName: z.string(),
-    crashRatePercentage: z.number(),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_Response_PlaceCompatibilitiesResponse = z
-  .object({
-    Compatibilities: z.array(Roblox_Api_Develop_Models_PlaceCompatibilityModel),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_Response_StatisticsRange = z
-  .object({ type: z.string(), data: z.record(z.number()) })
-  .partial();
-const Roblox_Api_Develop_Models_StatisticsResponse = z
-  .object({
-    placeId: z.number().int(),
-    dataType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    dataGranularity: z.union([z.literal(0), z.literal(1), z.literal(2)]),
-    startTime: z.string().datetime(),
-    endTime: z.string().datetime(),
-    data: z.record(Roblox_Api_Develop_Models_Response_StatisticsRange),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_DeveloperProductRevenue = z
-  .object({ developerProductName: z.string(), revenueAmount: z.number().int() })
-  .partial();
-const Roblox_Api_Develop_Models_DeveloperProductAggregationResponse = z
-  .object({
-    allDevicesDeveloperProductRevenue: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    developerProductRevenueByDevice: z
-      .object({
-        Computer: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-        Phone: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-        Tablet: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-        Console: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-        VR: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-      })
-      .partial(),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_Response_StatisticsAgeDataResponse = z
-  .object({ isAgeDataAvailable: z.boolean() })
-  .partial();
-const Roblox_Web_Responses_Users_SkinnyUserResponse = z
-  .object({ id: z.number().int(), name: z.string(), displayName: z.string() })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Users_SkinnyUserResponse_ = z
-  .object({ data: z.array(Roblox_Web_Responses_Users_SkinnyUserResponse) })
-  .partial();
-const Roblox_Web_Responses_Plugins_PluginResponse = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    commentsEnabled: z.boolean(),
-    versionId: z.number().int(),
-    created: z.string().datetime(),
-    updated: z.string().datetime(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Plugins_PluginResponse_ = z
-  .object({ data: z.array(Roblox_Web_Responses_Plugins_PluginResponse) })
-  .partial();
-const Roblox_Api_Develop_Models_DevStatsCreatorDashboardMetadataResponse = z
-  .object({
-    isPlayFabDataSourceChartsEnabled: z.boolean(),
-    playFabDataSourceChartsAvailableByKPITypes: z.array(z.string()),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_UniverseSettingsResponse = z
-  .object({
-    allowPrivateServers: z.boolean(),
-    privateServerPrice: z.number().int(),
-    id: z.number().int(),
-    name: z.string(),
-    universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
-    universeScaleType: z.union([z.literal(1), z.literal(2)]),
-    universeAnimationType: z.union([z.literal(1), z.literal(2)]),
-    universeCollisionType: z.union([z.literal(1), z.literal(2)]),
-    universeBodyType: z.union([z.literal(1), z.literal(2)]),
-    universeJointPositioningType: z.union([z.literal(1), z.literal(2)]),
-    isArchived: z.boolean(),
-    isFriendsOnly: z.boolean(),
-    genre: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-      z.literal(9),
-      z.literal(10),
-      z.literal(11),
-      z.literal(12),
-      z.literal(13),
-      z.literal(14),
-    ]),
-    playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
-    isForSale: z.boolean(),
-    price: z.number().int(),
-    isStudioAccessToApisAllowed: z.boolean(),
-    privacyType: z.string(),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_UniverseSettingsRequest = z
-  .object({
-    name: z.string(),
-    universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
-    universeScaleType: z.union([z.literal(1), z.literal(2)]),
-    universeAnimationType: z.union([z.literal(1), z.literal(2)]),
-    universeCollisionType: z.union([z.literal(1), z.literal(2)]),
-    universeBodyType: z.union([z.literal(1), z.literal(2)]),
-    universeJointPositioningType: z.union([z.literal(1), z.literal(2)]),
-    isArchived: z.boolean(),
-    isFriendsOnly: z.boolean(),
-    genre: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-      z.literal(9),
-      z.literal(10),
-      z.literal(11),
-      z.literal(12),
-      z.literal(13),
-      z.literal(14),
-    ]),
-    playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
-    isForSale: z.boolean(),
-    price: z.number().int(),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_PrivateServerDetailsResponse = z
-  .object({
-    isEnabled: z.boolean(),
-    price: z.number().int(),
-    activeServersCount: z.number().int(),
-    activeSubscriptionsCount: z.number().int(),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_LiveStatsResponseModel = z
-  .object({
-    totalPlayerCount: z.number().int(),
-    playerCountsByDeviceType: z.record(z.number()),
-    gameCount: z.number().int(),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_UniversePermissionsModel = z
-  .object({ canManage: z.boolean(), canCloudEdit: z.boolean() })
-  .partial();
-const Roblox_Api_Develop_Models_IPlaceModel = z.object({}).partial();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_IPlaceModel_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Api_Develop_Models_IPlaceModel),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_Response_TeamCreateSettingsResponse = z.object({ isEnabled: z.boolean() }).partial();
-const Roblox_Api_Develop_Models_UpdateTeamCreateSettingsRequest = z.object({ isEnabled: z.boolean() }).partial();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).partial();
-const Roblox_Api_Develop_Models_TeamCreateMembershipRequest = z.object({ userId: z.number().int() }).partial();
-const Roblox_Api_Develop_Models_UserResponse = z
-  .object({
-    buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-    userId: z.number().int(),
-    username: z.string(),
-    displayName: z.string(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UserResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Api_Develop_Models_UserResponse),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseModel_ = z
-  .object({ data: z.array(Roblox_Api_Develop_Models_UniverseModel) })
-  .partial();
-const Roblox_Api_Develop_Models_UniverseIdPermissionsModel = z
-  .object({
-    universeId: z.number().int(),
-    canManage: z.boolean(),
-    canCloudEdit: z.boolean(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseIdPermissionsModel_ = z
-  .object({
-    data: z.array(Roblox_Api_Develop_Models_UniverseIdPermissionsModel),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel = z
-  .object({ id: z.number().int(), isEnabled: z.boolean() })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel_ = z
-  .object({
-    data: z.array(Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_GroupModel = z.object({ id: z.number().int(), name: z.string() }).partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GroupModel_ = z
-  .object({ data: z.array(Roblox_Api_Develop_Models_GroupModel) })
-  .partial();
-const Roblox_Api_Develop_Models_Response_GameUpdateTextFilterResponse = z
-  .object({
-    filteredGameUpdateText: z.string(),
-    isFiltered: z.boolean(),
-    moderationLevel: z.union([z.literal(1), z.literal(2), z.literal(3)]),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_PlaceConfigurationModel = z
-  .object({ name: z.string(), description: z.string() })
-  .partial();
-const Roblox_Api_Develop_Models_PlaceModel = z
-  .object({
-    id: z.number().int(),
-    universeId: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_AliasRequest = z
-  .object({
-    name: z.string(),
-    type: z.union([z.literal(1), z.literal(2), z.literal(3)]),
-    targetId: z.number().int(),
-  })
-  .partial();
-const Roblox_Api_Develop_DeveloperProductResponse = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    Description: z.string(),
-    shopId: z.number().int(),
-    iconImageAssetId: z.number().int(),
-  })
-  .partial();
-const Roblox_Api_Develop_Models_DeveloperProductsUpdateModel = z
-  .object({
-    Name: z.string(),
-    Description: z.string(),
-    IconImageAssetId: z.number().int(),
-    PriceInRobux: z.number().int(),
-  })
-  .partial();
-const Roblox_Develop_Api_UpdatePluginRequest = z
-  .object({
-    name: z.string(),
-    description: z.string(),
-    commentsEnabled: z.boolean(),
-  })
-  .partial();
+const Roblox_Api_Develop_Models_Response_AssetVotingModel = z.object({
+  assetId: z.number().int(),
+  hasUserVoted: z.boolean(),
+  canUserVote: z.boolean(),
+  shouldShowVotes: z.boolean(),
+  upVotes: z.number().int(),
+  downVotes: z.number().int(),
+  reasonForNotAbleToVote: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_Response_AssetVotingModel_ = z.object({
+  data: z.array(Roblox_Api_Develop_Models_Response_AssetVotingModel),
+});
+const Roblox_Api_Develop_Models_UniverseModel = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  isArchived: z.boolean(),
+  rootPlaceId: z.number().int(),
+  isActive: z.boolean(),
+  privacyType: z.string(),
+  creatorType: z.string(),
+  creatorTargetId: z.number().int(),
+  creatorName: z.string(),
+  created: z.string().datetime(),
+  updated: z.string().datetime(),
+});
+const Roblox_Api_Develop_Models_GameTemplateModel = z.object({
+  gameTemplateType: z.string(),
+  hasTutorials: z.boolean(),
+  universe: Roblox_Api_Develop_Models_UniverseModel,
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GameTemplateModel_ = z.object({
+  data: z.array(Roblox_Api_Develop_Models_GameTemplateModel),
+});
+const Roblox_Api_Develop_Models_GameUpdateMessageModel = z.object({
+  universeId: z.number().int(),
+  createdOn: z.string().datetime(),
+  createdOnKey: z.string(),
+  creatorType: z.string(),
+  creatorId: z.number().int(),
+  creatorName: z.string(),
+  expiredOn: z.string().datetime(),
+  content: z.string(),
+  impressions: z.number().int(),
+  plays: z.number().int(),
+  unfollows: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UniverseModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Api_Develop_Models_UniverseModel),
+});
+const Roblox_Api_Develop_Models_PlaceCompatibilityModel = z.object({
+  status: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  platformName: z.string(),
+  crashRatePercentage: z.number(),
+});
+const Roblox_Api_Develop_Models_Response_PlaceCompatibilitiesResponse = z.object({
+  Compatibilities: z.array(Roblox_Api_Develop_Models_PlaceCompatibilityModel),
+});
+const Roblox_Api_Develop_Models_Response_StatisticsRange = z.object({
+  type: z.string(),
+  data: z.record(z.number()),
+});
+const Roblox_Api_Develop_Models_StatisticsResponse = z.object({
+  placeId: z.number().int(),
+  dataType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  dataGranularity: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  startTime: z.string().datetime(),
+  endTime: z.string().datetime(),
+  data: z.record(Roblox_Api_Develop_Models_Response_StatisticsRange),
+});
+const Roblox_Api_Develop_Models_DeveloperProductRevenue = z.object({
+  developerProductName: z.string(),
+  revenueAmount: z.number().int(),
+});
+const Roblox_Api_Develop_Models_DeveloperProductAggregationResponse = z.object({
+  allDevicesDeveloperProductRevenue: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+  developerProductRevenueByDevice: z.object({
+    Computer: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+    Phone: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+    Tablet: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+    Console: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+    VR: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+  }),
+});
+const Roblox_Api_Develop_Models_Response_StatisticsAgeDataResponse = z.object({
+  isAgeDataAvailable: z.boolean(),
+});
+const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Users_SkinnyUserResponse_ = z.object({
+  data: z.array(Roblox_Web_Responses_Users_SkinnyUserResponse),
+});
+const Roblox_Web_Responses_Plugins_PluginResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  commentsEnabled: z.boolean(),
+  versionId: z.number().int(),
+  created: z.string().datetime(),
+  updated: z.string().datetime(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Plugins_PluginResponse_ = z.object({
+  data: z.array(Roblox_Web_Responses_Plugins_PluginResponse),
+});
+const Roblox_Api_Develop_Models_DevStatsCreatorDashboardMetadataResponse = z.object({
+  isPlayFabDataSourceChartsEnabled: z.boolean(),
+  playFabDataSourceChartsAvailableByKPITypes: z.array(z.string()),
+});
+const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
+  allowPrivateServers: z.boolean(),
+  privateServerPrice: z.number().int(),
+  id: z.number().int(),
+  name: z.string(),
+  universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  universeScaleType: z.union([z.literal(1), z.literal(2)]),
+  universeAnimationType: z.union([z.literal(1), z.literal(2)]),
+  universeCollisionType: z.union([z.literal(1), z.literal(2)]),
+  universeBodyType: z.union([z.literal(1), z.literal(2)]),
+  universeJointPositioningType: z.union([z.literal(1), z.literal(2)]),
+  isArchived: z.boolean(),
+  isFriendsOnly: z.boolean(),
+  genre: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+    z.literal(10),
+    z.literal(11),
+    z.literal(12),
+    z.literal(13),
+    z.literal(14),
+  ]),
+  playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
+  isForSale: z.boolean(),
+  price: z.number().int(),
+  isStudioAccessToApisAllowed: z.boolean(),
+  privacyType: z.string(),
+});
+const Roblox_Api_Develop_Models_UniverseSettingsRequest = z.object({
+  name: z.string(),
+  universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  universeScaleType: z.union([z.literal(1), z.literal(2)]),
+  universeAnimationType: z.union([z.literal(1), z.literal(2)]),
+  universeCollisionType: z.union([z.literal(1), z.literal(2)]),
+  universeBodyType: z.union([z.literal(1), z.literal(2)]),
+  universeJointPositioningType: z.union([z.literal(1), z.literal(2)]),
+  isArchived: z.boolean(),
+  isFriendsOnly: z.boolean(),
+  genre: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+    z.literal(10),
+    z.literal(11),
+    z.literal(12),
+    z.literal(13),
+    z.literal(14),
+  ]),
+  playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
+  isForSale: z.boolean(),
+  price: z.number().int(),
+});
+const Roblox_Api_Develop_Models_PrivateServerDetailsResponse = z.object({
+  isEnabled: z.boolean(),
+  price: z.number().int(),
+  activeServersCount: z.number().int(),
+  activeSubscriptionsCount: z.number().int(),
+});
+const Roblox_Api_Develop_Models_LiveStatsResponseModel = z.object({
+  totalPlayerCount: z.number().int(),
+  playerCountsByDeviceType: z.record(z.number()),
+  gameCount: z.number().int(),
+});
+const Roblox_Api_Develop_Models_UniversePermissionsModel = z.object({
+  canManage: z.boolean(),
+  canCloudEdit: z.boolean(),
+});
+const Roblox_Api_Develop_Models_IPlaceModel = z.object({});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_IPlaceModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Api_Develop_Models_IPlaceModel),
+});
+const Roblox_Api_Develop_Models_Response_TeamCreateSettingsResponse = z.object({
+  isEnabled: z.boolean(),
+});
+const Roblox_Api_Develop_Models_UpdateTeamCreateSettingsRequest = z.object({
+  isEnabled: z.boolean(),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Api_Develop_Models_TeamCreateMembershipRequest = z.object({
+  userId: z.number().int(),
+});
+const Roblox_Api_Develop_Models_UserResponse = z.object({
+  buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  userId: z.number().int(),
+  username: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UserResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Api_Develop_Models_UserResponse),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseModel_ = z.object({
+  data: z.array(Roblox_Api_Develop_Models_UniverseModel),
+});
+const Roblox_Api_Develop_Models_UniverseIdPermissionsModel = z.object({
+  universeId: z.number().int(),
+  canManage: z.boolean(),
+  canCloudEdit: z.boolean(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseIdPermissionsModel_ = z.object({
+  data: z.array(Roblox_Api_Develop_Models_UniverseIdPermissionsModel),
+});
+const Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel = z.object({
+  id: z.number().int(),
+  isEnabled: z.boolean(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel_ = z.object({
+  data: z.array(Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel),
+});
+const Roblox_Api_Develop_Models_GroupModel = z.object({
+  id: z.number().int(),
+  name: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GroupModel_ = z.object({
+  data: z.array(Roblox_Api_Develop_Models_GroupModel),
+});
+const Roblox_Api_Develop_Models_Response_GameUpdateTextFilterResponse = z.object({
+  filteredGameUpdateText: z.string(),
+  isFiltered: z.boolean(),
+  moderationLevel: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+});
+const Roblox_Api_Develop_Models_PlaceConfigurationModel = z.object({
+  name: z.string(),
+  description: z.string(),
+});
+const Roblox_Api_Develop_Models_PlaceModel = z.object({
+  id: z.number().int(),
+  universeId: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+});
+const Roblox_Api_Develop_Models_AliasRequest = z.object({
+  name: z.string(),
+  type: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  targetId: z.number().int(),
+});
+const Roblox_Api_Develop_DeveloperProductResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  Description: z.string(),
+  shopId: z.number().int(),
+  iconImageAssetId: z.number().int(),
+});
+const Roblox_Api_Develop_Models_DeveloperProductsUpdateModel = z.object({
+  Name: z.string(),
+  Description: z.string(),
+  IconImageAssetId: z.number().int(),
+  PriceInRobux: z.number().int(),
+});
+const Roblox_Develop_Api_UpdatePluginRequest = z.object({
+  name: z.string(),
+  description: z.string(),
+  commentsEnabled: z.boolean(),
+});
 
 const schemas = {
   Roblox_Api_Develop_Models_Response_AssetVotingModel,
@@ -377,7 +335,11 @@ const schemas = {
   Roblox_Develop_Api_UpdatePluginRequest,
 };
 
-export const getV1assetsvoting = {
+/**
+ * @api get https://develop.roblox.com/v1/assets/voting
+ * @param assetIds
+ */
+export const getAssetsVoting = {
   method: 'get' as const,
   path: '/v1/assets/voting',
   baseUrl: 'https://develop.roblox.com',
@@ -388,7 +350,10 @@ export const getV1assetsvoting = {
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_Response_AssetVotingModel_,
   errors: [],
 };
-export const getV1gametemplates = {
+/**
+ * @api get https://develop.roblox.com/v1/gametemplates
+ */
+export const getGametemplates = {
   method: 'get' as const,
   path: '/v1/gametemplates',
   baseUrl: 'https://develop.roblox.com',
@@ -398,7 +363,11 @@ Sort order of templates specified by Roblox.`,
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GameTemplateModel_,
   errors: [],
 };
-export const getV1gameUpdateNotificationsUniverseId = {
+/**
+ * @api get https://develop.roblox.com/v1/gameUpdateNotifications/:universeId
+ * @param universeId
+ */
+export const getGameupdatenotificationsUniverseid = {
   method: 'get' as const,
   path: '/v1/gameUpdateNotifications/:universeId',
   baseUrl: 'https://develop.roblox.com',
@@ -430,7 +399,12 @@ export const getV1gameUpdateNotificationsUniverseId = {
     },
   ],
 };
-export const postV1gameUpdateNotificationsUniverseId = {
+/**
+ * @api post https://develop.roblox.com/v1/gameUpdateNotifications/:universeId
+ * @param body The JSON object that will represent the body of the notification to be sent.
+ * @param universeId
+ */
+export const postGameupdatenotificationsUniverseid = {
   method: 'post' as const,
   path: '/v1/gameUpdateNotifications/:universeId',
   baseUrl: 'https://develop.roblox.com',
@@ -469,7 +443,11 @@ export const postV1gameUpdateNotificationsUniverseId = {
     },
   ],
 };
-export const postV1gameUpdateNotificationsfilter = {
+/**
+ * @api post https://develop.roblox.com/v1/gameUpdateNotifications/filter
+ * @param body Game update message text.
+ */
+export const postGameupdatenotificationsFilter = {
   method: 'post' as const,
   path: '/v1/gameUpdateNotifications/filter',
   baseUrl: 'https://develop.roblox.com',
@@ -501,7 +479,15 @@ export const postV1gameUpdateNotificationsfilter = {
     },
   ],
 };
-export const getV1groupsGroupIduniverses = {
+/**
+ * @api get https://develop.roblox.com/v1/groups/:groupId/universes
+ * @param groupId
+ * @param isArchived
+ * @param limit
+ * @param cursor
+ * @param sortOrder
+ */
+export const getGroupsGroupidUniverses = {
   method: 'get' as const,
   path: '/v1/groups/:groupId/universes',
   baseUrl: 'https://develop.roblox.com',
@@ -525,7 +511,12 @@ export const getV1groupsGroupIduniverses = {
     },
   ],
 };
-export const patchV1placesPlaceId = {
+/**
+ * @api patch https://develop.roblox.com/v1/places/:placeId
+ * @param body
+ * @param placeId
+ */
+export const patchPlacesPlaceid = {
   method: 'patch' as const,
   path: '/v1/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
@@ -555,7 +546,12 @@ export const patchV1placesPlaceId = {
     },
   ],
 };
-export const postV1placesPlaceId = {
+/**
+ * @api post https://develop.roblox.com/v1/places/:placeId
+ * @param body
+ * @param placeId
+ */
+export const postPlacesPlaceid = {
   method: 'post' as const,
   path: '/v1/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
@@ -585,7 +581,11 @@ export const postV1placesPlaceId = {
     },
   ],
 };
-export const getV1placesPlaceIdcompatibilities = {
+/**
+ * @api get https://develop.roblox.com/v1/places/:placeId/compatibilities
+ * @param placeId
+ */
+export const getPlacesPlaceidCompatibilities = {
   method: 'get' as const,
   path: '/v1/places/:placeId/compatibilities',
   baseUrl: 'https://develop.roblox.com',
@@ -612,7 +612,16 @@ export const getV1placesPlaceIdcompatibilities = {
     },
   ],
 };
-export const getV1placesPlaceIdstatsType = {
+/**
+ * @api get https://develop.roblox.com/v1/places/:placeId/stats/:type
+ * @param placeId
+ * @param type
+ * @param granularity
+ * @param divisionType
+ * @param startTime
+ * @param endTime
+ */
+export const getPlacesPlaceidStatsType = {
   method: 'get' as const,
   path: '/v1/places/:placeId/stats/:type',
   baseUrl: 'https://develop.roblox.com',
@@ -646,7 +655,16 @@ export const getV1placesPlaceIdstatsType = {
     },
   ],
 };
-export const getV1placesPlaceIdstatsTypelegacyflot = {
+/**
+ * @api get https://develop.roblox.com/v1/places/:placeId/stats/:type/legacy/flot
+ * @param placeId
+ * @param type
+ * @param timeFrame
+ * @param divisionType
+ * @param startTime
+ * @param endTime
+ */
+export const getPlacesPlaceidStatsTypeLegacyFlot = {
   method: 'get' as const,
   path: '/v1/places/:placeId/stats/:type/legacy/flot',
   baseUrl: 'https://develop.roblox.com',
@@ -680,7 +698,12 @@ export const getV1placesPlaceIdstatsTypelegacyflot = {
     },
   ],
 };
-export const getV1placesPlaceIdstatsdeveloperProductAggregation = {
+/**
+ * @api get https://develop.roblox.com/v1/places/:placeId/stats/developer-product-aggregation
+ * @param placeId
+ * @param timeFrame
+ */
+export const getPlacesPlaceidStatsDeveloperProductAggregation = {
   method: 'get' as const,
   path: '/v1/places/:placeId/stats/developer-product-aggregation',
   baseUrl: 'https://develop.roblox.com',
@@ -708,7 +731,11 @@ export const getV1placesPlaceIdstatsdeveloperProductAggregation = {
     },
   ],
 };
-export const getV1placesPlaceIdstatsisAgeDataAvailable = {
+/**
+ * @api get https://develop.roblox.com/v1/places/:placeId/stats/is-age-data-available
+ * @param placeId
+ */
+export const getPlacesPlaceidStatsIsAgeDataAvailable = {
   method: 'get' as const,
   path: '/v1/places/:placeId/stats/is-age-data-available',
   baseUrl: 'https://develop.roblox.com',
@@ -716,7 +743,7 @@ export const getV1placesPlaceIdstatsisAgeDataAvailable = {
   parameters: {
     placeId: z.number().int(),
   },
-  response: z.object({ isAgeDataAvailable: z.boolean() }).partial(),
+  response: z.object({ isAgeDataAvailable: z.boolean() }),
   errors: [
     {
       status: 400,
@@ -735,7 +762,13 @@ export const getV1placesPlaceIdstatsisAgeDataAvailable = {
     },
   ],
 };
-export const getV1placesPlaceIdteamcreateactive_sessionmembers = {
+/**
+ * @api get https://develop.roblox.com/v1/places/:placeId/teamcreate/active_session/members
+ * @param placeId
+ * @param limit
+ * @param cursor
+ */
+export const getPlacesPlaceidTeamcreateActive_sessionMembers = {
   method: 'get' as const,
   path: '/v1/places/:placeId/teamcreate/active_session/members',
   baseUrl: 'https://develop.roblox.com',
@@ -779,7 +812,11 @@ export const getV1placesPlaceIdteamcreateactive_sessionmembers = {
     },
   ],
 };
-export const getV1plugins = {
+/**
+ * @api get https://develop.roblox.com/v1/plugins
+ * @param pluginIds
+ */
+export const getPlugins = {
   method: 'get' as const,
   path: '/v1/plugins',
   baseUrl: 'https://develop.roblox.com',
@@ -797,7 +834,12 @@ export const getV1plugins = {
     },
   ],
 };
-export const patchV1pluginsPluginId = {
+/**
+ * @api patch https://develop.roblox.com/v1/plugins/:pluginId
+ * @param body The Roblox.Develop.Api.UpdatePluginRequest.
+ * @param pluginId
+ */
+export const patchPluginsPluginid = {
   method: 'patch' as const,
   path: '/v1/plugins/:pluginId',
   baseUrl: 'https://develop.roblox.com',
@@ -806,7 +848,7 @@ export const patchV1pluginsPluginId = {
     body: Roblox_Develop_Api_UpdatePluginRequest,
     pluginId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -834,7 +876,16 @@ export const patchV1pluginsPluginId = {
     },
   ],
 };
-export const getV1searchuniverses = {
+/**
+ * @api get https://develop.roblox.com/v1/search/universes
+ * @param search
+ * @param limit
+ * @param cursor
+ * @param sortOrder
+ * @param q
+ * @param sort
+ */
+export const getSearchUniverses = {
   method: 'get' as const,
   path: '/v1/search/universes',
   baseUrl: 'https://develop.roblox.com',
@@ -875,7 +926,10 @@ or
     },
   ],
 };
-export const getV1statscreatorDashboardMetadata = {
+/**
+ * @api get https://develop.roblox.com/v1/stats/creator-dashboard-metadata
+ */
+export const getStatsCreatorDashboardMetadata = {
   method: 'get' as const,
   path: '/v1/stats/creator-dashboard-metadata',
   baseUrl: 'https://develop.roblox.com',
@@ -889,7 +943,11 @@ export const getV1statscreatorDashboardMetadata = {
     },
   ],
 };
-export const getV1universesUniverseId = {
+/**
+ * @api get https://develop.roblox.com/v1/universes/:universeId
+ * @param universeId
+ */
+export const getUniversesUniverseid = {
   method: 'get' as const,
   path: '/v1/universes/:universeId',
   baseUrl: 'https://develop.roblox.com',
@@ -906,7 +964,11 @@ export const getV1universesUniverseId = {
     },
   ],
 };
-export const postV1universesUniverseIdactivate = {
+/**
+ * @api post https://develop.roblox.com/v1/universes/:universeId/activate
+ * @param universeId
+ */
+export const postUniversesUniverseidActivate = {
   method: 'post' as const,
   path: '/v1/universes/:universeId/activate',
   baseUrl: 'https://develop.roblox.com',
@@ -914,7 +976,7 @@ export const postV1universesUniverseIdactivate = {
   parameters: {
     universeId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -937,7 +999,12 @@ export const postV1universesUniverseIdactivate = {
     },
   ],
 };
-export const postV1universesUniverseIdaliases = {
+/**
+ * @api post https://develop.roblox.com/v1/universes/:universeId/aliases
+ * @param body The request body containing the alias attributes.
+ * @param universeId
+ */
+export const postUniversesUniverseidAliases = {
   method: 'post' as const,
   path: '/v1/universes/:universeId/aliases',
   baseUrl: 'https://develop.roblox.com',
@@ -946,7 +1013,7 @@ export const postV1universesUniverseIdaliases = {
     body: Roblox_Api_Develop_Models_AliasRequest,
     universeId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -980,7 +1047,12 @@ export const postV1universesUniverseIdaliases = {
     },
   ],
 };
-export const deleteV1universesUniverseIdaliasesName = {
+/**
+ * @api delete https://develop.roblox.com/v1/universes/:universeId/aliases/:name
+ * @param universeId
+ * @param name
+ */
+export const deleteUniversesUniverseidAliasesName = {
   method: 'delete' as const,
   path: '/v1/universes/:universeId/aliases/:name',
   baseUrl: 'https://develop.roblox.com',
@@ -989,7 +1061,7 @@ export const deleteV1universesUniverseIdaliasesName = {
     universeId: z.number().int(),
     name: z.string(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -1010,7 +1082,13 @@ export const deleteV1universesUniverseIdaliasesName = {
     },
   ],
 };
-export const patchV1universesUniverseIdaliasesName = {
+/**
+ * @api patch https://develop.roblox.com/v1/universes/:universeId/aliases/:name
+ * @param body The request body containing the alias attributes to update.
+ * @param universeId
+ * @param name
+ */
+export const patchUniversesUniverseidAliasesName = {
   method: 'patch' as const,
   path: '/v1/universes/:universeId/aliases/:name',
   baseUrl: 'https://develop.roblox.com',
@@ -1020,7 +1098,7 @@ export const patchV1universesUniverseIdaliasesName = {
     universeId: z.number().int(),
     name: z.string(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1053,7 +1131,11 @@ export const patchV1universesUniverseIdaliasesName = {
     },
   ],
 };
-export const getV1universesUniverseIdconfiguration = {
+/**
+ * @api get https://develop.roblox.com/v1/universes/:universeId/configuration
+ * @param universeId
+ */
+export const getUniversesUniverseidConfiguration = {
   method: 'get' as const,
   path: '/v1/universes/:universeId/configuration',
   baseUrl: 'https://develop.roblox.com',
@@ -1080,7 +1162,12 @@ export const getV1universesUniverseIdconfiguration = {
     },
   ],
 };
-export const patchV1universesUniverseIdconfiguration = {
+/**
+ * @api patch https://develop.roblox.com/v1/universes/:universeId/configuration
+ * @param body The Roblox.Api.Develop.Models.UniverseSettingsRequest model.
+ * @param universeId
+ */
+export const patchUniversesUniverseidConfiguration = {
   method: 'patch' as const,
   path: '/v1/universes/:universeId/configuration',
   baseUrl: 'https://develop.roblox.com',
@@ -1135,7 +1222,11 @@ export const patchV1universesUniverseIdconfiguration = {
     },
   ],
 };
-export const getV1universesUniverseIdconfigurationvipServers = {
+/**
+ * @api get https://develop.roblox.com/v1/universes/:universeId/configuration/vip-servers
+ * @param universeId
+ */
+export const getUniversesUniverseidConfigurationVipServers = {
   method: 'get' as const,
   path: '/v1/universes/:universeId/configuration/vip-servers',
   baseUrl: 'https://develop.roblox.com',
@@ -1162,7 +1253,11 @@ export const getV1universesUniverseIdconfigurationvipServers = {
     },
   ],
 };
-export const postV1universesUniverseIddeactivate = {
+/**
+ * @api post https://develop.roblox.com/v1/universes/:universeId/deactivate
+ * @param universeId
+ */
+export const postUniversesUniverseidDeactivate = {
   method: 'post' as const,
   path: '/v1/universes/:universeId/deactivate',
   baseUrl: 'https://develop.roblox.com',
@@ -1170,7 +1265,7 @@ export const postV1universesUniverseIddeactivate = {
   parameters: {
     universeId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1191,7 +1286,15 @@ export const postV1universesUniverseIddeactivate = {
     },
   ],
 };
-export const postV1universesUniverseIddeveloperproducts = {
+/**
+ * @api post https://develop.roblox.com/v1/universes/:universeId/developerproducts
+ * @param universeId
+ * @param name
+ * @param description
+ * @param priceInRobux
+ * @param iconImageAssetId
+ */
+export const postUniversesUniverseidDeveloperproducts = {
   method: 'post' as const,
   path: '/v1/universes/:universeId/developerproducts',
   baseUrl: 'https://develop.roblox.com',
@@ -1241,7 +1344,13 @@ export const postV1universesUniverseIddeveloperproducts = {
     },
   ],
 };
-export const postV1universesUniverseIddeveloperproductsProductIdupdate = {
+/**
+ * @api post https://develop.roblox.com/v1/universes/:universeId/developerproducts/:productId/update
+ * @param body
+ * @param universeId
+ * @param productId
+ */
+export const postUniversesUniverseidDeveloperproductsProductidUpdate = {
   method: 'post' as const,
   path: '/v1/universes/:universeId/developerproducts/:productId/update',
   baseUrl: 'https://develop.roblox.com',
@@ -1251,7 +1360,7 @@ export const postV1universesUniverseIddeveloperproductsProductIdupdate = {
     universeId: z.number().int(),
     productId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1283,7 +1392,11 @@ export const postV1universesUniverseIddeveloperproductsProductIdupdate = {
     },
   ],
 };
-export const getV1universesUniverseIdliveStats = {
+/**
+ * @api get https://develop.roblox.com/v1/universes/:universeId/live-stats
+ * @param universeId
+ */
+export const getUniversesUniverseidLiveStats = {
   method: 'get' as const,
   path: '/v1/universes/:universeId/live-stats',
   baseUrl: 'https://develop.roblox.com',
@@ -1311,7 +1424,11 @@ export const getV1universesUniverseIdliveStats = {
     },
   ],
 };
-export const getV1universesUniverseIdpermissions = {
+/**
+ * @api get https://develop.roblox.com/v1/universes/:universeId/permissions
+ * @param universeId
+ */
+export const getUniversesUniverseidPermissions = {
   method: 'get' as const,
   path: '/v1/universes/:universeId/permissions',
   baseUrl: 'https://develop.roblox.com',
@@ -1333,7 +1450,15 @@ export const getV1universesUniverseIdpermissions = {
     },
   ],
 };
-export const getV1universesUniverseIdplaces = {
+/**
+ * @api get https://develop.roblox.com/v1/universes/:universeId/places
+ * @param universeId
+ * @param isUniverseCreation
+ * @param limit
+ * @param cursor
+ * @param sortOrder
+ */
+export const getUniversesUniverseidPlaces = {
   method: 'get' as const,
   path: '/v1/universes/:universeId/places',
   baseUrl: 'https://develop.roblox.com',
@@ -1351,7 +1476,11 @@ export const getV1universesUniverseIdplaces = {
   response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_IPlaceModel_,
   errors: [],
 };
-export const getV1universesUniverseIdteamcreate = {
+/**
+ * @api get https://develop.roblox.com/v1/universes/:universeId/teamcreate
+ * @param universeId
+ */
+export const getUniversesUniverseidTeamcreate = {
   method: 'get' as const,
   path: '/v1/universes/:universeId/teamcreate',
   baseUrl: 'https://develop.roblox.com',
@@ -1359,7 +1488,7 @@ export const getV1universesUniverseIdteamcreate = {
   parameters: {
     universeId: z.number().int(),
   },
-  response: z.object({ isEnabled: z.boolean() }).partial(),
+  response: z.object({ isEnabled: z.boolean() }),
   errors: [
     {
       status: 400,
@@ -1378,17 +1507,22 @@ export const getV1universesUniverseIdteamcreate = {
     },
   ],
 };
-export const patchV1universesUniverseIdteamcreate = {
+/**
+ * @api patch https://develop.roblox.com/v1/universes/:universeId/teamcreate
+ * @param body The request body containing the team create settings.
+ * @param universeId
+ */
+export const patchUniversesUniverseidTeamcreate = {
   method: 'patch' as const,
   path: '/v1/universes/:universeId/teamcreate',
   baseUrl: 'https://develop.roblox.com',
   description: `Enables, or disables team create for a universe.`,
   requestFormat: 'json' as const,
   parameters: {
-    body: z.object({ isEnabled: z.boolean() }).partial(),
+    body: z.object({ isEnabled: z.boolean() }),
     universeId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1408,16 +1542,21 @@ export const patchV1universesUniverseIdteamcreate = {
     },
   ],
 };
-export const deleteV1universesUniverseIdteamcreatememberships = {
+/**
+ * @api delete https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
+ * @param body The request body.
+ * @param universeId
+ */
+export const deleteUniversesUniverseidTeamcreateMemberships = {
   method: 'delete' as const,
   path: '/v1/universes/:universeId/teamcreate/memberships',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
   parameters: {
-    body: z.object({ userId: z.number().int() }).partial(),
+    body: z.object({ userId: z.number().int() }),
     universeId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1437,7 +1576,14 @@ export const deleteV1universesUniverseIdteamcreatememberships = {
     },
   ],
 };
-export const getV1universesUniverseIdteamcreatememberships = {
+/**
+ * @api get https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
+ * @param universeId
+ * @param limit
+ * @param cursor
+ * @param sortOrder
+ */
+export const getUniversesUniverseidTeamcreateMemberships = {
   method: 'get' as const,
   path: '/v1/universes/:universeId/teamcreate/memberships',
   baseUrl: 'https://develop.roblox.com',
@@ -1470,7 +1616,11 @@ export const getV1universesUniverseIdteamcreatememberships = {
     },
   ],
 };
-export const getV1universesmultiget = {
+/**
+ * @api get https://develop.roblox.com/v1/universes/multiget
+ * @param ids
+ */
+export const getUniversesMultiget = {
   method: 'get' as const,
   path: '/v1/universes/multiget',
   baseUrl: 'https://develop.roblox.com',
@@ -1489,7 +1639,11 @@ export const getV1universesmultiget = {
     },
   ],
 };
-export const getV1universesmultigetpermissions = {
+/**
+ * @api get https://develop.roblox.com/v1/universes/multiget/permissions
+ * @param ids
+ */
+export const getUniversesMultigetPermissions = {
   method: 'get' as const,
   path: '/v1/universes/multiget/permissions',
   baseUrl: 'https://develop.roblox.com',
@@ -1513,7 +1667,11 @@ export const getV1universesmultigetpermissions = {
     },
   ],
 };
-export const getV1universesmultigetteamcreate = {
+/**
+ * @api get https://develop.roblox.com/v1/universes/multiget/teamcreate
+ * @param ids
+ */
+export const getUniversesMultigetTeamcreate = {
   method: 'get' as const,
   path: '/v1/universes/multiget/teamcreate',
   baseUrl: 'https://develop.roblox.com',
@@ -1535,7 +1693,12 @@ export const getV1universesmultigetteamcreate = {
     },
   ],
 };
-export const getV1userUserIdcanmanageAssetId = {
+/**
+ * @api get https://develop.roblox.com/v1/user/:userId/canmanage/:assetId
+ * @param userId
+ * @param assetId
+ */
+export const getUserUseridCanmanageAssetid = {
   method: 'get' as const,
   path: '/v1/user/:userId/canmanage/:assetId',
   baseUrl: 'https://develop.roblox.com',
@@ -1547,7 +1710,10 @@ export const getV1userUserIdcanmanageAssetId = {
   response: z.void(),
   errors: [],
 };
-export const getV1usergroupscanmanage = {
+/**
+ * @api get https://develop.roblox.com/v1/user/groups/canmanage
+ */
+export const getUserGroupsCanmanage = {
   method: 'get' as const,
   path: '/v1/user/groups/canmanage',
   baseUrl: 'https://develop.roblox.com',
@@ -1561,7 +1727,13 @@ export const getV1usergroupscanmanage = {
     },
   ],
 };
-export const getV1userteamcreatememberships = {
+/**
+ * @api get https://develop.roblox.com/v1/user/teamcreate/memberships
+ * @param limit
+ * @param cursor
+ * @param sortOrder
+ */
+export const getUserTeamcreateMemberships = {
   method: 'get' as const,
   path: '/v1/user/teamcreate/memberships',
   baseUrl: 'https://develop.roblox.com',
@@ -1583,7 +1755,14 @@ export const getV1userteamcreatememberships = {
     },
   ],
 };
-export const getV1useruniverses = {
+/**
+ * @api get https://develop.roblox.com/v1/user/universes
+ * @param isArchived
+ * @param limit
+ * @param cursor
+ * @param sortOrder
+ */
+export const getUserUniverses = {
   method: 'get' as const,
   path: '/v1/user/universes',
   baseUrl: 'https://develop.roblox.com',

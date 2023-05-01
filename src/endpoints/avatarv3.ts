@@ -1,84 +1,73 @@
 import { z } from 'zod';
 
-const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({ id: z.number().int(), name: z.string() }).partial();
-const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z
-  .object({
-    order: z.number().int(),
-    puffiness: z.number(),
-    version: z.number().int(),
-  })
-  .partial();
-const Roblox_Api_Avatar_Models_AssetModelV2 = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    assetType: Roblox_Api_Avatar_Models_AssetTypeModel,
-    currentVersionId: z.number().int(),
-    meta: Roblox_Api_Avatar_Models_AssetMetaModelV1,
-  })
-  .partial();
-const Roblox_Api_Avatar_Models_BodyColors3Model = z
-  .object({
-    headColor3: z.string(),
-    torsoColor3: z.string(),
-    rightArmColor3: z.string(),
-    leftArmColor3: z.string(),
-    rightLegColor3: z.string(),
-    leftLegColor3: z.string(),
-  })
-  .partial();
-const Roblox_Web_Responses_Avatar_ScaleModel = z
-  .object({
-    height: z.number(),
-    width: z.number(),
-    head: z.number(),
-    depth: z.number(),
-    proportion: z.number(),
-    bodyType: z.number(),
-  })
-  .partial();
-const Roblox_Api_Avatar_Models_OutfitDetailsModelV2 = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    assets: z.array(Roblox_Api_Avatar_Models_AssetModelV2),
-    bodyColor3s: Roblox_Api_Avatar_Models_BodyColors3Model,
-    scale: Roblox_Web_Responses_Avatar_ScaleModel,
-    playerAvatarType: z.string(),
-    outfitType: z.string(),
-    isEditable: z.boolean(),
-  })
-  .partial();
-const Roblox_Platform_Avatar_BodyColorsModelV2 = z
-  .object({
-    headColor3: z.string(),
-    torsoColor3: z.string(),
-    rightArmColor3: z.string(),
-    leftArmColor3: z.string(),
-    rightLegColor3: z.string(),
-    leftLegColor3: z.string(),
-  })
-  .partial();
-const Roblox_Api_Avatar_Models_AssetWearModel = z
-  .object({
-    id: z.number().int(),
-    meta: Roblox_Api_Avatar_Models_AssetMetaModelV1,
-  })
-  .partial();
-const Roblox_Api_Avatar_Models_OutfitUpdateModelV3 = z
-  .object({
-    name: z.string(),
-    bodyColor3s: Roblox_Platform_Avatar_BodyColorsModelV2,
-    assets: z.array(Roblox_Api_Avatar_Models_AssetWearModel),
-    scale: Roblox_Web_Responses_Avatar_ScaleModel,
-    playerAvatarType: z.string(),
-    outfitType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
-  })
-  .partial();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).partial();
-const Roblox_Api_Avatar_Models_OutfitModel = z
-  .object({ id: z.number().int(), name: z.string(), isEditable: z.boolean() })
-  .partial();
+const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({
+  id: z.number().int(),
+  name: z.string(),
+});
+const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z.object({
+  order: z.number().int(),
+  puffiness: z.number(),
+  version: z.number().int(),
+});
+const Roblox_Api_Avatar_Models_AssetModelV2 = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  assetType: Roblox_Api_Avatar_Models_AssetTypeModel,
+  currentVersionId: z.number().int(),
+  meta: Roblox_Api_Avatar_Models_AssetMetaModelV1,
+});
+const Roblox_Api_Avatar_Models_BodyColors3Model = z.object({
+  headColor3: z.string(),
+  torsoColor3: z.string(),
+  rightArmColor3: z.string(),
+  leftArmColor3: z.string(),
+  rightLegColor3: z.string(),
+  leftLegColor3: z.string(),
+});
+const Roblox_Web_Responses_Avatar_ScaleModel = z.object({
+  height: z.number(),
+  width: z.number(),
+  head: z.number(),
+  depth: z.number(),
+  proportion: z.number(),
+  bodyType: z.number(),
+});
+const Roblox_Api_Avatar_Models_OutfitDetailsModelV2 = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  assets: z.array(Roblox_Api_Avatar_Models_AssetModelV2),
+  bodyColor3s: Roblox_Api_Avatar_Models_BodyColors3Model,
+  scale: Roblox_Web_Responses_Avatar_ScaleModel,
+  playerAvatarType: z.string(),
+  outfitType: z.string(),
+  isEditable: z.boolean(),
+});
+const Roblox_Platform_Avatar_BodyColorsModelV2 = z.object({
+  headColor3: z.string(),
+  torsoColor3: z.string(),
+  rightArmColor3: z.string(),
+  leftArmColor3: z.string(),
+  rightLegColor3: z.string(),
+  leftLegColor3: z.string(),
+});
+const Roblox_Api_Avatar_Models_AssetWearModel = z.object({
+  id: z.number().int(),
+  meta: Roblox_Api_Avatar_Models_AssetMetaModelV1,
+});
+const Roblox_Api_Avatar_Models_OutfitUpdateModelV3 = z.object({
+  name: z.string(),
+  bodyColor3s: Roblox_Platform_Avatar_BodyColorsModelV2,
+  assets: z.array(Roblox_Api_Avatar_Models_AssetWearModel),
+  scale: Roblox_Web_Responses_Avatar_ScaleModel,
+  playerAvatarType: z.string(),
+  outfitType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Api_Avatar_Models_OutfitModel = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  isEditable: z.boolean(),
+});
 
 const schemas = {
   Roblox_Api_Avatar_Models_AssetTypeModel,
@@ -94,7 +83,12 @@ const schemas = {
   Roblox_Api_Avatar_Models_OutfitModel,
 };
 
-export const patchV3outfitsUserOutfitId = {
+/**
+ * @api patch https://avatar.roblox.com/v3/outfits/:userOutfitId
+ * @param body The updated outfit
+ * @param userOutfitId
+ */
+export const patchOutfitsUseroutfitid = {
   method: 'patch' as const,
   path: '/v3/outfits/:userOutfitId',
   baseUrl: 'https://avatar.roblox.com',
@@ -136,7 +130,11 @@ Accepts partial updates.`,
     },
   ],
 };
-export const getV3outfitsUserOutfitIddetails = {
+/**
+ * @api get https://avatar.roblox.com/v3/outfits/:userOutfitId/details
+ * @param userOutfitId
+ */
+export const getOutfitsUseroutfitidDetails = {
   method: 'get' as const,
   path: '/v3/outfits/:userOutfitId/details',
   baseUrl: 'https://avatar.roblox.com',
@@ -159,7 +157,12 @@ export const getV3outfitsUserOutfitIddetails = {
     },
   ],
 };
-export const postV3outfitsUserOutfitIdupdate = {
+/**
+ * @api post https://avatar.roblox.com/v3/outfits/:userOutfitId/update
+ * @param body The updated outfit
+ * @param userOutfitId
+ */
+export const postOutfitsUseroutfitidUpdate = {
   method: 'post' as const,
   path: '/v3/outfits/:userOutfitId/update',
   baseUrl: 'https://avatar.roblox.com',
@@ -169,7 +172,7 @@ export const postV3outfitsUserOutfitIdupdate = {
     body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
     userOutfitId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -199,7 +202,11 @@ export const postV3outfitsUserOutfitIdupdate = {
     },
   ],
 };
-export const postV3outfitscreate = {
+/**
+ * @api post https://avatar.roblox.com/v3/outfits/create
+ * @param body The new outfit
+ */
+export const postOutfitsCreate = {
   method: 'post' as const,
   path: '/v3/outfits/create',
   baseUrl: 'https://avatar.roblox.com',
@@ -209,7 +216,7 @@ The name property of the request is optional as one will be auto-generated when 
   parameters: {
     body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,

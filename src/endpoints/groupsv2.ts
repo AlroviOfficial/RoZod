@@ -1,91 +1,77 @@
 import { z } from 'zod';
 
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_ = z
-  .object({ id: z.number().int(), type: z.literal(0), name: z.string() })
-  .partial();
-const Roblox_Web_Responses_Groups_GroupResponseV2 = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
-    memberCount: z.number().int(),
-    created: z.string().datetime(),
-    hasVerifiedBadge: z.boolean(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_ = z
-  .object({ data: z.array(Roblox_Web_Responses_Groups_GroupResponseV2) })
-  .partial();
-const Roblox_Groups_Api_Models_Response_UserModel = z
-  .object({
-    buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-    hasVerifiedBadge: z.boolean(),
-    userId: z.number().int(),
-    username: z.string(),
-    displayName: z.string(),
-  })
-  .partial();
-const Roblox_Groups_Api_GroupRoleResponse = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    rank: z.number().int(),
-    memberCount: z.number().int(),
-  })
-  .partial();
-const Roblox_Groups_Api_UserGroupRoleResponse = z
-  .object({
-    user: Roblox_Groups_Api_Models_Response_UserModel,
-    role: Roblox_Groups_Api_GroupRoleResponse,
-  })
-  .partial();
-const Roblox_Groups_Api_GroupWallPostV2Model = z
-  .object({
-    id: z.number().int(),
-    poster: Roblox_Groups_Api_UserGroupRoleResponse,
-    body: z.string(),
-    created: z.string().datetime(),
-    updated: z.string().datetime(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Groups_Api_GroupWallPostV2Model),
-  })
-  .partial();
-const Roblox_Groups_Api_CreateWallPostRequest = z
-  .object({
-    body: z.string(),
-    captchaId: z.string(),
-    captchaToken: z.string(),
-    captchaProvider: z.string(),
-    challengeId: z.string(),
-  })
-  .partial();
-const Roblox_Web_Responses_Groups_GroupBasicResponse = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    memberCount: z.number().int(),
-    hasVerifiedBadge: z.boolean(),
-  })
-  .partial();
-const Roblox_Web_Responses_Groups_GroupRoleBasicResponse = z
-  .object({ id: z.number().int(), name: z.string(), rank: z.number().int() })
-  .partial();
-const Roblox_Groups_Api_GroupMembershipResponse = z
-  .object({
-    group: Roblox_Web_Responses_Groups_GroupBasicResponse,
-    role: Roblox_Web_Responses_Groups_GroupRoleBasicResponse,
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_ = z
-  .object({ data: z.array(Roblox_Groups_Api_GroupMembershipResponse) })
-  .partial();
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_ = z.object({
+  id: z.number().int(),
+  type: z.literal(0),
+  name: z.string(),
+});
+const Roblox_Web_Responses_Groups_GroupResponseV2 = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
+  memberCount: z.number().int(),
+  created: z.string().datetime(),
+  hasVerifiedBadge: z.boolean(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_ = z.object({
+  data: z.array(Roblox_Web_Responses_Groups_GroupResponseV2),
+});
+const Roblox_Groups_Api_Models_Response_UserModel = z.object({
+  buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  hasVerifiedBadge: z.boolean(),
+  userId: z.number().int(),
+  username: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Groups_Api_GroupRoleResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  rank: z.number().int(),
+  memberCount: z.number().int(),
+});
+const Roblox_Groups_Api_UserGroupRoleResponse = z.object({
+  user: Roblox_Groups_Api_Models_Response_UserModel,
+  role: Roblox_Groups_Api_GroupRoleResponse,
+});
+const Roblox_Groups_Api_GroupWallPostV2Model = z.object({
+  id: z.number().int(),
+  poster: Roblox_Groups_Api_UserGroupRoleResponse,
+  body: z.string(),
+  created: z.string().datetime(),
+  updated: z.string().datetime(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Groups_Api_GroupWallPostV2Model),
+});
+const Roblox_Groups_Api_CreateWallPostRequest = z.object({
+  body: z.string(),
+  captchaId: z.string(),
+  captchaToken: z.string(),
+  captchaProvider: z.string(),
+  challengeId: z.string(),
+});
+const Roblox_Web_Responses_Groups_GroupBasicResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  memberCount: z.number().int(),
+  hasVerifiedBadge: z.boolean(),
+});
+const Roblox_Web_Responses_Groups_GroupRoleBasicResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  rank: z.number().int(),
+});
+const Roblox_Groups_Api_GroupMembershipResponse = z.object({
+  group: Roblox_Web_Responses_Groups_GroupBasicResponse,
+  role: Roblox_Web_Responses_Groups_GroupRoleBasicResponse,
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_ = z.object({
+  data: z.array(Roblox_Groups_Api_GroupMembershipResponse),
+});
 
 const schemas = {
   Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
@@ -103,7 +89,11 @@ const schemas = {
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_,
 };
 
-export const getV2groups = {
+/**
+ * @api get https://groups.roblox.com/v2/groups
+ * @param groupIds
+ */
+export const getGroups = {
   method: 'get' as const,
   path: '/v2/groups',
   baseUrl: 'https://groups.roblox.com',
@@ -122,7 +112,14 @@ export const getV2groups = {
     },
   ],
 };
-export const getV2groupsGroupIdwallposts = {
+/**
+ * @api get https://groups.roblox.com/v2/groups/:groupId/wall/posts
+ * @param groupId
+ * @param limit
+ * @param cursor
+ * @param sortOrder
+ */
+export const getGroupsGroupidWallPosts = {
   method: 'get' as const,
   path: '/v2/groups/:groupId/wall/posts',
   baseUrl: 'https://groups.roblox.com',
@@ -150,7 +147,12 @@ export const getV2groupsGroupIdwallposts = {
     },
   ],
 };
-export const postV2groupsGroupIdwallposts = {
+/**
+ * @api post https://groups.roblox.com/v2/groups/:groupId/wall/posts
+ * @param body The Roblox.Groups.Api.CreateWallPostRequest.
+ * @param groupId
+ */
+export const postGroupsGroupidWallPosts = {
   method: 'post' as const,
   path: '/v2/groups/:groupId/wall/posts',
   baseUrl: 'https://groups.roblox.com',
@@ -186,7 +188,11 @@ export const postV2groupsGroupIdwallposts = {
     },
   ],
 };
-export const getV2usersUserIdgroupsroles = {
+/**
+ * @api get https://groups.roblox.com/v2/users/:userId/groups/roles
+ * @param userId
+ */
+export const getUsersUseridGroupsRoles = {
   method: 'get' as const,
   path: '/v2/users/:userId/groups/roles',
   baseUrl: 'https://groups.roblox.com',

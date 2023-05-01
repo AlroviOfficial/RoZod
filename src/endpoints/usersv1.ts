@@ -1,78 +1,78 @@
 import { z } from 'zod';
 
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).partial();
-const Roblox_Users_Api_GetUserResponse = z
-  .object({
-    description: z.string(),
-    created: z.string().datetime(),
-    isBanned: z.boolean(),
-    externalAppDisplayName: z.string(),
-    hasVerifiedBadge: z.boolean(),
-    id: z.number().int(),
-    name: z.string(),
-    displayName: z.string(),
-  })
-  .partial();
-const Roblox_Users_Api_UsernameHistoryResponse = z.object({ name: z.string() }).partial();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Users_Api_UsernameHistoryResponse),
-  })
-  .partial();
-const Roblox_Users_Api_AuthenticatedUserResponse = z
-  .object({ id: z.number().int(), name: z.string(), displayName: z.string() })
-  .partial();
-const Roblox_Users_Api_UserAgeBracketResponse = z.object({ ageBracket: z.number().int() }).partial();
-const Roblox_Users_Api_UserCountryCodeResponse = z.object({ countryCode: z.string() }).partial();
-const Roblox_Users_Api_UserRolesResponse = z.object({ roles: z.array(z.string()) }).partial();
-const Roblox_Users_Api_UserSearchResponse = z
-  .object({
-    previousUsernames: z.array(z.string()),
-    hasVerifiedBadge: z.boolean(),
-    id: z.number().int(),
-    name: z.string(),
-    displayName: z.string(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UserSearchResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Users_Api_UserSearchResponse),
-  })
-  .partial();
-const Roblox_Users_Api_MultiGetByUsernameRequest = z
-  .object({ usernames: z.array(z.string()), excludeBannedUsers: z.boolean() })
-  .partial();
-const Roblox_Users_Api_MultiGetUserByNameResponse = z
-  .object({
-    requestedUsername: z.string(),
-    hasVerifiedBadge: z.boolean(),
-    id: z.number().int(),
-    name: z.string(),
-    displayName: z.string(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_ = z
-  .object({ data: z.array(Roblox_Users_Api_MultiGetUserByNameResponse) })
-  .partial();
-const Roblox_Users_Api_MultiGetByUserIdRequest = z
-  .object({ userIds: z.array(z.number()), excludeBannedUsers: z.boolean() })
-  .partial();
-const Roblox_Users_Api_VerifiedBadgeUserResponse = z
-  .object({
-    hasVerifiedBadge: z.boolean(),
-    id: z.number().int(),
-    name: z.string(),
-    displayName: z.string(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_VerifiedBadgeUserResponse_ = z
-  .object({ data: z.array(Roblox_Users_Api_VerifiedBadgeUserResponse) })
-  .partial();
-const Roblox_Users_Api_SetDisplayNameRequest = z.object({ newDisplayName: z.string() }).partial();
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Users_Api_GetUserResponse = z.object({
+  description: z.string(),
+  created: z.string().datetime(),
+  isBanned: z.boolean(),
+  externalAppDisplayName: z.string(),
+  hasVerifiedBadge: z.boolean(),
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Users_Api_UsernameHistoryResponse = z.object({ name: z.string() });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Users_Api_UsernameHistoryResponse),
+});
+const Roblox_Users_Api_AuthenticatedUserResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Users_Api_UserAgeBracketResponse = z.object({
+  ageBracket: z.number().int(),
+});
+const Roblox_Users_Api_UserCountryCodeResponse = z.object({
+  countryCode: z.string(),
+});
+const Roblox_Users_Api_UserRolesResponse = z.object({
+  roles: z.array(z.string()),
+});
+const Roblox_Users_Api_UserSearchResponse = z.object({
+  previousUsernames: z.array(z.string()),
+  hasVerifiedBadge: z.boolean(),
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UserSearchResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Users_Api_UserSearchResponse),
+});
+const Roblox_Users_Api_MultiGetByUsernameRequest = z.object({
+  usernames: z.array(z.string()),
+  excludeBannedUsers: z.boolean(),
+});
+const Roblox_Users_Api_MultiGetUserByNameResponse = z.object({
+  requestedUsername: z.string(),
+  hasVerifiedBadge: z.boolean(),
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_ = z.object({
+  data: z.array(Roblox_Users_Api_MultiGetUserByNameResponse),
+});
+const Roblox_Users_Api_MultiGetByUserIdRequest = z.object({
+  userIds: z.array(z.number()),
+  excludeBannedUsers: z.boolean(),
+});
+const Roblox_Users_Api_VerifiedBadgeUserResponse = z.object({
+  hasVerifiedBadge: z.boolean(),
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_VerifiedBadgeUserResponse_ = z.object({
+  data: z.array(Roblox_Users_Api_VerifiedBadgeUserResponse),
+});
+const Roblox_Users_Api_SetDisplayNameRequest = z.object({
+  newDisplayName: z.string(),
+});
 
 const schemas = {
   Roblox_Web_WebAPI_ApiEmptyResponseModel,
@@ -94,7 +94,12 @@ const schemas = {
   Roblox_Users_Api_SetDisplayNameRequest,
 };
 
-export const getV1displayNamesvalidate = {
+/**
+ * @api get https://users.roblox.com/v1/display-names/validate
+ * @param displayName
+ * @param birthdate
+ */
+export const getDisplayNamesValidate = {
   method: 'get' as const,
   path: '/v1/display-names/validate',
   baseUrl: 'https://users.roblox.com',
@@ -103,7 +108,7 @@ export const getV1displayNamesvalidate = {
     displayName: z.string(),
     birthdate: z.string().datetime(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -121,7 +126,11 @@ export const getV1displayNamesvalidate = {
     },
   ],
 };
-export const postV1usernamesusers = {
+/**
+ * @api post https://users.roblox.com/v1/usernames/users
+ * @param body The Roblox.Users.Api.MultiGetByUsernameRequest.
+ */
+export const postUsernamesUsers = {
   method: 'post' as const,
   path: '/v1/usernames/users',
   baseUrl: 'https://users.roblox.com',
@@ -140,7 +149,11 @@ Does not require X-CSRF-Token protection because this is essentially a get reque
     },
   ],
 };
-export const postV1users = {
+/**
+ * @api post https://users.roblox.com/v1/users
+ * @param body The Roblox.Users.Api.MultiGetByUserIdRequest.
+ */
+export const postUsers = {
   method: 'post' as const,
   path: '/v1/users',
   baseUrl: 'https://users.roblox.com',
@@ -158,7 +171,11 @@ export const postV1users = {
     },
   ],
 };
-export const getV1usersUserId = {
+/**
+ * @api get https://users.roblox.com/v1/users/:userId
+ * @param userId
+ */
+export const getUsersUserid = {
   method: 'get' as const,
   path: '/v1/users/:userId',
   baseUrl: 'https://users.roblox.com',
@@ -175,16 +192,21 @@ export const getV1usersUserId = {
     },
   ],
 };
-export const patchV1usersUserIddisplayNames = {
+/**
+ * @api patch https://users.roblox.com/v1/users/:userId/display-names
+ * @param body Roblox.Users.Api.SetDisplayNameRequest
+ * @param userId
+ */
+export const patchUsersUseridDisplayNames = {
   method: 'patch' as const,
   path: '/v1/users/:userId/display-names',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json' as const,
   parameters: {
-    body: z.object({ newDisplayName: z.string() }).partial(),
+    body: z.object({ newDisplayName: z.string() }),
     userId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -212,7 +234,12 @@ export const patchV1usersUserIddisplayNames = {
     },
   ],
 };
-export const getV1usersUserIddisplayNamesvalidate = {
+/**
+ * @api get https://users.roblox.com/v1/users/:userId/display-names/validate
+ * @param userId
+ * @param displayName
+ */
+export const getUsersUseridDisplayNamesValidate = {
   method: 'get' as const,
   path: '/v1/users/:userId/display-names/validate',
   baseUrl: 'https://users.roblox.com',
@@ -221,7 +248,7 @@ export const getV1usersUserIddisplayNamesvalidate = {
     userId: z.number().int(),
     displayName: z.string(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -248,7 +275,14 @@ export const getV1usersUserIddisplayNamesvalidate = {
     },
   ],
 };
-export const getV1usersUserIdusernameHistory = {
+/**
+ * @api get https://users.roblox.com/v1/users/:userId/username-history
+ * @param userId
+ * @param limit
+ * @param cursor
+ * @param sortOrder
+ */
+export const getUsersUseridUsernameHistory = {
   method: 'get' as const,
   path: '/v1/users/:userId/username-history',
   baseUrl: 'https://users.roblox.com',
@@ -271,7 +305,10 @@ export const getV1usersUserIdusernameHistory = {
     },
   ],
 };
-export const getV1usersauthenticated = {
+/**
+ * @api get https://users.roblox.com/v1/users/authenticated
+ */
+export const getUsersAuthenticated = {
   method: 'get' as const,
   path: '/v1/users/authenticated',
   baseUrl: 'https://users.roblox.com',
@@ -285,12 +322,15 @@ export const getV1usersauthenticated = {
     },
   ],
 };
-export const getV1usersauthenticatedageBracket = {
+/**
+ * @api get https://users.roblox.com/v1/users/authenticated/age-bracket
+ */
+export const getUsersAuthenticatedAgeBracket = {
   method: 'get' as const,
   path: '/v1/users/authenticated/age-bracket',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json' as const,
-  response: z.object({ ageBracket: z.number().int() }).partial(),
+  response: z.object({ ageBracket: z.number().int() }),
   errors: [
     {
       status: 401,
@@ -299,12 +339,15 @@ export const getV1usersauthenticatedageBracket = {
     },
   ],
 };
-export const getV1usersauthenticatedcountryCode = {
+/**
+ * @api get https://users.roblox.com/v1/users/authenticated/country-code
+ */
+export const getUsersAuthenticatedCountryCode = {
   method: 'get' as const,
   path: '/v1/users/authenticated/country-code',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json' as const,
-  response: z.object({ countryCode: z.string() }).partial(),
+  response: z.object({ countryCode: z.string() }),
   errors: [
     {
       status: 401,
@@ -313,7 +356,10 @@ export const getV1usersauthenticatedcountryCode = {
     },
   ],
 };
-export const getV1usersauthenticatedroles = {
+/**
+ * @api get https://users.roblox.com/v1/users/authenticated/roles
+ */
+export const getUsersAuthenticatedRoles = {
   method: 'get' as const,
   path: '/v1/users/authenticated/roles',
   baseUrl: 'https://users.roblox.com',
@@ -327,7 +373,13 @@ export const getV1usersauthenticatedroles = {
     },
   ],
 };
-export const getV1userssearch = {
+/**
+ * @api get https://users.roblox.com/v1/users/search
+ * @param keyword
+ * @param limit
+ * @param cursor
+ */
+export const getUsersSearch = {
   method: 'get' as const,
   path: '/v1/users/search',
   baseUrl: 'https://users.roblox.com',

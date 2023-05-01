@@ -1,113 +1,103 @@
 import { z } from 'zod';
 
-const Roblox_Web_Responses_Users_SkinnyUserResponse = z
-  .object({ id: z.number().int(), name: z.string(), displayName: z.string() })
-  .partial();
-const Roblox_Trades_Api_UserAssetResponse = z
-  .object({
-    id: z.number().int(),
-    serialNumber: z.number().int(),
-    assetId: z.number().int(),
-    name: z.string(),
-    recentAveragePrice: z.number().int(),
-    originalPrice: z.number().int(),
-    assetStock: z.number().int(),
-    membershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-  })
-  .partial();
-const Roblox_Trades_Api_TradeOfferResponse = z
-  .object({
-    user: Roblox_Web_Responses_Users_SkinnyUserResponse,
-    userAssets: z.array(Roblox_Trades_Api_UserAssetResponse),
-    robux: z.number().int(),
-  })
-  .partial();
-const Roblox_Trades_Api_TradeDetailResponse = z
-  .object({
-    offers: z.array(Roblox_Trades_Api_TradeOfferResponse),
-    id: z.number().int(),
-    user: Roblox_Web_Responses_Users_SkinnyUserResponse,
-    created: z.string().datetime(),
-    expiration: z.string().datetime(),
-    isActive: z.boolean(),
-    status: z.union([
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-      z.literal(9),
-      z.literal(10),
-      z.literal(11),
-    ]),
-  })
-  .partial();
-const Roblox_Trades_Api_TradeResponse = z
-  .object({
-    id: z.number().int(),
-    user: Roblox_Web_Responses_Users_SkinnyUserResponse,
-    created: z.string().datetime(),
-    expiration: z.string().datetime(),
-    isActive: z.boolean(),
-    status: z.union([
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-      z.literal(9),
-      z.literal(10),
-      z.literal(11),
-    ]),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Trades_Api_TradeResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Trades_Api_TradeResponse),
-  })
-  .partial();
-const Roblox_Trades_Api_TradeCountResponse = z.object({ count: z.number().int() }).partial();
-const Roblox_Trades_Api_TradeMetadata = z
-  .object({
-    maxItemsPerSide: z.number().int(),
-    minValueRatio: z.number(),
-    tradeSystemMaxRobuxPercent: z.number(),
-    tradeSystemRobuxFee: z.number(),
-  })
-  .partial();
-const Roblox_Trades_Api_CanTradeResponse = z
-  .object({
-    canTrade: z.boolean(),
-    status: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-    ]),
-  })
-  .partial();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).partial();
-const Roblox_Trades_Api_TradeOfferRequest = z
-  .object({
-    userId: z.number().int(),
-    userAssetIds: z.array(z.number()),
-    robux: z.number().int(),
-  })
-  .partial();
-const Roblox_Trades_Api_TradeRequest = z.object({ offers: z.array(Roblox_Trades_Api_TradeOfferRequest) }).partial();
-const Roblox_Trades_Api_NewTradeResponse = z.object({ id: z.number().int() }).partial();
+const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Trades_Api_UserAssetResponse = z.object({
+  id: z.number().int(),
+  serialNumber: z.number().int(),
+  assetId: z.number().int(),
+  name: z.string(),
+  recentAveragePrice: z.number().int(),
+  originalPrice: z.number().int(),
+  assetStock: z.number().int(),
+  membershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+});
+const Roblox_Trades_Api_TradeOfferResponse = z.object({
+  user: Roblox_Web_Responses_Users_SkinnyUserResponse,
+  userAssets: z.array(Roblox_Trades_Api_UserAssetResponse),
+  robux: z.number().int(),
+});
+const Roblox_Trades_Api_TradeDetailResponse = z.object({
+  offers: z.array(Roblox_Trades_Api_TradeOfferResponse),
+  id: z.number().int(),
+  user: Roblox_Web_Responses_Users_SkinnyUserResponse,
+  created: z.string().datetime(),
+  expiration: z.string().datetime(),
+  isActive: z.boolean(),
+  status: z.union([
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+    z.literal(10),
+    z.literal(11),
+  ]),
+});
+const Roblox_Trades_Api_TradeResponse = z.object({
+  id: z.number().int(),
+  user: Roblox_Web_Responses_Users_SkinnyUserResponse,
+  created: z.string().datetime(),
+  expiration: z.string().datetime(),
+  isActive: z.boolean(),
+  status: z.union([
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+    z.literal(10),
+    z.literal(11),
+  ]),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Trades_Api_TradeResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Trades_Api_TradeResponse),
+});
+const Roblox_Trades_Api_TradeCountResponse = z.object({
+  count: z.number().int(),
+});
+const Roblox_Trades_Api_TradeMetadata = z.object({
+  maxItemsPerSide: z.number().int(),
+  minValueRatio: z.number(),
+  tradeSystemMaxRobuxPercent: z.number(),
+  tradeSystemRobuxFee: z.number(),
+});
+const Roblox_Trades_Api_CanTradeResponse = z.object({
+  canTrade: z.boolean(),
+  status: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+  ]),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Trades_Api_TradeOfferRequest = z.object({
+  userId: z.number().int(),
+  userAssetIds: z.array(z.number()),
+  robux: z.number().int(),
+});
+const Roblox_Trades_Api_TradeRequest = z.object({
+  offers: z.array(Roblox_Trades_Api_TradeOfferRequest),
+});
+const Roblox_Trades_Api_NewTradeResponse = z.object({ id: z.number().int() });
 
 const schemas = {
   Roblox_Web_Responses_Users_SkinnyUserResponse,
@@ -125,7 +115,11 @@ const schemas = {
   Roblox_Trades_Api_NewTradeResponse,
 };
 
-export const getV1tradesTradeId = {
+/**
+ * @api get https://trades.roblox.com/v1/trades/:tradeId
+ * @param tradeId
+ */
+export const getTradesTradeid = {
   method: 'get' as const,
   path: '/v1/trades/:tradeId',
   baseUrl: 'https://trades.roblox.com',
@@ -147,7 +141,11 @@ export const getV1tradesTradeId = {
     },
   ],
 };
-export const postV1tradesTradeIdaccept = {
+/**
+ * @api post https://trades.roblox.com/v1/trades/:tradeId/accept
+ * @param tradeId
+ */
+export const postTradesTradeidAccept = {
   method: 'post' as const,
   path: '/v1/trades/:tradeId/accept',
   baseUrl: 'https://trades.roblox.com',
@@ -155,7 +153,7 @@ export const postV1tradesTradeIdaccept = {
   parameters: {
     tradeId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -185,7 +183,12 @@ export const postV1tradesTradeIdaccept = {
     },
   ],
 };
-export const postV1tradesTradeIdcounter = {
+/**
+ * @api post https://trades.roblox.com/v1/trades/:tradeId/counter
+ * @param body The trade request.
+ * @param tradeId
+ */
+export const postTradesTradeidCounter = {
   method: 'post' as const,
   path: '/v1/trades/:tradeId/counter',
   baseUrl: 'https://trades.roblox.com',
@@ -194,7 +197,7 @@ export const postV1tradesTradeIdcounter = {
     body: Roblox_Trades_Api_TradeRequest,
     tradeId: z.number().int(),
   },
-  response: z.object({ id: z.number().int() }).partial(),
+  response: z.object({ id: z.number().int() }),
   errors: [
     {
       status: 400,
@@ -243,7 +246,11 @@ export const postV1tradesTradeIdcounter = {
     },
   ],
 };
-export const postV1tradesTradeIddecline = {
+/**
+ * @api post https://trades.roblox.com/v1/trades/:tradeId/decline
+ * @param tradeId
+ */
+export const postTradesTradeidDecline = {
   method: 'post' as const,
   path: '/v1/trades/:tradeId/decline',
   baseUrl: 'https://trades.roblox.com',
@@ -251,7 +258,7 @@ export const postV1tradesTradeIddecline = {
   parameters: {
     tradeId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -278,7 +285,14 @@ export const postV1tradesTradeIddecline = {
     },
   ],
 };
-export const getV1tradesTradeStatusType = {
+/**
+ * @api get https://trades.roblox.com/v1/trades/:tradeStatusType
+ * @param tradeStatusType
+ * @param limit
+ * @param cursor
+ * @param sortOrder
+ */
+export const getTradesTradestatustype = {
   method: 'get' as const,
   path: '/v1/trades/:tradeStatusType',
   baseUrl: 'https://trades.roblox.com',
@@ -306,7 +320,11 @@ export const getV1tradesTradeStatusType = {
     },
   ],
 };
-export const getV1tradesTradeStatusTypecount = {
+/**
+ * @api get https://trades.roblox.com/v1/trades/:tradeStatusType/count
+ * @param tradeStatusType
+ */
+export const getTradesTradestatustypeCount = {
   method: 'get' as const,
   path: '/v1/trades/:tradeStatusType/count',
   baseUrl: 'https://trades.roblox.com',
@@ -314,7 +332,7 @@ export const getV1tradesTradeStatusTypecount = {
   parameters: {
     tradeStatusType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   },
-  response: z.object({ count: z.number().int() }).partial(),
+  response: z.object({ count: z.number().int() }),
   errors: [
     {
       status: 400,
@@ -328,12 +346,15 @@ export const getV1tradesTradeStatusTypecount = {
     },
   ],
 };
-export const postV1tradesexpireOutdated = {
+/**
+ * @api post https://trades.roblox.com/v1/trades/expire-outdated
+ */
+export const postTradesExpireOutdated = {
   method: 'post' as const,
   path: '/v1/trades/expire-outdated',
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json' as const,
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -347,7 +368,10 @@ export const postV1tradesexpireOutdated = {
     },
   ],
 };
-export const getV1tradesmetadata = {
+/**
+ * @api get https://trades.roblox.com/v1/trades/metadata
+ */
+export const getTradesMetadata = {
   method: 'get' as const,
   path: '/v1/trades/metadata',
   baseUrl: 'https://trades.roblox.com',
@@ -361,7 +385,11 @@ export const getV1tradesmetadata = {
     },
   ],
 };
-export const postV1tradessend = {
+/**
+ * @api post https://trades.roblox.com/v1/trades/send
+ * @param body The trade request.
+ */
+export const postTradesSend = {
   method: 'post' as const,
   path: '/v1/trades/send',
   baseUrl: 'https://trades.roblox.com',
@@ -369,7 +397,7 @@ export const postV1tradessend = {
   parameters: {
     body: Roblox_Trades_Api_TradeRequest,
   },
-  response: z.object({ id: z.number().int() }).partial(),
+  response: z.object({ id: z.number().int() }),
   errors: [
     {
       status: 400,
@@ -417,7 +445,11 @@ export const postV1tradessend = {
     },
   ],
 };
-export const getV1usersUserIdcanTradeWith = {
+/**
+ * @api get https://trades.roblox.com/v1/users/:userId/can-trade-with
+ * @param userId
+ */
+export const getUsersUseridCanTradeWith = {
   method: 'get' as const,
   path: '/v1/users/:userId/can-trade-with',
   baseUrl: 'https://trades.roblox.com',

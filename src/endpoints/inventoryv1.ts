@@ -1,73 +1,61 @@
 import { z } from 'zod';
 
-const Roblox_Inventory_Api_Models_AssetIdListModel = z.object({ assetIds: z.array(z.number()) }).partial();
-const Roblox_Inventory_Api_Models_CollectibleUserAssetModel = z
-  .object({
-    userAssetId: z.number().int(),
-    serialNumber: z.number().int(),
-    assetId: z.number().int(),
-    name: z.string(),
-    recentAveragePrice: z.number().int(),
-    originalPrice: z.number().int(),
-    assetStock: z.number().int(),
-    buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-    isOnHold: z.boolean(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Inventory_Api_Models_CollectibleUserAssetModel),
-  })
-  .partial();
-const Roblox_Inventory_Api_Models_CanViewInventoryResponse = z.object({ canView: z.boolean() }).partial();
-const Roblox_Inventory_Api_AssetsExplorerCategoryItemModel = z
-  .object({
-    name: z.string(),
-    displayName: z.string(),
-    filter: z.string(),
-    id: z.number().int(),
-    type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    categoryType: z.string(),
-  })
-  .partial();
-const Roblox_Inventory_Api_AssetsExplorerCategoryModel = z
-  .object({
-    name: z.string(),
-    displayName: z.string(),
-    categoryType: z.string(),
-    items: z.array(Roblox_Inventory_Api_AssetsExplorerCategoryItemModel),
-  })
-  .partial();
-const Roblox_Inventory_Api_CategoriesModel = z
-  .object({
-    categories: z.array(Roblox_Inventory_Api_AssetsExplorerCategoryModel),
-  })
-  .partial();
-const Roblox_Inventory_Api_Models_InventoryPageResponse = z
-  .object({
-    data: z.array(z.unknown()),
-    total: z.number().int(),
-    includesAccessories: z.boolean(),
-  })
-  .partial();
-const Roblox_Inventory_Api_Models_IItemModel = z
-  .object({
-    Id: z.number().int(),
-    Name: z.string(),
-    Type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    InstanceId: z.number().int(),
-  })
-  .partial();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Inventory_Api_Models_IItemModel),
-  })
-  .partial();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).partial();
+const Roblox_Inventory_Api_Models_AssetIdListModel = z.object({
+  assetIds: z.array(z.number()),
+});
+const Roblox_Inventory_Api_Models_CollectibleUserAssetModel = z.object({
+  userAssetId: z.number().int(),
+  serialNumber: z.number().int(),
+  assetId: z.number().int(),
+  name: z.string(),
+  recentAveragePrice: z.number().int(),
+  originalPrice: z.number().int(),
+  assetStock: z.number().int(),
+  buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  isOnHold: z.boolean(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Inventory_Api_Models_CollectibleUserAssetModel),
+});
+const Roblox_Inventory_Api_Models_CanViewInventoryResponse = z.object({
+  canView: z.boolean(),
+});
+const Roblox_Inventory_Api_AssetsExplorerCategoryItemModel = z.object({
+  name: z.string(),
+  displayName: z.string(),
+  filter: z.string(),
+  id: z.number().int(),
+  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  categoryType: z.string(),
+});
+const Roblox_Inventory_Api_AssetsExplorerCategoryModel = z.object({
+  name: z.string(),
+  displayName: z.string(),
+  categoryType: z.string(),
+  items: z.array(Roblox_Inventory_Api_AssetsExplorerCategoryItemModel),
+});
+const Roblox_Inventory_Api_CategoriesModel = z.object({
+  categories: z.array(Roblox_Inventory_Api_AssetsExplorerCategoryModel),
+});
+const Roblox_Inventory_Api_Models_InventoryPageResponse = z.object({
+  data: z.array(z.unknown()),
+  total: z.number().int(),
+  includesAccessories: z.boolean(),
+});
+const Roblox_Inventory_Api_Models_IItemModel = z.object({
+  Id: z.number().int(),
+  Name: z.string(),
+  Type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  InstanceId: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Inventory_Api_Models_IItemModel),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 const schemas = {
   Roblox_Inventory_Api_Models_AssetIdListModel,
@@ -83,7 +71,12 @@ const schemas = {
   Roblox_Web_WebAPI_ApiEmptyResponseModel,
 };
 
-export const deleteV1collectionsitemsItemTypeItemTargetId = {
+/**
+ * @api delete https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
+ * @param itemType
+ * @param itemTargetId
+ */
+export const deleteCollectionsItemsItemtypeItemtargetid = {
   method: 'delete' as const,
   path: '/v1/collections/items/:itemType/:itemTargetId',
   baseUrl: 'https://inventory.roblox.com',
@@ -92,7 +85,7 @@ export const deleteV1collectionsitemsItemTypeItemTargetId = {
     itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     itemTargetId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -114,7 +107,12 @@ export const deleteV1collectionsitemsItemTypeItemTargetId = {
     },
   ],
 };
-export const postV1collectionsitemsItemTypeItemTargetId = {
+/**
+ * @api post https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
+ * @param itemType
+ * @param itemTargetId
+ */
+export const postCollectionsItemsItemtypeItemtargetid = {
   method: 'post' as const,
   path: '/v1/collections/items/:itemType/:itemTargetId',
   baseUrl: 'https://inventory.roblox.com',
@@ -123,7 +121,7 @@ export const postV1collectionsitemsItemTypeItemTargetId = {
     itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     itemTargetId: z.number().int(),
   },
-  response: z.object({}).partial(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -149,7 +147,11 @@ export const postV1collectionsitemsItemTypeItemTargetId = {
     },
   ],
 };
-export const getV1packagesPackageIdassets = {
+/**
+ * @api get https://inventory.roblox.com/v1/packages/:packageId/assets
+ * @param packageID
+ */
+export const getPackagesPackageidAssets = {
   method: 'get' as const,
   path: '/v1/packages/:packageId/assets',
   baseUrl: 'https://inventory.roblox.com',
@@ -160,7 +162,15 @@ export const getV1packagesPackageIdassets = {
   response: Roblox_Inventory_Api_Models_AssetIdListModel,
   errors: [],
 };
-export const getV1usersUserIdassetscollectibles = {
+/**
+ * @api get https://inventory.roblox.com/v1/users/:userId/assets/collectibles
+ * @param userId
+ * @param assetType
+ * @param limit
+ * @param cursor
+ * @param sortOrder
+ */
+export const getUsersUseridAssetsCollectibles = {
   method: 'get' as const,
   path: '/v1/users/:userId/assets/collectibles',
   baseUrl: 'https://inventory.roblox.com',
@@ -265,7 +275,11 @@ export const getV1usersUserIdassetscollectibles = {
     },
   ],
 };
-export const getV1usersUserIdcanViewInventory = {
+/**
+ * @api get https://inventory.roblox.com/v1/users/:userId/can-view-inventory
+ * @param userId
+ */
+export const getUsersUseridCanViewInventory = {
   method: 'get' as const,
   path: '/v1/users/:userId/can-view-inventory',
   baseUrl: 'https://inventory.roblox.com',
@@ -273,7 +287,7 @@ export const getV1usersUserIdcanViewInventory = {
   parameters: {
     userId: z.number().int(),
   },
-  response: z.object({ canView: z.boolean() }).partial(),
+  response: z.object({ canView: z.boolean() }),
   errors: [
     {
       status: 400,
@@ -282,7 +296,11 @@ export const getV1usersUserIdcanViewInventory = {
     },
   ],
 };
-export const getV1usersUserIdcategories = {
+/**
+ * @api get https://inventory.roblox.com/v1/users/:userId/categories
+ * @param userId
+ */
+export const getUsersUseridCategories = {
   method: 'get' as const,
   path: '/v1/users/:userId/categories',
   baseUrl: 'https://inventory.roblox.com',
@@ -293,7 +311,11 @@ export const getV1usersUserIdcategories = {
   response: Roblox_Inventory_Api_CategoriesModel,
   errors: [],
 };
-export const getV1usersUserIdcategoriesfavorites = {
+/**
+ * @api get https://inventory.roblox.com/v1/users/:userId/categories/favorites
+ * @param userId
+ */
+export const getUsersUseridCategoriesFavorites = {
   method: 'get' as const,
   path: '/v1/users/:userId/categories/favorites',
   baseUrl: 'https://inventory.roblox.com',
@@ -304,7 +326,15 @@ export const getV1usersUserIdcategoriesfavorites = {
   response: Roblox_Inventory_Api_CategoriesModel,
   errors: [],
 };
-export const getV1usersUserIdinventoryAssetType = {
+/**
+ * @api get https://inventory.roblox.com/v1/users/:userId/inventory/:assetType
+ * @param userId
+ * @param assetType
+ * @param pageNumber
+ * @param itemsPerPage
+ * @param keyword
+ */
+export const getUsersUseridInventoryAssettype = {
   method: 'get' as const,
   path: '/v1/users/:userId/inventory/:assetType',
   baseUrl: 'https://inventory.roblox.com',
@@ -406,7 +436,13 @@ export const getV1usersUserIdinventoryAssetType = {
     },
   ],
 };
-export const getV1usersUserIditemsItemTypeItemTargetId = {
+/**
+ * @api get https://inventory.roblox.com/v1/users/:userId/items/:itemType/:itemTargetId
+ * @param userId
+ * @param itemType
+ * @param itemTargetId
+ */
+export const getUsersUseridItemsItemtypeItemtargetid = {
   method: 'get' as const,
   path: '/v1/users/:userId/items/:itemType/:itemTargetId',
   baseUrl: 'https://inventory.roblox.com',
@@ -430,7 +466,13 @@ export const getV1usersUserIditemsItemTypeItemTargetId = {
     },
   ],
 };
-export const getV1usersUserIditemsItemTypeItemTargetIdisOwned = {
+/**
+ * @api get https://inventory.roblox.com/v1/users/:userId/items/:itemType/:itemTargetId/is-owned
+ * @param userId
+ * @param itemType
+ * @param itemTargetId
+ */
+export const getUsersUseridItemsItemtypeItemtargetidIsOwned = {
   method: 'get' as const,
   path: '/v1/users/:userId/items/:itemType/:itemTargetId/is-owned',
   baseUrl: 'https://inventory.roblox.com',
