@@ -183,6 +183,26 @@ export const getAssetsIdVersions = {
   path: '/v2/assets/:id/versions',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    id: {
+      style: 'simple',
+    },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     id: z.number().int(),
     'Roblox-Place-Id': z.number().int(),
@@ -205,6 +225,11 @@ export const getPlacesPlaceid = {
   path: '/v2/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    placeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     placeId: z.number().int(),
   },
@@ -237,6 +262,12 @@ export const patchPlacesPlaceid = {
   path: '/v2/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    placeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Api_Develop_Models_PlaceConfigurationModelV2,
     placeId: z.number().int(),
@@ -271,6 +302,15 @@ export const deleteTeamtestPlaceid = {
   path: '/v2/teamtest/:placeId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    placeId: {
+      style: 'simple',
+    },
+    gameId: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     placeId: z.number().int(),
     gameId: z.string().uuid(),
@@ -299,6 +339,12 @@ export const patchUniversesUniverseidConfiguration = {
   path: '/v2/universes/:universeId/configuration',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Api_Develop_Models_UniverseSettingsRequestV2,
     universeId: z.number().int(),

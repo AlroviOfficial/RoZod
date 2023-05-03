@@ -154,6 +154,9 @@ export const postBirthdate = {
   path: '/v1/birthdate',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_AccountInformation_Api_Models_BirthdateRequest,
   },
@@ -217,6 +220,9 @@ export const postDescription = {
   path: '/v1/description',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: z.object({ description: z.string() }),
   },
@@ -259,6 +265,9 @@ export const postEmailVerify = {
   path: '/v1/email/verify',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: z.object({ ticket: z.string() }),
   },
@@ -302,6 +311,9 @@ export const postGender = {
   path: '/v1/gender',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: z.object({ gender: z.string() }),
   },
@@ -373,6 +385,9 @@ export const postPhone = {
   path: '/v1/phone',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_AccountInformation_Api_Models_PhoneRequest,
   },
@@ -424,6 +439,9 @@ export const postPhoneDelete = {
   path: '/v1/phone/delete',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_AccountInformation_Api_Models_PhoneRequest,
   },
@@ -467,6 +485,9 @@ export const postPhoneResend = {
   path: '/v1/phone/resend',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: z.object({}),
   },
@@ -508,6 +529,9 @@ export const postPhoneVerify = {
   path: '/v1/phone/verify',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: z.object({ code: z.string() }),
   },
@@ -578,6 +602,9 @@ export const postPromotionChannels = {
   path: '/v1/promotion-channels',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_AccountInformation_Api_Models_PromotionChannelsRequest,
   },
@@ -603,33 +630,6 @@ export const postPromotionChannels = {
       description: `0: Token Validation Failed
 3: PIN is locked.
 4: Only users who are over twelve years of age may edit social network channels.`,
-      schema: z.void(),
-    },
-  ],
-};
-/**
- * @api delete https://accountinformation.roblox.com/v1/star-code-affiliates
- */
-export const deleteStarCodeAffiliates = {
-  method: 'delete' as const,
-  path: '/v1/star-code-affiliates',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
-  response: z.object({}),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-      schema: z.void(),
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occured.`,
       schema: z.void(),
     },
   ],
@@ -665,6 +665,9 @@ export const postStarCodeAffiliates = {
   path: '/v1/star-code-affiliates',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: z.object({ code: z.string() }),
   },
@@ -693,6 +696,33 @@ export const postStarCodeAffiliates = {
   ],
 };
 /**
+ * @api delete https://accountinformation.roblox.com/v1/star-code-affiliates
+ */
+export const deleteStarCodeAffiliates = {
+  method: 'delete' as const,
+  path: '/v1/star-code-affiliates',
+  baseUrl: 'https://accountinformation.roblox.com',
+  requestFormat: 'json' as const,
+  response: z.object({}),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+      schema: z.void(),
+    },
+    {
+      status: 500,
+      description: `0: An unknown error occured.`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
  * @api get https://accountinformation.roblox.com/v1/users/:userId/promotion-channels
  * @param userId
  */
@@ -701,6 +731,11 @@ export const getUsersUseridPromotionChannels = {
   path: '/v1/users/:userId/promotion-channels',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },
@@ -722,6 +757,11 @@ export const getUsersUseridRobloxBadges = {
   path: '/v1/users/:userId/roblox-badges',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },

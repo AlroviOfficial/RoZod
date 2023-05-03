@@ -258,6 +258,9 @@ export const postAddToConversation = {
   path: '/v2/add-to-conversation',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Chat_Api_Models_AddUsersToConversationRequest,
   },
@@ -301,6 +304,12 @@ export const getGetConversations = {
   path: '/v2/get-conversations',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    conversationIds: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     conversationIds: z.array(z.number()),
   },
@@ -324,6 +333,20 @@ export const getGetMessages = {
   path: '/v2/get-messages',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    conversationId: {
+      style: 'form',
+      explode: true,
+    },
+    pageSize: {
+      style: 'form',
+      explode: true,
+    },
+    exclusiveStartMessageId: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     conversationId: z.number().int(),
     pageSize: z.number().int(),
@@ -347,6 +370,12 @@ export const getGetRolloutSettings = {
   path: '/v2/get-rollout-settings',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    featureNames: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     featureNames: z.array(z.string()),
   },
@@ -386,6 +415,16 @@ export const getGetUnreadConversations = {
   path: '/v2/get-unread-conversations',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    pageNumber: {
+      style: 'form',
+      explode: true,
+    },
+    pageSize: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     pageNumber: z.number().int(),
     pageSize: z.number().int(),
@@ -409,6 +448,16 @@ export const getGetUnreadMessages = {
   path: '/v2/get-unread-messages',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    conversationIds: {
+      style: 'form',
+      explode: true,
+    },
+    pageSize: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     conversationIds: z.array(z.number()),
     pageSize: z.number().int(),
@@ -432,6 +481,16 @@ export const getGetUserConversations = {
   path: '/v2/get-user-conversations',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    pageNumber: {
+      style: 'form',
+      explode: true,
+    },
+    pageSize: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     pageNumber: z.number().int(),
     pageSize: z.number().int(),
@@ -454,6 +513,9 @@ export const postMarkAsRead = {
   path: '/v2/mark-as-read',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Chat_Api_Models_MarkAsReadRequest,
   },
@@ -480,6 +542,9 @@ export const postMarkAsSeen = {
   path: '/v2/mark-as-seen',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Chat_Api_Models_MarkAsSeenRequest,
   },
@@ -524,6 +589,16 @@ export const getMultiGetLatestMessages = {
   path: '/v2/multi-get-latest-messages',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    conversationIds: {
+      style: 'form',
+      explode: true,
+    },
+    pageSize: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     conversationIds: z.array(z.number()),
     pageSize: z.number().int(),
@@ -546,6 +621,9 @@ export const postRemoveFromConversation = {
   path: '/v2/remove-from-conversation',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Chat_Api_Models_RemoveUserFromConversationRequest,
   },
@@ -572,6 +650,9 @@ export const postRenameGroupConversation = {
   path: '/v2/rename-group-conversation',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Chat_Api_Models_RenameGroupConversationRequest,
   },
@@ -598,6 +679,9 @@ export const postResetConversationUniverse = {
   path: '/v2/reset-conversation-universe',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: z.object({ conversationId: z.number().int() }),
   },
@@ -624,6 +708,9 @@ export const postSendGameLinkMessage = {
   path: '/v2/send-game-link-message',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Chat_Api_Models_SendGameLinkChatMessageRequest,
   },
@@ -650,6 +737,9 @@ export const postSendMessage = {
   path: '/v2/send-message',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Chat_Api_Models_SendPlainTextChatMessageRequest,
   },
@@ -676,6 +766,9 @@ export const postSetConversationUniverse = {
   path: '/v2/set-conversation-universe',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Chat_Api_Models_SetConversationUniverseRequest,
   },
@@ -702,6 +795,9 @@ export const postStartCloudEditConversation = {
   path: '/v2/start-cloud-edit-conversation',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: z.object({ placeId: z.number().int() }),
   },
@@ -728,6 +824,9 @@ export const postStartGroupConversation = {
   path: '/v2/start-group-conversation',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Chat_Api_Models_CreateGroupConversationRequest,
   },
@@ -754,6 +853,9 @@ export const postStartOneToOneConversation = {
   path: '/v2/start-one-to-one-conversation',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: z.object({ participantUserId: z.number().int() }),
   },
@@ -780,6 +882,9 @@ export const postUpdateUserTypingStatus = {
   path: '/v2/update-user-typing-status',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Chat_Api_Models_UpdateUserTypingStatusRequest,
   },

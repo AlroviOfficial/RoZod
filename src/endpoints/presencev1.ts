@@ -20,7 +20,7 @@ const Roblox_Presence_Api_Models_Request_UserPresenceRequest = z.object({
   userIds: z.array(z.number()),
 });
 const Roblox_Presence_Api_Models_Response_UserPresence = z.object({
-  userPresenceType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  userPresenceType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   lastLocation: z.string(),
   placeId: z.number().int(),
   rootPlaceId: z.number().int(),
@@ -53,6 +53,9 @@ export const postPresenceLastOnline = {
   path: '/v1/presence/last-online',
   baseUrl: 'https://presence.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Presence_Api_Models_Request_LastOnlineRequest,
   },
@@ -68,6 +71,9 @@ export const postPresenceRegisterAppPresence = {
   path: '/v1/presence/register-app-presence',
   baseUrl: 'https://presence.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Presence_Api_Models_Request_RegisterAppPresenceRequest,
   },
@@ -94,6 +100,9 @@ export const postPresenceUsers = {
   path: '/v1/presence/users',
   baseUrl: 'https://presence.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Presence_Api_Models_Request_UserPresenceRequest,
   },

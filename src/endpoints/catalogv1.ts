@@ -56,12 +56,12 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_BundleDetailsM
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_BundleDetailsModel_ = z.object({
   data: z.array(Roblox_Catalog_Api_BundleDetailsModel),
 });
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Catalog_Api_AssetFavoriteModel = z.object({
   assetId: z.number().int(),
   userId: z.number().int(),
   created: z.string().datetime(),
 });
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Catalog_Api_BundleFavoriteModel = z.object({
   bundleId: z.number().int(),
   userId: z.number().int(),
@@ -266,8 +266,8 @@ const schemas = {
   Roblox_Catalog_Api_BundleDetailsModel,
   Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_BundleDetailsModel_,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_BundleDetailsModel_,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
   Roblox_Catalog_Api_AssetFavoriteModel,
+  Roblox_Web_WebAPI_ApiEmptyResponseModel,
   Roblox_Catalog_Api_BundleFavoriteModel,
   Roblox_Catalog_Api_FavoriteBundlesResponse,
   Roblox_Catalog_Api_OwnedBundleModel,
@@ -317,6 +317,23 @@ export const getAssetsAssetidBundles = {
   path: '/v1/assets/:assetId/bundles',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    assetId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     assetId: z.number().int(),
     limit: z
@@ -345,6 +362,11 @@ export const getBundlesBundleidDetails = {
   path: '/v1/bundles/:bundleId/details',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    bundleId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     bundleId: z.number().int(),
   },
@@ -367,6 +389,15 @@ export const getBundlesBundleidRecommendations = {
   path: '/v1/bundles/:bundleId/recommendations',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    bundleId: {
+      style: 'simple',
+    },
+    numItems: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     bundleId: z.number().int(),
     numItems: z.number().int().optional().default(20),
@@ -392,6 +423,11 @@ export const postBundlesBundleidUnpack = {
   path: '/v1/bundles/:bundleId/unpack',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    bundleId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     bundleId: z.number().int(),
   },
@@ -424,6 +460,11 @@ export const getBundlesDetails = {
   path: '/v1/bundles/details',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    bundleIds: {
+      style: 'form',
+    },
+  },
   parameters: {
     bundleIds: z.array(z.number()),
   },
@@ -446,6 +487,9 @@ export const postCatalogItemsDetails = {
   path: '/v1/catalog/items/details',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Catalog_Api_MultigetItemDetailsRequestModel,
   },
@@ -489,6 +533,11 @@ export const getFavoritesAssetsAssetidCount = {
   path: '/v1/favorites/assets/:assetId/count',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    assetId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     assetId: z.number().int(),
   },
@@ -510,6 +559,11 @@ export const getFavoritesBundlesBundleidCount = {
   path: '/v1/favorites/bundles/:bundleId/count',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    bundleId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     bundleId: z.number().int(),
   },
@@ -518,51 +572,6 @@ export const getFavoritesBundlesBundleidCount = {
     {
       status: 400,
       description: `2: Invalid bundle Id.`,
-      schema: z.void(),
-    },
-  ],
-};
-/**
- * @api delete https://catalog.roblox.com/v1/favorites/users/:userId/assets/:assetId/favorite
- * @param userId
- * @param assetId
- */
-export const deleteFavoritesUsersUseridAssetsAssetidFavorite = {
-  method: 'delete' as const,
-  path: '/v1/favorites/users/:userId/assets/:assetId/favorite',
-  baseUrl: 'https://catalog.roblox.com',
-  requestFormat: 'json' as const,
-  parameters: {
-    userId: z.number().int(),
-    assetId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: Invalid user Id.
-2: Invalid asset Id.`,
-      schema: z.void(),
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-6: You are not authorized to perform this action.`,
-      schema: z.void(),
-    },
-    {
-      status: 409,
-      description: `4: Asset is already not favorited.`,
-      schema: z.void(),
-    },
-    {
-      status: 429,
-      description: `5: This action was floodchecked. Please try again later.`,
       schema: z.void(),
     },
   ],
@@ -577,6 +586,14 @@ export const getFavoritesUsersUseridAssetsAssetidFavorite = {
   path: '/v1/favorites/users/:userId/assets/:assetId/favorite',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    assetId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
     assetId: z.number().int(),
@@ -606,6 +623,14 @@ export const postFavoritesUsersUseridAssetsAssetidFavorite = {
   path: '/v1/favorites/users/:userId/assets/:assetId/favorite',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    assetId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
     assetId: z.number().int(),
@@ -642,25 +667,33 @@ export const postFavoritesUsersUseridAssetsAssetidFavorite = {
   ],
 };
 /**
- * @api delete https://catalog.roblox.com/v1/favorites/users/:userId/bundles/:bundleId/favorite
+ * @api delete https://catalog.roblox.com/v1/favorites/users/:userId/assets/:assetId/favorite
  * @param userId
- * @param bundleId
+ * @param assetId
  */
-export const deleteFavoritesUsersUseridBundlesBundleidFavorite = {
+export const deleteFavoritesUsersUseridAssetsAssetidFavorite = {
   method: 'delete' as const,
-  path: '/v1/favorites/users/:userId/bundles/:bundleId/favorite',
+  path: '/v1/favorites/users/:userId/assets/:assetId/favorite',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    assetId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
-    bundleId: z.number().int(),
+    assetId: z.number().int(),
   },
   response: z.object({}),
   errors: [
     {
       status: 400,
       description: `1: Invalid user Id.
-2: Invalid bundle Id.`,
+2: Invalid asset Id.`,
       schema: z.void(),
     },
     {
@@ -676,7 +709,7 @@ export const deleteFavoritesUsersUseridBundlesBundleidFavorite = {
     },
     {
       status: 409,
-      description: `4: Bundle is already not favorited.`,
+      description: `4: Asset is already not favorited.`,
       schema: z.void(),
     },
     {
@@ -696,6 +729,14 @@ export const getFavoritesUsersUseridBundlesBundleidFavorite = {
   path: '/v1/favorites/users/:userId/bundles/:bundleId/favorite',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    bundleId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
     bundleId: z.number().int(),
@@ -725,6 +766,14 @@ export const postFavoritesUsersUseridBundlesBundleidFavorite = {
   path: '/v1/favorites/users/:userId/bundles/:bundleId/favorite',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    bundleId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
     bundleId: z.number().int(),
@@ -761,6 +810,59 @@ export const postFavoritesUsersUseridBundlesBundleidFavorite = {
   ],
 };
 /**
+ * @api delete https://catalog.roblox.com/v1/favorites/users/:userId/bundles/:bundleId/favorite
+ * @param userId
+ * @param bundleId
+ */
+export const deleteFavoritesUsersUseridBundlesBundleidFavorite = {
+  method: 'delete' as const,
+  path: '/v1/favorites/users/:userId/bundles/:bundleId/favorite',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    bundleId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+    bundleId: z.number().int(),
+  },
+  response: z.object({}),
+  errors: [
+    {
+      status: 400,
+      description: `1: Invalid user Id.
+2: Invalid bundle Id.`,
+      schema: z.void(),
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+6: You are not authorized to perform this action.`,
+      schema: z.void(),
+    },
+    {
+      status: 409,
+      description: `4: Bundle is already not favorited.`,
+      schema: z.void(),
+    },
+    {
+      status: 429,
+      description: `5: This action was floodchecked. Please try again later.`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
  * @api get https://catalog.roblox.com/v1/favorites/users/:userId/favorites/:subtypeId/bundles
  * @param userId
  * @param subtypeId
@@ -772,6 +874,22 @@ export const getFavoritesUsersUseridFavoritesSubtypeidBundles = {
   path: '/v1/favorites/users/:userId/favorites/:subtypeId/bundles',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    subtypeId: {
+      style: 'simple',
+    },
+    pageNumber: {
+      style: 'form',
+      explode: true,
+    },
+    itemsPerPage: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     subtypeId: z.number().int(),
@@ -818,6 +936,9 @@ export const postTopicGetTopics = {
   path: '/v1/topic/get-topics',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Catalog_Api_Topics_TopicRequestModel,
   },
@@ -842,6 +963,23 @@ export const getUsersUseridBundles = {
   path: '/v1/users/:userId/bundles',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     limit: z
@@ -873,6 +1011,26 @@ export const getUsersUseridBundlesBundletype = {
   path: '/v1/users/:userId/bundles/:bundleType',
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    bundleType: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),

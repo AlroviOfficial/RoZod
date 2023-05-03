@@ -133,6 +133,20 @@ export const getMessages = {
   path: '/v1/messages',
   baseUrl: 'https://privatemessages.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    pageNumber: {
+      style: 'form',
+      explode: true,
+    },
+    pageSize: {
+      style: 'form',
+      explode: true,
+    },
+    messageTab: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     pageNumber: z.number().int().optional(),
     pageSize: z.number().int().optional().default(20),
@@ -156,6 +170,11 @@ export const getMessagesMessageid = {
   path: '/v1/messages/:messageId',
   baseUrl: 'https://privatemessages.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    messageId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     messageId: z.number().int(),
   },
@@ -182,6 +201,11 @@ export const getMessagesUseridCanMessage = {
   path: '/v1/messages/:userId/can-message',
   baseUrl: 'https://privatemessages.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },
@@ -208,6 +232,9 @@ export const postMessagesArchive = {
   path: '/v1/messages/archive',
   baseUrl: 'https://privatemessages.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_PrivateMessages_Api_Models_BatchMessagesRequest,
   },
@@ -239,6 +266,9 @@ export const postMessagesMarkRead = {
   path: '/v1/messages/mark-read',
   baseUrl: 'https://privatemessages.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_PrivateMessages_Api_Models_BatchMessagesRequest,
   },
@@ -270,6 +300,9 @@ export const postMessagesMarkUnread = {
   path: '/v1/messages/mark-unread',
   baseUrl: 'https://privatemessages.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_PrivateMessages_Api_Models_BatchMessagesRequest,
   },
@@ -301,6 +334,9 @@ export const postMessagesSend = {
   path: '/v1/messages/send',
   baseUrl: 'https://privatemessages.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_PrivateMessages_Api_Models_SendMessageRequest,
   },
@@ -327,6 +363,9 @@ export const postMessagesUnarchive = {
   path: '/v1/messages/unarchive',
   baseUrl: 'https://privatemessages.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_PrivateMessages_Api_Models_BatchMessagesRequest,
   },

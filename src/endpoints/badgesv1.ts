@@ -1,5 +1,5 @@
 import { z } from 'zod';
-
+const File = typeof window === 'undefined' ? Object : window.File;
 const Roblox_Web_Responses_Badges_BadgeAwardStatisticsResponse = z.object({
   pastDayAwardedCount: z.number().int(),
   awardedCount: z.number().int(),
@@ -40,11 +40,11 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Badges_Api_BadgeResponse_ 
   nextPageCursor: z.string(),
   data: z.array(Roblox_Badges_Api_BadgeResponse),
 });
-const postUniversesUniverseidBadges_Body = z.object({
+const universeId_badges_body = z.object({
   name: z.string(),
   description: z.string(),
   paymentSourceType: z.union([z.literal(1), z.literal(2)]),
-  files: z.unknown(),
+  files: z.instanceof(File),
   expectedCost: z.number().int(),
 });
 const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Badges_BadgeAwarderType_ = z.object({
@@ -87,7 +87,7 @@ const schemas = {
   Roblox_Web_WebAPI_ApiEmptyResponseModel,
   Roblox_Badges_Api_BadgeMetadataResponse,
   Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Badges_Api_BadgeResponse_,
-  postUniversesUniverseidBadges_Body,
+  universeId_badges_body,
   Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Badges_BadgeAwarderType_,
   Roblox_Web_Responses_Badges_BadgeResponseV2,
   Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Badges_BadgeResponseV2_,
@@ -104,6 +104,11 @@ export const getBadgesBadgeid = {
   path: '/v1/badges/:badgeId',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    badgeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     badgeId: z.number().int(),
   },
@@ -126,6 +131,12 @@ export const patchBadgesBadgeid = {
   path: '/v1/badges/:badgeId',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    badgeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Badges_Api_UpdateBadgeRequest,
     badgeId: z.number().int(),
@@ -178,6 +189,23 @@ export const getUniversesUniverseidBadges = {
   path: '/v1/universes/:universeId/badges',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     universeId: z.number().int(),
     limit: z
@@ -206,8 +234,14 @@ export const postUniversesUniverseidBadges = {
   path: '/v1/universes/:universeId/badges',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'form-data' as const,
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
-    body: postUniversesUniverseidBadges_Body,
+    body: universeId_badges_body,
     universeId: z.number().int(),
   },
   response: Roblox_Web_Responses_Badges_BadgeResponseV2,
@@ -255,6 +289,11 @@ export const getUniversesUniverseidFreeBadgesQuota = {
   path: '/v1/universes/:universeId/free-badges-quota',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -277,6 +316,14 @@ export const deleteUserUseridBadgesBadgeid = {
   path: '/v1/user/:userId/badges/:badgeId',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    badgeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
     badgeId: z.number().int(),
@@ -309,6 +356,11 @@ export const deleteUserBadgesBadgeid = {
   path: '/v1/user/badges/:badgeId',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    badgeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     badgeId: z.number().int(),
   },
@@ -343,6 +395,23 @@ export const getUsersUseridBadges = {
   path: '/v1/users/:userId/badges',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     limit: z
@@ -371,6 +440,14 @@ export const getUsersUseridBadgesAwardedDates = {
   path: '/v1/users/:userId/badges/awarded-dates',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    badgeIds: {
+      style: 'form',
+    },
+  },
   parameters: {
     userId: z.number().int(),
     badgeIds: z.array(z.number()),

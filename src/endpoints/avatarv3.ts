@@ -95,6 +95,12 @@ export const patchOutfitsUseroutfitid = {
   description: `Fails if the user does not own any of the assetIds or if they are not wearable asset types.
 Accepts partial updates.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    userOutfitId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
     userOutfitId: z.number().int(),
@@ -139,6 +145,11 @@ export const getOutfitsUseroutfitidDetails = {
   path: '/v3/outfits/:userOutfitId/details',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userOutfitId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userOutfitId: z.number().int(),
   },
@@ -168,6 +179,12 @@ export const postOutfitsUseroutfitidUpdate = {
   baseUrl: 'https://avatar.roblox.com',
   description: `Fails if the user does not own any of the assetIds or if they are not wearable asset types.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    userOutfitId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
     userOutfitId: z.number().int(),
@@ -213,6 +230,9 @@ export const postOutfitsCreate = {
   description: `Fails if any of the assetIds are not owned by the user, or not wearable types.
 The name property of the request is optional as one will be auto-generated when the request has a null name.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
   },

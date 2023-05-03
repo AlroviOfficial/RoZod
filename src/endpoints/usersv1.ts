@@ -104,6 +104,16 @@ export const getDisplayNamesValidate = {
   path: '/v1/display-names/validate',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    displayName: {
+      style: 'form',
+      explode: true,
+    },
+    birthdate: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     displayName: z.string(),
     birthdate: z.string().datetime(),
@@ -137,6 +147,9 @@ export const postUsernamesUsers = {
   description: `This endpoint will also check previous usernames.
 Does not require X-CSRF-Token protection because this is essentially a get request but as a POST to avoid URI limits.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Users_Api_MultiGetByUsernameRequest,
   },
@@ -159,6 +172,9 @@ export const postUsers = {
   baseUrl: 'https://users.roblox.com',
   description: `Does not require X-CSRF-Token protection because this is essentially a get request but as a POST to avoid URI limits.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Users_Api_MultiGetByUserIdRequest,
   },
@@ -180,6 +196,11 @@ export const getUsersUserid = {
   path: '/v1/users/:userId',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },
@@ -202,6 +223,12 @@ export const patchUsersUseridDisplayNames = {
   path: '/v1/users/:userId/display-names',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: z.object({ newDisplayName: z.string() }),
     userId: z.number().int(),
@@ -244,6 +271,15 @@ export const getUsersUseridDisplayNamesValidate = {
   path: '/v1/users/:userId/display-names/validate',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    displayName: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     displayName: z.string(),
@@ -287,6 +323,23 @@ export const getUsersUseridUsernameHistory = {
   path: '/v1/users/:userId/username-history',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     limit: z
@@ -384,6 +437,20 @@ export const getUsersSearch = {
   path: '/v1/users/search',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    keyword: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     keyword: z.string(),
     limit: z

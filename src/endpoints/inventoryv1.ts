@@ -40,7 +40,7 @@ const Roblox_Inventory_Api_CategoriesModel = z.object({
   categories: z.array(Roblox_Inventory_Api_AssetsExplorerCategoryModel),
 });
 const Roblox_Inventory_Api_Models_InventoryPageResponse = z.object({
-  data: z.array(z.unknown()),
+  data: z.array(z.object({})),
   total: z.number().int(),
   includesAccessories: z.boolean(),
 });
@@ -72,42 +72,6 @@ const schemas = {
 };
 
 /**
- * @api delete https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
- * @param itemType
- * @param itemTargetId
- */
-export const deleteCollectionsItemsItemtypeItemtargetid = {
-  method: 'delete' as const,
-  path: '/v1/collections/items/:itemType/:itemTargetId',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
-  parameters: {
-    itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    itemTargetId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: The item type does not exist.
-2: The asset does not exist.
-3: The bundle does not exist.`,
-      schema: z.void(),
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-8: The item is not in the collection.`,
-      schema: z.void(),
-    },
-  ],
-};
-/**
  * @api post https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
  * @param itemType
  * @param itemTargetId
@@ -117,6 +81,14 @@ export const postCollectionsItemsItemtypeItemtargetid = {
   path: '/v1/collections/items/:itemType/:itemTargetId',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    itemType: {
+      style: 'simple',
+    },
+    itemTargetId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     itemTargetId: z.number().int(),
@@ -148,6 +120,50 @@ export const postCollectionsItemsItemtypeItemtargetid = {
   ],
 };
 /**
+ * @api delete https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
+ * @param itemType
+ * @param itemTargetId
+ */
+export const deleteCollectionsItemsItemtypeItemtargetid = {
+  method: 'delete' as const,
+  path: '/v1/collections/items/:itemType/:itemTargetId',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    itemType: {
+      style: 'simple',
+    },
+    itemTargetId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+    itemTargetId: z.number().int(),
+  },
+  response: z.object({}),
+  errors: [
+    {
+      status: 400,
+      description: `1: The item type does not exist.
+2: The asset does not exist.
+3: The bundle does not exist.`,
+      schema: z.void(),
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+8: The item is not in the collection.`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
  * @api get https://inventory.roblox.com/v1/packages/:packageId/assets
  * @param packageID
  */
@@ -156,6 +172,11 @@ export const getPackagesPackageidAssets = {
   path: '/v1/packages/:packageId/assets',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    packageID: {
+      style: 'simple',
+    },
+  },
   parameters: {
     packageID: z.number().int(),
   },
@@ -175,6 +196,27 @@ export const getUsersUseridAssetsCollectibles = {
   path: '/v1/users/:userId/assets/collectibles',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    assetType: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     assetType: z
@@ -284,6 +326,11 @@ export const getUsersUseridCanViewInventory = {
   path: '/v1/users/:userId/can-view-inventory',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },
@@ -305,6 +352,11 @@ export const getUsersUseridCategories = {
   path: '/v1/users/:userId/categories',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },
@@ -320,6 +372,11 @@ export const getUsersUseridCategoriesFavorites = {
   path: '/v1/users/:userId/categories/favorites',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },
@@ -339,6 +396,26 @@ export const getUsersUseridInventoryAssettype = {
   path: '/v1/users/:userId/inventory/:assetType',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    assetType: {
+      style: 'simple',
+    },
+    pageNumber: {
+      style: 'form',
+      explode: true,
+    },
+    itemsPerPage: {
+      style: 'form',
+      explode: true,
+    },
+    keyword: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     assetType: z.union([
@@ -447,6 +524,17 @@ export const getUsersUseridItemsItemtypeItemtargetid = {
   path: '/v1/users/:userId/items/:itemType/:itemTargetId',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    itemType: {
+      style: 'simple',
+    },
+    itemTargetId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
     itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
@@ -477,6 +565,17 @@ export const getUsersUseridItemsItemtypeItemtargetidIsOwned = {
   path: '/v1/users/:userId/items/:itemType/:itemTargetId/is-owned',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    itemType: {
+      style: 'simple',
+    },
+    itemTargetId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
     itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),

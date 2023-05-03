@@ -99,6 +99,11 @@ export const getGroups = {
   baseUrl: 'https://groups.roblox.com',
   description: `If a group comes back as null, it will not be returned in the response.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupIds: {
+      style: 'form',
+    },
+  },
   parameters: {
     groupIds: z.array(z.number()),
   },
@@ -124,6 +129,23 @@ export const getGroupsGroupidWallPosts = {
   path: '/v2/groups/:groupId/wall/posts',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     limit: z
@@ -157,6 +179,12 @@ export const postGroupsGroupidWallPosts = {
   path: '/v2/groups/:groupId/wall/posts',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_CreateWallPostRequest,
     groupId: z.number().int(),
@@ -197,6 +225,11 @@ export const getUsersUseridGroupsRoles = {
   path: '/v2/users/:userId/groups/roles',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },

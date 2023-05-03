@@ -124,6 +124,11 @@ export const getTradesTradeid = {
   path: '/v1/trades/:tradeId',
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    tradeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     tradeId: z.number().int(),
   },
@@ -150,6 +155,11 @@ export const postTradesTradeidAccept = {
   path: '/v1/trades/:tradeId/accept',
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    tradeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     tradeId: z.number().int(),
   },
@@ -193,6 +203,12 @@ export const postTradesTradeidCounter = {
   path: '/v1/trades/:tradeId/counter',
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    tradeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Trades_Api_TradeRequest,
     tradeId: z.number().int(),
@@ -255,6 +271,11 @@ export const postTradesTradeidDecline = {
   path: '/v1/trades/:tradeId/decline',
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    tradeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     tradeId: z.number().int(),
   },
@@ -297,6 +318,23 @@ export const getTradesTradestatustype = {
   path: '/v1/trades/:tradeStatusType',
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    tradeStatusType: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     tradeStatusType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     limit: z
@@ -329,6 +367,11 @@ export const getTradesTradestatustypeCount = {
   path: '/v1/trades/:tradeStatusType/count',
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    tradeStatusType: {
+      style: 'simple',
+    },
+  },
   parameters: {
     tradeStatusType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   },
@@ -394,6 +437,9 @@ export const postTradesSend = {
   path: '/v1/trades/send',
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Trades_Api_TradeRequest,
   },
@@ -454,6 +500,11 @@ export const getUsersUseridCanTradeWith = {
   path: '/v1/users/:userId/can-trade-with',
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },

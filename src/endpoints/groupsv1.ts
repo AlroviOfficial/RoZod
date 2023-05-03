@@ -1,4 +1,5 @@
 import { z } from 'zod';
+const File = typeof window === 'undefined' ? Object : window.File;
 
 const Roblox_Groups_Api_Models_Response_UserModel = z.object({
   buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
@@ -39,7 +40,7 @@ const Roblox_Groups_Api_UserGroupRoleResponse = z.object({
 const Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem = z.object({
   actor: Roblox_Groups_Api_UserGroupRoleResponse,
   actionType: z.string(),
-  description: z.unknown(),
+  description: z.object({}),
   created: z.string().datetime(),
 });
 const Roblox_Groups_Api_GroupAuditLogPageResponse_Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem_ =
@@ -48,10 +49,6 @@ const Roblox_Groups_Api_GroupAuditLogPageResponse_Roblox_Groups_Api_Models_Respo
     nextPageCursor: z.string(),
     data: z.array(Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem),
   });
-const Roblox_Groups_Api_MembersRequest = z.object({
-  UserIds: z.array(z.number()),
-});
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Groups_Api_GroupJoinRequestResponse = z.object({
   requester: Roblox_Groups_Api_Models_Response_UserModel,
   created: z.string().datetime(),
@@ -61,6 +58,10 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupJoinReques
   nextPageCursor: z.string(),
   data: z.array(Roblox_Groups_Api_GroupJoinRequestResponse),
 });
+const Roblox_Groups_Api_MembersRequest = z.object({
+  UserIds: z.array(z.number()),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Groups_Api_GroupPostsPermissionsModel = z.object({
   viewWall: z.boolean(),
   postToWall: z.boolean(),
@@ -159,29 +160,30 @@ const Roblox_Groups_Api_GroupPermissionsResponse = z.object({
   role: Roblox_Groups_Api_GroupRoleResponse,
   permissions: Roblox_Groups_Api_GroupPermissionsModel,
 });
+const Roblox_Groups_Api_UpdatePermissionsRequest_permissions = z.object({
+  DeleteFromWall: z.boolean(),
+  PostToWall: z.boolean(),
+  InviteMembers: z.boolean(),
+  PostToStatus: z.boolean(),
+  RemoveMembers: z.boolean(),
+  ViewStatus: z.boolean(),
+  ViewWall: z.boolean(),
+  ChangeRank: z.boolean(),
+  AdvertiseGroup: z.boolean(),
+  ManageRelationships: z.boolean(),
+  AddGroupPlaces: z.boolean(),
+  ViewAuditLogs: z.boolean(),
+  CreateItems: z.boolean(),
+  ManageItems: z.boolean(),
+  SpendGroupFunds: z.boolean(),
+  ManageClan: z.boolean(),
+  ManageGroupGames: z.boolean(),
+  UseCloudAuthentication: z.boolean(),
+  AdministerCloudAuthentication: z.boolean(),
+  ViewAnalytics: z.boolean(),
+});
 const Roblox_Groups_Api_UpdatePermissionsRequest = z.object({
-  permissions: z.object({
-    DeleteFromWall: z.boolean(),
-    PostToWall: z.boolean(),
-    InviteMembers: z.boolean(),
-    PostToStatus: z.boolean(),
-    RemoveMembers: z.boolean(),
-    ViewStatus: z.boolean(),
-    ViewWall: z.boolean(),
-    ChangeRank: z.boolean(),
-    AdvertiseGroup: z.boolean(),
-    ManageRelationships: z.boolean(),
-    AddGroupPlaces: z.boolean(),
-    ViewAuditLogs: z.boolean(),
-    CreateItems: z.boolean(),
-    ManageItems: z.boolean(),
-    SpendGroupFunds: z.boolean(),
-    ManageClan: z.boolean(),
-    ManageGroupGames: z.boolean(),
-    UseCloudAuthentication: z.boolean(),
-    AdministerCloudAuthentication: z.boolean(),
-    ViewAnalytics: z.boolean(),
-  }),
+  permissions: Roblox_Groups_Api_UpdatePermissionsRequest_permissions,
 });
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_UserModel_ = z.object({
   previousPageCursor: z.string(),
@@ -381,12 +383,12 @@ const Roblox_Groups_Api_Models_Request_CreateRoleSetRequest = z.object({
   rank: z.number().int(),
   usingGroupFunds: z.boolean(),
 });
-const postGroupsCreate_Body = z.object({
+const groups_create_body = z.object({
   name: z.string(),
   description: z.string(),
   publicGroup: z.boolean(),
   buildersClubMembersOnly: z.boolean(),
-  Files: z.unknown(),
+  Files: z.instanceof(File),
 });
 const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_ = z.object({
   id: z.number().int(),
@@ -436,6 +438,7 @@ const Roblox_Groups_Api_PostGroupStatusRequest = z.object({
 const Roblox_Groups_Api_UpdateUserRoleRequest = z.object({
   roleId: z.number().int(),
 });
+const groups_icon_body = z.object({ Files: z.instanceof(File) });
 
 const schemas = {
   Roblox_Groups_Api_Models_Response_UserModel,
@@ -445,10 +448,10 @@ const schemas = {
   Roblox_Groups_Api_UserGroupRoleResponse,
   Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem,
   Roblox_Groups_Api_GroupAuditLogPageResponse_Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem_,
-  Roblox_Groups_Api_MembersRequest,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
   Roblox_Groups_Api_GroupJoinRequestResponse,
   Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupJoinRequestResponse_,
+  Roblox_Groups_Api_MembersRequest,
+  Roblox_Web_WebAPI_ApiEmptyResponseModel,
   Roblox_Groups_Api_GroupPostsPermissionsModel,
   Roblox_Groups_Api_GroupMembershipPermissionsModel,
   Roblox_Groups_Api_GroupManagementPermissionsModel,
@@ -467,6 +470,7 @@ const schemas = {
   Roblox_Groups_Api_RelationshipsRequest,
   Roblox_Groups_Api_GroupAllRolesResponse,
   Roblox_Groups_Api_GroupPermissionsResponse,
+  Roblox_Groups_Api_UpdatePermissionsRequest_permissions,
   Roblox_Groups_Api_UpdatePermissionsRequest,
   Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_UserModel_,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupPermissionsResponse_,
@@ -500,7 +504,7 @@ const schemas = {
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipDetailResponse_,
   Roblox_Groups_Api_ChangeOwnerRequest,
   Roblox_Groups_Api_Models_Request_CreateRoleSetRequest,
-  postGroupsCreate_Body,
+  groups_create_body,
   Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
   Roblox_Web_Responses_Groups_GroupResponseV2,
   Roblox_Groups_Api_GroupPolicyRequest,
@@ -514,6 +518,7 @@ const schemas = {
   Roblox_Groups_Api_Models_Request_UpdateRoleSetRequest,
   Roblox_Groups_Api_PostGroupStatusRequest,
   Roblox_Groups_Api_UpdateUserRoleRequest,
+  groups_icon_body,
 };
 
 /**
@@ -525,6 +530,11 @@ export const getGroupsGroupid = {
   path: '/v1/groups/:groupId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
   },
@@ -551,6 +561,31 @@ export const getGroupsGroupidAuditLog = {
   path: '/v1/groups/:groupId/audit-log',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    actionType: {
+      style: 'form',
+      explode: true,
+    },
+    userId: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     actionType: z
@@ -638,6 +673,12 @@ export const postGroupsGroupidChangeOwner = {
   path: '/v1/groups/:groupId/change-owner',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: z.object({ userId: z.number().int() }),
     groupId: z.number().int(),
@@ -675,6 +716,11 @@ export const postGroupsGroupidClaimOwnership = {
   path: '/v1/groups/:groupId/claim-ownership',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
   },
@@ -715,6 +761,12 @@ export const patchGroupsGroupidDescription = {
   path: '/v1/groups/:groupId/description',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: z.object({ description: z.string() }),
     groupId: z.number().int(),
@@ -742,40 +794,6 @@ export const patchGroupsGroupidDescription = {
   ],
 };
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/join-requests
- * @param body The Roblox.Groups.Api.MembersRequest.
- * @param groupId
- */
-export const deleteGroupsGroupidJoinRequests = {
-  method: 'delete' as const,
-  path: '/v1/groups/:groupId/join-requests',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
-  parameters: {
-    body: Roblox_Groups_Api_MembersRequest,
-    groupId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: The group is invalid or does not exist.
-3: The user is invalid or does not exist.`,
-      schema: z.void(),
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-      schema: z.void(),
-    },
-  ],
-};
-/**
  * @api get https://groups.roblox.com/v1/groups/:groupId/join-requests
  * @param groupId
  * @param limit
@@ -787,6 +805,23 @@ export const getGroupsGroupidJoinRequests = {
   path: '/v1/groups/:groupId/join-requests',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     limit: z
@@ -825,6 +860,12 @@ export const postGroupsGroupidJoinRequests = {
   path: '/v1/groups/:groupId/join-requests',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_MembersRequest,
     groupId: z.number().int(),
@@ -863,24 +904,31 @@ export const postGroupsGroupidJoinRequests = {
   ],
 };
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/join-requests/users/:userId
+ * @api delete https://groups.roblox.com/v1/groups/:groupId/join-requests
+ * @param body The Roblox.Groups.Api.MembersRequest.
  * @param groupId
- * @param userId
  */
-export const deleteGroupsGroupidJoinRequestsUsersUserid = {
+export const deleteGroupsGroupidJoinRequests = {
   method: 'delete' as const,
-  path: '/v1/groups/:groupId/join-requests/users/:userId',
+  path: '/v1/groups/:groupId/join-requests',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
+    body: Roblox_Groups_Api_MembersRequest,
     groupId: z.number().int(),
-    userId: z.number().int(),
   },
   response: z.object({}),
   errors: [
     {
       status: 400,
-      description: `3: The user is invalid or does not exist.`,
+      description: `1: The group is invalid or does not exist.
+3: The user is invalid or does not exist.`,
       schema: z.void(),
     },
     {
@@ -890,8 +938,7 @@ export const deleteGroupsGroupidJoinRequestsUsersUserid = {
     },
     {
       status: 403,
-      description: `0: Token Validation Failed
-4: You do not have permission to manage this member.`,
+      description: `0: Token Validation Failed`,
       schema: z.void(),
     },
   ],
@@ -906,6 +953,14 @@ export const getGroupsGroupidJoinRequestsUsersUserid = {
   path: '/v1/groups/:groupId/join-requests/users/:userId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     userId: z.number().int(),
@@ -939,6 +994,14 @@ export const postGroupsGroupidJoinRequestsUsersUserid = {
   path: '/v1/groups/:groupId/join-requests/users/:userId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     userId: z.number().int(),
@@ -972,6 +1035,48 @@ export const postGroupsGroupidJoinRequestsUsersUserid = {
   ],
 };
 /**
+ * @api delete https://groups.roblox.com/v1/groups/:groupId/join-requests/users/:userId
+ * @param groupId
+ * @param userId
+ */
+export const deleteGroupsGroupidJoinRequestsUsersUserid = {
+  method: 'delete' as const,
+  path: '/v1/groups/:groupId/join-requests/users/:userId',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    userId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    userId: z.number().int(),
+  },
+  response: z.object({}),
+  errors: [
+    {
+      status: 400,
+      description: `3: The user is invalid or does not exist.`,
+      schema: z.void(),
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+4: You do not have permission to manage this member.`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
  * @api get https://groups.roblox.com/v1/groups/:groupId/membership
  * @param groupId
  */
@@ -980,6 +1085,11 @@ export const getGroupsGroupidMembership = {
   path: '/v1/groups/:groupId/membership',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
   },
@@ -1003,6 +1113,12 @@ export const patchGroupsGroupidName = {
   baseUrl: 'https://groups.roblox.com',
   description: `This endpoint will charge Robux for the group rename.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: z.object({ name: z.string() }),
     groupId: z.number().int(),
@@ -1062,6 +1178,23 @@ export const getGroupsGroupidNameHistory = {
   path: '/v1/groups/:groupId/name-history',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     limit: z
@@ -1094,6 +1227,11 @@ export const getGroupsGroupidPayoutRestriction = {
   path: '/v1/groups/:groupId/payout-restriction',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
   },
@@ -1125,6 +1263,11 @@ export const getGroupsGroupidPayouts = {
   path: '/v1/groups/:groupId/payouts',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
   },
@@ -1157,6 +1300,12 @@ export const postGroupsGroupidPayouts = {
   path: '/v1/groups/:groupId/payouts',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_PayoutRequest,
     groupId: z.number().int(),
@@ -1204,6 +1353,12 @@ export const postGroupsGroupidPayoutsRecurring = {
   description: `This endpoint will remove any recipients not sent in the request.
 If a recipient in the request is not a valid member in the group they will not be added to the recurring payouts.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_PayoutRequest,
     groupId: z.number().int(),
@@ -1251,6 +1406,22 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptype = {
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    groupRelationshipType: {
+      style: 'simple',
+    },
+    StartRowIndex: {
+      style: 'form',
+      explode: true,
+    },
+    MaxRows: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     groupRelationshipType: z.string(),
@@ -1269,44 +1440,6 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptype = {
   ],
 };
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId
- * @param groupId
- * @param groupRelationshipType
- * @param relatedGroupId
- */
-export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid = {
-  method: 'delete' as const,
-  path: '/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
-  parameters: {
-    groupId: z.number().int(),
-    groupRelationshipType: z.string(),
-    relatedGroupId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `2: Invalid group.
-3: Target group is invalid or does not exist.
-11: Relationship does not exist.`,
-      schema: z.void(),
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-8: You are blocked from communicating with this user.`,
-      schema: z.void(),
-    },
-  ],
-};
-/**
  * @api post https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId
  * @param groupId
  * @param groupRelationshipType
@@ -1317,6 +1450,17 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid =
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    groupRelationshipType: {
+      style: 'simple',
+    },
+    relatedGroupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     groupRelationshipType: z.string(),
@@ -1350,23 +1494,41 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid =
   ],
 };
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests
- * @param body The Roblox.Groups.Api.RelationshipsRequest.
+ * @api delete https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId
  * @param groupId
  * @param groupRelationshipType
+ * @param relatedGroupId
  */
-export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequests = {
+export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid = {
   method: 'delete' as const,
-  path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests',
+  path: '/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    groupRelationshipType: {
+      style: 'simple',
+    },
+    relatedGroupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
-    body: Roblox_Groups_Api_RelationshipsRequest,
     groupId: z.number().int(),
     groupRelationshipType: z.string(),
+    relatedGroupId: z.number().int(),
   },
   response: z.object({}),
   errors: [
+    {
+      status: 400,
+      description: `2: Invalid group.
+3: Target group is invalid or does not exist.
+11: Relationship does not exist.`,
+      schema: z.void(),
+    },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
@@ -1374,7 +1536,8 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequests = {
     },
     {
       status: 403,
-      description: `0: Token Validation Failed`,
+      description: `0: Token Validation Failed
+8: You are blocked from communicating with this user.`,
       schema: z.void(),
     },
   ],
@@ -1391,6 +1554,22 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptypeRequests = {
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    groupRelationshipType: {
+      style: 'simple',
+    },
+    StartRowIndex: {
+      style: 'form',
+      explode: true,
+    },
+    MaxRows: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     groupRelationshipType: z.string(),
@@ -1429,6 +1608,15 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequests = {
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+    groupRelationshipType: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_RelationshipsRequest,
     groupId: z.number().int(),
@@ -1449,16 +1637,66 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequests = {
   ],
 };
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId
+ * @api delete https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests
+ * @param body The Roblox.Groups.Api.RelationshipsRequest.
+ * @param groupId
+ * @param groupRelationshipType
+ */
+export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequests = {
+  method: 'delete' as const,
+  path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+    groupRelationshipType: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    body: Roblox_Groups_Api_RelationshipsRequest,
+    groupId: z.number().int(),
+    groupRelationshipType: z.string(),
+  },
+  response: z.object({}),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
+ * @api post https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId
  * @param groupId
  * @param groupRelationshipType
  * @param relatedGroupId
  */
-export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedgroupid = {
-  method: 'delete' as const,
+export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedgroupid = {
+  method: 'post' as const,
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    groupRelationshipType: {
+      style: 'simple',
+    },
+    relatedGroupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     groupRelationshipType: z.string(),
@@ -1488,16 +1726,27 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelate
   ],
 };
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId
+ * @api delete https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId
  * @param groupId
  * @param groupRelationshipType
  * @param relatedGroupId
  */
-export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedgroupid = {
-  method: 'post' as const,
+export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedgroupid = {
+  method: 'delete' as const,
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    groupRelationshipType: {
+      style: 'simple',
+    },
+    relatedGroupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     groupRelationshipType: z.string(),
@@ -1535,6 +1784,11 @@ export const getGroupsGroupidRoles = {
   path: '/v1/groups/:groupId/roles',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
   },
@@ -1557,6 +1811,14 @@ export const getGroupsGroupidRolesRolesetidPermissions = {
   path: '/v1/groups/:groupId/roles/:roleSetId/permissions',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    roleSetId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     roleSetId: z.number().int(),
@@ -1592,6 +1854,15 @@ export const patchGroupsGroupidRolesRolesetidPermissions = {
   path: '/v1/groups/:groupId/roles/:roleSetId/permissions',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+    roleSetId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_UpdatePermissionsRequest,
     groupId: z.number().int(),
@@ -1632,6 +1903,26 @@ export const getGroupsGroupidRolesRolesetidUsers = {
   path: '/v1/groups/:groupId/roles/:roleSetId/users',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    roleSetId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     roleSetId: z.number().int(),
@@ -1665,6 +1956,11 @@ export const getGroupsGroupidRolesGuestPermissions = {
   path: '/v1/groups/:groupId/roles/guest/permissions',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
   },
@@ -1686,6 +1982,11 @@ export const getGroupsGroupidRolesPermissions = {
   path: '/v1/groups/:groupId/roles/permissions',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
   },
@@ -1708,6 +2009,14 @@ export const deleteGroupsGroupidRolesetsRolesetid = {
   path: '/v1/groups/:groupId/rolesets/:rolesetId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    rolesetId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     rolesetId: z.number().int(),
@@ -1747,6 +2056,15 @@ export const patchGroupsGroupidRolesetsRolesetid = {
   path: '/v1/groups/:groupId/rolesets/:rolesetId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+    rolesetId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_Models_Request_UpdateRoleSetRequest,
     groupId: z.number().int(),
@@ -1790,6 +2108,12 @@ export const postGroupsGroupidRolesetsCreate = {
   path: '/v1/groups/:groupId/rolesets/create',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_Models_Request_CreateRoleSetRequest,
     groupId: z.number().int(),
@@ -1833,6 +2157,11 @@ export const getGroupsGroupidSettings = {
   path: '/v1/groups/:groupId/settings',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
   },
@@ -1865,6 +2194,12 @@ export const patchGroupsGroupidSettings = {
   path: '/v1/groups/:groupId/settings',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_UpdateGroupSettingsRequest,
     groupId: z.number().int(),
@@ -1903,6 +2238,11 @@ export const getGroupsGroupidSocialLinks = {
   path: '/v1/groups/:groupId/social-links',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
   },
@@ -1940,6 +2280,12 @@ export const postGroupsGroupidSocialLinks = {
   path: '/v1/groups/:groupId/social-links',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_SocialLinkRequest,
     groupId: z.number().int(),
@@ -1989,6 +2335,14 @@ export const deleteGroupsGroupidSocialLinksSociallinkid = {
   path: '/v1/groups/:groupId/social-links/:socialLinkId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    socialLinkId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     socialLinkId: z.number().int(),
@@ -2032,6 +2386,15 @@ export const patchGroupsGroupidSocialLinksSociallinkid = {
   path: '/v1/groups/:groupId/social-links/:socialLinkId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+    socialLinkId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_SocialLinkRequest,
     groupId: z.number().int(),
@@ -2087,6 +2450,12 @@ export const patchGroupsGroupidStatus = {
   path: '/v1/groups/:groupId/status',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: z.object({ message: z.string() }),
     groupId: z.number().int(),
@@ -2124,6 +2493,23 @@ export const getGroupsGroupidUsers = {
   path: '/v1/groups/:groupId/users',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     limit: z
@@ -2152,6 +2538,12 @@ export const postGroupsGroupidUsers = {
   path: '/v1/groups/:groupId/users',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_JoinGroupRequest,
     groupId: z.number().int(),
@@ -2205,6 +2597,14 @@ export const deleteGroupsGroupidUsersUserid = {
   path: '/v1/groups/:groupId/users/:userId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     userId: z.number().int(),
@@ -2247,6 +2647,15 @@ export const patchGroupsGroupidUsersUserid = {
   path: '/v1/groups/:groupId/users/:userId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: z.object({ roleId: z.number().int() }),
     groupId: z.number().int(),
@@ -2293,6 +2702,23 @@ export const getGroupsGroupidWallPosts = {
   path: '/v1/groups/:groupId/wall/posts',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     limit: z
@@ -2326,6 +2752,12 @@ export const postGroupsGroupidWallPosts = {
   path: '/v1/groups/:groupId/wall/posts',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Groups_Api_CreateWallPostRequest,
     groupId: z.number().int(),
@@ -2367,6 +2799,14 @@ export const deleteGroupsGroupidWallPostsPostid = {
   path: '/v1/groups/:groupId/wall/posts/:postId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    postId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     postId: z.number().int(),
@@ -2401,6 +2841,11 @@ export const postGroupsGroupidWallSubscribe = {
   path: '/v1/groups/:groupId/wall/subscribe',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
   },
@@ -2434,6 +2879,14 @@ export const deleteGroupsGroupidWallUsersUseridPosts = {
   path: '/v1/groups/:groupId/wall/users/:userId/posts',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     userId: z.number().int(),
@@ -2481,8 +2934,11 @@ export const postGroupsCreate = {
   description: `This endpoint will charge Robux for the group purchase.
 Http status code 413 is thrown when the group icon file size is too large.`,
   requestFormat: 'form-data' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
-    body: postGroupsCreate_Body,
+    body: groups_create_body,
   },
   response: Roblox_Web_Responses_Groups_GroupResponseV2,
   errors: [
@@ -2542,8 +2998,15 @@ export const patchGroupsIcon = {
   path: '/v1/groups/icon',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'form-data' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
-    body: z.object({ Files: z.unknown() }),
+    body: z.object({ Files: z.instanceof(File) }),
     groupId: z.number().int(),
   },
   response: z.object({}),
@@ -2594,6 +3057,9 @@ export const postGroupsPolicies = {
   path: '/v1/groups/policies',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Groups_Api_GroupPolicyRequest,
   },
@@ -2629,6 +3095,24 @@ export const getGroupsSearch = {
   path: '/v1/groups/search',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    keyword: {
+      style: 'form',
+      explode: true,
+    },
+    prioritizeExactMatch: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     keyword: z.string(),
     prioritizeExactMatch: z.boolean().optional(),
@@ -2659,6 +3143,12 @@ export const getGroupsSearchLookup = {
   baseUrl: 'https://groups.roblox.com',
   description: `Should only be used for direct lookups where a user is inputting a group name, shouldn&#x27;t be used for search pages.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupName: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupName: z.string(),
   },
@@ -2699,6 +3189,11 @@ export const getRoles = {
   path: '/v1/roles',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    ids: {
+      style: 'form',
+    },
+  },
   parameters: {
     ids: z.array(z.number()),
   },
@@ -2730,28 +3225,6 @@ export const getUserGroupsPending = {
   ],
 };
 /**
- * @api delete https://groups.roblox.com/v1/user/groups/primary
- */
-export const deleteUserGroupsPrimary = {
-  method: 'delete' as const,
-  path: '/v1/user/groups/primary',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
-  response: z.object({}),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-      schema: z.void(),
-    },
-  ],
-};
-/**
  * @api post https://groups.roblox.com/v1/user/groups/primary
  * @param body The request body containing the group id.
  */
@@ -2760,6 +3233,9 @@ export const postUserGroupsPrimary = {
   path: '/v1/user/groups/primary',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: z.object({ groupId: z.number().int() }),
   },
@@ -2784,6 +3260,28 @@ export const postUserGroupsPrimary = {
   ],
 };
 /**
+ * @api delete https://groups.roblox.com/v1/user/groups/primary
+ */
+export const deleteUserGroupsPrimary = {
+  method: 'delete' as const,
+  path: '/v1/user/groups/primary',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json' as const,
+  response: z.object({}),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
  * @api get https://groups.roblox.com/v1/users/:userId/friends/groups/roles
  * @param userId
  */
@@ -2792,6 +3290,11 @@ export const getUsersUseridFriendsGroupsRoles = {
   path: '/v1/users/:userId/friends/groups/roles',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },
@@ -2818,6 +3321,11 @@ export const getUsersUseridGroupsPrimaryRole = {
   path: '/v1/users/:userId/groups/primary/role',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },
@@ -2839,6 +3347,11 @@ export const getUsersUseridGroupsRoles = {
   path: '/v1/users/:userId/groups/roles',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },

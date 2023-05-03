@@ -147,6 +147,23 @@ export const getAssetsAssetidOwners = {
   path: '/v2/assets/:assetId/owners',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    assetId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     assetId: z.number().int(),
     limit: z
@@ -185,9 +202,33 @@ export const getUsersUseridInventory = {
   baseUrl: 'https://inventory.roblox.com',
   description: `GamePass and Badges not allowed.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    assetTypes: {
+      style: 'form',
+    },
+    filterDisapprovedAssets: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
-    assetTypes: z.array(z.unknown()),
+    assetTypes: z.array(z.object({}).partial()),
     filterDisapprovedAssets: z.boolean().optional(),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
@@ -225,6 +266,26 @@ export const getUsersUseridInventoryAssettypeid = {
   path: '/v2/users/:userId/inventory/:assetTypeId',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    assetTypeId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     assetTypeId: z.number().int(),

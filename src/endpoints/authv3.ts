@@ -24,6 +24,12 @@ export const postUsersUseridTwoStepVerificationLogin = {
   path: '/v3/users/:userId/two-step-verification/login',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    userId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Authentication_Api_TwoStepVerificationLoginRequest,
     userId: z.number().int(),

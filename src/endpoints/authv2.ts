@@ -323,6 +323,20 @@ export const getCredentialsVerification = {
   path: '/v2/credentials/verification',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    CredentialType: {
+      style: 'form',
+      explode: true,
+    },
+    CredentialValue: {
+      style: 'form',
+      explode: true,
+    },
+    Password: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     CredentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     CredentialValue: z.string(),
@@ -357,6 +371,9 @@ export const postCredentialsVerification = {
   path: '/v2/credentials/verification',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest,
   },
@@ -394,6 +411,9 @@ export const postCredentialsVerificationSend = {
   path: '/v2/credentials/verification/send',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest,
   },
@@ -433,6 +453,9 @@ export const postIdentityVerificationLogin = {
   path: '/v2/identity-verification/login',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest,
   },
@@ -458,6 +481,9 @@ export const postLogin = {
   path: '/v2/login',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_LoginRequest,
   },
@@ -579,6 +605,16 @@ export const getPasswordsReset = {
   path: '/v2/passwords/reset',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    TargetType: {
+      style: 'form',
+      explode: true,
+    },
+    Ticket: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     TargetType: z.union([z.literal(0), z.literal(1)]),
     Ticket: z.string(),
@@ -621,6 +657,9 @@ export const postPasswordsReset = {
   baseUrl: 'https://auth.roblox.com',
   description: `This will log the user out of all sessions and re-authenticate.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_PasswordResetModel,
   },
@@ -664,6 +703,9 @@ export const postPasswordsResetSend = {
   baseUrl: 'https://auth.roblox.com',
   description: `Phone target must be a csv with 3 values: &quot;internationalPrefixNumber,nationalNumber,countryCode&quot;`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_SendResetPasswordRequest,
   },
@@ -711,6 +753,9 @@ export const postPasswordsResetVerify = {
   path: '/v2/passwords/reset/verify',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_PasswordResetVerificationRequest,
   },
@@ -751,6 +796,16 @@ export const getPasswordsValidate = {
   path: '/v2/passwords/validate',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    Username: {
+      style: 'form',
+      explode: true,
+    },
+    Password: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     Username: z.string(),
     Password: z.string(),
@@ -773,6 +828,9 @@ export const postPasswordsValidate = {
   path: '/v2/passwords/validate',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_PasswordValidationModel,
   },
@@ -816,6 +874,12 @@ export const getRevertAccount = {
   path: '/v2/revert/account',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    ticket: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     ticket: z.string(),
   },
@@ -842,6 +906,9 @@ export const postRevertAccount = {
   path: '/v2/revert/account',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_RevertAccountSubmitRequest,
   },
@@ -878,6 +945,9 @@ export const postSignup = {
   path: '/v2/signup',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_SignupRequest,
   },
@@ -943,6 +1013,9 @@ export const postTwostepverificationResend = {
   path: '/v2/twostepverification/resend',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_TwoStepVerificationTicketRequest,
   },
@@ -986,6 +1059,9 @@ export const postTwostepverificationVerify = {
   path: '/v2/twostepverification/verify',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_TwoStepVerificationVerifyRequest,
   },
@@ -1026,6 +1102,9 @@ export const postUserPasswordsChange = {
   baseUrl: 'https://auth.roblox.com',
   description: `The current password is needed for verification that the password can be changed.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_PasswordChangeModel,
   },
@@ -1065,6 +1144,9 @@ export const postUsername = {
   path: '/v2/username',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_UsernameChangeRequest,
   },
@@ -1076,7 +1158,7 @@ export const postUsername = {
 10: This username is already in use
 11: Username not appropriate for Roblox
 12: Usernames can be 3 to 20 characters long
-13: Usernames can’t start or end with _ and can have at most one _
+13: Usernames can�t start or end with _ and can have at most one _
 14: Only a-z, A-Z, 0-9, and _ are allowed
 15: Username is null
 16: Username might contain private information
@@ -1121,6 +1203,12 @@ export const getUsernames = {
   baseUrl: 'https://auth.roblox.com',
   description: `This endpoint can be expanded in the future to include other query parameters such as &quot;startsWith&quot;`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    username: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     username: z.string().optional(),
   },
@@ -1136,6 +1224,9 @@ export const postUsernamesRecover = {
   path: '/v2/usernames/recover',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_RecoverUsernameRequest,
   },
@@ -1172,6 +1263,20 @@ export const getUsernamesValidate = {
   path: '/v2/usernames/validate',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    Username: {
+      style: 'form',
+      explode: true,
+    },
+    Birthday: {
+      style: 'form',
+      explode: true,
+    },
+    Context: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     Username: z.string(),
     Birthday: z.string().datetime(),
@@ -1196,6 +1301,9 @@ export const postUsernamesValidate = {
   path: '/v2/usernames/validate',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Authentication_Api_Models_UsernameValidationRequest,
   },

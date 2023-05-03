@@ -12,11 +12,13 @@
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
-    "version": "npm run format && git add -A src"
+    "version": "npm run format && git add -A src",
+    "generate": "node ./zodios-endpoints.js"
   },
   "author": "alexop1000",
   "license": "ISC",
   "dependencies": {
+    "p-limit": "^3.0.0",
     "zod": "^3.21.4"
   },
   "repository": {
@@ -24,10 +26,10 @@
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "^10.1.0",
+    "@thepotato97/openapi-zod-client": "^1.6.4",
     "@types/jest": "^29.5.1",
     "@zodios/plugins": "^10.6.0",
     "jest": "^29.5.0",
-    "openapi-zod-client": "^1.6.3",
     "prettier": "^2.8.8",
     "swagger2openapi": "^7.0.8",
     "ts-jest": "^29.1.0",

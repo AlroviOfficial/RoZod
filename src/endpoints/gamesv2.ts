@@ -130,6 +130,11 @@ export const getGamesUniverseidMedia = {
   path: '/v2/games/:universeId/media',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -160,6 +165,27 @@ export const getGroupsGroupidGames = {
   path: '/v2/groups/:groupId/games',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    accessFilter: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     accessFilter: z
@@ -195,6 +221,27 @@ export const getGroupsGroupidGamesv2 = {
   path: '/v2/groups/:groupId/gamesV2',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    accessFilter: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     accessFilter: z
@@ -235,6 +282,27 @@ export const getUsersUseridFavoriteGames = {
   path: '/v2/users/:userId/favorite/games',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    accessFilter: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     accessFilter: z
@@ -264,6 +332,27 @@ export const getUsersUseridGames = {
   path: '/v2/users/:userId/games',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    accessFilter: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     accessFilter: z

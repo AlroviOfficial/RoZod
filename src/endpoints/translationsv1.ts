@@ -22,6 +22,12 @@ export const getTranslations = {
   path: '/v1/translations',
   baseUrl: 'https://translations.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    consumerType: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     consumerType: z.union([
       z.literal(0),
@@ -64,6 +70,15 @@ export const getTranslationsLocale = {
   path: '/v1/translations/:locale',
   baseUrl: 'https://translations.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    locale: {
+      style: 'simple',
+    },
+    consumerType: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     locale: z.string(),
     consumerType: z.union([
@@ -110,6 +125,24 @@ export const getTranslationsLanguageResources = {
   path: '/v1/translations/language-resources',
   baseUrl: 'https://translations.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    consumerType: {
+      style: 'form',
+      explode: true,
+    },
+    contentNamespace: {
+      style: 'form',
+      explode: true,
+    },
+    keys: {
+      style: 'form',
+      explode: true,
+    },
+    localeCode: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     consumerType: z.union([
       z.literal(0),

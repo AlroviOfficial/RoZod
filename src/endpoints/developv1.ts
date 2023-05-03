@@ -76,15 +76,17 @@ const Roblox_Api_Develop_Models_DeveloperProductRevenue = z.object({
   developerProductName: z.string(),
   revenueAmount: z.number().int(),
 });
+const Roblox_Api_Develop_Models_DeveloperProductAggregationResponse_developerProductRevenueByDevice = z.object({
+  Computer: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+  Phone: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+  Tablet: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+  Console: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+  VR: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
+});
 const Roblox_Api_Develop_Models_DeveloperProductAggregationResponse = z.object({
   allDevicesDeveloperProductRevenue: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-  developerProductRevenueByDevice: z.object({
-    Computer: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    Phone: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    Tablet: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    Console: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    VR: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-  }),
+  developerProductRevenueByDevice:
+    Roblox_Api_Develop_Models_DeveloperProductAggregationResponse_developerProductRevenueByDevice,
 });
 const Roblox_Api_Develop_Models_Response_StatisticsAgeDataResponse = z.object({
   isAgeDataAvailable: z.boolean(),
@@ -208,9 +210,6 @@ const Roblox_Api_Develop_Models_UpdateTeamCreateSettingsRequest = z.object({
   isEnabled: z.boolean(),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
-const Roblox_Api_Develop_Models_TeamCreateMembershipRequest = z.object({
-  userId: z.number().int(),
-});
 const Roblox_Api_Develop_Models_UserResponse = z.object({
   buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   userId: z.number().int(),
@@ -221,6 +220,9 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UserRes
   previousPageCursor: z.string(),
   nextPageCursor: z.string(),
   data: z.array(Roblox_Api_Develop_Models_UserResponse),
+});
+const Roblox_Api_Develop_Models_TeamCreateMembershipRequest = z.object({
+  userId: z.number().int(),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseModel_ = z.object({
   data: z.array(Roblox_Api_Develop_Models_UniverseModel),
@@ -299,6 +301,7 @@ const schemas = {
   Roblox_Api_Develop_Models_Response_StatisticsRange,
   Roblox_Api_Develop_Models_StatisticsResponse,
   Roblox_Api_Develop_Models_DeveloperProductRevenue,
+  Roblox_Api_Develop_Models_DeveloperProductAggregationResponse_developerProductRevenueByDevice,
   Roblox_Api_Develop_Models_DeveloperProductAggregationResponse,
   Roblox_Api_Develop_Models_Response_StatisticsAgeDataResponse,
   Roblox_Web_Responses_Users_SkinnyUserResponse,
@@ -316,9 +319,9 @@ const schemas = {
   Roblox_Api_Develop_Models_Response_TeamCreateSettingsResponse,
   Roblox_Api_Develop_Models_UpdateTeamCreateSettingsRequest,
   Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Api_Develop_Models_TeamCreateMembershipRequest,
   Roblox_Api_Develop_Models_UserResponse,
   Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UserResponse_,
+  Roblox_Api_Develop_Models_TeamCreateMembershipRequest,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseModel_,
   Roblox_Api_Develop_Models_UniverseIdPermissionsModel,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseIdPermissionsModel_,
@@ -344,6 +347,11 @@ export const getAssetsVoting = {
   path: '/v1/assets/voting',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    assetIds: {
+      style: 'form',
+    },
+  },
   parameters: {
     assetIds: z.array(z.number()),
   },
@@ -372,6 +380,11 @@ export const getGameupdatenotificationsUniverseid = {
   path: '/v1/gameUpdateNotifications/:universeId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -409,6 +422,12 @@ export const postGameupdatenotificationsUniverseid = {
   path: '/v1/gameUpdateNotifications/:universeId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: z.string(),
     universeId: z.number().int(),
@@ -452,6 +471,9 @@ export const postGameupdatenotificationsFilter = {
   path: '/v1/gameUpdateNotifications/filter',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: z.string(),
   },
@@ -492,6 +514,27 @@ export const getGroupsGroupidUniverses = {
   path: '/v1/groups/:groupId/universes',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    isArchived: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     groupId: z.number().int(),
     isArchived: z.boolean().optional(),
@@ -512,16 +555,22 @@ export const getGroupsGroupidUniverses = {
   ],
 };
 /**
- * @api patch https://develop.roblox.com/v1/places/:placeId
+ * @api post https://develop.roblox.com/v1/places/:placeId
  * @param body
  * @param placeId
  */
-export const patchPlacesPlaceid = {
-  method: 'patch' as const,
+export const postPlacesPlaceid = {
+  method: 'post' as const,
   path: '/v1/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
   description: `Currently the only supported functionality for updating the configuration is around Name, and Description.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    placeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Api_Develop_Models_PlaceConfigurationModel,
     placeId: z.number().int(),
@@ -547,16 +596,22 @@ export const patchPlacesPlaceid = {
   ],
 };
 /**
- * @api post https://develop.roblox.com/v1/places/:placeId
+ * @api patch https://develop.roblox.com/v1/places/:placeId
  * @param body
  * @param placeId
  */
-export const postPlacesPlaceid = {
-  method: 'post' as const,
+export const patchPlacesPlaceid = {
+  method: 'patch' as const,
   path: '/v1/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
   description: `Currently the only supported functionality for updating the configuration is around Name, and Description.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    placeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Api_Develop_Models_PlaceConfigurationModel,
     placeId: z.number().int(),
@@ -590,6 +645,11 @@ export const getPlacesPlaceidCompatibilities = {
   path: '/v1/places/:placeId/compatibilities',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    placeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     placeId: z.number().int(),
   },
@@ -626,6 +686,30 @@ export const getPlacesPlaceidStatsType = {
   path: '/v1/places/:placeId/stats/:type',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    placeId: {
+      style: 'simple',
+    },
+    type: {
+      style: 'simple',
+    },
+    granularity: {
+      style: 'form',
+      explode: true,
+    },
+    divisionType: {
+      style: 'form',
+      explode: true,
+    },
+    startTime: {
+      style: 'form',
+      explode: true,
+    },
+    endTime: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     placeId: z.number().int(),
     type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
@@ -669,6 +753,30 @@ export const getPlacesPlaceidStatsTypeLegacyFlot = {
   path: '/v1/places/:placeId/stats/:type/legacy/flot',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    placeId: {
+      style: 'simple',
+    },
+    type: {
+      style: 'simple',
+    },
+    timeFrame: {
+      style: 'form',
+      explode: true,
+    },
+    divisionType: {
+      style: 'form',
+      explode: true,
+    },
+    startTime: {
+      style: 'form',
+      explode: true,
+    },
+    endTime: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     placeId: z.number().int(),
     type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
@@ -677,7 +785,7 @@ export const getPlacesPlaceidStatsTypeLegacyFlot = {
     startTime: z.string().datetime().optional(),
     endTime: z.string().datetime().optional(),
   },
-  response: z.unknown(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -708,6 +816,15 @@ export const getPlacesPlaceidStatsDeveloperProductAggregation = {
   path: '/v1/places/:placeId/stats/developer-product-aggregation',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    placeId: {
+      style: 'simple',
+    },
+    timeFrame: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     placeId: z.number().int(),
     timeFrame: z.union([z.literal(0), z.literal(1), z.literal(2)]),
@@ -740,6 +857,11 @@ export const getPlacesPlaceidStatsIsAgeDataAvailable = {
   path: '/v1/places/:placeId/stats/is-age-data-available',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    placeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     placeId: z.number().int(),
   },
@@ -773,6 +895,19 @@ export const getPlacesPlaceidTeamcreateActive_sessionMembers = {
   path: '/v1/places/:placeId/teamcreate/active_session/members',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    placeId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     placeId: z.number().int(),
     limit: z
@@ -821,6 +956,11 @@ export const getPlugins = {
   path: '/v1/plugins',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    pluginIds: {
+      style: 'form',
+    },
+  },
   parameters: {
     pluginIds: z.array(z.number()),
   },
@@ -844,6 +984,12 @@ export const patchPluginsPluginid = {
   path: '/v1/plugins/:pluginId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    pluginId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Develop_Api_UpdatePluginRequest,
     pluginId: z.number().int(),
@@ -892,8 +1038,33 @@ export const getSearchUniverses = {
   description: `PoC of search endpoint which supports filters in search query string and special syntax for sorts.
 IMPORTANT: filter names, values, sort values - are case sensitive!`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    search: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+    q: {
+      style: 'form',
+      explode: true,
+    },
+    sort: {
+      style: 'form',
+    },
+  },
   parameters: {
-    search: z.string(),
+    search: z.unknown(),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
@@ -901,7 +1072,7 @@ IMPORTANT: filter names, values, sort values - are case sensitive!`,
     cursor: z.string().optional(),
     sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
     q: z.string().optional(),
-    sort: z.array(z.unknown()).optional(),
+    sort: z.array(z.any()).optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UniverseModel_,
   errors: [
@@ -952,6 +1123,11 @@ export const getUniversesUniverseid = {
   path: '/v1/universes/:universeId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -973,6 +1149,11 @@ export const postUniversesUniverseidActivate = {
   path: '/v1/universes/:universeId/activate',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -1009,6 +1190,12 @@ export const postUniversesUniverseidAliases = {
   path: '/v1/universes/:universeId/aliases',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Api_Develop_Models_AliasRequest,
     universeId: z.number().int(),
@@ -1057,6 +1244,14 @@ export const deleteUniversesUniverseidAliasesName = {
   path: '/v1/universes/:universeId/aliases/:name',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+    name: {
+      style: 'simple',
+    },
+  },
   parameters: {
     universeId: z.number().int(),
     name: z.string(),
@@ -1093,6 +1288,15 @@ export const patchUniversesUniverseidAliasesName = {
   path: '/v1/universes/:universeId/aliases/:name',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: 'simple',
+    },
+    name: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Api_Develop_Models_AliasRequest,
     universeId: z.number().int(),
@@ -1140,6 +1344,11 @@ export const getUniversesUniverseidConfiguration = {
   path: '/v1/universes/:universeId/configuration',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -1172,6 +1381,12 @@ export const patchUniversesUniverseidConfiguration = {
   path: '/v1/universes/:universeId/configuration',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Api_Develop_Models_UniverseSettingsRequest,
     universeId: z.number().int(),
@@ -1231,6 +1446,11 @@ export const getUniversesUniverseidConfigurationVipServers = {
   path: '/v1/universes/:universeId/configuration/vip-servers',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -1262,6 +1482,11 @@ export const postUniversesUniverseidDeactivate = {
   path: '/v1/universes/:universeId/deactivate',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -1299,6 +1524,27 @@ export const postUniversesUniverseidDeveloperproducts = {
   path: '/v1/universes/:universeId/developerproducts',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+    name: {
+      style: 'form',
+      explode: true,
+    },
+    description: {
+      style: 'form',
+      explode: true,
+    },
+    priceInRobux: {
+      style: 'form',
+      explode: true,
+    },
+    iconImageAssetId: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     universeId: z.number().int(),
     name: z.string(),
@@ -1355,6 +1601,15 @@ export const postUniversesUniverseidDeveloperproductsProductidUpdate = {
   path: '/v1/universes/:universeId/developerproducts/:productId/update',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: 'simple',
+    },
+    productId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: Roblox_Api_Develop_Models_DeveloperProductsUpdateModel,
     universeId: z.number().int(),
@@ -1401,6 +1656,11 @@ export const getUniversesUniverseidLiveStats = {
   path: '/v1/universes/:universeId/live-stats',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -1433,6 +1693,11 @@ export const getUniversesUniverseidPermissions = {
   path: '/v1/universes/:universeId/permissions',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -1463,6 +1728,27 @@ export const getUniversesUniverseidPlaces = {
   path: '/v1/universes/:universeId/places',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+    isUniverseCreation: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     universeId: z.number().int(),
     isUniverseCreation: z.boolean().optional(),
@@ -1485,6 +1771,11 @@ export const getUniversesUniverseidTeamcreate = {
   path: '/v1/universes/:universeId/teamcreate',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -1518,6 +1809,12 @@ export const patchUniversesUniverseidTeamcreate = {
   baseUrl: 'https://develop.roblox.com',
   description: `Enables, or disables team create for a universe.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     body: z.object({ isEnabled: z.boolean() }),
     universeId: z.number().int(),
@@ -1543,40 +1840,6 @@ export const patchUniversesUniverseidTeamcreate = {
   ],
 };
 /**
- * @api delete https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
- * @param body The request body.
- * @param universeId
- */
-export const deleteUniversesUniverseidTeamcreateMemberships = {
-  method: 'delete' as const,
-  path: '/v1/universes/:universeId/teamcreate/memberships',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json' as const,
-  parameters: {
-    body: z.object({ userId: z.number().int() }),
-    universeId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUniverse OR Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUser`,
-      schema: z.void(),
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
-    },
-    {
-      status: 403,
-      description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.TeamCreateDisabled
-0: Token Validation Failed`,
-      schema: z.void(),
-    },
-  ],
-};
-/**
  * @api get https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
  * @param universeId
  * @param limit
@@ -1588,6 +1851,23 @@ export const getUniversesUniverseidTeamcreateMemberships = {
   path: '/v1/universes/:universeId/teamcreate/memberships',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     universeId: z.number().int(),
     limit: z
@@ -1617,6 +1897,46 @@ export const getUniversesUniverseidTeamcreateMemberships = {
   ],
 };
 /**
+ * @api delete https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
+ * @param body The request body.
+ * @param universeId
+ */
+export const deleteUniversesUniverseidTeamcreateMemberships = {
+  method: 'delete' as const,
+  path: '/v1/universes/:universeId/teamcreate/memberships',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    body: z.object({ userId: z.number().int() }),
+    universeId: z.number().int(),
+  },
+  response: z.object({}),
+  errors: [
+    {
+      status: 400,
+      description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUniverse OR Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUser`,
+      schema: z.void(),
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+      schema: z.void(),
+    },
+    {
+      status: 403,
+      description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.TeamCreateDisabled
+0: Token Validation Failed`,
+      schema: z.void(),
+    },
+  ],
+};
+/**
  * @api get https://develop.roblox.com/v1/universes/multiget
  * @param ids
  */
@@ -1626,6 +1946,12 @@ export const getUniversesMultiget = {
   baseUrl: 'https://develop.roblox.com',
   description: `If a universe can not be found for a given ID (such as -1) it will be skipped.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    ids: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     ids: z.array(z.number()),
   },
@@ -1649,6 +1975,12 @@ export const getUniversesMultigetPermissions = {
   baseUrl: 'https://develop.roblox.com',
   description: `If a universe can not be found for a given ID (such as -1) it will be skipped.`,
   requestFormat: 'json' as const,
+  serializationMethod: {
+    ids: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     ids: z.array(z.number()),
   },
@@ -1676,6 +2008,12 @@ export const getUniversesMultigetTeamcreate = {
   path: '/v1/universes/multiget/teamcreate',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    ids: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     ids: z.array(z.number()),
   },
@@ -1703,6 +2041,14 @@ export const getUserUseridCanmanageAssetid = {
   path: '/v1/user/:userId/canmanage/:assetId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    assetId: {
+      style: 'simple',
+    },
+  },
   parameters: {
     userId: z.number().int(),
     assetId: z.number().int(),
@@ -1738,6 +2084,20 @@ export const getUserTeamcreateMemberships = {
   path: '/v1/user/teamcreate/memberships',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
@@ -1767,6 +2127,24 @@ export const getUserUniverses = {
   path: '/v1/user/universes',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    isArchived: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
   parameters: {
     isArchived: z.boolean().optional(),
     limit: z
