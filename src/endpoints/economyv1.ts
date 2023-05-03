@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const Roblox_Web_Responses_Economy_CurrencyResponse = z.object({
   robux: z.number().int(),
@@ -12,11 +12,11 @@ const schemas = {
  * @api get https://economy.roblox.com/v1/user/currency
  */
 export const getUserCurrency = {
-  method: "get" as const,
-  path: "/v1/user/currency",
-  baseUrl: "https://economy.roblox.com",
+  method: 'get' as const,
+  path: '/v1/user/currency',
+  baseUrl: 'https://economy.roblox.com',
   description: `Currency can only be retrieved for the authenticated user.`,
-  requestFormat: "json" as const,
+  requestFormat: 'json' as const,
   response: z.object({ robux: z.number().int() }),
   errors: [
     {

@@ -1,25 +1,17 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-const Roblox_AccountSettings_Api_Models_AccountsSettingsMetadataModel =
-  z.object({
-    IsAccountsRestrictionsSpamBugFixEnabled: z.boolean(),
-    MaximumParentalControlsMonthlySpendLimitInUSD: z.number().int(),
-    IsParentalMonthlyLimitInUIEnabled: z.boolean(),
-    IsParentalNotificationSettingsInUIEnabled: z.boolean(),
-    IsContentControlsEnabled: z.boolean(),
-  });
+const Roblox_AccountSettings_Api_Models_AccountsSettingsMetadataModel = z.object({
+  IsAccountsRestrictionsSpamBugFixEnabled: z.boolean(),
+  MaximumParentalControlsMonthlySpendLimitInUSD: z.number().int(),
+  IsParentalMonthlyLimitInUIEnabled: z.boolean(),
+  IsParentalNotificationSettingsInUIEnabled: z.boolean(),
+  IsContentControlsEnabled: z.boolean(),
+});
 const Roblox_AccountSettings_Api_AppChatPrivacyResponse = z.object({
   appChatPrivacy: z.string(),
 });
 const Roblox_AccountSettings_Api_AppChatPrivacyRequest = z.object({
-  appChatPrivacy: z.union([
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-  ]),
+  appChatPrivacy: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_AccountSettings_Api_EmailResponse = z.object({
@@ -37,44 +29,16 @@ const Roblox_AccountSettings_Api_GameChatPrivacyResponse = z.object({
   gameChatPrivacy: z.string(),
 });
 const Roblox_AccountSettings_Api_GameChatPrivacyRequest = z.object({
-  gameChatPrivacy: z.union([
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-  ]),
+  gameChatPrivacy: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
 });
 const Roblox_AccountSettings_Api_InventoryPrivacyResponse = z.object({
-  inventoryPrivacy: z.union([
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-  ]),
+  inventoryPrivacy: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
 });
 const Roblox_AccountSettings_Api_InventoryPrivacyRequest = z.object({
-  inventoryPrivacy: z.union([
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-  ]),
+  inventoryPrivacy: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
 });
 const Roblox_AccountSettings_Api_InventoryPrivacyUpdateResponse = z.object({
-  inventoryPrivacy: z.union([
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-  ]),
+  inventoryPrivacy: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
   tradePrivacy: z.union([
     z.literal(0),
     z.literal(1),
@@ -128,41 +92,28 @@ const Roblox_AccountSettings_Api_TradePrivacyUpdateResponse = z.object({
     z.literal(6),
     z.literal(7),
   ]),
-  inventoryPrivacy: z.union([
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-  ]),
+  inventoryPrivacy: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
   privacySettingResponse: z.union([z.literal(0), z.literal(1)]),
 });
 const Roblox_AccountSettings_Api_TradeValueResponse = z.object({
   tradeValue: z.string(),
 });
 const Roblox_AccountSettings_Api_TradeValueRequest = z.object({
-  tradeValue: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-  ]),
+  tradeValue: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
 });
-const Roblox_AccountSettings_Api_Models_Response_GetBlockedUsersResponse =
-  z.object({ blockedUserIds: z.array(z.number()) });
+const Roblox_AccountSettings_Api_Models_Response_GetBlockedUsersResponse = z.object({
+  blockedUserIds: z.array(z.number()),
+});
 const Roblox_AccountSettings_Api_Models_BlockedUser = z.object({
   userId: z.number().int(),
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_AccountSettings_Api_Models_Response_GetDetailedBlockedUsersResponse =
-  z.object({
-    blockedUsers: z.array(Roblox_AccountSettings_Api_Models_BlockedUser),
-    maxBlockedUsers: z.number().int(),
-    total: z.number().int(),
-  });
+const Roblox_AccountSettings_Api_Models_Response_GetDetailedBlockedUsersResponse = z.object({
+  blockedUsers: z.array(Roblox_AccountSettings_Api_Models_BlockedUser),
+  maxBlockedUsers: z.number().int(),
+  total: z.number().int(),
+});
 const Roblox_AccountSettings_Api_SendVerifyEmailRequest = z.object({
   freeItem: z.boolean(),
   isAdsAccount: z.boolean(),
@@ -200,10 +151,10 @@ const schemas = {
  * @api get https://accountsettings.roblox.com/v1/account/settings/metadata
  */
 export const getAccountSettingsMetadata = {
-  method: "get" as const,
-  path: "/v1/account/settings/metadata",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/account/settings/metadata',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   response: Roblox_AccountSettings_Api_Models_AccountsSettingsMetadataModel,
   errors: [
     {
@@ -217,10 +168,10 @@ export const getAccountSettingsMetadata = {
  * @api get https://accountsettings.roblox.com/v1/app-chat-privacy
  */
 export const getAppChatPrivacy = {
-  method: "get" as const,
-  path: "/v1/app-chat-privacy",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/app-chat-privacy',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ appChatPrivacy: z.string() }),
   errors: [
     {
@@ -235,10 +186,10 @@ export const getAppChatPrivacy = {
  * @param body
  */
 export const postAppChatPrivacy = {
-  method: "post" as const,
-  path: "/v1/app-chat-privacy",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/app-chat-privacy',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -271,10 +222,10 @@ export const postAppChatPrivacy = {
  * @api get https://accountsettings.roblox.com/v1/email
  */
 export const getEmail = {
-  method: "get" as const,
-  path: "/v1/email",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/email',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   response: Roblox_AccountSettings_Api_EmailResponse,
   errors: [
     {
@@ -289,10 +240,10 @@ export const getEmail = {
  * @param body The request body.
  */
 export const postEmail = {
-  method: "post" as const,
-  path: "/v1/email",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/email',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -342,10 +293,10 @@ export const postEmail = {
  * @param body The request body.
  */
 export const patchEmail = {
-  method: "patch" as const,
-  path: "/v1/email",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'patch' as const,
+  path: '/v1/email',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -395,10 +346,10 @@ export const patchEmail = {
  * @param body The request body.
  */
 export const postEmailVerify = {
-  method: "post" as const,
-  path: "/v1/email/verify",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/email/verify',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -444,10 +395,10 @@ export const postEmailVerify = {
  * @api get https://accountsettings.roblox.com/v1/game-chat-privacy
  */
 export const getGameChatPrivacy = {
-  method: "get" as const,
-  path: "/v1/game-chat-privacy",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/game-chat-privacy',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ gameChatPrivacy: z.string() }),
   errors: [
     {
@@ -462,10 +413,10 @@ export const getGameChatPrivacy = {
  * @param body
  */
 export const postGameChatPrivacy = {
-  method: "post" as const,
-  path: "/v1/game-chat-privacy",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/game-chat-privacy',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -498,10 +449,10 @@ export const postGameChatPrivacy = {
  * @api get https://accountsettings.roblox.com/v1/inventory-privacy
  */
 export const getInventoryPrivacy = {
-  method: "get" as const,
-  path: "/v1/inventory-privacy",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/inventory-privacy',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   response: Roblox_AccountSettings_Api_InventoryPrivacyResponse,
   errors: [
     {
@@ -516,10 +467,10 @@ export const getInventoryPrivacy = {
  * @param body
  */
 export const postInventoryPrivacy = {
-  method: "post" as const,
-  path: "/v1/inventory-privacy",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/inventory-privacy',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -550,10 +501,10 @@ export const postInventoryPrivacy = {
  * @api get https://accountsettings.roblox.com/v1/private-message-privacy
  */
 export const getPrivateMessagePrivacy = {
-  method: "get" as const,
-  path: "/v1/private-message-privacy",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/private-message-privacy',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ privateMessagePrivacy: z.string() }),
   errors: [
     {
@@ -568,10 +519,10 @@ export const getPrivateMessagePrivacy = {
  * @param body
  */
 export const postPrivateMessagePrivacy = {
-  method: "post" as const,
-  path: "/v1/private-message-privacy",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/private-message-privacy',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -606,16 +557,16 @@ export const postPrivateMessagePrivacy = {
  * @param consumerId
  */
 export const getThemesConsumertypeConsumerid = {
-  method: "get" as const,
-  path: "/v1/themes/:consumerType/:consumerId",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/themes/:consumerType/:consumerId',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     consumerType: {
-      style: "simple",
+      style: 'simple',
     },
     consumerId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -643,17 +594,17 @@ export const getThemesConsumertypeConsumerid = {
  * @param consumerId
  */
 export const patchThemesConsumertypeConsumerid = {
-  method: "patch" as const,
-  path: "/v1/themes/:consumerType/:consumerId",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'patch' as const,
+  path: '/v1/themes/:consumerType/:consumerId',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
     consumerType: {
-      style: "simple",
+      style: 'simple',
     },
     consumerId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -684,10 +635,10 @@ export const patchThemesConsumertypeConsumerid = {
  * @api get https://accountsettings.roblox.com/v1/themes/types
  */
 export const getThemesTypes = {
-  method: "get" as const,
-  path: "/v1/themes/types",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/themes/types',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_System_String_,
   errors: [],
 };
@@ -695,10 +646,10 @@ export const getThemesTypes = {
  * @api get https://accountsettings.roblox.com/v1/trade-privacy
  */
 export const getTradePrivacy = {
-  method: "get" as const,
-  path: "/v1/trade-privacy",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/trade-privacy',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ tradePrivacy: z.string() }),
   errors: [
     {
@@ -713,10 +664,10 @@ export const getTradePrivacy = {
  * @param body
  */
 export const postTradePrivacy = {
-  method: "post" as const,
-  path: "/v1/trade-privacy",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/trade-privacy',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -749,10 +700,10 @@ export const postTradePrivacy = {
  * @api get https://accountsettings.roblox.com/v1/trade-value
  */
 export const getTradeValue = {
-  method: "get" as const,
-  path: "/v1/trade-value",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/trade-value',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ tradeValue: z.string() }),
   errors: [
     {
@@ -767,10 +718,10 @@ export const getTradeValue = {
  * @param body
  */
 export const postTradeValue = {
-  method: "post" as const,
-  path: "/v1/trade-value",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/trade-value',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -804,13 +755,13 @@ export const postTradeValue = {
  * @param userId
  */
 export const postUsersUseridBlock = {
-  method: "post" as const,
-  path: "/v1/users/:userId/block",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/users/:userId/block',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -849,13 +800,13 @@ export const postUsersUseridBlock = {
  * @param userId
  */
 export const postUsersUseridUnblock = {
-  method: "post" as const,
-  path: "/v1/users/:userId/unblock",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/users/:userId/unblock',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -892,10 +843,10 @@ export const postUsersUseridUnblock = {
  * @api get https://accountsettings.roblox.com/v1/users/get-blocked-users
  */
 export const getUsersGetBlockedUsers = {
-  method: "get" as const,
-  path: "/v1/users/get-blocked-users",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/get-blocked-users',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
   response: Roblox_AccountSettings_Api_Models_Response_GetBlockedUsersResponse,
   errors: [
     {
@@ -909,12 +860,11 @@ export const getUsersGetBlockedUsers = {
  * @api get https://accountsettings.roblox.com/v1/users/get-detailed-blocked-users
  */
 export const getUsersGetDetailedBlockedUsers = {
-  method: "get" as const,
-  path: "/v1/users/get-detailed-blocked-users",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json" as const,
-  response:
-    Roblox_AccountSettings_Api_Models_Response_GetDetailedBlockedUsersResponse,
+  method: 'get' as const,
+  path: '/v1/users/get-detailed-blocked-users',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
+  response: Roblox_AccountSettings_Api_Models_Response_GetDetailedBlockedUsersResponse,
   errors: [
     {
       status: 401,

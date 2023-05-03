@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const Roblox_Inventory_Api_Models_AssetIdListModel = z.object({
   assetIds: z.array(z.number()),
@@ -11,21 +11,14 @@ const Roblox_Inventory_Api_Models_CollectibleUserAssetModel = z.object({
   recentAveragePrice: z.number().int(),
   originalPrice: z.number().int(),
   assetStock: z.number().int(),
-  buildersClubMembershipType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-  ]),
+  buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   isOnHold: z.boolean(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Inventory_Api_Models_CollectibleUserAssetModel),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Inventory_Api_Models_CollectibleUserAssetModel),
+});
 const Roblox_Inventory_Api_Models_CanViewInventoryResponse = z.object({
   canView: z.boolean(),
 });
@@ -57,12 +50,11 @@ const Roblox_Inventory_Api_Models_IItemModel = z.object({
   Type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   InstanceId: z.number().int(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Inventory_Api_Models_IItemModel),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Inventory_Api_Models_IItemModel),
+});
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 const schemas = {
@@ -85,16 +77,16 @@ const schemas = {
  * @param itemTargetId
  */
 export const postCollectionsItemsItemtypeItemtargetid = {
-  method: "post" as const,
-  path: "/v1/collections/items/:itemType/:itemTargetId",
-  baseUrl: "https://inventory.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/collections/items/:itemType/:itemTargetId',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     itemType: {
-      style: "simple",
+      style: 'simple',
     },
     itemTargetId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -133,16 +125,16 @@ export const postCollectionsItemsItemtypeItemtargetid = {
  * @param itemTargetId
  */
 export const deleteCollectionsItemsItemtypeItemtargetid = {
-  method: "delete" as const,
-  path: "/v1/collections/items/:itemType/:itemTargetId",
-  baseUrl: "https://inventory.roblox.com",
-  requestFormat: "json" as const,
+  method: 'delete' as const,
+  path: '/v1/collections/items/:itemType/:itemTargetId',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     itemType: {
-      style: "simple",
+      style: 'simple',
     },
     itemTargetId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -176,13 +168,13 @@ export const deleteCollectionsItemsItemtypeItemtargetid = {
  * @param packageID
  */
 export const getPackagesPackageidAssets = {
-  method: "get" as const,
-  path: "/v1/packages/:packageId/assets",
-  baseUrl: "https://inventory.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/packages/:packageId/assets',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     packageID: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -200,28 +192,28 @@ export const getPackagesPackageidAssets = {
  * @param sortOrder
  */
 export const getUsersUseridAssetsCollectibles = {
-  method: "get" as const,
-  path: "/v1/users/:userId/assets/collectibles",
-  baseUrl: "https://inventory.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/assets/collectibles',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     assetType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -309,10 +301,9 @@ export const getUsersUseridAssetsCollectibles = {
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_,
   errors: [
     {
       status: 400,
@@ -331,13 +322,13 @@ export const getUsersUseridAssetsCollectibles = {
  * @param userId
  */
 export const getUsersUseridCanViewInventory = {
-  method: "get" as const,
-  path: "/v1/users/:userId/can-view-inventory",
-  baseUrl: "https://inventory.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/can-view-inventory',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -357,13 +348,13 @@ export const getUsersUseridCanViewInventory = {
  * @param userId
  */
 export const getUsersUseridCategories = {
-  method: "get" as const,
-  path: "/v1/users/:userId/categories",
-  baseUrl: "https://inventory.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/categories',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -377,13 +368,13 @@ export const getUsersUseridCategories = {
  * @param userId
  */
 export const getUsersUseridCategoriesFavorites = {
-  method: "get" as const,
-  path: "/v1/users/:userId/categories/favorites",
-  baseUrl: "https://inventory.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/categories/favorites',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -401,27 +392,27 @@ export const getUsersUseridCategoriesFavorites = {
  * @param keyword
  */
 export const getUsersUseridInventoryAssettype = {
-  method: "get" as const,
-  path: "/v1/users/:userId/inventory/:assetType",
-  baseUrl: "https://inventory.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/inventory/:assetType',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     assetType: {
-      style: "simple",
+      style: 'simple',
     },
     pageNumber: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     itemsPerPage: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     keyword: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -529,19 +520,19 @@ export const getUsersUseridInventoryAssettype = {
  * @param itemTargetId
  */
 export const getUsersUseridItemsItemtypeItemtargetid = {
-  method: "get" as const,
-  path: "/v1/users/:userId/items/:itemType/:itemTargetId",
-  baseUrl: "https://inventory.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/items/:itemType/:itemTargetId',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     itemType: {
-      style: "simple",
+      style: 'simple',
     },
     itemTargetId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -549,8 +540,7 @@ export const getUsersUseridItemsItemtypeItemtargetid = {
     itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     itemTargetId: z.number().int(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_,
   errors: [
     {
       status: 400,
@@ -571,19 +561,19 @@ export const getUsersUseridItemsItemtypeItemtargetid = {
  * @param itemTargetId
  */
 export const getUsersUseridItemsItemtypeItemtargetidIsOwned = {
-  method: "get" as const,
-  path: "/v1/users/:userId/items/:itemType/:itemTargetId/is-owned",
-  baseUrl: "https://inventory.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/items/:itemType/:itemTargetId/is-owned',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     itemType: {
-      style: "simple",
+      style: 'simple',
     },
     itemTargetId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {

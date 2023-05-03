@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const Roblox_Authentication_Api_Models_AccountPinStatusResponse = z.object({
   isEnabled: z.boolean(),
@@ -14,20 +14,14 @@ const Roblox_Web_WebAPI_Models_ApiSuccessResponse = z.object({
 const Roblox_Authentication_Api_Models_AuthMetaDataResponse = z.object({
   cookieLawNoticeTimeout: z.number().int(),
 });
-const Roblox_Authentication_Api_Models_CanSendCredentialsVerificationMessageResponse =
-  z.object({ canSend: z.boolean() });
-const Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest =
-  z.object({
-    credentialType: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-    ]),
-    credentialValue: z.string(),
-    password: z.string(),
-  });
+const Roblox_Authentication_Api_Models_CanSendCredentialsVerificationMessageResponse = z.object({
+  canSend: z.boolean(),
+});
+const Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest = z.object({
+  credentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  credentialValue: z.string(),
+  password: z.string(),
+});
 const Roblox_Authentication_Api_Models_MetadataResponse = z.object({
   isUpdateUsernameEnabled: z.boolean(),
   ftuxAvatarAssetMap: z.string(),
@@ -40,14 +34,7 @@ const Roblox_Authentication_Api_Models_MetadataResponse = z.object({
   IsPasswordRequiredForUsernameChange: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_PasswordValidationResponse = z.object({
-  code: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-  ]),
+  code: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
   message: z.string(),
 });
 const Roblox_Authentication_Api_Models_PasswordValidationModel = z.object({
@@ -83,21 +70,13 @@ const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse =
-  z.object({
-    mediaType: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-    ]),
-    ticket: z.string(),
-  });
+const Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse = z.object({
+  mediaType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  ticket: z.string(),
+});
 const Roblox_Authentication_Api_Models_LoginResponse = z.object({
   user: Roblox_Web_Responses_Users_SkinnyUserResponse,
-  twoStepVerificationData:
-    Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse,
+  twoStepVerificationData: Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse,
   identityVerificationLoginTicket: z.string(),
   isBanned: z.boolean(),
 });
@@ -108,12 +87,11 @@ const Roblox_Authentication_Api_Models_ProviderInfoModel = z.object({
 const Roblox_Authentication_Api_Models_SocialProvidersResponse = z.object({
   providers: z.array(Roblox_Authentication_Api_Models_ProviderInfoModel),
 });
-const Roblox_Authentication_Api_Models_TwoStepVerificationMetadataResponse =
-  z.object({
-    codeLength: z.number().int(),
-    loadingImageUrl: z.string(),
-    supportUrl: z.string(),
-  });
+const Roblox_Authentication_Api_Models_TwoStepVerificationMetadataResponse = z.object({
+  codeLength: z.number().int(),
+  loadingImageUrl: z.string(),
+  supportUrl: z.string(),
+});
 const Roblox_Authentication_Api_Models_UsernamesResponse = z.object({
   usernames: z.array(z.string()),
 });
@@ -147,36 +125,29 @@ const Roblox_Authentication_Api_Models_RecommendedUsernameResponse = z.object({
 const Roblox_Authentication_Api_Models_XboxConnectionModel = z.object({
   hasConnectedXboxAccount: z.boolean(),
 });
-const Roblox_Authentication_Api_Models_XboxLoginConsecutiveDaysResponse =
-  z.object({ count: z.number().int() });
+const Roblox_Authentication_Api_Models_XboxLoginConsecutiveDaysResponse = z.object({ count: z.number().int() });
 const Roblox_Authentication_Api_Models_AccountPinResponse = z.object({
   unlockedUntil: z.number(),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
-const Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest =
-  z.object({ loginTicket: z.string(), resultToken: z.string() });
-const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel =
-  z.object({
-    clientPublicKey: z.string(),
-    clientEpochTimestamp: z.number().int(),
-    saiSignature: z.string(),
-    serverNonce: z.string(),
-  });
+const Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest = z.object({
+  loginTicket: z.string(),
+  resultToken: z.string(),
+});
+const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel = z.object({
+  clientPublicKey: z.string(),
+  clientEpochTimestamp: z.number().int(),
+  saiSignature: z.string(),
+  serverNonce: z.string(),
+});
 const Roblox_Authentication_Api_Models_LoginRequest = z.object({
-  ctype: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-  ]),
+  ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   cvalue: z.string(),
   password: z.string(),
   userId: z.number().int(),
   securityQuestionSessionId: z.string(),
   securityQuestionRedemptionToken: z.string(),
-  secureAuthenticationIntent:
-    Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
+  secureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
   captchaId: z.string(),
   captchaToken: z.string(),
   captchaProvider: z.string(),
@@ -217,8 +188,7 @@ const Roblox_Authentication_Api_Models_SignupRequest = z.object({
   referralData: Roblox_Authentication_Api_Models_ReferralDataModel,
   agreementIds: z.array(z.string()),
   identityVerificationResultToken: z.string(),
-  secureAuthenticationIntent:
-    Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
+  secureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
   otpSession: Roblox_Authentication_Api_Models_Request_OtpSessionModel,
   captchaId: z.string(),
   captchaToken: z.string(),
@@ -229,42 +199,39 @@ const Roblox_Authentication_Api_Models_SignupResponse = z.object({
   userId: z.number().int(),
   starterPlaceId: z.number().int(),
 });
-const Roblox_Authentication_Api_Models_SocialAuthenticationDisconnectRequest =
-  z.object({ Password: z.string() });
-const Roblox_Authentication_Api_Models_TwoStepVerificationTicketRequest =
-  z.object({
-    username: z.string(),
-    ticket: z.string(),
-    actionType: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-    ]),
-  });
-const Roblox_Authentication_Api_Models_TwoStepVerificationVerifyRequest =
-  z.object({
-    username: z.string(),
-    ticket: z.string(),
-    code: z.string(),
-    rememberDevice: z.boolean(),
-    actionType: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-    ]),
-  });
+const Roblox_Authentication_Api_Models_SocialAuthenticationDisconnectRequest = z.object({ Password: z.string() });
+const Roblox_Authentication_Api_Models_TwoStepVerificationTicketRequest = z.object({
+  username: z.string(),
+  ticket: z.string(),
+  actionType: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+  ]),
+});
+const Roblox_Authentication_Api_Models_TwoStepVerificationVerifyRequest = z.object({
+  username: z.string(),
+  ticket: z.string(),
+  code: z.string(),
+  rememberDevice: z.boolean(),
+  actionType: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+  ]),
+});
 const Roblox_Authentication_Api_Models_PasswordChangeModel = z.object({
   currentPassword: z.string(),
   newPassword: z.string(),
@@ -288,9 +255,9 @@ const Roblox_Authentication_Api_Models_XboxUserModel = z.object({
   UserId: z.number().int(),
   Username: z.string(),
 });
-const Roblox_Authentication_Api_Models_XboxCollectionsOfUserResponse = z.object(
-  { Users: z.array(Roblox_Authentication_Api_Models_XboxUserModel) }
-);
+const Roblox_Authentication_Api_Models_XboxCollectionsOfUserResponse = z.object({
+  Users: z.array(Roblox_Authentication_Api_Models_XboxUserModel),
+});
 
 const schemas = {
   Roblox_Authentication_Api_Models_AccountPinStatusResponse,
@@ -343,10 +310,10 @@ const schemas = {
  * @api get https://auth.roblox.com/v1/account/pin
  */
 export const getAccountPin = {
-  method: "get" as const,
-  path: "/v1/account/pin",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/account/pin',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   response: Roblox_Authentication_Api_Models_AccountPinStatusResponse,
   errors: [
     {
@@ -361,10 +328,10 @@ export const getAccountPin = {
  * @param body The Roblox.Authentication.Api.Models.AccountPinRequest.
  */
 export const postAccountPin = {
-  method: "post" as const,
-  path: "/v1/account/pin",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/account/pin',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -390,10 +357,10 @@ export const postAccountPin = {
  * @param body
  */
 export const deleteAccountPin = {
-  method: "delete" as const,
-  path: "/v1/account/pin",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'delete' as const,
+  path: '/v1/account/pin',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -419,10 +386,10 @@ export const deleteAccountPin = {
  * @param body The request body.
  */
 export const patchAccountPin = {
-  method: "patch" as const,
-  path: "/v1/account/pin",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'patch' as const,
+  path: '/v1/account/pin',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -447,10 +414,10 @@ export const patchAccountPin = {
  * @api post https://auth.roblox.com/v1/account/pin/lock
  */
 export const postAccountPinLock = {
-  method: "post" as const,
-  path: "/v1/account/pin/lock",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/account/pin/lock',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ success: z.boolean() }),
   errors: [
     {
@@ -470,10 +437,10 @@ export const postAccountPinLock = {
  * @param body The Roblox.Authentication.Api.Models.AccountPinRequest containing the entered pin.
  */
 export const postAccountPinUnlock = {
-  method: "post" as const,
-  path: "/v1/account/pin/unlock",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/account/pin/unlock',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -498,10 +465,10 @@ export const postAccountPinUnlock = {
  * @api get https://auth.roblox.com/v1/auth/metadata
  */
 export const getAuthMetadata = {
-  method: "get" as const,
-  path: "/v1/auth/metadata",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/auth/metadata',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ cookieLawNoticeTimeout: z.number().int() }),
   errors: [],
 };
@@ -512,32 +479,26 @@ export const getAuthMetadata = {
  * @param Password
  */
 export const getCredentialsVerification = {
-  method: "get" as const,
-  path: "/v1/credentials/verification",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/credentials/verification',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     CredentialType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     CredentialValue: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     Password: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
-    CredentialType: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-    ]),
+    CredentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     CredentialValue: z.string(),
     Password: z.string(),
   },
@@ -566,10 +527,10 @@ export const getCredentialsVerification = {
  * @param body Request model with a credential value, type, and password.
  */
 export const postCredentialsVerification = {
-  method: "post" as const,
-  path: "/v1/credentials/verification",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/credentials/verification',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -606,10 +567,10 @@ export const postCredentialsVerification = {
  * @param body Request model with a credential value, type, and password.
  */
 export const postCredentialsVerificationSend = {
-  method: "post" as const,
-  path: "/v1/credentials/verification/send",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/credentials/verification/send',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -648,10 +609,10 @@ export const postCredentialsVerificationSend = {
  * @param body
  */
 export const postIdentityVerificationLogin = {
-  method: "post" as const,
-  path: "/v1/identity-verification/login",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/identity-verification/login',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -676,10 +637,10 @@ export const postIdentityVerificationLogin = {
  * @param body Roblox.Authentication.Api.Models.LoginRequest.
  */
 export const postLogin = {
-  method: "post" as const,
-  path: "/v1/login",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/login',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -726,10 +687,10 @@ export const postLogin = {
  * @api post https://auth.roblox.com/v1/logout
  */
 export const postLogout = {
-  method: "post" as const,
-  path: "/v1/logout",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/logout',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({}),
   errors: [
     {
@@ -748,10 +709,10 @@ export const postLogout = {
  * @api post https://auth.roblox.com/v1/logoutfromallsessionsandreauthenticate
  */
 export const postLogoutfromallsessionsandreauthenticate = {
-  method: "post" as const,
-  path: "/v1/logoutfromallsessionsandreauthenticate",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/logoutfromallsessionsandreauthenticate',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({}),
   errors: [
     {
@@ -770,10 +731,10 @@ export const postLogoutfromallsessionsandreauthenticate = {
  * @api get https://auth.roblox.com/v1/metadata
  */
 export const getMetadata = {
-  method: "get" as const,
-  path: "/v1/metadata",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/metadata',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   response: Roblox_Authentication_Api_Models_MetadataResponse,
   errors: [],
 };
@@ -783,17 +744,17 @@ export const getMetadata = {
  * @param Password
  */
 export const getPasswordsValidate = {
-  method: "get" as const,
-  path: "/v1/passwords/validate",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/passwords/validate',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     Username: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     Password: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -815,10 +776,10 @@ export const getPasswordsValidate = {
  * @param body The Roblox.Authentication.Api.Models.PasswordValidationModel.
  */
 export const postPasswordsValidate = {
-  method: "post" as const,
-  path: "/v1/passwords/validate",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/passwords/validate',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -843,10 +804,10 @@ export const postPasswordsValidate = {
  * @api get https://auth.roblox.com/v1/recovery/metadata
  */
 export const getRecoveryMetadata = {
-  method: "get" as const,
-  path: "/v1/recovery/metadata",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/recovery/metadata',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   response: Roblox_Authentication_Api_Models_RecoveryMetadataResponse,
   errors: [
     {
@@ -861,13 +822,13 @@ export const getRecoveryMetadata = {
  * @param ticket
  */
 export const getRevertAccount = {
-  method: "get" as const,
-  path: "/v1/revert/account",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/revert/account',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     ticket: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -893,10 +854,10 @@ export const getRevertAccount = {
  * @param body The Roblox.Authentication.Api.Models.RevertAccountSubmitRequest containing the necessary information to revert account.
  */
 export const postRevertAccount = {
-  method: "post" as const,
-  path: "/v1/revert/account",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/revert/account',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -932,10 +893,10 @@ export const postRevertAccount = {
  * @param body Roblox.Authentication.Api.Models.SignupRequest
  */
 export const postSignup = {
-  method: "post" as const,
-  path: "/v1/signup",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/signup',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -990,14 +951,14 @@ export const postSignup = {
  * @param provider
  */
 export const postSocialProviderDisconnect = {
-  method: "post" as const,
-  path: "/v1/social/:provider/disconnect",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/social/:provider/disconnect',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
     provider: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -1036,10 +997,10 @@ export const postSocialProviderDisconnect = {
  * @api get https://auth.roblox.com/v1/social/connected-providers
  */
 export const getSocialConnectedProviders = {
-  method: "get" as const,
-  path: "/v1/social/connected-providers",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/social/connected-providers',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   response: Roblox_Authentication_Api_Models_SocialProvidersResponse,
   errors: [
     {
@@ -1053,12 +1014,11 @@ export const getSocialConnectedProviders = {
  * @api get https://auth.roblox.com/v1/twostepverification/metadata
  */
 export const getTwostepverificationMetadata = {
-  method: "get" as const,
-  path: "/v1/twostepverification/metadata",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
-  response:
-    Roblox_Authentication_Api_Models_TwoStepVerificationMetadataResponse,
+  method: 'get' as const,
+  path: '/v1/twostepverification/metadata',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
+  response: Roblox_Authentication_Api_Models_TwoStepVerificationMetadataResponse,
   errors: [],
 };
 /**
@@ -1066,10 +1026,10 @@ export const getTwostepverificationMetadata = {
  * @param body The request.
  */
 export const postTwostepverificationResend = {
-  method: "post" as const,
-  path: "/v1/twostepverification/resend",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/twostepverification/resend',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -1112,10 +1072,10 @@ export const postTwostepverificationResend = {
  * @param body The request model containing information needed to verify with two step verification.
  */
 export const postTwostepverificationVerify = {
-  method: "post" as const,
-  path: "/v1/twostepverification/verify",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/twostepverification/verify',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -1154,11 +1114,11 @@ export const postTwostepverificationVerify = {
  * @param body The request model including the current password, and the new password.
  */
 export const postUserPasswordsChange = {
-  method: "post" as const,
-  path: "/v1/user/passwords/change",
-  baseUrl: "https://auth.roblox.com",
+  method: 'post' as const,
+  path: '/v1/user/passwords/change',
+  baseUrl: 'https://auth.roblox.com',
   description: `The current password is needed for verification that the password can be changed.`,
-  requestFormat: "json" as const,
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -1197,10 +1157,10 @@ export const postUserPasswordsChange = {
  * @param body The Roblox.Authentication.Api.Models.UsernameChangeRequest
  */
 export const postUsername = {
-  method: "post" as const,
-  path: "/v1/username",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/username',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -1255,14 +1215,14 @@ export const postUsername = {
  * @param username
  */
 export const getUsernames = {
-  method: "get" as const,
-  path: "/v1/usernames",
-  baseUrl: "https://auth.roblox.com",
+  method: 'get' as const,
+  path: '/v1/usernames',
+  baseUrl: 'https://auth.roblox.com',
   description: `This endpoint can be expanded in the future to include other query parameters such as &quot;startsWith&quot;`,
-  requestFormat: "json" as const,
+  requestFormat: 'json' as const,
   serializationMethod: {
     username: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -1277,10 +1237,10 @@ export const getUsernames = {
  * @param body
  */
 export const postUsernamesRecover = {
-  method: "post" as const,
-  path: "/v1/usernames/recover",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/usernames/recover',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -1316,21 +1276,21 @@ export const postUsernamesRecover = {
  * @param Context
  */
 export const getUsernamesValidate = {
-  method: "get" as const,
-  path: "/v1/usernames/validate",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/usernames/validate',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     Username: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     Birthday: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     Context: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -1354,10 +1314,10 @@ export const getUsernamesValidate = {
  * @param body The Roblox.Authentication.Api.Models.UsernameValidationRequest.
  */
 export const postUsernamesValidate = {
-  method: "post" as const,
-  path: "/v1/usernames/validate",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/usernames/validate',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -1384,13 +1344,13 @@ export const postUsernamesValidate = {
  * @param Email
  */
 export const getValidatorsEmail = {
-  method: "get" as const,
-  path: "/v1/validators/email",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/validators/email',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     Email: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -1406,17 +1366,17 @@ export const getValidatorsEmail = {
  * @param BirthDay
  */
 export const getValidatorsUsername = {
-  method: "get" as const,
-  path: "/v1/validators/username",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/validators/username',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     Username: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     BirthDay: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -1431,10 +1391,10 @@ export const getValidatorsUsername = {
  * @api get https://auth.roblox.com/v1/xbox/connection
  */
 export const getXboxConnection = {
-  method: "get" as const,
-  path: "/v1/xbox/connection",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/xbox/connection',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ hasConnectedXboxAccount: z.boolean() }),
   errors: [
     {
@@ -1452,10 +1412,10 @@ export const getXboxConnection = {
  * @api post https://auth.roblox.com/v1/xbox/disconnect
  */
 export const postXboxDisconnect = {
-  method: "post" as const,
-  path: "/v1/xbox/disconnect",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/xbox/disconnect',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ success: z.boolean() }),
   errors: [
     {
@@ -1475,10 +1435,10 @@ export const postXboxDisconnect = {
  * @api get https://auth.roblox.com/v1/xbox/get-login-consecutive-days
  */
 export const getXboxGetLoginConsecutiveDays = {
-  method: "get" as const,
-  path: "/v1/xbox/get-login-consecutive-days",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/xbox/get-login-consecutive-days',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ count: z.number().int() }),
   errors: [
     {
@@ -1502,10 +1462,10 @@ export const getXboxGetLoginConsecutiveDays = {
  * @param body
  */
 export const postXboxTranslate = {
-  method: "post" as const,
-  path: "/v1/xbox/translate",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/xbox/translate',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },

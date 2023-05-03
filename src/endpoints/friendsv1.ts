@@ -1,15 +1,13 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-const Roblox_Friends_Api_Models_Response_FriendsPageMetadataResponse = z.object(
-  {
-    isFriendsFilterBarEnabled: z.boolean(),
-    isFriendsPageSortExperimentEnabled: z.boolean(),
-    isFriendsUserDataStoreCacheEnabled: z.boolean(),
-    frequentFriendSortRollout: z.number().int(),
-    userName: z.string(),
-    displayName: z.string(),
-  }
-);
+const Roblox_Friends_Api_Models_Response_FriendsPageMetadataResponse = z.object({
+  isFriendsFilterBarEnabled: z.boolean(),
+  isFriendsPageSortExperimentEnabled: z.boolean(),
+  isFriendsUserDataStoreCacheEnabled: z.boolean(),
+  frequentFriendSortRollout: z.number().int(),
+  userName: z.string(),
+  displayName: z.string(),
+});
 const Roblox_Friends_Api_FriendsCountResponse = z.object({
   count: z.number().int(),
 });
@@ -43,41 +41,26 @@ const Roblox_Friends_Api_FriendRequestResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestResponse_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Friends_Api_FriendRequestResponse),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Friends_Api_FriendRequestResponse),
+});
 const Roblox_Friends_Api_Models_Response_UserRecommendation = z.object({
   userId: z.number().int(),
   userName: z.string(),
   userProfilePageUrl: z.string(),
-  userPresenceType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-  ]),
+  userPresenceType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
 });
-const Roblox_Friends_Api_Models_Response_UserRecommendationsResponse = z.object(
-  {
-    recommendedUsers: z.array(
-      Roblox_Friends_Api_Models_Response_UserRecommendation
-    ),
-  }
-);
+const Roblox_Friends_Api_Models_Response_UserRecommendationsResponse = z.object({
+  recommendedUsers: z.array(Roblox_Friends_Api_Models_Response_UserRecommendation),
+});
 const Roblox_Friends_Api_PendingFriendRequestCountModel = z.object({
   count: z.number().int(),
 });
 const Roblox_Friends_Api_Models_Response_UserResponse = z.object({
   isOnline: z.boolean(),
-  presenceType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-  ]),
+  presenceType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   isDeleted: z.boolean(),
   friendFrequentScore: z.number().int(),
   friendFrequentRank: z.number().int(),
@@ -90,17 +73,17 @@ const Roblox_Friends_Api_Models_Response_UserResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Friends_Api_Models_Response_UserResponse),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Friends_Api_Models_Response_UserResponse),
+});
 const Roblox_Friends_Api_FollowCountResponse = z.object({
   count: z.number().int(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_ =
-  z.object({ data: z.array(Roblox_Friends_Api_Models_Response_UserResponse) });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_ = z.object({
+  data: z.array(Roblox_Friends_Api_Models_Response_UserResponse),
+});
 const Roblox_Friends_Api_Models_Response_UserPresenceResponseModel = z.object({
   UserPresenceType: z.string(),
   UserLocationType: z.string(),
@@ -117,16 +100,16 @@ const Roblox_Friends_Api_Models_Response_UserPresenceResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_ =
-  z.object({
-    data: z.array(Roblox_Friends_Api_Models_Response_UserPresenceResponse),
-  });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_ = z.object({
+  data: z.array(Roblox_Friends_Api_Models_Response_UserPresenceResponse),
+});
 const Roblox_Friends_Api_FriendStatusResponse = z.object({
   id: z.number().int(),
   status: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_FriendStatusResponse_ =
-  z.object({ data: z.array(Roblox_Friends_Api_FriendStatusResponse) });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_FriendStatusResponse_ = z.object({
+  data: z.array(Roblox_Friends_Api_FriendStatusResponse),
+});
 const Roblox_Friends_Api_CaptchaStatusResponseModel = z.object({
   success: z.boolean(),
   isCaptchaRequired: z.boolean(),
@@ -139,12 +122,9 @@ const Roblox_Friends_Api_Models_Response_FollowingExistsResponse = z.object({
   isFollowed: z.boolean(),
   userId: z.number().int(),
 });
-const Roblox_Friends_Api_Models_Response_FollowingExistsResponseModel =
-  z.object({
-    followings: z.array(
-      Roblox_Friends_Api_Models_Response_FollowingExistsResponse
-    ),
-  });
+const Roblox_Friends_Api_Models_Response_FollowingExistsResponseModel = z.object({
+  followings: z.array(Roblox_Friends_Api_Models_Response_FollowingExistsResponse),
+});
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Friends_Api_Models_Request_FriendingTokenRequestModel = z.object({
   friendingToken: z.string(),
@@ -209,13 +189,13 @@ const schemas = {
  * @param targetContactId
  */
 export const postContactsTargetcontactidRequestFriendship = {
-  method: "post" as const,
-  path: "/v1/contacts/:targetContactId/request-friendship",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/contacts/:targetContactId/request-friendship',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     targetContactId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -257,13 +237,13 @@ export const postContactsTargetcontactidRequestFriendship = {
  * @param targetUserId
  */
 export const getMetadata = {
-  method: "get" as const,
-  path: "/v1/metadata",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/metadata',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     targetUserId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -277,10 +257,10 @@ export const getMetadata = {
  * @api get https://friends.roblox.com/v1/my/friends/count
  */
 export const getMyFriendsCount = {
-  method: "get" as const,
-  path: "/v1/my/friends/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/my/friends/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ count: z.number().int() }),
   errors: [
     {
@@ -297,21 +277,21 @@ export const getMyFriendsCount = {
  * @param sortOrder
  */
 export const getMyFriendsRequests = {
-  method: "get" as const,
-  path: "/v1/my/friends/requests",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/my/friends/requests',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -321,10 +301,9 @@ export const getMyFriendsRequests = {
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Desc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Desc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestResponse_,
   errors: [
     {
       status: 400,
@@ -354,10 +333,10 @@ export const getMyFriendsRequests = {
  * @api get https://friends.roblox.com/v1/recommended-users
  */
 export const getRecommendedUsers = {
-  method: "get" as const,
-  path: "/v1/recommended-users",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/recommended-users',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   response: Roblox_Friends_Api_Models_Response_UserRecommendationsResponse,
   errors: [
     {
@@ -372,10 +351,10 @@ export const getRecommendedUsers = {
  * @param body The userIds potentially being followed
  */
 export const postUserFollowingExists = {
-  method: "post" as const,
-  path: "/v1/user/following-exists",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/user/following-exists',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -410,10 +389,10 @@ export const postUserFollowingExists = {
  * @api get https://friends.roblox.com/v1/user/friend-requests/count
  */
 export const getUserFriendRequestsCount = {
-  method: "get" as const,
-  path: "/v1/user/friend-requests/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/user/friend-requests/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ count: z.number().int() }),
   errors: [
     {
@@ -427,10 +406,10 @@ export const getUserFriendRequestsCount = {
  * @api post https://friends.roblox.com/v1/user/friend-requests/decline-all
  */
 export const postUserFriendRequestsDeclineAll = {
-  method: "post" as const,
-  path: "/v1/user/friend-requests/decline-all",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/user/friend-requests/decline-all',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({}),
   errors: [
     {
@@ -450,13 +429,13 @@ export const postUserFriendRequestsDeclineAll = {
  * @param requesterUserId
  */
 export const postUsersRequesteruseridAcceptFriendRequest = {
-  method: "post" as const,
-  path: "/v1/users/:requesterUserId/accept-friend-request",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/users/:requesterUserId/accept-friend-request',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     requesterUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -490,13 +469,13 @@ export const postUsersRequesteruseridAcceptFriendRequest = {
  * @param requesterUserId
  */
 export const postUsersRequesteruseridDeclineFriendRequest = {
-  method: "post" as const,
-  path: "/v1/users/:requesterUserId/decline-friend-request",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/users/:requesterUserId/decline-friend-request',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     requesterUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -528,14 +507,14 @@ export const postUsersRequesteruseridDeclineFriendRequest = {
  * @param senderUserId
  */
 export const postUsersSenderuseridAcceptFriendRequestWithToken = {
-  method: "post" as const,
-  path: "/v1/users/:senderUserId/accept-friend-request-with-token",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/users/:senderUserId/accept-friend-request-with-token',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
     senderUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -573,14 +552,14 @@ export const postUsersSenderuseridAcceptFriendRequestWithToken = {
  * @param targetUserId
  */
 export const postUsersTargetuseridFollow = {
-  method: "post" as const,
-  path: "/v1/users/:targetUserId/follow",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/users/:targetUserId/follow',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -624,24 +603,24 @@ export const postUsersTargetuseridFollow = {
  * @param sortOrder
  */
 export const getUsersTargetuseridFollowers = {
-  method: "get" as const,
-  path: "/v1/users/:targetUserId/followers",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:targetUserId/followers',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -652,10 +631,9 @@ export const getUsersTargetuseridFollowers = {
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
   errors: [
     {
       status: 400,
@@ -681,13 +659,13 @@ export const getUsersTargetuseridFollowers = {
  * @param targetUserId
  */
 export const getUsersTargetuseridFollowersCount = {
-  method: "get" as const,
-  path: "/v1/users/:targetUserId/followers/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:targetUserId/followers/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -710,24 +688,24 @@ export const getUsersTargetuseridFollowersCount = {
  * @param sortOrder
  */
 export const getUsersTargetuseridFollowings = {
-  method: "get" as const,
-  path: "/v1/users/:targetUserId/followings",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:targetUserId/followings',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -738,10 +716,9 @@ export const getUsersTargetuseridFollowings = {
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
   errors: [
     {
       status: 400,
@@ -767,13 +744,13 @@ export const getUsersTargetuseridFollowings = {
  * @param targetUserId
  */
 export const getUsersTargetuseridFollowingsCount = {
-  method: "get" as const,
-  path: "/v1/users/:targetUserId/followings/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:targetUserId/followings/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -793,13 +770,13 @@ export const getUsersTargetuseridFollowingsCount = {
  * @param targetUserId
  */
 export const postUsersTargetuseridFollowingsRecount = {
-  method: "post" as const,
-  path: "/v1/users/:targetUserId/followings/recount",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/users/:targetUserId/followings/recount',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -836,14 +813,14 @@ export const postUsersTargetuseridFollowingsRecount = {
  * @param targetUserId
  */
 export const postUsersTargetuseridRequestFriendship = {
-  method: "post" as const,
-  path: "/v1/users/:targetUserId/request-friendship",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/users/:targetUserId/request-friendship',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -888,13 +865,13 @@ export const postUsersTargetuseridRequestFriendship = {
  * @param targetUserId
  */
 export const postUsersTargetuseridUnfollow = {
-  method: "post" as const,
-  path: "/v1/users/:targetUserId/unfollow",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/users/:targetUserId/unfollow',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -934,13 +911,13 @@ export const postUsersTargetuseridUnfollow = {
  * @param targetUserId
  */
 export const postUsersTargetuseridUnfriend = {
-  method: "post" as const,
-  path: "/v1/users/:targetUserId/unfriend",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/users/:targetUserId/unfriend',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -971,16 +948,16 @@ export const postUsersTargetuseridUnfriend = {
  * @param userSort
  */
 export const getUsersUseridFriends = {
-  method: "get" as const,
-  path: "/v1/users/:userId/friends",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/friends',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     userSort: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -988,8 +965,7 @@ export const getUsersUseridFriends = {
     userId: z.number().int(),
     userSort: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
   errors: [
     {
       status: 400,
@@ -1003,13 +979,13 @@ export const getUsersUseridFriends = {
  * @param userId
  */
 export const getUsersUseridFriendsCount = {
-  method: "get" as const,
-  path: "/v1/users/:userId/friends/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/friends/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -1029,20 +1005,19 @@ export const getUsersUseridFriendsCount = {
  * @param userId
  */
 export const getUsersUseridFriendsInactive = {
-  method: "get" as const,
-  path: "/v1/users/:userId/friends/inactive",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/friends/inactive',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
     userId: z.number().int(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
   errors: [
     {
       status: 400,
@@ -1062,20 +1037,19 @@ export const getUsersUseridFriendsInactive = {
  * @param userId
  */
 export const getUsersUseridFriendsOnline = {
-  method: "get" as const,
-  path: "/v1/users/:userId/friends/online",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/friends/online',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
     userId: z.number().int(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_,
   errors: [
     {
       status: 400,
@@ -1096,24 +1070,23 @@ export const getUsersUseridFriendsOnline = {
  * @param userIds
  */
 export const getUsersUseridFriendsStatuses = {
-  method: "get" as const,
-  path: "/v1/users/:userId/friends/statuses",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/friends/statuses',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     userIds: {
-      style: "form",
+      style: 'form',
     },
   },
   parameters: {
     userId: z.number().int(),
     userIds: z.array(z.number()),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_FriendStatusResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_FriendStatusResponse_,
   errors: [
     {
       status: 400,

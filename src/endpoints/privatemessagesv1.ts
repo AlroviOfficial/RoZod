@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const Roblox_PrivateMessages_Api_Models_VerifiedSkinnyUserResponse = z.object({
   hasVerifiedBadge: z.boolean(),
@@ -6,24 +6,21 @@ const Roblox_PrivateMessages_Api_Models_VerifiedSkinnyUserResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_PrivateMessages_Api_Models_AnnouncementsDetailsResponse = z.object(
-  {
-    id: z.number().int(),
-    sender: Roblox_PrivateMessages_Api_Models_VerifiedSkinnyUserResponse,
-    subject: z.string(),
-    body: z.string(),
-    created: z.string().datetime(),
-    updated: z.string().datetime(),
-  }
-);
+const Roblox_PrivateMessages_Api_Models_AnnouncementsDetailsResponse = z.object({
+  id: z.number().int(),
+  sender: Roblox_PrivateMessages_Api_Models_VerifiedSkinnyUserResponse,
+  subject: z.string(),
+  body: z.string(),
+  created: z.string().datetime(),
+  updated: z.string().datetime(),
+});
 const Roblox_PrivateMessages_Api_Models_GetAnnouncementsResponse = z.object({
-  collection: z.array(
-    Roblox_PrivateMessages_Api_Models_AnnouncementsDetailsResponse
-  ),
+  collection: z.array(Roblox_PrivateMessages_Api_Models_AnnouncementsDetailsResponse),
   totalCollectionSize: z.number().int(),
 });
-const Roblox_PrivateMessages_Api_Models_AnnouncementsMetadataResponse =
-  z.object({ numOfAnnouncements: z.number().int() });
+const Roblox_PrivateMessages_Api_Models_AnnouncementsMetadataResponse = z.object({
+  numOfAnnouncements: z.number().int(),
+});
 const Roblox_PrivateMessages_Api_Models_MessageDetailsResponse = z.object({
   id: z.number().int(),
   sender: Roblox_PrivateMessages_Api_Models_VerifiedSkinnyUserResponse,
@@ -42,8 +39,7 @@ const Roblox_PrivateMessages_Api_Models_GetMessagesResponse = z.object({
   totalPages: z.number().int(),
   pageNumber: z.number().int(),
 });
-const Roblox_PrivateMessages_Api_Models_Messages_Response_CanMessageResponse =
-  z.object({ canMessage: z.boolean() });
+const Roblox_PrivateMessages_Api_Models_Messages_Response_CanMessageResponse = z.object({ canMessage: z.boolean() });
 const Roblox_PrivateMessages_Api_Models_UnreadMessagesCountResponse = z.object({
   count: z.number().int(),
 });
@@ -55,9 +51,7 @@ const Roblox_PrivateMessages_Api_Models_FailedMessageResponse = z.object({
   errorMessage: z.string(),
 });
 const Roblox_PrivateMessages_Api_Models_BatchMessagesResponse = z.object({
-  failedMessages: z.array(
-    Roblox_PrivateMessages_Api_Models_FailedMessageResponse
-  ),
+  failedMessages: z.array(Roblox_PrivateMessages_Api_Models_FailedMessageResponse),
 });
 const Roblox_PrivateMessages_Api_Models_SendMessageRequest = z.object({
   userId: z.number().int(),
@@ -93,10 +87,10 @@ const schemas = {
  * @api get https://privatemessages.roblox.com/v1/announcements
  */
 export const getAnnouncements = {
-  method: "get" as const,
-  path: "/v1/announcements",
-  baseUrl: "https://privatemessages.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/announcements',
+  baseUrl: 'https://privatemessages.roblox.com',
+  requestFormat: 'json' as const,
   response: Roblox_PrivateMessages_Api_Models_GetAnnouncementsResponse,
   errors: [
     {
@@ -115,10 +109,10 @@ export const getAnnouncements = {
  * @api get https://privatemessages.roblox.com/v1/announcements/metadata
  */
 export const getAnnouncementsMetadata = {
-  method: "get" as const,
-  path: "/v1/announcements/metadata",
-  baseUrl: "https://privatemessages.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/announcements/metadata',
+  baseUrl: 'https://privatemessages.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ numOfAnnouncements: z.number().int() }),
   errors: [
     {
@@ -135,31 +129,28 @@ export const getAnnouncementsMetadata = {
  * @param messageTab
  */
 export const getMessages = {
-  method: "get" as const,
-  path: "/v1/messages",
-  baseUrl: "https://privatemessages.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/messages',
+  baseUrl: 'https://privatemessages.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     pageNumber: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     pageSize: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     messageTab: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     pageNumber: z.number().int().optional(),
     pageSize: z.number().int().optional().default(20),
-    messageTab: z
-      .enum(["Inbox", "Sent", "Archive"])
-      .optional()
-      .default("Inbox"),
+    messageTab: z.enum(['Inbox', 'Sent', 'Archive']).optional().default('Inbox'),
   },
   response: Roblox_PrivateMessages_Api_Models_GetMessagesResponse,
   errors: [
@@ -175,13 +166,13 @@ export const getMessages = {
  * @param messageId
  */
 export const getMessagesMessageid = {
-  method: "get" as const,
-  path: "/v1/messages/:messageId",
-  baseUrl: "https://privatemessages.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/messages/:messageId',
+  baseUrl: 'https://privatemessages.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     messageId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -206,13 +197,13 @@ export const getMessagesMessageid = {
  * @param userId
  */
 export const getMessagesUseridCanMessage = {
-  method: "get" as const,
-  path: "/v1/messages/:userId/can-message",
-  baseUrl: "https://privatemessages.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/messages/:userId/can-message',
+  baseUrl: 'https://privatemessages.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -237,10 +228,10 @@ export const getMessagesUseridCanMessage = {
  * @param body
  */
 export const postMessagesArchive = {
-  method: "post" as const,
-  path: "/v1/messages/archive",
-  baseUrl: "https://privatemessages.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/messages/archive',
+  baseUrl: 'https://privatemessages.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -271,10 +262,10 @@ export const postMessagesArchive = {
  * @param body
  */
 export const postMessagesMarkRead = {
-  method: "post" as const,
-  path: "/v1/messages/mark-read",
-  baseUrl: "https://privatemessages.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/messages/mark-read',
+  baseUrl: 'https://privatemessages.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -305,10 +296,10 @@ export const postMessagesMarkRead = {
  * @param body
  */
 export const postMessagesMarkUnread = {
-  method: "post" as const,
-  path: "/v1/messages/mark-unread",
-  baseUrl: "https://privatemessages.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/messages/mark-unread',
+  baseUrl: 'https://privatemessages.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -339,10 +330,10 @@ export const postMessagesMarkUnread = {
  * @param body
  */
 export const postMessagesSend = {
-  method: "post" as const,
-  path: "/v1/messages/send",
-  baseUrl: "https://privatemessages.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/messages/send',
+  baseUrl: 'https://privatemessages.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -368,10 +359,10 @@ export const postMessagesSend = {
  * @param body
  */
 export const postMessagesUnarchive = {
-  method: "post" as const,
-  path: "/v1/messages/unarchive",
-  baseUrl: "https://privatemessages.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/messages/unarchive',
+  baseUrl: 'https://privatemessages.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -401,10 +392,10 @@ export const postMessagesUnarchive = {
  * @api get https://privatemessages.roblox.com/v1/messages/unread/count
  */
 export const getMessagesUnreadCount = {
-  method: "get" as const,
-  path: "/v1/messages/unread/count",
-  baseUrl: "https://privatemessages.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/messages/unread/count',
+  baseUrl: 'https://privatemessages.roblox.com',
+  requestFormat: 'json' as const,
   response: z.object({ count: z.number().int() }),
   errors: [
     {

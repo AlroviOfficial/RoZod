@@ -1,25 +1,22 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_ =
-  z.object({
-    id: z.number().int(),
-    type: z.union([z.literal(1), z.literal(2)]),
-    name: z.string(),
-  });
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_ = z.object({
+  id: z.number().int(),
+  type: z.union([z.literal(1), z.literal(2)]),
+  name: z.string(),
+});
 const Roblox_Inventory_Api_V2_AssetOwnerResponse = z.object({
   id: z.number().int(),
   serialNumber: z.number().int(),
-  owner:
-    Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_,
+  owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_,
   created: z.string().datetime(),
   updated: z.string().datetime(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_AssetOwnerResponse_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Inventory_Api_V2_AssetOwnerResponse),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_AssetOwnerResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Inventory_Api_V2_AssetOwnerResponse),
+});
 const Roblox_Inventory_Api_V2_UserAssetItemModelV2 = z.object({
   assetId: z.number().int(),
   name: z.string(),
@@ -100,22 +97,15 @@ const Roblox_Inventory_Api_V2_UserAssetItemModelV2 = z.object({
   ]),
   created: z.string().datetime(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_UserAssetItemModelV2_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Inventory_Api_V2_UserAssetItemModelV2),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_UserAssetItemModelV2_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Inventory_Api_V2_UserAssetItemModelV2),
+});
 const Roblox_Inventory_Api_Models_UserModel = z.object({
   userId: z.number().int(),
   username: z.string(),
-  buildersClubMembershipType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-  ]),
+  buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
 });
 const Roblox_Inventory_Api_Models_InventoryItemModel = z.object({
   userAssetId: z.number().int(),
@@ -128,12 +118,11 @@ const Roblox_Inventory_Api_Models_InventoryItemModel = z.object({
   created: z.string().datetime(),
   updated: z.string().datetime(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_InventoryItemModel_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Inventory_Api_Models_InventoryItemModel),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_InventoryItemModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Inventory_Api_Models_InventoryItemModel),
+});
 
 const schemas = {
   Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_,
@@ -154,24 +143,24 @@ const schemas = {
  * @param sortOrder
  */
 export const getAssetsAssetidOwners = {
-  method: "get" as const,
-  path: "/v2/assets/:assetId/owners",
-  baseUrl: "https://inventory.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v2/assets/:assetId/owners',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     assetId: {
-      style: "simple",
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -182,10 +171,9 @@ export const getAssetsAssetidOwners = {
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_AssetOwnerResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_AssetOwnerResponse_,
   errors: [
     {
       status: 400,
@@ -209,32 +197,32 @@ export const getAssetsAssetidOwners = {
  * @param sortOrder
  */
 export const getUsersUseridInventory = {
-  method: "get" as const,
-  path: "/v2/users/:userId/inventory",
-  baseUrl: "https://inventory.roblox.com",
+  method: 'get' as const,
+  path: '/v2/users/:userId/inventory',
+  baseUrl: 'https://inventory.roblox.com',
   description: `GamePass and Badges not allowed.`,
-  requestFormat: "json" as const,
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     assetTypes: {
-      style: "form",
+      style: 'form',
     },
     filterDisapprovedAssets: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -247,10 +235,9 @@ export const getUsersUseridInventory = {
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_UserAssetItemModelV2_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_UserAssetItemModelV2_,
   errors: [
     {
       status: 400,
@@ -275,27 +262,27 @@ export const getUsersUseridInventory = {
  * @param sortOrder
  */
 export const getUsersUseridInventoryAssettypeid = {
-  method: "get" as const,
-  path: "/v2/users/:userId/inventory/:assetTypeId",
-  baseUrl: "https://inventory.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v2/users/:userId/inventory/:assetTypeId',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     assetTypeId: {
-      style: "simple",
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -307,10 +294,9 @@ export const getUsersUseridInventoryAssettypeid = {
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_InventoryItemModel_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_InventoryItemModel_,
   errors: [
     {
       status: 400,
