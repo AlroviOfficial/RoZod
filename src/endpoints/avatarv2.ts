@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 const Roblox_Web_Responses_Avatar_ScaleModel = z.object({
   height: z.number(),
@@ -115,10 +115,10 @@ const schemas = {
  * @api get https://avatar.roblox.com/v2/avatar/avatar
  */
 export const getAvatarAvatar = {
-  method: 'get' as const,
-  path: '/v2/avatar/avatar',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v2/avatar/avatar",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_Api_Avatar_Models_AvatarModelV3,
   errors: [
     {
@@ -133,10 +133,13 @@ export const getAvatarAvatar = {
  * @param body
  */
 export const postAvatarSetBodyColors = {
-  method: 'post' as const,
-  path: '/v2/avatar/set-body-colors',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/avatar/set-body-colors",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Platform_Avatar_BodyColorsModelV2,
   },
@@ -159,12 +162,15 @@ export const postAvatarSetBodyColors = {
  * @param body Model of assets to be worn
  */
 export const postAvatarSetWearingAssets = {
-  method: 'post' as const,
-  path: '/v2/avatar/set-wearing-assets',
-  baseUrl: 'https://avatar.roblox.com',
+  method: "post" as const,
+  path: "/v2/avatar/set-wearing-assets",
+  baseUrl: "https://avatar.roblox.com",
   description: `Only allows items that you own, are not expired, and are wearable asset types.
 Any assets being worn before this method is called are automatically removed.`,
-  requestFormat: 'json' as const,
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Api_Avatar_Models_WearRequestModel,
   },
@@ -198,11 +204,16 @@ Any assets being worn before this method is called are automatically removed.`,
  * @param userId
  */
 export const getAvatarUsersUseridAvatar = {
-  method: 'get' as const,
-  path: '/v2/avatar/users/:userId/avatar',
-  baseUrl: 'https://avatar.roblox.com',
+  method: "get" as const,
+  path: "/v2/avatar/users/:userId/avatar",
+  baseUrl: "https://avatar.roblox.com",
   description: `Includes assets, bodycolors, and playerAvatarType.`,
-  requestFormat: 'json' as const,
+  requestFormat: "json" as const,
+  serializationMethod: {
+    userId: {
+      style: "simple",
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },
@@ -222,12 +233,18 @@ export const getAvatarUsersUseridAvatar = {
  * @param userOutfitId
  */
 export const patchOutfitsUseroutfitid = {
-  method: 'patch' as const,
-  path: '/v2/outfits/:userOutfitId',
-  baseUrl: 'https://avatar.roblox.com',
+  method: "patch" as const,
+  path: "/v2/outfits/:userOutfitId",
+  baseUrl: "https://avatar.roblox.com",
   description: `Fails if the user does not own any of the assetIds or if they are not wearable asset types.
 Accepts partial updates.`,
-  requestFormat: 'json' as const,
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+    userOutfitId: {
+      style: "simple",
+    },
+  },
   parameters: {
     body: Roblox_Api_Avatar_Models_OutfitUpdateModelV2,
     userOutfitId: z.number().int(),
@@ -269,11 +286,17 @@ Accepts partial updates.`,
  * @param userOutfitId
  */
 export const postOutfitsUseroutfitidUpdate = {
-  method: 'post' as const,
-  path: '/v2/outfits/:userOutfitId/update',
-  baseUrl: 'https://avatar.roblox.com',
+  method: "post" as const,
+  path: "/v2/outfits/:userOutfitId/update",
+  baseUrl: "https://avatar.roblox.com",
   description: `Fails if the user does not own any of the assetIds or if they are not wearable asset types.`,
-  requestFormat: 'json' as const,
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+    userOutfitId: {
+      style: "simple",
+    },
+  },
   parameters: {
     body: Roblox_Api_Avatar_Models_OutfitUpdateModelV2,
     userOutfitId: z.number().int(),
@@ -313,12 +336,15 @@ export const postOutfitsUseroutfitidUpdate = {
  * @param body The new outfit
  */
 export const postOutfitsCreate = {
-  method: 'post' as const,
-  path: '/v2/outfits/create',
-  baseUrl: 'https://avatar.roblox.com',
+  method: "post" as const,
+  path: "/v2/outfits/create",
+  baseUrl: "https://avatar.roblox.com",
   description: `Fails if any of the assetIds are not owned by the user, or not wearable types.
 The name property of the request is optional as one will be auto-generated when the request has a null name.`,
-  requestFormat: 'json' as const,
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Api_Avatar_Models_OutfitUpdateModelV2,
   },

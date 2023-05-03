@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Users_Api_GetUserResponse = z.object({
@@ -12,11 +12,12 @@ const Roblox_Users_Api_GetUserResponse = z.object({
   displayName: z.string(),
 });
 const Roblox_Users_Api_UsernameHistoryResponse = z.object({ name: z.string() });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Users_Api_UsernameHistoryResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Users_Api_UsernameHistoryResponse),
+  });
 const Roblox_Users_Api_AuthenticatedUserResponse = z.object({
   id: z.number().int(),
   name: z.string(),
@@ -38,11 +39,12 @@ const Roblox_Users_Api_UserSearchResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UserSearchResponse_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Users_Api_UserSearchResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UserSearchResponse_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Users_Api_UserSearchResponse),
+  });
 const Roblox_Users_Api_MultiGetByUsernameRequest = z.object({
   usernames: z.array(z.string()),
   excludeBannedUsers: z.boolean(),
@@ -54,9 +56,8 @@ const Roblox_Users_Api_MultiGetUserByNameResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_ = z.object({
-  data: z.array(Roblox_Users_Api_MultiGetUserByNameResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_ =
+  z.object({ data: z.array(Roblox_Users_Api_MultiGetUserByNameResponse) });
 const Roblox_Users_Api_MultiGetByUserIdRequest = z.object({
   userIds: z.array(z.number()),
   excludeBannedUsers: z.boolean(),
@@ -67,9 +68,8 @@ const Roblox_Users_Api_VerifiedBadgeUserResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_VerifiedBadgeUserResponse_ = z.object({
-  data: z.array(Roblox_Users_Api_VerifiedBadgeUserResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_VerifiedBadgeUserResponse_ =
+  z.object({ data: z.array(Roblox_Users_Api_VerifiedBadgeUserResponse) });
 const Roblox_Users_Api_SetDisplayNameRequest = z.object({
   newDisplayName: z.string(),
 });
@@ -100,10 +100,20 @@ const schemas = {
  * @param birthdate
  */
 export const getDisplayNamesValidate = {
-  method: 'get' as const,
-  path: '/v1/display-names/validate',
-  baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/display-names/validate",
+  baseUrl: "https://users.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    displayName: {
+      style: "form",
+      explode: true,
+    },
+    birthdate: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     displayName: z.string(),
     birthdate: z.string().datetime(),
@@ -131,16 +141,20 @@ export const getDisplayNamesValidate = {
  * @param body The Roblox.Users.Api.MultiGetByUsernameRequest.
  */
 export const postUsernamesUsers = {
-  method: 'post' as const,
-  path: '/v1/usernames/users',
-  baseUrl: 'https://users.roblox.com',
+  method: "post" as const,
+  path: "/v1/usernames/users",
+  baseUrl: "https://users.roblox.com",
   description: `This endpoint will also check previous usernames.
 Does not require X-CSRF-Token protection because this is essentially a get request but as a POST to avoid URI limits.`,
-  requestFormat: 'json' as const,
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Users_Api_MultiGetByUsernameRequest,
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_,
   errors: [
     {
       status: 400,
@@ -154,15 +168,19 @@ Does not require X-CSRF-Token protection because this is essentially a get reque
  * @param body The Roblox.Users.Api.MultiGetByUserIdRequest.
  */
 export const postUsers = {
-  method: 'post' as const,
-  path: '/v1/users',
-  baseUrl: 'https://users.roblox.com',
+  method: "post" as const,
+  path: "/v1/users",
+  baseUrl: "https://users.roblox.com",
   description: `Does not require X-CSRF-Token protection because this is essentially a get request but as a POST to avoid URI limits.`,
-  requestFormat: 'json' as const,
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Users_Api_MultiGetByUserIdRequest,
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_VerifiedBadgeUserResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_VerifiedBadgeUserResponse_,
   errors: [
     {
       status: 400,
@@ -176,10 +194,15 @@ export const postUsers = {
  * @param userId
  */
 export const getUsersUserid = {
-  method: 'get' as const,
-  path: '/v1/users/:userId',
-  baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId",
+  baseUrl: "https://users.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    userId: {
+      style: "simple",
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },
@@ -198,10 +221,16 @@ export const getUsersUserid = {
  * @param userId
  */
 export const patchUsersUseridDisplayNames = {
-  method: 'patch' as const,
-  path: '/v1/users/:userId/display-names',
-  baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  method: "patch" as const,
+  path: "/v1/users/:userId/display-names",
+  baseUrl: "https://users.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+    userId: {
+      style: "simple",
+    },
+  },
   parameters: {
     body: z.object({ newDisplayName: z.string() }),
     userId: z.number().int(),
@@ -240,10 +269,19 @@ export const patchUsersUseridDisplayNames = {
  * @param displayName
  */
 export const getUsersUseridDisplayNamesValidate = {
-  method: 'get' as const,
-  path: '/v1/users/:userId/display-names/validate',
-  baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/display-names/validate",
+  baseUrl: "https://users.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    userId: {
+      style: "simple",
+    },
+    displayName: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     displayName: z.string(),
@@ -283,10 +321,27 @@ export const getUsersUseridDisplayNamesValidate = {
  * @param sortOrder
  */
 export const getUsersUseridUsernameHistory = {
-  method: 'get' as const,
-  path: '/v1/users/:userId/username-history',
-  baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/username-history",
+  baseUrl: "https://users.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    userId: {
+      style: "simple",
+    },
+    limit: {
+      style: "form",
+      explode: true,
+    },
+    cursor: {
+      style: "form",
+      explode: true,
+    },
+    sortOrder: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     userId: z.number().int(),
     limit: z
@@ -294,9 +349,10 @@ export const getUsersUseridUsernameHistory = {
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_,
   errors: [
     {
       status: 400,
@@ -309,10 +365,10 @@ export const getUsersUseridUsernameHistory = {
  * @api get https://users.roblox.com/v1/users/authenticated
  */
 export const getUsersAuthenticated = {
-  method: 'get' as const,
-  path: '/v1/users/authenticated',
-  baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/authenticated",
+  baseUrl: "https://users.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_Users_Api_AuthenticatedUserResponse,
   errors: [
     {
@@ -326,10 +382,10 @@ export const getUsersAuthenticated = {
  * @api get https://users.roblox.com/v1/users/authenticated/age-bracket
  */
 export const getUsersAuthenticatedAgeBracket = {
-  method: 'get' as const,
-  path: '/v1/users/authenticated/age-bracket',
-  baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/authenticated/age-bracket",
+  baseUrl: "https://users.roblox.com",
+  requestFormat: "json" as const,
   response: z.object({ ageBracket: z.number().int() }),
   errors: [
     {
@@ -343,10 +399,10 @@ export const getUsersAuthenticatedAgeBracket = {
  * @api get https://users.roblox.com/v1/users/authenticated/country-code
  */
 export const getUsersAuthenticatedCountryCode = {
-  method: 'get' as const,
-  path: '/v1/users/authenticated/country-code',
-  baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/authenticated/country-code",
+  baseUrl: "https://users.roblox.com",
+  requestFormat: "json" as const,
   response: z.object({ countryCode: z.string() }),
   errors: [
     {
@@ -360,10 +416,10 @@ export const getUsersAuthenticatedCountryCode = {
  * @api get https://users.roblox.com/v1/users/authenticated/roles
  */
 export const getUsersAuthenticatedRoles = {
-  method: 'get' as const,
-  path: '/v1/users/authenticated/roles',
-  baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/authenticated/roles",
+  baseUrl: "https://users.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_Users_Api_UserRolesResponse,
   errors: [
     {
@@ -380,10 +436,24 @@ export const getUsersAuthenticatedRoles = {
  * @param cursor
  */
 export const getUsersSearch = {
-  method: 'get' as const,
-  path: '/v1/users/search',
-  baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/search",
+  baseUrl: "https://users.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    keyword: {
+      style: "form",
+      explode: true,
+    },
+    limit: {
+      style: "form",
+      explode: true,
+    },
+    cursor: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     keyword: z.string(),
     limit: z
@@ -392,7 +462,8 @@ export const getUsersSearch = {
       .default(10),
     cursor: z.string().optional(),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UserSearchResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UserSearchResponse_,
   errors: [
     {
       status: 400,

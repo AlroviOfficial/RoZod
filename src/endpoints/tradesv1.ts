@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
   id: z.number().int(),
@@ -13,7 +13,13 @@ const Roblox_Trades_Api_UserAssetResponse = z.object({
   recentAveragePrice: z.number().int(),
   originalPrice: z.number().int(),
   assetStock: z.number().int(),
-  membershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  membershipType: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+  ]),
 });
 const Roblox_Trades_Api_TradeOfferResponse = z.object({
   user: Roblox_Web_Responses_Users_SkinnyUserResponse,
@@ -61,11 +67,12 @@ const Roblox_Trades_Api_TradeResponse = z.object({
     z.literal(11),
   ]),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Trades_Api_TradeResponse_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Trades_Api_TradeResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Trades_Api_TradeResponse_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Trades_Api_TradeResponse),
+  });
 const Roblox_Trades_Api_TradeCountResponse = z.object({
   count: z.number().int(),
 });
@@ -120,10 +127,15 @@ const schemas = {
  * @param tradeId
  */
 export const getTradesTradeid = {
-  method: 'get' as const,
-  path: '/v1/trades/:tradeId',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/trades/:tradeId",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    tradeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     tradeId: z.number().int(),
   },
@@ -146,10 +158,15 @@ export const getTradesTradeid = {
  * @param tradeId
  */
 export const postTradesTradeidAccept = {
-  method: 'post' as const,
-  path: '/v1/trades/:tradeId/accept',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/trades/:tradeId/accept",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    tradeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     tradeId: z.number().int(),
   },
@@ -189,10 +206,16 @@ export const postTradesTradeidAccept = {
  * @param tradeId
  */
 export const postTradesTradeidCounter = {
-  method: 'post' as const,
-  path: '/v1/trades/:tradeId/counter',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/trades/:tradeId/counter",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+    tradeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     body: Roblox_Trades_Api_TradeRequest,
     tradeId: z.number().int(),
@@ -251,10 +274,15 @@ export const postTradesTradeidCounter = {
  * @param tradeId
  */
 export const postTradesTradeidDecline = {
-  method: 'post' as const,
-  path: '/v1/trades/:tradeId/decline',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/trades/:tradeId/decline",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    tradeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     tradeId: z.number().int(),
   },
@@ -293,20 +321,43 @@ export const postTradesTradeidDecline = {
  * @param sortOrder
  */
 export const getTradesTradestatustype = {
-  method: 'get' as const,
-  path: '/v1/trades/:tradeStatusType',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/trades/:tradeStatusType",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    tradeStatusType: {
+      style: "simple",
+    },
+    limit: {
+      style: "form",
+      explode: true,
+    },
+    cursor: {
+      style: "form",
+      explode: true,
+    },
+    sortOrder: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
-    tradeStatusType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    tradeStatusType: z.union([
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+    ]),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Trades_Api_TradeResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Trades_Api_TradeResponse_,
   errors: [
     {
       status: 400,
@@ -325,12 +376,22 @@ export const getTradesTradestatustype = {
  * @param tradeStatusType
  */
 export const getTradesTradestatustypeCount = {
-  method: 'get' as const,
-  path: '/v1/trades/:tradeStatusType/count',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/trades/:tradeStatusType/count",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    tradeStatusType: {
+      style: "simple",
+    },
+  },
   parameters: {
-    tradeStatusType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    tradeStatusType: z.union([
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+    ]),
   },
   response: z.object({ count: z.number().int() }),
   errors: [
@@ -350,10 +411,10 @@ export const getTradesTradestatustypeCount = {
  * @api post https://trades.roblox.com/v1/trades/expire-outdated
  */
 export const postTradesExpireOutdated = {
-  method: 'post' as const,
-  path: '/v1/trades/expire-outdated',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/trades/expire-outdated",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json" as const,
   response: z.object({}),
   errors: [
     {
@@ -372,10 +433,10 @@ export const postTradesExpireOutdated = {
  * @api get https://trades.roblox.com/v1/trades/metadata
  */
 export const getTradesMetadata = {
-  method: 'get' as const,
-  path: '/v1/trades/metadata',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/trades/metadata",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_Trades_Api_TradeMetadata,
   errors: [
     {
@@ -390,10 +451,13 @@ export const getTradesMetadata = {
  * @param body The trade request.
  */
 export const postTradesSend = {
-  method: 'post' as const,
-  path: '/v1/trades/send',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/trades/send",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+  },
   parameters: {
     body: Roblox_Trades_Api_TradeRequest,
   },
@@ -450,10 +514,15 @@ export const postTradesSend = {
  * @param userId
  */
 export const getUsersUseridCanTradeWith = {
-  method: 'get' as const,
-  path: '/v1/users/:userId/can-trade-with',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/can-trade-with",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    userId: {
+      style: "simple",
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },

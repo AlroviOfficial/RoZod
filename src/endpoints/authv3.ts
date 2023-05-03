@@ -1,13 +1,12 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 const Roblox_Authentication_Api_TwoStepVerificationLoginRequest = z.object({
   challengeId: z.string(),
   verificationToken: z.string(),
   rememberDevice: z.boolean(),
 });
-const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z.object({
-  identityVerificationLoginTicket: z.string(),
-});
+const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse =
+  z.object({ identityVerificationLoginTicket: z.string() });
 
 const schemas = {
   Roblox_Authentication_Api_TwoStepVerificationLoginRequest,
@@ -20,10 +19,16 @@ const schemas = {
  * @param userId
  */
 export const postUsersUseridTwoStepVerificationLogin = {
-  method: 'post' as const,
-  path: '/v3/users/:userId/two-step-verification/login',
-  baseUrl: 'https://auth.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v3/users/:userId/two-step-verification/login",
+  baseUrl: "https://auth.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+    userId: {
+      style: "simple",
+    },
+  },
   parameters: {
     body: Roblox_Authentication_Api_TwoStepVerificationLoginRequest,
     userId: z.number().int(),

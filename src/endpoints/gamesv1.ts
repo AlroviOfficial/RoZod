@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 const Roblox_Games_Api_Models_Response_GameCreator = z.object({
   id: z.number().int(),
@@ -33,9 +33,10 @@ const Roblox_Games_Api_Models_Response_GameDetailResponse = z.object({
   isFavoritedByUser: z.boolean(),
   favoritedCount: z.number().int(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_ = z.object({
-  data: z.array(Roblox_Games_Api_Models_Response_GameDetailResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_ =
+  z.object({
+    data: z.array(Roblox_Games_Api_Models_Response_GameDetailResponse),
+  });
 const Roblox_Games_Api_GameServerPlayerResponse = z.object({
   playerToken: z.string(),
   id: z.number().int(),
@@ -61,11 +62,12 @@ const Roblox_Web_Responses_Games_GameServerResponse = z.object({
   accessCode: z.string().uuid(),
   owner: Roblox_Games_Api_Models_Response_VerifiedBadgeUserResponse,
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Web_Responses_Games_GameServerResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Web_Responses_Games_GameServerResponse),
+  });
 const Roblox_Games_Api_Models_Response_GameFavoriteResponse = z.object({
   isFavorited: z.boolean(),
 });
@@ -86,11 +88,12 @@ const Roblox_Games_Api_Models_Response_GamePassResponse = z.object({
   sellerId: z.number().int(),
   isOwned: z.boolean(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Games_Api_Models_Response_GamePassResponse_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Games_Api_Models_Response_GamePassResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Games_Api_Models_Response_GamePassResponse_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Games_Api_Models_Response_GamePassResponse),
+  });
 const Roblox_Games_Api_Models_Response_GameMediaItem = z.object({
   id: z.number().int(),
   assetTypeId: z.number().int(),
@@ -101,9 +104,8 @@ const Roblox_Games_Api_Models_Response_GameMediaItem = z.object({
   approved: z.boolean(),
   altText: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameMediaItem_ = z.object({
-  data: z.array(Roblox_Games_Api_Models_Response_GameMediaItem),
-});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameMediaItem_ =
+  z.object({ data: z.array(Roblox_Games_Api_Models_Response_GameMediaItem) });
 const Roblox_Games_Api_Models_Response_GameVoteResponse = z.object({
   id: z.number().int(),
   upVotes: z.number().int(),
@@ -121,9 +123,10 @@ const Roblox_Games_Api_Models_Response_GameProductResponse = z.object({
   price: z.number().int(),
   sellerId: z.number().int(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameProductResponse_ = z.object({
-  data: z.array(Roblox_Games_Api_Models_Response_GameProductResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameProductResponse_ =
+  z.object({
+    data: z.array(Roblox_Games_Api_Models_Response_GameProductResponse),
+  });
 const Roblox_Games_Api_Models_Response_Thumbnail = z.object({
   final: z.boolean(),
   url: z.string(),
@@ -178,9 +181,10 @@ const Roblox_Games_Api_Models_Response_GameSpotlightResponse = z.object({
   spotlightTypeData: Roblox_Games_Api_Models_Response_SpotlightTypeData,
   gameInfo: Roblox_Games_Api_Models_Response_GameResponseModel,
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameSpotlightResponse_ = z.object({
-  data: z.array(Roblox_Games_Api_Models_Response_GameSpotlightResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameSpotlightResponse_ =
+  z.object({
+    data: z.array(Roblox_Games_Api_Models_Response_GameSpotlightResponse),
+  });
 const Roblox_Games_Api_Models_Response_PlaceDetails = z.object({
   placeId: z.number().int(),
   name: z.string(),
@@ -270,15 +274,17 @@ const Roblox_Games_Api_Models_Response_GameSortsResponse = z.object({
   pageContext: Roblox_Games_Api_Models_Response_PageContext,
   gameSortStyle: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameVoteResponse_ = z.object({
-  data: z.array(Roblox_Games_Api_Models_Response_GameVoteResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameVoteResponse_ =
+  z.object({
+    data: z.array(Roblox_Games_Api_Models_Response_GameVoteResponse),
+  });
 const Roblox_Games_Api_PrivateServersResponse = z.object({
-  privateServerResponses: z.array(Roblox_Web_Responses_Games_GameServerResponse),
+  privateServerResponses: z.array(
+    Roblox_Web_Responses_Games_GameServerResponse
+  ),
 });
-const Roblox_Games_Api_Models_Response_PrivateServersEnabledInUniverseResponse = z.object({
-  privateServersEnabled: z.boolean(),
-});
+const Roblox_Games_Api_Models_Response_PrivateServersEnabledInUniverseResponse =
+  z.object({ privateServersEnabled: z.boolean() });
 const Roblox_Games_Api_VipServerCanInviteResponse = z.object({
   canInvite: z.boolean(),
 });
@@ -412,14 +418,20 @@ const schemas = {
  * @param universeIds
  */
 export const getGames = {
-  method: 'get' as const,
-  path: '/v1/games',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    universeIds: {
+      style: "form",
+    },
+  },
   parameters: {
     universeIds: z.array(z.number()),
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_,
   errors: [
     {
       status: 400,
@@ -437,10 +449,27 @@ export const getGames = {
  * @param sortOrder
  */
 export const getGamesPlaceidPrivateServers = {
-  method: 'get' as const,
-  path: '/v1/games/:placeId/private-servers',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/:placeId/private-servers",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    placeId: {
+      style: "simple",
+    },
+    limit: {
+      style: "form",
+      explode: true,
+    },
+    cursor: {
+      style: "form",
+      explode: true,
+    },
+    sortOrder: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     placeId: z.number().int(),
     limit: z
@@ -448,9 +477,10 @@ export const getGamesPlaceidPrivateServers = {
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_,
   errors: [
     {
       status: 400,
@@ -475,10 +505,34 @@ export const getGamesPlaceidPrivateServers = {
  * @param cursor
  */
 export const getGamesPlaceidServersServertype = {
-  method: 'get' as const,
-  path: '/v1/games/:placeId/servers/:serverType',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/:placeId/servers/:serverType",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    placeId: {
+      style: "simple",
+    },
+    serverType: {
+      style: "simple",
+    },
+    sortOrder: {
+      style: "form",
+      explode: true,
+    },
+    excludeFullGames: {
+      style: "form",
+      explode: true,
+    },
+    limit: {
+      style: "form",
+      explode: true,
+    },
+    cursor: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     placeId: z.number().int(),
     serverType: z.union([z.literal(0), z.literal(1)]),
@@ -493,7 +547,8 @@ export const getGamesPlaceidServersServertype = {
       .default(10),
     cursor: z.string().optional(),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_,
   errors: [
     {
       status: 400,
@@ -514,10 +569,15 @@ export const getGamesPlaceidServersServertype = {
  * @param universeId
  */
 export const getGamesUniverseidFavorites = {
-  method: 'get' as const,
-  path: '/v1/games/:universeId/favorites',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/:universeId/favorites",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    universeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -546,10 +606,16 @@ export const getGamesUniverseidFavorites = {
  * @param universeId
  */
 export const postGamesUniverseidFavorites = {
-  method: 'post' as const,
-  path: '/v1/games/:universeId/favorites',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/games/:universeId/favorites",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     body: z.object({ isFavorited: z.boolean() }),
     universeId: z.number().int(),
@@ -589,10 +655,15 @@ export const postGamesUniverseidFavorites = {
  * @param universeId
  */
 export const getGamesUniverseidFavoritesCount = {
-  method: 'get' as const,
-  path: '/v1/games/:universeId/favorites/count',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/:universeId/favorites/count",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    universeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -618,10 +689,27 @@ export const getGamesUniverseidFavoritesCount = {
  * @param sortOrder
  */
 export const getGamesUniverseidGamePasses = {
-  method: 'get' as const,
-  path: '/v1/games/:universeId/game-passes',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/:universeId/game-passes",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    universeId: {
+      style: "simple",
+    },
+    limit: {
+      style: "form",
+      explode: true,
+    },
+    cursor: {
+      style: "form",
+      explode: true,
+    },
+    sortOrder: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     universeId: z.number().int(),
     limit: z
@@ -629,9 +717,10 @@ export const getGamesUniverseidGamePasses = {
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Games_Api_Models_Response_GamePassResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Games_Api_Models_Response_GamePassResponse_,
   errors: [
     {
       status: 400,
@@ -650,14 +739,20 @@ export const getGamesUniverseidGamePasses = {
  * @param universeId
  */
 export const getGamesUniverseidMedia = {
-  method: 'get' as const,
-  path: '/v1/games/:universeId/media',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/:universeId/media",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    universeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameMediaItem_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameMediaItem_,
   errors: [
     {
       status: 400,
@@ -677,10 +772,16 @@ export const getGamesUniverseidMedia = {
  * @param universeId
  */
 export const patchGamesUniverseidUserVotes = {
-  method: 'patch' as const,
-  path: '/v1/games/:universeId/user-votes',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "patch" as const,
+  path: "/v1/games/:universeId/user-votes",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     body: z.object({ vote: z.boolean() }),
     universeId: z.number().int(),
@@ -729,10 +830,15 @@ export const patchGamesUniverseidUserVotes = {
  * @param universeId
  */
 export const getGamesUniverseidVotes = {
-  method: 'get' as const,
-  path: '/v1/games/:universeId/votes',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/:universeId/votes",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    universeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -766,10 +872,15 @@ export const getGamesUniverseidVotes = {
  * @param universeId
  */
 export const getGamesUniverseidVotesUser = {
-  method: 'get' as const,
-  path: '/v1/games/:universeId/votes/user',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/:universeId/votes/user",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    universeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -810,10 +921,24 @@ export const getGamesUniverseidVotesUser = {
  * @param width
  */
 export const getGamesGameThumbnail = {
-  method: 'get' as const,
-  path: '/v1/games/game-thumbnail',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/game-thumbnail",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    imageToken: {
+      style: "form",
+      explode: true,
+    },
+    height: {
+      style: "form",
+      explode: true,
+    },
+    width: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     imageToken: z.string(),
     height: z.number().int().optional().default(50),
@@ -835,10 +960,24 @@ export const getGamesGameThumbnail = {
  * @param width
  */
 export const getGamesGameThumbnails = {
-  method: 'get' as const,
-  path: '/v1/games/game-thumbnails',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/game-thumbnails",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    imageTokens: {
+      style: "form",
+      explode: true,
+    },
+    height: {
+      style: "form",
+      explode: true,
+    },
+    width: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     imageTokens: z.array(z.string()),
     height: z.number().int().optional().default(50),
@@ -858,14 +997,20 @@ export const getGamesGameThumbnails = {
  * @param universeIds
  */
 export const getGamesGamesProductInfo = {
-  method: 'get' as const,
-  path: '/v1/games/games-product-info',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/games-product-info",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    universeIds: {
+      style: "form",
+    },
+  },
   parameters: {
     universeIds: z.array(z.number()),
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameProductResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameProductResponse_,
   errors: [
     {
       status: 400,
@@ -895,10 +1040,76 @@ export const getGamesGamesProductInfo = {
  * @param SessionId
  */
 export const getGamesList = {
-  method: 'get' as const,
-  path: '/v1/games/list',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/list",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    SortToken: {
+      style: "form",
+      explode: true,
+    },
+    GameFilter: {
+      style: "form",
+      explode: true,
+    },
+    TimeFilter: {
+      style: "form",
+      explode: true,
+    },
+    GenreFilter: {
+      style: "form",
+      explode: true,
+    },
+    ExclusiveStartId: {
+      style: "form",
+      explode: true,
+    },
+    SortOrder: {
+      style: "form",
+      explode: true,
+    },
+    GameSetTargetId: {
+      style: "form",
+      explode: true,
+    },
+    Keyword: {
+      style: "form",
+      explode: true,
+    },
+    StartRows: {
+      style: "form",
+      explode: true,
+    },
+    MaxRows: {
+      style: "form",
+      explode: true,
+    },
+    ContextCountryRegionId: {
+      style: "form",
+      explode: true,
+    },
+    ContextUniverseId: {
+      style: "form",
+      explode: true,
+    },
+    "PageContext.PageId": {
+      style: "form",
+      explode: true,
+    },
+    "PageContext.IsSeeAllPage": {
+      style: "form",
+      explode: true,
+    },
+    SortPosition: {
+      style: "form",
+      explode: true,
+    },
+    SessionId: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     SortToken: z.string(),
     GameFilter: z.string(),
@@ -912,8 +1123,8 @@ export const getGamesList = {
     MaxRows: z.number().int(),
     ContextCountryRegionId: z.number().int(),
     ContextUniverseId: z.number().int(),
-    'PageContext.PageId': z.string().uuid(),
-    'PageContext.IsSeeAllPage': z.boolean(),
+    "PageContext.PageId": z.string().uuid(),
+    "PageContext.IsSeeAllPage": z.boolean(),
     SortPosition: z.number().int(),
     SessionId: z.string(),
   },
@@ -930,11 +1141,12 @@ export const getGamesList = {
  * @api get https://games.roblox.com/v1/games/list-spotlight
  */
 export const getGamesListSpotlight = {
-  method: 'get' as const,
-  path: '/v1/games/list-spotlight',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameSpotlightResponse_,
+  method: "get" as const,
+  path: "/v1/games/list-spotlight",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameSpotlightResponse_,
   errors: [
     {
       status: 500,
@@ -948,10 +1160,16 @@ export const getGamesListSpotlight = {
  * @param placeIds
  */
 export const getGamesMultigetPlaceDetails = {
-  method: 'get' as const,
-  path: '/v1/games/multiget-place-details',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/multiget-place-details",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    placeIds: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     placeIds: z.array(z.number()),
   },
@@ -969,10 +1187,15 @@ export const getGamesMultigetPlaceDetails = {
  * @param universeIds
  */
 export const getGamesMultigetPlayabilityStatus = {
-  method: 'get' as const,
-  path: '/v1/games/multiget-playability-status',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/multiget-playability-status",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    universeIds: {
+      style: "form",
+    },
+  },
   parameters: {
     universeIds: z.array(z.number()),
   },
@@ -994,10 +1217,27 @@ export const getGamesMultigetPlayabilityStatus = {
  * @param IsTruncatedResultsEnabled
  */
 export const getGamesRecommendationsAlgorithmAlgorithmname = {
-  method: 'get' as const,
-  path: '/v1/games/recommendations/algorithm/:algorithmName',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/recommendations/algorithm/:algorithmName",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    algorithmName: {
+      style: "simple",
+    },
+    PaginationKey: {
+      style: "form",
+      explode: true,
+    },
+    MaxRows: {
+      style: "form",
+      explode: true,
+    },
+    IsTruncatedResultsEnabled: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     algorithmName: z.string(),
     PaginationKey: z.string(),
@@ -1026,10 +1266,27 @@ export const getGamesRecommendationsAlgorithmAlgorithmname = {
  * @param IsTruncatedResultsEnabled
  */
 export const getGamesRecommendationsGameUniverseid = {
-  method: 'get' as const,
-  path: '/v1/games/recommendations/game/:universeId',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/recommendations/game/:universeId",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    universeId: {
+      style: "simple",
+    },
+    PaginationKey: {
+      style: "form",
+      explode: true,
+    },
+    MaxRows: {
+      style: "form",
+      explode: true,
+    },
+    IsTruncatedResultsEnabled: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     universeId: z.number().int(),
     PaginationKey: z.string(),
@@ -1055,10 +1312,16 @@ export const getGamesRecommendationsGameUniverseid = {
  * @param GameSortsContext
  */
 export const getGamesSorts = {
-  method: 'get' as const,
-  path: '/v1/games/sorts',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/sorts",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    GameSortsContext: {
+      style: "form",
+      explode: true,
+    },
+  },
   parameters: {
     GameSortsContext: z.union([
       z.literal(0),
@@ -1079,10 +1342,16 @@ export const getGamesSorts = {
  * @param universeId
  */
 export const postGamesVipServersUniverseid = {
-  method: 'post' as const,
-  path: '/v1/games/vip-servers/:universeId',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/games/vip-servers/:universeId",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     body: Roblox_Games_Api_CreateVipServersRequest,
     universeId: z.number().int(),
@@ -1121,14 +1390,20 @@ export const postGamesVipServersUniverseid = {
  * @param universeIds
  */
 export const getGamesVotes = {
-  method: 'get' as const,
-  path: '/v1/games/votes',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/games/votes",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    universeIds: {
+      style: "form",
+    },
+  },
   parameters: {
     universeIds: z.array(z.number()),
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameVoteResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameVoteResponse_,
   errors: [
     {
       status: 400,
@@ -1154,10 +1429,15 @@ export const getGamesVotes = {
  * @param privateServerIds
  */
 export const getPrivateServers = {
-  method: 'get' as const,
-  path: '/v1/private-servers',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/private-servers",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    privateServerIds: {
+      style: "form",
+    },
+  },
   parameters: {
     privateServerIds: z.array(z.number()),
   },
@@ -1193,10 +1473,15 @@ export const getPrivateServers = {
  * @param universeId
  */
 export const getPrivateServersEnabledInUniverseUniverseid = {
-  method: 'get' as const,
-  path: '/v1/private-servers/enabled-in-universe/:universeId',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/private-servers/enabled-in-universe/:universeId",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    universeId: {
+      style: "simple",
+    },
+  },
   parameters: {
     universeId: z.number().int(),
   },
@@ -1214,10 +1499,15 @@ export const getPrivateServersEnabledInUniverseUniverseid = {
  * @param userId
  */
 export const getVipServerCanInviteUserid = {
-  method: 'get' as const,
-  path: '/v1/vip-server/can-invite/:userId',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/vip-server/can-invite/:userId",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    userId: {
+      style: "simple",
+    },
+  },
   parameters: {
     userId: z.number().int(),
   },
@@ -1240,10 +1530,15 @@ export const getVipServerCanInviteUserid = {
  * @param id
  */
 export const getVipServersId = {
-  method: 'get' as const,
-  path: '/v1/vip-servers/:id',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/vip-servers/:id",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    id: {
+      style: "simple",
+    },
+  },
   parameters: {
     id: z.number().int(),
   },
@@ -1278,10 +1573,16 @@ export const getVipServersId = {
  * @param id
  */
 export const patchVipServersId = {
-  method: 'patch' as const,
-  path: '/v1/vip-servers/:id',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "patch" as const,
+  path: "/v1/vip-servers/:id",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+    id: {
+      style: "simple",
+    },
+  },
   parameters: {
     body: Roblox_Games_Api_VipServerUpdateRequest,
     id: z.number().int(),
@@ -1327,10 +1628,16 @@ export const patchVipServersId = {
  * @param id
  */
 export const patchVipServersIdPermissions = {
-  method: 'patch' as const,
-  path: '/v1/vip-servers/:id/permissions',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "patch" as const,
+  path: "/v1/vip-servers/:id/permissions",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+    id: {
+      style: "simple",
+    },
+  },
   parameters: {
     body: Roblox_Games_Api_VipServerUpdatePermissionsRequest,
     id: z.number().int(),
@@ -1371,10 +1678,16 @@ export const patchVipServersIdPermissions = {
  * @param id
  */
 export const patchVipServersIdSubscription = {
-  method: 'patch' as const,
-  path: '/v1/vip-servers/:id/subscription',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "patch" as const,
+  path: "/v1/vip-servers/:id/subscription",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+    id: {
+      style: "simple",
+    },
+  },
   parameters: {
     body: Roblox_Games_Api_VipServerUpdateSubscriptionRequest,
     id: z.number().int(),
@@ -1418,10 +1731,16 @@ export const patchVipServersIdSubscription = {
  * @param id
  */
 export const patchVipServersIdVoicesettings = {
-  method: 'patch' as const,
-  path: '/v1/vip-servers/:id/voicesettings',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  method: "patch" as const,
+  path: "/v1/vip-servers/:id/voicesettings",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json" as const,
+  serializationMethod: {
+    body: {},
+    id: {
+      style: "simple",
+    },
+  },
   parameters: {
     body: z.object({ enabled: z.boolean() }),
     id: z.number().int(),
