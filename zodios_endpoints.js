@@ -1,6 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const { execSync, exec } = require('child_process');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+const pLimit = require('p-limit');
+const { generateZodClientFromOpenAPI } = require('@thepotato97/openapi-zod-client');
+const SwaggerParser = require('@apidevtools/swagger-parser');
+
+const limit = pLimit(2);
 
 const FOLDER_OPENAPI = 'openapi';
 const FOLDER_ZODIOS = 'src/endpoints';
@@ -10,18 +16,19 @@ const urls = fs
   .readFileSync('urls.txt', 'utf-8')
   .split('\n')
   .filter((url) => url.trim() !== '');
-
 Promise.all(
-  urls.map(async (url) => {
-    if (url.trim()) {
-      console.log(`Converting ${url}`);
-      const [, subdomain, domain] = url.match(/https:\/\/([^.]*)\.(.*)\//);
-      const apiName = url.split('/').slice(-1)[0];
-      await exec(
-        `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${subdomain}${apiName}"`,
-      );
-    }
-  }),
+  urls.map((url) =>
+    limit(async () => {
+      if (url.trim()) {
+        console.log(`Converting ${url}`);
+        const [, subdomain, domain] = url.match(/https:\/\/([^\.]+)\.(.+)\//);
+        const apiName = url.split('/').slice(-1)[0];
+        await exec(
+          `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${subdomain}${apiName}"`,
+        );
+      }
+    }),
+  ),
 ).then(() => {
   console.log('Generating Zodios endpoints...');
 
@@ -29,9 +36,6 @@ Promise.all(
     const folderContents = fs.readdirSync(`${FOLDER_OPENAPI}/${file}`);
     return folderContents.some((file) => file.endsWith('.yaml'));
   });
-
-  const { generateZodClientFromOpenAPI } = require('openapi-zod-client');
-  const SwaggerParser = require('@apidevtools/swagger-parser');
 
   openApiFiles.forEach(async (folder) => {
     console.log(`Generating Zodios for ${folder}`);

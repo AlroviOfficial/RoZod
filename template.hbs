@@ -45,6 +45,9 @@ export const {{alias}} = {
 	{{#if @root.options.baseUrl}}
 	baseUrl: "{{@root.options.baseUrl}}",
 	{{/if}}
+	{{#if style}}
+	style: `{{style}}`,
+	{{/if}}
 	{{#if description}}
 	description: `{{description}}`,
 	{{/if}}
@@ -52,6 +55,18 @@ export const {{alias}} = {
 	requestFormat: "{{requestFormat}}" as const,
 	{{/if}}
 	{{#if parameters}}
+	serializationMethod: { 
+	  {{#each parameters}}
+	    "{{name}}": {
+	      {{#if style}}
+	        "style": "{{style}}",
+	      {{/if}}
+	      {{#if explode}}
+	        "explode": true
+	      {{/if}}
+	    }{{#unless @last}},{{/unless}}
+	  {{/each}}
+	},
 	parameters: {
 		{{#each parameters}}
 		"{{name}}": {{{schema}}},
