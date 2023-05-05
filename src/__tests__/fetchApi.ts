@@ -1,7 +1,7 @@
 import { EndpointSchema, fetchApi, fetchApiSplit } from '../index';
-import { getGamesIcons } from '../endpoints/thumbnailsv1';
+import { getGamesIcons, getUsersAvatarHeadshot } from '../endpoints/thumbnailsv1';
 import { getGroupsGroupidMembership } from '../endpoints/groupsv1';
-import { getGamesUniverseidFavoritesCount } from '../endpoints/gamesv1';
+import { getGamesMultigetPlaceDetails, getGamesUniverseidFavoritesCount } from '../endpoints/gamesv1';
 import { z } from 'zod';
 
 test('fetch game icons', async () => {
@@ -59,5 +59,20 @@ test('fetch omni recommendations', async () => {
   };
   return fetchApi(endpoint).catch((error: Error) => {
     expect(error.message).toBe('Invalid response data');
+  });
+});
+
+test('fetch place details', async () => {
+  return fetchApiSplit(
+    getUsersAvatarHeadshot,
+    {
+      userIds: [4464722397, 3304424800, 138957456],
+    },
+    { userIds: 100 },
+    (response) => response.data,
+  ).then((data) => {
+    const flattened = data.flat(1);
+    expect(flattened).toHaveLength(3);
+    expect(flattened[0]).toHaveProperty('targetId');
   });
 });

@@ -7,6 +7,7 @@ export type EndpointSchema = {
   method: RequestMethod;
   path: string;
   baseUrl: string;
+  serializationMethod?: Record<string, { style: string, explode?: boolean }>;
   requestFormat?: RequestFormat;
   parameters?: Record<string, z.Schema<any>>;
   response: z.Schema<any>;
@@ -122,17 +123,51 @@ async function fetchApi<S extends EndpointSchema>(
     const value = extendedParams[key];
     const pathParamPattern = new RegExp(`:${key}`);
 
+    // Check for path parameter
     if (pathParamPattern.test(processedPath)) {
       processedPath = processedPath.replace(pathParamPattern, String(value));
-    } else {
-      queryParams[key] = String(value);
+      continue;
     }
+
+    const mapStr = (v: any, joiner: string) => v.map(String).join(joiner);
+
+    // Check for serialization method
+    if (!endpoint.serializationMethod?.[key]) {
+      if (Array.isArray(value)) {
+        queryParams[key] = mapStr(value, ',');
+      } else {
+        queryParams[key] = String(value);
+      }
+      continue;
+    }
+
+    const { style, explode } = endpoint.serializationMethod[key];
+    if (!Array.isArray(value)) {
+      queryParams[key] = String(value);
+      continue;
+    }
+
+    const joinTbl: Record<string, string> = {
+      form: ',',
+      spaceDelimited: ' ',
+      pipeDelimited: '|',
+    }
+
+    if (explode) {
+      queryParams[key] = mapStr(value, `&${key}=`);
+      continue;
+    }
+    queryParams[key] = mapStr(value, joinTbl[style]);
   }
 
-  const query = Object.keys(queryParams).length ? '?' + new URLSearchParams(queryParams).toString() : '';
+  const query = Object.keys(queryParams).length ? '?' + Object.entries(queryParams).map(([k, v]) => `${k}=${v}`).join('&') : '';
 
   if (method !== 'get' && requestFormat === 'json') {
-    body = JSON.stringify(extendedParams);
+    if (extendedParams.hasOwnProperty('body')) {
+      body = JSON.stringify((extendedParams as any).body);
+    } else {
+      body = JSON.stringify(extendedParams);
+    }
   }
 
   const response = await fetch(endpoint.baseUrl + processedPath + query, {
