@@ -7,7 +7,7 @@ export type EndpointSchema = {
   method: RequestMethod;
   path: string;
   baseUrl: string;
-  serializationMethod?: Record<string, { style: string, explode?: boolean }>;
+  serializationMethod?: Record<string, { style: string; explode?: boolean }>;
   requestFormat?: RequestFormat;
   parameters?: Record<string, z.Schema<any>>;
   response: z.Schema<any>;
@@ -151,7 +151,7 @@ async function fetchApi<S extends EndpointSchema>(
       form: ',',
       spaceDelimited: ' ',
       pipeDelimited: '|',
-    }
+    };
 
     if (explode) {
       queryParams[key] = mapStr(value, `&${key}=`);
@@ -160,7 +160,12 @@ async function fetchApi<S extends EndpointSchema>(
     queryParams[key] = mapStr(value, joinTbl[style]);
   }
 
-  const query = Object.keys(queryParams).length ? '?' + Object.entries(queryParams).map(([k, v]) => `${k}=${v}`).join('&') : '';
+  const query = Object.keys(queryParams).length
+    ? '?' +
+      Object.entries(queryParams)
+        .map(([k, v]) => `${k}=${v}`)
+        .join('&')
+    : '';
 
   if (method !== 'get' && requestFormat === 'json') {
     if (extendedParams.hasOwnProperty('body')) {
