@@ -7,7 +7,7 @@ export type EndpointSchema = {
   method: RequestMethod;
   path: string;
   baseUrl: string;
-  serializationMethod?: Record<string, { style: string; explode?: boolean }>;
+  serializationMethod?: Record<string, { style?: string; explode?: boolean }>;
   requestFormat?: RequestFormat;
   parameters?: Record<string, z.Schema<any>>;
   response: z.Schema<any>;
@@ -142,7 +142,7 @@ async function fetchApi<S extends EndpointSchema>(
     }
 
     const { style, explode } = endpoint.serializationMethod[key];
-    if (!Array.isArray(value)) {
+    if (!Array.isArray(value) || !style) {
       queryParams[key] = String(value);
       continue;
     }

@@ -1,5 +1,6 @@
 https://games.roblox.com/docs/json/v1
 https://games.roblox.com/docs/json/v2
+https://gamejoin.roblox.com/docs/json/v1
 https://groups.roblox.com/docs/json/v1
 https://groups.roblox.com/docs/json/v2
 https://friends.roblox.com/docs/json/v1

@@ -2,6 +2,7 @@ import { EndpointSchema, fetchApi, fetchApiSplit } from '../index';
 import { getGamesIcons, getUsersAvatarHeadshot } from '../endpoints/thumbnailsv1';
 import { getGroupsGroupidMembership } from '../endpoints/groupsv1';
 import { getGamesMultigetPlaceDetails, getGamesUniverseidFavoritesCount } from '../endpoints/gamesv1';
+import { postPresenceUsers } from '../endpoints/presencev1';
 import { z } from 'zod';
 
 test('fetch game icons', async () => {
@@ -62,7 +63,7 @@ test('fetch omni recommendations', async () => {
   });
 });
 
-test('fetch place details', async () => {
+test('fetch avatar headshots', async () => {
   return fetchApiSplit(
     getUsersAvatarHeadshot,
     {
@@ -76,3 +77,13 @@ test('fetch place details', async () => {
     expect(flattened[0]).toHaveProperty('targetId');
   });
 });
+
+test('post presence users', async () => {
+  return fetchApi(postPresenceUsers, {
+    body: {
+      userIds: [4464722397, 3304424800, 138957456],
+    }
+  }).then((data) => {
+    expect(data).toHaveProperty('userPresences');
+  })
+})
