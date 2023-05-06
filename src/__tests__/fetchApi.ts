@@ -82,8 +82,8 @@ test('post presence users', async () => {
   return fetchApi(postPresenceUsers, {
     body: {
       userIds: [4464722397, 3304424800, 138957456],
-    }
+    },
   }).then((data) => {
     expect(data).toHaveProperty('userPresences');
-  })
-})
+  });
+});
