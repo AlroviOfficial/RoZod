@@ -282,7 +282,9 @@ async function fetchApiPages<S extends EndpointSchema>(
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const paramsWithCursor = cursor !== undefined && ({ ...initialParams, cursor } as ExtractParams<S>) || initialParams as ExtractParams<S>;
+    const paramsWithCursor =
+      (cursor !== undefined && ({ ...initialParams, cursor } as ExtractParams<S>)) ||
+      (initialParams as ExtractParams<S>);
     const response = await fetchApi(endpoint, paramsWithCursor, requestOptions);
 
     allResults.push(response);
@@ -329,7 +331,9 @@ async function* fetchApiPagesGenerator<S extends EndpointSchema>(
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const paramsWithCursor = cursor !== undefined && ({ ...initialParams, cursor } as ExtractParams<S>) || initialParams as ExtractParams<S>;
+    const paramsWithCursor =
+      (cursor !== undefined && ({ ...initialParams, cursor } as ExtractParams<S>)) ||
+      (initialParams as ExtractParams<S>);
     const response = await fetchApi(endpoint, paramsWithCursor, requestOptions);
 
     yield response;
