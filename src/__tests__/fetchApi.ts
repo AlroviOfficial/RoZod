@@ -1,7 +1,8 @@
-import { EndpointSchema, fetchApi, fetchApiSplit } from '../index';
+import { fetchApi, fetchApiPages, fetchApiSplit } from '../index';
 import { getGamesIcons, getUsersAvatarHeadshot } from '../endpoints/thumbnailsv1';
 import { getGroupsGroupidMembership } from '../endpoints/groupsv1';
-import { getGamesMultigetPlaceDetails, getGamesUniverseidFavoritesCount } from '../endpoints/gamesv1';
+import { getGamesUniverseidFavoritesCount } from '../endpoints/gamesv1';
+import { getUsersUseridGames } from '../endpoints/gamesv2';
 import { postPresenceUsers } from '../endpoints/presencev1';
 import { z } from 'zod';
 
@@ -87,3 +88,12 @@ test('post presence users', async () => {
     expect(data).toHaveProperty('userPresences');
   });
 });
+
+test('post games', async () => {
+  return fetchApiPages(getUsersUseridGames, {
+    userId: 4464722397,
+    limit: 50,
+  }).then((data) => {
+    expect(data[0]).toHaveProperty('data');
+  });
+}, 10000);

@@ -175,7 +175,7 @@ async function fetchApi<S extends EndpointSchema>(
     }
   }
 
-  const response = await fetch(endpoint.baseUrl + processedPath + query, {
+  const response = await fetch(endpoint.baseUrl + processedPath + (body ? '' : query), {
     method,
     body,
     ...requestOptions,
@@ -277,19 +277,18 @@ async function fetchApiPages<S extends EndpointSchema>(
   requestOptions?: RequestInit,
   limit: number = 1000,
 ): Promise<ExtractResponse<S>[]> {
-  let cursor: string | undefined;
+  let cursor: string | undefined = '';
   const allResults: ExtractResponse<S>[] = [];
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const paramsWithCursor =
-      (cursor !== undefined && ({ ...initialParams, cursor } as ExtractParams<S>)) ||
-      (initialParams as ExtractParams<S>);
+    cursor ||= '';
+    const paramsWithCursor = { ...initialParams, cursor } as ExtractParams<S>;
     const response = await fetchApi(endpoint, paramsWithCursor, requestOptions);
 
     allResults.push(response);
 
-    if ('nextPageCursor' in response) {
+    if (response.nextPageCursor !== null) {
       cursor = response.nextPageCursor;
     } else {
       break;
@@ -327,18 +326,17 @@ async function* fetchApiPagesGenerator<S extends EndpointSchema>(
   requestOptions?: RequestInit,
   limit: number = 1000,
 ): AsyncGenerator<ExtractResponse<S>, void, unknown> {
-  let cursor: string | undefined;
+  let cursor: string | undefined = '';
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const paramsWithCursor =
-      (cursor !== undefined && ({ ...initialParams, cursor } as ExtractParams<S>)) ||
-      (initialParams as ExtractParams<S>);
+    cursor ||= '';
+    const paramsWithCursor = { ...initialParams, cursor } as ExtractParams<S>;
     const response = await fetchApi(endpoint, paramsWithCursor, requestOptions);
 
     yield response;
 
-    if ('nextPageCursor' in response) {
+    if (response.nextPageCursor !== null) {
       cursor = response.nextPageCursor;
     } else {
       break;
