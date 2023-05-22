@@ -169,14 +169,6 @@ async function handleRetryFetch(url: string, requestOptions: RequestOptions, ret
   return response;
 }
 
-async function sha256(input: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(input);
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  
-  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
 /**
  * Fetches the data from the given endpoint and returns it.
  *
