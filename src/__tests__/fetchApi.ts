@@ -1,5 +1,5 @@
 import { fetchApi, fetchApiPages, fetchApiSplit } from '../index';
-import { getGamesIcons, getUsersAvatarHeadshot } from '../endpoints/thumbnailsv1';
+import { getGamesIcons, getUsersAvatarHeadshot, postBatch } from '../endpoints/thumbnailsv1';
 import { getGroupsGroupidMembership } from '../endpoints/groupsv1';
 import { getGamesUniverseidFavoritesCount } from '../endpoints/gamesv1';
 import { getUsersUseridGames } from '../endpoints/gamesv2';

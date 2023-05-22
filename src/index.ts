@@ -1,13 +1,16 @@
 import { z } from 'zod';
+import { cache } from './cache';
 
 type RequestMethod = 'get' | 'post' | 'put' | 'delete';
 type RequestFormat = 'json' | 'text';
+
+type SerializationMethod = Record<string, { style?: string; explode?: boolean }>;
 
 export type EndpointSchema = {
   method: RequestMethod;
   path: string;
   baseUrl: string;
-  serializationMethod?: Record<string, { style?: string; explode?: boolean }>;
+  serializationMethod?: SerializationMethod;
   requestFormat?: RequestFormat;
   parameters?: Record<string, z.Schema<any>>;
   response: z.Schema<any>;
@@ -66,6 +69,114 @@ function extractDefaultValues<S extends EndpointSchema>(endpoint: S): Partial<Ex
   return defaultValues;
 }
 
+type RetryOptions = {
+  retries?: number;
+  retryDelay?: number;
+};
+
+type ErrorOptions = {
+  throwOnError?: boolean;
+};
+
+type CacheOptions = {
+  cacheTime?: number;
+  cacheKey?: string;
+};
+
+type RequestOptions = RequestInit & RetryOptions & ErrorOptions & CacheOptions;
+
+// A helper function to replace path parameters in the URL
+function replacePathParam(path: string, key: string, value: any) {
+  const pathParamPattern = new RegExp(`:${key}`);
+  return pathParamPattern.test(path) ? path.replace(pathParamPattern, String(value)) : path;
+}
+
+// A helper function to serialize a value into a query parameter
+function serializeQueryParam(key: string, value: any, serializationMethod?: SerializationMethod) {
+  const mapStr = (v: any, joiner: string) => v.map(String).join(joiner);
+
+  if (!serializationMethod || !serializationMethod[key]) {
+    return Array.isArray(value) ? mapStr(value, ',') : String(value);
+  }
+
+  const { style, explode } = serializationMethod[key];
+  if (!Array.isArray(value) || !style) {
+    return String(value);
+  }
+
+  const joinTbl: Record<string, string> = {
+    form: ',',
+    spaceDelimited: ' ',
+    pipeDelimited: '|',
+  };
+
+  return explode ? mapStr(value, `&${key}=`) : mapStr(value, joinTbl[style]);
+}
+
+function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams: ExtractParams<S>) {
+  let processedPath = endpoint.path;
+  const queryParams: Record<string, string> = {};
+
+  for (const key in extendedParams) {
+    if (!{}.hasOwnProperty.call(extendedParams, key)) continue;
+    const value = extendedParams[key];
+
+    processedPath = replacePathParam(processedPath, key, value);
+
+    const serializedValue = serializeQueryParam(key, value, endpoint.serializationMethod);
+    if (serializedValue !== undefined) {
+      queryParams[key] = serializedValue;
+    }
+  }
+
+  const query = Object.keys(queryParams).length 
+    ? '?' + Object.entries(queryParams).map(([k, v]) => `${k}=${v}`).join('&') 
+    : '';
+
+  return endpoint.baseUrl + processedPath + query;
+}
+
+function prepareRequestBody<S extends EndpointSchema>(method: string, requestFormat: string, extendedParams: ExtractParams<S>) {
+  let body: string | undefined;
+
+  if (method !== 'get' && requestFormat === 'json') {
+    body = extendedParams.hasOwnProperty('body') ? JSON.stringify((extendedParams as any).body) : JSON.stringify(extendedParams);
+  }
+
+  return body;
+}
+
+async function handleRetryFetch(url: string, requestOptions: RequestOptions, retries: number, retryDelay: number, body?: string, method?: string) {
+  let response: Response;
+
+  while (true) {
+    try {
+      response = await fetch(url, {
+        method,
+        body,
+        ...requestOptions,
+      });
+      break;
+    } catch (error) {
+      if (retries <= 0) {
+        throw error;
+      }
+      retries--;
+      await new Promise(resolve => setTimeout(resolve, retryDelay));
+    }
+  }
+
+  return response;
+}
+
+async function sha256(input: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(input);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 /**
  * Fetches the data from the given endpoint and returns it.
  *
@@ -77,7 +188,7 @@ function extractDefaultValues<S extends EndpointSchema>(endpoint: S): Partial<Ex
 async function fetchApi<S extends EndpointSchema>(
   endpoint: S,
   params: ExtractParams<S>,
-  requestOptions?: RequestInit,
+  requestOptions?: RequestOptions,
 ): Promise<ExtractResponse<S>>;
 
 /**
@@ -91,7 +202,7 @@ async function fetchApi<S extends EndpointSchema>(
 async function fetchApi<S extends EndpointSchema>(
   endpoint: S & { parameters?: undefined },
   params?: ExtractParams<S>,
-  requestOptions?: RequestInit,
+  requestOptions?: RequestOptions,
 ): Promise<ExtractResponse<S>>;
 
 /**
@@ -105,99 +216,49 @@ async function fetchApi<S extends EndpointSchema>(
 async function fetchApi<S extends EndpointSchema>(
   endpoint: S,
   params?: ExtractParams<S>,
-  requestOptions: RequestInit = { mode: 'cors', credentials: 'include' },
+  requestOptions: RequestOptions = { mode: 'cors', credentials: 'include' },
 ): Promise<ExtractResponse<S>> {
-  const { method, path, requestFormat = 'json' } = endpoint;
-
+  const { method, requestFormat = 'json' } = endpoint;
   const defaultValues = extractDefaultValues(endpoint);
   const extendedParams = { ...defaultValues, ...params } as ExtractParams<S>;
 
-  let body: string | undefined;
-  let processedPath = path;
-  const queryParams: Record<string, string> = {};
+  const url = prepareRequestUrl(endpoint, extendedParams);
+  const body = prepareRequestBody(method, requestFormat, extendedParams);
 
-  for (const key in extendedParams) {
-    if (!{}.hasOwnProperty.call(extendedParams, key)) {
-      continue;
-    }
-    const value = extendedParams[key];
-    const pathParamPattern = new RegExp(`:${key}`);
-
-    // Check for path parameter
-    if (pathParamPattern.test(processedPath)) {
-      processedPath = processedPath.replace(pathParamPattern, String(value));
-      continue;
-    }
-
-    const mapStr = (v: any, joiner: string) => v.map(String).join(joiner);
-
-    // Check for serialization method
-    if (!endpoint.serializationMethod?.[key]) {
-      if (Array.isArray(value)) {
-        queryParams[key] = mapStr(value, ',');
-      } else {
-        queryParams[key] = String(value);
-      }
-      continue;
-    }
-
-    const { style, explode } = endpoint.serializationMethod[key];
-    if (!Array.isArray(value) || !style) {
-      queryParams[key] = String(value);
-      continue;
-    }
-
-    const joinTbl: Record<string, string> = {
-      form: ',',
-      spaceDelimited: ' ',
-      pipeDelimited: '|',
-    };
-
-    if (explode) {
-      queryParams[key] = mapStr(value, `&${key}=`);
-      continue;
-    }
-    queryParams[key] = mapStr(value, joinTbl[style]);
+  const cacheKey = requestOptions.cacheKey;
+  const cachedResponse = cacheKey && cache.get(cacheKey);
+  if (cachedResponse) {
+    return cachedResponse;
   }
 
-  const query = Object.keys(queryParams).length
-    ? '?' +
-      Object.entries(queryParams)
-        .map(([k, v]) => `${k}=${v}`)
-        .join('&')
-    : '';
+  let retries = requestOptions.retries ?? 0;
+  let retryDelay = requestOptions.retryDelay ?? 0;
 
-  if (method !== 'get' && requestFormat === 'json') {
-    if (extendedParams.hasOwnProperty('body')) {
-      body = JSON.stringify((extendedParams as any).body);
-    } else {
-      body = JSON.stringify(extendedParams);
-    }
-  }
-
-  const response = await fetch(endpoint.baseUrl + processedPath + (body ? '' : query), {
-    method,
-    body,
-    ...requestOptions,
-  });
+  const response = await handleRetryFetch(url, requestOptions, retries, retryDelay, body, method);
 
   const error = endpoint.errors?.find(({ status }) => status === response.status);
   if (error) {
-    throw new Error(error.description);
+    if (requestOptions.throwOnError) {
+      throw new Error(error.description);
+    } else {
+      return null;
+    }
+  }
+
+  if (requestOptions.cacheTime && cacheKey) {
+    const responseClone = response.clone();
+    const cacheTime = requestOptions.cacheTime;
+    setTimeout(() => {
+      cache.delete(cacheKey);
+    }, cacheTime);
+    cache.set(cacheKey, requestFormat === 'json' ? await responseClone.json() : await responseClone.text(), cacheTime);
   }
 
   if (requestFormat === 'json' && !response.headers.get('content-type')?.includes('application/json')) {
     throw new Error('Invalid response data');
   }
 
-  let data;
-  if (requestFormat === 'json') {
-    data = await response.json();
-  } else {
-    data = await response.text();
-  }
-
-  return data as ExtractResponse<S>;
+  return requestFormat === 'json' ? await response.json() : await response.text();
 }
 
 /**
@@ -220,7 +281,7 @@ async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
   params: ExtractParams<S>,
   max?: Partial<{ [K in keyof ExtractParams<S>]: number }>,
   transform: (response: ExtractResponse<S>) => T = (response: ExtractResponse<S>) => response as unknown as T,
-  requestOptions?: RequestInit,
+  requestOptions?: RequestOptions,
 ): Promise<T[]> {
   const fetchTransformed = async (transformparams: ExtractParams<S>) => {
     const response = await fetchApi(endpoint, transformparams, requestOptions);
@@ -274,27 +335,15 @@ async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
 async function fetchApiPages<S extends EndpointSchema>(
   endpoint: S,
   initialParams: Omit<ExtractParams<S>, 'cursor'>,
-  requestOptions?: RequestInit,
+  requestOptions?: RequestOptions,
   limit: number = 1000,
 ): Promise<ExtractResponse<S>[]> {
-  let cursor: string | undefined = '';
   const allResults: ExtractResponse<S>[] = [];
 
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    cursor ||= '';
-    const paramsWithCursor = { ...initialParams, cursor } as ExtractParams<S>;
-    const response = await fetchApi(endpoint, paramsWithCursor, requestOptions);
-
+  for await (const { nextPageCursor, ...response } of fetchApiPagesGenerator(endpoint, initialParams, requestOptions)) {
     allResults.push(response);
 
-    if (response.nextPageCursor !== null) {
-      cursor = response.nextPageCursor;
-    } else {
-      break;
-    }
-
-    if (allResults.length >= limit) {
+    if (allResults.length >= limit || nextPageCursor === null) {
       break;
     }
   }
@@ -323,28 +372,22 @@ async function fetchApiPages<S extends EndpointSchema>(
 async function* fetchApiPagesGenerator<S extends EndpointSchema>(
   endpoint: S,
   initialParams: Omit<ExtractParams<S>, 'cursor'>,
-  requestOptions?: RequestInit,
+  requestOptions?: RequestOptions,
   limit: number = 1000,
 ): AsyncGenerator<ExtractResponse<S>, void, unknown> {
-  let cursor: string | undefined = '';
+  let cursor = '';
 
-  // eslint-disable-next-line no-constant-condition
   while (true) {
-    cursor ||= '';
     const paramsWithCursor = { ...initialParams, cursor } as ExtractParams<S>;
     const response = await fetchApi(endpoint, paramsWithCursor, requestOptions);
 
     yield response;
 
-    if (response.nextPageCursor !== null) {
-      cursor = response.nextPageCursor;
-    } else {
+    if (response.nextPageCursor === null || limit-- <= 0) {
       break;
     }
 
-    if (limit-- <= 0) {
-      break;
-    }
+    cursor = response.nextPageCursor;
   }
 }
 
