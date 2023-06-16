@@ -129,24 +129,40 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
     }
   }
 
-  const query = Object.keys(queryParams).length 
-    ? '?' + Object.entries(queryParams).map(([k, v]) => `${k}=${v}`).join('&') 
+  const query = Object.keys(queryParams).length
+    ? '?' +
+      Object.entries(queryParams)
+        .map(([k, v]) => `${k}=${v}`)
+        .join('&')
     : '';
 
   return endpoint.baseUrl + processedPath + query;
 }
 
-function prepareRequestBody<S extends EndpointSchema>(method: string, requestFormat: string, extendedParams: ExtractParams<S>) {
+function prepareRequestBody<S extends EndpointSchema>(
+  method: string,
+  requestFormat: string,
+  extendedParams: ExtractParams<S>,
+) {
   let body: string | undefined;
 
   if (method !== 'get' && requestFormat === 'json') {
-    body = extendedParams.hasOwnProperty('body') ? JSON.stringify((extendedParams as any).body) : JSON.stringify(extendedParams);
+    body = extendedParams.hasOwnProperty('body')
+      ? JSON.stringify((extendedParams as any).body)
+      : JSON.stringify(extendedParams);
   }
 
   return body;
 }
 
-async function handleRetryFetch(url: string, requestOptions: RequestOptions, retries: number, retryDelay: number, body?: string, method?: string) {
+async function handleRetryFetch(
+  url: string,
+  requestOptions: RequestOptions,
+  retries: number,
+  retryDelay: number,
+  body?: string,
+  method?: string,
+) {
   let response: Response;
 
   while (true) {
@@ -162,7 +178,7 @@ async function handleRetryFetch(url: string, requestOptions: RequestOptions, ret
         throw error;
       }
       retries--;
-      await new Promise(resolve => setTimeout(resolve, retryDelay));
+      await new Promise((resolve) => setTimeout(resolve, retryDelay));
     }
   }
 
@@ -223,8 +239,8 @@ async function fetchApi<S extends EndpointSchema>(
     return cachedResponse;
   }
 
-  let retries = requestOptions.retries ?? 0;
-  let retryDelay = requestOptions.retryDelay ?? 0;
+  const retries = requestOptions.retries ?? 0;
+  const retryDelay = requestOptions.retryDelay ?? 0;
 
   const response = await handleRetryFetch(url, requestOptions, retries, retryDelay, body, method);
 
@@ -383,4 +399,4 @@ async function* fetchApiPagesGenerator<S extends EndpointSchema>(
   }
 }
 
-export { fetchApi, fetchApiSplit, fetchApiPages, fetchApiPagesGenerator };
+export { fetchApi, fetchApiSplit, fetchApiPages, fetchApiPagesGenerator, ExtractResponse };
