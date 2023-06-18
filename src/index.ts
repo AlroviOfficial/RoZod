@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { cache } from './cache';
 
-type RequestMethod = 'get' | 'post' | 'put' | 'delete';
+type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 type RequestFormat = 'json' | 'text';
 
 type SerializationMethod = Record<string, { style?: string; explode?: boolean }>;
