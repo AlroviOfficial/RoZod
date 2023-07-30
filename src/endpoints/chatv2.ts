@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_Chat_Api_Models_ChatSettingsResponse = z
   .object({
@@ -10,7 +10,7 @@ const Roblox_Chat_Api_Models_ChatSettingsResponse = z
   .passthrough();
 const Roblox_Chat_Api_Models_ChatParticipant = z
   .object({
-    type: z.enum(['User', 'System']),
+    type: z.enum(["User", "System"]),
     targetId: z.number().int(),
     name: z.string(),
     displayName: z.string(),
@@ -30,32 +30,39 @@ const Roblox_Chat_Api_Models_Conversation = z
     initiator: Roblox_Chat_Api_Models_ChatParticipant,
     hasUnreadMessages: z.boolean(),
     participants: z.array(Roblox_Chat_Api_Models_ChatParticipant),
-    conversationType: z.enum(['OneToOneConversation', 'MultiUserConversation', 'CloudEditConversation']),
+    conversationType: z.enum([
+      "OneToOneConversation",
+      "MultiUserConversation",
+      "CloudEditConversation",
+    ]),
     conversationTitle: Roblox_Chat_Api_Models_ConversationTitle,
     lastUpdated: z.string().datetime({ offset: true }),
     conversationUniverse: Roblox_Chat_Api_Models_ConversationUniverse,
   })
   .passthrough();
-const Roblox_Chat_Api_Models_GameLink = z.object({ universeId: z.number().int() }).passthrough();
+const Roblox_Chat_Api_Models_GameLink = z
+  .object({ universeId: z.number().int() })
+  .passthrough();
 const Roblox_Chat_Api_Models_Link = z
-  .object({ type: z.literal('Game'), game: Roblox_Chat_Api_Models_GameLink })
+  .object({ type: z.literal("Game"), game: Roblox_Chat_Api_Models_GameLink })
   .passthrough();
 const Roblox_Chat_Api_Models_SetConversationUniverseEventBased = z
   .object({ actorUserId: z.number().int(), universeId: z.number().int() })
   .passthrough();
 const Roblox_Chat_Api_Models_EventBased = z
   .object({
-    type: z.literal('SetConversationUniverse'),
-    setConversationUniverse: Roblox_Chat_Api_Models_SetConversationUniverseEventBased,
+    type: z.literal("SetConversationUniverse"),
+    setConversationUniverse:
+      Roblox_Chat_Api_Models_SetConversationUniverseEventBased,
   })
   .passthrough();
 const Roblox_Chat_Api_Models_ChatMessage = z
   .object({
     id: z.string().uuid(),
-    senderType: z.enum(['User', 'System']),
+    senderType: z.enum(["User", "System"]),
     sent: z.string().datetime({ offset: true }),
     read: z.boolean(),
-    messageType: z.enum(['PlainText', 'Link', 'EventBased']),
+    messageType: z.enum(["PlainText", "Link", "EventBased"]),
     decorators: z.array(z.string()),
     senderTargetId: z.number().int(),
     content: z.string(),
@@ -65,7 +72,14 @@ const Roblox_Chat_Api_Models_ChatMessage = z
   .passthrough();
 const Roblox_Chat_Api_Models_RolloutSettingModel = z
   .object({
-    featureName: z.enum(['LuaChat', 'ConversationUniverse', 'PlayTogether', 'Party', 'GameLink', 'OldPlayTogether']),
+    featureName: z.enum([
+      "LuaChat",
+      "ConversationUniverse",
+      "PlayTogether",
+      "Party",
+      "GameLink",
+      "OldPlayTogether",
+    ]),
     isRolloutEnabled: z.boolean(),
   })
   .passthrough();
@@ -74,7 +88,9 @@ const Roblox_Chat_Api_Models_RolloutSettingsResponse = z
     rolloutFeatures: z.array(Roblox_Chat_Api_Models_RolloutSettingModel),
   })
   .passthrough();
-const Roblox_Chat_Api_Models_UnreadConversationCountResponse = z.object({ count: z.number().int() }).passthrough();
+const Roblox_Chat_Api_Models_UnreadConversationCountResponse = z
+  .object({ count: z.number().int() })
+  .passthrough();
 const Roblox_Chat_Api_Models_MultigetConversationMessagesResponse = z
   .object({
     conversationId: z.number().int(),
@@ -83,7 +99,11 @@ const Roblox_Chat_Api_Models_MultigetConversationMessagesResponse = z
   .passthrough();
 const Roblox_Chat_Api_Models_ChatMetadataResponse = z
   .object({
-    isChatEnabledByPrivacySetting: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+    isChatEnabledByPrivacySetting: z.union([
+      z.literal(0),
+      z.literal(1),
+      z.literal(2),
+    ]),
     languageForPrivacySettingUnavailable: z.string(),
     maxConversationTitleLength: z.number().int(),
     numberOfMembersForPartyChrome: z.number().int(),
@@ -115,7 +135,7 @@ const Roblox_Chat_Api_Models_AddUsersToConversationRequest = z
 const Roblox_Chat_Api_Models_RejectedChatParticipant = z
   .object({
     rejectedReason: z.string(),
-    type: z.enum(['User', 'System']),
+    type: z.enum(["User", "System"]),
     targetId: z.number().int(),
     name: z.string(),
     displayName: z.string(),
@@ -125,19 +145,25 @@ const Roblox_Chat_Api_Models_RejectedChatParticipant = z
 const Roblox_Chat_Api_Models_AddUserToConversationResponse = z
   .object({
     conversationId: z.number().int(),
-    rejectedParticipants: z.array(Roblox_Chat_Api_Models_RejectedChatParticipant),
-    resultType: z.literal('Success'),
+    rejectedParticipants: z.array(
+      Roblox_Chat_Api_Models_RejectedChatParticipant
+    ),
+    resultType: z.literal("Success"),
     statusMessage: z.string(),
   })
   .passthrough();
 const Roblox_Chat_Api_Models_MarkAsReadRequest = z
   .object({ conversationId: z.number().int(), endMessageId: z.string() })
   .passthrough();
-const Roblox_Chat_Api_Models_MarkAsReadResponse = z.object({ resultType: z.literal('Success') }).passthrough();
+const Roblox_Chat_Api_Models_MarkAsReadResponse = z
+  .object({ resultType: z.literal("Success") })
+  .passthrough();
 const Roblox_Chat_Api_Models_MarkAsSeenRequest = z
   .object({ conversationsToMarkSeen: z.array(z.number()) })
   .passthrough();
-const Roblox_Chat_Api_Models_MarkAsSeenResponse = z.object({ resultType: z.literal('Success') }).passthrough();
+const Roblox_Chat_Api_Models_MarkAsSeenResponse = z
+  .object({ resultType: z.literal("Success") })
+  .passthrough();
 const Roblox_Chat_Api_Models_RemoveUserFromConversationRequest = z
   .object({
     participantUserId: z.number().int(),
@@ -147,7 +173,7 @@ const Roblox_Chat_Api_Models_RemoveUserFromConversationRequest = z
 const Roblox_Chat_Api_Models_RemoveUserFromConversationResponse = z
   .object({
     conversationId: z.number().int(),
-    resultType: z.literal('Success'),
+    resultType: z.literal("Success"),
     statusMessage: z.string(),
   })
   .passthrough();
@@ -157,7 +183,7 @@ const Roblox_Chat_Api_Models_RenameGroupConversationRequest = z
 const Roblox_Chat_Api_Models_RenameConversationResponse = z
   .object({
     conversationTitle: z.string(),
-    resultType: z.enum(['Success', 'Moderated', 'TextTooLong']),
+    resultType: z.enum(["Success", "Moderated", "TextTooLong"]),
     title: Roblox_Chat_Api_Models_ConversationTitle,
     statusMessage: z.string(),
   })
@@ -165,7 +191,9 @@ const Roblox_Chat_Api_Models_RenameConversationResponse = z
 const Roblox_Chat_Api_Models_ResetConversationUniverseRequest = z
   .object({ conversationId: z.number().int() })
   .passthrough();
-const Roblox_Chat_Api_Models_UserVisibleStatusResponse = z.object({ statusMessage: z.string() }).passthrough();
+const Roblox_Chat_Api_Models_UserVisibleStatusResponse = z
+  .object({ statusMessage: z.string() })
+  .passthrough();
 const Roblox_Chat_Api_Models_SendGameLinkChatMessageRequest = z
   .object({
     universeId: z.number().int(),
@@ -178,11 +206,16 @@ const Roblox_Chat_Api_Models_SendGameLinkChatMessageRequest = z
   .passthrough();
 const Roblox_Chat_Api_Models_SendLinkChatResponse = z
   .object({
-    chatMessageLinkType: z.literal('Game'),
+    chatMessageLinkType: z.literal("Game"),
     messageId: z.string(),
     sent: z.string().datetime({ offset: true }),
-    messageType: z.enum(['PlainText', 'Link', 'EventBased']),
-    resultType: z.enum(['Success', 'Moderated', 'TextTooLong', 'NoRealtimeConnection']),
+    messageType: z.enum(["PlainText", "Link", "EventBased"]),
+    resultType: z.enum([
+      "Success",
+      "Moderated",
+      "TextTooLong",
+      "NoRealtimeConnection",
+    ]),
     statusMessage: z.string(),
   })
   .passthrough();
@@ -201,20 +234,29 @@ const Roblox_Chat_Api_Models_SendPlainTextChatMessageResponse = z
     filteredForReceivers: z.boolean(),
     messageId: z.string(),
     sent: z.string().datetime({ offset: true }),
-    messageType: z.enum(['PlainText', 'Link', 'EventBased']),
-    resultType: z.enum(['Success', 'Moderated', 'TextTooLong', 'NoRealtimeConnection']),
+    messageType: z.enum(["PlainText", "Link", "EventBased"]),
+    resultType: z.enum([
+      "Success",
+      "Moderated",
+      "TextTooLong",
+      "NoRealtimeConnection",
+    ]),
     statusMessage: z.string(),
   })
   .passthrough();
 const Roblox_Chat_Api_Models_SetConversationUniverseRequest = z
   .object({ conversationId: z.number().int(), universeId: z.number().int() })
   .passthrough();
-const Roblox_Chat_Api_Models_CreateCloudEditConversationRequest = z.object({ placeId: z.number().int() }).passthrough();
+const Roblox_Chat_Api_Models_CreateCloudEditConversationRequest = z
+  .object({ placeId: z.number().int() })
+  .passthrough();
 const Roblox_Chat_Api_Models_StartNewConversationResponse = z
   .object({
     conversation: Roblox_Chat_Api_Models_Conversation,
-    rejectedParticipants: z.array(Roblox_Chat_Api_Models_RejectedChatParticipant),
-    resultType: z.literal('Success'),
+    rejectedParticipants: z.array(
+      Roblox_Chat_Api_Models_RejectedChatParticipant
+    ),
+    resultType: z.literal("Success"),
     statusMessage: z.string(),
   })
   .passthrough();
@@ -274,10 +316,10 @@ const schemas = {
  * @param body
  */
 export const postAddToConversation = endpoint({
-  method: 'post' as const,
-  path: '/v2/add-to-conversation',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/add-to-conversation",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -301,10 +343,10 @@ export const postAddToConversation = endpoint({
  * @api get https://chat.roblox.com/v2/chat-settings
  */
 export const getChatSettings = endpoint({
-  method: 'get' as const,
-  path: '/v2/chat-settings',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v2/chat-settings",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_Chat_Api_Models_ChatSettingsResponse,
   errors: [
     {
@@ -319,13 +361,13 @@ export const getChatSettings = endpoint({
  * @param conversationIds
  */
 export const getGetConversations = endpoint({
-  method: 'get' as const,
-  path: '/v2/get-conversations',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v2/get-conversations",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     conversationIds: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -348,21 +390,21 @@ export const getGetConversations = endpoint({
  * @param exclusiveStartMessageId
  */
 export const getGetMessages = endpoint({
-  method: 'get' as const,
-  path: '/v2/get-messages',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v2/get-messages",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     conversationId: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     pageSize: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     exclusiveStartMessageId: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -385,13 +427,13 @@ export const getGetMessages = endpoint({
  * @param featureNames
  */
 export const getGetRolloutSettings = endpoint({
-  method: 'get' as const,
-  path: '/v2/get-rollout-settings',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v2/get-rollout-settings",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     featureNames: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -411,10 +453,10 @@ export const getGetRolloutSettings = endpoint({
  * @api get https://chat.roblox.com/v2/get-unread-conversation-count
  */
 export const getGetUnreadConversationCount = endpoint({
-  method: 'get' as const,
-  path: '/v2/get-unread-conversation-count',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v2/get-unread-conversation-count",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   response: z.object({ count: z.number().int() }).passthrough(),
   errors: [
     {
@@ -430,17 +472,17 @@ export const getGetUnreadConversationCount = endpoint({
  * @param pageSize
  */
 export const getGetUnreadConversations = endpoint({
-  method: 'get' as const,
-  path: '/v2/get-unread-conversations',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v2/get-unread-conversations",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     pageNumber: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     pageSize: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -463,17 +505,17 @@ export const getGetUnreadConversations = endpoint({
  * @param pageSize
  */
 export const getGetUnreadMessages = endpoint({
-  method: 'get' as const,
-  path: '/v2/get-unread-messages',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v2/get-unread-messages",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     conversationIds: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     pageSize: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -481,7 +523,9 @@ export const getGetUnreadMessages = endpoint({
     conversationIds: z.array(z.number()),
     pageSize: z.number().int(),
   },
-  response: z.array(Roblox_Chat_Api_Models_MultigetConversationMessagesResponse),
+  response: z.array(
+    Roblox_Chat_Api_Models_MultigetConversationMessagesResponse
+  ),
   errors: [
     {
       status: 401,
@@ -496,17 +540,17 @@ export const getGetUnreadMessages = endpoint({
  * @param pageSize
  */
 export const getGetUserConversations = endpoint({
-  method: 'get' as const,
-  path: '/v2/get-user-conversations',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v2/get-user-conversations",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     pageNumber: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     pageSize: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -528,10 +572,10 @@ export const getGetUserConversations = endpoint({
  * @param body
  */
 export const postMarkAsRead = endpoint({
-  method: 'post' as const,
-  path: '/v2/mark-as-read',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/mark-as-read",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -556,10 +600,10 @@ export const postMarkAsRead = endpoint({
  * @param body
  */
 export const postMarkAsSeen = endpoint({
-  method: 'post' as const,
-  path: '/v2/mark-as-seen',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/mark-as-seen",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -583,10 +627,10 @@ export const postMarkAsSeen = endpoint({
  * @api get https://chat.roblox.com/v2/metadata
  */
 export const getMetadata = endpoint({
-  method: 'get' as const,
-  path: '/v2/metadata',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v2/metadata",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_Chat_Api_Models_ChatMetadataResponse,
   errors: [
     {
@@ -602,17 +646,17 @@ export const getMetadata = endpoint({
  * @param pageSize
  */
 export const getMultiGetLatestMessages = endpoint({
-  method: 'get' as const,
-  path: '/v2/multi-get-latest-messages',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v2/multi-get-latest-messages",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     conversationIds: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     pageSize: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -620,7 +664,9 @@ export const getMultiGetLatestMessages = endpoint({
     conversationIds: z.array(z.number()),
     pageSize: z.number().int(),
   },
-  response: z.array(Roblox_Chat_Api_Models_MultigetConversationMessagesResponse),
+  response: z.array(
+    Roblox_Chat_Api_Models_MultigetConversationMessagesResponse
+  ),
   errors: [
     {
       status: 401,
@@ -634,10 +680,10 @@ export const getMultiGetLatestMessages = endpoint({
  * @param body
  */
 export const postRemoveFromConversation = endpoint({
-  method: 'post' as const,
-  path: '/v2/remove-from-conversation',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/remove-from-conversation",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -662,10 +708,10 @@ export const postRemoveFromConversation = endpoint({
  * @param body
  */
 export const postRenameGroupConversation = endpoint({
-  method: 'post' as const,
-  path: '/v2/rename-group-conversation',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/rename-group-conversation",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -690,10 +736,10 @@ export const postRenameGroupConversation = endpoint({
  * @param body
  */
 export const postResetConversationUniverse = endpoint({
-  method: 'post' as const,
-  path: '/v2/reset-conversation-universe',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/reset-conversation-universe",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -718,10 +764,10 @@ export const postResetConversationUniverse = endpoint({
  * @param body
  */
 export const postSendGameLinkMessage = endpoint({
-  method: 'post' as const,
-  path: '/v2/send-game-link-message',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/send-game-link-message",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -746,10 +792,10 @@ export const postSendGameLinkMessage = endpoint({
  * @param body
  */
 export const postSendMessage = endpoint({
-  method: 'post' as const,
-  path: '/v2/send-message',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/send-message",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -774,10 +820,10 @@ export const postSendMessage = endpoint({
  * @param body
  */
 export const postSetConversationUniverse = endpoint({
-  method: 'post' as const,
-  path: '/v2/set-conversation-universe',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/set-conversation-universe",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -802,10 +848,10 @@ export const postSetConversationUniverse = endpoint({
  * @param body
  */
 export const postStartCloudEditConversation = endpoint({
-  method: 'post' as const,
-  path: '/v2/start-cloud-edit-conversation',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/start-cloud-edit-conversation",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -830,10 +876,10 @@ export const postStartCloudEditConversation = endpoint({
  * @param body
  */
 export const postStartGroupConversation = endpoint({
-  method: 'post' as const,
-  path: '/v2/start-group-conversation',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/start-group-conversation",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -858,10 +904,10 @@ export const postStartGroupConversation = endpoint({
  * @param body
  */
 export const postStartOneToOneConversation = endpoint({
-  method: 'post' as const,
-  path: '/v2/start-one-to-one-conversation',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/start-one-to-one-conversation",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -886,10 +932,10 @@ export const postStartOneToOneConversation = endpoint({
  * @param body
  */
 export const postUpdateUserTypingStatus = endpoint({
-  method: 'post' as const,
-  path: '/v2/update-user-typing-status',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v2/update-user-typing-status",
+  baseUrl: "https://chat.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },

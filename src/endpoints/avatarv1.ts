@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_Web_Responses_Avatar_ScaleModel = z
   .object({
@@ -21,7 +21,9 @@ const Roblox_Api_Avatar_Models_BodyColorsModel = z
     leftLegColorId: z.number().int(),
   })
   .passthrough();
-const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({ id: z.number().int(), name: z.string() }).passthrough();
+const Roblox_Api_Avatar_Models_AssetTypeModel = z
+  .object({ id: z.number().int(), name: z.string() })
+  .passthrough();
 const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z
   .object({
     order: z.number().int(),
@@ -131,7 +133,9 @@ const Roblox_Api_Avatar_Models_GameStartInfoResponse = z
     message: z.string(),
     universeAvatarMinScales: Roblox_Web_Responses_Avatar_ScaleModel,
     universeAvatarMaxScales: Roblox_Web_Responses_Avatar_ScaleModel,
-    universeAvatarAssetOverrides: z.array(Roblox_Api_Avatar_Models_UniverseAvatarAssetOverrideResponseModel),
+    universeAvatarAssetOverrides: z.array(
+      Roblox_Api_Avatar_Models_UniverseAvatarAssetOverrideResponseModel
+    ),
     moderationStatus: z.string(),
   })
   .passthrough();
@@ -156,25 +160,33 @@ const Roblox_Api_Avatar_Models_RecentItemModel = z
     isEditable: z.boolean(),
   })
   .passthrough();
-const Roblox_Web_WebAPI_Models_ApiLegacyPageResponse_Roblox_Api_Avatar_Models_RecentItemModel_ = z
-  .object({
-    data: z.array(Roblox_Api_Avatar_Models_RecentItemModel),
-    total: z.number().int(),
-  })
+const Roblox_Web_WebAPI_Models_ApiLegacyPageResponse_Roblox_Api_Avatar_Models_RecentItemModel_ =
+  z
+    .object({
+      data: z.array(Roblox_Api_Avatar_Models_RecentItemModel),
+      total: z.number().int(),
+    })
+    .passthrough();
+const Roblox_Api_Avatar_Models_AssetIdListModel = z
+  .object({ assetIds: z.array(z.number()) })
   .passthrough();
-const Roblox_Api_Avatar_Models_AssetIdListModel = z.object({ assetIds: z.array(z.number()) }).passthrough();
 const Roblox_Api_Avatar_Models_OutfitModel = z
   .object({ id: z.number().int(), name: z.string(), isEditable: z.boolean() })
   .passthrough();
-const Roblox_Api_Avatar_Models_AvatarFilteredPageResponse_Roblox_Api_Avatar_Models_OutfitModel_ = z
-  .object({
-    filteredCount: z.number().int(),
-    data: z.array(Roblox_Api_Avatar_Models_OutfitModel),
-    total: z.number().int(),
-  })
+const Roblox_Api_Avatar_Models_AvatarFilteredPageResponse_Roblox_Api_Avatar_Models_OutfitModel_ =
+  z
+    .object({
+      filteredCount: z.number().int(),
+      data: z.array(Roblox_Api_Avatar_Models_OutfitModel),
+      total: z.number().int(),
+    })
+    .passthrough();
+const Roblox_Api_Avatar_Models_AvatarApiSuccessResponse = z
+  .object({ success: z.boolean() })
   .passthrough();
-const Roblox_Api_Avatar_Models_AvatarApiSuccessResponse = z.object({ success: z.boolean() }).passthrough();
-const Roblox_Api_Avatar_Controllers_V1_AvatarController_EmptyResponse = z.object({}).passthrough();
+const Roblox_Api_Avatar_Controllers_V1_AvatarController_EmptyResponse = z
+  .object({})
+  .passthrough();
 const Roblox_Api_Avatar_Models_PlayerAvatarTypeModel = z
   .object({ playerAvatarType: z.union([z.literal(1), z.literal(3)]) })
   .passthrough();
@@ -229,10 +241,10 @@ const schemas = {
  * @api get https://avatar.roblox.com/v1/avatar
  */
 export const getAvatar = endpoint({
-  method: 'get' as const,
-  path: '/v1/avatar',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/avatar",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_Api_Avatar_Models_AvatarModelV2,
   errors: [
     {
@@ -250,10 +262,10 @@ Does not include packages because they cannot be worn on your avatar directly.
 PlayerAvatarTypes are the types of avatars you can choose between.
  */
 export const getAvatarRules = endpoint({
-  method: 'get' as const,
-  path: '/v1/avatar-rules',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/avatar-rules",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_Api_Avatar_Models_AvatarRulesModel,
   errors: [],
 });
@@ -262,13 +274,13 @@ export const getAvatarRules = endpoint({
  * @param assetId
  */
 export const postAvatarAssetsAssetidRemove = endpoint({
-  method: 'post' as const,
-  path: '/v1/avatar/assets/:assetId/remove',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/avatar/assets/:assetId/remove",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     assetId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -299,13 +311,13 @@ export const postAvatarAssetsAssetidRemove = endpoint({
  * @param assetId
  */
 export const postAvatarAssetsAssetidWear = endpoint({
-  method: 'post' as const,
-  path: '/v1/avatar/assets/:assetId/wear',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/avatar/assets/:assetId/wear",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     assetId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -335,10 +347,10 @@ export const postAvatarAssetsAssetidWear = endpoint({
  * @api get https://avatar.roblox.com/v1/avatar/metadata
  */
 export const getAvatarMetadata = endpoint({
-  method: 'get' as const,
-  path: '/v1/avatar/metadata',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/avatar/metadata",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_Api_Avatar_Models_AvatarMetadataModel,
   errors: [],
 });
@@ -346,10 +358,10 @@ export const getAvatarMetadata = endpoint({
  * @api post https://avatar.roblox.com/v1/avatar/redraw-thumbnail
  */
 export const postAvatarRedrawThumbnail = endpoint({
-  method: 'post' as const,
-  path: '/v1/avatar/redraw-thumbnail',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/avatar/redraw-thumbnail",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   response: z.object({}).passthrough(),
   errors: [
     {
@@ -375,10 +387,10 @@ export const postAvatarRedrawThumbnail = endpoint({
  * @param body
  */
 export const postAvatarSetBodyColors = endpoint({
-  method: 'post' as const,
-  path: '/v1/avatar/set-body-colors',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/avatar/set-body-colors",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -404,10 +416,10 @@ export const postAvatarSetBodyColors = endpoint({
  * @description This is the avatar type chosen on the Avatar page. Some games can override this and force your character to be R6 or R15.
  */
 export const postAvatarSetPlayerAvatarType = endpoint({
-  method: 'post' as const,
-  path: '/v1/avatar/set-player-avatar-type',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/avatar/set-player-avatar-type",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -438,10 +450,10 @@ export const postAvatarSetPlayerAvatarType = endpoint({
  * @param body
  */
 export const postAvatarSetScales = endpoint({
-  method: 'post' as const,
-  path: '/v1/avatar/set-scales',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/avatar/set-scales",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -474,10 +486,10 @@ export const postAvatarSetScales = endpoint({
 Any assets being worn before this method is called are automatically removed.
  */
 export const postAvatarSetWearingAssets = endpoint({
-  method: 'post' as const,
-  path: '/v1/avatar/set-wearing-assets',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/avatar/set-wearing-assets",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -512,13 +524,13 @@ export const postAvatarSetWearingAssets = endpoint({
  * @param universeId
  */
 export const getGameStartInfo = endpoint({
-  method: 'get' as const,
-  path: '/v1/game-start-info',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/game-start-info",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     universeId: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -535,14 +547,14 @@ export const getGameStartInfo = endpoint({
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types. Accepts partial updates.
  */
 export const patchOutfitsUseroutfitid = endpoint({
-  method: 'patch' as const,
-  path: '/v1/outfits/:userOutfitId',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "patch" as const,
+  path: "/v1/outfits/:userOutfitId",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
     userOutfitId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -585,13 +597,13 @@ export const patchOutfitsUseroutfitid = endpoint({
  * @description You are only allowed to delete outfits you created.
  */
 export const postOutfitsUseroutfitidDelete = endpoint({
-  method: 'post' as const,
-  path: '/v1/outfits/:userOutfitId/delete',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/outfits/:userOutfitId/delete",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userOutfitId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -627,13 +639,13 @@ export const postOutfitsUseroutfitidDelete = endpoint({
  * @param userOutfitId
  */
 export const getOutfitsUseroutfitidDetails = endpoint({
-  method: 'get' as const,
-  path: '/v1/outfits/:userOutfitId/details',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/outfits/:userOutfitId/details",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userOutfitId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -661,14 +673,14 @@ export const getOutfitsUseroutfitidDetails = endpoint({
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
  */
 export const postOutfitsUseroutfitidUpdate = endpoint({
-  method: 'post' as const,
-  path: '/v1/outfits/:userOutfitId/update',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/outfits/:userOutfitId/update",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
     userOutfitId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -712,13 +724,13 @@ export const postOutfitsUseroutfitidUpdate = endpoint({
 If the user no longer owns one or more of the assets, invalidAssetIds will be populated with the unwearable assets.
  */
 export const postOutfitsUseroutfitidWear = endpoint({
-  method: 'post' as const,
-  path: '/v1/outfits/:userOutfitId/wear',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/outfits/:userOutfitId/wear",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userOutfitId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -756,10 +768,10 @@ export const postOutfitsUseroutfitidWear = endpoint({
 The name property of the request is optional as one will be auto-generated when the request has a null name.
  */
 export const postOutfitsCreate = endpoint({
-  method: 'post' as const,
-  path: '/v1/outfits/create',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/outfits/create",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -799,13 +811,13 @@ export const postOutfitsCreate = endpoint({
  * @param recentItemListType
  */
 export const getRecentItemsRecentitemlisttypeList = endpoint({
-  method: 'get' as const,
-  path: '/v1/recent-items/:recentItemListType/list',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/recent-items/:recentItemListType/list",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     recentItemListType: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -819,7 +831,8 @@ export const getRecentItemsRecentitemlisttypeList = endpoint({
       z.literal(6),
     ]),
   },
-  response: Roblox_Web_WebAPI_Models_ApiLegacyPageResponse_Roblox_Api_Avatar_Models_RecentItemModel_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiLegacyPageResponse_Roblox_Api_Avatar_Models_RecentItemModel_,
   errors: [
     {
       status: 401,
@@ -834,13 +847,13 @@ export const getRecentItemsRecentitemlisttypeList = endpoint({
  * @description Includes assets, bodycolors, and playerAvatarType.
  */
 export const getUsersUseridAvatar = endpoint({
-  method: 'get' as const,
-  path: '/v1/users/:userId/avatar',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/avatar",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -861,13 +874,13 @@ export const getUsersUseridAvatar = endpoint({
  * @param userId
  */
 export const getUsersUseridCurrentlyWearing = endpoint({
-  method: 'get' as const,
-  path: '/v1/users/:userId/currently-wearing',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/currently-wearing",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -892,28 +905,28 @@ export const getUsersUseridCurrentlyWearing = endpoint({
  * @param isEditable
  */
 export const getUsersUseridOutfits = endpoint({
-  method: 'get' as const,
-  path: '/v1/users/:userId/outfits',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/outfits",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     outfitType: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     page: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     itemsPerPage: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     isEditable: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -924,7 +937,8 @@ export const getUsersUseridOutfits = endpoint({
     itemsPerPage: z.number().int().optional().default(25),
     isEditable: z.boolean().optional().default(true),
   },
-  response: Roblox_Api_Avatar_Models_AvatarFilteredPageResponse_Roblox_Api_Avatar_Models_OutfitModel_,
+  response:
+    Roblox_Api_Avatar_Models_AvatarFilteredPageResponse_Roblox_Api_Avatar_Models_OutfitModel_,
   errors: [
     {
       status: 400,

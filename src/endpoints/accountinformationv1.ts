@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_AccountInformation_Api_Models_BirthdateResponse = z
   .object({
@@ -17,10 +17,18 @@ const Roblox_AccountInformation_Api_Models_BirthdateRequest = z
   })
   .passthrough();
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
-const Roblox_AccountInformation_Api_Models_DescriptionResponse = z.object({ description: z.string() }).passthrough();
-const Roblox_AccountInformation_Api_Models_DescriptionRequest = z.object({ description: z.string() }).passthrough();
-const Roblox_AccountInformation_Api_Models_GenderResponse = z.object({ gender: z.number().int() }).passthrough();
-const Roblox_AccountInformation_Api_Models_GenderRequest = z.object({ gender: z.string() }).passthrough();
+const Roblox_AccountInformation_Api_Models_DescriptionResponse = z
+  .object({ description: z.string() })
+  .passthrough();
+const Roblox_AccountInformation_Api_Models_DescriptionRequest = z
+  .object({ description: z.string() })
+  .passthrough();
+const Roblox_AccountInformation_Api_Models_GenderResponse = z
+  .object({ gender: z.number().int() })
+  .passthrough();
+const Roblox_AccountInformation_Api_Models_GenderRequest = z
+  .object({ gender: z.string() })
+  .passthrough();
 const Roblox_AccountInformation_Api_Models_MetadataResponse = z
   .object({
     isAllowedNotificationsEndpointDisabled: z.boolean(),
@@ -54,9 +62,8 @@ const Roblox_AccountInformation_Api_Models_PhoneRequest = z
     verificationChannel: z.string(),
   })
   .passthrough();
-const Roblox_Platform_UserPhoneNumberVerification_Models_PendingVerificationResponse = z
-  .object({ verificationChannel: z.string(), data: z.string() })
-  .passthrough();
+const Roblox_Platform_UserPhoneNumberVerification_Models_PendingVerificationResponse =
+  z.object({ verificationChannel: z.string(), data: z.string() }).passthrough();
 const Roblox_AccountInformation_Api_Models_PromotionChannelsResponse = z
   .object({
     promotionChannelsVisibilityPrivacy: z.string(),
@@ -80,7 +87,9 @@ const Roblox_AccountInformation_Api_Models_PromotionChannelsRequest = z
 const Roblox_AccountInformation_Api_Models_StarCodeAffiliateResponse = z
   .object({ userId: z.number().int(), name: z.string(), code: z.string() })
   .passthrough();
-const Roblox_AccountInformation_Api_Models_StarCodeAffiliateRequest = z.object({ code: z.string() }).passthrough();
+const Roblox_AccountInformation_Api_Models_StarCodeAffiliateRequest = z
+  .object({ code: z.string() })
+  .passthrough();
 const Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse = z
   .object({
     facebook: z.string(),
@@ -101,12 +110,18 @@ const Roblox_AccountInformation_Api_RobloxBadgeResponse = z
 const Roblox_AccountInformation_Api_Models_ConsecutiveLoginDaysResponse = z
   .object({ count: z.number().int() })
   .passthrough();
-const Roblox_AccountInformation_Api_Models_VerifyEmailRequest = z.object({ ticket: z.string() }).passthrough();
+const Roblox_AccountInformation_Api_Models_VerifyEmailRequest = z
+  .object({ ticket: z.string() })
+  .passthrough();
 const Roblox_AccountInformation_Api_Models_VerifyEmailResponse = z
   .object({ verifiedUserHatAssetId: z.number().int() })
   .passthrough();
-const Roblox_AccountInformation_Api_Models_EmptyRequest = z.object({}).passthrough();
-const Roblox_AccountInformation_Api_Models_VerifyPhoneRequest = z.object({ code: z.string() }).passthrough();
+const Roblox_AccountInformation_Api_Models_EmptyRequest = z
+  .object({})
+  .passthrough();
+const Roblox_AccountInformation_Api_Models_VerifyPhoneRequest = z
+  .object({ code: z.string() })
+  .passthrough();
 
 const schemas = {
   Roblox_AccountInformation_Api_Models_BirthdateResponse,
@@ -137,10 +152,10 @@ const schemas = {
  * @api get https://accountinformation.roblox.com/v1/birthdate
  */
 export const getBirthdate = endpoint({
-  method: 'get' as const,
-  path: '/v1/birthdate',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/birthdate",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_AccountInformation_Api_Models_BirthdateResponse,
   errors: [
     {
@@ -160,10 +175,10 @@ export const getBirthdate = endpoint({
  * @param body The Roblox.AccountInformation.Api.Models.BirthdateRequest
  */
 export const postBirthdate = endpoint({
-  method: 'post' as const,
-  path: '/v1/birthdate',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/birthdate",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -202,10 +217,10 @@ export const postBirthdate = endpoint({
  * @api get https://accountinformation.roblox.com/v1/description
  */
 export const getDescription = endpoint({
-  method: 'get' as const,
-  path: '/v1/description',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/description",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   response: z.object({ description: z.string() }).passthrough(),
   errors: [
     {
@@ -225,10 +240,10 @@ export const getDescription = endpoint({
  * @param body The Roblox.AccountInformation.Api.Models.DescriptionRequest
  */
 export const postDescription = endpoint({
-  method: 'post' as const,
-  path: '/v1/description',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/description",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -269,16 +284,18 @@ export const postDescription = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.VerifyEmailRequest
  */
 export const postEmailVerify = endpoint({
-  method: 'post' as const,
-  path: '/v1/email/verify',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/email/verify",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
   parameters: {},
   body: z.object({ ticket: z.string() }).passthrough(),
-  response: z.object({ verifiedUserHatAssetId: z.number().int() }).passthrough(),
+  response: z
+    .object({ verifiedUserHatAssetId: z.number().int() })
+    .passthrough(),
   errors: [
     {
       status: 403,
@@ -291,10 +308,10 @@ export const postEmailVerify = endpoint({
  * @api get https://accountinformation.roblox.com/v1/gender
  */
 export const getGender = endpoint({
-  method: 'get' as const,
-  path: '/v1/gender',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/gender",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   response: z.object({ gender: z.number().int() }).passthrough(),
   errors: [
     {
@@ -314,10 +331,10 @@ export const getGender = endpoint({
  * @param body The Roblox.AccountInformation.Api.Models.GenderRequest
  */
 export const postGender = endpoint({
-  method: 'post' as const,
-  path: '/v1/gender',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/gender",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -353,10 +370,10 @@ export const postGender = endpoint({
  * @api get https://accountinformation.roblox.com/v1/metadata
  */
 export const getMetadata = endpoint({
-  method: 'get' as const,
-  path: '/v1/metadata',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/metadata",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_AccountInformation_Api_Models_MetadataResponse,
   errors: [],
 });
@@ -364,10 +381,10 @@ export const getMetadata = endpoint({
  * @api get https://accountinformation.roblox.com/v1/phone
  */
 export const getPhone = endpoint({
-  method: 'get' as const,
-  path: '/v1/phone',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/phone",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_AccountInformation_Api_Models_PhoneResponse,
   errors: [
     {
@@ -387,16 +404,17 @@ export const getPhone = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhone = endpoint({
-  method: 'post' as const,
-  path: '/v1/phone',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/phone",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
   parameters: {},
   body: Roblox_AccountInformation_Api_Models_PhoneRequest,
-  response: Roblox_Platform_UserPhoneNumberVerification_Models_PendingVerificationResponse,
+  response:
+    Roblox_Platform_UserPhoneNumberVerification_Models_PendingVerificationResponse,
   errors: [
     {
       status: 400,
@@ -440,10 +458,10 @@ export const postPhone = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhoneDelete = endpoint({
-  method: 'post' as const,
-  path: '/v1/phone/delete',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/phone/delete",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -485,10 +503,10 @@ export const postPhoneDelete = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhoneResend = endpoint({
-  method: 'post' as const,
-  path: '/v1/phone/resend',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/phone/resend",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -528,10 +546,10 @@ export const postPhoneResend = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.VerifyPhoneRequest
  */
 export const postPhoneVerify = endpoint({
-  method: 'post' as const,
-  path: '/v1/phone/verify',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/phone/verify",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -577,10 +595,10 @@ export const postPhoneVerify = endpoint({
  * @api get https://accountinformation.roblox.com/v1/promotion-channels
  */
 export const getPromotionChannels = endpoint({
-  method: 'get' as const,
-  path: '/v1/promotion-channels',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/promotion-channels",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_AccountInformation_Api_Models_PromotionChannelsResponse,
   errors: [
     {
@@ -600,10 +618,10 @@ export const getPromotionChannels = endpoint({
  * @param body The Roblox.AccountInformation.Api.Models.PromotionChannelsRequest
  */
 export const postPromotionChannels = endpoint({
-  method: 'post' as const,
-  path: '/v1/promotion-channels',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/promotion-channels",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -639,10 +657,10 @@ export const postPromotionChannels = endpoint({
  * @api get https://accountinformation.roblox.com/v1/star-code-affiliates
  */
 export const getStarCodeAffiliates = endpoint({
-  method: 'get' as const,
-  path: '/v1/star-code-affiliates',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/star-code-affiliates",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   response: Roblox_AccountInformation_Api_Models_StarCodeAffiliateResponse,
   errors: [
     {
@@ -662,10 +680,10 @@ export const getStarCodeAffiliates = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.StarCodeAffiliateRequest
  */
 export const postStarCodeAffiliates = endpoint({
-  method: 'post' as const,
-  path: '/v1/star-code-affiliates',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/star-code-affiliates",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -699,10 +717,10 @@ export const postStarCodeAffiliates = endpoint({
  * @api delete https://accountinformation.roblox.com/v1/star-code-affiliates
  */
 export const deleteStarCodeAffiliates = endpoint({
-  method: 'delete' as const,
-  path: '/v1/star-code-affiliates',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "delete" as const,
+  path: "/v1/star-code-affiliates",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   response: z.object({}).passthrough(),
   errors: [
     {
@@ -727,19 +745,20 @@ export const deleteStarCodeAffiliates = endpoint({
  * @param userId
  */
 export const getUsersUseridPromotionChannels = endpoint({
-  method: 'get' as const,
-  path: '/v1/users/:userId/promotion-channels',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/promotion-channels",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
     userId: z.number().int(),
   },
-  response: Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse,
+  response:
+    Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse,
   errors: [
     {
       status: 400,
@@ -753,13 +772,13 @@ export const getUsersUseridPromotionChannels = endpoint({
  * @param userId
  */
 export const getUsersUseridRobloxBadges = endpoint({
-  method: 'get' as const,
-  path: '/v1/users/:userId/roblox-badges',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/roblox-badges",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -772,10 +791,10 @@ export const getUsersUseridRobloxBadges = endpoint({
  * @api get https://accountinformation.roblox.com/v1/xbox-live/consecutive-login-days
  */
 export const getXboxLiveConsecutiveLoginDays = endpoint({
-  method: 'get' as const,
-  path: '/v1/xbox-live/consecutive-login-days',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/xbox-live/consecutive-login-days",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json" as const,
   response: z.object({ count: z.number().int() }).passthrough(),
   errors: [
     {

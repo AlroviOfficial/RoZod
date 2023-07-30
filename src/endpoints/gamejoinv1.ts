@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_GameJoin_Api_GameJoinRequest = z
   .object({
@@ -23,7 +23,9 @@ const Roblox_Web_GameLaunch_ConnectionFlow_JoinInformation = z
     ClientPort: z.number().int(),
     MachineAddress: z.string(),
     ServerPort: z.number().int(),
-    ServerConnections: z.array(Roblox_Web_GameLaunch_ConnectionFlow_ServerConnection),
+    ServerConnections: z.array(
+      Roblox_Web_GameLaunch_ConnectionFlow_ServerConnection
+    ),
     UdmuxEndpoints: z.array(Roblox_Web_GameLaunch_ConnectionFlow_UdmuxEndpoint),
     DirectServerReturn: z.boolean(),
     TokenGenAlgorithm: z.number().int(),
@@ -63,7 +65,11 @@ const Roblox_Web_GameLaunch_ConnectionFlow_JoinInformation = z
     characterAppearanceId: z.number().int(),
     CountryCode: z.string(),
     AlternateName: z.string(),
-    RandomSeed1: z.string().regex(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/),
+    RandomSeed1: z
+      .string()
+      .regex(
+        /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/
+      ),
     ClientPublicKeyData: z.string(),
     RccVersion: z.string(),
     ChannelName: z.string(),
@@ -186,10 +192,10 @@ const schemas = {
  * @param body The Roblox.GameJoin.Api.GameJoinRequest in JSON format
  */
 export const postJoinGame = endpoint({
-  method: 'post' as const,
-  path: '/v1/join-game',
-  baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/join-game",
+  baseUrl: "https://gamejoin.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -214,10 +220,10 @@ export const postJoinGame = endpoint({
  * @param body The Roblox.GameJoin.Api.JoinGameInstanceRequest in JSON format
  */
 export const postJoinGameInstance = endpoint({
-  method: 'post' as const,
-  path: '/v1/join-game-instance',
-  baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/join-game-instance",
+  baseUrl: "https://gamejoin.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -242,10 +248,10 @@ export const postJoinGameInstance = endpoint({
  * @param body The Roblox.GameJoin.Api.JoinPlayTogetherGameRequest in JSON format
  */
 export const postJoinPlayTogetherGame = endpoint({
-  method: 'post' as const,
-  path: '/v1/join-play-together-game',
-  baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/join-play-together-game",
+  baseUrl: "https://gamejoin.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -270,10 +276,10 @@ export const postJoinPlayTogetherGame = endpoint({
  * @param body The Roblox.GameJoin.Api.JoinPrivateGameRequest in JSON format
  */
 export const postJoinPrivateGame = endpoint({
-  method: 'post' as const,
-  path: '/v1/join-private-game',
-  baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/join-private-game",
+  baseUrl: "https://gamejoin.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -298,10 +304,10 @@ export const postJoinPrivateGame = endpoint({
  * @param body The Roblox.GameJoin.Api.JoinReservedGameRequest in JSON format
  */
 export const postJoinReservedGame = endpoint({
-  method: 'post' as const,
-  path: '/v1/join-reserved-game',
-  baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/join-reserved-game",
+  baseUrl: "https://gamejoin.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -326,10 +332,10 @@ export const postJoinReservedGame = endpoint({
  * @param body The Roblox.GameJoin.Api.PlayWithUserRequest in JSON format
  */
 export const postPlayWithUser = endpoint({
-  method: 'post' as const,
-  path: '/v1/play-with-user',
-  baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/play-with-user",
+  baseUrl: "https://gamejoin.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -356,10 +362,10 @@ export const postPlayWithUser = endpoint({
 round-trip would impact client performance.
  */
 export const postTeamCreate = endpoint({
-  method: 'post' as const,
-  path: '/v1/team-create',
-  baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/team-create",
+  baseUrl: "https://gamejoin.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
@@ -392,10 +398,10 @@ export const postTeamCreate = endpoint({
 More specifically, it requires Xsrf protection and disables user-agent check so that it can be called from browsers.
  */
 export const postTeamCreatePreemptive = endpoint({
-  method: 'post' as const,
-  path: '/v1/team-create-preemptive',
-  baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/team-create-preemptive",
+  baseUrl: "https://gamejoin.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },

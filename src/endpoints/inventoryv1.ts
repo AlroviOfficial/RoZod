@@ -1,7 +1,9 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
-const Roblox_Inventory_Api_Models_AssetIdListModel = z.object({ assetIds: z.array(z.number()) }).passthrough();
+const Roblox_Inventory_Api_Models_AssetIdListModel = z
+  .object({ assetIds: z.array(z.number()) })
+  .passthrough();
 const Roblox_Inventory_Api_Models_CollectibleUserAssetModel = z
   .object({
     userAssetId: z.number().int(),
@@ -11,18 +13,27 @@ const Roblox_Inventory_Api_Models_CollectibleUserAssetModel = z
     recentAveragePrice: z.number().int(),
     originalPrice: z.number().int(),
     assetStock: z.number().int(),
-    buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    buildersClubMembershipType: z.union([
+      z.literal(0),
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+    ]),
     isOnHold: z.boolean(),
   })
   .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Inventory_Api_Models_CollectibleUserAssetModel),
-  })
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_ =
+  z
+    .object({
+      previousPageCursor: z.string(),
+      nextPageCursor: z.string(),
+      data: z.array(Roblox_Inventory_Api_Models_CollectibleUserAssetModel),
+    })
+    .passthrough();
+const Roblox_Inventory_Api_Models_CanViewInventoryResponse = z
+  .object({ canView: z.boolean() })
   .passthrough();
-const Roblox_Inventory_Api_Models_CanViewInventoryResponse = z.object({ canView: z.boolean() }).passthrough();
 const Roblox_Inventory_Api_AssetsExplorerCategoryItemModel = z
   .object({
     name: z.string(),
@@ -61,13 +72,14 @@ const Roblox_Inventory_Api_Models_IItemModel = z
     InstanceId: z.number().int(),
   })
   .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Inventory_Api_Models_IItemModel),
-  })
-  .passthrough();
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ =
+  z
+    .object({
+      previousPageCursor: z.string(),
+      nextPageCursor: z.string(),
+      data: z.array(Roblox_Inventory_Api_Models_IItemModel),
+    })
+    .passthrough();
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
 
 const schemas = {
@@ -90,16 +102,16 @@ const schemas = {
  * @param itemTargetId
  */
 export const postCollectionsItemsItemtypeItemtargetid = endpoint({
-  method: 'post' as const,
-  path: '/v1/collections/items/:itemType/:itemTargetId',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v1/collections/items/:itemType/:itemTargetId",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     itemType: {
-      style: 'simple',
+      style: "simple",
     },
     itemTargetId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -138,16 +150,16 @@ export const postCollectionsItemsItemtypeItemtargetid = endpoint({
  * @param itemTargetId
  */
 export const deleteCollectionsItemsItemtypeItemtargetid = endpoint({
-  method: 'delete' as const,
-  path: '/v1/collections/items/:itemType/:itemTargetId',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  method: "delete" as const,
+  path: "/v1/collections/items/:itemType/:itemTargetId",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     itemType: {
-      style: 'simple',
+      style: "simple",
     },
     itemTargetId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -181,13 +193,13 @@ export const deleteCollectionsItemsItemtypeItemtargetid = endpoint({
  * @param packageID
  */
 export const getPackagesPackageidAssets = endpoint({
-  method: 'get' as const,
-  path: '/v1/packages/:packageId/assets',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/packages/:packageId/assets",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     packageID: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -205,28 +217,28 @@ export const getPackagesPackageidAssets = endpoint({
  * @param sortOrder
  */
 export const getUsersUseridAssetsCollectibles = endpoint({
-  method: 'get' as const,
-  path: '/v1/users/:userId/assets/collectibles',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/assets/collectibles",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     assetType: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     limit: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortOrder: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -314,9 +326,10 @@ export const getUsersUseridAssetsCollectibles = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_,
   errors: [
     {
       status: 400,
@@ -335,13 +348,13 @@ export const getUsersUseridAssetsCollectibles = endpoint({
  * @param userId
  */
 export const getUsersUseridCanViewInventory = endpoint({
-  method: 'get' as const,
-  path: '/v1/users/:userId/can-view-inventory',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/can-view-inventory",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -361,13 +374,13 @@ export const getUsersUseridCanViewInventory = endpoint({
  * @param userId
  */
 export const getUsersUseridCategories = endpoint({
-  method: 'get' as const,
-  path: '/v1/users/:userId/categories',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/categories",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -381,13 +394,13 @@ export const getUsersUseridCategories = endpoint({
  * @param userId
  */
 export const getUsersUseridCategoriesFavorites = endpoint({
-  method: 'get' as const,
-  path: '/v1/users/:userId/categories/favorites',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/categories/favorites",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -405,27 +418,27 @@ export const getUsersUseridCategoriesFavorites = endpoint({
  * @param keyword
  */
 export const getUsersUseridInventoryAssettype = endpoint({
-  method: 'get' as const,
-  path: '/v1/users/:userId/inventory/:assetType',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/inventory/:assetType",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     assetType: {
-      style: 'simple',
+      style: "simple",
     },
     pageNumber: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     itemsPerPage: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     keyword: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -533,19 +546,19 @@ export const getUsersUseridInventoryAssettype = endpoint({
  * @param itemTargetId
  */
 export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
-  method: 'get' as const,
-  path: '/v1/users/:userId/items/:itemType/:itemTargetId',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/items/:itemType/:itemTargetId",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     itemType: {
-      style: 'simple',
+      style: "simple",
     },
     itemTargetId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -553,7 +566,8 @@ export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
     itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     itemTargetId: z.number().int(),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_,
   errors: [
     {
       status: 400,
@@ -574,19 +588,19 @@ export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
  * @param itemTargetId
  */
 export const getUsersUseridItemsItemtypeItemtargetidIsOwned = endpoint({
-  method: 'get' as const,
-  path: '/v1/users/:userId/items/:itemType/:itemTargetId/is-owned',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/users/:userId/items/:itemType/:itemTargetId/is-owned",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     itemType: {
-      style: 'simple',
+      style: "simple",
     },
     itemTargetId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {

@@ -22,9 +22,9 @@ Promise.all(
         console.log(`Converting ${url}`);
         const [, subdomain, domain] = url.match(/https:\/\/([^\.]+)\.(.+)\//);
         const apiName = url.split('/').slice(-1)[0];
-        await promisify(exec)(
-          `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${subdomain}${apiName}"`,
-        );
+        // await promisify(exec)(
+        //   `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${subdomain}${apiName}"`,
+        // );
       }
     }),
   ),
@@ -73,5 +73,12 @@ Promise.all(
         },
       });
     }
+  });
+
+  // Take all the endpoint files and move them to ./lib/endpoints but renamed to their name plus .d.ts
+  const endpointFiles = readdirSync(FOLDER_ZODIOS).filter((file) => file.endsWith('.ts'));
+  endpointFiles.forEach((file) => {
+    const fileName = basename(file, '.ts');
+    writeFileSync(`./lib/endpoints/${fileName}.d.ts`, readFileSync(`./src/endpoints/${fileName}.ts`, 'utf-8'));
   });
 });

@@ -1,10 +1,13 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
-const Roblox_Translations_Api_TranslationsResponse = z.object({ url: z.string(), locale: z.string() }).passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Translations_Api_TranslationsResponse_ = z
-  .object({ data: z.array(Roblox_Translations_Api_TranslationsResponse) })
+const Roblox_Translations_Api_TranslationsResponse = z
+  .object({ url: z.string(), locale: z.string() })
   .passthrough();
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Translations_Api_TranslationsResponse_ =
+  z
+    .object({ data: z.array(Roblox_Translations_Api_TranslationsResponse) })
+    .passthrough();
 
 const schemas = {
   Roblox_Translations_Api_TranslationsResponse,
@@ -16,13 +19,13 @@ const schemas = {
  * @param consumerType
  */
 export const getTranslations = endpoint({
-  method: 'get' as const,
-  path: '/v1/translations',
-  baseUrl: 'https://translations.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/translations",
+  baseUrl: "https://translations.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     consumerType: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -39,7 +42,8 @@ export const getTranslations = endpoint({
       z.literal(8),
     ]),
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Translations_Api_TranslationsResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Translations_Api_TranslationsResponse_,
   errors: [
     {
       status: 400,
@@ -64,16 +68,16 @@ export const getTranslations = endpoint({
  * @param consumerType
  */
 export const getTranslationsLocale = endpoint({
-  method: 'get' as const,
-  path: '/v1/translations/:locale',
-  baseUrl: 'https://translations.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/translations/:locale",
+  baseUrl: "https://translations.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     locale: {
-      style: 'simple',
+      style: "simple",
     },
     consumerType: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -119,25 +123,25 @@ export const getTranslationsLocale = endpoint({
  * @param localeCode
  */
 export const getTranslationsLanguageResources = endpoint({
-  method: 'get' as const,
-  path: '/v1/translations/language-resources',
-  baseUrl: 'https://translations.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v1/translations/language-resources",
+  baseUrl: "https://translations.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     consumerType: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     contentNamespace: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     keys: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     localeCode: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },

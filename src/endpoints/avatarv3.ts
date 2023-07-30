@@ -1,7 +1,9 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
-const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({ id: z.number().int(), name: z.string() }).passthrough();
+const Roblox_Api_Avatar_Models_AssetTypeModel = z
+  .object({ id: z.number().int(), name: z.string() })
+  .passthrough();
 const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z
   .object({
     order: z.number().int(),
@@ -103,14 +105,14 @@ const schemas = {
 Accepts partial updates.
  */
 export const patchOutfitsUseroutfitid = endpoint({
-  method: 'patch' as const,
-  path: '/v3/outfits/:userOutfitId',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "patch" as const,
+  path: "/v3/outfits/:userOutfitId",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
     userOutfitId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -153,13 +155,13 @@ export const patchOutfitsUseroutfitid = endpoint({
  * @param userOutfitId
  */
 export const getOutfitsUseroutfitidDetails = endpoint({
-  method: 'get' as const,
-  path: '/v3/outfits/:userOutfitId/details',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "get" as const,
+  path: "/v3/outfits/:userOutfitId/details",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userOutfitId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -187,14 +189,14 @@ export const getOutfitsUseroutfitidDetails = endpoint({
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
  */
 export const postOutfitsUseroutfitidUpdate = endpoint({
-  method: 'post' as const,
-  path: '/v3/outfits/:userOutfitId/update',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v3/outfits/:userOutfitId/update",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
     userOutfitId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -238,10 +240,10 @@ export const postOutfitsUseroutfitidUpdate = endpoint({
 The name property of the request is optional as one will be auto-generated when the request has a null name.
  */
 export const postOutfitsCreate = endpoint({
-  method: 'post' as const,
-  path: '/v3/outfits/create',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
+  method: "post" as const,
+  path: "/v3/outfits/create",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
   },
