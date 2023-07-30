@@ -104,7 +104,7 @@ type NonEmptyRecord<T> = keyof T extends never ? never : T;
 type RequiredParams<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = ExtractRequiredParameters<T>;
 type OptionalParams<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = ExtractOptionalParameters<T>;
 
-export const endpoint = <T extends Record<string, z.Schema<any>>, U extends z.ZodType<any>, E extends z.ZodType<any>>(
+const endpoint = <T extends Record<string, z.Schema<any>>, U extends z.ZodType<any>, E extends z.ZodType<any>>(
   endpoint: EndpointGeneric<T, U, E>,
 ): EndpointGeneric<
   NonEmptyRecord<RequiredParams<T>> extends never
@@ -121,7 +121,7 @@ export const endpoint = <T extends Record<string, z.Schema<any>>, U extends z.Zo
 };
 
 // Extract the parameter, and also include the body as a parameter, if it exists. Parameters shouldn't be undefined if body exists
-export type ExtractParams<S extends EndpointGeneric<any, any, any>> = S['parameters'] extends undefined
+type ExtractParams<S extends EndpointGeneric<any, any, any>> = S['parameters'] extends undefined
   ? S['body'] extends undefined
     ? undefined
     : { body: S['body'] }
@@ -129,7 +129,7 @@ export type ExtractParams<S extends EndpointGeneric<any, any, any>> = S['paramet
   ? S['parameters']
   : S['parameters'] & { body: S['body'] };
 
-export type ExtractResponse<S extends EndpointGeneric<any, any, any>> = S['response'];
+type ExtractResponse<S extends EndpointGeneric<any, any, any>> = S['response'];
 
 function extractDefaultValues<S extends EndpointSchema>(endpoint: S): Partial<ExtractParams<S>> {
   const defaultValues: Partial<ExtractParams<S>> = {};
@@ -264,7 +264,7 @@ async function handleRetryFetch(
  * @param requestOptions Any additional options to pass to fetch.
  * @returns The response from the endpoint.
  */
-export async function fetchApi<S extends EndpointSchema>(
+async function fetchApi<S extends EndpointSchema>(
   endpoint: S,
   params: ExtractParams<S>,
   requestOptions?: RequestOptions,
@@ -278,7 +278,7 @@ export async function fetchApi<S extends EndpointSchema>(
  * @param requestOptions Any additional options to pass to fetch.
  * @returns The response from the endpoint.
  */
-export async function fetchApi<S extends EndpointSchema>(
+async function fetchApi<S extends EndpointSchema>(
   endpoint: S & { parameters?: undefined },
   params?: ExtractParams<S>,
   requestOptions?: RequestOptions,
@@ -292,7 +292,7 @@ export async function fetchApi<S extends EndpointSchema>(
  * @param requestOptions Any additional options to pass to fetch.
  * @returns The response from the endpoint.
  */
-export async function fetchApi<S extends EndpointSchema>(
+async function fetchApi<S extends EndpointSchema>(
   endpoint: S,
   params?: ExtractParams<S>,
   requestOptions: RequestOptions = { mode: 'cors', credentials: 'include' },
@@ -369,7 +369,7 @@ export async function fetchApi<S extends EndpointSchema>(
  * console.log(data); // [[{ "targetId": 0, "state": "Completed", "imageUrl": "..." }], ...]
  * ```
  */
-export async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
+async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
   endpoint: S,
   params: ExtractParams<S>,
   max?: Partial<{ [K in keyof ExtractParams<S>]: number }>,
@@ -424,7 +424,7 @@ export async function fetchApiSplit<S extends EndpointSchema, T = ExtractRespons
  * @param limit The maximum number of pages to fetch.
  * @returns An array of all results.
  */
-export async function fetchApiPages<S extends EndpointSchema>(
+async function fetchApiPages<S extends EndpointSchema>(
   endpoint: S,
   initialParams: ExtractParams<S>,
   requestOptions?: RequestOptions,
@@ -461,7 +461,7 @@ export async function fetchApiPages<S extends EndpointSchema>(
  * }
  * ```
  */
-export async function* fetchApiPagesGenerator<S extends EndpointSchema>(
+async function* fetchApiPagesGenerator<S extends EndpointSchema>(
   endpoint: S,
   initialParams: ExtractParams<S>,
   requestOptions?: RequestOptions,
@@ -482,3 +482,5 @@ export async function* fetchApiPagesGenerator<S extends EndpointSchema>(
     cursor = response.nextPageCursor;
   }
 }
+
+export { fetchApi, fetchApiSplit, fetchApiPages, fetchApiPagesGenerator, ExtractResponse, ExtractParams, endpoint };
