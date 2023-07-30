@@ -305,7 +305,7 @@ export async function fetchApi<S extends EndpointSchema>(
   const body = prepareRequestBody(method, requestFormat, params?.body);
 
   const cacheKey = requestOptions.cacheKey;
-  
+
   let cacheToUse: typeof cache;
   if (requestOptions.cacheType === 'local') {
     cacheToUse = localStorageCache;
@@ -340,7 +340,11 @@ export async function fetchApi<S extends EndpointSchema>(
     setTimeout(() => {
       cacheToUse.delete(cacheKey);
     }, cacheTime);
-    cacheToUse.set(cacheKey, requestFormat === 'json' ? await responseClone.json() : await responseClone.text(), cacheTime);
+    cacheToUse.set(
+      cacheKey,
+      requestFormat === 'json' ? await responseClone.json() : await responseClone.text(),
+      cacheTime,
+    );
   }
 
   if (requestFormat === 'json' && !response.headers.get('content-type')?.includes('application/json')) {

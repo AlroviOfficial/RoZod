@@ -51,16 +51,16 @@ class LocalStorageStore<T> implements CacheStore<T> {
 
 class ChromeStore<T> implements CacheStore<T> {
   async get(key: string): Promise<CacheEntry<T> | null> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       // @ts-ignore
-      chrome.storage.local.get(key, result => {
+      chrome.storage.local.get(key, (result) => {
         resolve(result[key]);
       });
     });
   }
 
   async set(key: string, value: CacheEntry<T>): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       let item: { [key: string]: any } = {};
       item[key] = value;
       // @ts-ignore
@@ -69,14 +69,14 @@ class ChromeStore<T> implements CacheStore<T> {
   }
 
   async delete(key: string): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       // @ts-ignore
       chrome.storage.local.remove(key, resolve);
     });
   }
 
   async clear(): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       // @ts-ignore
       chrome.storage.local.clear(resolve);
     });
