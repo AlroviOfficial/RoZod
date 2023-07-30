@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { endpoint } from "..";
 
 {{#if imports}}
 {{#each imports}}
@@ -38,8 +39,11 @@ const schemas = {
  {{#if tags}}
  * @tags {{{tags}}}
  {{/if}}
+ {{#if description}}
+ * @description {{{description}}}
+ {{/if}}
  */
-export const {{alias}} = {
+export const {{alias}} = endpoint({
 	method: "{{method}}" as const,
 	path: "{{path}}",
 	{{#if @root.options.baseUrl}}
@@ -47,9 +51,6 @@ export const {{alias}} = {
 	{{/if}}
 	{{#if style}}
 	style: `{{style}}`,
-	{{/if}}
-	{{#if description}}
-	description: `{{description}}`,
 	{{/if}}
 	{{#if requestFormat}}
 	requestFormat: "{{requestFormat}}" as const,
@@ -69,9 +70,19 @@ export const {{alias}} = {
 	},
 	parameters: {
 		{{#each parameters}}
+		{{!-- If not equal to body --}}
+		{{#ifeq name "body"}}
+		{{else}}
 		"{{name}}": {{{schema}}},
+		{{/ifeq}}
 		{{/each}}
 	},
+	{{!-- If name is "body" inside a parameter, add that here --}}
+	{{#each parameters}}
+	{{#ifeq name "body"}}
+	body: {{{schema}}},
+	{{/ifeq}}
+	{{/each}}
 	{{/if}}
 	response: {{{response}}},
 	{{#if errors.length}}
@@ -94,5 +105,5 @@ export const {{alias}} = {
 	{{#unless errors.length}}
 	errors: [],
 	{{/unless}}
-};
+});
 {{/each}}

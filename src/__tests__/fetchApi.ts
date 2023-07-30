@@ -1,4 +1,4 @@
-import { fetchApi, fetchApiPages, fetchApiSplit } from '../index';
+import { ExtractParams, ExtractResponse, fetchApi, fetchApiPages, fetchApiSplit } from '../index';
 import { getGamesIcons, getUsersAvatarHeadshot, postBatch } from '../endpoints/thumbnailsv1';
 import { getGroupsGroupidMembership } from '../endpoints/groupsv1';
 import { getGamesUniverseidFavoritesCount } from '../endpoints/gamesv1';
@@ -11,7 +11,6 @@ test('fetch game icons', async () => {
     getGamesIcons,
     {
       universeIds: [1534453623, 65241, 110181652, 2585430167, 3262314006],
-      format: 'Png',
     },
     { universeIds: 100 },
     (response) => response.data,
@@ -65,10 +64,12 @@ test('fetch omni recommendations', async () => {
 });
 
 test('fetch avatar headshots', async () => {
+  type returnType = ExtractParams<typeof getUsersAvatarHeadshot>;
   return fetchApiSplit(
     getUsersAvatarHeadshot,
     {
       userIds: [4464722397, 3304424800, 138957456],
+      size: '150x150'
     },
     { userIds: 100 },
     (response) => response.data,

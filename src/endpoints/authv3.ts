@@ -1,13 +1,20 @@
-import { z } from 'zod';
+import { z } from "zod";
+import { endpoint } from "..";
 
-const Roblox_Authentication_Api_TwoStepVerificationLoginRequest = z.object({
-  challengeId: z.string(),
-  verificationToken: z.string(),
-  rememberDevice: z.boolean(),
-});
-const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z.object({
-  identityVerificationLoginTicket: z.string(),
-});
+const Roblox_Authentication_Api_TwoStepVerificationLoginRequest = z
+  .object({
+    challengeId: z.string(),
+    verificationToken: z.string(),
+    rememberDevice: z.boolean(),
+    accountBlob: z.string(),
+  })
+  .passthrough();
+const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z
+  .object({
+    identityVerificationLoginTicket: z.string(),
+    accountBlob: z.string(),
+  })
+  .passthrough();
 
 const schemas = {
   Roblox_Authentication_Api_TwoStepVerificationLoginRequest,
@@ -19,22 +26,22 @@ const schemas = {
  * @param body The Roblox.Authentication.Api.TwoStepVerificationLoginRequest.
  * @param userId
  */
-export const postUsersUseridTwoStepVerificationLogin = {
-  method: 'post' as const,
-  path: '/v3/users/:userId/two-step-verification/login',
-  baseUrl: 'https://auth.roblox.com',
-  requestFormat: 'json' as const,
+export const postUsersUseridTwoStepVerificationLogin = endpoint({
+  method: "post" as const,
+  path: "/v3/users/:userId/two-step-verification/login",
+  baseUrl: "https://auth.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
-    body: Roblox_Authentication_Api_TwoStepVerificationLoginRequest,
     userId: z.number().int(),
   },
-  response: z.object({ identityVerificationLoginTicket: z.string() }),
+  body: Roblox_Authentication_Api_TwoStepVerificationLoginRequest,
+  response: Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse,
   errors: [
     {
       status: 400,
@@ -49,4 +56,4 @@ export const postUsersUseridTwoStepVerificationLogin = {
       schema: z.void(),
     },
   ],
-};
+});

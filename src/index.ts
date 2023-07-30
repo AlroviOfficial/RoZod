@@ -2,56 +2,109 @@ import { z } from 'zod';
 import { cache } from './cache';
 
 type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
-type RequestFormat = 'json' | 'text';
+type RequestFormat = 'json' | 'text' | 'form-data';
 
 type SerializationMethod = Record<string, { style?: string; explode?: boolean }>;
 
-export type EndpointSchema = {
+type EndpointBase = {
   method: RequestMethod;
   path: string;
   baseUrl: string;
   serializationMethod?: SerializationMethod;
   requestFormat?: RequestFormat;
-  parameters?: Record<string, z.Schema<any>>;
-  response: z.Schema<any>;
   errors?: {
     status: number;
-    description: string;
+    description?: string;
     schema: z.Schema<any>;
   }[];
+}
+
+export type EndpointSchema = EndpointBase & {
+  parameters?: any;
+  body?: any;
+  response: any;
+}
+
+/**
+  * This is a hack to allow us to show the parameters and response types of an endpoint
+  * as the inferred types of the parameters and response properties.
+ */
+type EndpointGeneric<T, U, E> = EndpointBase & {
+  parameters?: T;
+  body?: E;
+  response: U;
+}
+
+// Infer zod object to include optional properties
+type InferZodObjectOptional<T extends z.ZodRawShape> = {
+  [K in keyof T]: T[K] extends z.ZodOptional<any> | z.ZodDefault<any> ? K : never;
+}[keyof T]
+
+type InferZodObjectRequired<T extends z.ZodRawShape> = {
+  [K in keyof T]: T[K] extends z.ZodOptional<any> | z.ZodDefault<any> ? never : K;
+}[keyof T]
+
+
+// Infers the schema of a Zod type.
+type InferSchema<T extends z.ZodType<any>> = 
+  T extends z.ZodOptional<infer U> ? InferSchema<U> | undefined :
+  T extends z.ZodUnion<infer U> ? InferSchema<U[number]> :
+  T extends z.ZodNumber ? number :
+  T extends z.ZodBoolean ? boolean :
+  T extends z.ZodString ? string :
+  T extends z.ZodNull ? null :
+  T extends z.ZodUndefined ? undefined :
+  T extends z.ZodAny ? any :
+  T extends z.ZodDate ? Date :
+  T extends z.ZodArray<infer U, any> ? InferSchema<U>[] :
+  T extends z.ZodObject<infer U, any, any> ? {
+    [K in InferZodObjectRequired<U>]: InferSchema<U[K]>;
+  } & {
+    [K in InferZodObjectOptional<U>]?: InferSchema<U[K]>;
+  } :
+  T extends z.ZodEnum<infer U> ? U[number] :
+  T extends z.ZodNativeEnum<infer U> ? U :
+  T extends z.ZodPromise<infer U> ? Promise<InferSchema<U>> :
+  T extends z.ZodEffects<infer U, any, any> ? InferSchema<U> :
+  T extends z.ZodTuple<infer U> ? { [K in keyof U]: InferSchema<U[K]> } :
+  T extends z.ZodDefault<infer U> ? InferSchema<U> :
+  T extends z.ZodUnion<infer U> ? InferSchema<U[number]> :
+  T extends z.ZodLiteral<infer U> ? U :
+  never
+
+// Extract parameters and correctly define if they are required or optional
+type ExtractOptionalParameters<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = {
+  [K in keyof T]: T[K] extends z.ZodOptional<any> | z.ZodDefault<any> ? K : never;
+}[keyof T]
+
+type ExtractRequiredParameters<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = {
+  [K in keyof T]: T[K] extends z.ZodOptional<any> | z.ZodDefault<any> ? never : K;
+}[keyof T]
+
+// Utility type to return true if a record is empty
+type NonEmptyRecord<T> = keyof T extends never ? never : T;
+
+
+type RequiredParams<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = ExtractRequiredParameters<T>;
+type OptionalParams<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = ExtractOptionalParameters<T>;
+
+export const endpoint = <T extends Record<string, z.Schema<any>>, U extends z.ZodType<any>, E extends z.ZodType<any>>(endpoint: EndpointGeneric<T, U, E>): EndpointGeneric<
+  NonEmptyRecord<RequiredParams<T>> extends never ? undefined : {
+    [K in RequiredParams<T>]: InferSchema<T[K]>;
+  } & {
+    [K in OptionalParams<T>]?: InferSchema<T[K]>;
+  },
+  InferSchema<U>,
+  E extends z.ZodType<any> ? InferSchema<E> : undefined
+  > => {
+  return endpoint as any;
 };
 
-type ExtractOptionalParams<S extends EndpointSchema> = S['parameters'] extends Record<
-  string,
-  z.ZodType<any, z.ZodTypeDef>
->
-  ? {
-      [K in keyof S['parameters']]: S['parameters'][K] extends z.ZodOptional<any> | z.ZodDefault<any> ? K : never;
-    }[keyof S['parameters']]
-  : never;
+// Extract the parameter, and also include the body as a parameter, if it exists. Parameters shouldn't be undefined if body exists
+export type ExtractParams<S extends EndpointGeneric<any, any, any>> = S['parameters'] extends undefined ? S['body'] extends undefined ? undefined : {body: S['body']} : S['body'] extends undefined ? S['parameters'] : S['parameters'] & {body: S['body']};
 
-type ExtractRequiredParams<S extends EndpointSchema> = S['parameters'] extends Record<
-  string,
-  z.ZodType<any, z.ZodTypeDef>
->
-  ? {
-      [K in keyof S['parameters']]: S['parameters'][K] extends z.ZodOptional<any> | z.ZodDefault<any> ? never : K;
-    }[keyof S['parameters']]
-  : never;
 
-type ExtractParams<S extends EndpointSchema> = S['parameters'] extends Record<string, z.ZodType<any, z.ZodTypeDef>>
-  ? {
-      [K in ExtractRequiredParams<S>]: S['parameters'][K]['_output'];
-    } & {
-      [K in ExtractOptionalParams<S>]?: S['parameters'][K] extends z.ZodOptional<infer T>
-        ? T['_output']
-        : S['parameters'][K] extends z.ZodDefault<infer D>
-        ? D['_output']
-        : never;
-    }
-  : {};
-
-type ExtractResponse<S extends EndpointSchema> = z.infer<S['response']>;
+export type ExtractResponse<S extends EndpointGeneric<any, any, any>> = S['response'];
 
 function extractDefaultValues<S extends EndpointSchema>(endpoint: S): Partial<ExtractParams<S>> {
   const defaultValues: Partial<ExtractParams<S>> = {};
@@ -142,14 +195,10 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
 function prepareRequestBody<S extends EndpointSchema>(
   method: string,
   requestFormat: string,
-  extendedParams: ExtractParams<S>,
-) {
-  let body: string | undefined;
-
+  body: S['body'],
+): string {
   if (method !== 'get' && requestFormat === 'json') {
-    body = extendedParams.hasOwnProperty('body')
-      ? JSON.stringify((extendedParams as any).body)
-      : JSON.stringify(extendedParams);
+    body = JSON.stringify(body);
   }
 
   return body;
@@ -193,7 +242,7 @@ async function handleRetryFetch(
  * @param requestOptions Any additional options to pass to fetch.
  * @returns The response from the endpoint.
  */
-async function fetchApi<S extends EndpointSchema>(
+export async function fetchApi<S extends EndpointSchema>(
   endpoint: S,
   params: ExtractParams<S>,
   requestOptions?: RequestOptions,
@@ -207,7 +256,7 @@ async function fetchApi<S extends EndpointSchema>(
  * @param requestOptions Any additional options to pass to fetch.
  * @returns The response from the endpoint.
  */
-async function fetchApi<S extends EndpointSchema>(
+export async function fetchApi<S extends EndpointSchema>(
   endpoint: S & { parameters?: undefined },
   params?: ExtractParams<S>,
   requestOptions?: RequestOptions,
@@ -221,7 +270,7 @@ async function fetchApi<S extends EndpointSchema>(
  * @param requestOptions Any additional options to pass to fetch.
  * @returns The response from the endpoint.
  */
-async function fetchApi<S extends EndpointSchema>(
+export async function fetchApi<S extends EndpointSchema>(
   endpoint: S,
   params?: ExtractParams<S>,
   requestOptions: RequestOptions = { mode: 'cors', credentials: 'include' },
@@ -231,7 +280,7 @@ async function fetchApi<S extends EndpointSchema>(
   const extendedParams = { ...defaultValues, ...params } as ExtractParams<S>;
 
   const url = prepareRequestUrl(endpoint, extendedParams);
-  const body = prepareRequestBody(method, requestFormat, extendedParams);
+  const body = prepareRequestBody(method, requestFormat, params?.body);
 
   const cacheKey = requestOptions.cacheKey;
   const cachedResponse = cacheKey && cache.get(cacheKey);
@@ -284,7 +333,7 @@ async function fetchApi<S extends EndpointSchema>(
  * console.log(data); // [[{ "targetId": 0, "state": "Completed", "imageUrl": "..." }], ...]
  * ```
  */
-async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
+export async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
   endpoint: S,
   params: ExtractParams<S>,
   max?: Partial<{ [K in keyof ExtractParams<S>]: number }>,
@@ -306,9 +355,8 @@ async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
       continue;
     }
     const maxItems = max[key as keyof ExtractParams<S>];
-    const items = params[key as keyof ExtractParams<S>];
+    const items = params[key];
     if (Array.isArray(items)) {
-      // eslint-disable-next-line max-depth
       for (let i = 0; i < items.length; i = i + (maxItems || 1)) {
         const itemsSubset = items.slice(i, i + (maxItems || 1));
         const newParams = { ...params, [key]: itemsSubset } as ExtractParams<S>;
@@ -340,9 +388,9 @@ async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
  * @param limit The maximum number of pages to fetch.
  * @returns An array of all results.
  */
-async function fetchApiPages<S extends EndpointSchema>(
+export async function fetchApiPages<S extends EndpointSchema>(
   endpoint: S,
-  initialParams: Omit<ExtractParams<S>, 'cursor'>,
+  initialParams: ExtractParams<S>,
   requestOptions?: RequestOptions,
   limit: number = 1000,
 ): Promise<ExtractResponse<S>[]> {
@@ -377,16 +425,16 @@ async function fetchApiPages<S extends EndpointSchema>(
  * }
  * ```
  */
-async function* fetchApiPagesGenerator<S extends EndpointSchema>(
+export async function* fetchApiPagesGenerator<S extends EndpointSchema>(
   endpoint: S,
-  initialParams: Omit<ExtractParams<S>, 'cursor'>,
+  initialParams: ExtractParams<S>,
   requestOptions?: RequestOptions,
   limit: number = 1000,
 ): AsyncGenerator<ExtractResponse<S>, void, unknown> {
   let cursor = '';
 
   while (true) {
-    const paramsWithCursor = { ...initialParams, cursor } as ExtractParams<S>;
+    const paramsWithCursor = { ...initialParams, cursor } as unknown as ExtractParams<S>;
     const response = await fetchApi(endpoint, paramsWithCursor, requestOptions);
 
     yield response;
@@ -398,5 +446,3 @@ async function* fetchApiPagesGenerator<S extends EndpointSchema>(
     cursor = response.nextPageCursor;
   }
 }
-
-export { fetchApi, fetchApiSplit, fetchApiPages, fetchApiPagesGenerator, ExtractResponse };

@@ -1,77 +1,103 @@
-import { z } from 'zod';
+import { z } from "zod";
+import { endpoint } from "..";
 
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_ = z.object({
-  id: z.number().int(),
-  type: z.literal(0),
-  name: z.string(),
-});
-const Roblox_Web_Responses_Groups_GroupResponseV2 = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  description: z.string(),
-  owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
-  memberCount: z.number().int(),
-  created: z.string().datetime(),
-  hasVerifiedBadge: z.boolean(),
-});
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_ = z.object({
-  data: z.array(Roblox_Web_Responses_Groups_GroupResponseV2),
-});
-const Roblox_Groups_Api_Models_Response_UserModel = z.object({
-  buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-  hasVerifiedBadge: z.boolean(),
-  userId: z.number().int(),
-  username: z.string(),
-  displayName: z.string(),
-});
-const Roblox_Groups_Api_GroupRoleResponse = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  description: z.string(),
-  rank: z.number().int(),
-  memberCount: z.number().int(),
-});
-const Roblox_Groups_Api_UserGroupRoleResponse = z.object({
-  user: Roblox_Groups_Api_Models_Response_UserModel,
-  role: Roblox_Groups_Api_GroupRoleResponse,
-});
-const Roblox_Groups_Api_GroupWallPostV2Model = z.object({
-  id: z.number().int(),
-  poster: Roblox_Groups_Api_UserGroupRoleResponse,
-  body: z.string(),
-  created: z.string().datetime(),
-  updated: z.string().datetime(),
-});
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Groups_Api_GroupWallPostV2Model),
-});
-const Roblox_Groups_Api_CreateWallPostRequest = z.object({
-  body: z.string(),
-  captchaId: z.string(),
-  captchaToken: z.string(),
-  captchaProvider: z.string(),
-  challengeId: z.string(),
-});
-const Roblox_Web_Responses_Groups_GroupBasicResponse = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  memberCount: z.number().int(),
-  hasVerifiedBadge: z.boolean(),
-});
-const Roblox_Web_Responses_Groups_GroupRoleBasicResponse = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  rank: z.number().int(),
-});
-const Roblox_Groups_Api_GroupMembershipResponse = z.object({
-  group: Roblox_Web_Responses_Groups_GroupBasicResponse,
-  role: Roblox_Web_Responses_Groups_GroupRoleBasicResponse,
-});
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_ = z.object({
-  data: z.array(Roblox_Groups_Api_GroupMembershipResponse),
-});
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_ =
+  z
+    .object({ id: z.number().int(), type: z.literal(0), name: z.string() })
+    .passthrough();
+const Roblox_Web_Responses_Groups_GroupResponseV2 = z
+  .object({
+    id: z.number().int(),
+    name: z.string(),
+    description: z.string(),
+    owner:
+      Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
+    memberCount: z.number().int(),
+    created: z.string().datetime({ offset: true }),
+    hasVerifiedBadge: z.boolean(),
+  })
+  .passthrough();
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_ =
+  z
+    .object({ data: z.array(Roblox_Web_Responses_Groups_GroupResponseV2) })
+    .passthrough();
+const Roblox_Groups_Api_Models_Response_UserModel = z
+  .object({
+    buildersClubMembershipType: z.union([
+      z.literal(0),
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+    ]),
+    hasVerifiedBadge: z.boolean(),
+    userId: z.number().int(),
+    username: z.string(),
+    displayName: z.string(),
+  })
+  .passthrough();
+const Roblox_Groups_Api_GroupRoleResponse = z
+  .object({
+    id: z.number().int(),
+    name: z.string(),
+    description: z.string(),
+    rank: z.number().int(),
+    memberCount: z.number().int(),
+  })
+  .passthrough();
+const Roblox_Groups_Api_UserGroupRoleResponse = z
+  .object({
+    user: Roblox_Groups_Api_Models_Response_UserModel,
+    role: Roblox_Groups_Api_GroupRoleResponse,
+  })
+  .passthrough();
+const Roblox_Groups_Api_GroupWallPostV2Model = z
+  .object({
+    id: z.number().int(),
+    poster: Roblox_Groups_Api_UserGroupRoleResponse,
+    body: z.string(),
+    created: z.string().datetime({ offset: true }),
+    updated: z.string().datetime({ offset: true }),
+  })
+  .passthrough();
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_ =
+  z
+    .object({
+      previousPageCursor: z.string(),
+      nextPageCursor: z.string(),
+      data: z.array(Roblox_Groups_Api_GroupWallPostV2Model),
+    })
+    .passthrough();
+const Roblox_Groups_Api_CreateWallPostRequest = z
+  .object({
+    body: z.string(),
+    captchaId: z.string(),
+    captchaToken: z.string(),
+    captchaProvider: z.string(),
+    challengeId: z.string(),
+  })
+  .passthrough();
+const Roblox_Web_Responses_Groups_GroupBasicResponse = z
+  .object({
+    id: z.number().int(),
+    name: z.string(),
+    memberCount: z.number().int(),
+    hasVerifiedBadge: z.boolean(),
+  })
+  .passthrough();
+const Roblox_Web_Responses_Groups_GroupRoleBasicResponse = z
+  .object({ id: z.number().int(), name: z.string(), rank: z.number().int() })
+  .passthrough();
+const Roblox_Groups_Api_GroupMembershipResponse = z
+  .object({
+    group: Roblox_Web_Responses_Groups_GroupBasicResponse,
+    role: Roblox_Web_Responses_Groups_GroupRoleBasicResponse,
+  })
+  .passthrough();
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_ =
+  z
+    .object({ data: z.array(Roblox_Groups_Api_GroupMembershipResponse) })
+    .passthrough();
 
 const schemas = {
   Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
@@ -92,22 +118,23 @@ const schemas = {
 /**
  * @api get https://groups.roblox.com/v2/groups
  * @param groupIds
+ * @description If a group comes back as null, it will not be returned in the response.
  */
-export const getGroups = {
-  method: 'get' as const,
-  path: '/v2/groups',
-  baseUrl: 'https://groups.roblox.com',
-  description: `If a group comes back as null, it will not be returned in the response.`,
-  requestFormat: 'json' as const,
+export const getGroups = endpoint({
+  method: "get" as const,
+  path: "/v2/groups",
+  baseUrl: "https://groups.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     groupIds: {
-      style: 'form',
+      style: "form",
     },
   },
   parameters: {
     groupIds: z.array(z.number()),
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_,
   errors: [
     {
       status: 400,
@@ -116,7 +143,7 @@ export const getGroups = {
       schema: z.void(),
     },
   ],
-};
+});
 /**
  * @api get https://groups.roblox.com/v2/groups/:groupId/wall/posts
  * @param groupId
@@ -124,25 +151,25 @@ export const getGroups = {
  * @param cursor
  * @param sortOrder
  */
-export const getGroupsGroupidWallPosts = {
-  method: 'get' as const,
-  path: '/v2/groups/:groupId/wall/posts',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+export const getGroupsGroupidWallPosts = endpoint({
+  method: "get" as const,
+  path: "/v2/groups/:groupId/wall/posts",
+  baseUrl: "https://groups.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     groupId: {
-      style: 'simple',
+      style: "simple",
     },
     limit: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortOrder: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -153,9 +180,10 @@ export const getGroupsGroupidWallPosts = {
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_,
   errors: [
     {
       status: 400,
@@ -168,27 +196,27 @@ export const getGroupsGroupidWallPosts = {
       schema: z.void(),
     },
   ],
-};
+});
 /**
  * @api post https://groups.roblox.com/v2/groups/:groupId/wall/posts
  * @param body The Roblox.Groups.Api.CreateWallPostRequest.
  * @param groupId
  */
-export const postGroupsGroupidWallPosts = {
-  method: 'post' as const,
-  path: '/v2/groups/:groupId/wall/posts',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+export const postGroupsGroupidWallPosts = endpoint({
+  method: "post" as const,
+  path: "/v2/groups/:groupId/wall/posts",
+  baseUrl: "https://groups.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     body: {},
     groupId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
-    body: Roblox_Groups_Api_CreateWallPostRequest,
     groupId: z.number().int(),
   },
+  body: Roblox_Groups_Api_CreateWallPostRequest,
   response: Roblox_Groups_Api_GroupWallPostV2Model,
   errors: [
     {
@@ -215,25 +243,26 @@ export const postGroupsGroupidWallPosts = {
       schema: z.void(),
     },
   ],
-};
+});
 /**
  * @api get https://groups.roblox.com/v2/users/:userId/groups/roles
  * @param userId
  */
-export const getUsersUseridGroupsRoles = {
-  method: 'get' as const,
-  path: '/v2/users/:userId/groups/roles',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+export const getUsersUseridGroupsRoles = endpoint({
+  method: "get" as const,
+  path: "/v2/users/:userId/groups/roles",
+  baseUrl: "https://groups.roblox.com",
+  requestFormat: "json" as const,
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
     userId: z.number().int(),
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_,
   errors: [
     {
       status: 400,
@@ -241,4 +270,4 @@ export const getUsersUseridGroupsRoles = {
       schema: z.void(),
     },
   ],
-};
+});

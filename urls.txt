@@ -28,3 +28,4 @@ https://chat.roblox.com/docs/json/v2
 https://privatemessages.roblox.com/docs/json/v1
 https://trades.roblox.com/docs/json/v1
 https://translations.roblox.com/docs/json/v1
+https://itemconfiguration.roblox.com/docs/json/v1
