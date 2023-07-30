@@ -1,10 +1,10 @@
-import { readFileSync, readdirSync, writeFileSync } from 'fs';
-import { basename } from 'path';
-import { promisify } from 'util';
-import {exec} from 'child_process';
-import pLimit from 'p-limit';
-import { generateZodClientFromOpenAPI } from '@alexop/openapi-zod-client';
-import swagger from '@apidevtools/swagger-parser';
+const fs = require('fs');
+const path = require('path');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+const pLimit = require('p-limit');
+const { generateZodClientFromOpenAPI } = require('@thepotato97/openapi-zod-client');
+const SwaggerParser = require('@apidevtools/swagger-parser');
 
 const limit = pLimit(2);
 
@@ -47,7 +47,7 @@ Promise.all(
 
     if (matchingUrl) {
       const [, subdomain, domain] = matchingUrl.match(/https?:\/\/([^\.]+)\.([^\/]+)/);
-      const openApiDoc = await swagger.parse(`${FOLDER_OPENAPI}/${folder}/openapi.yaml`);
+      const openApiDoc = await SwaggerParser.parse(`${FOLDER_OPENAPI}/${folder}/openapi.yaml`);
       generateZodClientFromOpenAPI({
         openApiDoc: openApiDoc,
         templatePath: './template.hbs',
