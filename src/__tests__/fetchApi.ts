@@ -69,7 +69,7 @@ test('fetch avatar headshots', async () => {
     getUsersAvatarHeadshot,
     {
       userIds: [4464722397, 3304424800, 138957456],
-      size: '150x150'
+      size: '150x150',
     },
     { userIds: 100 },
     (response) => response.data,

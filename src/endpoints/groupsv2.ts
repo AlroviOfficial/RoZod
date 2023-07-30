@@ -1,35 +1,26 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_ =
-  z
-    .object({ id: z.number().int(), type: z.literal(0), name: z.string() })
-    .passthrough();
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_ = z
+  .object({ id: z.number().int(), type: z.literal(0), name: z.string() })
+  .passthrough();
 const Roblox_Web_Responses_Groups_GroupResponseV2 = z
   .object({
     id: z.number().int(),
     name: z.string(),
     description: z.string(),
-    owner:
-      Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
+    owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
     memberCount: z.number().int(),
     created: z.string().datetime({ offset: true }),
     hasVerifiedBadge: z.boolean(),
   })
   .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_ =
-  z
-    .object({ data: z.array(Roblox_Web_Responses_Groups_GroupResponseV2) })
-    .passthrough();
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_ = z
+  .object({ data: z.array(Roblox_Web_Responses_Groups_GroupResponseV2) })
+  .passthrough();
 const Roblox_Groups_Api_Models_Response_UserModel = z
   .object({
-    buildersClubMembershipType: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-    ]),
+    buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     hasVerifiedBadge: z.boolean(),
     userId: z.number().int(),
     username: z.string(),
@@ -60,14 +51,13 @@ const Roblox_Groups_Api_GroupWallPostV2Model = z
     updated: z.string().datetime({ offset: true }),
   })
   .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_ =
-  z
-    .object({
-      previousPageCursor: z.string(),
-      nextPageCursor: z.string(),
-      data: z.array(Roblox_Groups_Api_GroupWallPostV2Model),
-    })
-    .passthrough();
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_ = z
+  .object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Groups_Api_GroupWallPostV2Model),
+  })
+  .passthrough();
 const Roblox_Groups_Api_CreateWallPostRequest = z
   .object({
     body: z.string(),
@@ -94,10 +84,9 @@ const Roblox_Groups_Api_GroupMembershipResponse = z
     role: Roblox_Web_Responses_Groups_GroupRoleBasicResponse,
   })
   .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_ =
-  z
-    .object({ data: z.array(Roblox_Groups_Api_GroupMembershipResponse) })
-    .passthrough();
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_ = z
+  .object({ data: z.array(Roblox_Groups_Api_GroupMembershipResponse) })
+  .passthrough();
 
 const schemas = {
   Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
@@ -121,20 +110,19 @@ const schemas = {
  * @description If a group comes back as null, it will not be returned in the response.
  */
 export const getGroups = endpoint({
-  method: "get" as const,
-  path: "/v2/groups",
-  baseUrl: "https://groups.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v2/groups',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     groupIds: {
-      style: "form",
+      style: 'form',
     },
   },
   parameters: {
     groupIds: z.array(z.number()),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_,
   errors: [
     {
       status: 400,
@@ -152,24 +140,24 @@ export const getGroups = endpoint({
  * @param sortOrder
  */
 export const getGroupsGroupidWallPosts = endpoint({
-  method: "get" as const,
-  path: "/v2/groups/:groupId/wall/posts",
-  baseUrl: "https://groups.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v2/groups/:groupId/wall/posts',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     groupId: {
-      style: "simple",
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -180,10 +168,9 @@ export const getGroupsGroupidWallPosts = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_,
   errors: [
     {
       status: 400,
@@ -203,14 +190,14 @@ export const getGroupsGroupidWallPosts = endpoint({
  * @param groupId
  */
 export const postGroupsGroupidWallPosts = endpoint({
-  method: "post" as const,
-  path: "/v2/groups/:groupId/wall/posts",
-  baseUrl: "https://groups.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v2/groups/:groupId/wall/posts',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
     groupId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -249,20 +236,19 @@ export const postGroupsGroupidWallPosts = endpoint({
  * @param userId
  */
 export const getUsersUseridGroupsRoles = endpoint({
-  method: "get" as const,
-  path: "/v2/users/:userId/groups/roles",
-  baseUrl: "https://groups.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v2/users/:userId/groups/roles',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
     userId: z.number().int(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_,
   errors: [
     {
       status: 400,

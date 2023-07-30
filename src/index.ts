@@ -17,92 +17,117 @@ type EndpointBase = {
     description?: string;
     schema: z.Schema<any>;
   }[];
-}
+};
 
 export type EndpointSchema = EndpointBase & {
   parameters?: any;
   body?: any;
   response: any;
-}
+};
 
 /**
-  * This is a hack to allow us to show the parameters and response types of an endpoint
-  * as the inferred types of the parameters and response properties.
-  */
+ * This is a hack to allow us to show the parameters and response types of an endpoint
+ * as the inferred types of the parameters and response properties.
+ */
 type EndpointGeneric<T, U, E> = EndpointBase & {
   parameters?: T;
   body?: E;
   response: U;
-}
+};
 
 // Infer zod object to include optional properties
 type InferZodObjectOptional<T extends z.ZodRawShape> = {
   [K in keyof T]: T[K] extends z.ZodOptional<any> | z.ZodDefault<any> ? K : never;
-}[keyof T]
+}[keyof T];
 
 type InferZodObjectRequired<T extends z.ZodRawShape> = {
   [K in keyof T]: T[K] extends z.ZodOptional<any> | z.ZodDefault<any> ? never : K;
-}[keyof T]
-
+}[keyof T];
 
 // Infers the schema of a Zod type.
-type InferSchema<T extends z.ZodType<any>> = 
-  T extends z.ZodOptional<infer U> ? InferSchema<U> | undefined :
-  T extends z.ZodUnion<infer U> ? InferSchema<U[number]> :
-  T extends z.ZodNumber ? number :
-  T extends z.ZodBoolean ? boolean :
-  T extends z.ZodString ? string :
-  T extends z.ZodNull ? null :
-  T extends z.ZodUndefined ? undefined :
-  T extends z.ZodAny ? any :
-  T extends z.ZodDate ? Date :
-  T extends z.ZodArray<infer U, any> ? InferSchema<U>[] :
-  T extends z.ZodObject<infer U, any, any> ? {
-    [K in InferZodObjectRequired<U>]: InferSchema<U[K]>;
-  } & {
-    [K in InferZodObjectOptional<U>]?: InferSchema<U[K]>;
-  } :
-  T extends z.ZodEnum<infer U> ? U[number] :
-  T extends z.ZodNativeEnum<infer U> ? U :
-  T extends z.ZodPromise<infer U> ? Promise<InferSchema<U>> :
-  T extends z.ZodEffects<infer U, any, any> ? InferSchema<U> :
-  T extends z.ZodTuple<infer U> ? { [K in keyof U]: InferSchema<U[K]> } :
-  T extends z.ZodDefault<infer U> ? InferSchema<U> :
-  T extends z.ZodUnion<infer U> ? InferSchema<U[number]> :
-  T extends z.ZodLiteral<infer U> ? U :
-  never
+type InferSchema<T extends z.ZodType<any>> = T extends z.ZodOptional<infer U>
+  ? InferSchema<U> | undefined
+  : T extends z.ZodUnion<infer U>
+  ? InferSchema<U[number]>
+  : T extends z.ZodNumber
+  ? number
+  : T extends z.ZodBoolean
+  ? boolean
+  : T extends z.ZodString
+  ? string
+  : T extends z.ZodNull
+  ? null
+  : T extends z.ZodUndefined
+  ? undefined
+  : T extends z.ZodAny
+  ? any
+  : T extends z.ZodDate
+  ? Date
+  : T extends z.ZodArray<infer U, any>
+  ? InferSchema<U>[]
+  : T extends z.ZodObject<infer U, any, any>
+  ? {
+      [K in InferZodObjectRequired<U>]: InferSchema<U[K]>;
+    } & {
+      [K in InferZodObjectOptional<U>]?: InferSchema<U[K]>;
+    }
+  : T extends z.ZodEnum<infer U>
+  ? U[number]
+  : T extends z.ZodNativeEnum<infer U>
+  ? U
+  : T extends z.ZodPromise<infer U>
+  ? Promise<InferSchema<U>>
+  : T extends z.ZodEffects<infer U, any, any>
+  ? InferSchema<U>
+  : T extends z.ZodTuple<infer U>
+  ? { [K in keyof U]: InferSchema<U[K]> }
+  : T extends z.ZodDefault<infer U>
+  ? InferSchema<U>
+  : T extends z.ZodUnion<infer U>
+  ? InferSchema<U[number]>
+  : T extends z.ZodLiteral<infer U>
+  ? U
+  : never;
 
 // Extract parameters and correctly define if they are required or optional
 type ExtractOptionalParameters<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = {
   [K in keyof T]: T[K] extends z.ZodOptional<any> | z.ZodDefault<any> ? K : never;
-}[keyof T]
+}[keyof T];
 
 type ExtractRequiredParameters<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = {
   [K in keyof T]: T[K] extends z.ZodOptional<any> | z.ZodDefault<any> ? never : K;
-}[keyof T]
+}[keyof T];
 
 // Utility type to return true if a record is empty
 type NonEmptyRecord<T> = keyof T extends never ? never : T;
 
-
 type RequiredParams<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = ExtractRequiredParameters<T>;
 type OptionalParams<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = ExtractOptionalParameters<T>;
 
-export const endpoint = <T extends Record<string, z.Schema<any>>, U extends z.ZodType<any>, E extends z.ZodType<any>>(endpoint: EndpointGeneric<T, U, E>): EndpointGeneric<
-  NonEmptyRecord<RequiredParams<T>> extends never ? undefined : {
-    [K in RequiredParams<T>]: InferSchema<T[K]>;
-  } & {
-    [K in OptionalParams<T>]?: InferSchema<T[K]>;
-  },
+export const endpoint = <T extends Record<string, z.Schema<any>>, U extends z.ZodType<any>, E extends z.ZodType<any>>(
+  endpoint: EndpointGeneric<T, U, E>,
+): EndpointGeneric<
+  NonEmptyRecord<RequiredParams<T>> extends never
+    ? undefined
+    : {
+        [K in RequiredParams<T>]: InferSchema<T[K]>;
+      } & {
+        [K in OptionalParams<T>]?: InferSchema<T[K]>;
+      },
   InferSchema<U>,
   E extends z.ZodType<any> ? InferSchema<E> : undefined
-  > => {
+> => {
   return endpoint as any;
 };
 
 // Extract the parameter, and also include the body as a parameter, if it exists. Parameters shouldn't be undefined if body exists
-export type ExtractParams<S extends EndpointGeneric<any, any, any>> = S['parameters'] extends undefined ? S['body'] extends undefined ? undefined : {body: S['body']} : S['body'] extends undefined ? S['parameters'] : S['parameters'] & {body: S['body']};
-
+export type ExtractParams<S extends EndpointGeneric<any, any, any>> = S['parameters'] extends undefined
+  ? S['body'] extends undefined
+    ? undefined
+    : { body: S['body'] }
+  : S['body'] extends undefined
+  ? S['parameters']
+  : S['parameters'] & { body: S['body'] };
 
 export type ExtractResponse<S extends EndpointGeneric<any, any, any>> = S['response'];
 
@@ -192,11 +217,7 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
   return endpoint.baseUrl + processedPath + query;
 }
 
-function prepareRequestBody<S extends EndpointSchema>(
-  method: string,
-  requestFormat: string,
-  body: S['body'],
-): string {
+function prepareRequestBody<S extends EndpointSchema>(method: string, requestFormat: string, body: S['body']): string {
   if (method !== 'get' && requestFormat === 'json') {
     body = JSON.stringify(body);
   }

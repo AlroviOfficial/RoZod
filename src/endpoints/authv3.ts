@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Authentication_Api_TwoStepVerificationLoginRequest = z
   .object({
@@ -27,14 +27,14 @@ const schemas = {
  * @param userId
  */
 export const postUsersUseridTwoStepVerificationLogin = endpoint({
-  method: "post" as const,
-  path: "/v3/users/:userId/two-step-verification/login",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v3/users/:userId/two-step-verification/login',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
