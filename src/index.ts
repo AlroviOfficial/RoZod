@@ -28,7 +28,7 @@ export type EndpointSchema = EndpointBase & {
 /**
   * This is a hack to allow us to show the parameters and response types of an endpoint
   * as the inferred types of the parameters and response properties.
- */
+  */
 type EndpointGeneric<T, U, E> = EndpointBase & {
   parameters?: T;
   body?: E;
