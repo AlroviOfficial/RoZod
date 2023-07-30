@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { cache } from './cache';
+import { cache, localStorageCache, chromeStorageCache } from './cache';
 
 type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 type RequestFormat = 'json' | 'text' | 'form-data';
@@ -159,6 +159,7 @@ type ErrorOptions = {
 type CacheOptions = {
   cacheTime?: number;
   cacheKey?: string;
+  cacheType?: 'memory' | 'local' | 'chrome';
 };
 
 type RequestOptions = RequestInit & RetryOptions & ErrorOptions & CacheOptions;
@@ -304,7 +305,17 @@ export async function fetchApi<S extends EndpointSchema>(
   const body = prepareRequestBody(method, requestFormat, params?.body);
 
   const cacheKey = requestOptions.cacheKey;
-  const cachedResponse = cacheKey && cache.get(cacheKey);
+  
+  let cacheToUse: typeof cache;
+  if (requestOptions.cacheType === 'local') {
+    cacheToUse = localStorageCache;
+  } else if (requestOptions.cacheType === 'chrome') {
+    cacheToUse = chromeStorageCache;
+  } else {
+    cacheToUse = cache;
+  }
+
+  const cachedResponse = cacheKey && cacheToUse.get(cacheKey);
   if (cachedResponse) {
     return cachedResponse;
   }
@@ -327,9 +338,9 @@ export async function fetchApi<S extends EndpointSchema>(
     const responseClone = response.clone();
     const cacheTime = requestOptions.cacheTime;
     setTimeout(() => {
-      cache.delete(cacheKey);
+      cacheToUse.delete(cacheKey);
     }, cacheTime);
-    cache.set(cacheKey, requestFormat === 'json' ? await responseClone.json() : await responseClone.text(), cacheTime);
+    cacheToUse.set(cacheKey, requestFormat === 'json' ? await responseClone.json() : await responseClone.text(), cacheTime);
   }
 
   if (requestFormat === 'json' && !response.headers.get('content-type')?.includes('application/json')) {

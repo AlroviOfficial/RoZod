@@ -3,4 +3,5 @@
 /package-lock.json
 /lib
 /target
+/pnpm-lock.yaml
 *.log
