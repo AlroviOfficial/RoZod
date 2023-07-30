@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Api_Develop_AssetVersion = z
   .object({
@@ -14,14 +14,13 @@ const Roblox_Api_Develop_AssetVersion = z
     isPublished: z.boolean(),
   })
   .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_AssetVersion_ =
-  z
-    .object({
-      previousPageCursor: z.string(),
-      nextPageCursor: z.string(),
-      data: z.array(Roblox_Api_Develop_AssetVersion),
-    })
-    .passthrough();
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_AssetVersion_ = z
+  .object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Api_Develop_AssetVersion),
+  })
+  .passthrough();
 const Roblox_Api_Develop_Models_PlaceModelV2 = z
   .object({
     maxPlayerCount: z.number().int(),
@@ -42,7 +41,7 @@ const Roblox_Api_Develop_Models_PlaceModelV2 = z
         z.literal(14),
         z.literal(21),
         z.literal(22),
-      ])
+      ]),
     ),
     maxPlayersAllowed: z.number().int(),
     id: z.number().int(),
@@ -64,14 +63,13 @@ const Roblox_Api_Develop_Models_PlaceConfigurationModelV2 = z
     isAllGenresAllowed: z.boolean(),
   })
   .passthrough();
-const Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel =
-  z
-    .object({
-      assetID: z.number().int(),
-      assetTypeID: z.number().int(),
-      isPlayerChoice: z.boolean(),
-    })
-    .passthrough();
+const Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel = z
+  .object({
+    assetID: z.number().int(),
+    assetTypeID: z.number().int(),
+    isPlayerChoice: z.boolean(),
+  })
+  .passthrough();
 const Roblox_Web_Responses_Avatar_ScaleModel = z
   .object({
     height: z.number(),
@@ -118,20 +116,10 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z
       z.literal(13),
       z.literal(14),
     ]),
-    playableDevices: z.array(
-      z.union([
-        z.literal(1),
-        z.literal(2),
-        z.literal(3),
-        z.literal(4),
-        z.literal(5),
-      ])
-    ),
+    playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
     isForSale: z.boolean(),
     price: z.number().int(),
-    universeAvatarAssetOverrides: z.array(
-      Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel
-    ),
+    universeAvatarAssetOverrides: z.array(Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel),
     universeAvatarMinScales: Roblox_Web_Responses_Avatar_ScaleModel,
     universeAvatarMaxScales: Roblox_Web_Responses_Avatar_ScaleModel,
     studioAccessToApisAllowed: z.boolean(),
@@ -147,9 +135,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z
   .object({
     allowPrivateServers: z.boolean(),
     privateServerPrice: z.number().int(),
-    optInRegions: z.array(
-      Roblox_Api_Develop_Models_UniverseModerationPolicyStatus
-    ),
+    optInRegions: z.array(Roblox_Api_Develop_Models_UniverseModerationPolicyStatus),
     id: z.number().int(),
     name: z.string(),
     description: z.string(),
@@ -176,20 +162,10 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z
       z.literal(13),
       z.literal(14),
     ]),
-    playableDevices: z.array(
-      z.union([
-        z.literal(1),
-        z.literal(2),
-        z.literal(3),
-        z.literal(4),
-        z.literal(5),
-      ])
-    ),
+    playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
     isForSale: z.boolean(),
     price: z.number().int(),
-    universeAvatarAssetOverrides: z.array(
-      Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel
-    ),
+    universeAvatarAssetOverrides: z.array(Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel),
     universeAvatarMinScales: Roblox_Web_Responses_Avatar_ScaleModel,
     universeAvatarMaxScales: Roblox_Web_Responses_Avatar_ScaleModel,
     studioAccessToApisAllowed: z.boolean(),
@@ -221,42 +197,41 @@ const schemas = {
  * @param sortOrder
  */
 export const getAssetsIdVersions = endpoint({
-  method: "get" as const,
-  path: "/v2/assets/:id/versions",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v2/assets/:id/versions',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     id: {
-      style: "simple",
+      style: 'simple',
     },
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     id: z.number().int(),
-    "Roblox-Place-Id": z.number().int(),
+    'Roblox-Place-Id': z.number().int(),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Desc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Desc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_AssetVersion_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_AssetVersion_,
   errors: [],
 });
 /**
@@ -264,13 +239,13 @@ export const getAssetsIdVersions = endpoint({
  * @param placeId
  */
 export const getPlacesPlaceid = endpoint({
-  method: "get" as const,
-  path: "/v2/places/:placeId",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v2/places/:placeId',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     placeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -301,14 +276,14 @@ export const getPlacesPlaceid = endpoint({
  * @param placeId
  */
 export const patchPlacesPlaceid = endpoint({
-  method: "patch" as const,
-  path: "/v2/places/:placeId",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json" as const,
+  method: 'patch' as const,
+  path: '/v2/places/:placeId',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
     placeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -341,16 +316,16 @@ export const patchPlacesPlaceid = endpoint({
  * @param gameId
  */
 export const deleteTeamtestPlaceid = endpoint({
-  method: "delete" as const,
-  path: "/v2/teamtest/:placeId",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json" as const,
+  method: 'delete' as const,
+  path: '/v2/teamtest/:placeId',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     placeId: {
-      style: "simple",
+      style: 'simple',
     },
     gameId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -378,14 +353,14 @@ export const deleteTeamtestPlaceid = endpoint({
  * @param universeId
  */
 export const patchUniversesUniverseidConfiguration = endpoint({
-  method: "patch" as const,
-  path: "/v2/universes/:universeId/configuration",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json" as const,
+  method: 'patch' as const,
+  path: '/v2/universes/:universeId/configuration',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {

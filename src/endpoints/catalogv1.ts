@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Catalog_Api_BundleItemDetailModel = z
   .object({
@@ -55,22 +55,20 @@ const Roblox_Catalog_Api_BundleDetailsModel = z
         z.literal(7),
         z.literal(8),
         z.literal(9),
-      ])
+      ]),
     ),
   })
   .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_BundleDetailsModel_ =
-  z
-    .object({
-      previousPageCursor: z.string(),
-      nextPageCursor: z.string(),
-      data: z.array(Roblox_Catalog_Api_BundleDetailsModel),
-    })
-    .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_BundleDetailsModel_ =
-  z
-    .object({ data: z.array(Roblox_Catalog_Api_BundleDetailsModel) })
-    .passthrough();
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_BundleDetailsModel_ = z
+  .object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Catalog_Api_BundleDetailsModel),
+  })
+  .passthrough();
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_BundleDetailsModel_ = z
+  .object({ data: z.array(Roblox_Catalog_Api_BundleDetailsModel) })
+  .passthrough();
 const Roblox_Catalog_Api_AssetFavoriteModel = z
   .object({
     assetId: z.number().int(),
@@ -100,14 +98,13 @@ const Roblox_Catalog_Api_OwnedBundleModel = z
     creator: Roblox_Catalog_Api_BundleCreatorModel,
   })
   .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_OwnedBundleModel_ =
-  z
-    .object({
-      previousPageCursor: z.string(),
-      nextPageCursor: z.string(),
-      data: z.array(Roblox_Catalog_Api_OwnedBundleModel),
-    })
-    .passthrough();
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_OwnedBundleModel_ = z
+  .object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Catalog_Api_OwnedBundleModel),
+  })
+  .passthrough();
 const Roblox_Catalog_Api_MultigetItemDetailsRequestItem = z
   .object({
     itemType: z.union([z.literal(1), z.literal(2)]),
@@ -196,12 +193,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z
       z.literal(79),
       z.literal(80),
     ]),
-    bundleType: z.union([
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-    ]),
+    bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     name: z.string(),
     description: z.string(),
     productId: z.number().int(),
@@ -222,7 +214,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z
         z.literal(12),
         z.literal(13),
         z.literal(14),
-      ])
+      ]),
     ),
     bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModel),
     itemStatus: z.array(z.union([z.literal(1), z.literal(2), z.literal(7)])),
@@ -237,7 +229,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z
         z.literal(7),
         z.literal(8),
         z.literal(9),
-      ])
+      ]),
     ),
     creatorHasVerifiedBadge: z.boolean(),
     creatorType: z.union([z.literal(1), z.literal(2)]),
@@ -268,24 +260,20 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z
     quantityLimitPerUser: z.number().int(),
   })
   .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_ =
-  z
-    .object({
-      data: z.array(Roblox_Catalog_Api_CatalogSearchDetailedResponseItem),
-    })
-    .passthrough();
-const Roblox_Marketplacetopicdiscovery_Topicdiscoveryservice_V1Beta1_AvatarItem =
-  z
-    .object({
-      TargetId: z.number().int(),
-      ItemType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
-    })
-    .passthrough();
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_ = z
+  .object({
+    data: z.array(Roblox_Catalog_Api_CatalogSearchDetailedResponseItem),
+  })
+  .passthrough();
+const Roblox_Marketplacetopicdiscovery_Topicdiscoveryservice_V1Beta1_AvatarItem = z
+  .object({
+    TargetId: z.number().int(),
+    ItemType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  })
+  .passthrough();
 const Roblox_Catalog_Api_Topics_TopicRequestModel = z
   .object({
-    items: z.array(
-      Roblox_Marketplacetopicdiscovery_Topicdiscoveryservice_V1Beta1_AvatarItem
-    ),
+    items: z.array(Roblox_Marketplacetopicdiscovery_Topicdiscoveryservice_V1Beta1_AvatarItem),
     selectTopics: z.array(z.string()),
     inputQuery: z.string(),
     maxResult: z.number().int(),
@@ -334,10 +322,10 @@ const schemas = {
  * @api get https://catalog.roblox.com/v1/asset-to-category
  */
 export const getAssetToCategory = endpoint({
-  method: "get" as const,
-  path: "/v1/asset-to-category",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/asset-to-category',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   response: z.record(z.number().int()),
   errors: [],
 });
@@ -345,10 +333,10 @@ export const getAssetToCategory = endpoint({
  * @api get https://catalog.roblox.com/v1/asset-to-subcategory
  */
 export const getAssetToSubcategory = endpoint({
-  method: "get" as const,
-  path: "/v1/asset-to-subcategory",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/asset-to-subcategory',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   response: z.record(z.number().int()),
   errors: [],
 });
@@ -360,24 +348,24 @@ export const getAssetToSubcategory = endpoint({
  * @param sortOrder
  */
 export const getAssetsAssetidBundles = endpoint({
-  method: "get" as const,
-  path: "/v1/assets/:assetId/bundles",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/assets/:assetId/bundles',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     assetId: {
-      style: "simple",
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -388,10 +376,9 @@ export const getAssetsAssetidBundles = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_BundleDetailsModel_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_BundleDetailsModel_,
   errors: [
     {
       status: 400,
@@ -406,13 +393,13 @@ export const getAssetsAssetidBundles = endpoint({
  * @param bundleId
  */
 export const getBundlesBundleidDetails = endpoint({
-  method: "get" as const,
-  path: "/v1/bundles/:bundleId/details",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/bundles/:bundleId/details',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     bundleId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -433,16 +420,16 @@ export const getBundlesBundleidDetails = endpoint({
  * @param numItems
  */
 export const getBundlesBundleidRecommendations = endpoint({
-  method: "get" as const,
-  path: "/v1/bundles/:bundleId/recommendations",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/bundles/:bundleId/recommendations',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     bundleId: {
-      style: "simple",
+      style: 'simple',
     },
     numItems: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -450,8 +437,7 @@ export const getBundlesBundleidRecommendations = endpoint({
     bundleId: z.number().int(),
     numItems: z.number().int().optional().default(20),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_BundleDetailsModel_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_BundleDetailsModel_,
   errors: [
     {
       status: 400,
@@ -468,13 +454,13 @@ export const getBundlesBundleidRecommendations = endpoint({
  * @param bundleId
  */
 export const postBundlesBundleidUnpack = endpoint({
-  method: "post" as const,
-  path: "/v1/bundles/:bundleId/unpack",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/bundles/:bundleId/unpack',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     bundleId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -505,13 +491,13 @@ export const postBundlesBundleidUnpack = endpoint({
  * @param bundleIds
  */
 export const getBundlesDetails = endpoint({
-  method: "get" as const,
-  path: "/v1/bundles/details",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/bundles/details',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     bundleIds: {
-      style: "form",
+      style: 'form',
     },
   },
   parameters: {
@@ -532,17 +518,16 @@ export const getBundlesDetails = endpoint({
  * @param body Roblox.Catalog.Api.MultigetItemDetailsRequestModel
  */
 export const postCatalogItemsDetails = endpoint({
-  method: "post" as const,
-  path: "/v1/catalog/items/details",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/catalog/items/details',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
   parameters: {},
   body: Roblox_Catalog_Api_MultigetItemDetailsRequestModel,
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_,
   errors: [
     {
       status: 400,
@@ -566,10 +551,10 @@ export const postCatalogItemsDetails = endpoint({
  * @api get https://catalog.roblox.com/v1/categories
  */
 export const getCategories = endpoint({
-  method: "get" as const,
-  path: "/v1/categories",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/categories',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   response: z.record(z.number().int()),
   errors: [],
 });
@@ -578,13 +563,13 @@ export const getCategories = endpoint({
  * @param assetId
  */
 export const getFavoritesAssetsAssetidCount = endpoint({
-  method: "get" as const,
-  path: "/v1/favorites/assets/:assetId/count",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/favorites/assets/:assetId/count',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     assetId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -604,13 +589,13 @@ export const getFavoritesAssetsAssetidCount = endpoint({
  * @param bundleId
  */
 export const getFavoritesBundlesBundleidCount = endpoint({
-  method: "get" as const,
-  path: "/v1/favorites/bundles/:bundleId/count",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/favorites/bundles/:bundleId/count',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     bundleId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -631,16 +616,16 @@ export const getFavoritesBundlesBundleidCount = endpoint({
  * @param assetId
  */
 export const getFavoritesUsersUseridAssetsAssetidFavorite = endpoint({
-  method: "get" as const,
-  path: "/v1/favorites/users/:userId/assets/:assetId/favorite",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/favorites/users/:userId/assets/:assetId/favorite',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     assetId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -668,16 +653,16 @@ export const getFavoritesUsersUseridAssetsAssetidFavorite = endpoint({
  * @param assetId
  */
 export const postFavoritesUsersUseridAssetsAssetidFavorite = endpoint({
-  method: "post" as const,
-  path: "/v1/favorites/users/:userId/assets/:assetId/favorite",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/favorites/users/:userId/assets/:assetId/favorite',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     assetId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -721,16 +706,16 @@ export const postFavoritesUsersUseridAssetsAssetidFavorite = endpoint({
  * @param assetId
  */
 export const deleteFavoritesUsersUseridAssetsAssetidFavorite = endpoint({
-  method: "delete" as const,
-  path: "/v1/favorites/users/:userId/assets/:assetId/favorite",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'delete' as const,
+  path: '/v1/favorites/users/:userId/assets/:assetId/favorite',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     assetId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -774,16 +759,16 @@ export const deleteFavoritesUsersUseridAssetsAssetidFavorite = endpoint({
  * @param bundleId
  */
 export const getFavoritesUsersUseridBundlesBundleidFavorite = endpoint({
-  method: "get" as const,
-  path: "/v1/favorites/users/:userId/bundles/:bundleId/favorite",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/favorites/users/:userId/bundles/:bundleId/favorite',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     bundleId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -811,16 +796,16 @@ export const getFavoritesUsersUseridBundlesBundleidFavorite = endpoint({
  * @param bundleId
  */
 export const postFavoritesUsersUseridBundlesBundleidFavorite = endpoint({
-  method: "post" as const,
-  path: "/v1/favorites/users/:userId/bundles/:bundleId/favorite",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/favorites/users/:userId/bundles/:bundleId/favorite',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     bundleId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -864,16 +849,16 @@ export const postFavoritesUsersUseridBundlesBundleidFavorite = endpoint({
  * @param bundleId
  */
 export const deleteFavoritesUsersUseridBundlesBundleidFavorite = endpoint({
-  method: "delete" as const,
-  path: "/v1/favorites/users/:userId/bundles/:bundleId/favorite",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'delete' as const,
+  path: '/v1/favorites/users/:userId/bundles/:bundleId/favorite',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     bundleId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -919,23 +904,23 @@ export const deleteFavoritesUsersUseridBundlesBundleidFavorite = endpoint({
  * @param itemsPerPage
  */
 export const getFavoritesUsersUseridFavoritesSubtypeidBundles = endpoint({
-  method: "get" as const,
-  path: "/v1/favorites/users/:userId/favorites/:subtypeId/bundles",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/favorites/users/:userId/favorites/:subtypeId/bundles',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     subtypeId: {
-      style: "simple",
+      style: 'simple',
     },
     pageNumber: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     itemsPerPage: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -969,10 +954,10 @@ export const getFavoritesUsersUseridFavoritesSubtypeidBundles = endpoint({
  * @api get https://catalog.roblox.com/v1/subcategories
  */
 export const getSubcategories = endpoint({
-  method: "get" as const,
-  path: "/v1/subcategories",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/subcategories',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   response: z.record(z.number().int()),
   errors: [],
 });
@@ -981,10 +966,10 @@ export const getSubcategories = endpoint({
  * @param body
  */
 export const postTopicGetTopics = endpoint({
-  method: "post" as const,
-  path: "/v1/topic/get-topics",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'post' as const,
+  path: '/v1/topic/get-topics',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
@@ -1007,24 +992,24 @@ export const postTopicGetTopics = endpoint({
  * @param sortOrder
  */
 export const getUsersUseridBundles = endpoint({
-  method: "get" as const,
-  path: "/v1/users/:userId/bundles",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/bundles',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -1035,10 +1020,9 @@ export const getUsersUseridBundles = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_OwnedBundleModel_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_OwnedBundleModel_,
   errors: [
     {
       status: 400,
@@ -1056,46 +1040,40 @@ export const getUsersUseridBundles = endpoint({
  * @param sortOrder
  */
 export const getUsersUseridBundlesBundletype = endpoint({
-  method: "get" as const,
-  path: "/v1/users/:userId/bundles/:bundleType",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json" as const,
+  method: 'get' as const,
+  path: '/v1/users/:userId/bundles/:bundleType',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json' as const,
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     bundleType: {
-      style: "simple",
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     userId: z.number().int(),
-    bundleType: z.union([
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-    ]),
+    bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Desc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Desc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_OwnedBundleModel_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_OwnedBundleModel_,
   errors: [],
 });
