@@ -2,7 +2,7 @@ import { ExtractParams, ExtractResponse, fetchApi, fetchApiPages, fetchApiSplit 
 import { getGamesIcons, getUsersAvatarHeadshot, postBatch } from '../endpoints/thumbnailsv1';
 import { getGroupsGroupidMembership } from '../endpoints/groupsv1';
 import { getGamesUniverseidFavoritesCount } from '../endpoints/gamesv1';
-import { getUsersUseridGames } from '../endpoints/gamesv2';
+import { getGroupsGroupidGames, getUsersUseridGames } from '../endpoints/gamesv2';
 import { postPresenceUsers } from '../endpoints/presencev1';
 import { z } from 'zod';
 
@@ -98,3 +98,10 @@ test('post games', async () => {
     expect(data[0]).toHaveProperty('data');
   });
 }, 10000);
+
+test('fetch pages group games', async () => {
+  return fetchApiPages(getGroupsGroupidGames, {
+    groupId: 10620626,
+    limit: 100,
+  });
+});

@@ -234,9 +234,9 @@ async function handleRetryFetch(
   body?: string,
   method?: string,
 ) {
-  let response: Response;
+  let response: Response | undefined = undefined;
 
-  while (true) {
+  while (response === undefined) {
     try {
       response = await fetch(url, {
         method,
@@ -432,10 +432,15 @@ async function fetchApiPages<S extends EndpointSchema>(
 ): Promise<ExtractResponse<S>[]> {
   const allResults: ExtractResponse<S>[] = [];
 
-  for await (const { nextPageCursor, ...response } of fetchApiPagesGenerator(endpoint, initialParams, requestOptions)) {
+  for await (const { nextPageCursor, ...response } of fetchApiPagesGenerator(
+    endpoint,
+    initialParams,
+    requestOptions,
+    limit,
+  )) {
     allResults.push(response);
 
-    if (allResults.length >= limit || nextPageCursor === null) {
+    if (allResults.length >= limit || nextPageCursor === null || nextPageCursor === undefined) {
       break;
     }
   }
@@ -475,7 +480,7 @@ async function* fetchApiPagesGenerator<S extends EndpointSchema>(
 
     yield response;
 
-    if (response.nextPageCursor === null || limit-- <= 0) {
+    if (response.nextPageCursor === null || response.nextPageCursor === undefined || limit-- <= 0) {
       break;
     }
 
