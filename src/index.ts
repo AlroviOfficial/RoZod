@@ -44,6 +44,8 @@ type InferZodObjectRequired<T extends z.ZodRawShape> = {
   [K in keyof T]: T[K] extends z.ZodOptional<any> | z.ZodDefault<any> ? never : K;
 }[keyof T];
 
+type Merge<T, U> = T & U extends object ? { [K in keyof (T & U)]: (T & U)[K] } : T & U;
+
 // Infers the schema of a Zod type.
 type InferSchema<T extends z.ZodType<any>> = T extends z.ZodOptional<infer U>
   ? InferSchema<U> | undefined
@@ -66,11 +68,10 @@ type InferSchema<T extends z.ZodType<any>> = T extends z.ZodOptional<infer U>
   : T extends z.ZodArray<infer U, any>
   ? InferSchema<U>[]
   : T extends z.ZodObject<infer U, any, any>
-  ? {
-      [K in InferZodObjectRequired<U>]: InferSchema<U[K]>;
-    } & {
-      [K in InferZodObjectOptional<U>]?: InferSchema<U[K]>;
-    }
+  ? Merge<
+      { [K in InferZodObjectRequired<U>]: InferSchema<U[K]> },
+      { [K in InferZodObjectOptional<U>]?: InferSchema<U[K]> }
+    >
   : T extends z.ZodEnum<infer U>
   ? U[number]
   : T extends z.ZodNativeEnum<infer U>
@@ -89,34 +90,14 @@ type InferSchema<T extends z.ZodType<any>> = T extends z.ZodOptional<infer U>
   ? U
   : never;
 
-// Extract parameters and correctly define if they are required or optional
-type ExtractOptionalParameters<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = {
-  [K in keyof T]: T[K] extends z.ZodOptional<any> | z.ZodDefault<any> ? K : never;
-}[keyof T];
-
-type ExtractRequiredParameters<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = {
-  [K in keyof T]: T[K] extends z.ZodOptional<any> | z.ZodDefault<any> ? never : K;
-}[keyof T];
-
-// Utility type to return true if a record is empty
-type NonEmptyRecord<T> = keyof T extends never ? never : T;
-
-type RequiredParams<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = ExtractRequiredParameters<T>;
-type OptionalParams<T extends Record<string, z.ZodType<any, z.ZodTypeDef>>> = ExtractOptionalParameters<T>;
+type InferNonEmpty<T extends Record<string, z.Schema<any>>> = Merge<
+  { [K in InferZodObjectRequired<T>]: InferSchema<T[K]> },
+  { [K in InferZodObjectOptional<T>]?: InferSchema<T[K]> }
+>;
 
 const endpoint = <T extends Record<string, z.Schema<any>>, U extends z.ZodType<any>, E extends z.ZodType<any>>(
   endpoint: EndpointGeneric<T, U, E>,
-): EndpointGeneric<
-  NonEmptyRecord<RequiredParams<T>> extends never
-    ? undefined
-    : {
-        [K in RequiredParams<T>]: InferSchema<T[K]>;
-      } & {
-        [K in OptionalParams<T>]?: InferSchema<T[K]>;
-      },
-  InferSchema<U>,
-  E extends z.ZodType<any> ? InferSchema<E> : undefined
-> => {
+): EndpointGeneric<InferNonEmpty<T>, InferSchema<U>, E extends z.ZodType<any> ? InferSchema<E> : undefined> => {
   return endpoint as any;
 };
 
