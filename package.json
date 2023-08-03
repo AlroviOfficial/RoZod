@@ -1,6 +1,6 @@
 {
   "name": "rozod",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "Wrapper for Roblox API using Zod and custom API Client using fetch",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
