@@ -14,7 +14,7 @@
     "version": "npm run format && git add -A src",
     "generate": "node ./zodios-endpoints.js"
   },
-  "author": "alexop1000",
+  "author": "AlroviOfficial",
   "license": "ISC",
   "dependencies": {
     "@alexop/openapi-zod-client": "^1.10.2",
@@ -23,10 +23,10 @@
     "zod": "^3.21.4"
   },
   "repository": {
-    "url": "https://github.com/alexop1000/RoZod"
+    "url": "https://github.com/AlroviOfficial/RoZod"
   },
   "bugs": {
-    "url": "https://github.com/alexop1000/RoZod/issues"
+    "url": "https://github.com/AlroviOfficial/RoZod/issues"
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "^10.1.0",
