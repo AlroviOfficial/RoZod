@@ -115,7 +115,7 @@ console.log(response);
 ---
 
 ## Credits
-- [alexop1000](https://github.com/alexop1000) - Creator
+This repository is maintained by Alrovi ApS, the company behind RoGold.
 
 ## Disclaimer
 RoZod is not affiliated with, maintained, authorized, endorsed, or sponsored by Roblox Corporation or any of its affiliates.
