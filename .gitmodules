@@ -1,0 +1,4 @@
+[submodule "roblox-bat"]
+	path = roblox-bat
+	url = https://github.com/Julli4n/roblox-bat.git
+	branch = node

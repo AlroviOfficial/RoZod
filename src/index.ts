@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { cache, localStorageCache, chromeStorageCache } from './cache';
+import { HBAClient } from '../roblox-bat';
 
 type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 type RequestFormat = 'json' | 'text' | 'form-data';
@@ -205,6 +206,32 @@ function prepareRequestBody<S extends EndpointSchema>(method: string, requestFor
   }
 
   return body;
+}
+
+export const hbaClient = new HBAClient({
+  onSite: "document" in globalThis && globalThis.location.href.includes(".roblox.com")
+});
+
+async function fetch(url: string, info?: RequestInit) {
+  const headers = new Headers(info?.headers);
+  const setHeaders = await hbaClient.generateBaseHeaders(url, info?.body);
+  for (const key in setHeaders) {
+    headers.set(key, setHeaders[key]);
+  }
+
+  return globalThis.fetch(url, {
+    ...info,
+    headers
+  });
+}
+
+/**
+ * Allows you to change the Crypto Key pair used by the internal hardware-based authentication signatures. This should only be used in a NodeJS context.
+ * 
+ * @param keys The crypto key pair.
+ */
+export function changeHBAKeys(keys?: CryptoKeyPair) {
+  hbaClient.suppliedCryptoKeyPair = keys;
 }
 
 async function handleRetryFetch(
