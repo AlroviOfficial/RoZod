@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { cache, localStorageCache, chromeStorageCache } from './cache';
+import { Cache, ChromeStore, LocalStorageStore, MemoryStore } from './cache';
 import { HBAClient } from '../roblox-bat';
 
 type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
@@ -156,7 +156,7 @@ function replacePathParam(path: string, key: string, value: any) {
 function serializeQueryParam(key: string, value: any, serializationMethod?: SerializationMethod) {
   const mapStr = (v: any, joiner: string) => v.map(String).join(joiner);
 
-  if (!serializationMethod || !serializationMethod[key]) {
+  if (!serializationMethod?.[key]) {
     return Array.isArray(value) ? mapStr(value, ',') : String(value);
   }
 
@@ -180,6 +180,7 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
 
   for (const key in extendedParams) {
     if (!{}.hasOwnProperty.call(extendedParams, key)) continue;
+    if (key === 'body') continue;
     const value = extendedParams[key];
 
     processedPath = replacePathParam(processedPath, key, value);
@@ -264,6 +265,10 @@ async function handleRetryFetch(
   return response;
 }
 
+const localStorageCache = new Cache(new LocalStorageStore());
+const chromeStorageCache = new Cache(new ChromeStore());
+const cache = new Cache(new MemoryStore());
+
 /**
  * Fetches the data from the given endpoint and returns it.
  *
@@ -314,7 +319,7 @@ async function fetchApi<S extends EndpointSchema>(
 
   const cacheKey = requestOptions.cacheKey;
 
-  let cacheToUse: typeof cache;
+  let cacheToUse: typeof Cache.prototype;
   if (requestOptions.cacheType === 'local') {
     cacheToUse = localStorageCache;
   } else if (requestOptions.cacheType === 'chrome') {
@@ -335,11 +340,15 @@ async function fetchApi<S extends EndpointSchema>(
 
   const error = endpoint.errors?.find(({ status }) => status === response.status);
   if (error) {
-    if (requestOptions.throwOnError) {
+    if (requestOptions.throwOnError === false) {
       throw new Error(error.description);
     } else {
-      return null;
+      return error.description;
     }
+  }
+
+  if (requestFormat === 'json' && !response.headers.get('content-type')?.includes('application/json')) {
+    throw new Error('Invalid response data');
   }
 
   if (requestOptions.cacheTime && cacheKey) {
@@ -353,10 +362,6 @@ async function fetchApi<S extends EndpointSchema>(
       requestFormat === 'json' ? await responseClone.json() : await responseClone.text(),
       cacheTime,
     );
-  }
-
-  if (requestFormat === 'json' && !response.headers.get('content-type')?.includes('application/json')) {
-    throw new Error('Invalid response data');
   }
 
   return requestFormat === 'json' ? await response.json() : await response.text();
@@ -395,7 +400,7 @@ async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
 
   const splitParams: ExtractParams<S>[] = [];
   for (const key in max) {
-    if (!{}.hasOwnProperty.call(max, key) || !{}.hasOwnProperty.call(params, key)) {
+    if (!Object.hasOwn(max, key) || !{}.hasOwnProperty.call(params, key)) {
       continue;
     }
     const maxItems = max[key as keyof ExtractParams<S>];
@@ -440,13 +445,18 @@ async function fetchApiPages<S extends EndpointSchema>(
 ): Promise<ExtractResponse<S>[]> {
   const allResults: ExtractResponse<S>[] = [];
 
-  for await (const { nextPageCursor, ...response } of fetchApiPagesGenerator(
+  for await (const response of fetchApiPagesGenerator(
     endpoint,
     initialParams,
     requestOptions,
     limit,
   )) {
-    allResults.push(response);
+    if (response === null || response === undefined) {
+      break;
+    }
+    
+    const { nextPageCursor, ...rest } = response;
+    allResults.push(rest);
 
     if (allResults.length >= limit || nextPageCursor === null || nextPageCursor === undefined) {
       break;

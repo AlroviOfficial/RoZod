@@ -18,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "@alexop/openapi-zod-client": "^1.10.2",
+    "jsdom": "^22.1.0",
     "p-limit": "^3.0.0",
     "zod": "^3.21.4"
   },

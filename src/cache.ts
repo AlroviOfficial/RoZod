@@ -10,7 +10,7 @@ interface CacheStore<T> {
   clear(): Promise<void>;
 }
 
-class MemoryStore<T> implements CacheStore<T> {
+export class MemoryStore<T> implements CacheStore<T> {
   private store: Record<string, CacheEntry<T>> = {};
 
   async get(key: string): Promise<CacheEntry<T> | null> {
@@ -30,7 +30,7 @@ class MemoryStore<T> implements CacheStore<T> {
   }
 }
 
-class LocalStorageStore<T> implements CacheStore<T> {
+export class LocalStorageStore<T> implements CacheStore<T> {
   async get(key: string): Promise<CacheEntry<T> | null> {
     const value = localStorage.getItem(key);
     return value ? JSON.parse(value) : null;
@@ -49,7 +49,7 @@ class LocalStorageStore<T> implements CacheStore<T> {
   }
 }
 
-class ChromeStore<T> implements CacheStore<T> {
+export class ChromeStore<T> implements CacheStore<T> {
   async get(key: string): Promise<CacheEntry<T> | null> {
     return new Promise((resolve) => {
       // @ts-ignore
@@ -83,7 +83,7 @@ class ChromeStore<T> implements CacheStore<T> {
   }
 }
 
-class Cache<T> {
+export class Cache<T> {
   private store: CacheStore<T>;
 
   constructor(store: CacheStore<T>) {
@@ -117,7 +117,3 @@ class Cache<T> {
     await this.store.clear();
   }
 }
-
-export const cache = new Cache(new MemoryStore());
-export const localStorageCache = new Cache(new LocalStorageStore());
-export const chromeStorageCache = new Cache(new ChromeStore());
