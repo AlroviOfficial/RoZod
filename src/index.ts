@@ -210,7 +210,7 @@ function prepareRequestBody<S extends EndpointSchema>(method: string, requestFor
 }
 
 export const hbaClient = new HBAClient({
-  onSite: "document" in globalThis && globalThis.location.href.includes(".roblox.com")
+  onSite: 'document' in globalThis && globalThis.location.href.includes('.roblox.com'),
 });
 
 async function fetch(url: string, info?: RequestInit) {
@@ -222,13 +222,13 @@ async function fetch(url: string, info?: RequestInit) {
 
   return globalThis.fetch(url, {
     ...info,
-    headers
+    headers,
   });
 }
 
 /**
  * Allows you to change the Crypto Key pair used by the internal hardware-based authentication signatures. This should only be used in a NodeJS context.
- * 
+ *
  * @param keys The crypto key pair.
  */
 export function changeHBAKeys(keys?: CryptoKeyPair) {
@@ -445,16 +445,11 @@ async function fetchApiPages<S extends EndpointSchema>(
 ): Promise<ExtractResponse<S>[]> {
   const allResults: ExtractResponse<S>[] = [];
 
-  for await (const response of fetchApiPagesGenerator(
-    endpoint,
-    initialParams,
-    requestOptions,
-    limit,
-  )) {
+  for await (const response of fetchApiPagesGenerator(endpoint, initialParams, requestOptions, limit)) {
     if (response === null || response === undefined) {
       break;
     }
-    
+
     const { nextPageCursor, ...rest } = response;
     allResults.push(rest);
 
