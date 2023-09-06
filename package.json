@@ -6,7 +6,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
-    "build": "tsc && tsc --project tsconfig.declarations.json && xcopy src\\roblox-bat lib\\roblox-bat /E /I",
+    "build": "tsc && tsc --project tsconfig.declarations.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
@@ -20,7 +20,7 @@
     "@alexop/openapi-zod-client": "^1.10.2",
     "jsdom": "^22.1.0",
     "p-limit": "^3.0.0",
-    "roblox-bat": "^0.1.0",
+    "roblox-bat": "^0.1.1",
     "zod": "^3.21.4"
   },
   "repository": {
