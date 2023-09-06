@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Cache, ChromeStore, LocalStorageStore, MemoryStore } from './cache';
-import { HBAClient } from './roblox-bat';
+import { HBAClient } from 'roblox-bat';
 
 type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 type RequestFormat = 'json' | 'text' | 'form-data';

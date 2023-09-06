@@ -20,6 +20,7 @@
     "@alexop/openapi-zod-client": "^1.10.2",
     "jsdom": "^22.1.0",
     "p-limit": "^3.0.0",
+    "roblox-bat": "^0.1.0",
     "zod": "^3.21.4"
   },
   "repository": {
