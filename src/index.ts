@@ -213,17 +213,55 @@ export const hbaClient = new HBAClient({
   onSite: 'document' in globalThis && globalThis.location.href.includes('.roblox.com'),
 });
 
-async function fetch(url: string, info?: RequestInit) {
+const getSHA256Hash = async (input: string) => {
+  const textAsBuffer = new TextEncoder().encode(input);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", textAsBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hash = hashArray
+    .map((item) => item.toString(16).padStart(2, "0"))
+    .join("");
+  return hash;
+};
+
+const csrfAllowedMethods = ["post", "patch", "delete", "put"];
+
+const csrfTokenMap: Record<string, string> = {};
+async function fetch(url: string, info?: RequestInit): Promise<Response> {
   const headers = new Headers(info?.headers);
   const setHeaders = await hbaClient.generateBaseHeaders(url, info?.body);
   for (const key in setHeaders) {
     headers.set(key, setHeaders[key]);
   }
 
-  return globalThis.fetch(url, {
+  let csrfKey: string = 'false';
+  if (info?.method && csrfAllowedMethods.includes(info.method.toLowerCase())) {
+    // Temp i guess? RoZod isn't built for something ike this. so we grab the .ROBLOSECURITY and hash it before setting it to object.
+    if (headers.get('cookie')?.includes('.ROBLOSECURITY')) {
+      const parsedCookieValue = headers.get('cookie')!.match(/.ROBLOSECURITY=(_\|.+\|_)?(.+?)(;|$| )/)?.[2];
+      if (parsedCookieValue) {
+        csrfKey = await getSHA256Hash(parsedCookieValue);
+      }
+    }
+    else if (info.credentials === 'include') {
+      csrfKey = 'true';
+    }
+
+    if (csrfTokenMap[csrfKey]) {
+      headers.set('x-csrf-token', csrfTokenMap[csrfKey])
+    }
+  }
+
+  const res = await globalThis.fetch(url, {
     ...info,
     headers,
   });
+  if (res.headers.has('x-csrf-token')) {
+    csrfTokenMap[csrfKey] = res.headers.get('x-csrf-token')!;
+
+    return fetch(url, info);
+  }
+  
+  return res;
 }
 
 /**
