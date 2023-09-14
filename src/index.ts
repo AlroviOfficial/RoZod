@@ -215,15 +215,13 @@ export const hbaClient = new HBAClient({
 
 const getSHA256Hash = async (input: string) => {
   const textAsBuffer = new TextEncoder().encode(input);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", textAsBuffer);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', textAsBuffer);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hash = hashArray
-    .map((item) => item.toString(16).padStart(2, "0"))
-    .join("");
+  const hash = hashArray.map((item) => item.toString(16).padStart(2, '0')).join('');
   return hash;
 };
 
-const csrfAllowedMethods = ["post", "patch", "delete", "put"];
+const csrfAllowedMethods = ['post', 'patch', 'delete', 'put'];
 
 const csrfTokenMap: Record<string, string> = {};
 async function fetch(url: string, info?: RequestInit): Promise<Response> {
@@ -241,13 +239,12 @@ async function fetch(url: string, info?: RequestInit): Promise<Response> {
       if (parsedCookieValue) {
         csrfKey = await getSHA256Hash(parsedCookieValue);
       }
-    }
-    else if (info.credentials === 'include') {
+    } else if (info.credentials === 'include') {
       csrfKey = 'true';
     }
 
     if (csrfTokenMap[csrfKey]) {
-      headers.set('x-csrf-token', csrfTokenMap[csrfKey])
+      headers.set('x-csrf-token', csrfTokenMap[csrfKey]);
     }
   }
 
@@ -260,7 +257,7 @@ async function fetch(url: string, info?: RequestInit): Promise<Response> {
 
     return fetch(url, info);
   }
-  
+
   return res;
 }
 
