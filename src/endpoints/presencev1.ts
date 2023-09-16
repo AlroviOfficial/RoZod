@@ -53,7 +53,8 @@ const schemas = {
 };
 
 /**
- * @api post https://presence.roblox.com/v1/presence/last-online
+ * @api POST https://presence.roblox.com/v1/presence/last-online
+ * @summary Get last online timestamps for a list of users.
  * @param body
  */
 export const postPresenceLastOnline = endpoint({
@@ -70,7 +71,8 @@ export const postPresenceLastOnline = endpoint({
   errors: [],
 });
 /**
- * @api post https://presence.roblox.com/v1/presence/register-app-presence
+ * @api POST https://presence.roblox.com/v1/presence/register-app-presence
+ * @summary Register User Presence for IOS, Android, Xbox, regular studio session
  * @param body
  */
 export const postPresenceRegisterAppPresence = endpoint({
@@ -88,17 +90,16 @@ export const postPresenceRegisterAppPresence = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://presence.roblox.com/v1/presence/users
+ * @api POST https://presence.roblox.com/v1/presence/users
+ * @summary Get Presence for a list of users
  * @param body
  */
 export const postPresenceUsers = endpoint({

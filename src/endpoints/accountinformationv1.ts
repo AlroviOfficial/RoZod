@@ -134,7 +134,8 @@ const schemas = {
 };
 
 /**
- * @api get https://accountinformation.roblox.com/v1/birthdate
+ * @api GET https://accountinformation.roblox.com/v1/birthdate
+ * @summary Get the user's birthdate
  */
 export const getBirthdate = endpoint({
   method: 'get' as const,
@@ -146,17 +147,16 @@ export const getBirthdate = endpoint({
     {
       status: 400,
       description: `1: User not found.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountinformation.roblox.com/v1/birthdate
+ * @api POST https://accountinformation.roblox.com/v1/birthdate
+ * @summary Update the user's birthdate
  * @param body The Roblox.AccountInformation.Api.Models.BirthdateRequest
  */
 export const postBirthdate = endpoint({
@@ -176,30 +176,27 @@ export const postBirthdate = endpoint({
       description: `1: User not found.
 4: The birthdate provided is invalid.
 8: Password is incorrect.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: PIN is locked.
 5: Invalid birthdate change.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.
 5: Invalid birthdate change.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountinformation.roblox.com/v1/description
+ * @api GET https://accountinformation.roblox.com/v1/description
+ * @summary Get the user's description
  */
 export const getDescription = endpoint({
   method: 'get' as const,
@@ -211,17 +208,16 @@ export const getDescription = endpoint({
     {
       status: 400,
       description: `1: User not found.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountinformation.roblox.com/v1/description
+ * @api POST https://accountinformation.roblox.com/v1/description
+ * @summary Update the user's description
  * @param body The Roblox.AccountInformation.Api.Models.DescriptionRequest
  */
 export const postDescription = endpoint({
@@ -239,33 +235,29 @@ export const postDescription = endpoint({
     {
       status: 400,
       description: `1: User not found.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: PIN is locked.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `3: This feature is currently disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountinformation.roblox.com/v1/email/verify
+ * @api POST https://accountinformation.roblox.com/v1/email/verify
+ * @summary Verify the user's email address from token
  * @param body Roblox.AccountInformation.Api.Models.VerifyEmailRequest
  */
 export const postEmailVerify = endpoint({
@@ -283,12 +275,12 @@ export const postEmailVerify = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountinformation.roblox.com/v1/gender
+ * @api GET https://accountinformation.roblox.com/v1/gender
+ * @summary Get the user's gender
  */
 export const getGender = endpoint({
   method: 'get' as const,
@@ -300,17 +292,16 @@ export const getGender = endpoint({
     {
       status: 400,
       description: `1: User not found.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountinformation.roblox.com/v1/gender
+ * @api POST https://accountinformation.roblox.com/v1/gender
+ * @summary Update the user's gender
  * @param body The Roblox.AccountInformation.Api.Models.GenderRequest
  */
 export const postGender = endpoint({
@@ -329,28 +320,25 @@ export const postGender = endpoint({
       status: 400,
       description: `1: User not found.
 6: The gender provided is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: PIN is locked.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountinformation.roblox.com/v1/metadata
+ * @api GET https://accountinformation.roblox.com/v1/metadata
+ * @summary Get the metadata
  */
 export const getMetadata = endpoint({
   method: 'get' as const,
@@ -361,7 +349,8 @@ export const getMetadata = endpoint({
   errors: [],
 });
 /**
- * @api get https://accountinformation.roblox.com/v1/phone
+ * @api GET https://accountinformation.roblox.com/v1/phone
+ * @summary Get Verified Phone Number
  */
 export const getPhone = endpoint({
   method: 'get' as const,
@@ -373,17 +362,16 @@ export const getPhone = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountinformation.roblox.com/v1/phone
+ * @api POST https://accountinformation.roblox.com/v1/phone
+ * @summary Set Phone Number
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhone = endpoint({
@@ -403,12 +391,10 @@ export const postPhone = endpoint({
       description: `2: Invalid Phone Number
 3: Phone Number Already Associated
 8: Invalid Phone Number Type`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -416,27 +402,24 @@ export const postPhone = endpoint({
 4: Account Pin Locked
 5: Incorrect Password
 10: `,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `6: Flooded`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `1: This feature is currently disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountinformation.roblox.com/v1/phone/delete
+ * @api POST https://accountinformation.roblox.com/v1/phone/delete
+ * @summary Delete Phone
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhoneDelete = endpoint({
@@ -454,34 +437,30 @@ export const postPhoneDelete = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 4: Account Pin Locked
 5: Incorrect Password`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `6: Flooded`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `1: This feature is currently disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountinformation.roblox.com/v1/phone/resend
+ * @api POST https://accountinformation.roblox.com/v1/phone/resend
+ * @summary Resend Phone code
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhoneResend = endpoint({
@@ -499,32 +478,28 @@ export const postPhoneResend = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `6: Flooded`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `1: This feature is currently disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountinformation.roblox.com/v1/phone/verify
+ * @api POST https://accountinformation.roblox.com/v1/phone/verify
+ * @summary Verify Phone
  * @param body Roblox.AccountInformation.Api.Models.VerifyPhoneRequest
  */
 export const postPhoneVerify = endpoint({
@@ -544,37 +519,32 @@ export const postPhoneVerify = endpoint({
       description: `2: Invalid Phone Number
 3: Phone Number Already Associated
 7: Invalid Code`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `6: Flooded`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `1: This feature is currently disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountinformation.roblox.com/v1/promotion-channels
+ * @api GET https://accountinformation.roblox.com/v1/promotion-channels
+ * @summary Get the user's promotion channels
  */
 export const getPromotionChannels = endpoint({
   method: 'get' as const,
@@ -586,17 +556,16 @@ export const getPromotionChannels = endpoint({
     {
       status: 400,
       description: `1: User not found.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountinformation.roblox.com/v1/promotion-channels
+ * @api POST https://accountinformation.roblox.com/v1/promotion-channels
+ * @summary Update the user's promotion channels
  * @param body The Roblox.AccountInformation.Api.Models.PromotionChannelsRequest
  */
 export const postPromotionChannels = endpoint({
@@ -619,24 +588,22 @@ export const postPromotionChannels = endpoint({
 13: The YouTube url is invalid.
 14: The Twitch profile url is invalid.
 15: The Guilded profile url is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 3: PIN is locked.
 4: Only users who are over twelve years of age may edit social network channels.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountinformation.roblox.com/v1/star-code-affiliates
+ * @api GET https://accountinformation.roblox.com/v1/star-code-affiliates
+ * @summary Gets a star code affiliate supporter for the authenticated user
  */
 export const getStarCodeAffiliates = endpoint({
   method: 'get' as const,
@@ -648,17 +615,16 @@ export const getStarCodeAffiliates = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountinformation.roblox.com/v1/star-code-affiliates
+ * @api POST https://accountinformation.roblox.com/v1/star-code-affiliates
+ * @summary Adds a star code affiliate supporter for the authenticated user
  * @param body Roblox.AccountInformation.Api.Models.StarCodeAffiliateRequest
  */
 export const postStarCodeAffiliates = endpoint({
@@ -676,27 +642,24 @@ export const postStarCodeAffiliates = endpoint({
     {
       status: 400,
       description: `1: The code was invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://accountinformation.roblox.com/v1/star-code-affiliates
+ * @api DELETE https://accountinformation.roblox.com/v1/star-code-affiliates
+ * @summary Removes the star code affiliate supporter for the authenticated user
  */
 export const deleteStarCodeAffiliates = endpoint({
   method: 'delete' as const,
@@ -708,22 +671,20 @@ export const deleteStarCodeAffiliates = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountinformation.roblox.com/v1/users/:userId/promotion-channels
+ * @api GET https://accountinformation.roblox.com/v1/users/:userId/promotion-channels
+ * @summary Get promotion channels for a given user ID
  * @param userId
  */
 export const getUsersUseridPromotionChannels = endpoint({
@@ -744,12 +705,12 @@ export const getUsersUseridPromotionChannels = endpoint({
     {
       status: 400,
       description: `1: User not found.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountinformation.roblox.com/v1/users/:userId/roblox-badges
+ * @api GET https://accountinformation.roblox.com/v1/users/:userId/roblox-badges
+ * @summary Returns a list of Roblox badges belonging to a user.
  * @param userId
  */
 export const getUsersUseridRobloxBadges = endpoint({
@@ -769,7 +730,8 @@ export const getUsersUseridRobloxBadges = endpoint({
   errors: [],
 });
 /**
- * @api get https://accountinformation.roblox.com/v1/xbox-live/consecutive-login-days
+ * @api GET https://accountinformation.roblox.com/v1/xbox-live/consecutive-login-days
+ * @summary Returns number of consecutive login days for xbox users
  */
 export const getXboxLiveConsecutiveLoginDays = endpoint({
   method: 'get' as const,
@@ -782,7 +744,6 @@ export const getXboxLiveConsecutiveLoginDays = endpoint({
       status: 401,
       description: `0: Authorization has been denied for this request.
 7: The account is not connected to an Xbox Live account`,
-      schema: z.void(),
     },
   ],
 });

@@ -456,8 +456,9 @@ const schemas = {
 };
 
 /**
- * @api get https://games.roblox.com/v1/games
- * @param universeIds
+ * @api GET https://games.roblox.com/v1/games
+ * @summary Gets a list of games' detail
+ * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
  */
 export const getGames = endpoint({
   method: 'get' as const,
@@ -478,16 +479,16 @@ export const getGames = endpoint({
       status: 400,
       description: `8: No universe IDs were specified.
 9: Too many universe IDs were requested.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/:placeId/private-servers
- * @param placeId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://games.roblox.com/v1/games/:placeId/private-servers
+ * @summary Get list of private servers user can access for given game id.
+ * @param placeId The Id of the place we are geting the private server list for.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getGamesPlaceidPrivateServers = endpoint({
   method: 'get' as const,
@@ -526,23 +527,22 @@ export const getGamesPlaceidPrivateServers = endpoint({
       status: 400,
       description: `1: The place is invalid.
 7: Guest users are not allowed.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The place is invalid.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/:placeId/servers/:serverType
- * @param placeId
- * @param serverType
- * @param sortOrder
- * @param excludeFullGames
- * @param limit
- * @param cursor
+ * @api GET https://games.roblox.com/v1/games/:placeId/servers/:serverType
+ * @summary Get the game server list
+ * @param placeId The Id of the place we are geting the server list for.
+ * @param serverType The type of the server we geting the server list for.
+ * @param sortOrder The sort order of the servers.
+ * @param excludeFullGames Exclude full servers.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
  */
 export const getGamesPlaceidServersServertype = endpoint({
   method: 'get' as const,
@@ -594,18 +594,17 @@ export const getGamesPlaceidServersServertype = endpoint({
       description: `1: The place is invalid.
 6: The server type is invalid. For fetching private servers, please use https://games.roblox.com/v1/games/{placeId}/private-servers.
 7: Guest users are not allowed.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The place is invalid.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/:universeId/favorites
- * @param universeId
+ * @api GET https://games.roblox.com/v1/games/:universeId/favorites
+ * @summary Returns if a game was marked as favorite for the authenticated user
+ * @param universeId The Id of the universe.
  */
 export const getGamesUniverseidFavorites = endpoint({
   method: 'get' as const,
@@ -625,24 +624,22 @@ export const getGamesUniverseidFavorites = endpoint({
     {
       status: 400,
       description: `3: The universe&#x27;s root place is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `2: The requested universe does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://games.roblox.com/v1/games/:universeId/favorites
+ * @api POST https://games.roblox.com/v1/games/:universeId/favorites
+ * @summary Favors (or unfavors) a game for the authenticated user
  * @param body Request data.
- * @param universeId
+ * @param universeId The Id of the universe.
  */
 export const postGamesUniverseidFavorites = endpoint({
   method: 'post' as const,
@@ -664,34 +661,30 @@ export const postGamesUniverseidFavorites = endpoint({
     {
       status: 400,
       description: `3: The universe&#x27;s root place is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 11: You are not authorized to perform this action.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `2: The requested universe does not exist.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `4: Too many requests have been made.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/:universeId/favorites/count
- * @param universeId
+ * @api GET https://games.roblox.com/v1/games/:universeId/favorites/count
+ * @summary Get the favorites count of the a specific game
+ * @param universeId The Id of the universe.
  */
 export const getGamesUniverseidFavoritesCount = endpoint({
   method: 'get' as const,
@@ -711,21 +704,20 @@ export const getGamesUniverseidFavoritesCount = endpoint({
     {
       status: 400,
       description: `3: The universe&#x27;s root place is invalid.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `2: The requested universe does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/:universeId/game-passes
- * @param universeId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://games.roblox.com/v1/games/:universeId/game-passes
+ * @summary Get the game's game passes
+ * @param universeId The id of the universe.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getGamesUniverseidGamePasses = endpoint({
   method: 'get' as const,
@@ -763,18 +755,17 @@ export const getGamesUniverseidGamePasses = endpoint({
     {
       status: 400,
       description: `2: The universe&#x27;s root place is invalid.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The requested universe does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/:universeId/media
- * @param universeId
+ * @api GET https://games.roblox.com/v1/games/:universeId/media
+ * @summary Get the game media data
+ * @param universeId The id of the universe we get media data from.
  */
 export const getGamesUniverseidMedia = endpoint({
   method: 'get' as const,
@@ -794,19 +785,18 @@ export const getGamesUniverseidMedia = endpoint({
     {
       status: 400,
       description: `3: The universe&#x27;s root place is invalid.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `2: The requested universe does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://games.roblox.com/v1/games/:universeId/user-votes
+ * @api PATCH https://games.roblox.com/v1/games/:universeId/user-votes
+ * @summary Set the user's vote for a game
  * @param body The request body.
- * @param universeId
+ * @param universeId The id of the universe.
  */
 export const patchGamesUniverseidUserVotes = endpoint({
   method: 'patch' as const,
@@ -830,41 +820,36 @@ export const patchGamesUniverseidUserVotes = endpoint({
       description: `2: The universe&#x27;s root place is invalid.
 3: The asset is not voteable.
 4: The requested vote is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 6: The user needs to play the game before vote.
 7: The user needs additional permission to vote.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The requested universe does not exist.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `5: Too many attempts to vote. Please try again later.
 10: Internal service busy. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occurred.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/:universeId/votes
- * @param universeId
+ * @api GET https://games.roblox.com/v1/games/:universeId/votes
+ * @summary Get the game vote status
+ * @param universeId The id of the universe we get vote status from.
  */
 export const getGamesUniverseidVotes = endpoint({
   method: 'get' as const,
@@ -885,28 +870,25 @@ export const getGamesUniverseidVotes = endpoint({
       status: 400,
       description: `2: The universe&#x27;s root place is invalid.
 3: The asset is not voteable.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The requested universe does not exist.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `10: Internal service busy. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occurred.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/:universeId/votes/user
- * @param universeId
+ * @api GET https://games.roblox.com/v1/games/:universeId/votes/user
+ * @summary Get the user's vote status for a game
+ * @param universeId The id of the universe we get user vote status from.
  */
 export const getGamesUniverseidVotesUser = endpoint({
   method: 'get' as const,
@@ -927,32 +909,28 @@ export const getGamesUniverseidVotesUser = endpoint({
       status: 400,
       description: `2: The universe&#x27;s root place is invalid.
 3: The asset is not voteable.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The requested universe does not exist.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `10: Internal service busy. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occurred.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/game-thumbnail
+ * @api GET https://games.roblox.com/v1/games/game-thumbnail
+ * @summary Get a single game thumbnail
  * @param imageToken
  * @param height
  * @param width
@@ -986,12 +964,12 @@ export const getGamesGameThumbnail = endpoint({
     {
       status: 404,
       description: `10: This endpoint is deprecated`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/game-thumbnails
+ * @api GET https://games.roblox.com/v1/games/game-thumbnails
+ * @summary Gets a list of game thumbnails
  * @param imageTokens
  * @param height
  * @param width
@@ -1025,13 +1003,13 @@ export const getGamesGameThumbnails = endpoint({
     {
       status: 404,
       description: `10: This endpoint is deprecated`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/games-product-info
- * @param universeIds
+ * @api GET https://games.roblox.com/v1/games/games-product-info
+ * @summary Gets a list of games' product info, used to purchase a game
+ * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
  */
 export const getGamesGamesProductInfo = endpoint({
   method: 'get' as const,
@@ -1052,28 +1030,28 @@ export const getGamesGamesProductInfo = endpoint({
       status: 400,
       description: `8: No universe IDs were specified.
 9: Too many universe IDs were requested.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/list
- * @param SortToken
- * @param GameFilter
- * @param TimeFilter
- * @param GenreFilter
- * @param ExclusiveStartId
- * @param SortOrder
- * @param GameSetTargetId
- * @param Keyword
- * @param StartRows
- * @param MaxRows
- * @param ContextCountryRegionId
- * @param ContextUniverseId
- * @param PageContext.PageId
- * @param PageContext.IsSeeAllPage
- * @param SortPosition
- * @param SessionId
+ * @api GET https://games.roblox.com/v1/games/list
+ * @summary Gets a list of games
+ * @param SortToken Sort token.
+ * @param GameFilter Game filter.
+ * @param TimeFilter Time filter.
+ * @param GenreFilter Genre filter.
+ * @param ExclusiveStartId Id to start getting entities.
+ * @param SortOrder Sort order.
+ * @param GameSetTargetId Extra id needed for specific Game Sets.
+ * @param Keyword Keyword
+ * @param StartRows StartRows
+ * @param MaxRows MaxRows
+ * @param ContextCountryRegionId ContextCountryRegionId
+ * @param ContextUniverseId ContextUniverseId
+ * @param PageContext.PageId Id to identify the page as shown to the user.
+ * @param PageContext.IsSeeAllPage SortPosition
+ * @param SortPosition SortPosition
+ * @param SessionId SessionId
  */
 export const getGamesList = endpoint({
   method: 'get' as const,
@@ -1169,12 +1147,12 @@ export const getGamesList = endpoint({
     {
       status: 500,
       description: `0: Compliance Context service is unavailable.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/list-spotlight
+ * @api GET https://games.roblox.com/v1/games/list-spotlight
+ * @summary Gets games that the client should spotlight.
  */
 export const getGamesListSpotlight = endpoint({
   method: 'get' as const,
@@ -1186,13 +1164,13 @@ export const getGamesListSpotlight = endpoint({
     {
       status: 500,
       description: `0: Compliance Context service is unavailable.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/multiget-place-details
- * @param placeIds
+ * @api GET https://games.roblox.com/v1/games/multiget-place-details
+ * @summary Get place details
+ * @param placeIds List of placeId to uniquely Identify a place
  */
 export const getGamesMultigetPlaceDetails = endpoint({
   method: 'get' as const,
@@ -1213,13 +1191,13 @@ export const getGamesMultigetPlaceDetails = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/multiget-playability-status
- * @param universeIds
+ * @api GET https://games.roblox.com/v1/games/multiget-playability-status
+ * @summary Gets a list of universe playability statuses for the authenticated user
+ * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
  */
 export const getGamesMultigetPlayabilityStatus = endpoint({
   method: 'get' as const,
@@ -1240,16 +1218,17 @@ export const getGamesMultigetPlayabilityStatus = endpoint({
       status: 400,
       description: `8: No universe IDs were specified.
 9: Too many universe IDs were requested.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/recommendations/algorithm/:algorithmName
- * @param algorithmName
- * @param PaginationKey
- * @param MaxRows
- * @param IsTruncatedResultsEnabled
+ * @api GET https://games.roblox.com/v1/games/recommendations/algorithm/:algorithmName
+ * @summary Get games recommendations
+ * @param algorithmName The algorithm name of recommendations
+ * @param PaginationKey The key of a page, which includes the start row index and all other necessary information to query the data.
+This parameter is usually not needed for the first page.
+ * @param MaxRows The requested number of rows.
+ * @param IsTruncatedResultsEnabled Truncated Results
  */
 export const getGamesRecommendationsAlgorithmAlgorithmname = endpoint({
   method: 'get' as const,
@@ -1284,21 +1263,21 @@ export const getGamesRecommendationsAlgorithmAlgorithmname = endpoint({
     {
       status: 400,
       description: `1: The pagination key is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/recommendations/game/:universeId
- * @param universeId
- * @param PaginationKey
- * @param MaxRows
- * @param IsTruncatedResultsEnabled
+ * @api GET https://games.roblox.com/v1/games/recommendations/game/:universeId
+ * @summary Get games recommendations based on a given universe
+ * @param universeId The universe to base recommendations on
+ * @param PaginationKey The key of a page, which includes the start row index and all other necessary information to query the data.
+This parameter is usually not needed for the first page.
+ * @param MaxRows The requested number of rows.
+ * @param IsTruncatedResultsEnabled Truncated Results
  */
 export const getGamesRecommendationsGameUniverseid = endpoint({
   method: 'get' as const,
@@ -1333,18 +1312,17 @@ export const getGamesRecommendationsGameUniverseid = endpoint({
     {
       status: 400,
       description: `1: The pagination key is invalid.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `2: The requested universe does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/sorts
- * @param GameSortsContext
+ * @api GET https://games.roblox.com/v1/games/sorts
+ * @summary Gets an ordered list of all sorts
+ * @param GameSortsContext Context to determine which game sorts are being requested.
  */
 export const getGamesSorts = endpoint({
   method: 'get' as const,
@@ -1372,9 +1350,10 @@ export const getGamesSorts = endpoint({
   errors: [],
 });
 /**
- * @api post https://games.roblox.com/v1/games/vip-servers/:universeId
+ * @api POST https://games.roblox.com/v1/games/vip-servers/:universeId
+ * @summary Create VIP server for a game
  * @param body The request body.
- * @param universeId
+ * @param universeId The id of the universe.
  */
 export const postGamesVipServersUniverseid = endpoint({
   method: 'post' as const,
@@ -1396,33 +1375,29 @@ export const postGamesVipServersUniverseid = endpoint({
     {
       status: 400,
       description: `15: The price for purchasing this private server has changed. Please refresh the page and try again.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `4: The universe does not exist.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `16: We are having a problem completing your purchase. Please try again in a few minutes.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/games/votes
- * @param universeIds
+ * @api GET https://games.roblox.com/v1/games/votes
+ * @summary Gets a list of universe vote status
+ * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
  */
 export const getGamesVotes = endpoint({
   method: 'get' as const,
@@ -1444,22 +1419,20 @@ export const getGamesVotes = endpoint({
       description: `3: The asset is not voteable.
 8: No universe IDs were specified.
 9: Too many universe IDs were requested.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `10: Internal service busy. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occurred.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/private-servers
+ * @api GET https://games.roblox.com/v1/private-servers
+ * @summary Get private servers from private server ids
  * @param privateServerIds
  */
 export const getPrivateServers = endpoint({
@@ -1482,28 +1455,25 @@ export const getPrivateServers = endpoint({
       description: `8: The creator of this game has disabled private servers for this game.
 34: Invalid request, private server ids cannot be null.
 35: Guest users are not allowed.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: You are not the owner of this private server.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The private server is invalid or does not exist.
 4: The universe does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/private-servers/enabled-in-universe/:universeId
+ * @api GET https://games.roblox.com/v1/private-servers/enabled-in-universe/:universeId
+ * @summary Checks if the private servers are enabled in the specified universe.
  * @param universeId
  */
 export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
@@ -1524,13 +1494,13 @@ export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
     {
       status: 400,
       description: `8: No universe IDs were specified.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/vip-server/can-invite/:userId
- * @param userId
+ * @api GET https://games.roblox.com/v1/vip-server/can-invite/:userId
+ * @summary Determines if a user by id is allowed to receive a VIP Server invite from the authenticated user.
+ * @param userId The user id.
  */
 export const getVipServerCanInviteUserid = endpoint({
   method: 'get' as const,
@@ -1550,18 +1520,17 @@ export const getVipServerCanInviteUserid = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `19: The user is does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v1/vip-servers/:id
- * @param id
+ * @api GET https://games.roblox.com/v1/vip-servers/:id
+ * @summary Get necessary data to generate webpage
+ * @param id The VIP Server ID
  */
 export const getVipServersId = endpoint({
   method: 'get' as const,
@@ -1581,30 +1550,27 @@ export const getVipServersId = endpoint({
     {
       status: 400,
       description: `8: The creator of this game has disabled private servers for this game.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: You are not the owner of this private server.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The private server is invalid or does not exist.
 4: The universe does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://games.roblox.com/v1/vip-servers/:id
+ * @api PATCH https://games.roblox.com/v1/vip-servers/:id
+ * @summary Updates vip server
  * @param body The Roblox.Games.Api.VipServerUpdateRequest
- * @param id
+ * @param id The VIP Server ID
  */
 export const patchVipServersId = endpoint({
   method: 'patch' as const,
@@ -1627,12 +1593,10 @@ export const patchVipServersId = endpoint({
       status: 400,
       description: `8: The creator of this game has disabled private servers for this game.
 10: The name of the private server is either empty or too long.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -1641,25 +1605,23 @@ export const patchVipServersId = endpoint({
 11: You cannot activate a cancelled private server.
 12: The game must not be Friends Only to allow private servers.
 13: Join Link can be generated only for active private servers.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The private server is invalid or does not exist.
 4: The universe does not exist.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Please wait a few minutes before configuring your private server again.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://games.roblox.com/v1/vip-servers/:id/permissions
+ * @api PATCH https://games.roblox.com/v1/vip-servers/:id/permissions
+ * @summary Update friend/clan access and allowed friends/clan list
  * @param body The Roblox.Games.Api.VipServerUpdatePermissionsRequest
- * @param id
+ * @param id The VIP Server ID
  */
 export const patchVipServersIdPermissions = endpoint({
   method: 'patch' as const,
@@ -1685,31 +1647,28 @@ export const patchVipServersIdPermissions = endpoint({
 12: The game must not be Friends Only to allow private servers.
 28: You may only add or remove valid players to your private server&#x27;s invite list.
 29: You may only add or remove players when your private server is active.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You are not the owner of this private server.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The private server is invalid or does not exist.
 4: The universe does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://games.roblox.com/v1/vip-servers/:id/subscription
+ * @api PATCH https://games.roblox.com/v1/vip-servers/:id/subscription
+ * @summary Updates subscription status of a vip server
  * @param body The Roblox.Games.Api.VipServerUpdateSubscriptionRequest
- * @param id
+ * @param id The VIP Server ID
  */
 export const patchVipServersIdSubscription = endpoint({
   method: 'patch' as const,
@@ -1732,37 +1691,33 @@ export const patchVipServersIdSubscription = endpoint({
       status: 400,
       description: `8: The creator of this game has disabled private servers for this game.
 32: You do not have enough funds available to renew the subscription for this private server.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You are not the owner of this private server.
 21: You may not configure a cancelled private server. Please renew your subscription before configuring.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The private server is invalid or does not exist.
 4: The universe does not exist.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Please wait a few minutes before configuring your private server again.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://games.roblox.com/v1/vip-servers/:id/voicesettings
+ * @api PATCH https://games.roblox.com/v1/vip-servers/:id/voicesettings
+ * @summary Update voice settings for a private server.
  * @param body The Roblox.Games.Api.VipServerUpdateVoiceSettingsRequest
- * @param id
+ * @param id The VIP Server ID
  */
 export const patchVipServersIdVoicesettings = endpoint({
   method: 'patch' as const,
@@ -1784,24 +1739,20 @@ export const patchVipServersIdVoicesettings = endpoint({
     {
       status: 400,
       description: `8: The creator of this game has disabled private servers for this game.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You are not the owner of this private server.
 33: You are not eligible for voice chat.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The private server is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });

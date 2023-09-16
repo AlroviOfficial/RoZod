@@ -135,8 +135,9 @@ const schemas = {
 };
 
 /**
- * @api get https://games.roblox.com/v2/games/:universeId/media
- * @param universeId
+ * @api GET https://games.roblox.com/v2/games/:universeId/media
+ * @summary Get the game media data
+ * @param universeId The id of the universe we get media data from.
  */
 export const getGamesUniverseidMedia = endpoint({
   method: 'get' as const,
@@ -156,22 +157,21 @@ export const getGamesUniverseidMedia = endpoint({
     {
       status: 400,
       description: `3: The universe&#x27;s root place is invalid.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `2: The requested universe does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v2/groups/:groupId/games
- * @param groupId
- * @param accessFilter
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://games.roblox.com/v2/groups/:groupId/games
+ * @summary Gets games created by the specified group.
+ * @param groupId The group Id.
+ * @param accessFilter Filtering option via access level.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidGames = endpoint({
   method: 'get' as const,
@@ -217,22 +217,21 @@ export const getGroupsGroupidGames = endpoint({
     {
       status: 403,
       description: `3: Not authorized.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: Compliance Context service is unavailable.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v2/groups/:groupId/gamesV2
- * @param groupId
- * @param accessFilter
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://games.roblox.com/v2/groups/:groupId/gamesV2
+ * @summary Gets games created by the specified group. This will replace V1 after validation. Note that this can only used for public/all universes.
+ * @param groupId The group Id.
+ * @param accessFilter Filtering option via access level.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidGamesv2 = endpoint({
   method: 'get' as const,
@@ -278,22 +277,21 @@ export const getGroupsGroupidGamesv2 = endpoint({
     {
       status: 500,
       description: `0: Compliance Context service is unavailable.`,
-      schema: z.void(),
     },
     {
       status: 501,
       description: `1: Code path is not Implemented.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://games.roblox.com/v2/users/:userId/favorite/games
- * @param userId
- * @param accessFilter
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://games.roblox.com/v2/users/:userId/favorite/games
+ * @summary Gets users favorite games.
+ * @param userId The user Id.
+ * @param accessFilter Filtering option via access level.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridFavoriteGames = endpoint({
   method: 'get' as const,
@@ -338,12 +336,13 @@ export const getUsersUseridFavoriteGames = endpoint({
   errors: [],
 });
 /**
- * @api get https://games.roblox.com/v2/users/:userId/games
- * @param userId
- * @param accessFilter
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://games.roblox.com/v2/users/:userId/games
+ * @summary Gets games created by the specified user.
+ * @param userId The user Id.
+ * @param accessFilter Filtering option via access level.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridGames = endpoint({
   method: 'get' as const,

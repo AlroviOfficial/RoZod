@@ -160,7 +160,8 @@ const schemas = {
 };
 
 /**
- * @api get https://accountsettings.roblox.com/v1/account/settings/metadata
+ * @api GET https://accountsettings.roblox.com/v1/account/settings/metadata
+ * @summary Returns metadata used by the accountsettings page
  */
 export const getAccountSettingsMetadata = endpoint({
   method: 'get' as const,
@@ -172,12 +173,12 @@ export const getAccountSettingsMetadata = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountsettings.roblox.com/v1/app-chat-privacy
+ * @api GET https://accountsettings.roblox.com/v1/app-chat-privacy
+ * @summary Get a user's app chat privacy setting
  */
 export const getAppChatPrivacy = endpoint({
   method: 'get' as const,
@@ -189,12 +190,12 @@ export const getAppChatPrivacy = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountsettings.roblox.com/v1/app-chat-privacy
+ * @api POST https://accountsettings.roblox.com/v1/app-chat-privacy
+ * @summary Updates a user's app chat privacy setting
  * @param body
  */
 export const postAppChatPrivacy = endpoint({
@@ -212,12 +213,10 @@ export const postAppChatPrivacy = endpoint({
     {
       status: 400,
       description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.InvalidSettingOption`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -225,12 +224,12 @@ export const postAppChatPrivacy = endpoint({
             OR
             Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.SettingLockedCuratedGamesEnabled
 0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountsettings.roblox.com/v1/email
+ * @api GET https://accountsettings.roblox.com/v1/email
+ * @summary Gets the authenticated user's email address and verified status
  */
 export const getEmail = endpoint({
   method: 'get' as const,
@@ -242,12 +241,12 @@ export const getEmail = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountsettings.roblox.com/v1/email
+ * @api POST https://accountsettings.roblox.com/v1/email
+ * @summary Updates the authenticated user's email address
  * @param body The request body.
  */
 export const postEmail = endpoint({
@@ -266,12 +265,10 @@ export const postEmail = endpoint({
       status: 400,
       description: `8: Password is incorrect.
 9: Invalid email address.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -279,28 +276,25 @@ export const postEmail = endpoint({
 1: PIN is locked.
 3: There are too many accounts associated with this email address.
 11: You must be on the Corporate network to log in.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `4: This is already the current email.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `6: Too many attempts to update email. Please try again later.
 7: Too many attempts to send verification email. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `2: This feature is currently disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://accountsettings.roblox.com/v1/email
+ * @api PATCH https://accountsettings.roblox.com/v1/email
+ * @summary Updates the authenticated user's email address
  * @param body The request body.
  */
 export const patchEmail = endpoint({
@@ -319,12 +313,10 @@ export const patchEmail = endpoint({
       status: 400,
       description: `8: Password is incorrect.
 9: Invalid email address.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -332,28 +324,25 @@ export const patchEmail = endpoint({
 1: PIN is locked.
 3: There are too many accounts associated with this email address.
 11: You must be on the Corporate network to log in.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `4: This is already the current email.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `6: Too many attempts to update email. Please try again later.
 7: Too many attempts to send verification email. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `2: This feature is currently disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountsettings.roblox.com/v1/email/verify
+ * @api POST https://accountsettings.roblox.com/v1/email/verify
+ * @summary Send verify email to the authenticated user's email address
  * @param body The request body.
  */
 export const postEmailVerify = endpoint({
@@ -371,39 +360,34 @@ export const postEmailVerify = endpoint({
     {
       status: 400,
       description: `10: No email address is associated with the account.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 1: PIN is locked.
 11: You must be on the Corporate network to log in.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `5: The email is already verified.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `7: Too many attempts to send verification email. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `2: This feature is currently disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountsettings.roblox.com/v1/game-chat-privacy
+ * @api GET https://accountsettings.roblox.com/v1/game-chat-privacy
+ * @summary Get a user's game chat privacy setting
  */
 export const getGameChatPrivacy = endpoint({
   method: 'get' as const,
@@ -415,12 +399,12 @@ export const getGameChatPrivacy = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountsettings.roblox.com/v1/game-chat-privacy
+ * @api POST https://accountsettings.roblox.com/v1/game-chat-privacy
+ * @summary Updates a user's game chat privacy setting
  * @param body
  */
 export const postGameChatPrivacy = endpoint({
@@ -438,12 +422,10 @@ export const postGameChatPrivacy = endpoint({
     {
       status: 400,
       description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.InvalidSettingOption`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -451,12 +433,12 @@ export const postGameChatPrivacy = endpoint({
             OR
             Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.SettingLockedCuratedGamesEnabled
 0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountsettings.roblox.com/v1/inventory-privacy
+ * @api GET https://accountsettings.roblox.com/v1/inventory-privacy
+ * @summary Get a user's inventory privacy setting
  */
 export const getInventoryPrivacy = endpoint({
   method: 'get' as const,
@@ -468,12 +450,12 @@ export const getInventoryPrivacy = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountsettings.roblox.com/v1/inventory-privacy
+ * @api POST https://accountsettings.roblox.com/v1/inventory-privacy
+ * @summary Updates a user's inventory privacy setting
  * @param body
  */
 export const postInventoryPrivacy = endpoint({
@@ -491,23 +473,21 @@ export const postInventoryPrivacy = endpoint({
     {
       status: 400,
       description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.AccountLocked`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.InventoryHidingFeatureDisabled
 0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountsettings.roblox.com/v1/private-message-privacy
+ * @api GET https://accountsettings.roblox.com/v1/private-message-privacy
+ * @summary Get a user's private message privacy setting
  */
 export const getPrivateMessagePrivacy = endpoint({
   method: 'get' as const,
@@ -519,12 +499,12 @@ export const getPrivateMessagePrivacy = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountsettings.roblox.com/v1/private-message-privacy
+ * @api POST https://accountsettings.roblox.com/v1/private-message-privacy
+ * @summary Updates a user's private message privacy setting
  * @param body
  */
 export const postPrivateMessagePrivacy = endpoint({
@@ -542,12 +522,10 @@ export const postPrivateMessagePrivacy = endpoint({
     {
       status: 400,
       description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.InvalidSettingOption`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -555,14 +533,14 @@ export const postPrivateMessagePrivacy = endpoint({
             OR
             Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.SettingLockedCuratedGamesEnabled
 0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountsettings.roblox.com/v1/themes/:consumerType/:consumerId
- * @param consumerType
- * @param consumerId
+ * @api GET https://accountsettings.roblox.com/v1/themes/:consumerType/:consumerId
+ * @summary returns the theme type for a specific consumer.
+ * @param consumerType The consumer type
+ * @param consumerId The consumer's theme configuration to get. If the consumerType is User always return the AuthenticatedUser's theme type.
  */
 export const getThemesConsumertypeConsumerid = endpoint({
   method: 'get' as const,
@@ -586,20 +564,19 @@ export const getThemesConsumertypeConsumerid = endpoint({
     {
       status: 400,
       description: `3: Invalid consumer type.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://accountsettings.roblox.com/v1/themes/:consumerType/:consumerId
+ * @api PATCH https://accountsettings.roblox.com/v1/themes/:consumerType/:consumerId
+ * @summary Modify the theme type for consumer.
  * @param body An Roblox.AccountSettings.Api.ThemeConfigurationRequest.
- * @param consumerType
- * @param consumerId
+ * @param consumerType The consumer type
+ * @param consumerId The consumer's theme configuration to modify. If the consumerType is User always modify the AuthenticatedUser's theme type.
  */
 export const patchThemesConsumertypeConsumerid = endpoint({
   method: 'patch' as const,
@@ -625,22 +602,20 @@ export const patchThemesConsumertypeConsumerid = endpoint({
     {
       status: 400,
       description: `2: Invalid theme type.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountsettings.roblox.com/v1/themes/types
+ * @api GET https://accountsettings.roblox.com/v1/themes/types
+ * @summary returns all the enabled theme types.
  */
 export const getThemesTypes = endpoint({
   method: 'get' as const,
@@ -651,7 +626,8 @@ export const getThemesTypes = endpoint({
   errors: [],
 });
 /**
- * @api get https://accountsettings.roblox.com/v1/trade-privacy
+ * @api GET https://accountsettings.roblox.com/v1/trade-privacy
+ * @summary Get a user's trade privacy setting
  */
 export const getTradePrivacy = endpoint({
   method: 'get' as const,
@@ -663,12 +639,12 @@ export const getTradePrivacy = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountsettings.roblox.com/v1/trade-privacy
+ * @api POST https://accountsettings.roblox.com/v1/trade-privacy
+ * @summary Updates a user's trade privacy setting
  * @param body
  */
 export const postTradePrivacy = endpoint({
@@ -686,12 +662,10 @@ export const postTradePrivacy = endpoint({
     {
       status: 400,
       description: `Roblox.AccountSettings.Api.ResponseEnums.TradeSettingsErrors.InvalidTradePrivacy`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -699,12 +673,12 @@ export const postTradePrivacy = endpoint({
             OR
             Roblox.AccountSettings.Api.ResponseEnums.TradeSettingsErrors.UserCannotTrade
 0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountsettings.roblox.com/v1/trade-value
+ * @api GET https://accountsettings.roblox.com/v1/trade-value
+ * @summary Get a user's trade quality filter setting
  */
 export const getTradeValue = endpoint({
   method: 'get' as const,
@@ -716,12 +690,12 @@ export const getTradeValue = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountsettings.roblox.com/v1/trade-value
+ * @api POST https://accountsettings.roblox.com/v1/trade-value
+ * @summary Updates a user's trade quality filter setting
  * @param body
  */
 export const postTradeValue = endpoint({
@@ -739,12 +713,10 @@ export const postTradeValue = endpoint({
     {
       status: 400,
       description: `Roblox.AccountSettings.Api.ResponseEnums.TradeSettingsErrors.InvalidTradeValue`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -752,13 +724,13 @@ export const postTradeValue = endpoint({
             OR
             Roblox.AccountSettings.Api.ResponseEnums.TradeSettingsErrors.UserCannotTrade
 0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountsettings.roblox.com/v1/users/:userId/block
- * @param userId
+ * @api POST https://accountsettings.roblox.com/v1/users/:userId/block
+ * @summary Blocks another user.
+ * @param userId The user ID to block.
  */
 export const postUsersUseridBlock = endpoint({
   method: 'post' as const,
@@ -780,30 +752,27 @@ export const postUsersUseridBlock = endpoint({
       description: `0: Target user does not exist.
 1: Target user already blocked.
 2: User sending block request has reached their block limit.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.
 7: User is not logged in.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `3: User blocking is disabled.
 8: The request failed internally. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://accountsettings.roblox.com/v1/users/:userId/unblock
- * @param userId
+ * @api POST https://accountsettings.roblox.com/v1/users/:userId/unblock
+ * @summary Unblocks a previously blocked user.
+ * @param userId The user ID to unblock.
  */
 export const postUsersUseridUnblock = endpoint({
   method: 'post' as const,
@@ -824,29 +793,26 @@ export const postUsersUseridUnblock = endpoint({
       status: 400,
       description: `0: Target user does not exist.
 4: Target user for unblock request is not currently blocked.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.
 7: User is not logged in.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `3: User blocking is disabled.
 8: The request failed internally. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountsettings.roblox.com/v1/users/get-blocked-users
+ * @api GET https://accountsettings.roblox.com/v1/users/get-blocked-users
+ * @summary Gets all blocked users.
  */
 export const getUsersGetBlockedUsers = endpoint({
   method: 'get' as const,
@@ -858,12 +824,12 @@ export const getUsersGetBlockedUsers = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://accountsettings.roblox.com/v1/users/get-detailed-blocked-users
+ * @api GET https://accountsettings.roblox.com/v1/users/get-detailed-blocked-users
+ * @summary Gets all blocked users with details.
  */
 export const getUsersGetDetailedBlockedUsers = endpoint({
   method: 'get' as const,
@@ -875,7 +841,6 @@ export const getUsersGetDetailedBlockedUsers = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });

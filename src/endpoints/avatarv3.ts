@@ -96,9 +96,10 @@ const schemas = {
 };
 
 /**
- * @api patch https://avatar.roblox.com/v3/outfits/:userOutfitId
+ * @api PATCH https://avatar.roblox.com/v3/outfits/:userOutfitId
+ * @summary Updates the contents of an outfit.
  * @param body The updated outfit
- * @param userOutfitId 
+ * @param userOutfitId The user outfit id.
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
 Accepts partial updates.
  */
@@ -128,29 +129,26 @@ export const patchOutfitsUseroutfitid = endpoint({
 5: Asset is not wearable by you
 8: Invalid Player Avatar Type. Valid types are R6 and R15
 9: Invalid user outfit.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You don&#x27;t have permission to update this outfit.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `6: An error occurred while trying to update the outfit`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://avatar.roblox.com/v3/outfits/:userOutfitId/details
- * @param userOutfitId
+ * @api GET https://avatar.roblox.com/v3/outfits/:userOutfitId/details
+ * @summary Gets details about the contents of an outfit.
+ * @param userOutfitId The user outfit id.
  */
 export const getOutfitsUseroutfitidDetails = endpoint({
   method: 'get' as const,
@@ -171,19 +169,18 @@ export const getOutfitsUseroutfitidDetails = endpoint({
       status: 400,
       description: `1: The specified userOutfitId is invalid.
 2: The outfit for the specified userOutfit is invalid.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `3: The requester does not have access to the details for the given user outfit.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://avatar.roblox.com/v3/outfits/:userOutfitId/update
+ * @api POST https://avatar.roblox.com/v3/outfits/:userOutfitId/update
+ * @summary Updates the contents of the outfit.
  * @param body The updated outfit
- * @param userOutfitId
+ * @param userOutfitId The user outfit id.
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
  */
 export const postOutfitsUseroutfitidUpdate = endpoint({
@@ -211,28 +208,25 @@ export const postOutfitsUseroutfitidUpdate = endpoint({
 5: Asset is not wearable by you
 7: Invalid assetIds
 8: Invalid Player Avatar Type. Valid types are R6 and R15`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You don&#x27;t have permission to update this outfit.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `6: An error occurred while trying to update the outfit`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://avatar.roblox.com/v3/outfits/create
+ * @api POST https://avatar.roblox.com/v3/outfits/create
+ * @summary Creates a new outfit.
  * @param body The new outfit
  * @description Fails if any of the assetIds are not owned by the user, or not wearable types.
 The name property of the request is optional as one will be auto-generated when the request has a null name.
@@ -257,23 +251,19 @@ export const postOutfitsCreate = endpoint({
 7: Invalid Player Avatar Type. Valid types are R6 and R15
 8: Invalid assetIds
 9: Meta does not apply to specified asset type`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 1: You already have the maximum number of outfits`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `6: An error occurred while creating the outfit`,
-      schema: z.void(),
     },
   ],
 });

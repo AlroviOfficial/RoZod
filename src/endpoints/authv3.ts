@@ -22,9 +22,10 @@ const schemas = {
 };
 
 /**
- * @api post https://auth.roblox.com/v3/users/:userId/two-step-verification/login
+ * @api POST https://auth.roblox.com/v3/users/:userId/two-step-verification/login
+ * @summary Authenticates as a user given a two step verification verification token.
  * @param body The Roblox.Authentication.Api.TwoStepVerificationLoginRequest.
- * @param userId
+ * @param userId The user ID to authenticate as.
  */
 export const postUsersUseridTwoStepVerificationLogin = endpoint({
   method: 'post' as const,
@@ -48,12 +49,10 @@ export const postUsersUseridTwoStepVerificationLogin = endpoint({
       description: `1: User is invalid.
 5: Invalid two step verification ticket.
 10: Invalid verification token.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });

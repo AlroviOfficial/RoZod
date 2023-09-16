@@ -353,7 +353,8 @@ const schemas = {
 };
 
 /**
- * @api get https://auth.roblox.com/v2/auth/metadata
+ * @api GET https://auth.roblox.com/v2/auth/metadata
+ * @summary Gets Auth meta data
  */
 export const getAuthMetadata = endpoint({
   method: 'get' as const,
@@ -364,10 +365,11 @@ export const getAuthMetadata = endpoint({
   errors: [],
 });
 /**
- * @api get https://auth.roblox.com/v2/credentials/verification
- * @param CredentialType
- * @param CredentialValue
- * @param Password
+ * @api GET https://auth.roblox.com/v2/credentials/verification
+ * @summary Checks if it is possible to send a verification message for the provided credentials.
+ * @param CredentialType Credentials type Roblox.Platform.Authentication.CredentialsType.
+ * @param CredentialValue Credentials value.
+ * @param Password Credentials password.
  */
 export const getCredentialsVerification = endpoint({
   method: 'get' as const,
@@ -399,27 +401,24 @@ export const getCredentialsVerification = endpoint({
       status: 400,
       description: `0: An unexpected error occurred.
 1: Credential value and password are required. Please try again.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `5: Credentials verification operation is unavailable. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `2: Too many attempts. Please wait a bit.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `5: Credentials verification operation is unavailable. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/credentials/verification
+ * @api POST https://auth.roblox.com/v2/credentials/verification
+ * @summary Checks if it is possible to send a verification message for the provided credentials.
  * @param body Request model with a credential value, type, and password.
  */
 export const postCredentialsVerification = endpoint({
@@ -438,32 +437,28 @@ export const postCredentialsVerification = endpoint({
       status: 400,
       description: `0: An unexpected error occurred.
 1: Credential value and password are required. Please try again.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `5: Credentials verification operation is unavailable. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `2: Too many attempts. Please wait a bit.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `5: Credentials verification operation is unavailable. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/credentials/verification/send
+ * @api POST https://auth.roblox.com/v2/credentials/verification/send
+ * @summary Sends a verification message to the provided credentials.
  * @param body Request model with a credential value, type, and password.
  */
 export const postCredentialsVerificationSend = endpoint({
@@ -483,33 +478,29 @@ export const postCredentialsVerificationSend = endpoint({
       description: `0: An unexpected error occurred.
 1: Credential value and password are required. Please try again.
 3: Verification with received credential type is not supported.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 4: Could not send a verification message. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `5: Credentials verification operation is unavailable. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `2: Too many attempts. Please wait a bit.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `5: Credentials verification operation is unavailable. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/identity-verification/login
+ * @api POST https://auth.roblox.com/v2/identity-verification/login
+ * @summary Endpoint for login with identity verification
  * @param body
  */
 export const postIdentityVerificationLogin = endpoint({
@@ -531,12 +522,12 @@ export const postIdentityVerificationLogin = endpoint({
 2: Invalid result token.
 3: Invalid user.
 4: Authentication failure.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/login
+ * @api POST https://auth.roblox.com/v2/login
+ * @summary Authenticates a user.
  * @param body Roblox.Authentication.Api.Models.LoginRequest.
  */
 export const postLogin = endpoint({
@@ -556,7 +547,6 @@ export const postLogin = endpoint({
       description: `0: An unexpected error occurred.
 3: Username and Password are required. Please try again.
 8: Login with received credential type is not supported.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -571,22 +561,20 @@ export const postLogin = endpoint({
 12: Existing login session found. Please log out first.
 14: The account is unable to log in. Please log in to the LuoBu app.
 15: Too many attempts. Please wait a bit.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `7: Too many attempts. Please wait a bit.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `11: Service unavailable. Please try again.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/logout
+ * @api POST https://auth.roblox.com/v2/logout
+ * @summary Destroys the current authentication session.
  */
 export const postLogout = endpoint({
   method: 'post' as const,
@@ -598,17 +586,16 @@ export const postLogout = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/logoutfromallsessionsandreauthenticate
+ * @api POST https://auth.roblox.com/v2/logoutfromallsessionsandreauthenticate
+ * @summary Logs out user from all other sessions.
  */
 export const postLogoutfromallsessionsandreauthenticate = endpoint({
   method: 'post' as const,
@@ -620,17 +607,16 @@ export const postLogoutfromallsessionsandreauthenticate = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://auth.roblox.com/v2/metadata
+ * @api GET https://auth.roblox.com/v2/metadata
+ * @summary Get the metadata
  */
 export const getMetadata = endpoint({
   method: 'get' as const,
@@ -641,7 +627,8 @@ export const getMetadata = endpoint({
   errors: [],
 });
 /**
- * @api get https://auth.roblox.com/v2/passwords/current-status
+ * @api GET https://auth.roblox.com/v2/passwords/current-status
+ * @summary Returns password status for current user.
  */
 export const getPasswordsCurrentStatus = endpoint({
   method: 'get' as const,
@@ -653,14 +640,14 @@ export const getPasswordsCurrentStatus = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://auth.roblox.com/v2/passwords/reset
- * @param TargetType
- * @param Ticket
+ * @api GET https://auth.roblox.com/v2/passwords/reset
+ * @summary Gets metadata needed for the password reset view.
+ * @param TargetType The Roblox.Authentication.Api.Models.GetPasswordResetMetadataRequest.TargetType
+ * @param Ticket The ticket that was generated when the reset password request was sent
  */
 export const getPasswordsReset = endpoint({
   method: 'get' as const,
@@ -689,28 +676,25 @@ export const getPasswordsReset = endpoint({
 9: The target type is invalid.
 11: The password reset ticket is invalid.
 14: The nonce is invalid.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `11: The password reset ticket is invalid.
 16: The ticket is expired.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: Unknown error occured.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `1: Feature temporarily disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/passwords/reset
+ * @api POST https://auth.roblox.com/v2/passwords/reset
+ * @summary Resets a password for a user that belongs to the password reset ticket.
  * @param body The request model including the target type, ticket, user id, and new password, Roblox.Authentication.Api.Models.PasswordResetModel
  * @description This will log the user out of all sessions and re-authenticate.
  */
@@ -733,29 +717,26 @@ export const postPasswordsReset = endpoint({
 12: The user is invalid.
 20: The password is invalid.
 21: Passwords do not match.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 16: The ticket is expired.
 17: The nonce is expired.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: Unknown error occured.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `1: Feature temporarily disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/passwords/reset/send
+ * @api POST https://auth.roblox.com/v2/passwords/reset/send
+ * @summary Sends a password reset email or challenge to the specified target.
  * @param body The request model containing the target type and a target.
  * @description Phone target must be a csv with 3 values: "internationalPrefixNumber,nationalNumber,countryCode"
  */
@@ -777,35 +758,31 @@ export const postPasswordsResetSend = endpoint({
 9: The target type is invalid.
 10: The target is invalid.
 12: The user is invalid.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 18: Captcha is required.
 23: Authenticate with Luobu instead.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `2: Too many attempts. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: Unknown error occured.
 19: Message could not be sent.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `1: Feature temporarily disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/passwords/reset/verify
+ * @api POST https://auth.roblox.com/v2/passwords/reset/verify
+ * @summary Verifies a password reset challenge solution.
  * @param body The request model containing the nonce and the solution. Roblox.Authentication.Api.Models.PasswordResetVerificationRequest
  */
 export const postPasswordsResetVerify = endpoint({
@@ -825,30 +802,27 @@ export const postPasswordsResetVerify = endpoint({
       description: `3: Request was empty.
 9: The target type is invalid.
 14: The nonce is invalid.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 13: The code is invalid.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: Unknown error occured.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `1: Feature temporarily disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://auth.roblox.com/v2/passwords/validate
- * @param Username
- * @param Password
+ * @api GET https://auth.roblox.com/v2/passwords/validate
+ * @summary Endpoint for checking if a password is valid.
+ * @param Username The username.
+ * @param Password The password.
  */
 export const getPasswordsValidate = endpoint({
   method: 'get' as const,
@@ -874,12 +848,12 @@ export const getPasswordsValidate = endpoint({
     {
       status: 400,
       description: `1: Valid Username and Password are required. Please try again.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/passwords/validate
+ * @api POST https://auth.roblox.com/v2/passwords/validate
+ * @summary Endpoint for checking if a password is valid.
  * @param body The Roblox.Authentication.Api.Models.PasswordValidationModel.
  */
 export const postPasswordsValidate = endpoint({
@@ -897,17 +871,16 @@ export const postPasswordsValidate = endpoint({
     {
       status: 400,
       description: `1: Valid Username and Password are required. Please try again.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://auth.roblox.com/v2/recovery/metadata
+ * @api GET https://auth.roblox.com/v2/recovery/metadata
+ * @summary Get metadata for forgot endpoints
  */
 export const getRecoveryMetadata = endpoint({
   method: 'get' as const,
@@ -919,13 +892,13 @@ export const getRecoveryMetadata = endpoint({
     {
       status: 503,
       description: `7: The Roblox WeChat API is currently unavailable.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://auth.roblox.com/v2/revert/account
- * @param ticket
+ * @api GET https://auth.roblox.com/v2/revert/account
+ * @summary Get Revert Account ticket info
+ * @param ticket Ticket Guid to revert account.
  */
 export const getRevertAccount = endpoint({
   method: 'get' as const,
@@ -946,17 +919,16 @@ export const getRevertAccount = endpoint({
     {
       status: 400,
       description: `2: The account revert ticket is not valid`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `1: This feature is disabled`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/revert/account
+ * @api POST https://auth.roblox.com/v2/revert/account
+ * @summary Submit Revert Account Request
  * @param body The Roblox.Authentication.Api.Models.RevertAccountSubmitRequest containing the necessary information to revert account.
  */
 export const postRevertAccount = endpoint({
@@ -978,23 +950,21 @@ export const postRevertAccount = endpoint({
 4: Passwords do not match
 5: Password cannot be used
 8: The account security ticket is expired.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `0: Unknown
 1: This feature is disabled`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/signup
+ * @api POST https://auth.roblox.com/v2/signup
+ * @summary Endpoint for signing up a new user
  * @param body Roblox.Authentication.Api.Models.SignupRequest
  */
 export const postSignup = endpoint({
@@ -1013,7 +983,6 @@ export const postSignup = endpoint({
       status: 400,
       description: `Bad request
 16: User agreement ids are null.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -1029,28 +998,25 @@ export const postSignup = endpoint({
 11: Asset is invalid.
 12: Too many attempts. Please wait a bit.
 17: One time Passcode session was not valid`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many attempts. Please wait a bit.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `Internal server error
 15: Insert acceptances failed.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `Service unavailable`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://auth.roblox.com/v2/twostepverification/metadata
+ * @api GET https://auth.roblox.com/v2/twostepverification/metadata
+ * @summary Get metadata for two step verification
  */
 export const getTwostepverificationMetadata = endpoint({
   method: 'get' as const,
@@ -1061,7 +1027,8 @@ export const getTwostepverificationMetadata = endpoint({
   errors: [],
 });
 /**
- * @api post https://auth.roblox.com/v2/twostepverification/resend
+ * @api POST https://auth.roblox.com/v2/twostepverification/resend
+ * @summary Resends a two step verification code.
  * @param body The request.
  */
 export const postTwostepverificationResend = endpoint({
@@ -1081,32 +1048,28 @@ export const postTwostepverificationResend = endpoint({
       description: `1: User is invalid.
 5: Invalid two step verification ticket.
 7: The action is unsupported.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many attempts. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `4: Account issue. Please contact Support.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `2: The two step verification feature is not enabled at this time.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/twostepverification/verify
+ * @api POST https://auth.roblox.com/v2/twostepverification/verify
+ * @summary Verifies a two step verification code.
  * @param body The request model containing information needed to verify with two step verification.
  */
 export const postTwostepverificationVerify = endpoint({
@@ -1127,27 +1090,24 @@ export const postTwostepverificationVerify = endpoint({
 5: Invalid two step verification ticket.
 6: The code is invalid.
 7: The action is unsupported.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many attempts. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `2: The two step verification feature is not enabled at this time.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/user/passwords/change
+ * @api POST https://auth.roblox.com/v2/user/passwords/change
+ * @summary Changes the password for the authenticated user.
  * @param body The request model including the current password, and the new password.
  * @description The current password is needed for verification that the password can be changed.
  */
@@ -1168,28 +1128,25 @@ export const postUserPasswordsChange = endpoint({
       description: `Roblox.Web.Authentication.Passwords.PasswordResponseCodes.InvalidCurrentPassword
             OR
             Roblox.Web.Authentication.Passwords.PasswordResponseCodes.InvalidPassword`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `Roblox.Web.Authentication.Passwords.PasswordResponseCodes.PinLocked
 0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `Roblox.Web.Authentication.Passwords.PasswordResponseCodes.Flooded`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/username
+ * @api POST https://auth.roblox.com/v2/username
+ * @summary Change the user's username
  * @param body The Roblox.Authentication.Api.Models.UsernameChangeRequest
  */
 export const postUsername = endpoint({
@@ -1216,12 +1173,10 @@ export const postUsername = endpoint({
 16: Username might contain private information
 17: This username is not available
 18: Username is same as current`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -1230,24 +1185,22 @@ export const postUsername = endpoint({
 2: A verified email is missing
 3: Your password is incorrect.
 100: Unknown birthday`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.
 5: You don&#x27;t have enough Robux to change your username.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `4: The feature is currently not available. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://auth.roblox.com/v2/usernames
- * @param username
+ * @api GET https://auth.roblox.com/v2/usernames
+ * @summary Gets a list of existing usernames on Roblox based on the query parameters
+ * @param username The username
  * @description This endpoint can be expanded in the future to include other query parameters such as "startsWith"
  */
 export const getUsernames = endpoint({
@@ -1268,7 +1221,8 @@ export const getUsernames = endpoint({
   errors: [],
 });
 /**
- * @api post https://auth.roblox.com/v2/usernames/recover
+ * @api POST https://auth.roblox.com/v2/usernames/recover
+ * @summary Sends an email of all accounts belonging to an email
  * @param body
  */
 export const postUsernamesRecover = endpoint({
@@ -1288,26 +1242,24 @@ export const postUsernamesRecover = endpoint({
       description: `20: Invalid Email
 21: Invalid Phone
 23: No Account Found`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 11: Too many attempts. Please wait a bit.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unexpected error occurred.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://auth.roblox.com/v2/usernames/validate
- * @param Username
- * @param Birthday
- * @param Context
+ * @api GET https://auth.roblox.com/v2/usernames/validate
+ * @summary Checks if a username is valid.
+ * @param Username The username
+ * @param Birthday The birthday
+ * @param Context Roblox.Authentication.Api.Models.UsernameValidationContext
  */
 export const getUsernamesValidate = endpoint({
   method: 'get' as const,
@@ -1339,12 +1291,12 @@ export const getUsernamesValidate = endpoint({
       status: 400,
       description: `1: A valid username is required.
 2: A valid birthday or authenticated user is required.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://auth.roblox.com/v2/usernames/validate
+ * @api POST https://auth.roblox.com/v2/usernames/validate
+ * @summary Checks if a username is valid.
  * @param body The Roblox.Authentication.Api.Models.UsernameValidationRequest.
  */
 export const postUsernamesValidate = endpoint({
@@ -1363,12 +1315,10 @@ export const postUsernamesValidate = endpoint({
       status: 400,
       description: `1: A valid username is required.
 2: A valid birthday or authenticated user is required.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });

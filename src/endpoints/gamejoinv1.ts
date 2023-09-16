@@ -63,7 +63,7 @@ const Roblox_Web_GameLaunch_ConnectionFlow_JoinInformation = z
     characterAppearanceId: z.number().int(),
     CountryCode: z.string(),
     AlternateName: z.string(),
-    RandomSeed1: z.string().regex(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/),
+    RandomSeed1: z.string().regex(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/),
     ClientPublicKeyData: z.string(),
     RccVersion: z.string(),
     ChannelName: z.string(),
@@ -182,7 +182,8 @@ const schemas = {
 };
 
 /**
- * @api post https://gamejoin.roblox.com/v1/join-game
+ * @api POST https://gamejoin.roblox.com/v1/join-game
+ * @summary Endpoint to join a game
  * @param body The Roblox.GameJoin.Api.GameJoinRequest in JSON format
  */
 export const postJoinGame = endpoint({
@@ -200,17 +201,16 @@ export const postJoinGame = endpoint({
     {
       status: 400,
       description: `-1: An unknown error occurred.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many requests, please slow down.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://gamejoin.roblox.com/v1/join-game-instance
+ * @api POST https://gamejoin.roblox.com/v1/join-game-instance
+ * @summary Endpoint to join a particular game instance
  * @param body The Roblox.GameJoin.Api.JoinGameInstanceRequest in JSON format
  */
 export const postJoinGameInstance = endpoint({
@@ -228,17 +228,16 @@ export const postJoinGameInstance = endpoint({
     {
       status: 400,
       description: `-1: An unknown error occurred.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many requests, please slow down.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://gamejoin.roblox.com/v1/join-play-together-game
+ * @api POST https://gamejoin.roblox.com/v1/join-play-together-game
+ * @summary Endpoint to join play together game
  * @param body The Roblox.GameJoin.Api.JoinPlayTogetherGameRequest in JSON format
  */
 export const postJoinPlayTogetherGame = endpoint({
@@ -256,17 +255,16 @@ export const postJoinPlayTogetherGame = endpoint({
     {
       status: 400,
       description: `-1: An unknown error occurred.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many requests, please slow down.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://gamejoin.roblox.com/v1/join-private-game
+ * @api POST https://gamejoin.roblox.com/v1/join-private-game
+ * @summary Endpoint to join a private game
  * @param body The Roblox.GameJoin.Api.JoinPrivateGameRequest in JSON format
  */
 export const postJoinPrivateGame = endpoint({
@@ -284,17 +282,16 @@ export const postJoinPrivateGame = endpoint({
     {
       status: 400,
       description: `-1: An unknown error occurred.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many requests, please slow down.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://gamejoin.roblox.com/v1/join-reserved-game
+ * @api POST https://gamejoin.roblox.com/v1/join-reserved-game
+ * @summary Endpoint to join a reserved game
  * @param body The Roblox.GameJoin.Api.JoinReservedGameRequest in JSON format
  */
 export const postJoinReservedGame = endpoint({
@@ -312,17 +309,16 @@ export const postJoinReservedGame = endpoint({
     {
       status: 400,
       description: `-1: An unknown error occurred.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many requests, please slow down.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://gamejoin.roblox.com/v1/play-with-user
+ * @api POST https://gamejoin.roblox.com/v1/play-with-user
+ * @summary Endpoint to play with user
  * @param body The Roblox.GameJoin.Api.PlayWithUserRequest in JSON format
  */
 export const postPlayWithUser = endpoint({
@@ -340,17 +336,16 @@ export const postPlayWithUser = endpoint({
     {
       status: 400,
       description: `-1: An unknown error occurred.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many requests, please slow down.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://gamejoin.roblox.com/v1/team-create
+ * @api POST https://gamejoin.roblox.com/v1/team-create
+ * @summary Endpoint to join team create session
  * @param body The Roblox.GameJoin.Api.TeamCreateRequest in JSON format
  * @description Xsrf protection disabled because it will only be used on Roblox clients. Adding an extra
 round-trip would impact client performance.
@@ -370,23 +365,21 @@ export const postTeamCreate = endpoint({
     {
       status: 400,
       description: `-1: An unknown error occurred.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `1: Request is not authorized from specified origin.
 2: User is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many requests, please slow down.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://gamejoin.roblox.com/v1/team-create-preemptive
+ * @api POST https://gamejoin.roblox.com/v1/team-create-preemptive
+ * @summary Endpoint to preemptively start team create session.
  * @param body The Roblox.GameJoin.Api.TeamCreateRequest in JSON format
  * @description Since the request origin might not be Roblox software, this endpoint implements a different set of security rules.
 More specifically, it requires Xsrf protection and disables user-agent check so that it can be called from browsers.
@@ -406,19 +399,16 @@ export const postTeamCreatePreemptive = endpoint({
     {
       status: 400,
       description: `-1: An unknown error occurred.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 1: Request is not authorized from specified origin.
 2: User is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many requests, please slow down.`,
-      schema: z.void(),
     },
   ],
 });

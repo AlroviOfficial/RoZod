@@ -85,9 +85,10 @@ const schemas = {
 };
 
 /**
- * @api post https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
- * @param itemType
- * @param itemTargetId
+ * @api POST https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
+ * @summary Adds an item to the appropriate collection
+ * @param itemType Type of the item (ie. Asset, Bundle)
+ * @param itemTargetId ID of the item
  */
 export const postCollectionsItemsItemtypeItemtargetid = endpoint({
   method: 'post' as const,
@@ -113,12 +114,10 @@ export const postCollectionsItemsItemtypeItemtargetid = endpoint({
       description: `1: The item type does not exist.
 2: The asset does not exist.
 3: The bundle does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -128,14 +127,14 @@ export const postCollectionsItemsItemtypeItemtargetid = endpoint({
 6: Items of this type are not allowed in collections.
 7: The item is already in the collection.
 9: The collection is full.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
- * @param itemType
- * @param itemTargetId
+ * @api DELETE https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
+ * @summary Removes an item to the appropriate collection
+ * @param itemType Type of the item (ie. Asset, Bundle)
+ * @param itemTargetId ID of the item
  */
 export const deleteCollectionsItemsItemtypeItemtargetid = endpoint({
   method: 'delete' as const,
@@ -161,24 +160,22 @@ export const deleteCollectionsItemsItemtypeItemtargetid = endpoint({
       description: `1: The item type does not exist.
 2: The asset does not exist.
 3: The bundle does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 8: The item is not in the collection.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://inventory.roblox.com/v1/packages/:packageId/assets
- * @param packageID
+ * @api GET https://inventory.roblox.com/v1/packages/:packageId/assets
+ * @summary Given a package ID, returns the list of asset IDs for that package
+ * @param packageID The asset ID of the package
  */
 export const getPackagesPackageidAssets = endpoint({
   method: 'get' as const,
@@ -197,12 +194,13 @@ export const getPackagesPackageidAssets = endpoint({
   errors: [],
 });
 /**
- * @api get https://inventory.roblox.com/v1/users/:userId/assets/collectibles
- * @param userId
- * @param assetType
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://inventory.roblox.com/v1/users/:userId/assets/collectibles
+ * @summary Gets all collectible assets owned by the specified user.
+ * @param userId The userid of the owner of the collectibles.
+ * @param assetType The asset type for the collectibles you're trying to get.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sorted by userAssetId
  */
 export const getUsersUseridAssetsCollectibles = endpoint({
   method: 'get' as const,
@@ -321,18 +319,17 @@ export const getUsersUseridAssetsCollectibles = endpoint({
     {
       status: 400,
       description: `The specified asset type(s) are invalid.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `The specified user&#x27;s inventory is hidden.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://inventory.roblox.com/v1/users/:userId/can-view-inventory
- * @param userId
+ * @api GET https://inventory.roblox.com/v1/users/:userId/can-view-inventory
+ * @summary Gets whether the specified user's inventory can be viewed.
+ * @param userId The user identifier.
  */
 export const getUsersUseridCanViewInventory = endpoint({
   method: 'get' as const,
@@ -352,12 +349,12 @@ export const getUsersUseridCanViewInventory = endpoint({
     {
       status: 400,
       description: `1: The specified user does not exist!`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://inventory.roblox.com/v1/users/:userId/categories
+ * @api GET https://inventory.roblox.com/v1/users/:userId/categories
+ * @summary Return inventory categories for a user
  * @param userId
  */
 export const getUsersUseridCategories = endpoint({
@@ -377,7 +374,8 @@ export const getUsersUseridCategories = endpoint({
   errors: [],
 });
 /**
- * @api get https://inventory.roblox.com/v1/users/:userId/categories/favorites
+ * @api GET https://inventory.roblox.com/v1/users/:userId/categories/favorites
+ * @summary Return favorites categories for a user
  * @param userId
  */
 export const getUsersUseridCategoriesFavorites = endpoint({
@@ -397,12 +395,14 @@ export const getUsersUseridCategoriesFavorites = endpoint({
   errors: [],
 });
 /**
- * @api get https://inventory.roblox.com/v1/users/:userId/inventory/:assetType
- * @param userId
- * @param assetType
- * @param pageNumber
- * @param itemsPerPage
- * @param keyword
+ * @api GET https://inventory.roblox.com/v1/users/:userId/inventory/:assetType
+ * @summary Gets a list of assets by type for the specified user.
+Note that the 'Hat' asset type may return accessories while we are migrating.
+ * @param userId The user identifier.
+ * @param assetType The asset type.
+ * @param pageNumber The start index.
+ * @param itemsPerPage The max number of items that can be returned.
+ * @param keyword Filter results for items containing this.
  */
 export const getUsersUseridInventoryAssettype = endpoint({
   method: 'get' as const,
@@ -516,21 +516,21 @@ export const getUsersUseridInventoryAssettype = endpoint({
       status: 400,
       description: `1: The specified user does not exist!
 3: Specified asset type is invalid!`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `1: The specified user does not exist!
 11: You don&#x27;t have permissions to view the specified user&#x27;s inventory.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://inventory.roblox.com/v1/users/:userId/items/:itemType/:itemTargetId
- * @param userId
- * @param itemType
- * @param itemTargetId
+ * @api GET https://inventory.roblox.com/v1/users/:userId/items/:itemType/:itemTargetId
+ * @summary Gets owned items of the specified item type. Game Servers can make requests for any user, but can only make requests for game passes that belong to the place sending the request.
+Place creators can make requests as if they were the Game Server.
+ * @param userId ID of the user in question
+ * @param itemType Type of the item in question (ie. Asset, GamePass, Badge, Bundle)
+ * @param itemTargetId ID of the item in question
  */
 export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
   method: 'get' as const,
@@ -563,15 +563,15 @@ export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
 7: The specified Asset does not exist!
 10: The specified asset is not a badge!
 12: The specified bundle does not exist!`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://inventory.roblox.com/v1/users/:userId/items/:itemType/:itemTargetId/is-owned
- * @param userId
- * @param itemType
- * @param itemTargetId
+ * @api GET https://inventory.roblox.com/v1/users/:userId/items/:itemType/:itemTargetId/is-owned
+ * @summary Gets whether a user owns an item of type itemType with id itemTargetId.
+ * @param userId ID of the user in question
+ * @param itemType Type of the item in question (ie. Asset, GamePass, Badge, Bundle)
+ * @param itemTargetId ID of the item in question
  */
 export const getUsersUseridItemsItemtypeItemtargetidIsOwned = endpoint({
   method: 'get' as const,
@@ -604,7 +604,6 @@ export const getUsersUseridItemsItemtypeItemtargetidIsOwned = endpoint({
 7: The specified Asset does not exist!
 10: The specified asset is not a badge!
 12: The specified bundle does not exist!`,
-      schema: z.void(),
     },
   ],
 });

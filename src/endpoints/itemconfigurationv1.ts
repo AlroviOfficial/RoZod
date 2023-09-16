@@ -118,7 +118,8 @@ const schemas = {
 };
 
 /**
- * @api post https://itemconfiguration.roblox.com/v1/avatar-assets/:assetType/upload-captcha-test
+ * @api POST https://itemconfiguration.roblox.com/v1/avatar-assets/:assetType/upload-captcha-test
+ * @summary An endpoint to check if captcha is needed for an upload of the given asset type
  * @param body
  * @param assetType
  * @param groupId
@@ -222,17 +223,16 @@ export const postAvatarAssetsAssettypeUploadCaptchaTest = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://itemconfiguration.roblox.com/v1/creations/get-asset-details
+ * @api POST https://itemconfiguration.roblox.com/v1/creations/get-asset-details
+ * @summary Gets the asset status and other configuration details for the given assetIds list
  * @param body
  */
 export const postCreationsGetAssetDetails = endpoint({
@@ -251,42 +251,37 @@ export const postCreationsGetAssetDetails = endpoint({
       status: 400,
       description: `1: Missing AssetIds parameters
 2: Invalid asset Ids`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 414,
       description: `3: Too many asset Ids`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `9: Flood Limit Exceeded`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `6: Service Unavailable`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://itemconfiguration.roblox.com/v1/creations/get-assets
+ * @api GET https://itemconfiguration.roblox.com/v1/creations/get-assets
+ * @summary Gets the user created asset information filtered by the given asset type
  * @param assetType
  * @param isArchived
  * @param groupId
- * @param limit
- * @param cursor
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
  */
 export const getCreationsGetAssets = endpoint({
   method: 'get' as const,
@@ -330,33 +325,29 @@ export const getCreationsGetAssets = endpoint({
     {
       status: 400,
       description: `5: Invalid assetType`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `7: User does not have necessary permissions for group
 8: Asset type does not have necessary permissions for group`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `9: Flood Limit Exceeded`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `6: Service Unavailable`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://itemconfiguration.roblox.com/v1/item-tags
+ * @api GET https://itemconfiguration.roblox.com/v1/item-tags
+ * @summary Gets all related item tags for each item id listed
  * @param itemIds
  */
 export const getItemTags = endpoint({
@@ -380,17 +371,16 @@ export const getItemTags = endpoint({
 2: Too many item tag Ids requested
 3: Invalid item id
 6: Invalid item namespace`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `7: Too many requests`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://itemconfiguration.roblox.com/v1/item-tags
+ * @api POST https://itemconfiguration.roblox.com/v1/item-tags
+ * @summary Creates a new item tag
  * @param body
  */
 export const postItemTags = endpoint({
@@ -412,28 +402,25 @@ export const postItemTags = endpoint({
 6: Invalid item namespace
 8: The given item is ineligible for item tags
 9: The given item has already reached its maximum item tag count`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 5: The current user is missing permissions for the endpoint`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `7: Too many requests`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://itemconfiguration.roblox.com/v1/item-tags/:itemTagId
+ * @api DELETE https://itemconfiguration.roblox.com/v1/item-tags/:itemTagId
+ * @summary Deletes an item tag from an item
  * @param itemTagId
  */
 export const deleteItemTagsItemtagid = endpoint({
@@ -454,23 +441,21 @@ export const deleteItemTagsItemtagid = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 5: The current user is missing permissions for the endpoint`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `7: Too many requests`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://itemconfiguration.roblox.com/v1/item-tags/metadata
+ * @api GET https://itemconfiguration.roblox.com/v1/item-tags/metadata
+ * @summary Gets the metadata related to item tags
  */
 export const getItemTagsMetadata = endpoint({
   method: 'get' as const,
@@ -481,7 +466,8 @@ export const getItemTagsMetadata = endpoint({
   errors: [],
 });
 /**
- * @api get https://itemconfiguration.roblox.com/v1/tags
+ * @api GET https://itemconfiguration.roblox.com/v1/tags
+ * @summary Gets the information for a list of tag Ids
  * @param tagIds
  */
 export const getTags = endpoint({
@@ -503,19 +489,18 @@ export const getTags = endpoint({
       status: 400,
       description: `1: No tag Ids requested
 2: Too many tag Ids requested`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many requests`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://itemconfiguration.roblox.com/v1/tags/prefix-search
+ * @api GET https://itemconfiguration.roblox.com/v1/tags/prefix-search
+ * @summary Searches for up to numberOfResults tags based on the given prefix
  * @param prefix
- * @param numberOfResults
+ * @param numberOfResults Must be 1, 5, 10, or 25
  */
 export const getTagsPrefixSearch = endpoint({
   method: 'get' as const,
@@ -542,22 +527,18 @@ export const getTagsPrefixSearch = endpoint({
       status: 400,
       description: `5: The given prefix is invalid
 6: The number of results requested is invalid`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `4: This endpoint is not yet enabled for the current user`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: Too many requests`,
-      schema: z.void(),
     },
   ],
 });

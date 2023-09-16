@@ -189,12 +189,14 @@ const schemas = {
 };
 
 /**
- * @api get https://develop.roblox.com/v2/assets/:id/versions
- * @param id
- * @param Roblox-Place-Id
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://develop.roblox.com/v2/assets/:id/versions
+ * @summary Retrieves asset information for the specified asset ID. The authenticated user must be able to manage the asset
+or granted by package permission.
+ * @param id The ID of the asset.Roblox.Platform.Assets.IAsset
+ * @param Roblox-Place-Id The ID of the place.Roblox.Platform.Assets.IPlace
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sort by version number, default is desc.
  */
 export const getAssetsIdVersions = endpoint({
   method: 'get' as const,
@@ -235,8 +237,9 @@ export const getAssetsIdVersions = endpoint({
   errors: [],
 });
 /**
- * @api get https://develop.roblox.com/v2/places/:placeId
- * @param placeId
+ * @api GET https://develop.roblox.com/v2/places/:placeId
+ * @summary Gets the place configuration for the place with the id placeId
+ * @param placeId The place id for the place to be updated.
  */
 export const getPlacesPlaceid = endpoint({
   method: 'get' as const,
@@ -256,24 +259,22 @@ export const getPlacesPlaceid = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `Authenticated user is not authorized to manage this place.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `placeId Place not found.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://develop.roblox.com/v2/places/:placeId
+ * @api PATCH https://develop.roblox.com/v2/places/:placeId
+ * @summary Updates the place configuration for the place with the id placeId
  * @param body
- * @param placeId
+ * @param placeId The place id for the place to be updated.
  */
 export const patchPlacesPlaceid = endpoint({
   method: 'patch' as const,
@@ -295,25 +296,23 @@ export const patchPlacesPlaceid = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `Authenticated user is not authorized to manage this place.
 0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `placeId Place not found.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://develop.roblox.com/v2/teamtest/:placeId
- * @param placeId
- * @param gameId
+ * @api DELETE https://develop.roblox.com/v2/teamtest/:placeId
+ * @summary Close a game instance that is being used for team testing
+ * @param placeId The Id of the place we are setting the metadata for.
+ * @param gameId the Guid of the game instance System.Guid
  */
 export const deleteTeamtestPlaceid = endpoint({
   method: 'delete' as const,
@@ -338,19 +337,19 @@ export const deleteTeamtestPlaceid = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://develop.roblox.com/v2/universes/:universeId/configuration
+ * @api PATCH https://develop.roblox.com/v2/universes/:universeId/configuration
+ * @summary Update universe settings for an owned universe.
+V2 Contains data for avatar scale and asset override.
  * @param body The Roblox.Api.Develop.Models.UniverseSettingsRequest model.
- * @param universeId
+ * @param universeId The universeId.
  */
 export const patchUniversesUniverseidConfiguration = endpoint({
   method: 'patch' as const,
@@ -394,12 +393,10 @@ export const patchUniversesUniverseidConfiguration = endpoint({
 24: Invalid scale value
 28: OptIn/Out Regions Not Supported.
 29: Luobu app terms of service user agreement is missing.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -407,12 +404,10 @@ export const patchUniversesUniverseidConfiguration = endpoint({
 2: You are not authorized to configure this universe.
 14: You are not authorized to sell games.
 30: Unknown error while updating Opt in out region.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `9: Failed to shutdown all intances of game after changing AvatarType. The change has been reverted.`,
-      schema: z.void(),
     },
   ],
 });

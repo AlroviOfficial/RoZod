@@ -127,8 +127,9 @@ const schemas = {
 };
 
 /**
- * @api get https://trades.roblox.com/v1/trades/:tradeId
- * @param tradeId
+ * @api GET https://trades.roblox.com/v1/trades/:tradeId
+ * @summary Gets detailed information about a trade.
+ * @param tradeId The trade id.
  */
 export const getTradesTradeid = endpoint({
   method: 'get' as const,
@@ -148,18 +149,17 @@ export const getTradesTradeid = endpoint({
     {
       status: 400,
       description: `2: The trade cannot be found or you are not authorized to view it.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://trades.roblox.com/v1/trades/:tradeId/accept
- * @param tradeId
+ * @api POST https://trades.roblox.com/v1/trades/:tradeId/accept
+ * @summary Accepts a trade.
+ * @param tradeId The trade id.
  */
 export const postTradesTradeidAccept = endpoint({
   method: 'post' as const,
@@ -185,29 +185,26 @@ export const postTradesTradeidAccept = endpoint({
 6: Trade needs to be confirmed by the other party.
 7: The user cannot trade. See field for whether the user who cannot trade is the sender or receiver.
 23: The trade reaches Two Step Verification thresholds and the user has not verified in the past time threshold.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `5: Trading system is unavailable`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://trades.roblox.com/v1/trades/:tradeId/counter
+ * @api POST https://trades.roblox.com/v1/trades/:tradeId/counter
+ * @summary Counters a trade.
  * @param body The trade request.
- * @param tradeId
+ * @param tradeId The trade id.
  */
 export const postTradesTradeidCounter = endpoint({
   method: 'post' as const,
@@ -244,38 +241,33 @@ export const postTradesTradeidCounter = endpoint({
 19: Unknown error while processing the trade.
 21: Cannot trade with yourself.
 22: User&#x27;s privacy settings are too strict to allow trading. See field for whether the user is the sender or receiver.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `14: You are sending too many trade requests. Please slow down and try again later.`,
-      schema: z.void(),
     },
     {
       status: 502,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `5: Trading system is unavailable`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://trades.roblox.com/v1/trades/:tradeId/decline
- * @param tradeId
+ * @api POST https://trades.roblox.com/v1/trades/:tradeId/decline
+ * @summary Declines a trade.
+ * @param tradeId The trade id.
  */
 export const postTradesTradeidDecline = endpoint({
   method: 'post' as const,
@@ -298,31 +290,28 @@ export const postTradesTradeidDecline = endpoint({
 3: The trade is inactive.
 4: You are not authorized to modify this trade.
 7: The user cannot trade. See field for whether the user who cannot trade is the sender or receiver.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `5: Trading system is unavailable`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://trades.roblox.com/v1/trades/:tradeStatusType
- * @param tradeStatusType
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://trades.roblox.com/v1/trades/:tradeStatusType
+ * @summary Fetches a list of the authenticated user's trades.
+ * @param tradeStatusType The trade status type.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sorted by trade creation date
  */
 export const getTradesTradestatustype = endpoint({
   method: 'get' as const,
@@ -360,18 +349,18 @@ export const getTradesTradestatustype = endpoint({
     {
       status: 400,
       description: `1: Invalid trade status type.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://trades.roblox.com/v1/trades/:tradeStatusType/count
- * @param tradeStatusType
+ * @api GET https://trades.roblox.com/v1/trades/:tradeStatusType/count
+ * @summary Gets the total number of pending trades for the authenticated user.
+Inbound is the only accepted tradeStatusType.
+ * @param tradeStatusType The trade status type to fetch a total count for.
  */
 export const getTradesTradestatustypeCount = endpoint({
   method: 'get' as const,
@@ -391,17 +380,16 @@ export const getTradesTradestatustypeCount = endpoint({
     {
       status: 400,
       description: `1: Invalid trade status type.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://trades.roblox.com/v1/trades/expire-outdated
+ * @api POST https://trades.roblox.com/v1/trades/expire-outdated
+ * @summary Expires Outdated Inbound Trades for User
  */
 export const postTradesExpireOutdated = endpoint({
   method: 'post' as const,
@@ -413,17 +401,16 @@ export const postTradesExpireOutdated = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://trades.roblox.com/v1/trades/metadata
+ * @api GET https://trades.roblox.com/v1/trades/metadata
+ * @summary Gets metadata about the trade system.
  */
 export const getTradesMetadata = endpoint({
   method: 'get' as const,
@@ -435,12 +422,12 @@ export const getTradesMetadata = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://trades.roblox.com/v1/trades/send
+ * @api POST https://trades.roblox.com/v1/trades/send
+ * @summary Sends a trade.
  * @param body The trade request.
  */
 export const postTradesSend = endpoint({
@@ -472,38 +459,33 @@ export const postTradesSend = endpoint({
 21: Cannot trade with yourself.
 22: User&#x27;s privacy settings are too strict to allow trading. See field for whether the user is the sender or receiver.
 23: The trade reaches Two Step Verification thresholds and the user has not verified in the past time threshold.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `14: You are sending too many trade requests. Please slow down and try again later.`,
-      schema: z.void(),
     },
     {
       status: 502,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `5: Trading system is unavailable`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://trades.roblox.com/v1/users/:userId/can-trade-with
- * @param userId
+ * @api GET https://trades.roblox.com/v1/users/:userId/can-trade-with
+ * @summary Returns whether you can trade with another user.
+ * @param userId The other user's id.
  */
 export const getUsersUseridCanTradeWith = endpoint({
   method: 'get' as const,
@@ -523,12 +505,10 @@ export const getUsersUseridCanTradeWith = endpoint({
     {
       status: 400,
       description: `10: Invalid trade partner. See field for whether the invalid partner is the sender or receiver.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });

@@ -62,7 +62,7 @@ const schemas = {
 };
 
 /**
- * @api get https://assetdelivery.roblox.com/v2/alias/:alias
+ * @api GET https://assetdelivery.roblox.com/v2/alias/:alias
  * @param alias
  * @param Accept-Encoding
  * @param Roblox-Place-Id
@@ -130,7 +130,7 @@ export const getAliasAlias = endpoint({
     },
   },
   parameters: {
-    alias: z.string().regex(/^[0-9]+\\\/.+/),
+    alias: z.string().regex(/^[0-9]+\/.+/),
     'Accept-Encoding': z.string(),
     'Roblox-Place-Id': z.number().int(),
     AssetType: z.string(),
@@ -148,7 +148,7 @@ export const getAliasAlias = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v2/asset
+ * @api GET https://assetdelivery.roblox.com/v2/asset
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
@@ -289,7 +289,7 @@ export const getAsset = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v2/assetHash/:hash
+ * @api GET https://assetdelivery.roblox.com/v2/assetHash/:hash
  * @param hash
  * @param Accept-Encoding
  * @param Roblox-Place-Id
@@ -375,7 +375,7 @@ export const getAssethashHash = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v2/assetId/:assetId
+ * @api GET https://assetdelivery.roblox.com/v2/assetId/:assetId
  * @param assetId
  * @param Accept-Encoding
  * @param Roblox-Place-Id
@@ -461,7 +461,7 @@ export const getAssetidAssetid = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v2/assetId/:assetId/version/:version
+ * @api GET https://assetdelivery.roblox.com/v2/assetId/:assetId/version/:version
  * @param assetId
  * @param version
  * @param Accept-Encoding
@@ -552,7 +552,7 @@ export const getAssetidAssetidVersionVersion = endpoint({
   errors: [],
 });
 /**
- * @api post https://assetdelivery.roblox.com/v2/assets/batch
+ * @api POST https://assetdelivery.roblox.com/v2/assets/batch
  * @param body
  * @param Roblox-Place-Id
  * @param Accept
@@ -585,7 +585,7 @@ export const postAssetsBatch = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v2/assetVersionId/:assetVersionId
+ * @api GET https://assetdelivery.roblox.com/v2/assetVersionId/:assetVersionId
  * @param assetVersionId
  * @param Accept-Encoding
  * @param Roblox-Place-Id
@@ -671,7 +671,7 @@ export const getAssetversionidAssetversionid = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v2/marAssetHash/:marAssetHash/marCheckSum/:marCheckSum
+ * @api GET https://assetdelivery.roblox.com/v2/marAssetHash/:marAssetHash/marCheckSum/:marCheckSum
  * @param marAssetHash
  * @param marCheckSum
  * @param Accept-Encoding
@@ -762,7 +762,7 @@ export const getMarassethashMarassethashMarchecksumMarchecksum = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v2/userAssetId/:userAssetId
+ * @api GET https://assetdelivery.roblox.com/v2/userAssetId/:userAssetId
  * @param userAssetId
  * @param Accept-Encoding
  * @param Roblox-Place-Id

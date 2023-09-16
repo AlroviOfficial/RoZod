@@ -270,7 +270,8 @@ const schemas = {
 };
 
 /**
- * @api post https://chat.roblox.com/v2/add-to-conversation
+ * @api POST https://chat.roblox.com/v2/add-to-conversation
+ * @summary Adds users to an existing conversation
  * @param body
  */
 export const postAddToConversation = endpoint({
@@ -288,17 +289,16 @@ export const postAddToConversation = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://chat.roblox.com/v2/chat-settings
+ * @api GET https://chat.roblox.com/v2/chat-settings
+ * @summary For every authenticated user, the clients hit this endpoint to get the chat related settings. Example : Chat is enabled or not
  */
 export const getChatSettings = endpoint({
   method: 'get' as const,
@@ -310,13 +310,13 @@ export const getChatSettings = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://chat.roblox.com/v2/get-conversations
- * @param conversationIds
+ * @api GET https://chat.roblox.com/v2/get-conversations
+ * @summary Gets conversations for the conversationIds specified in the parameters
+ * @param conversationIds Ids of the conversations to be returned
  */
 export const getGetConversations = endpoint({
   method: 'get' as const,
@@ -337,12 +337,12 @@ export const getGetConversations = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://chat.roblox.com/v2/get-messages
+ * @api GET https://chat.roblox.com/v2/get-messages
+ * @summary Gets messages corresponding to the given conversationId
  * @param conversationId
  * @param pageSize
  * @param exclusiveStartMessageId
@@ -376,13 +376,13 @@ export const getGetMessages = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://chat.roblox.com/v2/get-rollout-settings
- * @param featureNames
+ * @api GET https://chat.roblox.com/v2/get-rollout-settings
+ * @summary Gets the rollout settings for requested feature
+ * @param featureNames string array to request feature rollout settings
  */
 export const getGetRolloutSettings = endpoint({
   method: 'get' as const,
@@ -403,12 +403,12 @@ export const getGetRolloutSettings = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://chat.roblox.com/v2/get-unread-conversation-count
+ * @api GET https://chat.roblox.com/v2/get-unread-conversation-count
+ * @summary Gets the count of unread conversations
  */
 export const getGetUnreadConversationCount = endpoint({
   method: 'get' as const,
@@ -420,12 +420,12 @@ export const getGetUnreadConversationCount = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://chat.roblox.com/v2/get-unread-conversations
+ * @api GET https://chat.roblox.com/v2/get-unread-conversations
+ * @summary Gets a list of unread conversations
  * @param pageNumber
  * @param pageSize
  */
@@ -453,12 +453,12 @@ export const getGetUnreadConversations = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://chat.roblox.com/v2/get-unread-messages
+ * @api GET https://chat.roblox.com/v2/get-unread-messages
+ * @summary Gets the unread messages for the conversationIds specified in the parameters
  * @param conversationIds
  * @param pageSize
  */
@@ -486,12 +486,12 @@ export const getGetUnreadMessages = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://chat.roblox.com/v2/get-user-conversations
+ * @api GET https://chat.roblox.com/v2/get-user-conversations
+ * @summary Gets all conversations associated with the logged-in User
  * @param pageNumber
  * @param pageSize
  */
@@ -519,12 +519,12 @@ export const getGetUserConversations = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://chat.roblox.com/v2/mark-as-read
+ * @api POST https://chat.roblox.com/v2/mark-as-read
+ * @summary Mark the specified conversation messages as read
  * @param body
  */
 export const postMarkAsRead = endpoint({
@@ -542,17 +542,16 @@ export const postMarkAsRead = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://chat.roblox.com/v2/mark-as-seen
+ * @api POST https://chat.roblox.com/v2/mark-as-seen
+ * @summary Mark the specified conversation messages as seen
  * @param body
  */
 export const postMarkAsSeen = endpoint({
@@ -570,17 +569,16 @@ export const postMarkAsSeen = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://chat.roblox.com/v2/metadata
+ * @api GET https://chat.roblox.com/v2/metadata
+ * @summary Get Chat metadata.
  */
 export const getMetadata = endpoint({
   method: 'get' as const,
@@ -592,12 +590,12 @@ export const getMetadata = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://chat.roblox.com/v2/multi-get-latest-messages
+ * @api GET https://chat.roblox.com/v2/multi-get-latest-messages
+ * @summary Gets latest messages corresponding to the given list of conversation Ids
  * @param conversationIds
  * @param pageSize
  */
@@ -625,12 +623,12 @@ export const getMultiGetLatestMessages = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://chat.roblox.com/v2/remove-from-conversation
+ * @api POST https://chat.roblox.com/v2/remove-from-conversation
+ * @summary Removes a user from an existing conversation
  * @param body
  */
 export const postRemoveFromConversation = endpoint({
@@ -648,17 +646,16 @@ export const postRemoveFromConversation = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://chat.roblox.com/v2/rename-group-conversation
+ * @api POST https://chat.roblox.com/v2/rename-group-conversation
+ * @summary Renames the title of an existing conversation
  * @param body
  */
 export const postRenameGroupConversation = endpoint({
@@ -676,17 +673,16 @@ export const postRenameGroupConversation = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://chat.roblox.com/v2/reset-conversation-universe
+ * @api POST https://chat.roblox.com/v2/reset-conversation-universe
+ * @summary Removes universe associated with a conversation
  * @param body
  */
 export const postResetConversationUniverse = endpoint({
@@ -704,17 +700,15 @@ export const postResetConversationUniverse = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://chat.roblox.com/v2/send-game-link-message
+ * @api POST https://chat.roblox.com/v2/send-game-link-message
  * @param body
  */
 export const postSendGameLinkMessage = endpoint({
@@ -732,17 +726,16 @@ export const postSendGameLinkMessage = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://chat.roblox.com/v2/send-message
+ * @api POST https://chat.roblox.com/v2/send-message
+ * @summary Sends a chat message
  * @param body
  */
 export const postSendMessage = endpoint({
@@ -760,17 +753,16 @@ export const postSendMessage = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://chat.roblox.com/v2/set-conversation-universe
+ * @api POST https://chat.roblox.com/v2/set-conversation-universe
+ * @summary Adds or updates universe associated with a conversation
  * @param body
  */
 export const postSetConversationUniverse = endpoint({
@@ -788,17 +780,16 @@ export const postSetConversationUniverse = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://chat.roblox.com/v2/start-cloud-edit-conversation
+ * @api POST https://chat.roblox.com/v2/start-cloud-edit-conversation
+ * @summary Creates a new cloud edit conversation
  * @param body
  */
 export const postStartCloudEditConversation = endpoint({
@@ -816,17 +807,16 @@ export const postStartCloudEditConversation = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://chat.roblox.com/v2/start-group-conversation
+ * @api POST https://chat.roblox.com/v2/start-group-conversation
+ * @summary Creates a new group conversation
  * @param body
  */
 export const postStartGroupConversation = endpoint({
@@ -844,17 +834,16 @@ export const postStartGroupConversation = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://chat.roblox.com/v2/start-one-to-one-conversation
+ * @api POST https://chat.roblox.com/v2/start-one-to-one-conversation
+ * @summary Creates a new one-on-one conversation
  * @param body
  */
 export const postStartOneToOneConversation = endpoint({
@@ -872,17 +861,16 @@ export const postStartOneToOneConversation = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://chat.roblox.com/v2/update-user-typing-status
+ * @api POST https://chat.roblox.com/v2/update-user-typing-status
+ * @summary Updates the status for whether a user is typing currently
  * @param body
  */
 export const postUpdateUserTypingStatus = endpoint({
@@ -900,12 +888,10 @@ export const postUpdateUserTypingStatus = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });

@@ -105,8 +105,9 @@ const schemas = {
 };
 
 /**
- * @api get https://groups.roblox.com/v2/groups
- * @param groupIds
+ * @api GET https://groups.roblox.com/v2/groups
+ * @summary Multi-get groups information by Ids.
+ * @param groupIds The group Ids.
  * @description If a group comes back as null, it will not be returned in the response.
  */
 export const getGroups = endpoint({
@@ -128,16 +129,16 @@ export const getGroups = endpoint({
       status: 400,
       description: `2: Too many ids in request.
 3: Ids could not be parsed from request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v2/groups/:groupId/wall/posts
- * @param groupId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://groups.roblox.com/v2/groups/:groupId/wall/posts
+ * @summary Gets a list of group wall posts.
+ * @param groupId The group id.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sorted by group wall post Id
  */
 export const getGroupsGroupidWallPosts = endpoint({
   method: 'get' as const,
@@ -175,19 +176,18 @@ export const getGroupsGroupidWallPosts = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: You do not have permission to access this group wall.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v2/groups/:groupId/wall/posts
+ * @api POST https://groups.roblox.com/v2/groups/:groupId/wall/posts
+ * @summary Creates a post on a group wall
  * @param body The Roblox.Groups.Api.CreateWallPostRequest.
- * @param groupId
+ * @param groupId The group id.
  */
 export const postGroupsGroupidWallPosts = endpoint({
   method: 'post' as const,
@@ -210,30 +210,27 @@ export const postGroupsGroupidWallPosts = endpoint({
       status: 400,
       description: `1: The group is invalid or does not exist.
 5: Your post was empty, white space, or more than 500 characters.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You do not have permission to access this group wall.
 7: Captcha must be solved.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `4: You are posting too fast, please try again in a few minutes.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v2/users/:userId/groups/roles
- * @param userId
+ * @api GET https://groups.roblox.com/v2/users/:userId/groups/roles
+ * @summary Gets a list of all group roles for groups the specified user is in.
+ * @param userId The user id.
  */
 export const getUsersUseridGroupsRoles = endpoint({
   method: 'get' as const,
@@ -253,7 +250,6 @@ export const getUsersUseridGroupsRoles = endpoint({
     {
       status: 400,
       description: `3: The user is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });

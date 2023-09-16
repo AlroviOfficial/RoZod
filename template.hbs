@@ -27,9 +27,9 @@ const schemas = {
 
 {{#each endpoints}}
 /**
- * @api {{method}} {{#if @root.options.baseUrl}}{{@root.options.baseUrl}}{{/if}}{{path}}
+ * @api {{toUpperCase method}} {{#if @root.options.baseUrl}}{{@root.options.baseUrl}}{{/if}}{{path}}
  {{#if summary}}
- * {{summary}}
+ * @summary {{{summary}}}
  {{/if}}
  {{#if parameters}}
  {{#each parameters}}
@@ -97,7 +97,6 @@ export const {{alias}} = endpoint({
 			{{#if description}}
 			description: `{{description}}`,
 			{{/if}}
-			schema: {{{schema}}}
 		},
 		{{/each}}
 	]

@@ -8,7 +8,8 @@ const schemas = {
 };
 
 /**
- * @api get https://economy.roblox.com/v1/user/currency
+ * @api GET https://economy.roblox.com/v1/user/currency
+ * @summary Gets currency for the authenticated user.
  * @description Currency can only be retrieved for the authenticated user.
  */
 export const getUserCurrency = endpoint({
@@ -21,12 +22,10 @@ export const getUserCurrency = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `1: The user is invalid.`,
-      schema: z.void(),
     },
   ],
 });

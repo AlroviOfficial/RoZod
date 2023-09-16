@@ -341,8 +341,9 @@ const schemas = {
 };
 
 /**
- * @api get https://develop.roblox.com/v1/assets/voting
- * @param assetIds
+ * @api GET https://develop.roblox.com/v1/assets/voting
+ * @summary Gets the voting information of the given assets
+ * @param assetIds The ids of the Roblox.Platform.Assets.IAsset.
  */
 export const getAssetsVoting = endpoint({
   method: 'get' as const,
@@ -361,7 +362,8 @@ export const getAssetsVoting = endpoint({
   errors: [],
 });
 /**
- * @api get https://develop.roblox.com/v1/gametemplates
+ * @api GET https://develop.roblox.com/v1/gametemplates
+ * @summary Gets a page of templates that can be used to start off making games.
  * @description Templates subject to change without notice.
 Sort order of templates specified by Roblox.
  */
@@ -374,12 +376,13 @@ export const getGametemplates = endpoint({
   errors: [],
 });
 /**
- * @api get https://develop.roblox.com/v1/groups/:groupId/universes
- * @param groupId
- * @param isArchived
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://develop.roblox.com/v1/groups/:groupId/universes
+ * @summary Gets a list of universes for the given group.
+ * @param groupId The group id.
+ * @param isArchived Whether or not to return archived games.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sorted by universeId
  */
 export const getGroupsGroupidUniverses = endpoint({
   method: 'get' as const,
@@ -422,14 +425,14 @@ export const getGroupsGroupidUniverses = endpoint({
     {
       status: 400,
       description: `Invalid groupId.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://develop.roblox.com/v1/places/:placeId
+ * @api POST https://develop.roblox.com/v1/places/:placeId
+ * @summary Updates the place configuration for the place with the id placeId
  * @param body
- * @param placeId
+ * @param placeId The place id for the place to be updated.
  * @description Currently the only supported functionality for updating the configuration is around Name, and Description.
  */
 export const postPlacesPlaceid = endpoint({
@@ -452,25 +455,23 @@ export const postPlacesPlaceid = endpoint({
     {
       status: 400,
       description: `placeId is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `Authenticated user is not authorized to manage this place.
 0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://develop.roblox.com/v1/places/:placeId
+ * @api PATCH https://develop.roblox.com/v1/places/:placeId
+ * @summary Updates the place configuration for the place with the id placeId
  * @param body
- * @param placeId
+ * @param placeId The place id for the place to be updated.
  * @description Currently the only supported functionality for updating the configuration is around Name, and Description.
  */
 export const patchPlacesPlaceid = endpoint({
@@ -493,24 +494,22 @@ export const patchPlacesPlaceid = endpoint({
     {
       status: 400,
       description: `placeId is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `Authenticated user is not authorized to manage this place.
 0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/places/:placeId/compatibilities
- * @param placeId
+ * @api GET https://develop.roblox.com/v1/places/:placeId/compatibilities
+ * @summary Gets compatibility of place with different platforms placeId
+ * @param placeId The place id for the place to be updated.
  */
 export const getPlacesPlaceidCompatibilities = endpoint({
   method: 'get' as const,
@@ -530,28 +529,26 @@ export const getPlacesPlaceidCompatibilities = endpoint({
     {
       status: 400,
       description: `placeId is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `Authenticated user is not authorized to manage this place.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/places/:placeId/stats/:type
- * @param placeId
- * @param type
- * @param granularity
- * @param divisionType
- * @param startTime
- * @param endTime
+ * @api GET https://develop.roblox.com/v1/places/:placeId/stats/:type
+ * @summary Get statistics data for a place.
+ * @param placeId The place id.
+ * @param type The data type.
+ * @param granularity The Roblox.Api.Develop.Models.StatisticsDataGranularity.
+ * @param divisionType Optional division type for the data.
+ * @param startTime Optional time of first sample.
+ * @param endTime Optional time of last sample.
  */
 export const getPlacesPlaceidStatsType = endpoint({
   method: 'get' as const,
@@ -595,30 +592,29 @@ export const getPlacesPlaceidStatsType = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: Not authorized to perform this action.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The place is invalid.
 3: Too many data points requested.
 4: The requested data type is not known.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/places/:placeId/stats/:type/legacy/flot
- * @param placeId
- * @param type
- * @param timeFrame
- * @param divisionType
- * @param startTime
- * @param endTime
+ * @api GET https://develop.roblox.com/v1/places/:placeId/stats/:type/legacy/flot
+ * @summary Get statistics data for a place in a certain format.
+DO NOT USE THIS ENDPOINT. It may be removed at any time. Use GetStatistics instead.
+ * @param placeId The place id.
+ * @param type The data type.
+ * @param timeFrame The Roblox.Api.Develop.Models.StatisticsDataGranularity.
+ * @param divisionType Optional division type for the data.
+ * @param startTime Optional time of first sample.
+ * @param endTime Optional time of last sample.
  */
 export const getPlacesPlaceidStatsTypeLegacyFlot = endpoint({
   method: 'get' as const,
@@ -662,26 +658,24 @@ export const getPlacesPlaceidStatsTypeLegacyFlot = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: Not authorized to perform this action.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: The place is invalid.
 3: Too many data points requested.
 4: The requested data type is not known.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/places/:placeId/stats/developer-product-aggregation
- * @param placeId
- * @param timeFrame
+ * @api GET https://develop.roblox.com/v1/places/:placeId/stats/developer-product-aggregation
+ * @summary An endpoint that returns whether the age data is available for a place.
+ * @param placeId The place Id.
+ * @param timeFrame The Roblox.Api.Develop.Models.StatisticsDataGranularity.
  */
 export const getPlacesPlaceidStatsDeveloperProductAggregation = endpoint({
   method: 'get' as const,
@@ -706,23 +700,21 @@ export const getPlacesPlaceidStatsDeveloperProductAggregation = endpoint({
     {
       status: 400,
       description: `1: The place is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: Not authorized to perform this action.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/places/:placeId/stats/is-age-data-available
- * @param placeId
+ * @api GET https://develop.roblox.com/v1/places/:placeId/stats/is-age-data-available
+ * @summary An endpoint that returns whether the age data is available for a place.
+ * @param placeId The place Id.
  */
 export const getPlacesPlaceidStatsIsAgeDataAvailable = endpoint({
   method: 'get' as const,
@@ -742,25 +734,23 @@ export const getPlacesPlaceidStatsIsAgeDataAvailable = endpoint({
     {
       status: 400,
       description: `1: The place is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: Not authorized to perform this action.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/places/:placeId/teamcreate/active_session/members
- * @param placeId
- * @param limit
- * @param cursor
+ * @api GET https://develop.roblox.com/v1/places/:placeId/teamcreate/active_session/members
+ * @summary List of users in the active Team Create session
+ * @param placeId The place Id.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
  */
 export const getPlacesPlaceidTeamcreateActive_sessionMembers = endpoint({
   method: 'get' as const,
@@ -794,34 +784,30 @@ export const getPlacesPlaceidTeamcreateActive_sessionMembers = endpoint({
       status: 400,
       description: `1: The universe is invalid.
 5: The place is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: Not authorized to perform this action.
 4: TeamCreate on universe is disabled.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `0: An unknown error occurred.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `6: Multiple active sessions in a Team Create place.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/plugins
- * @param pluginIds
+ * @api GET https://develop.roblox.com/v1/plugins
+ * @summary Gets plugin details by ids.
+ * @param pluginIds The plugin ids.
  */
 export const getPlugins = endpoint({
   method: 'get' as const,
@@ -842,14 +828,14 @@ export const getPlugins = endpoint({
       status: 400,
       description: `1: Too many ids.
 2: The format of the ids are invalid.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://develop.roblox.com/v1/plugins/:pluginId
+ * @api PATCH https://develop.roblox.com/v1/plugins/:pluginId
+ * @summary Updates a plugin.
  * @param body The Roblox.Develop.Api.UpdatePluginRequest.
- * @param pluginId
+ * @param pluginId The id of the plugin.
  */
 export const patchPluginsPluginid = endpoint({
   method: 'patch' as const,
@@ -874,34 +860,52 @@ export const patchPluginsPluginid = endpoint({
 6: Text moderated.
 7: Invalid name.
 8: The request body is missing.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 4: Insufficient permissions.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `3: The id is invalid.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/search/universes
+ * @api GET https://develop.roblox.com/v1/search/universes
+ * @summary Allows searching for universes.
  * @param search 
- * @param limit 
- * @param cursor 
- * @param sortOrder 
- * @param q 
- * @param sort 
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
+ * @param q A search query with filters seperated by whitespace. Example: "these are keywords! filterName:filterValue filterName:filterValue"
+
+archived:[Value] (required: False)
+Allowed values: [True,False]
+
+active:[Value] (required: False)
+Allowed values: [True,False]
+
+creator:[Value] (required: True)
+Allowed values: [User,Group,Team]
+
+groups:[Value,Value,...] (required: False)
+
+
+ * @param sort Determines the way results will be sorted. Format: (a prefix for ascending or descending) + (sort type).
+
+Ascending Prefix: +
+
+Descending Prefix -
+
+Allowed Sort Types: +GameCreated,-GameCreated,+GameName,-GameName,+RootPlaceName,-RootPlaceName,+RootPlaceUpdated,-RootPlaceUpdated,+LastUpdated,-LastUpdated
+
+Note: An allowed type with no prefix allows both ascending and descending but if a prefix is specified only the specified order is allowed.
  * @description PoC of search endpoint which supports filters in search query string and special syntax for sorts.
 IMPORTANT: filter names, values, sort values - are case sensitive!
  */
@@ -955,22 +959,19 @@ or
 &#x27;q&#x27; field value doesn&#x27;t contain filter which is required.
 or
 &#x27;sort&#x27; field value has a wrong format or is not in allowed values list.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `Unknown error retrieving search results.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/stats/creator-dashboard-metadata
+ * @api GET https://develop.roblox.com/v1/stats/creator-dashboard-metadata
  */
 export const getStatsCreatorDashboardMetadata = endpoint({
   method: 'get' as const,
@@ -982,13 +983,13 @@ export const getStatsCreatorDashboardMetadata = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/universes/:universeId
- * @param universeId
+ * @api GET https://develop.roblox.com/v1/universes/:universeId
+ * @summary Gets a Roblox.Api.Develop.Models.UniverseModel.
+ * @param universeId The Universe id.
  */
 export const getUniversesUniverseid = endpoint({
   method: 'get' as const,
@@ -1008,13 +1009,13 @@ export const getUniversesUniverseid = endpoint({
     {
       status: 400,
       description: `1: The universe does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://develop.roblox.com/v1/universes/:universeId/activate
- * @param universeId
+ * @api POST https://develop.roblox.com/v1/universes/:universeId/activate
+ * @summary Activates a universes.
+ * @param universeId The universe id.
  */
 export const postUniversesUniverseidActivate = endpoint({
   method: 'post' as const,
@@ -1035,12 +1036,10 @@ export const postUniversesUniverseidActivate = endpoint({
       status: 400,
       description: `1: The universe does not exist.
 2: This universe does not have a root place.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -1048,14 +1047,14 @@ export const postUniversesUniverseidActivate = endpoint({
 3: You are not authorized to configure this universe.
 6: The root place for this universe is under review and can not be activated.
 7: Creator already has the maximum number of places active.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://develop.roblox.com/v1/universes/:universeId/aliases
+ * @api POST https://develop.roblox.com/v1/universes/:universeId/aliases
+ * @summary Creates an alias.
  * @param body The request body containing the alias attributes.
- * @param universeId
+ * @param universeId The universe Id.
  */
 export const postUniversesUniverseidAliases = endpoint({
   method: 'post' as const,
@@ -1081,35 +1080,31 @@ export const postUniversesUniverseidAliases = endpoint({
 3: The alias type is required.
 4: The alias target is required.
 6: The alias name is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 10: You are not authorized to configure this universe.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `7: The universe does not exist.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `8: An alias with the provided name already exists.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://develop.roblox.com/v1/universes/:universeId/aliases/:name
- * @param universeId
- * @param name
+ * @api DELETE https://develop.roblox.com/v1/universes/:universeId/aliases/:name
+ * @summary Deletes an alias.
+ * @param universeId The universe id.
+ * @param name The name of the alias to delete.
  */
 export const deleteUniversesUniverseidAliasesName = endpoint({
   method: 'delete' as const,
@@ -1133,27 +1128,25 @@ export const deleteUniversesUniverseidAliasesName = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 10: You are not authorized to configure this universe.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `7: The universe does not exist.
 9: An alias with the provided name does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://develop.roblox.com/v1/universes/:universeId/aliases/:name
+ * @api PATCH https://develop.roblox.com/v1/universes/:universeId/aliases/:name
+ * @summary Updates an alias.
  * @param body The request body containing the alias attributes to update.
- * @param universeId
- * @param name
+ * @param universeId The universe Id.
+ * @param name The name of the alias to update.
  */
 export const patchUniversesUniverseidAliasesName = endpoint({
   method: 'patch' as const,
@@ -1181,35 +1174,31 @@ export const patchUniversesUniverseidAliasesName = endpoint({
       description: `1: The request body is missing.
 5: Either none or both alias type and target should be provided.
 6: The alias name is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 10: You are not authorized to configure this universe.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `7: The universe does not exist.
 9: An alias with the provided name does not exist.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `8: An alias with the provided name already exists.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/universes/:universeId/configuration
- * @param universeId
+ * @api GET https://develop.roblox.com/v1/universes/:universeId/configuration
+ * @summary Get settings for an owned universe.
+ * @param universeId The universe Id.
  */
 export const getUniversesUniverseidConfiguration = endpoint({
   method: 'get' as const,
@@ -1229,24 +1218,22 @@ export const getUniversesUniverseidConfiguration = endpoint({
     {
       status: 400,
       description: `1: The universe does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: You are not authorized to configure this universe.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://develop.roblox.com/v1/universes/:universeId/configuration
+ * @api PATCH https://develop.roblox.com/v1/universes/:universeId/configuration
+ * @summary Update universe settings for an owned universe.
  * @param body The Roblox.Api.Develop.Models.UniverseSettingsRequest model.
- * @param universeId
+ * @param universeId The universeId.
  */
 export const patchUniversesUniverseidConfiguration = endpoint({
   method: 'patch' as const,
@@ -1288,30 +1275,27 @@ export const patchUniversesUniverseidConfiguration = endpoint({
 22: Invalid asset type.
 23: Invalid value, the min must be less than or equal to the max
 24: Invalid scale value`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You are not authorized to configure this universe.
 14: You are not authorized to sell games.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `9: Failed to shutdown all intances of game after changing AvatarType. The change has been reverted.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/universes/:universeId/configuration/vip-servers
- * @param universeId
+ * @api GET https://develop.roblox.com/v1/universes/:universeId/configuration/vip-servers
+ * @summary Get settings for an owned universe's VIP servers.
+ * @param universeId The universe Id.
  */
 export const getUniversesUniverseidConfigurationVipServers = endpoint({
   method: 'get' as const,
@@ -1331,23 +1315,21 @@ export const getUniversesUniverseidConfigurationVipServers = endpoint({
     {
       status: 400,
       description: `1: The universe does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: You are not authorized to configure this universe.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://develop.roblox.com/v1/universes/:universeId/deactivate
- * @param universeId
+ * @api POST https://develop.roblox.com/v1/universes/:universeId/deactivate
+ * @summary Deactivates a universe.
+ * @param universeId The universe id.
  */
 export const postUniversesUniverseidDeactivate = endpoint({
   method: 'post' as const,
@@ -1368,23 +1350,20 @@ export const postUniversesUniverseidDeactivate = endpoint({
       status: 400,
       description: `1: The universe does not exist.
 2: This universe does not have a root place.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 3: You are not authorized to configure this universe.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/universes/:universeId/live-stats
+ * @api GET https://develop.roblox.com/v1/universes/:universeId/live-stats
  * @param universeId
  */
 export const getUniversesUniverseidLiveStats = endpoint({
@@ -1406,23 +1385,21 @@ export const getUniversesUniverseidLiveStats = endpoint({
       status: 400,
       description: `1: The universe does not exist.
 2: This universe does not have a root place.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `3: You are not authorized to configure this universe.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/universes/:universeId/permissions
- * @param universeId
+ * @api GET https://develop.roblox.com/v1/universes/:universeId/permissions
+ * @summary Returns list of granted and declined permissions related to the universe with the id universeId for authenticated user
+ * @param universeId The universe id.
  */
 export const getUniversesUniverseidPermissions = endpoint({
   method: 'get' as const,
@@ -1442,22 +1419,21 @@ export const getUniversesUniverseidPermissions = endpoint({
     {
       status: 400,
       description: `1: The universe does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/universes/:universeId/places
- * @param universeId
+ * @api GET https://develop.roblox.com/v1/universes/:universeId/places
+ * @summary Gets a list of places for a universe.
+ * @param universeId The asset id.
  * @param isUniverseCreation
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sorted by placeId
  */
 export const getUniversesUniverseidPlaces = endpoint({
   method: 'get' as const,
@@ -1499,8 +1475,9 @@ export const getUniversesUniverseidPlaces = endpoint({
   errors: [],
 });
 /**
- * @api get https://develop.roblox.com/v1/universes/:universeId/teamcreate
- * @param universeId
+ * @api GET https://develop.roblox.com/v1/universes/:universeId/teamcreate
+ * @summary Gets TeamCreate settings for an Roblox.Platform.Universes.IUniverse.
+ * @param universeId The universe Id.
  */
 export const getUniversesUniverseidTeamcreate = endpoint({
   method: 'get' as const,
@@ -1520,24 +1497,22 @@ export const getUniversesUniverseidTeamcreate = endpoint({
     {
       status: 400,
       description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUniverse`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.Unauthorized`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://develop.roblox.com/v1/universes/:universeId/teamcreate
+ * @api PATCH https://develop.roblox.com/v1/universes/:universeId/teamcreate
+ * @summary Edit team create settings for a universe.
  * @param body The request body containing the team create settings.
- * @param universeId
+ * @param universeId The universe Id.
  * @description Enables, or disables team create for a universe.
  */
 export const patchUniversesUniverseidTeamcreate = endpoint({
@@ -1560,27 +1535,25 @@ export const patchUniversesUniverseidTeamcreate = endpoint({
     {
       status: 400,
       description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUniverse`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.Unauthorized
 0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
- * @param universeId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
+ * @summary List of users allowed to TeamCreate a universe.
+ * @param universeId The universe Id.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder TeamCreate membership grant date
  */
 export const getUniversesUniverseidTeamcreateMemberships = endpoint({
   method: 'get' as const,
@@ -1618,24 +1591,22 @@ export const getUniversesUniverseidTeamcreateMemberships = endpoint({
     {
       status: 400,
       description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUniverse`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.TeamCreateDisabled`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
+ * @api DELETE https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
+ * @summary Removes a user from a TeamCreate permissions list.
  * @param body The request body.
- * @param universeId
+ * @param universeId The universe Id.
  */
 export const deleteUniversesUniverseidTeamcreateMemberships = endpoint({
   method: 'delete' as const,
@@ -1657,24 +1628,22 @@ export const deleteUniversesUniverseidTeamcreateMemberships = endpoint({
     {
       status: 400,
       description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUniverse OR Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUser`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.TeamCreateDisabled
 0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/universes/multiget
- * @param ids
+ * @api GET https://develop.roblox.com/v1/universes/multiget
+ * @summary Gets a System.Collections.Generic.List`1.
+ * @param ids The universe IDs to get. Limit 100.
  * @description If a universe can not be found for a given ID (such as -1) it will be skipped.
  */
 export const getUniversesMultiget = endpoint({
@@ -1697,13 +1666,13 @@ export const getUniversesMultiget = endpoint({
       status: 400,
       description: `8: No universe IDs sent to get.
 9: Too many universe IDs sent to get, the limit is: `,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/universes/multiget/permissions
- * @param ids
+ * @api GET https://develop.roblox.com/v1/universes/multiget/permissions
+ * @summary Returns an array of granted and declined permissions related to the universes with the ids in ids for the authenticated user.
+ * @param ids The universe ids.
  * @description If a universe can not be found for a given ID (such as -1) it will be skipped.
  */
 export const getUniversesMultigetPermissions = endpoint({
@@ -1726,17 +1695,16 @@ export const getUniversesMultigetPermissions = endpoint({
       status: 400,
       description: `8: No universe IDs sent to get.
 9: Too many universe IDs sent to get, the limit is: `,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/universes/multiget/teamcreate
+ * @api GET https://develop.roblox.com/v1/universes/multiget/teamcreate
+ * @summary Gets TeamCreate settings for multiple universes specified by Ids
  * @param ids
  */
 export const getUniversesMultigetTeamcreate = endpoint({
@@ -1758,19 +1726,18 @@ export const getUniversesMultigetTeamcreate = endpoint({
     {
       status: 400,
       description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.TooManyUniverseIdsSent`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/user/:userId/canmanage/:assetId
- * @param userId
- * @param assetId
+ * @api GET https://develop.roblox.com/v1/user/:userId/canmanage/:assetId
+ * @summary Returns whether the user can manage a given asset.
+ * @param userId The ID of the user.
+ * @param assetId The ID of the asset.
  */
 export const getUserUseridCanmanageAssetid = endpoint({
   method: 'get' as const,
@@ -1793,7 +1760,8 @@ export const getUserUseridCanmanageAssetid = endpoint({
   errors: [],
 });
 /**
- * @api get https://develop.roblox.com/v1/user/groups/canmanage
+ * @api GET https://develop.roblox.com/v1/user/groups/canmanage
+ * @summary Gets a list of Groups that a user can manage.
  */
 export const getUserGroupsCanmanage = endpoint({
   method: 'get' as const,
@@ -1805,12 +1773,12 @@ export const getUserGroupsCanmanage = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/user/groups/canmanagegamesoritems
+ * @api GET https://develop.roblox.com/v1/user/groups/canmanagegamesoritems
+ * @summary Gets a list of groups a user can manage games or items for.
  */
 export const getUserGroupsCanmanagegamesoritems = endpoint({
   method: 'get' as const,
@@ -1822,15 +1790,15 @@ export const getUserGroupsCanmanagegamesoritems = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/user/teamcreate/memberships
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://develop.roblox.com/v1/user/teamcreate/memberships
+ * @summary List of universes the authenticated user has permission to TeamCreate.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder TeamCreate membership grant date
  */
 export const getUserTeamcreateMemberships = endpoint({
   method: 'get' as const,
@@ -1864,16 +1832,16 @@ export const getUserTeamcreateMemberships = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://develop.roblox.com/v1/user/universes
- * @param isArchived
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://develop.roblox.com/v1/user/universes
+ * @summary Gets a list of universes for the authenticated user.
+ * @param isArchived Whether or not to return archived games.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sorted by universeId
  */
 export const getUserUniverses = endpoint({
   method: 'get' as const,
@@ -1912,12 +1880,10 @@ export const getUserUniverses = endpoint({
     {
       status: 400,
       description: `cursor is not valid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });

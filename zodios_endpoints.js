@@ -3,7 +3,7 @@ const path = require('path');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const pLimit = require('p-limit');
-const { generateZodClientFromOpenAPI } = require('@thepotato97/openapi-zod-client');
+const { generateZodClientFromOpenAPI } = require('@alexop/openapi-zod-client');
 const SwaggerParser = require('@apidevtools/swagger-parser');
 
 const limit = pLimit(2);
@@ -11,8 +11,42 @@ const limit = pLimit(2);
 const FOLDER_OPENAPI = 'openapi';
 const FOLDER_ZODIOS = 'src/endpoints';
 
+const handlebars = require('handlebars').create();
+
+handlebars.registerHelper("ifeq", function (a, b, options) {
+  if (a === b) {
+      return options.fn(this);
+  }
+
+  return options.inverse(this);
+});
+handlebars.registerHelper("ifNotEmptyObj", function (obj, options) {
+  if (typeof obj === "object" && Object.keys(obj).length > 0) {
+      return options.fn(this);
+  }
+
+  return options.inverse(this);
+});
+handlebars.registerHelper("toCamelCase", function (input) {
+  if (/^[a-z][a-zA-Z0-9]*$/.test(input)) {
+      return input
+  }
+
+  const words = input.split(/[\s_-]/);
+  return words
+      .map((word, index) => {
+          if (index === 0) {
+              return word.toLowerCase();
+          }
+
+          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join("");
+});
+handlebars.registerHelper('toUpperCase', (str) => str.toUpperCase());
+
 console.log('Generating OpenAPI files from Swagger files...');
-const urls = readFileSync('urls.txt', 'utf-8')
+const urls = fs.readFileSync('urls.txt', 'utf-8')
   .split('\n')
   .filter((url) => url.trim() !== '');
 Promise.all(
@@ -31,15 +65,15 @@ Promise.all(
 ).then(() => {
   console.log('Generating Zodios endpoints...');
 
-  const openApiFiles = readdirSync(FOLDER_OPENAPI).filter((file) => {
-    const folderContents = readdirSync(`${FOLDER_OPENAPI}/${file}`);
+  const openApiFiles = fs.readdirSync(FOLDER_OPENAPI).filter((file) => {
+    const folderContents = fs.readdirSync(`${FOLDER_OPENAPI}/${file}`);
     return folderContents.some((file) => file.endsWith('.yaml'));
   });
 
   openApiFiles.forEach(async (folder) => {
     console.log(`Generating Zodios for ${folder}`);
 
-    const fileName = basename(folder, '.yaml');
+    const fileName = path.basename(folder, '.yaml');
     const matchingUrl = urls.find((url) => {
       const apiVersion = url.match(/\/v(\d+)/)[1];
       return url.includes(`${fileName.replace(/v\d+$/, '')}.roblox.com/docs/json/v${apiVersion}`);
@@ -52,6 +86,7 @@ Promise.all(
         openApiDoc: openApiDoc,
         templatePath: './template.hbs',
         distPath: `${FOLDER_ZODIOS}/${fileName}.ts`,
+        handlebars,
         options: {
           baseUrl: `https://${subdomain}.${domain}`,
           withDeprecatedEndpoints: true,
@@ -76,9 +111,9 @@ Promise.all(
   });
 
   // Take all the endpoint files and move them to ./lib/endpoints but renamed to their name plus .d.ts
-  const endpointFiles = readdirSync(FOLDER_ZODIOS).filter((file) => file.endsWith('.ts'));
+  const endpointFiles = fs.readdirSync(FOLDER_ZODIOS).filter((file) => file.endsWith('.ts'));
   endpointFiles.forEach((file) => {
-    const fileName = basename(file, '.ts');
-    writeFileSync(`./lib/endpoints/${fileName}.d.ts`, readFileSync(`./src/endpoints/${fileName}.ts`, 'utf-8'));
+    const fileName = path.basename(file, '.ts');
+    fs.writeFileSync(`./lib/endpoints/${fileName}.d.ts`, fs.readFileSync(`./src/endpoints/${fileName}.ts`, 'utf-8'));
   });
 });

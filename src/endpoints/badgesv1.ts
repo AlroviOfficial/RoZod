@@ -111,8 +111,9 @@ const schemas = {
 };
 
 /**
- * @api get https://badges.roblox.com/v1/badges/:badgeId
- * @param badgeId
+ * @api GET https://badges.roblox.com/v1/badges/:badgeId
+ * @summary Gets badge information by the badge Id.
+ * @param badgeId The badge Id.
  */
 export const getBadgesBadgeid = endpoint({
   method: 'get' as const,
@@ -132,14 +133,14 @@ export const getBadgesBadgeid = endpoint({
     {
       status: 404,
       description: `1: Badge is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://badges.roblox.com/v1/badges/:badgeId
+ * @api PATCH https://badges.roblox.com/v1/badges/:badgeId
+ * @summary Updates badge configuration.
  * @param body The request body.
- * @param badgeId
+ * @param badgeId The badge Id.
  */
 export const patchBadgesBadgeid = endpoint({
   method: 'patch' as const,
@@ -161,28 +162,25 @@ export const patchBadgesBadgeid = endpoint({
     {
       status: 400,
       description: `6: Text moderated.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You do not have permission to manage this badge.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: Badge is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://badges.roblox.com/v1/badges/metadata
+ * @api GET https://badges.roblox.com/v1/badges/metadata
+ * @summary Gets metadata about the badges system.
  */
 export const getBadgesMetadata = endpoint({
   method: 'get' as const,
@@ -193,11 +191,12 @@ export const getBadgesMetadata = endpoint({
   errors: [],
 });
 /**
- * @api get https://badges.roblox.com/v1/universes/:universeId/badges
- * @param universeId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://badges.roblox.com/v1/universes/:universeId/badges
+ * @summary Gets badges by their awarding game.
+ * @param universeId The universe Id.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getUniversesUniverseidBadges = endpoint({
   method: 'get' as const,
@@ -235,14 +234,14 @@ export const getUniversesUniverseidBadges = endpoint({
     {
       status: 404,
       description: `3: The game is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://badges.roblox.com/v1/universes/:universeId/badges
+ * @api POST https://badges.roblox.com/v1/universes/:universeId/badges
+ * @summary Creates a new badge.
  * @param body
- * @param universeId
+ * @param universeId The ID of the universe to create the badge for.
  */
 export const postUniversesUniverseidBadges = endpoint({
   method: 'post' as const,
@@ -268,12 +267,10 @@ export const postUniversesUniverseidBadges = endpoint({
 15: Invalid badge description.
 16: Payment source is invalid.
 18: Expected badge cost is different from the actual badge cost.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -281,23 +278,21 @@ export const postUniversesUniverseidBadges = endpoint({
 6: Text moderated.
 12: You do not have permission to manage this game&#x27;s badges.
 17: Insufficient funds.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `3: The game is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `13: Too many requests, try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://badges.roblox.com/v1/universes/:universeId/free-badges-quota
- * @param universeId
+ * @api GET https://badges.roblox.com/v1/universes/:universeId/free-badges-quota
+ * @summary Gets the number of free badges left for the current UTC day by their awarding game.
+ * @param universeId The universe Id.
  */
 export const getUniversesUniverseidFreeBadgesQuota = endpoint({
   method: 'get' as const,
@@ -317,14 +312,14 @@ export const getUniversesUniverseidFreeBadgesQuota = endpoint({
     {
       status: 404,
       description: `3: The game is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://badges.roblox.com/v1/user/:userId/badges/:badgeId
+ * @api DELETE https://badges.roblox.com/v1/user/:userId/badges/:badgeId
+ * @summary Removes a badge from the user.
  * @param userId
- * @param badgeId
+ * @param badgeId The badge Id.
  */
 export const deleteUserUseridBadgesBadgeid = endpoint({
   method: 'delete' as const,
@@ -348,23 +343,21 @@ export const deleteUserUseridBadgesBadgeid = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: Badge is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://badges.roblox.com/v1/user/badges/:badgeId
- * @param badgeId
+ * @api DELETE https://badges.roblox.com/v1/user/badges/:badgeId
+ * @summary Removes a badge from the authenticated user.
+ * @param badgeId The badge Id.
  */
 export const deleteUserBadgesBadgeid = endpoint({
   method: 'delete' as const,
@@ -384,26 +377,24 @@ export const deleteUserBadgesBadgeid = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `1: Badge is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://badges.roblox.com/v1/users/:userId/badges
- * @param userId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://badges.roblox.com/v1/users/:userId/badges
+ * @summary Gets a list of badges a user has been awarded.
+ * @param userId The user Id.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridBadges = endpoint({
   method: 'get' as const,
@@ -441,14 +432,14 @@ export const getUsersUseridBadges = endpoint({
     {
       status: 404,
       description: `4: User is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://badges.roblox.com/v1/users/:userId/badges/awarded-dates
- * @param userId
- * @param badgeIds
+ * @api GET https://badges.roblox.com/v1/users/:userId/badges/awarded-dates
+ * @summary Gets timestamps for when badges were awarded to a user.
+ * @param userId The user Id.
+ * @param badgeIds The CSV of badge Ids.
  */
 export const getUsersUseridBadgesAwardedDates = endpoint({
   method: 'get' as const,
@@ -472,12 +463,10 @@ export const getUsersUseridBadgesAwardedDates = endpoint({
     {
       status: 400,
       description: `5: Too many badge Ids.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `4: User is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });

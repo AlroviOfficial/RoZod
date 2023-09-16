@@ -226,7 +226,8 @@ const schemas = {
 };
 
 /**
- * @api get https://avatar.roblox.com/v1/avatar
+ * @api GET https://avatar.roblox.com/v1/avatar
+ * @summary Returns details about the authenticated user's avatar
  */
 export const getAvatar = endpoint({
   method: 'get' as const,
@@ -238,12 +239,12 @@ export const getAvatar = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://avatar.roblox.com/v1/avatar-rules
+ * @api GET https://avatar.roblox.com/v1/avatar-rules
+ * @summary Returns the business rules related to avatars
  * @description BodyColorsPalette is a list of valid brickColors you can choose for your avatar.
 WearableAssetTypes contains a list of asset types with names, ids, and the maximum number that you can wear at a time.
 Does not include packages because they cannot be worn on your avatar directly.
@@ -258,8 +259,9 @@ export const getAvatarRules = endpoint({
   errors: [],
 });
 /**
- * @api post https://avatar.roblox.com/v1/avatar/assets/:assetId/remove
- * @param assetId
+ * @api POST https://avatar.roblox.com/v1/avatar/assets/:assetId/remove
+ * @summary Removes the asset from the authenticated user's avatar.
+ * @param assetId The asset id.
  */
 export const postAvatarAssetsAssetidRemove = endpoint({
   method: 'post' as const,
@@ -279,24 +281,23 @@ export const postAvatarAssetsAssetidRemove = endpoint({
     {
       status: 400,
       description: `2: Failed to remove asset.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 1: You must be wearing the asset to remove it.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://avatar.roblox.com/v1/avatar/assets/:assetId/wear
- * @param assetId
+ * @api POST https://avatar.roblox.com/v1/avatar/assets/:assetId/wear
+ * @summary Puts the asset on the authenticated user's avatar.
+- Flagged as obsolete, does not support layered clothing meta params
+ * @param assetId The asset id.
  */
 export const postAvatarAssetsAssetidWear = endpoint({
   method: 'post' as const,
@@ -316,23 +317,21 @@ export const postAvatarAssetsAssetidWear = endpoint({
     {
       status: 400,
       description: `2: Failed to wear asset.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 1: You must own an asset to wear it.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://avatar.roblox.com/v1/avatar/metadata
+ * @api GET https://avatar.roblox.com/v1/avatar/metadata
+ * @summary Returns metadata used by the avatar page of the website
  */
 export const getAvatarMetadata = endpoint({
   method: 'get' as const,
@@ -343,7 +342,8 @@ export const getAvatarMetadata = endpoint({
   errors: [],
 });
 /**
- * @api post https://avatar.roblox.com/v1/avatar/redraw-thumbnail
+ * @api POST https://avatar.roblox.com/v1/avatar/redraw-thumbnail
+ * @summary Requests the authenticated user's thumbnail be redrawn
  */
 export const postAvatarRedrawThumbnail = endpoint({
   method: 'post' as const,
@@ -355,23 +355,21 @@ export const postAvatarRedrawThumbnail = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `1: Redrawing your avatar thumbnail is floodchecked at this time
 1: Redrawing your avatar thumbnail is floodchecked at this time`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://avatar.roblox.com/v1/avatar/set-body-colors
+ * @api POST https://avatar.roblox.com/v1/avatar/set-body-colors
+ * @summary Sets the authenticated user's body colors
  * @param body
  */
 export const postAvatarSetBodyColors = endpoint({
@@ -389,17 +387,16 @@ export const postAvatarSetBodyColors = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://avatar.roblox.com/v1/avatar/set-player-avatar-type
+ * @api POST https://avatar.roblox.com/v1/avatar/set-player-avatar-type
+ * @summary Sets the authenticated user's player avatar type (e.g. R6 or R15).
  * @param body R6 or R15
  * @description This is the avatar type chosen on the Avatar page. Some games can override this and force your character to be R6 or R15.
  */
@@ -418,23 +415,21 @@ export const postAvatarSetPlayerAvatarType = endpoint({
     {
       status: 400,
       description: `1: Invalid playerAvatarType. Valid values are: `,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You are not allowed to change player avatar type.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://avatar.roblox.com/v1/avatar/set-scales
+ * @api POST https://avatar.roblox.com/v1/avatar/set-scales
+ * @summary Sets the authenticated user's scales
  * @param body
  */
 export const postAvatarSetScales = endpoint({
@@ -452,23 +447,22 @@ export const postAvatarSetScales = endpoint({
     {
       status: 400,
       description: `1: Please pass in the scales JSON`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 3: The user does not have permissions to change scales.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://avatar.roblox.com/v1/avatar/set-wearing-assets
+ * @api POST https://avatar.roblox.com/v1/avatar/set-wearing-assets
+ * @summary Sets the avatar's current assets to the list
+- Flagged as obsolete, does not support layered clothing meta params
  * @param body The list of asset IDs
  * @description Only allows items that you own, are not expired, and are wearable asset types.
 Any assets being worn before this method is called are automatically removed.
@@ -488,28 +482,27 @@ export const postAvatarSetWearingAssets = endpoint({
     {
       status: 400,
       description: `3: Invalid assetId`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `2: Failed to wear asset.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://avatar.roblox.com/v1/game-start-info
- * @param universeId
+ * @api GET https://avatar.roblox.com/v1/game-start-info
+ * @summary The server will call this on game server start to request general information about the universe
+This is version 1.1, which returns an entry from the UniverseAvatarType enum.
+During mixed mode this may return unreliable results.
+ * @param universeId 
  */
 export const getGameStartInfo = endpoint({
   method: 'get' as const,
@@ -529,9 +522,10 @@ export const getGameStartInfo = endpoint({
   errors: [],
 });
 /**
- * @api patch https://avatar.roblox.com/v1/outfits/:userOutfitId
+ * @api PATCH https://avatar.roblox.com/v1/outfits/:userOutfitId
+ * @summary Updates the contents of an outfit. Deprecated. There are no calls to this API
  * @param body The updated outfit
- * @param userOutfitId
+ * @param userOutfitId The user outfit id.
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types. Accepts partial updates.
  */
 export const patchOutfitsUseroutfitid = endpoint({
@@ -559,29 +553,26 @@ export const patchOutfitsUseroutfitid = endpoint({
 4: Invalid outfit name
 5: Asset is not wearable by you
 8: Invalid Player Avatar Type. Valid types are R6 and R15`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You don&#x27;t have permission to update this outfit.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `6: An error occurred while trying to update the outfit`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://avatar.roblox.com/v1/outfits/:userOutfitId/delete
- * @param userOutfitId
+ * @api POST https://avatar.roblox.com/v1/outfits/:userOutfitId/delete
+ * @summary Deletes the outfit
+ * @param userOutfitId The user outfit id
  * @description You are only allowed to delete outfits you created.
  */
 export const postOutfitsUseroutfitidDelete = endpoint({
@@ -602,29 +593,26 @@ export const postOutfitsUseroutfitidDelete = endpoint({
     {
       status: 400,
       description: `1: The specified userOutfitId is invalid!`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You don&#x27;t have permission to delete this outfit.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `3: An error occurred while deleting the outfit.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://avatar.roblox.com/v1/outfits/:userOutfitId/details
- * @param userOutfitId
+ * @api GET https://avatar.roblox.com/v1/outfits/:userOutfitId/details
+ * @summary Gets details about the contents of an outfit.
+ * @param userOutfitId The user outfit id.
  */
 export const getOutfitsUseroutfitidDetails = endpoint({
   method: 'get' as const,
@@ -645,19 +633,18 @@ export const getOutfitsUseroutfitidDetails = endpoint({
       status: 400,
       description: `1: The specified userOutfitId is invalid.
 2: The outfit for the specified userOutfit is invalid.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `3: The requester does not have access to the details for the given user outfit.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://avatar.roblox.com/v1/outfits/:userOutfitId/update
+ * @api POST https://avatar.roblox.com/v1/outfits/:userOutfitId/update
+ * @summary Updates the contents of the outfit. Deprecated. There are no calls to this API
  * @param body The updated outfit
- * @param userOutfitId
+ * @param userOutfitId The user outfit id.
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
  */
 export const postOutfitsUseroutfitidUpdate = endpoint({
@@ -685,29 +672,26 @@ export const postOutfitsUseroutfitidUpdate = endpoint({
 5: Asset is not wearable by you
 7: Invalid assetIds
 8: Invalid Player Avatar Type. Valid types are R6 and R15`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You don&#x27;t have permission to update this outfit.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `6: An error occurred while trying to update the outfit`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://avatar.roblox.com/v1/outfits/:userOutfitId/wear
- * @param userOutfitId 
+ * @api POST https://avatar.roblox.com/v1/outfits/:userOutfitId/wear
+ * @summary Wears the outfit
+ * @param userOutfitId The user outfit id
  * @description Applies the outfit's appearance to your avatar
 If the user no longer owns one or more of the assets, invalidAssetIds will be populated with the unwearable assets.
  */
@@ -729,28 +713,25 @@ export const postOutfitsUseroutfitidWear = endpoint({
     {
       status: 400,
       description: `1: The specified userOutfitId is invalid!`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You don&#x27;t have permission to wear this outfit!`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `3: The flood limit has been exceeded!`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://avatar.roblox.com/v1/outfits/create
+ * @api POST https://avatar.roblox.com/v1/outfits/create
+ * @summary Creates a new outfit.
  * @param body The new outfit
  * @description Fails if any of the assetIds are not owned by the user, or not wearable types.
 The name property of the request is optional as one will be auto-generated when the request has a null name.
@@ -774,29 +755,27 @@ export const postOutfitsCreate = endpoint({
 5: Asset is not wearable by you and was not added to the outfit
 7: Invalid Player Avatar Type. Valid types are R6 and R15
 8: Invalid assetIds`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 1: You already have the maximum number of outfits`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `6: An error occurred while creating the outfit`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://avatar.roblox.com/v1/recent-items/:recentItemListType/list
- * @param recentItemListType
+ * @api GET https://avatar.roblox.com/v1/recent-items/:recentItemListType/list
+ * @summary Returns a list of recent items
+Recent items can be Assets or Outfits
+ * @param recentItemListType 
  */
 export const getRecentItemsRecentitemlisttypeList = endpoint({
   method: 'get' as const,
@@ -824,12 +803,12 @@ export const getRecentItemsRecentitemlisttypeList = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://avatar.roblox.com/v1/users/:userId/avatar
+ * @api GET https://avatar.roblox.com/v1/users/:userId/avatar
+ * @summary Returns details about a specified user's avatar
  * @param userId
  * @description Includes assets, bodycolors, and playerAvatarType.
  */
@@ -852,13 +831,13 @@ export const getUsersUseridAvatar = endpoint({
       status: 400,
       description: `1: The specified user does not exist.
 2: An account for the given userId does not exist!`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://avatar.roblox.com/v1/users/:userId/currently-wearing
- * @param userId
+ * @api GET https://avatar.roblox.com/v1/users/:userId/currently-wearing
+ * @summary Gets a list of asset ids that the user is currently wearing
+ * @param userId The user id.
  */
 export const getUsersUseridCurrentlyWearing = endpoint({
   method: 'get' as const,
@@ -879,17 +858,17 @@ export const getUsersUseridCurrentlyWearing = endpoint({
       status: 400,
       description: `1: The specified user does not exist.
 2: An account for the given userId does not exist!`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://avatar.roblox.com/v1/users/:userId/outfits
- * @param userId
- * @param outfitType
- * @param page
- * @param itemsPerPage
- * @param isEditable
+ * @api GET https://avatar.roblox.com/v1/users/:userId/outfits
+ * @summary Gets a list of outfits for the specified user.
+ * @param userId The user id
+ * @param outfitType The outfit type being searched for
+ * @param page The page number
+ * @param itemsPerPage The max number of outfits that can be returned
+ * @param isEditable Whether the outfits are editable. A null value will lead to no filtering.
  */
 export const getUsersUseridOutfits = endpoint({
   method: 'get' as const,
@@ -930,7 +909,6 @@ export const getUsersUseridOutfits = endpoint({
       status: 400,
       description: `1: The specified user does not exist.
 2: An account for the given userId does not exist!`,
-      schema: z.void(),
     },
   ],
 });

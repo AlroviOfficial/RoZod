@@ -596,8 +596,9 @@ const schemas = {
 };
 
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId
- * @param groupId
+ * @api GET https://groups.roblox.com/v1/groups/:groupId
+ * @summary Gets group information
+ * @param groupId The group Id.
  */
 export const getGroupsGroupid = endpoint({
   method: 'get' as const,
@@ -617,18 +618,18 @@ export const getGroupsGroupid = endpoint({
     {
       status: 400,
       description: `1: Group is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/audit-log
- * @param groupId
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/audit-log
+ * @summary Gets the Group's audit log
+ * @param groupId The id of the group the user is in.
  * @param actionType
- * @param userId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @param userId Filter for specific user id
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidAuditLog = endpoint({
   method: 'get' as const,
@@ -724,24 +725,22 @@ export const getGroupsGroupidAuditLog = endpoint({
     {
       status: 400,
       description: `1: Group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `23: Insufficient permissions to complete the request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/change-owner
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/change-owner
+ * @summary Changes the group owner to another user.
  * @param body The request.
- * @param groupId
+ * @param groupId The group Id.
  */
 export const postGroupsGroupidChangeOwner = endpoint({
   method: 'post' as const,
@@ -766,25 +765,23 @@ export const postGroupsGroupidChangeOwner = endpoint({
 3: The user is invalid or does not exist.
 15: User is not a member of the group.
 16: The user does not have the necessary level of premium membership.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 17: You are not authorized to change the owner of this group.
 25: 2-Step Verification is required to make further transactions. Go to Settings &gt; Security to complete 2-Step Verification.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/claim-ownership
- * @param groupId
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/claim-ownership
+ * @summary Claims ownership of the group as the authenticated user
+ * @param groupId The group Id.
  */
 export const postGroupsGroupidClaimOwnership = endpoint({
   method: 'post' as const,
@@ -804,12 +801,10 @@ export const postGroupsGroupidClaimOwnership = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -817,19 +812,18 @@ export const postGroupsGroupidClaimOwnership = endpoint({
 11: You are not authorized to claim this group
 12: This group already has an owner
 13: Too many attempts to claim groups. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `18: The operation is temporarily unavailable. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://groups.roblox.com/v1/groups/:groupId/description
+ * @api PATCH https://groups.roblox.com/v1/groups/:groupId/description
+ * @summary Updates the groups description
  * @param body The Roblox.Groups.Api.UpdateGroupDescriptionRequest.
- * @param groupId
+ * @param groupId The id of the group the user is in.
  */
 export const patchGroupsGroupidDescription = endpoint({
   method: 'patch' as const,
@@ -852,28 +846,26 @@ export const patchGroupsGroupidDescription = endpoint({
       status: 400,
       description: `1: Group is invalid or does not exist.
 29: Your group description was empty.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 18: The description is too long.
 23: Insufficient permissions to complete the request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/join-requests
- * @param groupId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/join-requests
+ * @summary Gets a page of Group Join Requests for a group.
+ * @param groupId The group id.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sorted by group join request creation date
  */
 export const getGroupsGroupidJoinRequests = endpoint({
   method: 'get' as const,
@@ -911,24 +903,22 @@ export const getGroupsGroupidJoinRequests = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `19: You have insufficient permissions for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/join-requests
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/join-requests
+ * @summary Batch accepts group join requests
  * @param body The Roblox.Groups.Api.MembersRequest.
- * @param groupId
+ * @param groupId The group id.
  */
 export const postGroupsGroupidJoinRequests = endpoint({
   method: 'post' as const,
@@ -952,36 +942,32 @@ export const postGroupsGroupidJoinRequests = endpoint({
       description: `1: The group is invalid or does not exist.
 3: The user is invalid or does not exist.
 20: The group join request is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 6: You are already in the maximum number of groups.
 19: You have insufficient permissions for this request.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: Something went wrong.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `18: The operation is temporarily unavailable. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/join-requests
+ * @api DELETE https://groups.roblox.com/v1/groups/:groupId/join-requests
+ * @summary Batch declines group join requests
  * @param body The Roblox.Groups.Api.MembersRequest.
- * @param groupId
+ * @param groupId The group id.
  */
 export const deleteGroupsGroupidJoinRequests = endpoint({
   method: 'delete' as const,
@@ -1004,24 +990,22 @@ export const deleteGroupsGroupidJoinRequests = endpoint({
       status: 400,
       description: `1: The group is invalid or does not exist.
 3: The user is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/join-requests/users/:userId
- * @param groupId
- * @param userId
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/join-requests/users/:userId
+ * @summary Gets a group join request by userId.
+ * @param groupId The group Id.
+ * @param userId The user Id.
  */
 export const getGroupsGroupidJoinRequestsUsersUserid = endpoint({
   method: 'get' as const,
@@ -1045,24 +1029,22 @@ export const getGroupsGroupidJoinRequestsUsersUserid = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `19: You have insufficient permissions for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/join-requests/users/:userId
- * @param groupId
- * @param userId
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/join-requests/users/:userId
+ * @summary Accepts a group join request.
+ * @param groupId The group Id.
+ * @param userId The user Id.
  */
 export const postGroupsGroupidJoinRequestsUsersUserid = endpoint({
   method: 'post' as const,
@@ -1088,31 +1070,28 @@ export const postGroupsGroupidJoinRequestsUsersUserid = endpoint({
       description: `1: The group is invalid or does not exist.
 3: The user is invalid or does not exist.
 20: The group join request is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 6: You are already in the maximum number of groups.
 19: You have insufficient permissions for this request.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `18: The operation is temporarily unavailable. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/join-requests/users/:userId
- * @param groupId
- * @param userId
+ * @api DELETE https://groups.roblox.com/v1/groups/:groupId/join-requests/users/:userId
+ * @summary Declines/cancels a group join request.
+ * @param groupId The group Id.
+ * @param userId The user Id.
  */
 export const deleteGroupsGroupidJoinRequestsUsersUserid = endpoint({
   method: 'delete' as const,
@@ -1136,24 +1115,22 @@ export const deleteGroupsGroupidJoinRequestsUsersUserid = endpoint({
     {
       status: 400,
       description: `3: The user is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 4: You do not have permission to manage this member.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/membership
- * @param groupId
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/membership
+ * @summary Gets group membership information in the context of the authenticated user
+ * @param groupId The group Id.
  */
 export const getGroupsGroupidMembership = endpoint({
   method: 'get' as const,
@@ -1173,14 +1150,14 @@ export const getGroupsGroupidMembership = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://groups.roblox.com/v1/groups/:groupId/name
+ * @api PATCH https://groups.roblox.com/v1/groups/:groupId/name
+ * @summary Updates the group's name.
  * @param body The Roblox.Groups.Api.UpdateGroupNameRequest.
- * @param groupId
+ * @param groupId The id of the group the user is in.
  * @description This endpoint will charge Robux for the group rename.
  */
 export const patchGroupsGroupidName = endpoint({
@@ -1206,12 +1183,10 @@ export const patchGroupsGroupidName = endpoint({
 13: The name is invalid.
 19: The name is too long.
 20: The name has been taken.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -1221,32 +1196,29 @@ export const patchGroupsGroupidName = endpoint({
 23: Insufficient permissions to complete the request.
 38: Your account must be verified in order to change your group&#x27;s name.
 39: The group ownership was changed too recently.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `36: The name was changed too recently.
 37: The name was in use too recently.`,
-      schema: z.void(),
     },
     {
       status: 413,
       description: `0: Unknown error.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `17: Too many requests.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/name-history
- * @param groupId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/name-history
+ * @summary Gets the Group's name change history.
+ * @param groupId The id of the group.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidNameHistory = endpoint({
   method: 'get' as const,
@@ -1284,18 +1256,17 @@ export const getGroupsGroupidNameHistory = endpoint({
     {
       status: 400,
       description: `1: Group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `23: Insufficient permissions to complete the request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/payout-restriction
- * @param groupId
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/payout-restriction
+ * @summary Gets a value indicating whether the group can use payout feature
+ * @param groupId The group id.
  */
 export const getGroupsGroupidPayoutRestriction = endpoint({
   method: 'get' as const,
@@ -1315,23 +1286,21 @@ export const getGroupsGroupidPayoutRestriction = endpoint({
     {
       status: 400,
       description: `1: Group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `9: You don&#x27;t have permission to view this group&#x27;s payouts.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/payouts
- * @param groupId
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/payouts
+ * @summary Gets a list of the group payout percentages
+ * @param groupId The group id.
  */
 export const getGroupsGroupidPayouts = endpoint({
   method: 'get' as const,
@@ -1351,24 +1320,22 @@ export const getGroupsGroupidPayouts = endpoint({
     {
       status: 400,
       description: `1: Group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `9: You don&#x27;t have permission to view this group&#x27;s payouts.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/payouts
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/payouts
+ * @summary Pays out a user in Robux.
  * @param body The Roblox.Groups.Api.PayoutRequest.
- * @param groupId
+ * @param groupId The group Id.
  */
 export const postGroupsGroupidPayouts = endpoint({
   method: 'post' as const,
@@ -1394,12 +1361,10 @@ export const postGroupsGroupidPayouts = endpoint({
 24: Invalid payout type.
 25: The amount is invalid.
 26: Too many recipients.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -1407,19 +1372,18 @@ export const postGroupsGroupidPayouts = endpoint({
 23: Insufficient permissions to complete the request.
 28: Group has paid out too recently. Please wait and try again.
 35: 2-Step Verification is required to make further transactions. Go to Settings &gt; Security to complete 2-Step Verification.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `22: The feature is disabled.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/payouts/recurring
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/payouts/recurring
+ * @summary Updates recurring payouts.
  * @param body The Roblox.Groups.Api.PayoutRequest.
- * @param groupId 
+ * @param groupId The group Id.
  * @description This endpoint will remove any recipients not sent in the request.
 If a recipient in the request is not a valid member in the group they will not be added to the recurring payouts.
  */
@@ -1447,12 +1411,10 @@ export const postGroupsGroupidPayoutsRecurring = endpoint({
 25: The amount is invalid.
 26: Too many recipients.
 27: The recipients are invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -1460,21 +1422,20 @@ export const postGroupsGroupidPayoutsRecurring = endpoint({
 12: Insufficient Robux funds.
 28: Group has paid out too recently. Please wait and try again.
 35: 2-Step Verification is required to make further transactions. Go to Settings &gt; Security to complete 2-Step Verification.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `22: The feature is disabled.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType
- * @param groupId
- * @param groupRelationshipType
- * @param StartRowIndex
- * @param MaxRows
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType
+ * @summary Gets a group's relationships
+ * @param groupId The group Id.
+ * @param groupRelationshipType The group relationship type, enemies or allies.
+ * @param StartRowIndex The start index of the page request
+ * @param MaxRows The maximum number of rows for the page request, should be at least 1.
  */
 export const getGroupsGroupidRelationshipsGrouprelationshiptype = endpoint({
   method: 'get' as const,
@@ -1510,15 +1471,15 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptype = endpoint({
       description: `1: Group is invalid or does not exist.
 4: Group relationship type or request type is invalid.
 8: Invalid or missing pagination parameters`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId
- * @param groupId
- * @param groupRelationshipType
- * @param relatedGroupId
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId
+ * @summary Create a group relationship.
+ * @param groupId The group id.
+ * @param groupRelationshipType The group relationship type, enemies or allies.
+ * @param relatedGroupId The id of the group you want to create a relationship with.
  */
 export const postGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid = endpoint({
   method: 'post' as const,
@@ -1549,12 +1510,10 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid =
 2: Invalid group.
 3: Target group is invalid or does not exist.
 4: Your group cannot establish a relationship with itself.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -1564,15 +1523,15 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid =
 7: Your group already has a relationship with the target group.
 8: You are blocked from communicating with this user.
 9: Insufficient permissions.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId
- * @param groupId
- * @param groupRelationshipType
- * @param relatedGroupId
+ * @api DELETE https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId
+ * @summary Deletes a group relationship.
+ * @param groupId The group id.
+ * @param groupRelationshipType The group relationship type, enemies or allies.
+ * @param relatedGroupId The id of the group you want to delete the relationship with.
  */
 export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid = endpoint({
   method: 'delete' as const,
@@ -1602,27 +1561,25 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid
       description: `2: Invalid group.
 3: Target group is invalid or does not exist.
 11: Relationship does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 8: You are blocked from communicating with this user.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests
- * @param groupId
- * @param groupRelationshipType
- * @param StartRowIndex
- * @param MaxRows
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests
+ * @summary Gets a group's relationship requests
+ * @param groupId The group Id.
+ * @param groupRelationshipType The group relationship type of the request, only allies are supported.
+ * @param StartRowIndex The start index of the page request
+ * @param MaxRows The maximum number of rows for the page request, should be at least 1.
  */
 export const getGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoint({
   method: 'get' as const,
@@ -1658,25 +1615,23 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoi
       description: `1: Group is invalid or does not exist.
 4: Group relationship type or request type is invalid.
 8: Invalid or missing pagination parameters`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `5: You don&#x27;t have permission to manage this group&#x27;s relationships.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests
+ * @summary Batch accepts group affiliate requests
  * @param body The Roblox.Groups.Api.RelationshipsRequest.
- * @param groupId
- * @param groupRelationshipType
+ * @param groupId The group id.
+ * @param groupRelationshipType The type of group relationship being made
  */
 export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoint({
   method: 'post' as const,
@@ -1702,20 +1657,19 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpo
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests
+ * @api DELETE https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests
+ * @summary Batch declines group affiliate requests
  * @param body The Roblox.Groups.Api.RelationshipsRequest.
- * @param groupId
- * @param groupRelationshipType
+ * @param groupId The group id.
+ * @param groupRelationshipType The type of group relationship being made
  */
 export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoint({
   method: 'delete' as const,
@@ -1741,20 +1695,19 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequests = end
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId
- * @param groupId
- * @param groupRelationshipType
- * @param relatedGroupId
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId
+ * @summary Accepts a group relationship request.
+ * @param groupId The group id.
+ * @param groupRelationshipType The group relationship type, enemies or allies, only allies are supported.
+ * @param relatedGroupId The id of the group you want to accept the relationship request with.
  */
 export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedgroupid = endpoint({
   method: 'post' as const,
@@ -1785,26 +1738,24 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedg
 2: Invalid group.
 3: Target group is invalid or does not exist.
 10: Relationship request does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 9: Insufficient permissions.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId
- * @param groupId
- * @param groupRelationshipType
- * @param relatedGroupId
+ * @api DELETE https://groups.roblox.com/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId
+ * @summary Declines a group relationship request.
+ * @param groupId The group id.
+ * @param groupRelationshipType The group relationship type, enemies or allies.
+ * @param relatedGroupId The id of the group you want to accept the relationship request with.
  */
 export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedgroupid = endpoint({
   method: 'delete' as const,
@@ -1835,24 +1786,22 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelate
 2: Invalid group.
 3: Target group is invalid or does not exist.
 10: Relationship request does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 9: Insufficient permissions.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/roles
- * @param groupId
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/roles
+ * @summary Gets a list of the rolesets in a group.
+ * @param groupId The group id.
  */
 export const getGroupsGroupidRoles = endpoint({
   method: 'get' as const,
@@ -1872,14 +1821,14 @@ export const getGroupsGroupidRoles = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/roles/:roleSetId/permissions
- * @param groupId
- * @param roleSetId
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/roles/:roleSetId/permissions
+ * @summary Gets the permissions for a group's roleset. The authorized user must either be the group owner or the roleset being requested, except for guest roles, which can be viewed by all (members and guests).
+ * @param groupId The group id.
+ * @param roleSetId The group's role set id.
  */
 export const getGroupsGroupidRolesRolesetidPermissions = endpoint({
   method: 'get' as const,
@@ -1904,25 +1853,23 @@ export const getGroupsGroupidRolesRolesetidPermissions = endpoint({
       status: 400,
       description: `1: Group is invalid or does not exist.
 2: The roleset is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `3: You are not authorized to view/edit permissions for this role.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://groups.roblox.com/v1/groups/:groupId/roles/:roleSetId/permissions
+ * @api PATCH https://groups.roblox.com/v1/groups/:groupId/roles/:roleSetId/permissions
+ * @summary Updates the permissions for a group's roleset. The authorized user must be the group owner.
  * @param body The request.
- * @param groupId
- * @param roleSetId
+ * @param groupId The group's id.
+ * @param roleSetId The roleset's id.
  */
 export const patchGroupsGroupidRolesRolesetidPermissions = endpoint({
   method: 'patch' as const,
@@ -1949,29 +1896,27 @@ export const patchGroupsGroupidRolesRolesetidPermissions = endpoint({
       status: 400,
       description: `1: Group is invalid or does not exist.
 2: The roleset is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 3: You are not authorized to view/edit permissions for this role.
 4: This role&#x27;s permissions can not be modified.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/roles/:roleSetId/users
- * @param groupId
- * @param roleSetId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/roles/:roleSetId/users
+ * @summary Gets a list of users in a group for a specific roleset.
+ * @param groupId The group id.
+ * @param roleSetId The group's role set id.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sorted by user group join date
  */
 export const getGroupsGroupidRolesRolesetidUsers = endpoint({
   method: 'get' as const,
@@ -2013,18 +1958,17 @@ export const getGroupsGroupidRolesRolesetidUsers = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: The roleset is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/roles/guest/permissions
- * @param groupId
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/roles/guest/permissions
+ * @summary Gets the permissions for a group's guest roleset. These can be viewed by all (members and guests) users.
+ * @param groupId The group id.
  */
 export const getGroupsGroupidRolesGuestPermissions = endpoint({
   method: 'get' as const,
@@ -2044,13 +1988,13 @@ export const getGroupsGroupidRolesGuestPermissions = endpoint({
     {
       status: 400,
       description: `1: Group is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/roles/permissions
- * @param groupId
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/roles/permissions
+ * @summary Gets all permissions for each role
+ * @param groupId The group id.
  */
 export const getGroupsGroupidRolesPermissions = endpoint({
   method: 'get' as const,
@@ -2070,14 +2014,14 @@ export const getGroupsGroupidRolesPermissions = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/rolesets/:rolesetId
- * @param groupId
- * @param rolesetId
+ * @api DELETE https://groups.roblox.com/v1/groups/:groupId/rolesets/:rolesetId
+ * @summary Deletes existing group roleset.
+ * @param groupId The group Id.
+ * @param rolesetId The roleset Id.
  */
 export const deleteGroupsGroupidRolesetsRolesetid = endpoint({
   method: 'delete' as const,
@@ -2104,27 +2048,25 @@ export const deleteGroupsGroupidRolesetsRolesetid = endpoint({
 15: This role does not exist.
 17: Cannot remove any more roles
 18: Cannot delete this role.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 9: You do not have permissions to perform this action.
 16: There are users in this role.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://groups.roblox.com/v1/groups/:groupId/rolesets/:rolesetId
+ * @api PATCH https://groups.roblox.com/v1/groups/:groupId/rolesets/:rolesetId
+ * @summary Updates existing group roleset.
  * @param body The Roblox.Groups.Api.Models.Request.UpdateRoleSetRequest.
- * @param groupId
- * @param rolesetId
+ * @param groupId The group Id.
+ * @param rolesetId The roleset Id.
  */
 export const patchGroupsGroupidRolesetsRolesetid = endpoint({
   method: 'patch' as const,
@@ -2158,25 +2100,23 @@ export const patchGroupsGroupidRolesetsRolesetid = endpoint({
 15: This role does not exist.
 19: Cannot update Guest role.
 20: Cannot update Owner role rank.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 9: You do not have permissions to perform this action.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/rolesets/create
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/rolesets/create
+ * @summary Creates new group roleset.
  * @param body The Roblox.Groups.Api.Models.Request.CreateRoleSetRequest.
- * @param groupId
+ * @param groupId The group Id.
  */
 export const postGroupsGroupidRolesetsCreate = endpoint({
   method: 'post' as const,
@@ -2208,24 +2148,22 @@ export const postGroupsGroupidRolesetsCreate = endpoint({
 12: Limit for roles have been reached on this group.
 14: Role name can not be empty.
 15: This role does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 9: You do not have permissions to perform this action.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/settings
- * @param groupId
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/settings
+ * @summary Gets the Group's settings
+ * @param groupId The id of the group the user is in.
  */
 export const getGroupsGroupidSettings = endpoint({
   method: 'get' as const,
@@ -2245,24 +2183,22 @@ export const getGroupsGroupidSettings = endpoint({
     {
       status: 400,
       description: `1: Group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `23: Insufficient permissions to complete the request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://groups.roblox.com/v1/groups/:groupId/settings
+ * @api PATCH https://groups.roblox.com/v1/groups/:groupId/settings
+ * @summary Updates the group's settings
  * @param body Roblox.Groups.Api.UpdateGroupSettingsRequest
- * @param groupId
+ * @param groupId The id of the group the user is in.
  */
 export const patchGroupsGroupidSettings = endpoint({
   method: 'patch' as const,
@@ -2284,29 +2220,26 @@ export const patchGroupsGroupidSettings = endpoint({
     {
       status: 400,
       description: `1: Group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 23: Insufficient permissions to complete the request.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `31: Service is currently unavailable.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/social-links
- * @param groupId
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/social-links
+ * @summary Get social link data associated with a group
+ * @param groupId The Id of the game
  */
 export const getGroupsGroupidSocialLinks = endpoint({
   method: 'get' as const,
@@ -2326,29 +2259,26 @@ export const getGroupsGroupidSocialLinks = endpoint({
     {
       status: 400,
       description: `1: Group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `13: Only users who are over thirteen years of age may edit social links.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `11: Social links cannot be processed as this time.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/social-links
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/social-links
+ * @summary Posts a social links
  * @param body The Roblox.Groups.Api.SocialLinkRequest
- * @param groupId
+ * @param groupId The id of the game
  */
 export const postGroupsGroupidSocialLinks = endpoint({
   method: 'post' as const,
@@ -2375,35 +2305,31 @@ export const postGroupsGroupidSocialLinks = endpoint({
 7: The request was null.
 9: The social link type is invalid.
 12: The social link title was moderated.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You do not have permission to configure this social link.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `8: The requested group or social link was not found.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `11: Social links cannot be processed as this time.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/social-links/:socialLinkId
- * @param groupId
- * @param socialLinkId
+ * @api DELETE https://groups.roblox.com/v1/groups/:groupId/social-links/:socialLinkId
+ * @summary Deletes a social link
+ * @param groupId The id of the game you are editting, required for permissions checking
+ * @param socialLinkId The id of the social link
  */
 export const deleteGroupsGroupidSocialLinksSociallinkid = endpoint({
   method: 'delete' as const,
@@ -2429,32 +2355,29 @@ export const deleteGroupsGroupidSocialLinksSociallinkid = endpoint({
       description: `1: Group is invalid or does not exist.
 10: The social link is not for a group.
 15: The social link id doesn&#x27;t match the group id.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You do not have permission to configure this social link.
 13: Only users who are over thirteen years of age may edit social links.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `11: Social links cannot be processed as this time.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://groups.roblox.com/v1/groups/:groupId/social-links/:socialLinkId
+ * @api PATCH https://groups.roblox.com/v1/groups/:groupId/social-links/:socialLinkId
+ * @summary Updates a social link
  * @param body The Roblox.Groups.Api.SocialLinkRequest.
- * @param groupId
- * @param socialLinkId
+ * @param groupId The id of the universe
+ * @param socialLinkId The id of the social link being updated
  */
 export const patchGroupsGroupidSocialLinksSociallinkid = endpoint({
   method: 'patch' as const,
@@ -2490,35 +2413,31 @@ export const patchGroupsGroupidSocialLinksSociallinkid = endpoint({
 10: The social link is not for a group.
 12: The social link title was moderated.
 16: A social link with this type already exists on this group.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You do not have permission to configure this social link.`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `11: Social links cannot be processed as this time.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `11: Social links cannot be processed as this time.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://groups.roblox.com/v1/groups/:groupId/status
+ * @api PATCH https://groups.roblox.com/v1/groups/:groupId/status
+ * @summary Sets group status
  * @param body The Roblox.Groups.Api.PostGroupStatusRequest.
- * @param groupId
+ * @param groupId The group Id.
  */
 export const patchGroupsGroupidStatus = endpoint({
   method: 'patch' as const,
@@ -2542,26 +2461,24 @@ export const patchGroupsGroupidStatus = endpoint({
       description: `1: Group is invalid or does not exist.
 6: You are not authorized to set the status of this group
 7: Missing group status content.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/users
- * @param groupId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/users
+ * @summary Gets a list of users in a group.
+ * @param groupId The group id.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidUsers = endpoint({
   method: 'get' as const,
@@ -2599,14 +2516,14 @@ export const getGroupsGroupidUsers = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/users
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/users
+ * @summary Joins a group
  * @param body Only supplied when captcha has been solved.
- * @param groupId
+ * @param groupId The group Id.
  */
 export const postGroupsGroupidUsers = endpoint({
   method: 'post' as const,
@@ -2628,12 +2545,10 @@ export const postGroupsGroupidUsers = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -2642,30 +2557,27 @@ export const postGroupsGroupidUsers = endpoint({
 6: You are already in the maximum number of groups.
 9: You do not have the builders club membership necessary to join this group.
 14: You cannot join a closed group.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `7: You have already requested to join this group.
 8: You are already a member of this group.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `10: Too many attempts to join the group. Please try again later.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `18: The operation is temporarily unavailable. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/users/:userId
- * @param groupId
- * @param userId
+ * @api DELETE https://groups.roblox.com/v1/groups/:groupId/users/:userId
+ * @summary Removes a user from a group
+ * @param groupId The group Id.
+ * @param userId The Id of the user being removed.
  */
 export const deleteGroupsGroupidUsersUserid = endpoint({
   method: 'delete' as const,
@@ -2690,32 +2602,29 @@ export const deleteGroupsGroupidUsersUserid = endpoint({
       status: 400,
       description: `1: The group is invalid or does not exist.
 3: The user is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 4: You do not have permission to manage this member.
 25: 2-Step Verification is required to make further transactions. Go to Settings &gt; Security to complete 2-Step Verification.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `18: The operation is temporarily unavailable. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://groups.roblox.com/v1/groups/:groupId/users/:userId
+ * @api PATCH https://groups.roblox.com/v1/groups/:groupId/users/:userId
+ * @summary Updates a users role in a group.
  * @param body The Roblox.Groups.Api.UpdateUserRoleRequest.
- * @param groupId
- * @param userId
+ * @param groupId The id of the group the user is in.
+ * @param userId The id of the user being updated.
  */
 export const patchGroupsGroupidUsersUserid = endpoint({
   method: 'patch' as const,
@@ -2745,32 +2654,29 @@ export const patchGroupsGroupidUsersUserid = endpoint({
 3: The user is invalid or does not exist.
 23: You cannot change your own role.
 26: You cannot change the user&#x27;s role to the same role.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 4: You do not have permission to manage this member.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `18: The operation is temporarily unavailable. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/:groupId/wall/posts
- * @param groupId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/wall/posts
+ * @summary Gets a list of group wall posts.
+ * @param groupId The group id.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sorted by group wall post Id
  */
 export const getGroupsGroupidWallPosts = endpoint({
   method: 'get' as const,
@@ -2808,19 +2714,18 @@ export const getGroupsGroupidWallPosts = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: You do not have permission to access this group wall.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/wall/posts
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/wall/posts
+ * @summary Creates a post on a group wall
  * @param body The Roblox.Groups.Api.CreateWallPostRequest.
- * @param groupId
+ * @param groupId The group id.
  */
 export const postGroupsGroupidWallPosts = endpoint({
   method: 'post' as const,
@@ -2843,31 +2748,28 @@ export const postGroupsGroupidWallPosts = endpoint({
       status: 400,
       description: `1: The group is invalid or does not exist.
 5: Your post was empty, white space, or more than 500 characters.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You do not have permission to access this group wall.
 7: Captcha must be solved.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `4: You are posting too fast, please try again in a few minutes.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/wall/posts/:postId
- * @param groupId
- * @param postId
+ * @api DELETE https://groups.roblox.com/v1/groups/:groupId/wall/posts/:postId
+ * @summary Deletes a group wall post.
+ * @param groupId The group id.
+ * @param postId The group wall post id.
  */
 export const deleteGroupsGroupidWallPostsPostid = endpoint({
   method: 'delete' as const,
@@ -2892,24 +2794,22 @@ export const deleteGroupsGroupidWallPostsPostid = endpoint({
       status: 400,
       description: `1: The group is invalid or does not exist.
 3: The group wall post id is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You do not have permission to access this group wall.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/:groupId/wall/subscribe
- * @param groupId
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/wall/subscribe
+ * @summary Subscribes the authenticated user to notifications of group wall events.
+ * @param groupId The group id.
  */
 export const postGroupsGroupidWallSubscribe = endpoint({
   method: 'post' as const,
@@ -2929,25 +2829,23 @@ export const postGroupsGroupidWallSubscribe = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You do not have permission to access this group wall.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://groups.roblox.com/v1/groups/:groupId/wall/users/:userId/posts
- * @param groupId
- * @param userId
+ * @api DELETE https://groups.roblox.com/v1/groups/:groupId/wall/users/:userId/posts
+ * @summary Deletes all group wall posts made by a specific user.
+ * @param groupId The group id.
+ * @param userId The user id.
  */
 export const deleteGroupsGroupidWallUsersUseridPosts = endpoint({
   method: 'delete' as const,
@@ -2972,23 +2870,21 @@ export const deleteGroupsGroupidWallUsersUseridPosts = endpoint({
       status: 400,
       description: `1: The group is invalid or does not exist.
 6: The user specified is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You do not have permission to access this group wall.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/configuration/metadata
+ * @api GET https://groups.roblox.com/v1/groups/configuration/metadata
+ * @summary Gets Group configuration contextual information
  */
 export const getGroupsConfigurationMetadata = endpoint({
   method: 'get' as const,
@@ -2999,7 +2895,8 @@ export const getGroupsConfigurationMetadata = endpoint({
   errors: [],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/create
+ * @api POST https://groups.roblox.com/v1/groups/create
+ * @summary Creates a new group.
  * @param body 
  * @description This endpoint will charge Robux for the group purchase.
 Http status code 413 is thrown when the group icon file size is too large.
@@ -3024,12 +2921,10 @@ export const postGroupsCreate = endpoint({
 18: The description is too long.
 19: The name is too long.
 20: The name has been taken.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -3038,34 +2933,30 @@ export const postGroupsCreate = endpoint({
 11: User is in maximum number of groups.
 12: Insufficient Robux funds.
 14: The name is moderated.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `37: The name was in use too recently.`,
-      schema: z.void(),
     },
     {
       status: 413,
       description: `0: Unknown error.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `17: Too many requests.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `21: Group creation is currently disabled.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://groups.roblox.com/v1/groups/icon
+ * @api PATCH https://groups.roblox.com/v1/groups/icon
+ * @summary Updates the group icon.
  * @param body
- * @param groupId
+ * @param groupId The group Id.
  */
 export const patchGroupsIcon = endpoint({
   method: 'patch' as const,
@@ -3091,28 +2982,28 @@ export const patchGroupsIcon = endpoint({
 16: The group icon is missing from the request.
 17: Too many requests.
 30: Invalid file type for group icon.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 23: Insufficient permissions to complete the request.`,
-      schema: z.void(),
     },
     {
       status: 413,
       description: `0: Unknown error.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/metadata
+ * @api GET https://groups.roblox.com/v1/groups/metadata
+ * @summary Gets Groups contextual information:
+Max number of groups a user can be part of.
+Current number of groups a user is a member of.
+Whether to show/hide certain features based on device type.
  */
 export const getGroupsMetadata = endpoint({
   method: 'get' as const,
@@ -3123,7 +3014,8 @@ export const getGroupsMetadata = endpoint({
   errors: [],
 });
 /**
- * @api post https://groups.roblox.com/v1/groups/policies
+ * @api POST https://groups.roblox.com/v1/groups/policies
+ * @summary Gets group policy info used for compliance.
  * @param body
  */
 export const postGroupsPolicies = endpoint({
@@ -3142,26 +3034,24 @@ export const postGroupsPolicies = endpoint({
       status: 400,
       description: `1: Too many ids in request.
 2: Ids could not be parsed from request.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/search
- * @param keyword
- * @param prioritizeExactMatch
- * @param limit
- * @param cursor
+ * @api GET https://groups.roblox.com/v1/groups/search
+ * @summary Search for groups by keyword.
+ * @param keyword The keyword or phrase to use as the search parameter.
+ * @param prioritizeExactMatch Whether or not to prioritize the exact match for the keyword (optional, defaults to false.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
  */
 export const getGroupsSearch = endpoint({
   method: 'get' as const,
@@ -3202,13 +3092,13 @@ export const getGroupsSearch = endpoint({
       description: `2: Search term not appropriate for Roblox.
 3: Search term was left empty.
 4: Search terms can be 2 to 50 characters long.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/search/lookup
- * @param groupName
+ * @api GET https://groups.roblox.com/v1/groups/search/lookup
+ * @summary Looks up groups by a name. Prioritizes an exact match as the first result.
+ * @param groupName The group name.
  * @description Should only be used for direct lookups where a user is inputting a group name, shouldn't be used for search pages.
  */
 export const getGroupsSearchLookup = endpoint({
@@ -3230,12 +3120,12 @@ export const getGroupsSearchLookup = endpoint({
     {
       status: 400,
       description: `1: Name is missing or has invalid characters.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/groups/search/metadata
+ * @api GET https://groups.roblox.com/v1/groups/search/metadata
+ * @summary Get suggested groups and other miscellaneous information needed for the group/join page like flags
  * @description Although there is no reason for this to require an authenticated user right now, in the future,
 we will use coco to return different suggested groups based upon that user's request context
  */
@@ -3249,13 +3139,13 @@ export const getGroupsSearchMetadata = endpoint({
     {
       status: 404,
       description: `5: No Localized Version of group search category exists`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/roles
- * @param ids
+ * @api GET https://groups.roblox.com/v1/roles
+ * @summary Gets the Roles by their ids.
+ * @param ids A list of role ids
  */
 export const getRoles = endpoint({
   method: 'get' as const,
@@ -3276,12 +3166,12 @@ export const getRoles = endpoint({
       status: 400,
       description: `1: Ids could not be parsed from request.
 2: Too many ids in request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/user/groups/pending
+ * @api GET https://groups.roblox.com/v1/user/groups/pending
+ * @summary Gets groups that the authenticated user has requested to join
  */
 export const getUserGroupsPending = endpoint({
   method: 'get' as const,
@@ -3293,12 +3183,12 @@ export const getUserGroupsPending = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://groups.roblox.com/v1/user/groups/primary
+ * @api POST https://groups.roblox.com/v1/user/groups/primary
+ * @summary Sets the authenticated user's primary group
  * @param body The request body containing the group id.
  */
 export const postUserGroupsPrimary = endpoint({
@@ -3316,23 +3206,21 @@ export const postUserGroupsPrimary = endpoint({
     {
       status: 400,
       description: `1: Group is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: You aren&#x27;t a member of the group specified.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://groups.roblox.com/v1/user/groups/primary
+ * @api DELETE https://groups.roblox.com/v1/user/groups/primary
+ * @summary Removes the authenticated user's primary group
  */
 export const deleteUserGroupsPrimary = endpoint({
   method: 'delete' as const,
@@ -3344,18 +3232,17 @@ export const deleteUserGroupsPrimary = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/users/:userId/friends/groups/roles
- * @param userId
+ * @api GET https://groups.roblox.com/v1/users/:userId/friends/groups/roles
+ * @summary Gets a list of all groups the specified users' friends are in.
+ * @param userId The user id.
  */
 export const getUsersUseridFriendsGroupsRoles = endpoint({
   method: 'get' as const,
@@ -3375,18 +3262,17 @@ export const getUsersUseridFriendsGroupsRoles = endpoint({
     {
       status: 400,
       description: `3: The user is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `3: The user is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/users/:userId/groups/primary/role
- * @param userId
+ * @api GET https://groups.roblox.com/v1/users/:userId/groups/primary/role
+ * @summary Gets a user's primary group.
+ * @param userId The user id.
  */
 export const getUsersUseridGroupsPrimaryRole = endpoint({
   method: 'get' as const,
@@ -3406,13 +3292,13 @@ export const getUsersUseridGroupsPrimaryRole = endpoint({
     {
       status: 400,
       description: `4: User is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://groups.roblox.com/v1/users/:userId/groups/roles
- * @param userId
+ * @api GET https://groups.roblox.com/v1/users/:userId/groups/roles
+ * @summary Gets a list of all group roles for groups the specified user is in.
+ * @param userId The user id.
  */
 export const getUsersUseridGroupsRoles = endpoint({
   method: 'get' as const,
@@ -3432,7 +3318,6 @@ export const getUsersUseridGroupsRoles = endpoint({
     {
       status: 400,
       description: `3: The user is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });

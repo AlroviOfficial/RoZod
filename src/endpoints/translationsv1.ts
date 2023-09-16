@@ -12,8 +12,9 @@ const schemas = {
 };
 
 /**
- * @api get https://translations.roblox.com/v1/translations
- * @param consumerType
+ * @api GET https://translations.roblox.com/v1/translations
+ * @summary Get the translations JSON files url of a specific consumer type for all locales.
+ * @param consumerType The consumer type.
  */
 export const getTranslations = endpoint({
   method: 'get' as const,
@@ -44,24 +45,22 @@ export const getTranslations = endpoint({
     {
       status: 400,
       description: `2: Consumer type not supported`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `3: Translations do not exist`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `4: Feature disabled`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://translations.roblox.com/v1/translations/:locale
- * @param locale
- * @param consumerType
+ * @api GET https://translations.roblox.com/v1/translations/:locale
+ * @summary Get the translations JSON file url of a specific consumer type and a specific locale.
+ * @param locale The locale code.
+ * @param consumerType The consumer type.
  */
 export const getTranslationsLocale = endpoint({
   method: 'get' as const,
@@ -97,22 +96,20 @@ export const getTranslationsLocale = endpoint({
       status: 400,
       description: `1: Invalid locale
 2: Consumer type not supported`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `3: Translations do not exist`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `4: Feature disabled`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://translations.roblox.com/v1/translations/language-resources
+ * @api GET https://translations.roblox.com/v1/translations/language-resources
+ * @summary Get translated content given consumerType, contentNamespace, localeCode and a list of keys
  * @param consumerType
  * @param contentNamespace
  * @param keys
@@ -163,12 +160,10 @@ export const getTranslationsLanguageResources = endpoint({
       status: 400,
       description: `1: Invalid locale
 2: Consumer type not supported`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `3: Translations do not exist`,
-      schema: z.void(),
     },
   ],
 });

@@ -153,11 +153,12 @@ const schemas = {
 };
 
 /**
- * @api get https://inventory.roblox.com/v2/assets/:assetId/owners
- * @param assetId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://inventory.roblox.com/v2/assets/:assetId/owners
+ * @summary Gets a list of owners of an asset.
+ * @param assetId The asset id.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sorted by userAssetId
  */
 export const getAssetsAssetidOwners = endpoint({
   method: 'get' as const,
@@ -195,23 +196,22 @@ export const getAssetsAssetidOwners = endpoint({
     {
       status: 400,
       description: `1: The asset id is invalid.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: You do not have permission to view the owners of this asset.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://inventory.roblox.com/v2/users/:userId/inventory
- * @param userId
- * @param assetTypes
+ * @api GET https://inventory.roblox.com/v2/users/:userId/inventory
+ * @summary Get user's inventory by multiple Roblox.Platform.Assets.AssetType.
+ * @param userId The inventory owner's userId.
+ * @param assetTypes The asset types to query.
  * @param filterDisapprovedAssets
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  * @description GamePass and Badges not allowed.
  */
 export const getUsersUseridInventory = endpoint({
@@ -245,7 +245,7 @@ export const getUsersUseridInventory = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    assetTypes: z.array(z.object({}).partial().passthrough()),
+    assetTypes: z.array(z.object({}).passthrough()),
     filterDisapprovedAssets: z.boolean().optional(),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
@@ -260,23 +260,22 @@ export const getUsersUseridInventory = endpoint({
       status: 400,
       description: `1: Invalid user Id.
 2: Invalid asset type Id.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `3: Insufficient permission.
 4: You are not authorized to view this user&#x27;s inventory.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://inventory.roblox.com/v2/users/:userId/inventory/:assetTypeId
- * @param userId
- * @param assetTypeId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://inventory.roblox.com/v2/users/:userId/inventory/:assetTypeId
+ * @summary Gets user's inventory based on specific asset type
+ * @param userId The user Id of the inventory owner
+ * @param assetTypeId The asset type Id of the items to get
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridInventoryAssettypeid = endpoint({
   method: 'get' as const,
@@ -319,13 +318,11 @@ export const getUsersUseridInventoryAssettypeid = endpoint({
       status: 400,
       description: `1: Invalid user Id.
 2: Invalid asset type Id.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `3: Insufficient permission.
 4: You are not authorized to view this user&#x27;s inventory.`,
-      schema: z.void(),
     },
   ],
 });

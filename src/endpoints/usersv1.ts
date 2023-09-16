@@ -121,7 +121,8 @@ const schemas = {
 };
 
 /**
- * @api get https://users.roblox.com/v1/birthdate
+ * @api GET https://users.roblox.com/v1/birthdate
+ * @summary Get the user's birthdate
  */
 export const getBirthdate = endpoint({
   method: 'get' as const,
@@ -133,17 +134,16 @@ export const getBirthdate = endpoint({
     {
       status: 400,
       description: `1: User not found.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://users.roblox.com/v1/birthdate
+ * @api POST https://users.roblox.com/v1/birthdate
+ * @summary Update the user's birthdate
  * @param body The Roblox.Users.Api.BirthdateRequest
  */
 export const postBirthdate = endpoint({
@@ -163,30 +163,27 @@ export const postBirthdate = endpoint({
       description: `1: User not found.
 4: The birthdate provided is invalid.
 8: Password is incorrect.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: PIN is locked.
 5: Invalid birthdate change.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.
 5: Invalid birthdate change.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://users.roblox.com/v1/description
+ * @api GET https://users.roblox.com/v1/description
+ * @summary Get the user's description
  */
 export const getDescription = endpoint({
   method: 'get' as const,
@@ -198,17 +195,16 @@ export const getDescription = endpoint({
     {
       status: 400,
       description: `1: User not found.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://users.roblox.com/v1/description
+ * @api POST https://users.roblox.com/v1/description
+ * @summary Update the user's description
  * @param body The Roblox.Users.Api.DescriptionRequest
  */
 export const postDescription = endpoint({
@@ -226,35 +222,31 @@ export const postDescription = endpoint({
     {
       status: 400,
       description: `1: User not found.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: PIN is locked.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `3: This feature is currently disabled. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://users.roblox.com/v1/display-names/validate
- * @param displayName
- * @param birthdate
+ * @api GET https://users.roblox.com/v1/display-names/validate
+ * @summary Validate a display name for a new user.
+ * @param displayName The display name.
+ * @param birthdate The new user's birthdate
  */
 export const getDisplayNamesValidate = endpoint({
   method: 'get' as const,
@@ -284,17 +276,16 @@ export const getDisplayNamesValidate = endpoint({
 3: Display name contains invalid characters
 4: Display name has been moderated
 6: Request must contain a birthdate`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `5: Display name updates for this user have been throttled`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://users.roblox.com/v1/gender
+ * @api GET https://users.roblox.com/v1/gender
+ * @summary Get the user's gender
  */
 export const getGender = endpoint({
   method: 'get' as const,
@@ -306,17 +297,16 @@ export const getGender = endpoint({
     {
       status: 400,
       description: `1: User not found.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://users.roblox.com/v1/gender
+ * @api POST https://users.roblox.com/v1/gender
+ * @summary Update the user's gender
  * @param body The Roblox.Users.Api.GenderRequest
  */
 export const postGender = endpoint({
@@ -335,28 +325,25 @@ export const postGender = endpoint({
       status: 400,
       description: `1: User not found.
 6: The gender provided is invalid.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 2: PIN is locked.`,
-      schema: z.void(),
     },
     {
       status: 500,
       description: `0: An unknown error occured.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://users.roblox.com/v1/usernames/users
+ * @api POST https://users.roblox.com/v1/usernames/users
+ * @summary Get users by usernames.
  * @param body The Roblox.Users.Api.MultiGetByUsernameRequest.
  * @description This endpoint will also check previous usernames.
 Does not require X-CSRF-Token protection because this is essentially a get request but as a POST to avoid URI limits.
@@ -376,12 +363,12 @@ export const postUsernamesUsers = endpoint({
     {
       status: 400,
       description: `2: Too many usernames.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://users.roblox.com/v1/users
+ * @api POST https://users.roblox.com/v1/users
+ * @summary Get users by ids.
  * @param body The Roblox.Users.Api.MultiGetByUserIdRequest.
  * @description Does not require X-CSRF-Token protection because this is essentially a get request but as a POST to avoid URI limits.
  */
@@ -400,13 +387,13 @@ export const postUsers = endpoint({
     {
       status: 400,
       description: `1: Too many ids.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://users.roblox.com/v1/users/:userId
- * @param userId
+ * @api GET https://users.roblox.com/v1/users/:userId
+ * @summary Gets detailed user information by id.
+ * @param userId The user id.
  */
 export const getUsersUserid = endpoint({
   method: 'get' as const,
@@ -426,14 +413,14 @@ export const getUsersUserid = endpoint({
     {
       status: 404,
       description: `3: The user id is invalid.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api patch https://users.roblox.com/v1/users/:userId/display-names
+ * @api PATCH https://users.roblox.com/v1/users/:userId/display-names
+ * @summary Set the display name for the authorized user.
  * @param body Roblox.Users.Api.SetDisplayNameRequest
- * @param userId
+ * @param userId the user id
  */
 export const patchUsersUseridDisplayNames = endpoint({
   method: 'patch' as const,
@@ -458,30 +445,27 @@ export const patchUsersUseridDisplayNames = endpoint({
 2: Display name is too long
 3: Display name contains invalid characters
 4: Display name has been moderated`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 7: The user id is invalid.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `5: Display name updates for this user have been throttled`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://users.roblox.com/v1/users/:userId/display-names/validate
- * @param userId
- * @param displayName
+ * @api GET https://users.roblox.com/v1/users/:userId/display-names/validate
+ * @summary Validate a display name for an existing user.
+ * @param userId The user id.
+ * @param displayName The display name.
  */
 export const getUsersUseridDisplayNamesValidate = endpoint({
   method: 'get' as const,
@@ -509,31 +493,28 @@ export const getUsersUseridDisplayNamesValidate = endpoint({
 2: Display name is too long
 3: Display name contains invalid characters
 4: Display name has been moderated`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `7: The user id is invalid.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `5: Display name updates for this user have been throttled`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://users.roblox.com/v1/users/:userId/username-history
+ * @api GET https://users.roblox.com/v1/users/:userId/username-history
+ * @summary Retrieves the username history for a particular user.
  * @param userId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridUsernameHistory = endpoint({
   method: 'get' as const,
@@ -571,12 +552,12 @@ export const getUsersUseridUsernameHistory = endpoint({
     {
       status: 400,
       description: `3: The user id is invalid.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://users.roblox.com/v1/users/authenticated
+ * @api GET https://users.roblox.com/v1/users/authenticated
+ * @summary Gets the minimal authenticated user.
  */
 export const getUsersAuthenticated = endpoint({
   method: 'get' as const,
@@ -588,12 +569,12 @@ export const getUsersAuthenticated = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://users.roblox.com/v1/users/authenticated/age-bracket
+ * @api GET https://users.roblox.com/v1/users/authenticated/age-bracket
+ * @summary Gets the age bracket of the authenticated user.
  */
 export const getUsersAuthenticatedAgeBracket = endpoint({
   method: 'get' as const,
@@ -605,12 +586,12 @@ export const getUsersAuthenticatedAgeBracket = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://users.roblox.com/v1/users/authenticated/country-code
+ * @api GET https://users.roblox.com/v1/users/authenticated/country-code
+ * @summary Gets the country code of the authenticated user.
  */
 export const getUsersAuthenticatedCountryCode = endpoint({
   method: 'get' as const,
@@ -622,12 +603,12 @@ export const getUsersAuthenticatedCountryCode = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://users.roblox.com/v1/users/authenticated/roles
+ * @api GET https://users.roblox.com/v1/users/authenticated/roles
+ * @summary Gets the (public) roles of the authenticated user, such as `"Soothsayer"` and `"BetaTester"`.
  */
 export const getUsersAuthenticatedRoles = endpoint({
   method: 'get' as const,
@@ -639,15 +620,15 @@ export const getUsersAuthenticatedRoles = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://users.roblox.com/v1/users/search
- * @param keyword
- * @param limit
- * @param cursor
+ * @api GET https://users.roblox.com/v1/users/search
+ * @summary Searches for users by keyword.
+ * @param keyword The search keyword.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
  */
 export const getUsersSearch = endpoint({
   method: 'get' as const,
@@ -682,12 +663,10 @@ export const getUsersSearch = endpoint({
       status: 400,
       description: `5: The keyword was filtered.
 6: The keyword is too short.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `4: Too many requests.`,
-      schema: z.void(),
     },
   ],
 });

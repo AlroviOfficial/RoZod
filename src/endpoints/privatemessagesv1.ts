@@ -102,7 +102,8 @@ const schemas = {
 };
 
 /**
- * @api get https://privatemessages.roblox.com/v1/announcements
+ * @api GET https://privatemessages.roblox.com/v1/announcements
+ * @summary Migrate from RobloxWebsite project, return news notification for Private Message page
  */
 export const getAnnouncements = endpoint({
   method: 'get' as const,
@@ -114,17 +115,15 @@ export const getAnnouncements = endpoint({
     {
       status: 400,
       description: `2: Message does not exist or the current user is not authorized to view it.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://privatemessages.roblox.com/v1/announcements/metadata
+ * @api GET https://privatemessages.roblox.com/v1/announcements/metadata
  */
 export const getAnnouncementsMetadata = endpoint({
   method: 'get' as const,
@@ -136,12 +135,12 @@ export const getAnnouncementsMetadata = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://privatemessages.roblox.com/v1/messages
+ * @api GET https://privatemessages.roblox.com/v1/messages
+ * @summary Gets a user's messages.
  * @param pageNumber
  * @param pageSize
  * @param messageTab
@@ -175,12 +174,12 @@ export const getMessages = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://privatemessages.roblox.com/v1/messages/:messageId
+ * @api GET https://privatemessages.roblox.com/v1/messages/:messageId
+ * @summary Gets a message's details.
  * @param messageId
  */
 export const getMessagesMessageid = endpoint({
@@ -201,17 +200,16 @@ export const getMessagesMessageid = endpoint({
     {
       status: 400,
       description: `2: Message does not exist or the current user is not authorized to view it.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://privatemessages.roblox.com/v1/messages/:userId/can-message
+ * @api GET https://privatemessages.roblox.com/v1/messages/:userId/can-message
+ * @summary Gets whether the sender can send a message to the specified user.
  * @param userId
  */
 export const getMessagesUseridCanMessage = endpoint({
@@ -232,17 +230,16 @@ export const getMessagesUseridCanMessage = endpoint({
     {
       status: 400,
       description: `8: Invalid user ID.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://privatemessages.roblox.com/v1/messages/archive
+ * @api POST https://privatemessages.roblox.com/v1/messages/archive
+ * @summary Archives a batch of messages.
  * @param body
  */
 export const postMessagesArchive = endpoint({
@@ -260,22 +257,20 @@ export const postMessagesArchive = endpoint({
     {
       status: 400,
       description: `5: Too many ids in a batch request.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://privatemessages.roblox.com/v1/messages/mark-read
+ * @api POST https://privatemessages.roblox.com/v1/messages/mark-read
+ * @summary Marks a batch of messages as read.
  * @param body
  */
 export const postMessagesMarkRead = endpoint({
@@ -293,22 +288,20 @@ export const postMessagesMarkRead = endpoint({
     {
       status: 400,
       description: `5: Too many ids in a batch request.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://privatemessages.roblox.com/v1/messages/mark-unread
+ * @api POST https://privatemessages.roblox.com/v1/messages/mark-unread
+ * @summary Marks a batch of messages as unread.
  * @param body
  */
 export const postMessagesMarkUnread = endpoint({
@@ -326,22 +319,20 @@ export const postMessagesMarkUnread = endpoint({
     {
       status: 400,
       description: `5: Too many ids in a batch request.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://privatemessages.roblox.com/v1/messages/send
+ * @api POST https://privatemessages.roblox.com/v1/messages/send
+ * @summary Sends a message to a specified user.
  * @param body
  */
 export const postMessagesSend = endpoint({
@@ -359,17 +350,16 @@ export const postMessagesSend = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://privatemessages.roblox.com/v1/messages/unarchive
+ * @api POST https://privatemessages.roblox.com/v1/messages/unarchive
+ * @summary Unarchives a batch of messages.
  * @param body
  */
 export const postMessagesUnarchive = endpoint({
@@ -387,22 +377,20 @@ export const postMessagesUnarchive = endpoint({
     {
       status: 400,
       description: `5: Too many ids in a batch request.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://privatemessages.roblox.com/v1/messages/unread/count
+ * @api GET https://privatemessages.roblox.com/v1/messages/unread/count
+ * @summary Gets unread messages for the authenticated user.
  */
 export const getMessagesUnreadCount = endpoint({
   method: 'get' as const,
@@ -414,7 +402,6 @@ export const getMessagesUnreadCount = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });

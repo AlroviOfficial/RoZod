@@ -211,8 +211,9 @@ const schemas = {
 };
 
 /**
- * @api post https://friends.roblox.com/v1/contacts/:targetContactId/request-friendship
- * @param targetContactId
+ * @api POST https://friends.roblox.com/v1/contacts/:targetContactId/request-friendship
+ * @summary Send a contact friend request to target user
+ * @param targetContactId The target contact Id for friend request
  */
 export const postContactsTargetcontactidRequestFriendship = endpoint({
   method: 'post' as const,
@@ -236,12 +237,10 @@ export const postContactsTargetcontactidRequestFriendship = endpoint({
 6: Invalid parameters.
 7: The user cannot be friends with itself.
 31: User with max friends sent friend request.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -249,17 +248,15 @@ export const postContactsTargetcontactidRequestFriendship = endpoint({
 2: The user is banned from performing operation.
 3: The user is blocked from performing this action.
 14: The user has not passed the captcha.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `9: The flood limit has been exceeded.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/metadata
+ * @api GET https://friends.roblox.com/v1/metadata
  * @param targetUserId
  */
 export const getMetadata = endpoint({
@@ -280,7 +277,8 @@ export const getMetadata = endpoint({
   errors: [],
 });
 /**
- * @api get https://friends.roblox.com/v1/my/friends/count
+ * @api GET https://friends.roblox.com/v1/my/friends/count
+ * @summary Get the number of friends a user has
  */
 export const getMyFriendsCount = endpoint({
   method: 'get' as const,
@@ -292,15 +290,15 @@ export const getMyFriendsCount = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/my/friends/requests
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @api GET https://friends.roblox.com/v1/my/friends/requests
+ * @summary Get all users that friend requests with targetUserId using exclusive start paging
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sorted by scoring requests based on request time, mutual friends, and request origin
  */
 export const getMyFriendsRequests = endpoint({
   method: 'get' as const,
@@ -335,28 +333,26 @@ export const getMyFriendsRequests = endpoint({
       status: 400,
       description: `1: The target user is invalid or does not exist.
 6: Invalid parameters.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: The user is banned from performing operation.
 3: The user is blocked from performing this action.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `9: The flood limit has been exceeded.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/recommended-users
+ * @api GET https://friends.roblox.com/v1/recommended-users
+ * @summary Return a list of Recommendations for the Authenticated User.
+V1 API to just return list of existing friends for the Authenticated user.
  */
 export const getRecommendedUsers = endpoint({
   method: 'get' as const,
@@ -368,12 +364,12 @@ export const getRecommendedUsers = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://friends.roblox.com/v1/user/following-exists
+ * @api POST https://friends.roblox.com/v1/user/following-exists
+ * @summary Returns whether or not the current user is following each userId in a list of userIds
  * @param body The userIds potentially being followed
  */
 export const postUserFollowingExists = endpoint({
@@ -391,27 +387,24 @@ export const postUserFollowingExists = endpoint({
     {
       status: 400,
       description: `0: An invalid userId was passed in.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 503,
       description: `1: Followers are disabled at this time.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/user/friend-requests/count
+ * @api GET https://friends.roblox.com/v1/user/friend-requests/count
+ * @summary Return the number of pending friend requests.
  */
 export const getUserFriendRequestsCount = endpoint({
   method: 'get' as const,
@@ -423,12 +416,12 @@ export const getUserFriendRequestsCount = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://friends.roblox.com/v1/user/friend-requests/decline-all
+ * @api POST https://friends.roblox.com/v1/user/friend-requests/decline-all
+ * @summary Decline all pending friend requests for the authenticated user.
  */
 export const postUserFriendRequestsDeclineAll = endpoint({
   method: 'post' as const,
@@ -440,18 +433,17 @@ export const postUserFriendRequestsDeclineAll = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://friends.roblox.com/v1/users/:requesterUserId/accept-friend-request
- * @param requesterUserId
+ * @api POST https://friends.roblox.com/v1/users/:requesterUserId/accept-friend-request
+ * @summary Accept a friend request.
+ * @param requesterUserId The user Id of the requester
  */
 export const postUsersRequesteruseridAcceptFriendRequest = endpoint({
   method: 'post' as const,
@@ -474,24 +466,22 @@ export const postUsersRequesteruseridAcceptFriendRequest = endpoint({
 10: The friend request does not exist.
 11: The current users friends limit has been exceeded.
 12: The target users friends limit has been exceeded.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 3: The user is blocked from performing this action.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://friends.roblox.com/v1/users/:requesterUserId/decline-friend-request
- * @param requesterUserId
+ * @api POST https://friends.roblox.com/v1/users/:requesterUserId/decline-friend-request
+ * @summary Decline a friend request.
+ * @param requesterUserId The user Id of the requester
  */
 export const postUsersRequesteruseridDeclineFriendRequest = endpoint({
   method: 'post' as const,
@@ -512,24 +502,22 @@ export const postUsersRequesteruseridDeclineFriendRequest = endpoint({
       status: 400,
       description: `1: The target user is invalid or does not exist.
 10: The friend request does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://friends.roblox.com/v1/users/:senderUserId/accept-friend-request-with-token
+ * @api POST https://friends.roblox.com/v1/users/:senderUserId/accept-friend-request-with-token
+ * @summary Accept a friend request with an Off Network Friending token.
  * @param body
- * @param senderUserId
+ * @param senderUserId The user id of the sender of the off network friend request
  */
 export const postUsersSenderuseridAcceptFriendRequestWithToken = endpoint({
   method: 'post' as const,
@@ -557,22 +545,20 @@ export const postUsersSenderuseridAcceptFriendRequestWithToken = endpoint({
 7: The user cannot be friends with itself.
 11: The current users friends limit has been exceeded.
 12: The target users friends limit has been exceeded.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://friends.roblox.com/v1/users/:targetUserId/follow
+ * @api POST https://friends.roblox.com/v1/users/:targetUserId/follow
+ * @summary Creates the following between a user and user with targetUserId
  * @param body
  * @param targetUserId
  */
@@ -598,12 +584,10 @@ export const postUsersTargetuseridFollow = endpoint({
       description: `1: The target user is invalid or does not exist.
 6: Invalid parameters.
 8: The user cannot follow itself.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -611,21 +595,20 @@ export const postUsersTargetuseridFollow = endpoint({
 2: The user is banned from performing operation.
 3: The user is blocked from performing this action.
 14: The user has not passed the captcha.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `9: The flood limit has been exceeded.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/users/:targetUserId/followers
+ * @api GET https://friends.roblox.com/v1/users/:targetUserId/followers
+ * @summary Get all users that follow user with targetUserId in page response format
  * @param targetUserId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getUsersTargetuseridFollowers = endpoint({
   method: 'get' as const,
@@ -664,23 +647,21 @@ export const getUsersTargetuseridFollowers = endpoint({
       status: 400,
       description: `1: The target user is invalid or does not exist.
 6: Invalid parameters.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: The user is banned from performing operation.
 3: The user is blocked from performing this action.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `9: The flood limit has been exceeded.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/users/:targetUserId/followers/count
+ * @api GET https://friends.roblox.com/v1/users/:targetUserId/followers/count
+ * @summary Get the number of following a user has
  * @param targetUserId
  */
 export const getUsersTargetuseridFollowersCount = endpoint({
@@ -701,16 +682,16 @@ export const getUsersTargetuseridFollowersCount = endpoint({
     {
       status: 400,
       description: `1: The target user is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/users/:targetUserId/followings
+ * @api GET https://friends.roblox.com/v1/users/:targetUserId/followings
+ * @summary Get all users that user with targetUserId is following in page response format
  * @param targetUserId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getUsersTargetuseridFollowings = endpoint({
   method: 'get' as const,
@@ -749,23 +730,21 @@ export const getUsersTargetuseridFollowings = endpoint({
       status: 400,
       description: `1: The target user is invalid or does not exist.
 6: Invalid parameters.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `2: The user is banned from performing operation.
 3: The user is blocked from performing this action.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `9: The flood limit has been exceeded.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/users/:targetUserId/followings/count
+ * @api GET https://friends.roblox.com/v1/users/:targetUserId/followings/count
+ * @summary Get the number of following a user has
  * @param targetUserId
  */
 export const getUsersTargetuseridFollowingsCount = endpoint({
@@ -786,12 +765,12 @@ export const getUsersTargetuseridFollowingsCount = endpoint({
     {
       status: 400,
       description: `1: The target user is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://friends.roblox.com/v1/users/:targetUserId/followings/recount
+ * @api POST https://friends.roblox.com/v1/users/:targetUserId/followings/recount
+ * @summary Recompute the number of followings for a user by comparing the existing counter to list of followings
  * @param targetUserId
  */
 export const postUsersTargetuseridFollowingsRecount = endpoint({
@@ -813,29 +792,26 @@ export const postUsersTargetuseridFollowingsRecount = endpoint({
       status: 400,
       description: `1: The target user is invalid or does not exist.
 32: Counter over limit.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `9: The flood limit has been exceeded.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://friends.roblox.com/v1/users/:targetUserId/request-friendship
+ * @api POST https://friends.roblox.com/v1/users/:targetUserId/request-friendship
+ * @summary Send a friend request to target user
  * @param body The source which the friend request originated from
- * @param targetUserId
+ * @param targetUserId The target user Id for friend request
  */
 export const postUsersTargetuseridRequestFriendship = endpoint({
   method: 'post' as const,
@@ -863,12 +839,10 @@ export const postUsersTargetuseridRequestFriendship = endpoint({
 10: The friend request does not exist.
 13: The users are not in the same game.
 31: User with max friends sent friend request.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -876,17 +850,16 @@ export const postUsersTargetuseridRequestFriendship = endpoint({
 2: The user is banned from performing operation.
 3: The user is blocked from performing this action.
 14: The user has not passed the captcha.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `9: The flood limit has been exceeded.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://friends.roblox.com/v1/users/:targetUserId/unfollow
+ * @api POST https://friends.roblox.com/v1/users/:targetUserId/unfollow
+ * @summary Deletes the following between a user and user with targetUserId
  * @param targetUserId
  */
 export const postUsersTargetuseridUnfollow = endpoint({
@@ -909,12 +882,10 @@ export const postUsersTargetuseridUnfollow = endpoint({
       description: `1: The target user is invalid or does not exist.
 6: Invalid parameters.
 8: The user cannot follow itself.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
@@ -922,18 +893,17 @@ export const postUsersTargetuseridUnfollow = endpoint({
 2: The user is banned from performing operation.
 3: The user is blocked from performing this action.
 14: The user has not passed the captcha.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `9: The flood limit has been exceeded.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://friends.roblox.com/v1/users/:targetUserId/unfriend
- * @param targetUserId
+ * @api POST https://friends.roblox.com/v1/users/:targetUserId/unfriend
+ * @summary Unfriend a user
+ * @param targetUserId The target user id to unfriend
  */
 export const postUsersTargetuseridUnfriend = endpoint({
   method: 'post' as const,
@@ -953,24 +923,22 @@ export const postUsersTargetuseridUnfriend = endpoint({
     {
       status: 400,
       description: `1: The target user is invalid or does not exist.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/users/:userId/friends
- * @param userId
- * @param userSort
+ * @api GET https://friends.roblox.com/v1/users/:userId/friends
+ * @summary Get list of all friends for the specified user.
+ * @param userId The user Id to get the friends for.
+ * @param userSort Specifies how to sort the returned friends.
  */
 export const getUsersUseridFriends = endpoint({
   method: 'get' as const,
@@ -995,12 +963,12 @@ export const getUsersUseridFriends = endpoint({
     {
       status: 400,
       description: `1: The target user is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/users/:userId/friends/count
+ * @api GET https://friends.roblox.com/v1/users/:userId/friends/count
+ * @summary Get the number of friends a user has
  * @param userId
  */
 export const getUsersUseridFriendsCount = endpoint({
@@ -1021,13 +989,13 @@ export const getUsersUseridFriendsCount = endpoint({
     {
       status: 400,
       description: `1: The target user is invalid or does not exist.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/users/:userId/friends/inactive
- * @param userId
+ * @api GET https://friends.roblox.com/v1/users/:userId/friends/inactive
+ * @summary Get list of inactive friends for the specified user.
+ * @param userId The user Id to get the friends for.
  */
 export const getUsersUseridFriendsInactive = endpoint({
   method: 'get' as const,
@@ -1048,18 +1016,17 @@ export const getUsersUseridFriendsInactive = endpoint({
       status: 400,
       description: `1: The target user is invalid or does not exist.
 6: Invalid parameters.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/users/:userId/friends/online
- * @param userId
+ * @api GET https://friends.roblox.com/v1/users/:userId/friends/online
+ * @summary Get list of all online friends for the specified user.
+ * @param userId The user Id to get the friends for.
  */
 export const getUsersUseridFriendsOnline = endpoint({
   method: 'get' as const,
@@ -1080,18 +1047,17 @@ export const getUsersUseridFriendsOnline = endpoint({
       status: 400,
       description: `1: The target user is invalid or does not exist.
 6: Invalid parameters.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://friends.roblox.com/v1/users/:userId/friends/statuses
- * @param userId
+ * @api GET https://friends.roblox.com/v1/users/:userId/friends/statuses
+ * @summary Gets a list of friend statuses of specified users against the specified user.
+ * @param userId The user to check the friend statuses against.
  * @param userIds
  */
 export const getUsersUseridFriendsStatuses = endpoint({
@@ -1118,7 +1084,6 @@ export const getUsersUseridFriendsStatuses = endpoint({
       description: `1: The target user is invalid or does not exist.
 15: Too many ids.
 16: Invalid ids.`,
-      schema: z.void(),
     },
   ],
 });

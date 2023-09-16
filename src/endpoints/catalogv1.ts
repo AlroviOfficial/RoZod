@@ -319,7 +319,8 @@ const schemas = {
 };
 
 /**
- * @api get https://catalog.roblox.com/v1/asset-to-category
+ * @api GET https://catalog.roblox.com/v1/asset-to-category
+ * @summary Lists a mapping for assets to category IDs to convert from inventory ID to catalog ID. Creates a mapping to link 'Get More' button in inventory page to the relevant catalog page.
  */
 export const getAssetToCategory = endpoint({
   method: 'get' as const,
@@ -330,7 +331,8 @@ export const getAssetToCategory = endpoint({
   errors: [],
 });
 /**
- * @api get https://catalog.roblox.com/v1/asset-to-subcategory
+ * @api GET https://catalog.roblox.com/v1/asset-to-subcategory
+ * @summary Lists a mapping for assets to subcategory IDs to convert from inventory ID to catalog ID. Creates a mapping to link 'Get More' button in inventory page to the relevant catalog page.
  */
 export const getAssetToSubcategory = endpoint({
   method: 'get' as const,
@@ -341,11 +343,12 @@ export const getAssetToSubcategory = endpoint({
   errors: [],
 });
 /**
- * @api get https://catalog.roblox.com/v1/assets/:assetId/bundles
+ * @api GET https://catalog.roblox.com/v1/assets/:assetId/bundles
+ * @summary Lists the bundles a particular asset belongs to. Use the Id of the last bundle in the response to get the next page.
  * @param assetId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getAssetsAssetidBundles = endpoint({
   method: 'get' as const,
@@ -384,12 +387,12 @@ export const getAssetsAssetidBundles = endpoint({
       status: 400,
       description: `1: Invalid assetId
 4: Invalid Cursor.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://catalog.roblox.com/v1/bundles/:bundleId/details
+ * @api GET https://catalog.roblox.com/v1/bundles/:bundleId/details
+ * @summary Returns details about the given bundleId.
  * @param bundleId
  */
 export const getBundlesBundleidDetails = endpoint({
@@ -410,14 +413,15 @@ export const getBundlesBundleidDetails = endpoint({
     {
       status: 400,
       description: `1: Invalid bundle`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://catalog.roblox.com/v1/bundles/:bundleId/recommendations
- * @param bundleId
- * @param numItems
+ * @api GET https://catalog.roblox.com/v1/bundles/:bundleId/recommendations
+ * @summary Gets recommendations for a given bundle, bundleId of 0 returns randomized bundles
+- Accepts both public and authenticated users
+ * @param bundleId 
+ * @param numItems The number of recommended items to return.
  */
 export const getBundlesBundleidRecommendations = endpoint({
   method: 'get' as const,
@@ -445,13 +449,14 @@ export const getBundlesBundleidRecommendations = endpoint({
 2: Error retrieving bundles
 3: Error getting bundle recommendations
 4: NumItems exceed maximum`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://catalog.roblox.com/v1/bundles/:bundleId/unpack
- * @param bundleId
+ * @api POST https://catalog.roblox.com/v1/bundles/:bundleId/unpack
+ * @summary Unpacks a bundle and grants all of the associated items.
+It may take a few seconds for all items to be granted after the request finishes.
+ * @param bundleId 
  */
 export const postBundlesBundleidUnpack = endpoint({
   method: 'post' as const,
@@ -472,22 +477,20 @@ export const postBundlesBundleidUnpack = endpoint({
       status: 400,
       description: `1: Invalid bundle
 2: Bundle is not owned`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://catalog.roblox.com/v1/bundles/details
+ * @api GET https://catalog.roblox.com/v1/bundles/details
+ * @summary Returns details about the given bundleIds.
  * @param bundleIds
  */
 export const getBundlesDetails = endpoint({
@@ -509,12 +512,12 @@ export const getBundlesDetails = endpoint({
       status: 400,
       description: `2: Invalid collection of bundleIds
 3: Cannot request so many bundles at once.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://catalog.roblox.com/v1/catalog/items/details
+ * @api POST https://catalog.roblox.com/v1/catalog/items/details
+ * @summary Returns list of item details
  * @param body Roblox.Catalog.Api.MultigetItemDetailsRequestModel
  */
 export const postCatalogItemsDetails = endpoint({
@@ -532,23 +535,21 @@ export const postCatalogItemsDetails = endpoint({
     {
       status: 400,
       description: `2: Invalid count`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 7: User is unauthorized.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `8: The flood limit has been exceeded.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://catalog.roblox.com/v1/categories
+ * @api GET https://catalog.roblox.com/v1/categories
+ * @summary Lists Category Names and their Ids
  */
 export const getCategories = endpoint({
   method: 'get' as const,
@@ -559,7 +560,8 @@ export const getCategories = endpoint({
   errors: [],
 });
 /**
- * @api get https://catalog.roblox.com/v1/favorites/assets/:assetId/count
+ * @api GET https://catalog.roblox.com/v1/favorites/assets/:assetId/count
+ * @summary Gets the favorite count for the given asset Id.
  * @param assetId
  */
 export const getFavoritesAssetsAssetidCount = endpoint({
@@ -580,12 +582,12 @@ export const getFavoritesAssetsAssetidCount = endpoint({
     {
       status: 400,
       description: `2: Invalid asset Id.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://catalog.roblox.com/v1/favorites/bundles/:bundleId/count
+ * @api GET https://catalog.roblox.com/v1/favorites/bundles/:bundleId/count
+ * @summary Gets the favorite count for the given bundle Id.
  * @param bundleId
  */
 export const getFavoritesBundlesBundleidCount = endpoint({
@@ -606,12 +608,12 @@ export const getFavoritesBundlesBundleidCount = endpoint({
     {
       status: 400,
       description: `2: Invalid bundle Id.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://catalog.roblox.com/v1/favorites/users/:userId/assets/:assetId/favorite
+ * @api GET https://catalog.roblox.com/v1/favorites/users/:userId/assets/:assetId/favorite
+ * @summary Gets the favorite model for the asset and user.
  * @param userId
  * @param assetId
  */
@@ -638,17 +640,16 @@ export const getFavoritesUsersUseridAssetsAssetidFavorite = endpoint({
       status: 400,
       description: `1: Invalid user Id.
 2: Invalid asset Id.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://catalog.roblox.com/v1/favorites/users/:userId/assets/:assetId/favorite
+ * @api POST https://catalog.roblox.com/v1/favorites/users/:userId/assets/:assetId/favorite
+ * @summary Create a favorite for an asset by the authenticated user.
  * @param userId
  * @param assetId
  */
@@ -675,33 +676,29 @@ export const postFavoritesUsersUseridAssetsAssetidFavorite = endpoint({
       status: 400,
       description: `1: Invalid user Id.
 2: Invalid asset Id.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 6: You are not authorized to perform this action.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `3: Asset is already favorited.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `5: This action was floodchecked. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://catalog.roblox.com/v1/favorites/users/:userId/assets/:assetId/favorite
+ * @api DELETE https://catalog.roblox.com/v1/favorites/users/:userId/assets/:assetId/favorite
+ * @summary Delete a favorite for an asset by the authenticated user.
  * @param userId
  * @param assetId
  */
@@ -728,33 +725,29 @@ export const deleteFavoritesUsersUseridAssetsAssetidFavorite = endpoint({
       status: 400,
       description: `1: Invalid user Id.
 2: Invalid asset Id.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 6: You are not authorized to perform this action.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `4: Asset is already not favorited.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `5: This action was floodchecked. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://catalog.roblox.com/v1/favorites/users/:userId/bundles/:bundleId/favorite
+ * @api GET https://catalog.roblox.com/v1/favorites/users/:userId/bundles/:bundleId/favorite
+ * @summary Gets the favorite model for the bundle and user.
  * @param userId
  * @param bundleId
  */
@@ -781,17 +774,16 @@ export const getFavoritesUsersUseridBundlesBundleidFavorite = endpoint({
       status: 400,
       description: `1: Invalid user Id.
 2: Invalid bundle Id.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api post https://catalog.roblox.com/v1/favorites/users/:userId/bundles/:bundleId/favorite
+ * @api POST https://catalog.roblox.com/v1/favorites/users/:userId/bundles/:bundleId/favorite
+ * @summary Create a favorite for the bundle by the authenticated user.
  * @param userId
  * @param bundleId
  */
@@ -818,33 +810,29 @@ export const postFavoritesUsersUseridBundlesBundleidFavorite = endpoint({
       status: 400,
       description: `1: Invalid user Id.
 2: Invalid bundle Id.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 6: You are not authorized to perform this action.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `3: Bundle is already favorited.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `5: This action was floodchecked. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api delete https://catalog.roblox.com/v1/favorites/users/:userId/bundles/:bundleId/favorite
+ * @api DELETE https://catalog.roblox.com/v1/favorites/users/:userId/bundles/:bundleId/favorite
+ * @summary Delete favorite for the bundle by the authenticated user.
  * @param userId
  * @param bundleId
  */
@@ -871,37 +859,34 @@ export const deleteFavoritesUsersUseridBundlesBundleidFavorite = endpoint({
       status: 400,
       description: `1: Invalid user Id.
 2: Invalid bundle Id.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `0: Token Validation Failed
 6: You are not authorized to perform this action.`,
-      schema: z.void(),
     },
     {
       status: 409,
       description: `4: Bundle is already not favorited.`,
-      schema: z.void(),
     },
     {
       status: 429,
       description: `5: This action was floodchecked. Please try again later.`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://catalog.roblox.com/v1/favorites/users/:userId/favorites/:subtypeId/bundles
- * @param userId
- * @param subtypeId
- * @param pageNumber
- * @param itemsPerPage
+ * @api GET https://catalog.roblox.com/v1/favorites/users/:userId/favorites/:subtypeId/bundles
+ * @summary Lists the bundles favorited by a given user with the given bundle subtypeId
+Favorites Service doesn't support exclusive start paging or tracking total favorited bundles
+ * @param userId 
+ * @param subtypeId 
+ * @param pageNumber 
+ * @param itemsPerPage 
  */
 export const getFavoritesUsersUseridFavoritesSubtypeidBundles = endpoint({
   method: 'get' as const,
@@ -935,23 +920,21 @@ export const getFavoritesUsersUseridFavoritesSubtypeidBundles = endpoint({
     {
       status: 400,
       description: `1: Invalid user Id.`,
-      schema: z.void(),
     },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-      schema: z.void(),
     },
     {
       status: 403,
       description: `6: You are not authorized to perform this action.
 8: Invalid page number`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://catalog.roblox.com/v1/subcategories
+ * @api GET https://catalog.roblox.com/v1/subcategories
+ * @summary Lists Subcategory Names and their Ids
  */
 export const getSubcategories = endpoint({
   method: 'get' as const,
@@ -962,7 +945,7 @@ export const getSubcategories = endpoint({
   errors: [],
 });
 /**
- * @api post https://catalog.roblox.com/v1/topic/get-topics
+ * @api POST https://catalog.roblox.com/v1/topic/get-topics
  * @param body
  */
 export const postTopicGetTopics = endpoint({
@@ -980,16 +963,16 @@ export const postTopicGetTopics = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://catalog.roblox.com/v1/users/:userId/bundles
+ * @api GET https://catalog.roblox.com/v1/users/:userId/bundles
+ * @summary Lists the bundles owned by a given user.
  * @param userId
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Sorted by bundle
  */
 export const getUsersUseridBundles = endpoint({
   method: 'get' as const,
@@ -1027,17 +1010,16 @@ export const getUsersUseridBundles = endpoint({
     {
       status: 400,
       description: `1: Invalid bundle`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://catalog.roblox.com/v1/users/:userId/bundles/:bundleType
+ * @api GET https://catalog.roblox.com/v1/users/:userId/bundles/:bundleType
  * @param userId
  * @param bundleType
- * @param limit
- * @param cursor
- * @param sortOrder
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridBundlesBundletype = endpoint({
   method: 'get' as const,

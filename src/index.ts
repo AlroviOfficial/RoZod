@@ -16,7 +16,6 @@ type EndpointBase = {
   errors?: {
     status: number;
     description?: string;
-    schema: z.Schema<any>;
   }[];
 };
 
@@ -453,12 +452,8 @@ async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
     return [await fetchTransformed(params)];
   }
 
-  const allResults: ExtractResponse<S>[] = [];
-
-  for (const splitParam of splitParams) {
-    const transformedResponse = await fetchTransformed(splitParam);
-    allResults.push(transformedResponse);
-  }
+  const promises = splitParams.map(fetchTransformed);
+  const allResults = await Promise.all(promises);
 
   return allResults;
 }

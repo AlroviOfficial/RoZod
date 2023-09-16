@@ -48,8 +48,9 @@ const schemas = {
 };
 
 /**
- * @api get https://assetdelivery.roblox.com/v1/alias/:alias
- * @param alias
+ * @api GET https://assetdelivery.roblox.com/v1/alias/:alias
+ * @summary Retrieves an asset by its alias (universeID/name)
+ * @param alias The alias of the asset to retrieve.
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
@@ -116,7 +117,7 @@ export const getAliasAlias = endpoint({
     },
   },
   parameters: {
-    alias: z.string().regex(/^[0-9]+\\\/.+/),
+    alias: z.string().regex(/^[0-9]+\/.+/),
     'Accept-Encoding': z.string(),
     'Roblox-Place-Id': z.number().int(),
     AssetType: z.string(),
@@ -134,7 +135,7 @@ export const getAliasAlias = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v1/asset
+ * @api GET https://assetdelivery.roblox.com/v1/asset
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
@@ -275,8 +276,9 @@ export const getAsset = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v1/assetHash/:hash
- * @param hash
+ * @api GET https://assetdelivery.roblox.com/v1/assetHash/:hash
+ * @summary Retrieves an asset by its hash.
+ * @param hash the hash of the asset to retrieve.
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
@@ -361,8 +363,9 @@ export const getAssethashHash = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v1/assetId/:assetId
- * @param assetId
+ * @api GET https://assetdelivery.roblox.com/v1/assetId/:assetId
+ * @summary Retrieves an asset by its ID
+ * @param assetId The ID of the asset to retrieve.
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
@@ -447,9 +450,10 @@ export const getAssetidAssetid = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v1/assetId/:assetId/version/:version
- * @param assetId
- * @param version
+ * @api GET https://assetdelivery.roblox.com/v1/assetId/:assetId/version/:version
+ * @summary Retrieves an asset by its ID and its version.
+ * @param assetId the ID of the asset to retrieve.
+ * @param version the version of the asset to retrieve.
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
@@ -538,7 +542,7 @@ export const getAssetidAssetidVersionVersion = endpoint({
   errors: [],
 });
 /**
- * @api post https://assetdelivery.roblox.com/v1/assets/batch
+ * @api POST https://assetdelivery.roblox.com/v1/assets/batch
  * @param body
  * @param Roblox-Place-Id
  * @param Accept
@@ -571,7 +575,7 @@ export const postAssetsBatch = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v1/assetVersionId/:assetVersionId
+ * @api GET https://assetdelivery.roblox.com/v1/assetVersionId/:assetVersionId
  * @param assetVersionId
  * @param Accept-Encoding
  * @param Roblox-Place-Id
@@ -657,9 +661,10 @@ export const getAssetversionidAssetversionid = endpoint({
   errors: [],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v1/marAssetHash/:marAssetHash/marCheckSum/:marCheckSum
- * @param marAssetHash
- * @param marCheckSum
+ * @api GET https://assetdelivery.roblox.com/v1/marAssetHash/:marAssetHash/marCheckSum/:marCheckSum
+ * @summary Retrieves an asset by its mar (moderation agnostic) hash and mar (moderation agnostic) checksum.
+ * @param marAssetHash The mar (moderation agnostic) hash of the asset to retrieve.
+ * @param marCheckSum The mar (moderation agnostic) checksum of the asset to retrieve.
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
@@ -750,17 +755,15 @@ export const getMarassethashMarassethashMarchecksumMarchecksum = endpoint({
       status: 400,
       description: `2: invalid server request
 3: Encoding cannot be empty`,
-      schema: z.void(),
     },
     {
       status: 404,
       description: `5: Asset hash cannot be empty`,
-      schema: z.void(),
     },
   ],
 });
 /**
- * @api get https://assetdelivery.roblox.com/v1/userAssetId/:userAssetId
+ * @api GET https://assetdelivery.roblox.com/v1/userAssetId/:userAssetId
  * @param userAssetId
  * @param Accept-Encoding
  * @param Roblox-Place-Id
