@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { Cache, ChromeStore, LocalStorageStore, MemoryStore } from './cache';
 import { HBAClient } from 'roblox-bat';
+import { type ParsedChallenge, parseChallengeHeaders, GENERIC_CHALLENGE_ID_HEADER, GENERIC_CHALLENGE_METADATA_HEADER, GENERIC_CHALLENGE_TYPE_HEADER } from 'parse-roblox-errors/esm/challenge';
 
 type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 type RequestFormat = 'json' | 'text' | 'form-data';
@@ -222,12 +223,28 @@ const getSHA256Hash = async (input: string) => {
 
 const csrfAllowedMethods = ['post', 'patch', 'delete', 'put'];
 
+let handleGenericChallengeFn: ((challenge: ParsedChallenge) => Promise<ParsedChallenge | undefined> | ParsedChallenge | undefined) | undefined;
+
+/**
+ * Allows you to set the function that will be used to handle Roblox generic challenges, i.e. captchas, two-step verification.
+ * @param fn The function to use.
+ */
+export function setHandleGenericChallenge(fn: typeof handleGenericChallengeFn) {
+  handleGenericChallengeFn = fn;
+}
+
 const csrfTokenMap: Record<string, string> = {};
-async function fetch(url: string, info?: RequestInit): Promise<Response> {
+async function fetch(url: string, info?: RequestInit, challengeData?: ParsedChallenge): Promise<Response> {
   const headers = new Headers(info?.headers);
   const setHeaders = await hbaClient.generateBaseHeaders(url, info?.body);
   for (const key in setHeaders) {
     headers.set(key, setHeaders[key]);
+  }
+
+  if (challengeData) {
+    headers.set(GENERIC_CHALLENGE_TYPE_HEADER, challengeData.challengeType);
+    headers.set(GENERIC_CHALLENGE_ID_HEADER, challengeData.challengeId);
+    headers.set(GENERIC_CHALLENGE_METADATA_HEADER, challengeData.challengeBase64Metadata);
   }
 
   let csrfKey: string = 'false';
@@ -255,8 +272,16 @@ async function fetch(url: string, info?: RequestInit): Promise<Response> {
     csrfTokenMap[csrfKey] = res.headers.get('x-csrf-token')!;
 
     return fetch(url, info);
+  } else if (handleGenericChallengeFn) {
+    const challenge = parseChallengeHeaders(res.headers);
+    if (challenge) {
+      const data = await handleGenericChallengeFn(challenge);
+      if (data) {
+        return fetch(url, info, data);
+      }
+    }
   }
-
+  
   return res;
 }
 
