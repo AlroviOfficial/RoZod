@@ -225,22 +225,26 @@ const csrfAllowedMethods = ['post', 'patch', 'delete', 'put'];
 
 let handleGenericChallengeFn: ((challenge: ParsedChallenge) => Promise<ParsedChallenge | undefined> | ParsedChallenge | undefined) | undefined;
 
+/**
+ * Allows you to set the function that will be used to handle Roblox generic challenges.
+ * @param fn The function to use.
+ */
 export function setHandleGenericChallenge(fn: typeof handleGenericChallengeFn) {
   handleGenericChallengeFn = fn;
 }
 
 const csrfTokenMap: Record<string, string> = {};
-async function fetch(url: string, info?: RequestInit, challenge?: ParsedChallenge): Promise<Response> {
+async function fetch(url: string, info?: RequestInit, challengeData?: ParsedChallenge): Promise<Response> {
   const headers = new Headers(info?.headers);
   const setHeaders = await hbaClient.generateBaseHeaders(url, info?.body);
   for (const key in setHeaders) {
     headers.set(key, setHeaders[key]);
   }
 
-  if (challenge) {
-    headers.set(GENERIC_CHALLENGE_TYPE_HEADER, challenge.challengeType);
-    headers.set(GENERIC_CHALLENGE_ID_HEADER, challenge.challengeId);
-    headers.set(GENERIC_CHALLENGE_METADATA_HEADER, challenge.challengeBase64Metadata);
+  if (challengeData) {
+    headers.set(GENERIC_CHALLENGE_TYPE_HEADER, challengeData.challengeType);
+    headers.set(GENERIC_CHALLENGE_ID_HEADER, challengeData.challengeId);
+    headers.set(GENERIC_CHALLENGE_METADATA_HEADER, challengeData.challengeBase64Metadata);
   }
 
   let csrfKey: string = 'false';
