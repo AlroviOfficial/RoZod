@@ -226,7 +226,7 @@ const csrfAllowedMethods = ['post', 'patch', 'delete', 'put'];
 let handleGenericChallengeFn: ((challenge: ParsedChallenge) => Promise<ParsedChallenge | undefined> | ParsedChallenge | undefined) | undefined;
 
 /**
- * Allows you to set the function that will be used to handle Roblox generic challenges.
+ * Allows you to set the function that will be used to handle Roblox generic challenges, i.e. captchas, two-step verification.
  * @param fn The function to use.
  */
 export function setHandleGenericChallenge(fn: typeof handleGenericChallengeFn) {
