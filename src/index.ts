@@ -17,7 +17,6 @@ type EndpointBase = {
   errors?: {
     status: number;
     description?: string;
-    schema: z.Schema<any>;
   }[];
 };
 
