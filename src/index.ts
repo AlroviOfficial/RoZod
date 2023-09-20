@@ -207,7 +207,12 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
   return endpoint.baseUrl + processedPath + query;
 }
 
-function prepareRequestBody<S extends EndpointSchema>(method: string, requestFormat: string, body: S['body'], headers: Headers): string {
+function prepareRequestBody<S extends EndpointSchema>(
+  method: string,
+  requestFormat: string,
+  body: S['body'],
+  headers: Headers,
+): string {
   if (method !== 'get' && requestFormat === 'json') {
     body = JSON.stringify(body);
     headers.set('content-type', 'application/json');
@@ -405,10 +410,17 @@ async function fetchApi<S extends EndpointSchema>(
   const retries = requestOptions.retries ?? 0;
   const retryDelay = requestOptions.retryDelay ?? 0;
 
-  const response = await handleRetryFetch(url, {
-    ...requestOptions,
-    headers
-  }, retries, retryDelay, body, method);
+  const response = await handleRetryFetch(
+    url,
+    {
+      ...requestOptions,
+      headers,
+    },
+    retries,
+    retryDelay,
+    body,
+    method,
+  );
 
   const error = endpoint.errors?.find(({ status }) => status === response.status);
   if (error) {
