@@ -32,7 +32,6 @@ const Roblox_AccountInformation_Api_Models_MetadataResponse = z
     isPasswordRequiredForAgingDown: z.boolean(),
     shouldUsePersonaForIdVerification: z.boolean(),
     shouldDisplaySessionManagement: z.boolean(),
-    shouldUseSecurityReactUI: z.boolean(),
   })
   .passthrough();
 const Roblox_AccountInformation_Api_Models_PhoneResponse = z

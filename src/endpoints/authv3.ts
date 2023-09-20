@@ -1,11 +1,20 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
+const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel = z
+  .object({
+    clientPublicKey: z.string(),
+    clientEpochTimestamp: z.number().int(),
+    saiSignature: z.string(),
+    serverNonce: z.string(),
+  })
+  .passthrough();
 const Roblox_Authentication_Api_TwoStepVerificationLoginRequest = z
   .object({
     challengeId: z.string(),
     verificationToken: z.string(),
     rememberDevice: z.boolean(),
+    secureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
     accountBlob: z.string(),
   })
   .passthrough();
@@ -17,6 +26,7 @@ const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z
   .passthrough();
 
 const schemas = {
+  Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
   Roblox_Authentication_Api_TwoStepVerificationLoginRequest,
   Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse,
 };
@@ -52,7 +62,8 @@ export const postUsersUseridTwoStepVerificationLogin = endpoint({
     },
     {
       status: 403,
-      description: `0: Token Validation Failed`,
+      description: `0: Token Validation Failed
+11: Maxium logged in accounts limit reached.`,
     },
   ],
 });

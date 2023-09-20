@@ -73,7 +73,7 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV3 = z
     assets: z.array(Roblox_Api_Avatar_Models_AssetWearModel),
     scale: Roblox_Web_Responses_Avatar_ScaleModel,
     playerAvatarType: z.string(),
-    outfitType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+    outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   })
   .passthrough();
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();

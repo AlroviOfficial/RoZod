@@ -9,7 +9,7 @@ const Roblox_Authentication_Api_Models_CanSendCredentialsVerificationMessageResp
   .passthrough();
 const Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest = z
   .object({
-    credentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    credentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
     credentialValue: z.string(),
     password: z.string(),
   })
@@ -47,6 +47,7 @@ const Roblox_Authentication_Api_Models_PasswordResetModel = z
     passwordRepeated: z.string(),
     twoStepVerificationChallengeId: z.string(),
     twoStepVerificationToken: z.string(),
+    accountBlob: z.string(),
   })
   .passthrough();
 const Roblox_Web_Responses_Users_SkinnyUserResponse = z
@@ -54,7 +55,7 @@ const Roblox_Web_Responses_Users_SkinnyUserResponse = z
   .passthrough();
 const Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse = z
   .object({
-    mediaType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    mediaType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
     ticket: z.string(),
   })
   .passthrough();
@@ -152,7 +153,7 @@ const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel =
   .passthrough();
 const Roblox_Authentication_Api_Models_LoginRequest = z
   .object({
-    ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
     cvalue: z.string(),
     password: z.string(),
     userId: z.number().int(),
@@ -391,7 +392,7 @@ export const getCredentialsVerification = endpoint({
     },
   },
   parameters: {
-    CredentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    CredentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
     CredentialValue: z.string(),
     Password: z.string(),
   },
@@ -982,7 +983,8 @@ export const postSignup = endpoint({
     {
       status: 400,
       description: `Bad request
-16: User agreement ids are null.`,
+16: User agreement ids are null.
+21: Empty account switch blob required`,
     },
     {
       status: 403,
@@ -997,7 +999,8 @@ export const postSignup = endpoint({
 10: Email is invalid.
 11: Asset is invalid.
 12: Too many attempts. Please wait a bit.
-17: One time Passcode session was not valid`,
+17: One time Passcode session was not valid
+22: Maximum logged in accounts limit reached.`,
     },
     {
       status: 429,
@@ -1167,7 +1170,7 @@ export const postUsername = endpoint({
 10: This username is already in use
 11: Username not appropriate for Roblox
 12: Usernames can be 3 to 20 characters long
-13: Usernames can�t start or end with _ and can have at most one _
+13: Usernames can’t start or end with _ and can have at most one _
 14: Only a-z, A-Z, 0-9, and _ are allowed
 15: Username is null
 16: Username might contain private information

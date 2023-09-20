@@ -16,7 +16,7 @@ const Roblox_Authentication_Api_Models_CanSendCredentialsVerificationMessageResp
   .passthrough();
 const Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest = z
   .object({
-    credentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    credentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
     credentialValue: z.string(),
     password: z.string(),
   })
@@ -78,7 +78,7 @@ const Roblox_Web_Responses_Users_SkinnyUserResponse = z
   .passthrough();
 const Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse = z
   .object({
-    mediaType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    mediaType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
     ticket: z.string(),
   })
   .passthrough();
@@ -153,6 +153,27 @@ const Roblox_Authentication_Api_Models_Request_ExternalLoginRequest = z
     additionalInfoPayload: z.record(z.object({}).passthrough()),
   })
   .passthrough();
+const Roblox_Authentication_Api_Models_Request_ExternalLoginAndLinkRequest = z
+  .object({
+    ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+    cvalue: z.string(),
+    password: z.string(),
+    authenticationProof: z.string(),
+    identityProvider: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+    additionalInfoPayload: z.record(z.object({}).passthrough()),
+  })
+  .passthrough();
+const Roblox_Authentication_Api_Models_Request_ExternalSignupRequest = z
+  .object({
+    username: z.string(),
+    password: z.string(),
+    birthday: z.string().datetime({ offset: true }),
+    locale: z.string(),
+    authenticationProof: z.string(),
+    identityProvider: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+    additionalInfoPayload: z.record(z.object({}).passthrough()),
+  })
+  .passthrough();
 const Roblox_Authentication_Api_Models_Request_ExternalUnlinkRequest = z
   .object({
     identityProvider: z.union([z.literal(0), z.literal(1), z.literal(2)]),
@@ -172,7 +193,7 @@ const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel =
   .passthrough();
 const Roblox_Authentication_Api_Models_LoginRequest = z
   .object({
-    ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
     cvalue: z.string(),
     password: z.string(),
     userId: z.number().int(),
@@ -185,6 +206,28 @@ const Roblox_Authentication_Api_Models_LoginRequest = z
     captchaProvider: z.string(),
     challengeId: z.string(),
   })
+  .passthrough();
+const Roblox_Authentication_Api_Models_Request_DeletePasskeysRequest = z
+  .object({ passkeysNicknames: z.array(z.string()) })
+  .passthrough();
+const Roblox_Authentication_Api_Models_Request_FinishPasskeyRegistrationRequest = z
+  .object({
+    sessionId: z.string(),
+    credentialNickname: z.string(),
+    attestationResponse: z.string(),
+  })
+  .passthrough();
+const Roblox_Authentication_Api_Models_Response_PasskeyCredential = z.object({ nickname: z.string() }).passthrough();
+const Roblox_Authentication_Api_Models_Response_ListPasskeyCredentialResponse = z
+  .object({
+    credentials: z.array(Roblox_Authentication_Api_Models_Response_PasskeyCredential),
+  })
+  .passthrough();
+const Roblox_Authentication_Api_Models_Response_StartAuthenticationResponse = z
+  .object({ authenticationOptions: z.string(), sessionId: z.string() })
+  .passthrough();
+const Roblox_Authentication_Api_Models_Response_StartPasskeyRegistrationResponse = z
+  .object({ CreationOptions: z.string(), SessionId: z.string() })
   .passthrough();
 const Roblox_Authentication_Api_Models_ReferralDataModel = z
   .object({
@@ -335,10 +378,18 @@ const schemas = {
   Roblox_Authentication_Api_Models_AccountPinResponse,
   Roblox_Web_WebAPI_ApiEmptyResponseModel,
   Roblox_Authentication_Api_Models_Request_ExternalLoginRequest,
+  Roblox_Authentication_Api_Models_Request_ExternalLoginAndLinkRequest,
+  Roblox_Authentication_Api_Models_Request_ExternalSignupRequest,
   Roblox_Authentication_Api_Models_Request_ExternalUnlinkRequest,
   Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest,
   Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
   Roblox_Authentication_Api_Models_LoginRequest,
+  Roblox_Authentication_Api_Models_Request_DeletePasskeysRequest,
+  Roblox_Authentication_Api_Models_Request_FinishPasskeyRegistrationRequest,
+  Roblox_Authentication_Api_Models_Response_PasskeyCredential,
+  Roblox_Authentication_Api_Models_Response_ListPasskeyCredentialResponse,
+  Roblox_Authentication_Api_Models_Response_StartAuthenticationResponse,
+  Roblox_Authentication_Api_Models_Response_StartPasskeyRegistrationResponse,
   Roblox_Authentication_Api_Models_ReferralDataModel,
   Roblox_Authentication_Api_Models_Request_OtpSessionModel,
   Roblox_Authentication_Api_Models_SignupRequest,
@@ -540,7 +591,7 @@ export const getCredentialsVerification = endpoint({
     },
   },
   parameters: {
-    CredentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    CredentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
     CredentialValue: z.string(),
     Password: z.string(),
   },
@@ -673,13 +724,19 @@ export const postExternalLogin = endpoint({
 /**
  * @api POST https://auth.roblox.com/v1/external/loginAndLink
  * @summary Logins in a user to Roblox, then links the Roblox account to the external provider ID
+ * @param body
  */
 export const postExternalLoginandlink = endpoint({
   method: 'post' as const,
   path: '/v1/external/loginAndLink',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
-  response: z.void(),
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_Request_ExternalLoginAndLinkRequest,
+  response: Roblox_Authentication_Api_Models_LoginResponse,
   errors: [
     {
       status: 403,
@@ -690,12 +747,18 @@ export const postExternalLoginandlink = endpoint({
 /**
  * @api POST https://auth.roblox.com/v1/external/signup
  * @summary Signs a user up for Roblox and links the account to the authenticated external provider ID
+ * @param body
  */
 export const postExternalSignup = endpoint({
   method: 'post' as const,
   path: '/v1/external/signup',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_Request_ExternalSignupRequest,
   response: z.void(),
   errors: [
     {
@@ -854,6 +917,150 @@ export const getMetadata = endpoint({
   requestFormat: 'json' as const,
   response: Roblox_Authentication_Api_Models_MetadataResponse,
   errors: [],
+});
+/**
+ * @api POST https://auth.roblox.com/v1/passkey/DeleteCredentialBatch
+ * @summary Disables a batch of credentials for the specified user.
+ * @param body The request body!:DisableTwoStepVerificationRequest.
+ */
+export const postPasskeyDeletecredentialbatch = endpoint({
+  method: 'post' as const,
+  path: '/v1/passkey/DeleteCredentialBatch',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_Request_DeletePasskeysRequest,
+  response: z.object({}).passthrough(),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+0: An unknown error occurred with the request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+    {
+      status: 503,
+      description: `2: Feature disabled.`,
+    },
+  ],
+});
+/**
+ * @api POST https://auth.roblox.com/v1/passkey/FinishRegistration
+ * @summary Complete Passkey registration by providing credential creation options.
+ * @param body The request body.Roblox.Authentication.Api.Models.Request.FinishPasskeyRegistrationRequest.
+ */
+export const postPasskeyFinishregistration = endpoint({
+  method: 'post' as const,
+  path: '/v1/passkey/FinishRegistration',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_Request_FinishPasskeyRegistrationRequest,
+  response: z.object({}).passthrough(),
+  errors: [
+    {
+      status: 400,
+      description: `0: An unknown error occurred with the request.
+3: Invalid security key nickname.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+0: An unknown error occurred with the request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+3: Invalid security key nickname.`,
+    },
+    {
+      status: 503,
+      description: `2: Feature disabled.`,
+    },
+  ],
+});
+/**
+ * @api POST https://auth.roblox.com/v1/passkey/ListCredentials
+ * @summary List a user's registered  Passkeys.
+ */
+export const postPasskeyListcredentials = endpoint({
+  method: 'post' as const,
+  path: '/v1/passkey/ListCredentials',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
+  response: Roblox_Authentication_Api_Models_Response_ListPasskeyCredentialResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+0: An unknown error occurred with the request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+    {
+      status: 503,
+      description: `2: Feature disabled.`,
+    },
+  ],
+});
+/**
+ * @api POST https://auth.roblox.com/v1/passkey/StartAuthentication
+ * @summary Provides a challenge for the Passkey to authenticate.
+ */
+export const postPasskeyStartauthentication = endpoint({
+  method: 'post' as const,
+  path: '/v1/passkey/StartAuthentication',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
+  response: Roblox_Authentication_Api_Models_Response_StartAuthenticationResponse,
+  errors: [
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+    {
+      status: 503,
+      description: `2: Feature disabled.`,
+    },
+  ],
+});
+/**
+ * @api POST https://auth.roblox.com/v1/passkey/StartRegistration
+ * @summary Initiates  Passkey registration by providing credential creation options.
+ */
+export const postPasskeyStartregistration = endpoint({
+  method: 'post' as const,
+  path: '/v1/passkey/StartRegistration',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
+  response: Roblox_Authentication_Api_Models_Response_StartPasskeyRegistrationResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+0: An unknown error occurred with the request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+1: Reached limit of pass keys registered.`,
+    },
+    {
+      status: 503,
+      description: `2: Feature disabled.`,
+    },
+  ],
 });
 /**
  * @api GET https://auth.roblox.com/v1/passwords/validate
@@ -1019,7 +1226,8 @@ export const postSignup = endpoint({
     {
       status: 400,
       description: `Bad request
-16: User agreement ids are null.`,
+16: User agreement ids are null.
+21: Empty account switch blob required`,
     },
     {
       status: 403,
@@ -1034,7 +1242,8 @@ export const postSignup = endpoint({
 10: Email is invalid.
 11: Asset is invalid.
 12: Too many attempts. Please wait a bit.
-17: One time Passcode session was not valid`,
+17: One time Passcode session was not valid
+22: Maximum logged in accounts limit reached.`,
     },
     {
       status: 429,
@@ -1266,7 +1475,7 @@ export const postUsername = endpoint({
 10: This username is already in use
 11: Username not appropriate for Roblox
 12: Usernames can be 3 to 20 characters long
-13: Usernames can�t start or end with _ and can have at most one _
+13: Usernames can’t start or end with _ and can have at most one _
 14: Only a-z, A-Z, 0-9, and _ are allowed
 15: Username is null
 16: Username might contain private information

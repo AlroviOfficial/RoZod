@@ -56,9 +56,9 @@ Promise.all(
         console.log(`Converting ${url}`);
         const [, subdomain, domain] = url.match(/https:\/\/([^\.]+)\.(.+)\//);
         const apiName = url.split('/').slice(-1)[0];
-        // await promisify(exec)(
-        //   `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${subdomain}${apiName}"`,
-        // );
+        await util.promisify(exec)(
+          `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${subdomain}${apiName}"`,
+        );
       }
     }),
   ),

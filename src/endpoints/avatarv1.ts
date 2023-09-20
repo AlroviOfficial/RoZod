@@ -138,6 +138,7 @@ const Roblox_Api_Avatar_Models_GameStartInfoResponse = z
 const Roblox_Api_Avatar_Models_OutfitDetailsModel = z
   .object({
     id: z.number().int(),
+    universeId: z.number().int(),
     name: z.string(),
     assets: z.array(Roblox_Api_Avatar_Models_AssetModelV2),
     bodyColors: Roblox_Api_Avatar_Models_BodyColorsModel,
@@ -145,6 +146,7 @@ const Roblox_Api_Avatar_Models_OutfitDetailsModel = z
     playerAvatarType: z.string(),
     outfitType: z.string(),
     isEditable: z.boolean(),
+    moderationStatus: z.string(),
   })
   .passthrough();
 const Roblox_Api_Avatar_Models_RecentItemModel = z
@@ -192,7 +194,7 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV1 = z
     assetIds: z.array(z.number()),
     scale: Roblox_Web_Responses_Avatar_ScaleModel,
     playerAvatarType: z.string(),
-    outfitType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+    outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   })
   .passthrough();
 
