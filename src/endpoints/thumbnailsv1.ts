@@ -6,6 +6,7 @@ const Roblox_Web_Responses_Thumbnails_ThumbnailResponse = z
     targetId: z.number().int(),
     state: z.enum(['Error', 'Completed', 'InReview', 'Pending', 'Blocked', 'TemporarilyUnavailable']),
     imageUrl: z.string(),
+    version: z.string(),
   })
   .passthrough();
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_ = z
@@ -32,12 +33,6 @@ const Roblox_Thumbnails_Api_Models_UniverseThumbnailsResponse = z
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Thumbnails_Api_Models_UniverseThumbnailsResponse_ = z
   .object({
     data: z.array(Roblox_Thumbnails_Api_Models_UniverseThumbnailsResponse),
-  })
-  .passthrough();
-const Roblox_Thumbnails_Api_Models_ThumbnailMetaDataResponse = z
-  .object({
-    isWebappUseCacheEnabled: z.boolean(),
-    webappCacheExpirationTimspan: z.string(),
   })
   .passthrough();
 const Roblox_Thumbnails_Apis_Models_ThumbnailBatchRequest = z
@@ -78,6 +73,7 @@ const Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse = z
     targetId: z.number().int(),
     state: z.enum(['Error', 'Completed', 'InReview', 'Pending', 'Blocked', 'TemporarilyUnavailable']),
     imageUrl: z.string(),
+    version: z.string(),
   })
   .passthrough();
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse_ = z
@@ -92,7 +88,6 @@ const schemas = {
   Roblox_Web_WebAPI_Models_ApiErrorModel,
   Roblox_Thumbnails_Api_Models_UniverseThumbnailsResponse,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Thumbnails_Api_Models_UniverseThumbnailsResponse_,
-  Roblox_Thumbnails_Api_Models_ThumbnailMetaDataResponse,
   Roblox_Thumbnails_Apis_Models_ThumbnailBatchRequest,
   Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse_,
@@ -702,18 +697,6 @@ export const getGroupsIcons = endpoint({
 10: Circular thumbnail requests are not allowed`,
     },
   ],
-});
-/**
- * @api GET https://thumbnails.roblox.com/v1/metadata
- * @summary Return list of thumbnail meta data.
- */
-export const getMetadata = endpoint({
-  method: 'get' as const,
-  path: '/v1/metadata',
-  baseUrl: 'https://thumbnails.roblox.com',
-  requestFormat: 'json' as const,
-  response: Roblox_Thumbnails_Api_Models_ThumbnailMetaDataResponse,
-  errors: [],
 });
 /**
  * @api GET https://thumbnails.roblox.com/v1/places/gameicons

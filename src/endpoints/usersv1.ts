@@ -627,6 +627,7 @@ export const getUsersAuthenticatedRoles = endpoint({
  * @api GET https://users.roblox.com/v1/users/search
  * @summary Searches for users by keyword.
  * @param keyword The search keyword.
+ * @param sessionId
  * @param limit The number of results per request.
  * @param cursor The paging cursor for the previous or next page.
  */
@@ -637,6 +638,10 @@ export const getUsersSearch = endpoint({
   requestFormat: 'json' as const,
   serializationMethod: {
     keyword: {
+      style: 'form',
+      explode: true,
+    },
+    sessionId: {
       style: 'form',
       explode: true,
     },
@@ -651,6 +656,7 @@ export const getUsersSearch = endpoint({
   },
   parameters: {
     keyword: z.string(),
+    sessionId: z.string().optional(),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()

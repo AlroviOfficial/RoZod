@@ -95,6 +95,16 @@ const Roblox_Friends_Api_FollowCountResponse = z.object({ count: z.number().int(
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_ = z
   .object({ data: z.array(Roblox_Friends_Api_Models_Response_UserResponse) })
   .passthrough();
+const Roblox_Friends_Api_Models_Response_FriendResponse = z
+  .object({ id: z.number().int(), hasVerifiedBadge: z.boolean() })
+  .passthrough();
+const Roblox_Paging_CursoredPagedResult_Roblox_Friends_Api_Models_Response_FriendResponse_ = z
+  .object({
+    PreviousCursor: z.string(),
+    PageItems: z.array(Roblox_Friends_Api_Models_Response_FriendResponse),
+    NextCursor: z.string(),
+  })
+  .passthrough();
 const Roblox_Friends_Api_Models_Response_UserPresenceResponseModel = z
   .object({
     UserPresenceType: z.string(),
@@ -194,6 +204,8 @@ const schemas = {
   Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
   Roblox_Friends_Api_FollowCountResponse,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
+  Roblox_Friends_Api_Models_Response_FriendResponse,
+  Roblox_Paging_CursoredPagedResult_Roblox_Friends_Api_Models_Response_FriendResponse_,
   Roblox_Friends_Api_Models_Response_UserPresenceResponseModel,
   Roblox_Friends_Api_Models_Response_UserPresenceResponse,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_,
@@ -956,7 +968,7 @@ export const getUsersUseridFriends = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    userSort: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),
+    userSort: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]).optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
   errors: [
@@ -989,6 +1001,55 @@ export const getUsersUseridFriendsCount = endpoint({
     {
       status: 400,
       description: `1: The target user is invalid or does not exist.`,
+    },
+  ],
+});
+/**
+ * @api GET https://friends.roblox.com/v1/users/:userId/friends/find
+ * @summary Get a paginated list of all friends for the specified user.
+ * @param userId The user Id to get the friends for.
+ * @param userSort Specifies how to sort the returned friends.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param limit The number of results per request.
+ */
+export const getUsersUseridFriendsFind = endpoint({
+  method: 'get' as const,
+  path: '/v1/users/:userId/friends/find',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    userSort: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+    userSort: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]).optional(),
+    cursor: z.string().optional(),
+    limit: z.number().int().optional().default(50),
+  },
+  response: Roblox_Paging_CursoredPagedResult_Roblox_Friends_Api_Models_Response_FriendResponse_,
+  errors: [
+    {
+      status: 400,
+      description: `1: The target user is invalid or does not exist.
+6: Invalid parameters.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
     },
   ],
 });
@@ -1042,6 +1103,61 @@ export const getUsersUseridFriendsOnline = endpoint({
     userId: z.number().int(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_,
+  errors: [
+    {
+      status: 400,
+      description: `1: The target user is invalid or does not exist.
+6: Invalid parameters.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
+ * @api GET https://friends.roblox.com/v1/users/:userId/friends/search
+ * @summary Search for friends by name using a text query.
+ * @param userId The user Id to get the friends for.
+ * @param query The string to search names of friends for.
+ * @param userSort Specifies how to sort the returned friends.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param limit The number of results per request.
+ */
+export const getUsersUseridFriendsSearch = endpoint({
+  method: 'get' as const,
+  path: '/v1/users/:userId/friends/search',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    query: {
+      style: 'form',
+      explode: true,
+    },
+    userSort: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+    query: z.string().optional(),
+    userSort: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]).optional(),
+    cursor: z.string().optional(),
+    limit: z.number().int().optional().default(20),
+  },
+  response: Roblox_Paging_CursoredPagedResult_Roblox_Friends_Api_Models_Response_FriendResponse_,
   errors: [
     {
       status: 400,

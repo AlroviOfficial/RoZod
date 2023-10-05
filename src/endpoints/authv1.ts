@@ -208,7 +208,7 @@ const Roblox_Authentication_Api_Models_LoginRequest = z
   })
   .passthrough();
 const Roblox_Authentication_Api_Models_Request_DeletePasskeysRequest = z
-  .object({ passkeysNicknames: z.array(z.string()) })
+  .object({ credentialNicknames: z.array(z.string()) })
   .passthrough();
 const Roblox_Authentication_Api_Models_Request_FinishPasskeyRegistrationRequest = z
   .object({
@@ -227,7 +227,7 @@ const Roblox_Authentication_Api_Models_Response_StartAuthenticationResponse = z
   .object({ authenticationOptions: z.string(), sessionId: z.string() })
   .passthrough();
 const Roblox_Authentication_Api_Models_Response_StartPasskeyRegistrationResponse = z
-  .object({ CreationOptions: z.string(), SessionId: z.string() })
+  .object({ creationOptions: z.string(), sessionId: z.string() })
   .passthrough();
 const Roblox_Authentication_Api_Models_ReferralDataModel = z
   .object({
@@ -1475,7 +1475,7 @@ export const postUsername = endpoint({
 10: This username is already in use
 11: Username not appropriate for Roblox
 12: Usernames can be 3 to 20 characters long
-13: Usernames can’t start or end with _ and can have at most one _
+13: Usernames can�t start or end with _ and can have at most one _
 14: Only a-z, A-Z, 0-9, and _ are allowed
 15: Username is null
 16: Username might contain private information
