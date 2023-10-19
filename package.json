@@ -19,7 +19,7 @@
   "dependencies": {
     "p-limit": "^3.0.0",
     "parse-roblox-errors": "^1.1.7",
-    "roblox-bat": "^0.1.8",
+    "roblox-bat": "^0.3.0",
     "zod": "^3.21.4"
   },
   "repository": {

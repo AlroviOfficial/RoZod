@@ -250,7 +250,7 @@ export function setHandleGenericChallenge(fn: typeof handleGenericChallengeFn) {
 const csrfTokenMap: Record<string, string> = {};
 async function fetch(url: string, info?: RequestInit, challengeData?: ParsedChallenge): Promise<Response> {
   const headers = new Headers(info?.headers);
-  const setHeaders = await hbaClient.generateBaseHeaders(url, info?.body);
+  const setHeaders = await hbaClient.generateBaseHeaders(url, info?.credentials === 'include',  info?.body);
   for (const key in setHeaders) {
     headers.set(key, setHeaders[key]);
   }
