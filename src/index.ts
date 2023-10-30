@@ -221,8 +221,9 @@ function prepareRequestBody<S extends EndpointSchema>(
   return body;
 }
 
+const onRobloxSite = 'document' in globalThis && globalThis.location.href.includes('.roblox.com')
 export const hbaClient = new HBAClient({
-  onSite: 'document' in globalThis && globalThis.location.href.includes('.roblox.com'),
+  onSite: onRobloxSite,
 });
 
 const getSHA256Hash = async (input: string) => {
@@ -250,7 +251,10 @@ export function setHandleGenericChallenge(fn: typeof handleGenericChallengeFn) {
 const csrfTokenMap: Record<string, string> = {};
 async function fetch(url: string, info?: RequestInit, challengeData?: ParsedChallenge): Promise<Response> {
   const headers = new Headers(info?.headers);
-  const setHeaders = await hbaClient.generateBaseHeaders(url, info?.body);
+  if (!onRobloxSite) {
+    hbaClient.isAuthenticated = headers.get('cookie')?.includes('.ROBLOSECURITY');
+  }
+  const setHeaders = await hbaClient.generateBaseHeaders(url, info?.credentials === 'include',  info?.body);
   for (const key in setHeaders) {
     headers.set(key, setHeaders[key]);
   }
@@ -307,7 +311,6 @@ async function fetch(url: string, info?: RequestInit, challengeData?: ParsedChal
 export function changeHBAKeys(keys?: CryptoKeyPair) {
   hbaClient.suppliedCryptoKeyPair = keys;
 }
-
 async function handleRetryFetch(
   url: string,
   requestOptions: RequestOptions,
