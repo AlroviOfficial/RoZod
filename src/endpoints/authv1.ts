@@ -32,6 +32,7 @@ const Roblox_Authentication_Api_Models_MetadataResponse = z
     IsUserAgreementsSignupIntegrationEnabled: z.boolean(),
     IsKoreaIdVerificationEnabled: z.boolean(),
     IsPasswordRequiredForUsernameChange: z.boolean(),
+    IsPasskeyFeatureEnabled: z.boolean(),
   })
   .passthrough();
 const Roblox_Authentication_Api_Models_PasswordValidationResponse = z
@@ -1475,7 +1476,7 @@ export const postUsername = endpoint({
 10: This username is already in use
 11: Username not appropriate for Roblox
 12: Usernames can be 3 to 20 characters long
-13: Usernames can�t start or end with _ and can have at most one _
+13: Usernames can’t start or end with _ and can have at most one _
 14: Only a-z, A-Z, 0-9, and _ are allowed
 15: Username is null
 16: Username might contain private information

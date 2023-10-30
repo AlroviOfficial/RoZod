@@ -391,8 +391,7 @@ export const patchUniversesUniverseidConfiguration = endpoint({
 22: Invalid asset type.
 23: Invalid value, the min must be less than or equal to the max
 24: Invalid scale value
-28: OptIn/Out Regions Not Supported.
-29: Luobu app terms of service user agreement is missing.`,
+28: OptIn/Out Regions Not Supported.`,
     },
     {
       status: 401,
@@ -403,6 +402,7 @@ export const patchUniversesUniverseidConfiguration = endpoint({
       description: `0: Token Validation Failed
 2: You are not authorized to configure this universe.
 14: You are not authorized to sell games.
+29: Luobu app terms of service user agreement is missing.
 30: Unknown error while updating Opt in out region.`,
     },
     {

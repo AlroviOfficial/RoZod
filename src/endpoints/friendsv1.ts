@@ -968,7 +968,7 @@ export const getUsersUseridFriends = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    userSort: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]).optional(),
+    userSort: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
   errors: [
@@ -1036,7 +1036,7 @@ export const getUsersUseridFriendsFind = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    userSort: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]).optional(),
+    userSort: z.literal(0).optional(),
     cursor: z.string().optional(),
     limit: z.number().int().optional().default(50),
   },
@@ -1153,7 +1153,7 @@ export const getUsersUseridFriendsSearch = endpoint({
   parameters: {
     userId: z.number().int(),
     query: z.string().optional(),
-    userSort: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]).optional(),
+    userSort: z.literal(0).optional(),
     cursor: z.string().optional(),
     limit: z.number().int().optional().default(20),
   },

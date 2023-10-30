@@ -162,10 +162,6 @@ const Roblox_Chat_Api_Models_RenameConversationResponse = z
     statusMessage: z.string(),
   })
   .passthrough();
-const Roblox_Chat_Api_Models_ResetConversationUniverseRequest = z
-  .object({ conversationId: z.number().int() })
-  .passthrough();
-const Roblox_Chat_Api_Models_UserVisibleStatusResponse = z.object({ statusMessage: z.string() }).passthrough();
 const Roblox_Chat_Api_Models_SendGameLinkChatMessageRequest = z
   .object({
     universeId: z.number().int(),
@@ -206,9 +202,6 @@ const Roblox_Chat_Api_Models_SendPlainTextChatMessageResponse = z
     statusMessage: z.string(),
   })
   .passthrough();
-const Roblox_Chat_Api_Models_SetConversationUniverseRequest = z
-  .object({ conversationId: z.number().int(), universeId: z.number().int() })
-  .passthrough();
 const Roblox_Chat_Api_Models_CreateCloudEditConversationRequest = z.object({ placeId: z.number().int() }).passthrough();
 const Roblox_Chat_Api_Models_StartNewConversationResponse = z
   .object({
@@ -227,6 +220,7 @@ const Roblox_Chat_Api_Models_CreateOneToOneConversationRequest = z
 const Roblox_Chat_Api_Models_UpdateUserTypingStatusRequest = z
   .object({ conversationId: z.number().int(), isTyping: z.boolean() })
   .passthrough();
+const Roblox_Chat_Api_Models_UserVisibleStatusResponse = z.object({ statusMessage: z.string() }).passthrough();
 
 const schemas = {
   Roblox_Chat_Api_Models_ChatSettingsResponse,
@@ -255,18 +249,16 @@ const schemas = {
   Roblox_Chat_Api_Models_RemoveUserFromConversationResponse,
   Roblox_Chat_Api_Models_RenameGroupConversationRequest,
   Roblox_Chat_Api_Models_RenameConversationResponse,
-  Roblox_Chat_Api_Models_ResetConversationUniverseRequest,
-  Roblox_Chat_Api_Models_UserVisibleStatusResponse,
   Roblox_Chat_Api_Models_SendGameLinkChatMessageRequest,
   Roblox_Chat_Api_Models_SendLinkChatResponse,
   Roblox_Chat_Api_Models_SendPlainTextChatMessageRequest,
   Roblox_Chat_Api_Models_SendPlainTextChatMessageResponse,
-  Roblox_Chat_Api_Models_SetConversationUniverseRequest,
   Roblox_Chat_Api_Models_CreateCloudEditConversationRequest,
   Roblox_Chat_Api_Models_StartNewConversationResponse,
   Roblox_Chat_Api_Models_CreateGroupConversationRequest,
   Roblox_Chat_Api_Models_CreateOneToOneConversationRequest,
   Roblox_Chat_Api_Models_UpdateUserTypingStatusRequest,
+  Roblox_Chat_Api_Models_UserVisibleStatusResponse,
 };
 
 /**
@@ -681,33 +673,6 @@ export const postRenameGroupConversation = endpoint({
   ],
 });
 /**
- * @api POST https://chat.roblox.com/v2/reset-conversation-universe
- * @summary Removes universe associated with a conversation
- * @param body
- */
-export const postResetConversationUniverse = endpoint({
-  method: 'post' as const,
-  path: '/v2/reset-conversation-universe',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: z.object({ conversationId: z.number().int() }).passthrough(),
-  response: z.object({ statusMessage: z.string() }).passthrough(),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
  * @api POST https://chat.roblox.com/v2/send-game-link-message
  * @param body
  */
@@ -749,33 +714,6 @@ export const postSendMessage = endpoint({
   parameters: {},
   body: Roblox_Chat_Api_Models_SendPlainTextChatMessageRequest,
   response: Roblox_Chat_Api_Models_SendPlainTextChatMessageResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api POST https://chat.roblox.com/v2/set-conversation-universe
- * @summary Adds or updates universe associated with a conversation
- * @param body
- */
-export const postSetConversationUniverse = endpoint({
-  method: 'post' as const,
-  path: '/v2/set-conversation-universe',
-  baseUrl: 'https://chat.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Chat_Api_Models_SetConversationUniverseRequest,
-  response: z.object({ statusMessage: z.string() }).passthrough(),
   errors: [
     {
       status: 401,
