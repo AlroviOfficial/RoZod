@@ -613,8 +613,7 @@ export const postOutfitsUseroutfitidDelete = endpoint({
 });
 /**
  * @api GET https://avatar.roblox.com/v1/outfits/:userOutfitId/details
- * @summary Gets details about the contents of an outfit.
- * @param userOutfitId The user outfit id.
+ * @param userOutfitId
  */
 export const getOutfitsUseroutfitidDetails = endpoint({
   method: 'get' as const,
@@ -865,11 +864,12 @@ export const getUsersUseridCurrentlyWearing = endpoint({
 });
 /**
  * @api GET https://avatar.roblox.com/v1/users/:userId/outfits
- * @summary Gets a list of outfits for the specified user.
- * @param userId The user id
- * @param outfitType The outfit type being searched for
- * @param page The page number
- * @param itemsPerPage The max number of outfits that can be returned
+ * @summary Deprecated, user v2.
+Gets a list of outfits for the specified user.
+ * @param userId The user id.
+ * @param outfitType The outfit type being searched for, null will return all outfitTypes
+ * @param page The page number of the current page of requests, default is 1.
+ * @param itemsPerPage The max number of outfits that can be returned.
  * @param isEditable Whether the outfits are editable. A null value will lead to no filtering.
  */
 export const getUsersUseridOutfits = endpoint({
@@ -903,7 +903,7 @@ export const getUsersUseridOutfits = endpoint({
     outfitType: z.string().optional(),
     page: z.number().int().optional().default(1),
     itemsPerPage: z.number().int().optional().default(25),
-    isEditable: z.boolean().optional().default(true),
+    isEditable: z.boolean().optional(),
   },
   response: Roblox_Api_Avatar_Models_AvatarFilteredPageResponse_Roblox_Api_Avatar_Models_OutfitModel_,
   errors: [

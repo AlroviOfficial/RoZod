@@ -383,7 +383,11 @@ const Roblox_Games_Api_VipServerUpdateRequest = z
   .object({ name: z.string(), newJoinCode: z.boolean(), active: z.boolean() })
   .passthrough();
 const Roblox_Games_Api_CreateVipServersRequest = z
-  .object({ name: z.string(), expectedPrice: z.number().int() })
+  .object({
+    name: z.string(),
+    expectedPrice: z.number().int(),
+    isPurchaseConfirmed: z.boolean(),
+  })
   .passthrough();
 const Roblox_Games_Api_Models_Request_SetUserGameVoteRequest = z.object({ vote: z.boolean() }).passthrough();
 const Roblox_Games_Api_VipServerUpdatePermissionsRequest = z
@@ -715,9 +719,9 @@ export const getGamesUniverseidFavoritesCount = endpoint({
  * @api GET https://games.roblox.com/v1/games/:universeId/game-passes
  * @summary Get the game's game passes
  * @param universeId The id of the universe.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param limit
+ * @param sortOrder
+ * @param cursor The cursor to figure out where to start fetching
  */
 export const getGamesUniverseidGamePasses = endpoint({
   method: 'get' as const,
@@ -732,23 +736,23 @@ export const getGamesUniverseidGamePasses = endpoint({
       style: 'form',
       explode: true,
     },
-    cursor: {
+    sortOrder: {
       style: 'form',
       explode: true,
     },
-    sortOrder: {
+    cursor: {
       style: 'form',
       explode: true,
     },
   },
   parameters: {
     universeId: z.number().int(),
-    limit: z
-      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
+    limit: z.number().int(),
+    sortOrder: z
+      .union([z.literal(1), z.literal(2)])
       .optional()
-      .default(10),
+      .default(1),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
   response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Games_Api_Models_Response_GamePassResponse_,
   errors: [

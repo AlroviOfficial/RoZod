@@ -1,6 +1,22 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
+const Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse = z
+  .object({
+    countryName: z.string(),
+    localizedName: z.string(),
+    countryId: z.number().int(),
+  })
+  .passthrough();
+const Roblox_AccountSettings_Api_UpdateAccountCountryRequest = z
+  .object({ targetCountryId: z.number().int() })
+  .passthrough();
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse_ =
+  z
+    .object({
+      data: z.array(Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse),
+    })
+    .passthrough();
 const Roblox_AccountSettings_Api_Models_AccountsSettingsMetadataModel = z
   .object({
     IsAccountsRestrictionsSpamBugFixEnabled: z.boolean(),
@@ -132,6 +148,9 @@ const Roblox_AccountSettings_Api_SendVerifyEmailRequest = z
   .passthrough();
 
 const schemas = {
+  Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse,
+  Roblox_AccountSettings_Api_UpdateAccountCountryRequest,
+  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse_,
   Roblox_AccountSettings_Api_Models_AccountsSettingsMetadataModel,
   Roblox_AccountSettings_Api_AppChatPrivacyResponse,
   Roblox_AccountSettings_Api_AppChatPrivacyRequest,
@@ -160,8 +179,67 @@ const schemas = {
 };
 
 /**
+ * @api GET https://accountsettings.roblox.com/v1/account/settings/account-country
+ */
+export const getAccountSettingsAccountCountry = endpoint({
+  method: 'get' as const,
+  path: '/v1/account/settings/account-country',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
+  response: Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
+ * @api POST https://accountsettings.roblox.com/v1/account/settings/account-country
+ * @param body
+ */
+export const postAccountSettingsAccountCountry = endpoint({
+  method: 'post' as const,
+  path: '/v1/account/settings/account-country',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: z.object({ targetCountryId: z.number().int() }).passthrough(),
+  response: z.void(),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+  ],
+});
+/**
+ * @api GET https://accountsettings.roblox.com/v1/account/settings/countries
+ */
+export const getAccountSettingsCountries = endpoint({
+  method: 'get' as const,
+  path: '/v1/account/settings/countries',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json' as const,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse_,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
  * @api GET https://accountsettings.roblox.com/v1/account/settings/metadata
- * @summary Returns metadata used by the accountsettings page
+ * @summary Returns metadata used by the account settings page
  */
 export const getAccountSettingsMetadata = endpoint({
   method: 'get' as const,

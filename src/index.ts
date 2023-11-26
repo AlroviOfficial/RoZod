@@ -150,7 +150,7 @@ type CacheOptions = {
   cacheType?: 'memory' | 'local' | 'chrome';
 };
 
-type RequestOptions = RequestInit & RetryOptions & ErrorOptions & CacheOptions;
+type RequestOptions<R = boolean> = RequestInit & RetryOptions & ErrorOptions & CacheOptions & { returnRaw?: R };
 
 // A helper function to replace path parameters in the URL
 function replacePathParam(path: string, key: string, value: any) {
@@ -345,6 +345,10 @@ const localStorageCache = new Cache(new LocalStorageStore());
 const chromeStorageCache = new Cache(new ChromeStore());
 const cache = new Cache(new MemoryStore());
 
+interface TypedJsonResponse<T> extends Response {
+  json: () => Promise<T>;
+}
+
 /**
  * Fetches the data from the given endpoint and returns it.
  *
@@ -353,11 +357,11 @@ const cache = new Cache(new MemoryStore());
  * @param requestOptions Any additional options to pass to fetch.
  * @returns The response from the endpoint.
  */
-async function fetchApi<S extends EndpointSchema>(
+async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
   endpoint: S,
   params: ExtractParams<S>,
-  requestOptions?: RequestOptions,
-): Promise<ExtractResponse<S>>;
+  requestOptions?: RequestOptions<R>,
+): Promise<R extends false ? ExtractResponse<S> : TypedJsonResponse<ExtractResponse<S>>>;
 
 /**
  * Fetches the data from the given endpoint and returns it.
@@ -367,11 +371,11 @@ async function fetchApi<S extends EndpointSchema>(
  * @param requestOptions Any additional options to pass to fetch.
  * @returns The response from the endpoint.
  */
-async function fetchApi<S extends EndpointSchema>(
+async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
   endpoint: S & { parameters?: undefined },
   params?: ExtractParams<S>,
-  requestOptions?: RequestOptions,
-): Promise<ExtractResponse<S>>;
+  requestOptions?: RequestOptions<R>,
+): Promise<R extends false ? ExtractResponse<S> : TypedJsonResponse<ExtractResponse<S>>>;
 
 /**
  * Fetches the data from the given endpoint and returns it.
@@ -381,11 +385,11 @@ async function fetchApi<S extends EndpointSchema>(
  * @param requestOptions Any additional options to pass to fetch.
  * @returns The response from the endpoint.
  */
-async function fetchApi<S extends EndpointSchema>(
+async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
   endpoint: S,
   params?: ExtractParams<S>,
-  requestOptions: RequestOptions = { mode: 'cors', credentials: 'include' },
-): Promise<ExtractResponse<S>> {
+  requestOptions: RequestOptions<R> = { mode: 'cors', credentials: 'include' },
+): Promise<R extends false ? ExtractResponse<S> : TypedJsonResponse<ExtractResponse<S>>> {
   const { method, requestFormat = 'json' } = endpoint;
   const defaultValues = extractDefaultValues(endpoint);
   const extendedParams = { ...defaultValues, ...params } as ExtractParams<S>;
@@ -430,11 +434,17 @@ async function fetchApi<S extends EndpointSchema>(
     if (requestOptions.throwOnError === false) {
       throw new Error(error.description);
     } else {
-      return error.description;
+      return error.description as any;
     }
   }
 
-  if (requestFormat === 'json' && !response.headers.get('content-type')?.includes('application/json')) {
+  if (requestOptions.returnRaw) {
+    return response;
+  }
+
+  const reponseFormat = response.headers.get('content-type')?.includes('application/json') ? 'json' : 'text';
+
+  if (reponseFormat === 'json' && !response.headers.get('content-type')?.includes('application/json')) {
     throw new Error('Invalid response data');
   }
 
@@ -446,12 +456,12 @@ async function fetchApi<S extends EndpointSchema>(
     }, cacheTime);
     cacheToUse.set(
       cacheKey,
-      requestFormat === 'json' ? await responseClone.json() : await responseClone.text(),
+      reponseFormat === 'json' ? await responseClone.json() : await responseClone.text(),
       cacheTime,
     );
   }
 
-  return requestFormat === 'json' ? await response.json() : await response.text();
+  return reponseFormat === 'json' ? await response.json() : await response.text();
 }
 
 /**
@@ -562,10 +572,10 @@ async function fetchApiPages<S extends EndpointSchema>(
  * }
  * ```
  */
-async function* fetchApiPagesGenerator<S extends EndpointSchema>(
+async function* fetchApiPagesGenerator<S extends EndpointSchema, R extends boolean>(
   endpoint: S,
   initialParams: ExtractParams<S>,
-  requestOptions?: RequestOptions,
+  requestOptions?: RequestOptions<R>,
   limit: number = 1000,
 ): AsyncGenerator<ExtractResponse<S>, void, unknown> {
   let cursor = '';

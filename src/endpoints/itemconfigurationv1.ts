@@ -44,17 +44,6 @@ const Roblox_ItemConfiguration_Api_ItemTagsMetadataResponse = z
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_TagDetails_ = z
   .object({ data: z.array(Roblox_ItemConfiguration_Api_TagDetails) })
   .passthrough();
-const Roblox_Web_Captcha_Models_Request_CaptchaTokenRequest = z
-  .object({
-    captchaId: z.string(),
-    captchaToken: z.string(),
-    captchaProvider: z.string(),
-    challengeId: z.string(),
-  })
-  .passthrough();
-const Roblox_ItemConfiguration_Api_AvatarAssetUploadCaptchaCheckResponse = z
-  .object({ success: z.boolean(), message: z.string(), fieldData: z.string() })
-  .passthrough();
 const Roblox_ItemConfiguration_Api_AssetCreationsDetailsRequest = z
   .object({ assetIds: z.array(z.number()) })
   .passthrough();
@@ -108,8 +97,6 @@ const schemas = {
   Roblox_ItemConfiguration_Api_CreateItemTagRequest,
   Roblox_ItemConfiguration_Api_ItemTagsMetadataResponse,
   Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_TagDetails_,
-  Roblox_Web_Captcha_Models_Request_CaptchaTokenRequest,
-  Roblox_ItemConfiguration_Api_AvatarAssetUploadCaptchaCheckResponse,
   Roblox_ItemConfiguration_Api_AssetCreationsDetailsRequest,
   Roblox_ItemConfiguration_Api_PriceConfigurationModel,
   Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel,
@@ -117,119 +104,6 @@ const schemas = {
   Roblox_Web_WebAPI_ApiEmptyResponseModel,
 };
 
-/**
- * @api POST https://itemconfiguration.roblox.com/v1/avatar-assets/:assetType/upload-captcha-test
- * @summary An endpoint to check if captcha is needed for an upload of the given asset type
- * @param body
- * @param assetType
- * @param groupId
- */
-export const postAvatarAssetsAssettypeUploadCaptchaTest = endpoint({
-  method: 'post' as const,
-  path: '/v1/avatar-assets/:assetType/upload-captcha-test',
-  baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    body: {},
-    assetType: {
-      style: 'simple',
-    },
-    groupId: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    assetType: z.union([
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-      z.literal(9),
-      z.literal(10),
-      z.literal(11),
-      z.literal(12),
-      z.literal(13),
-      z.literal(16),
-      z.literal(17),
-      z.literal(18),
-      z.literal(19),
-      z.literal(21),
-      z.literal(22),
-      z.literal(24),
-      z.literal(25),
-      z.literal(26),
-      z.literal(27),
-      z.literal(28),
-      z.literal(29),
-      z.literal(30),
-      z.literal(31),
-      z.literal(32),
-      z.literal(33),
-      z.literal(34),
-      z.literal(35),
-      z.literal(37),
-      z.literal(38),
-      z.literal(39),
-      z.literal(40),
-      z.literal(41),
-      z.literal(42),
-      z.literal(43),
-      z.literal(44),
-      z.literal(45),
-      z.literal(46),
-      z.literal(47),
-      z.literal(48),
-      z.literal(49),
-      z.literal(50),
-      z.literal(51),
-      z.literal(52),
-      z.literal(53),
-      z.literal(54),
-      z.literal(55),
-      z.literal(56),
-      z.literal(59),
-      z.literal(60),
-      z.literal(61),
-      z.literal(62),
-      z.literal(63),
-      z.literal(64),
-      z.literal(65),
-      z.literal(66),
-      z.literal(67),
-      z.literal(68),
-      z.literal(69),
-      z.literal(70),
-      z.literal(71),
-      z.literal(72),
-      z.literal(73),
-      z.literal(74),
-      z.literal(75),
-      z.literal(76),
-      z.literal(77),
-      z.literal(78),
-      z.literal(79),
-      z.literal(80),
-    ]),
-    groupId: z.number().int(),
-  },
-  body: Roblox_Web_Captcha_Models_Request_CaptchaTokenRequest,
-  response: Roblox_ItemConfiguration_Api_AvatarAssetUploadCaptchaCheckResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
 /**
  * @api POST https://itemconfiguration.roblox.com/v1/creations/get-asset-details
  * @summary Gets the asset status and other configuration details for the given assetIds list

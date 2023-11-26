@@ -128,7 +128,7 @@ export const patchOutfitsUseroutfitid = endpoint({
 4: Invalid outfit name
 5: Asset is not wearable by you
 8: Invalid Player Avatar Type. Valid types are R6 and R15
-9: Invalid user outfit.`,
+11: Meta does not apply to specified asset type`,
     },
     {
       status: 401,

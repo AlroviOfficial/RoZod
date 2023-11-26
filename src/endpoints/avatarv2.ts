@@ -56,6 +56,15 @@ const Roblox_Api_Avatar_Models_AvatarModelV3 = z
     emotes: z.array(Roblox_Api_Avatar_Models_EmoteResponseModel),
   })
   .passthrough();
+const Roblox_Api_Avatar_Models_OutfitModel = z
+  .object({ id: z.number().int(), name: z.string(), isEditable: z.boolean() })
+  .passthrough();
+const Roblox_Api_Avatar_Models_AvatarPageResponse_Roblox_Api_Avatar_Models_OutfitModel_ = z
+  .object({
+    data: z.array(Roblox_Api_Avatar_Models_OutfitModel),
+    paginationToken: z.string(),
+  })
+  .passthrough();
 const Roblox_Platform_Avatar_BodyColorsModelV2 = z
   .object({
     headColor3: z.string(),
@@ -104,9 +113,6 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV2 = z
   })
   .passthrough();
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
-const Roblox_Api_Avatar_Models_OutfitModel = z
-  .object({ id: z.number().int(), name: z.string(), isEditable: z.boolean() })
-  .passthrough();
 
 const schemas = {
   Roblox_Web_Responses_Avatar_ScaleModel,
@@ -116,6 +122,8 @@ const schemas = {
   Roblox_Api_Avatar_Models_AssetModelV2,
   Roblox_Api_Avatar_Models_EmoteResponseModel,
   Roblox_Api_Avatar_Models_AvatarModelV3,
+  Roblox_Api_Avatar_Models_OutfitModel,
+  Roblox_Api_Avatar_Models_AvatarPageResponse_Roblox_Api_Avatar_Models_OutfitModel_,
   Roblox_Platform_Avatar_BodyColorsModelV2,
   Roblox_Api_Avatar_Models_AvatarApiSuccessResponse,
   Roblox_Api_Avatar_Models_AssetWearModel,
@@ -124,7 +132,6 @@ const schemas = {
   Roblox_Api_Avatar_Models_BodyColorsModel,
   Roblox_Api_Avatar_Models_OutfitUpdateModelV2,
   Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Api_Avatar_Models_OutfitModel,
 };
 
 /**
@@ -238,6 +245,63 @@ export const getAvatarUsersUseridAvatar = endpoint({
   ],
 });
 /**
+ * @api GET https://avatar.roblox.com/v2/avatar/users/:userId/outfits
+ * @summary Gets a list of outfits for the specified user.
+ * @param userId The user id.
+ * @param paginationToken The token received from the response to get the next page. For the first request, this value should be empty. Note : If no value is sent the 1st page will be returned.
+ * @param outfitType The outfit type being searched for, null will return all outfitTypes
+ * @param page The page number of the current page of requests, default is 1.
+ * @param itemsPerPage The max number of outfits that can be returned.
+ * @param isEditable Whether the outfits are editable. A null value will lead to no filtering.
+ */
+export const getAvatarUsersUseridOutfits = endpoint({
+  method: 'get' as const,
+  path: '/v2/avatar/users/:userId/outfits',
+  baseUrl: 'https://avatar.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    paginationToken: {
+      style: 'form',
+      explode: true,
+    },
+    outfitType: {
+      style: 'form',
+      explode: true,
+    },
+    page: {
+      style: 'form',
+      explode: true,
+    },
+    itemsPerPage: {
+      style: 'form',
+      explode: true,
+    },
+    isEditable: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+    paginationToken: z.string(),
+    outfitType: z.string().optional(),
+    page: z.number().int().optional().default(1),
+    itemsPerPage: z.number().int().optional().default(25),
+    isEditable: z.boolean().optional(),
+  },
+  response: Roblox_Api_Avatar_Models_AvatarPageResponse_Roblox_Api_Avatar_Models_OutfitModel_,
+  errors: [
+    {
+      status: 400,
+      description: `1: The specified user does not exist.
+2: An account for the given userId does not exist!`,
+    },
+  ],
+});
+/**
  * @api PATCH https://avatar.roblox.com/v2/outfits/:userOutfitId
  * @summary Updates the contents of an outfit.
  * @param body The updated outfit
@@ -270,7 +334,7 @@ export const patchOutfitsUseroutfitid = endpoint({
 4: Invalid outfit name
 5: Asset is not wearable by you
 8: Invalid Player Avatar Type. Valid types are R6 and R15
-9: Invalid user outfit.`,
+11: Meta does not apply to specified asset type`,
     },
     {
       status: 401,

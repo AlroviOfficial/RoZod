@@ -218,6 +218,7 @@ const Roblox_Authentication_Api_Models_Request_FinishPasskeyRegistrationRequest 
     attestationResponse: z.string(),
   })
   .passthrough();
+const Roblox_Authentication_Api_Models_Request_ListPasskeysRequest = z.object({ all: z.boolean() }).passthrough();
 const Roblox_Authentication_Api_Models_Response_PasskeyCredential = z.object({ nickname: z.string() }).passthrough();
 const Roblox_Authentication_Api_Models_Response_ListPasskeyCredentialResponse = z
   .object({
@@ -387,6 +388,7 @@ const schemas = {
   Roblox_Authentication_Api_Models_LoginRequest,
   Roblox_Authentication_Api_Models_Request_DeletePasskeysRequest,
   Roblox_Authentication_Api_Models_Request_FinishPasskeyRegistrationRequest,
+  Roblox_Authentication_Api_Models_Request_ListPasskeysRequest,
   Roblox_Authentication_Api_Models_Response_PasskeyCredential,
   Roblox_Authentication_Api_Models_Response_ListPasskeyCredentialResponse,
   Roblox_Authentication_Api_Models_Response_StartAuthenticationResponse,
@@ -991,13 +993,19 @@ export const postPasskeyFinishregistration = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/passkey/ListCredentials
- * @summary List a user's registered  Passkeys.
+ * @summary List a user's registered passkeys.
+ * @param body
  */
 export const postPasskeyListcredentials = endpoint({
   method: 'post' as const,
   path: '/v1/passkey/ListCredentials',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: z.object({ all: z.boolean() }).passthrough(),
   response: Roblox_Authentication_Api_Models_Response_ListPasskeyCredentialResponse,
   errors: [
     {
@@ -1476,7 +1484,7 @@ export const postUsername = endpoint({
 10: This username is already in use
 11: Username not appropriate for Roblox
 12: Usernames can be 3 to 20 characters long
-13: Usernames can’t start or end with _ and can have at most one _
+13: Usernames can�t start or end with _ and can have at most one _
 14: Only a-z, A-Z, 0-9, and _ are allowed
 15: Username is null
 16: Username might contain private information

@@ -34,6 +34,12 @@ test('fetch games favoritedCount', async () => {
   });
 });
 
+test('fetch raw', async () => {
+  return fetchApi(getGamesUniverseidFavoritesCount, { universeId: 1534453623 }, { returnRaw: true }).then((data) => {
+    expect(data).toHaveProperty('headers');
+  });
+});
+
 // Custom endpoint. Won't work either, as we are not authenticated.
 test('fetch omni recommendations', async () => {
   const endpoint = {

@@ -1036,7 +1036,7 @@ export const getUsersUseridFriendsFind = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    userSort: z.literal(0).optional(),
+    userSort: z.union([z.literal(0), z.literal(1)]).optional(),
     cursor: z.string().optional(),
     limit: z.number().int().optional().default(50),
   },
@@ -1088,6 +1088,7 @@ export const getUsersUseridFriendsInactive = endpoint({
  * @api GET https://friends.roblox.com/v1/users/:userId/friends/online
  * @summary Get list of all online friends for the specified user.
  * @param userId The user Id to get the friends for.
+ * @param userSort
  */
 export const getUsersUseridFriendsOnline = endpoint({
   method: 'get' as const,
@@ -1098,9 +1099,14 @@ export const getUsersUseridFriendsOnline = endpoint({
     userId: {
       style: 'simple',
     },
+    userSort: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userId: z.number().int(),
+    userSort: z.union([z.literal(0), z.literal(1)]).optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_,
   errors: [
