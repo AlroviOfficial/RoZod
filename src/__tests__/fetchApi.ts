@@ -97,33 +97,47 @@ test('post presence users', async () => {
 });
 
 test('post games', async () => {
-  await fetchApiPages(getUsersUseridGames, {
-    userId: 4464722397,
-    limit: 50,
-  }, {
-    cacheType: 'memory',
-    cacheKey: 'test',
-    cacheTime: 1000 * 60
-  }).then((data) => {
+  await fetchApiPages(
+    getUsersUseridGames,
+    {
+      userId: 4464722397,
+      limit: 50,
+    },
+    {
+      cacheType: 'memory',
+      cacheKey: 'test',
+      cacheTime: 1000 * 60,
+    },
+  ).then((data) => {
     expect(data[0]).toHaveProperty('data');
   });
-  return fetchApiPages(getUsersUseridGames, {
-    userId: 4464722397,
-    limit: 50,
-  }, {
-    cacheType: 'memory',
-    cacheKey: 'test',
-    cacheTime: 1000 * 60
-  }).then((data) => {
+  return fetchApiPages(
+    getUsersUseridGames,
+    {
+      userId: 4464722397,
+      limit: 50,
+    },
+    {
+      cacheType: 'memory',
+      cacheKey: 'test',
+      cacheTime: 1000 * 60,
+    },
+  ).then((data) => {
     expect(data[0]).toHaveProperty('data');
   });
 }, 10000);
 
 test('fetch pages group games', async () => {
-  expect(fetchApiPages(getGroupsGroupidGames, {
-    groupId: 10620626,
-    limit: 100,
-  }, {
-    throwOnError: true
-  })).rejects.toThrow('3: Not authorized.');
+  expect(
+    fetchApiPages(
+      getGroupsGroupidGames,
+      {
+        groupId: 10620626,
+        limit: 100,
+      },
+      {
+        throwOnError: true,
+      },
+    ),
+  ).rejects.toThrow('3: Not authorized.');
 });
