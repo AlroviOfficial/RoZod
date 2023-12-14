@@ -409,7 +409,7 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
     cacheToUse = cache;
   }
 
-  const cachedResponse = cacheKey && (await cacheToUse.get(cacheKey));
+  const cachedResponse = cacheKey && (await cacheToUse.get('rozod_cache:' + cacheKey));
   if (cachedResponse) {
     return cachedResponse;
   }
@@ -452,10 +452,10 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
     const responseClone = response.clone();
     const cacheTime = requestOptions.cacheTime;
     setTimeout(() => {
-      cacheToUse.delete(cacheKey);
+      cacheToUse.delete('rozod_cache:' + cacheKey);
     }, cacheTime);
     cacheToUse.set(
-      cacheKey,
+      'rozod_cache:' + cacheKey,
       reponseFormat === 'json' ? await responseClone.json() : await responseClone.text(),
       cacheTime,
     );
