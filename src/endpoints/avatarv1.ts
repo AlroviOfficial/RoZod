@@ -198,35 +198,6 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV1 = z
   })
   .passthrough();
 
-const schemas = {
-  Roblox_Web_Responses_Avatar_ScaleModel,
-  Roblox_Api_Avatar_Models_BodyColorsModel,
-  Roblox_Api_Avatar_Models_AssetTypeModel,
-  Roblox_Api_Avatar_Models_AssetMetaModelV1,
-  Roblox_Api_Avatar_Models_AssetModelV2,
-  Roblox_Api_Avatar_Models_EmoteResponseModel,
-  Roblox_Api_Avatar_Models_AvatarModelV2,
-  Roblox_Api_Avatar_Models_AvatarMetadataModel,
-  Roblox_Api_Avatar_Models_ScaleRulesModel,
-  Roblox_Api_Avatar_Models_AssetTypeRulesModel,
-  Roblox_Api_Avatar_Models_BodyColorModel,
-  Roblox_Api_Avatar_Models_DefaultClothingAssets,
-  Roblox_Api_Avatar_Models_AvatarRulesModel,
-  Roblox_Api_Avatar_Models_UniverseAvatarAssetOverrideResponseModel,
-  Roblox_Api_Avatar_Models_GameStartInfoResponse,
-  Roblox_Api_Avatar_Models_OutfitDetailsModel,
-  Roblox_Api_Avatar_Models_RecentItemModel,
-  Roblox_Web_WebAPI_Models_ApiLegacyPageResponse_Roblox_Api_Avatar_Models_RecentItemModel_,
-  Roblox_Api_Avatar_Models_AssetIdListModel,
-  Roblox_Api_Avatar_Models_OutfitModel,
-  Roblox_Api_Avatar_Models_AvatarFilteredPageResponse_Roblox_Api_Avatar_Models_OutfitModel_,
-  Roblox_Api_Avatar_Models_AvatarApiSuccessResponse,
-  Roblox_Api_Avatar_Controllers_V1_AvatarController_EmptyResponse,
-  Roblox_Api_Avatar_Models_PlayerAvatarTypeModel,
-  Roblox_Api_Avatar_Models_WearResponseModel,
-  Roblox_Api_Avatar_Models_OutfitUpdateModelV1,
-};
-
 /**
  * @api GET https://avatar.roblox.com/v1/avatar
  * @summary Returns details about the authenticated user's avatar

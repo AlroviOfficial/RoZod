@@ -125,15 +125,6 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameRe
   })
   .passthrough();
 
-const schemas = {
-  Roblox_Web_Responses_Games_GameMediaItemResponseV2,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Games_GameMediaItemResponseV2_,
-  Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_,
-  Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_,
-  Roblox_Web_Responses_Games_GameResponseV2,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameResponseV2_,
-};
-
 /**
  * @api GET https://games.roblox.com/v2/games/:universeId/media
  * @summary Get the game media data

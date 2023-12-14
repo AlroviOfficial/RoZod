@@ -41,17 +41,6 @@ const Roblox_Presence_Api_Models_Response_UserPresencesResponse = z
   })
   .passthrough();
 
-const schemas = {
-  Roblox_Presence_Api_Models_Request_LastOnlineRequest,
-  Roblox_Presence_Api_Models_Response_LastOnline,
-  Roblox_Presence_Api_Models_Response_LastOnlineResponse,
-  Roblox_Presence_Api_Models_Request_RegisterAppPresenceRequest,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Presence_Api_Models_Request_UserPresenceRequest,
-  Roblox_Presence_Api_Models_Response_UserPresence,
-  Roblox_Presence_Api_Models_Response_UserPresencesResponse,
-};
-
 /**
  * @api POST https://presence.roblox.com/v1/presence/last-online
  * @summary Get last online timestamps for a list of users.

@@ -174,20 +174,6 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z
   .passthrough();
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
 
-const schemas = {
-  Roblox_Api_Develop_AssetVersion,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_AssetVersion_,
-  Roblox_Api_Develop_Models_PlaceModelV2,
-  Roblox_Api_Develop_Models_PlaceConfigurationModelV2,
-  Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel,
-  Roblox_Web_Responses_Avatar_ScaleModel,
-  Roblox_Api_Develop_Models_UniversePluginPermissions,
-  Roblox_Api_Develop_Models_UniverseSettingsRequestV2,
-  Roblox_Api_Develop_Models_UniverseModerationPolicyStatus,
-  Roblox_Api_Develop_Models_UniverseSettingsResponseV2,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-};
-
 /**
  * @api GET https://develop.roblox.com/v2/assets/:id/versions
  * @summary Retrieves asset information for the specified asset ID. The authenticated user must be able to manage the asset

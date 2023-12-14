@@ -107,31 +107,6 @@ const Roblox_AccountInformation_Api_Models_VerifyEmailResponse = z
 const Roblox_AccountInformation_Api_Models_EmptyRequest = z.object({}).passthrough();
 const Roblox_AccountInformation_Api_Models_VerifyPhoneRequest = z.object({ code: z.string() }).passthrough();
 
-const schemas = {
-  Roblox_AccountInformation_Api_Models_BirthdateResponse,
-  Roblox_AccountInformation_Api_Models_BirthdateRequest,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_AccountInformation_Api_Models_DescriptionResponse,
-  Roblox_AccountInformation_Api_Models_DescriptionRequest,
-  Roblox_AccountInformation_Api_Models_GenderResponse,
-  Roblox_AccountInformation_Api_Models_GenderRequest,
-  Roblox_AccountInformation_Api_Models_MetadataResponse,
-  Roblox_AccountInformation_Api_Models_PhoneResponse,
-  Roblox_AccountInformation_Api_Models_PhoneRequest,
-  Roblox_Platform_UserPhoneNumberVerification_Models_PendingVerificationResponse,
-  Roblox_AccountInformation_Api_Models_PromotionChannelsResponse,
-  Roblox_AccountInformation_Api_Models_PromotionChannelsRequest,
-  Roblox_AccountInformation_Api_Models_StarCodeAffiliateResponse,
-  Roblox_AccountInformation_Api_Models_StarCodeAffiliateRequest,
-  Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse,
-  Roblox_AccountInformation_Api_RobloxBadgeResponse,
-  Roblox_AccountInformation_Api_Models_ConsecutiveLoginDaysResponse,
-  Roblox_AccountInformation_Api_Models_VerifyEmailRequest,
-  Roblox_AccountInformation_Api_Models_VerifyEmailResponse,
-  Roblox_AccountInformation_Api_Models_EmptyRequest,
-  Roblox_AccountInformation_Api_Models_VerifyPhoneRequest,
-};
-
 /**
  * @api GET https://accountinformation.roblox.com/v1/birthdate
  * @summary Get the user's birthdate

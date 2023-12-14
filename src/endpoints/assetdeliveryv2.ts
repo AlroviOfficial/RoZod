@@ -53,14 +53,6 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z
   })
   .passthrough();
 
-const schemas = {
-  Roblox_Web_Assets_AssetFormatLocation,
-  Roblox_Web_Assets_IAssetItemError,
-  Roblox_Web_Assets_IAssetResponseItemV2,
-  Roblox_Web_Assets_IAssetResponseItem,
-  Roblox_Web_Assets_BatchAssetRequestItem,
-};
-
 /**
  * @api GET https://assetdelivery.roblox.com/v2/alias/:alias
  * @param alias

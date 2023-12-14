@@ -3,10 +3,6 @@ import { endpoint } from '..';
 
 const Roblox_Web_Responses_Economy_CurrencyResponse = z.object({ robux: z.number().int() }).passthrough();
 
-const schemas = {
-  Roblox_Web_Responses_Economy_CurrencyResponse,
-};
-
 /**
  * @api GET https://economy.roblox.com/v1/user/currency
  * @summary Gets currency for the authenticated user.

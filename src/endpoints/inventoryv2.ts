@@ -141,17 +141,6 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_Inven
   })
   .passthrough();
 
-const schemas = {
-  Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_,
-  Roblox_Inventory_Api_V2_AssetOwnerResponse,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_AssetOwnerResponse_,
-  Roblox_Inventory_Api_V2_UserAssetItemModelV2,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_UserAssetItemModelV2_,
-  Roblox_Inventory_Api_Models_UserModel,
-  Roblox_Inventory_Api_Models_InventoryItemModel,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_InventoryItemModel_,
-};
-
 /**
  * @api GET https://inventory.roblox.com/v2/assets/:assetId/owners
  * @summary Gets a list of owners of an asset.

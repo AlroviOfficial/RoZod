@@ -88,22 +88,6 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershi
   .object({ data: z.array(Roblox_Groups_Api_GroupMembershipResponse) })
   .passthrough();
 
-const schemas = {
-  Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
-  Roblox_Web_Responses_Groups_GroupResponseV2,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_,
-  Roblox_Groups_Api_Models_Response_UserModel,
-  Roblox_Groups_Api_GroupRoleResponse,
-  Roblox_Groups_Api_UserGroupRoleResponse,
-  Roblox_Groups_Api_GroupWallPostV2Model,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_,
-  Roblox_Groups_Api_CreateWallPostRequest,
-  Roblox_Web_Responses_Groups_GroupBasicResponse,
-  Roblox_Web_Responses_Groups_GroupRoleBasicResponse,
-  Roblox_Groups_Api_GroupMembershipResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_,
-};
-
 /**
  * @api GET https://groups.roblox.com/v2/groups
  * @summary Multi-get groups information by Ids.
@@ -231,6 +215,7 @@ export const postGroupsGroupidWallPosts = endpoint({
  * @api GET https://groups.roblox.com/v2/users/:userId/groups/roles
  * @summary Gets a list of all group roles for groups the specified user is in.
  * @param userId The user id.
+ * @param includeLocked
  */
 export const getUsersUseridGroupsRoles = endpoint({
   method: 'get' as const,
@@ -241,9 +226,14 @@ export const getUsersUseridGroupsRoles = endpoint({
     userId: {
       style: 'simple',
     },
+    includeLocked: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userId: z.number().int(),
+    includeLocked: z.boolean(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_,
   errors: [

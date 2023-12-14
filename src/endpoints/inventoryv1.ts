@@ -70,20 +70,6 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItem
   .passthrough();
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
 
-const schemas = {
-  Roblox_Inventory_Api_Models_AssetIdListModel,
-  Roblox_Inventory_Api_Models_CollectibleUserAssetModel,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_,
-  Roblox_Inventory_Api_Models_CanViewInventoryResponse,
-  Roblox_Inventory_Api_AssetsExplorerCategoryItemModel,
-  Roblox_Inventory_Api_AssetsExplorerCategoryModel,
-  Roblox_Inventory_Api_CategoriesModel,
-  Roblox_Inventory_Api_Models_InventoryPageResponse,
-  Roblox_Inventory_Api_Models_IItemModel,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-};
-
 /**
  * @api POST https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
  * @summary Adds an item to the appropriate collection

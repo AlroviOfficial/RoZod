@@ -88,6 +88,8 @@ const Roblox_Catalog_Api_FavoriteBundlesResponse = z
   .object({
     favorites: z.array(Roblox_Catalog_Api_BundleDetailsModel),
     moreFavorites: z.boolean(),
+    nextCursor: z.string(),
+    previousCursor: z.string(),
   })
   .passthrough();
 const Roblox_Catalog_Api_OwnedBundleModel = z
@@ -292,31 +294,6 @@ const Roblox_Catalog_Api_Topics_TopicResponse = z
     error: Roblox_Marketplacetopicdiscovery_Topicdiscoveryservice_V1Beta1_Error,
   })
   .passthrough();
-
-const schemas = {
-  Roblox_Catalog_Api_BundleItemDetailModel,
-  Roblox_Catalog_Api_BundleCreatorModel,
-  Roblox_Catalog_Api_PremiumPricingModel,
-  Roblox_Catalog_Api_BundleProductModel,
-  Roblox_Catalog_Api_BundleDetailsModel,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_BundleDetailsModel_,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_BundleDetailsModel_,
-  Roblox_Catalog_Api_AssetFavoriteModel,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Catalog_Api_BundleFavoriteModel,
-  Roblox_Catalog_Api_FavoriteBundlesResponse,
-  Roblox_Catalog_Api_OwnedBundleModel,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_OwnedBundleModel_,
-  Roblox_Catalog_Api_MultigetItemDetailsRequestItem,
-  Roblox_Catalog_Api_MultigetItemDetailsRequestModel,
-  Roblox_Catalog_Api_CatalogSearchDetailedResponseItem,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_,
-  Roblox_Marketplacetopicdiscovery_Topicdiscoveryservice_V1Beta1_AvatarItem,
-  Roblox_Catalog_Api_Topics_TopicRequestModel,
-  Roblox_Catalog_Api_Topics_TopicModel,
-  Roblox_Marketplacetopicdiscovery_Topicdiscoveryservice_V1Beta1_Error,
-  Roblox_Catalog_Api_Topics_TopicResponse,
-};
 
 /**
  * @api GET https://catalog.roblox.com/v1/asset-to-category
@@ -881,12 +858,14 @@ export const deleteFavoritesUsersUseridBundlesBundleidFavorite = endpoint({
 });
 /**
  * @api GET https://catalog.roblox.com/v1/favorites/users/:userId/favorites/:subtypeId/bundles
- * @summary Lists the bundles favorited by a given user with the given bundle subtypeId
-Favorites Service doesn't support exclusive start paging or tracking total favorited bundles
+ * @summary Lists the bundles favorited by a given user with the given bundle subtypeId.
+After 1/31/2024, only cursor based pagination will be supported.
  * @param userId 
  * @param subtypeId 
  * @param pageNumber 
  * @param itemsPerPage 
+ * @param cursor 
+ * @param isPrevious 
  */
 export const getFavoritesUsersUseridFavoritesSubtypeidBundles = endpoint({
   method: 'get' as const,
@@ -908,12 +887,22 @@ export const getFavoritesUsersUseridFavoritesSubtypeidBundles = endpoint({
       style: 'form',
       explode: true,
     },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    isPrevious: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userId: z.number().int(),
     subtypeId: z.number().int(),
     pageNumber: z.number().int().optional().default(1),
     itemsPerPage: z.number().int().optional().default(24),
+    cursor: z.string().optional(),
+    isPrevious: z.boolean().optional(),
   },
   response: Roblox_Catalog_Api_FavoriteBundlesResponse,
   errors: [

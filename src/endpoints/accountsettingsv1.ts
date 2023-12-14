@@ -1,22 +1,24 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse = z
+const Roblox_AccountSettings_Api_Models_Response_UserAccountCountry = z
   .object({
     countryName: z.string(),
     localizedName: z.string(),
     countryId: z.number().int(),
   })
   .passthrough();
+const Roblox_AccountSettings_Api_Models_Response_AccountCountrySettingsResponse = z
+  .object({
+    value: Roblox_AccountSettings_Api_Models_Response_UserAccountCountry,
+    options: z.array(Roblox_AccountSettings_Api_Models_Response_UserAccountCountry),
+    modifiable: z.boolean(),
+  })
+  .passthrough();
 const Roblox_AccountSettings_Api_UpdateAccountCountryRequest = z
   .object({ targetCountryId: z.number().int() })
   .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse_ =
-  z
-    .object({
-      data: z.array(Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse),
-    })
-    .passthrough();
+const Roblox_AccountSettings_Api_Models_Response_UpdateAccountCountryResponse = z.object({}).passthrough();
 const Roblox_AccountSettings_Api_Models_AccountsSettingsMetadataModel = z
   .object({
     IsAccountsRestrictionsSpamBugFixEnabled: z.boolean(),
@@ -147,46 +149,16 @@ const Roblox_AccountSettings_Api_SendVerifyEmailRequest = z
   .object({ freeItem: z.boolean(), isAdsAccount: z.boolean() })
   .passthrough();
 
-const schemas = {
-  Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse,
-  Roblox_AccountSettings_Api_UpdateAccountCountryRequest,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse_,
-  Roblox_AccountSettings_Api_Models_AccountsSettingsMetadataModel,
-  Roblox_AccountSettings_Api_AppChatPrivacyResponse,
-  Roblox_AccountSettings_Api_AppChatPrivacyRequest,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_AccountSettings_Api_EmailResponse,
-  Roblox_AccountSettings_Api_UpdateEmailRequest,
-  Roblox_AccountSettings_Api_GameChatPrivacyResponse,
-  Roblox_AccountSettings_Api_GameChatPrivacyRequest,
-  Roblox_AccountSettings_Api_InventoryPrivacyResponse,
-  Roblox_AccountSettings_Api_InventoryPrivacyRequest,
-  Roblox_AccountSettings_Api_InventoryPrivacyUpdateResponse,
-  Roblox_AccountSettings_Api_PrivateMessagePrivacyResponse,
-  Roblox_AccountSettings_Api_PrivateMessagePrivacyRequest,
-  Roblox_AccountSettings_Api_ThemeConfigurationResponse,
-  Roblox_AccountSettings_Api_ThemeConfigurationRequest,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_System_String_,
-  Roblox_AccountSettings_Api_TradePrivacyResponse,
-  Roblox_AccountSettings_Api_UpdateTradePrivacyRequest,
-  Roblox_AccountSettings_Api_TradePrivacyUpdateResponse,
-  Roblox_AccountSettings_Api_TradeValueResponse,
-  Roblox_AccountSettings_Api_TradeValueRequest,
-  Roblox_AccountSettings_Api_Models_Response_GetBlockedUsersResponse,
-  Roblox_AccountSettings_Api_Models_BlockedUser,
-  Roblox_AccountSettings_Api_Models_Response_GetDetailedBlockedUsersResponse,
-  Roblox_AccountSettings_Api_SendVerifyEmailRequest,
-};
-
 /**
  * @api GET https://accountsettings.roblox.com/v1/account/settings/account-country
+ * @summary Get a user's current account country setting.
  */
 export const getAccountSettingsAccountCountry = endpoint({
   method: 'get' as const,
   path: '/v1/account/settings/account-country',
   baseUrl: 'https://accountsettings.roblox.com',
   requestFormat: 'json' as const,
-  response: Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse,
+  response: Roblox_AccountSettings_Api_Models_Response_AccountCountrySettingsResponse,
   errors: [
     {
       status: 401,
@@ -196,6 +168,7 @@ export const getAccountSettingsAccountCountry = endpoint({
 });
 /**
  * @api POST https://accountsettings.roblox.com/v1/account/settings/account-country
+ * @summary Updates the user's account country.
  * @param body
  */
 export const postAccountSettingsAccountCountry = endpoint({
@@ -208,32 +181,28 @@ export const postAccountSettingsAccountCountry = endpoint({
   },
   parameters: {},
   body: z.object({ targetCountryId: z.number().int() }).passthrough(),
-  response: z.void(),
+  response: z.object({}).passthrough(),
   errors: [
+    {
+      status: 400,
+      description: `1: InvalidRequest`,
+    },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
     },
     {
       status: 403,
-      description: `0: Token Validation Failed`,
+      description: `0: Token Validation Failed
+2: OperationNotPermitted`,
     },
-  ],
-});
-/**
- * @api GET https://accountsettings.roblox.com/v1/account/settings/countries
- */
-export const getAccountSettingsCountries = endpoint({
-  method: 'get' as const,
-  path: '/v1/account/settings/countries',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json' as const,
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_AccountSettings_Api_Models_Response_AccountSettingsCountryResponse_,
-  errors: [
     {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
+      status: 404,
+      description: `2: OperationNotPermitted`,
+    },
+    {
+      status: 500,
+      description: `0: Unknown`,
     },
   ],
 });

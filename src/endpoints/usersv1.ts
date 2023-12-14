@@ -94,32 +94,6 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_VerifiedBadgeUs
   .passthrough();
 const Roblox_Users_Api_SetDisplayNameRequest = z.object({ newDisplayName: z.string() }).passthrough();
 
-const schemas = {
-  Roblox_Users_Api_BirthdateResponse,
-  Roblox_Users_Api_BirthdateRequest,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Users_Api_DescriptionResponse,
-  Roblox_Users_Api_DescriptionRequest,
-  Roblox_Users_Api_GenderResponse,
-  Roblox_Users_Api_GenderRequest,
-  Roblox_Users_Api_GetUserResponse,
-  Roblox_Users_Api_UsernameHistoryResponse,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_,
-  Roblox_Users_Api_AuthenticatedUserResponse,
-  Roblox_Users_Api_UserAgeBracketResponse,
-  Roblox_Users_Api_UserCountryCodeResponse,
-  Roblox_Users_Api_UserRolesResponse,
-  Roblox_Users_Api_UserSearchResponse,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UserSearchResponse_,
-  Roblox_Users_Api_MultiGetByUsernameRequest,
-  Roblox_Users_Api_MultiGetUserByNameResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_,
-  Roblox_Users_Api_MultiGetByUserIdRequest,
-  Roblox_Users_Api_VerifiedBadgeUserResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_VerifiedBadgeUserResponse_,
-  Roblox_Users_Api_SetDisplayNameRequest,
-};
-
 /**
  * @api GET https://users.roblox.com/v1/birthdate
  * @summary Get the user's birthdate

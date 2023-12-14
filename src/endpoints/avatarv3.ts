@@ -81,20 +81,6 @@ const Roblox_Api_Avatar_Models_OutfitModel = z
   .object({ id: z.number().int(), name: z.string(), isEditable: z.boolean() })
   .passthrough();
 
-const schemas = {
-  Roblox_Api_Avatar_Models_AssetTypeModel,
-  Roblox_Api_Avatar_Models_AssetMetaModelV1,
-  Roblox_Api_Avatar_Models_AssetModelV2,
-  Roblox_Api_Avatar_Models_BodyColors3Model,
-  Roblox_Web_Responses_Avatar_ScaleModel,
-  Roblox_Api_Avatar_Models_OutfitDetailsModelV2,
-  Roblox_Platform_Avatar_BodyColorsModelV2,
-  Roblox_Api_Avatar_Models_AssetWearModel,
-  Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Api_Avatar_Models_OutfitModel,
-};
-
 /**
  * @api PATCH https://avatar.roblox.com/v3/outfits/:userOutfitId
  * @summary Updates the contents of an outfit.

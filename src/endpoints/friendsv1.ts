@@ -191,37 +191,6 @@ const Roblox_Friends_Api_FriendshipRequestModel = z
   })
   .passthrough();
 
-const schemas = {
-  Roblox_Friends_Api_Models_Response_FriendsPageMetadataResponse,
-  Roblox_Friends_Api_FriendsCountResponse,
-  Roblox_Friends_Api_FriendRequest,
-  Roblox_Friends_Api_FriendRequestResponse,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestResponse_,
-  Roblox_Friends_Api_Models_Response_UserRecommendation,
-  Roblox_Friends_Api_Models_Response_UserRecommendationsResponse,
-  Roblox_Friends_Api_PendingFriendRequestCountModel,
-  Roblox_Friends_Api_Models_Response_UserResponse,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
-  Roblox_Friends_Api_FollowCountResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
-  Roblox_Friends_Api_Models_Response_FriendResponse,
-  Roblox_Paging_CursoredPagedResult_Roblox_Friends_Api_Models_Response_FriendResponse_,
-  Roblox_Friends_Api_Models_Response_UserPresenceResponseModel,
-  Roblox_Friends_Api_Models_Response_UserPresenceResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_,
-  Roblox_Friends_Api_FriendStatusResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_FriendStatusResponse_,
-  Roblox_Friends_Api_CaptchaStatusResponseModel,
-  Roblox_Friends_Api_FollowingExistsRequestModel,
-  Roblox_Friends_Api_Models_Response_FollowingExistsResponse,
-  Roblox_Friends_Api_Models_Response_FollowingExistsResponseModel,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Friends_Api_Models_Request_FriendingTokenRequestModel,
-  Roblox_Web_Captcha_Models_Request_CaptchaTokenRequest,
-  Roblox_Friends_Api_RecountResponse,
-  Roblox_Friends_Api_FriendshipRequestModel,
-};
-
 /**
  * @api POST https://friends.roblox.com/v1/contacts/:targetContactId/request-friendship
  * @summary Send a contact friend request to target user

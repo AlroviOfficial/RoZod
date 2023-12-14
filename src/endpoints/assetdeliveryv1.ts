@@ -41,12 +41,6 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z
   })
   .passthrough();
 
-const schemas = {
-  Roblox_Web_Assets_IAssetItemError,
-  Roblox_Web_Assets_IAssetResponseItem,
-  Roblox_Web_Assets_BatchAssetRequestItem,
-};
-
 /**
  * @api GET https://assetdelivery.roblox.com/v1/alias/:alias
  * @summary Retrieves an asset by its alias (universeID/name)

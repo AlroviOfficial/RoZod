@@ -166,21 +166,6 @@ const Roblox_GameJoin_Api_TeamCreateResponse = z
   })
   .passthrough();
 
-const schemas = {
-  Roblox_GameJoin_Api_GameJoinRequest,
-  Roblox_Web_GameLaunch_ConnectionFlow_ServerConnection,
-  Roblox_Web_GameLaunch_ConnectionFlow_UdmuxEndpoint,
-  Roblox_Web_GameLaunch_ConnectionFlow_JoinInformation,
-  Roblox_GameJoin_Api_GameJoinResponse,
-  Roblox_GameJoin_Api_JoinGameInstanceRequest,
-  Roblox_GameJoin_Api_JoinPlayTogetherGameRequest,
-  Roblox_GameJoin_Api_JoinPrivateGameRequest,
-  Roblox_GameJoin_Api_JoinReservedGameRequest,
-  Roblox_GameJoin_Api_PlayWithUserRequest,
-  Roblox_GameJoin_Api_TeamCreateRequest,
-  Roblox_GameJoin_Api_TeamCreateResponse,
-};
-
 /**
  * @api POST https://gamejoin.roblox.com/v1/join-game
  * @summary Endpoint to join a game

@@ -110,22 +110,6 @@ const Roblox_Trades_Api_TradeOfferRequest = z
 const Roblox_Trades_Api_TradeRequest = z.object({ offers: z.array(Roblox_Trades_Api_TradeOfferRequest) }).passthrough();
 const Roblox_Trades_Api_NewTradeResponse = z.object({ id: z.number().int() }).passthrough();
 
-const schemas = {
-  Roblox_Web_Responses_Users_SkinnyUserResponse,
-  Roblox_Trades_Api_UserAssetResponse,
-  Roblox_Trades_Api_TradeOfferResponse,
-  Roblox_Trades_Api_TradeDetailResponse,
-  Roblox_Trades_Api_TradeResponse,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Trades_Api_TradeResponse_,
-  Roblox_Trades_Api_TradeCountResponse,
-  Roblox_Trades_Api_TradeMetadata,
-  Roblox_Trades_Api_CanTradeResponse,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Trades_Api_TradeOfferRequest,
-  Roblox_Trades_Api_TradeRequest,
-  Roblox_Trades_Api_NewTradeResponse,
-};
-
 /**
  * @api GET https://trades.roblox.com/v1/trades/:tradeId
  * @summary Gets detailed information about a trade.

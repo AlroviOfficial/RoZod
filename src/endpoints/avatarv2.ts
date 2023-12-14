@@ -114,26 +114,6 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV2 = z
   .passthrough();
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
 
-const schemas = {
-  Roblox_Web_Responses_Avatar_ScaleModel,
-  Roblox_Api_Avatar_Models_BodyColors3Model,
-  Roblox_Api_Avatar_Models_AssetTypeModel,
-  Roblox_Api_Avatar_Models_AssetMetaModelV1,
-  Roblox_Api_Avatar_Models_AssetModelV2,
-  Roblox_Api_Avatar_Models_EmoteResponseModel,
-  Roblox_Api_Avatar_Models_AvatarModelV3,
-  Roblox_Api_Avatar_Models_OutfitModel,
-  Roblox_Api_Avatar_Models_AvatarPageResponse_Roblox_Api_Avatar_Models_OutfitModel_,
-  Roblox_Platform_Avatar_BodyColorsModelV2,
-  Roblox_Api_Avatar_Models_AvatarApiSuccessResponse,
-  Roblox_Api_Avatar_Models_AssetWearModel,
-  Roblox_Api_Avatar_Models_WearRequestModel,
-  Roblox_Api_Avatar_Models_WearResponseModel,
-  Roblox_Api_Avatar_Models_BodyColorsModel,
-  Roblox_Api_Avatar_Models_OutfitUpdateModelV2,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-};
-
 /**
  * @api GET https://avatar.roblox.com/v2/avatar/avatar
  * @summary Returns details about the authenticated user's avatar
@@ -286,7 +266,7 @@ export const getAvatarUsersUseridOutfits = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    paginationToken: z.string(),
+    paginationToken: z.string().optional(),
     outfitType: z.string().optional(),
     page: z.number().int().optional().default(1),
     itemsPerPage: z.number().int().optional().default(25),

@@ -94,22 +94,6 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Badges_Api_BadgeAwardResp
   .object({ data: z.array(Roblox_Badges_Api_BadgeAwardResponse) })
   .passthrough();
 
-const schemas = {
-  Roblox_Web_Responses_Badges_BadgeAwardStatisticsResponse,
-  Roblox_Badges_Api_UniverseResponse,
-  Roblox_Badges_Api_BadgeResponse,
-  Roblox_Badges_Api_UpdateBadgeRequest,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Badges_Api_BadgeMetadataResponse,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Badges_Api_BadgeResponse_,
-  universeId_badges_body,
-  Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Badges_BadgeAwarderType_,
-  Roblox_Web_Responses_Badges_BadgeResponseV2,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Badges_BadgeResponseV2_,
-  Roblox_Badges_Api_BadgeAwardResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Badges_Api_BadgeAwardResponse_,
-};
-
 /**
  * @api GET https://badges.roblox.com/v1/badges/:badgeId
  * @summary Gets badge information by the badge Id.

@@ -222,45 +222,6 @@ const Roblox_Chat_Api_Models_UpdateUserTypingStatusRequest = z
   .passthrough();
 const Roblox_Chat_Api_Models_UserVisibleStatusResponse = z.object({ statusMessage: z.string() }).passthrough();
 
-const schemas = {
-  Roblox_Chat_Api_Models_ChatSettingsResponse,
-  Roblox_Chat_Api_Models_ChatParticipant,
-  Roblox_Chat_Api_Models_ConversationTitle,
-  Roblox_Chat_Api_Models_ConversationUniverse,
-  Roblox_Chat_Api_Models_Conversation,
-  Roblox_Chat_Api_Models_GameLink,
-  Roblox_Chat_Api_Models_Link,
-  Roblox_Chat_Api_Models_SetConversationUniverseEventBased,
-  Roblox_Chat_Api_Models_EventBased,
-  Roblox_Chat_Api_Models_ChatMessage,
-  Roblox_Chat_Api_Models_RolloutSettingModel,
-  Roblox_Chat_Api_Models_RolloutSettingsResponse,
-  Roblox_Chat_Api_Models_UnreadConversationCountResponse,
-  Roblox_Chat_Api_Models_MultigetConversationMessagesResponse,
-  Roblox_Chat_Api_Models_ChatMetadataResponse,
-  Roblox_Chat_Api_Models_AddUsersToConversationRequest,
-  Roblox_Chat_Api_Models_RejectedChatParticipant,
-  Roblox_Chat_Api_Models_AddUserToConversationResponse,
-  Roblox_Chat_Api_Models_MarkAsReadRequest,
-  Roblox_Chat_Api_Models_MarkAsReadResponse,
-  Roblox_Chat_Api_Models_MarkAsSeenRequest,
-  Roblox_Chat_Api_Models_MarkAsSeenResponse,
-  Roblox_Chat_Api_Models_RemoveUserFromConversationRequest,
-  Roblox_Chat_Api_Models_RemoveUserFromConversationResponse,
-  Roblox_Chat_Api_Models_RenameGroupConversationRequest,
-  Roblox_Chat_Api_Models_RenameConversationResponse,
-  Roblox_Chat_Api_Models_SendGameLinkChatMessageRequest,
-  Roblox_Chat_Api_Models_SendLinkChatResponse,
-  Roblox_Chat_Api_Models_SendPlainTextChatMessageRequest,
-  Roblox_Chat_Api_Models_SendPlainTextChatMessageResponse,
-  Roblox_Chat_Api_Models_CreateCloudEditConversationRequest,
-  Roblox_Chat_Api_Models_StartNewConversationResponse,
-  Roblox_Chat_Api_Models_CreateGroupConversationRequest,
-  Roblox_Chat_Api_Models_CreateOneToOneConversationRequest,
-  Roblox_Chat_Api_Models_UpdateUserTypingStatusRequest,
-  Roblox_Chat_Api_Models_UserVisibleStatusResponse,
-};
-
 /**
  * @api POST https://chat.roblox.com/v2/add-to-conversation
  * @summary Adds users to an existing conversation

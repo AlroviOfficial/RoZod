@@ -409,7 +409,7 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
     cacheToUse = cache;
   }
 
-  const cachedResponse = cacheKey && cacheToUse.get(cacheKey);
+  const cachedResponse = cacheKey && (await cacheToUse.get(cacheKey));
   if (cachedResponse) {
     return cachedResponse;
   }
@@ -431,7 +431,7 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
 
   const error = endpoint.errors?.find(({ status }) => status === response.status);
   if (error) {
-    if (requestOptions.throwOnError === false) {
+    if (requestOptions.throwOnError === true) {
       throw new Error(error.description);
     } else {
       return error.description as any;
@@ -540,6 +540,11 @@ async function fetchApiPages<S extends EndpointSchema>(
 
   for await (const response of fetchApiPagesGenerator(endpoint, initialParams, requestOptions, limit)) {
     if (response === null || response === undefined) {
+      break;
+    }
+    const foundError = endpoint.errors?.find(({ description }) => description === response);
+    if (foundError) {
+      allResults.push(response as any);
       break;
     }
 

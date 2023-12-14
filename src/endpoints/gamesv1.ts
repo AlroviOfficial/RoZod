@@ -135,6 +135,16 @@ const Roblox_Games_Api_Models_Response_UserGameVoteResponse = z
     reasonForNotVoteable: z.string(),
   })
   .passthrough();
+const Roblox_Games_Api_Models_Response_Thumbnail = z
+  .object({
+    final: z.boolean(),
+    url: z.string(),
+    cdnUrl: z.string(),
+    retryToken: z.string(),
+    universeId: z.number().int(),
+    placeId: z.number().int(),
+  })
+  .passthrough();
 const Roblox_Games_Api_Models_Response_GameProductResponse = z
   .object({
     universeId: z.number().int(),
@@ -147,16 +157,6 @@ const Roblox_Games_Api_Models_Response_GameProductResponse = z
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameProductResponse_ = z
   .object({
     data: z.array(Roblox_Games_Api_Models_Response_GameProductResponse),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_Thumbnail = z
-  .object({
-    final: z.boolean(),
-    url: z.string(),
-    cdnUrl: z.string(),
-    retryToken: z.string(),
-    universeId: z.number().int(),
-    placeId: z.number().int(),
   })
   .passthrough();
 const Roblox_Games_Api_Models_Response_GameResponseModel = z
@@ -403,61 +403,6 @@ const Roblox_Games_Api_VipServerUpdateSubscriptionRequest = z
   .object({ active: z.boolean(), price: z.number().int() })
   .passthrough();
 const Roblox_Games_Api_VipServerUpdateVoiceSettingsRequest = z.object({ enabled: z.boolean() }).passthrough();
-
-const schemas = {
-  Roblox_Games_Api_Models_Response_GameCreator,
-  Roblox_Games_Api_Models_Response_GameDetailResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_,
-  Roblox_Games_Api_GameServerPlayerResponse,
-  Roblox_Games_Api_Models_Response_VerifiedBadgeUserResponse,
-  Roblox_Web_Responses_Games_GameServerResponse,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_,
-  Roblox_Games_Api_Models_Response_GameFavoriteResponse,
-  Roblox_Games_Api_Models_Request_GameFavoritesRequest,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Games_Api_Models_Response_GameFavoritesCountResponse,
-  Roblox_Games_Api_Models_Response_GamePassResponse,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Games_Api_Models_Response_GamePassResponse_,
-  Roblox_Games_Api_Models_Response_GameMediaItem,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameMediaItem_,
-  Roblox_Games_Api_Models_Response_GameVoteResponse,
-  Roblox_Games_Api_Models_Response_UserGameVoteResponse,
-  Roblox_Games_Api_Models_Response_GameProductResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameProductResponse_,
-  Roblox_Games_Api_Models_Response_Thumbnail,
-  Roblox_Games_Api_Models_Response_GameResponseModel,
-  Roblox_Games_Api_Models_Response_ElasticSearchDebugInfoModel,
-  Roblox_Games_Api_Models_Response_GamesSearchResponse,
-  Roblox_Games_Api_Models_Response_SpotlightTypeData,
-  Roblox_Games_Api_Models_Response_GameSpotlightResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameSpotlightResponse_,
-  Roblox_Games_Api_Models_Response_PlaceDetails,
-  Roblox_Games_Api_Models_Response_PlayabilityStatusResponse,
-  Roblox_Games_Api_Models_Response_GameRecommendationsResponse,
-  Roblox_Games_Api_Models_Response_GameSort,
-  Roblox_Games_Api_Models_Response_TimeFilter,
-  Roblox_Games_Api_Models_Response_GenreFilter,
-  Roblox_Games_Api_Models_Response_GameFilter,
-  Roblox_Games_Api_Models_Response_PageContext,
-  Roblox_Games_Api_Models_Response_GameSortsResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameVoteResponse_,
-  Roblox_Games_Api_PrivateServersResponse,
-  Roblox_Games_Api_Models_Response_PrivateServersEnabledInUniverseResponse,
-  Roblox_Games_Api_VipServerCanInviteResponse,
-  Roblox_Games_Api_PlaceResponse,
-  Roblox_Games_Api_GameResponse,
-  Roblox_Games_Api_VipServerSubscriptionResponse,
-  Roblox_Web_Responses_Users_SkinnyUserResponse,
-  Roblox_Games_Api_VipServerPermissionsResponse,
-  Roblox_Games_Api_VipServerVoiceSettingsResponse,
-  Roblox_Games_Api_VipServerResponse,
-  Roblox_Games_Api_VipServerUpdateRequest,
-  Roblox_Games_Api_CreateVipServersRequest,
-  Roblox_Games_Api_Models_Request_SetUserGameVoteRequest,
-  Roblox_Games_Api_VipServerUpdatePermissionsRequest,
-  Roblox_Games_Api_VipServerUpdateSubscriptionRequest,
-  Roblox_Games_Api_VipServerUpdateVoiceSettingsRequest,
-};
 
 /**
  * @api GET https://games.roblox.com/v1/games

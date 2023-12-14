@@ -7,14 +7,13 @@ interface CacheStore<T> {
   get(key: string): Promise<CacheEntry<T> | null>;
   set(key: string, value: CacheEntry<T>): Promise<void>;
   delete(key: string): Promise<void>;
-  clear(): Promise<void>;
 }
 
 export class MemoryStore<T> implements CacheStore<T> {
   private store: Record<string, CacheEntry<T>> = {};
 
   async get(key: string): Promise<CacheEntry<T> | null> {
-    return this.store[key] || null;
+    return this.store[key];
   }
 
   async set(key: string, value: CacheEntry<T>): Promise<void> {
@@ -23,10 +22,6 @@ export class MemoryStore<T> implements CacheStore<T> {
 
   async delete(key: string): Promise<void> {
     delete this.store[key];
-  }
-
-  async clear(): Promise<void> {
-    this.store = {};
   }
 }
 
@@ -42,10 +37,6 @@ export class LocalStorageStore<T> implements CacheStore<T> {
 
   async delete(key: string): Promise<void> {
     localStorage.removeItem(key);
-  }
-
-  async clear(): Promise<void> {
-    localStorage.clear();
   }
 }
 
@@ -72,13 +63,6 @@ export class ChromeStore<T> implements CacheStore<T> {
     return new Promise((resolve) => {
       // @ts-ignore
       chrome.storage.local.remove(key, resolve);
-    });
-  }
-
-  async clear(): Promise<void> {
-    return new Promise((resolve) => {
-      // @ts-ignore
-      chrome.storage.local.clear(resolve);
     });
   }
 }
@@ -111,9 +95,5 @@ export class Cache<T> {
 
   async delete(key: string): Promise<void> {
     await this.store.delete(key);
-  }
-
-  async clear(): Promise<void> {
-    await this.store.clear();
   }
 }

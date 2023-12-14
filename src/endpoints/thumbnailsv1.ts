@@ -82,17 +82,6 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_
   })
   .passthrough();
 
-const schemas = {
-  Roblox_Web_Responses_Thumbnails_ThumbnailResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
-  Roblox_Web_WebAPI_Models_ApiErrorModel,
-  Roblox_Thumbnails_Api_Models_UniverseThumbnailsResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Thumbnails_Api_Models_UniverseThumbnailsResponse_,
-  Roblox_Thumbnails_Apis_Models_ThumbnailBatchRequest,
-  Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse_,
-};
-
 /**
  * @api GET https://thumbnails.roblox.com/v1/asset-thumbnail-animated
  * @summary Thumbnails asset animated.

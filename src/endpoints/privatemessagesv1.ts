@@ -85,22 +85,6 @@ const Roblox_PrivateMessages_Api_Models_SendMessageResponse = z
   })
   .passthrough();
 
-const schemas = {
-  Roblox_PrivateMessages_Api_Models_VerifiedSkinnyUserResponse,
-  Roblox_PrivateMessages_Api_Models_AnnouncementsDetailsResponse,
-  Roblox_PrivateMessages_Api_Models_GetAnnouncementsResponse,
-  Roblox_PrivateMessages_Api_Models_AnnouncementsMetadataResponse,
-  Roblox_PrivateMessages_Api_Models_MessageDetailsResponse,
-  Roblox_PrivateMessages_Api_Models_GetMessagesResponse,
-  Roblox_PrivateMessages_Api_Models_Messages_Response_CanMessageResponse,
-  Roblox_PrivateMessages_Api_Models_UnreadMessagesCountResponse,
-  Roblox_PrivateMessages_Api_Models_BatchMessagesRequest,
-  Roblox_PrivateMessages_Api_Models_FailedMessageResponse,
-  Roblox_PrivateMessages_Api_Models_BatchMessagesResponse,
-  Roblox_PrivateMessages_Api_Models_SendMessageRequest,
-  Roblox_PrivateMessages_Api_Models_SendMessageResponse,
-};
-
 /**
  * @api GET https://privatemessages.roblox.com/v1/announcements
  * @summary Migrate from RobloxWebsite project, return news notification for Private Message page

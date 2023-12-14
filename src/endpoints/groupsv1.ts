@@ -514,87 +514,6 @@ const Roblox_Groups_Api_PostGroupStatusRequest = z.object({ message: z.string() 
 const Roblox_Groups_Api_UpdateUserRoleRequest = z.object({ roleId: z.number().int() }).passthrough();
 const groups_icon_body = z.object({ Files: z.instanceof(File) }).passthrough();
 
-const schemas = {
-  Roblox_Groups_Api_Models_Response_UserModel,
-  Roblox_Groups_Api_ShoutResponse,
-  Roblox_Groups_Api_GroupDetailResponse,
-  Roblox_Groups_Api_GroupRoleResponse,
-  Roblox_Groups_Api_UserGroupRoleResponse,
-  Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem,
-  Roblox_Groups_Api_GroupAuditLogPageResponse_Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem_,
-  Roblox_Groups_Api_GroupJoinRequestResponse,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupJoinRequestResponse_,
-  Roblox_Groups_Api_MembersRequest,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Groups_Api_GroupPostsPermissionsModel,
-  Roblox_Groups_Api_GroupMembershipPermissionsModel,
-  Roblox_Groups_Api_GroupManagementPermissionsModel,
-  Roblox_Groups_Api_GroupEconomyPermissionsModel,
-  Roblox_Groups_Api_GroupOpenCloudPermissionsModel,
-  Roblox_Groups_Api_GroupPermissionsModel,
-  Roblox_Groups_Api_GroupMembershipMetadataResponse,
-  Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem_,
-  Roblox_Groups_Api_GroupPayoutRestrictionResponse,
-  Roblox_Groups_Api_GroupPayoutResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupPayoutResponse_,
-  Roblox_Groups_Api_PayoutRecipientRequest,
-  Roblox_Groups_Api_PayoutRequest,
-  Roblox_Groups_Api_GroupRelationshipsResponse,
-  Roblox_Groups_Api_RelationshipsRequest,
-  Roblox_Groups_Api_GroupAllRolesResponse,
-  Roblox_Groups_Api_GroupPermissionsResponse,
-  Roblox_Groups_Api_UpdatePermissionsRequest_permissions,
-  Roblox_Groups_Api_UpdatePermissionsRequest,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_UserModel_,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupPermissionsResponse_,
-  Roblox_Groups_Api_GroupSettingsResponse,
-  Roblox_Groups_Api_UpdateGroupSettingsRequest,
-  Roblox_Groups_Api_SocialLinkResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_SocialLinkResponse_,
-  Roblox_Groups_Api_SocialLinkRequest,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_UserGroupRoleResponse_,
-  Roblox_Groups_Api_JoinGroupRequest,
-  Roblox_Groups_Api_Models_Response_GroupWallPostModel,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_GroupWallPostModel_,
-  Roblox_Groups_Api_CreateWallPostRequest,
-  Roblox_Groups_Api_GroupConfigurationResponse,
-  Roblox_Groups_Api_RecurringPayoutsConfigurationResponse,
-  Roblox_Groups_Api_RoleConfigurationResponse,
-  Roblox_Groups_Api_GroupNameChangeConfigurationResponse,
-  Roblox_Groups_Api_GroupConfigurationDisplayOptionsResponse,
-  Roblox_Groups_Api_GroupsDisplayOptionsResponse,
-  Roblox_Groups_Api_GroupSearchResponseItem,
-  Roblox_Groups_Api_GroupSearchPageResponse,
-  Roblox_Web_Responses_Groups_GroupBasicResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupBasicResponse_,
-  Roblox_Groups_Api_GroupSearchMetadataResponse,
-  Roblox_Groups_Api_GroupRoleDetailResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupRoleDetailResponse_,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupDetailResponse_,
-  Roblox_Groups_Api_GroupMembershipDetailResponse,
-  Roblox_Groups_Api_UserGroupMembershipResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_UserGroupMembershipResponse_,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipDetailResponse_,
-  Roblox_Groups_Api_ChangeOwnerRequest,
-  Roblox_Groups_Api_Models_Request_CreateRoleSetRequest,
-  groups_create_body,
-  Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
-  Roblox_Web_Responses_Groups_GroupResponseV2,
-  Roblox_Groups_Api_GroupPolicyRequest,
-  Roblox_Groups_Api_GroupPolicyResponse,
-  Roblox_Groups_Api_GroupPoliciesResponse,
-  Roblox_Groups_Api_PrimaryGroupRequest,
-  Roblox_Groups_Api_UpdateGroupDescriptionRequest,
-  Roblox_Groups_Api_GroupDescriptionResponse,
-  Roblox_Groups_Api_UpdateGroupNameRequest,
-  Roblox_Groups_Api_UpdateGroupNameResponse,
-  Roblox_Groups_Api_Models_Request_UpdateRoleSetRequest,
-  Roblox_Groups_Api_PostGroupStatusRequest,
-  Roblox_Groups_Api_UpdateUserRoleRequest,
-  groups_icon_body,
-};
-
 /**
  * @api GET https://groups.roblox.com/v1/groups/:groupId
  * @summary Gets group information
@@ -3299,6 +3218,7 @@ export const getUsersUseridGroupsPrimaryRole = endpoint({
  * @api GET https://groups.roblox.com/v1/users/:userId/groups/roles
  * @summary Gets a list of all group roles for groups the specified user is in.
  * @param userId The user id.
+ * @param includeLocked
  */
 export const getUsersUseridGroupsRoles = endpoint({
   method: 'get' as const,
@@ -3309,9 +3229,14 @@ export const getUsersUseridGroupsRoles = endpoint({
     userId: {
       style: 'simple',
     },
+    includeLocked: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userId: z.number().int(),
+    includeLocked: z.boolean(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipDetailResponse_,
   errors: [

@@ -87,23 +87,6 @@ const Roblox_ItemConfiguration_Api_AssetCreationsDetailsResponse = z
   .passthrough();
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
 
-const schemas = {
-  Roblox_ItemConfiguration_Api_AssetCreationsResponse,
-  Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_ItemConfiguration_Api_AssetCreationsResponse_,
-  Roblox_ItemConfiguration_Api_TagDetails,
-  Roblox_ItemConfiguration_Api_ItemTagDetails,
-  Roblox_ItemConfiguration_Api_ItemWithTags,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_ItemWithTags_,
-  Roblox_ItemConfiguration_Api_CreateItemTagRequest,
-  Roblox_ItemConfiguration_Api_ItemTagsMetadataResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_TagDetails_,
-  Roblox_ItemConfiguration_Api_AssetCreationsDetailsRequest,
-  Roblox_ItemConfiguration_Api_PriceConfigurationModel,
-  Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel,
-  Roblox_ItemConfiguration_Api_AssetCreationsDetailsResponse,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-};
-
 /**
  * @api POST https://itemconfiguration.roblox.com/v1/creations/get-asset-details
  * @summary Gets the asset status and other configuration details for the given assetIds list

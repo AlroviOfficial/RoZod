@@ -25,12 +25,6 @@ const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z
   })
   .passthrough();
 
-const schemas = {
-  Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
-  Roblox_Authentication_Api_TwoStepVerificationLoginRequest,
-  Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse,
-};
-
 /**
  * @api POST https://auth.roblox.com/v3/users/:userId/two-step-verification/login
  * @summary Authenticates as a user given a two step verification verification token.

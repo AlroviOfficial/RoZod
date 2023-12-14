@@ -312,48 +312,6 @@ const Roblox_Authentication_Api_Models_RecoverUsernameResponse = z
   .object({ transmissionType: z.union([z.literal(0), z.literal(1)]) })
   .passthrough();
 
-const schemas = {
-  Roblox_Authentication_Api_Models_AuthMetaDataResponse,
-  Roblox_Authentication_Api_Models_CanSendCredentialsVerificationMessageResponse,
-  Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest,
-  Roblox_Authentication_Api_Models_MetadataResponse,
-  Roblox_Authentication_Api_Models_PasswordStatusResponse,
-  Roblox_Web_Responses_Users_LegacyUserResponse,
-  Roblox_Authentication_Api_Models_PasswordResetMetadataResponse,
-  Roblox_Authentication_Api_Models_PasswordResetModel,
-  Roblox_Web_Responses_Users_SkinnyUserResponse,
-  Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse,
-  Roblox_Authentication_Api_Models_LoginResponse,
-  Roblox_Authentication_Api_Models_PasswordValidationResponse,
-  Roblox_Authentication_Api_Models_PasswordValidationModel,
-  Roblox_Authentication_Api_Models_RecoveryMetadataResponse,
-  Roblox_Authentication_Api_Models_RevertAccountInfoResponse,
-  Roblox_Authentication_Api_Models_RevertAccountSubmitRequest,
-  Roblox_Authentication_Api_Models_TwoStepVerificationMetadataResponse,
-  Roblox_Authentication_Api_Models_UsernamesResponse,
-  Roblox_Authentication_Api_Models_UsernameValidationResponse,
-  Roblox_Authentication_Api_Models_UsernameValidationRequest,
-  Roblox_Web_WebAPI_ApiEmptyResponseModel,
-  Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest,
-  Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
-  Roblox_Authentication_Api_Models_LoginRequest,
-  Roblox_Authentication_Api_Models_SendResetPasswordRequest,
-  Roblox_Authentication_Api_Models_SendResetPasswordResponse,
-  Roblox_Authentication_Api_Models_PasswordResetVerificationRequest,
-  Roblox_Authentication_Api_Models_ForgotPasswordUserResponse,
-  Roblox_Authentication_Api_Models_PasswordResetVerificationResponse,
-  Roblox_Authentication_Api_Models_ReferralDataModel,
-  Roblox_Authentication_Api_Models_Request_OtpSessionModel,
-  Roblox_Authentication_Api_Models_SignupRequest,
-  Roblox_Authentication_Api_Models_SignupResponse,
-  Roblox_Authentication_Api_Models_TwoStepVerificationTicketRequest,
-  Roblox_Authentication_Api_Models_TwoStepVerificationVerifyRequest,
-  Roblox_Authentication_Api_Models_PasswordChangeModel,
-  Roblox_Authentication_Api_Models_UsernameChangeRequest,
-  Roblox_Authentication_Api_Models_RecoverUsernameRequest,
-  Roblox_Authentication_Api_Models_RecoverUsernameResponse,
-};
-
 /**
  * @api GET https://auth.roblox.com/v2/auth/metadata
  * @summary Gets Auth meta data

@@ -6,11 +6,6 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Translations_Api_Translat
   .object({ data: z.array(Roblox_Translations_Api_TranslationsResponse) })
   .passthrough();
 
-const schemas = {
-  Roblox_Translations_Api_TranslationsResponse,
-  Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Translations_Api_TranslationsResponse_,
-};
-
 /**
  * @api GET https://translations.roblox.com/v1/translations
  * @summary Get the translations JSON files url of a specific consumer type for all locales.

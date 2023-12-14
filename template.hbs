@@ -17,14 +17,6 @@ import { {{{@key}}} } from "./{{{this}}}"
 const {{@key}}{{#if (lookup ../circularTypeByName @key)}}: z.ZodType<{{@key}}>{{/if}} = {{{this}}};
 {{/each}}
 
-{{#ifNotEmptyObj schemas}}
-const schemas = {
-{{#each schemas}}
-	{{@key}},
-{{/each}}
-};
-{{/ifNotEmptyObj}}
-
 {{#each endpoints}}
 /**
  * @api {{toUpperCase method}} {{#if @root.options.baseUrl}}{{@root.options.baseUrl}}{{/if}}{{path}}
