@@ -19,26 +19,26 @@ test('fetch game icons', async () => {
     expect(flattened).toHaveLength(5);
     expect(flattened[0]).toHaveProperty('targetId');
   });
-});
+}, 1000);
 
 // Should fail, since no cookie is provided.
 test('fetch group members', async () => {
   return fetchApi(getGroupsGroupidMembership, { groupId: 11479637 }).catch((error: Error) => {
     expect(error.message).toBe('Invalid response data');
   });
-});
+}, 1000);
 
 test('fetch games favoritedCount', async () => {
   return fetchApi(getGamesUniverseidFavoritesCount, { universeId: 1534453623 }).then((data) => {
     expect(data).toHaveProperty('favoritesCount');
   });
-});
+}, 1000);
 
 test('fetch raw', async () => {
   return fetchApi(getGamesUniverseidFavoritesCount, { universeId: 1534453623 }, { returnRaw: true }).then((data) => {
     expect(data).toHaveProperty('headers');
   });
-});
+}, 1000);
 
 // Custom endpoint. Won't work either, as we are not authenticated.
 test('fetch omni recommendations', async () => {
@@ -67,7 +67,7 @@ test('fetch omni recommendations', async () => {
   return fetchApi(endpoint).catch((error: Error) => {
     expect(error.message).toBe('Invalid response data');
   });
-});
+}, 1000);
 
 test('fetch avatar headshots', async () => {
   type returnType = ExtractParams<typeof getUsersAvatarHeadshot>;
@@ -84,7 +84,7 @@ test('fetch avatar headshots', async () => {
     expect(flattened).toHaveLength(3);
     expect(flattened[0]).toHaveProperty('targetId');
   });
-});
+}, 1000);
 
 test('post presence users', async () => {
   return fetchApi(postPresenceUsers, {
@@ -94,7 +94,7 @@ test('post presence users', async () => {
   }).then((data) => {
     expect(data).toHaveProperty('userPresences');
   });
-});
+}, 1000);
 
 test('post games', async () => {
   await fetchApiPages(
@@ -125,7 +125,7 @@ test('post games', async () => {
   ).then((data) => {
     expect(data[0]).toHaveProperty('data');
   });
-}, 10000);
+}, 1000);
 
 test('fetch pages group games', async () => {
   expect(
@@ -140,4 +140,4 @@ test('fetch pages group games', async () => {
       },
     ),
   ).rejects.toThrow('3: Not authorized.');
-});
+}, 1000);
