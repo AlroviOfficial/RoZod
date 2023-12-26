@@ -82,8 +82,8 @@ export class ChromeStore<T> implements CacheStore<T> {
     if (!(globalThis as typeof globalThis & { chrome: any }).chrome) return {};
     return new Promise((resolve) => {
       // @ts-ignore
-      chrome.storage.local.get(null, (result) => {
-        resolve(result.filter((key: string) => key.startsWith('rozod_cache:')));
+      chrome?.storage?.local?.get?.(null, (result) => {
+        resolve(result?.filter?.((key: string) => key.startsWith('rozod_cache:')));
       });
     });
   }
