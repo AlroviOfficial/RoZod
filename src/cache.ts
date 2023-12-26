@@ -132,6 +132,7 @@ export class Cache<T> {
     if (this.didCheckExpired) return;
     this.didCheckExpired = true;
     const entries = await this.store.all();
+    if (!entries) return;
     Object.keys(entries).forEach(async (key) => {
       const entry = entries[key];
       if (entry.expiresAt && entry.expiresAt < Date.now()) {
