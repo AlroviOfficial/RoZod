@@ -80,7 +80,7 @@ const Roblox_Web_Responses_Avatar_ScaleModel = z
     bodyType: z.number(),
   })
   .passthrough();
-const Roblox_Api_Develop_Models_UniversePluginPermissions = z
+const Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions = z
   .object({
     IsThirdPartyTeleportAllowed: z.boolean(),
     IsThirdPartyAssetAllowed: z.boolean(),
@@ -123,7 +123,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z
     universeAvatarMinScales: Roblox_Web_Responses_Avatar_ScaleModel,
     universeAvatarMaxScales: Roblox_Web_Responses_Avatar_ScaleModel,
     studioAccessToApisAllowed: z.boolean(),
-    permissions: Roblox_Api_Develop_Models_UniversePluginPermissions,
+    permissions: Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions,
     optInRegions: z.array(z.union([z.literal(0), z.literal(1)])),
     optOutRegions: z.array(z.union([z.literal(0), z.literal(1)])),
   })
@@ -169,7 +169,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z
     universeAvatarMinScales: Roblox_Web_Responses_Avatar_ScaleModel,
     universeAvatarMaxScales: Roblox_Web_Responses_Avatar_ScaleModel,
     studioAccessToApisAllowed: z.boolean(),
-    permissions: Roblox_Api_Develop_Models_UniversePluginPermissions,
+    permissions: Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions,
   })
   .passthrough();
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
@@ -366,7 +366,6 @@ export const patchUniversesUniverseidConfiguration = endpoint({
 10: Invalid UniverseBodyType.
 11: Invalid UniverseJointPositioningType.
 12: The universe has no root place.
-13: At least one playable device must be provided.
 15: Price is required when isForSale is true.
 16: This game cannot be offered for sale because it is not public.
 17: This game cannot be offered for sale because it has private servers enabled.

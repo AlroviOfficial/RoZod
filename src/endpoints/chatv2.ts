@@ -104,6 +104,8 @@ const Roblox_Chat_Api_Models_ChatMetadataResponse = z
     isAliasChatForClientSideEnabled: z.boolean(),
     isPlayTogetherForGameCardsEnabled: z.boolean(),
     isRoactChatEnabled: z.boolean(),
+    webChatEventSampleRate: z.number().int(),
+    isPlatformChatApiEnabled: z.boolean(),
   })
   .passthrough();
 const Roblox_Chat_Api_Models_AddUsersToConversationRequest = z

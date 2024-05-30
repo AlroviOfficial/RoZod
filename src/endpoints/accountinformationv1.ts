@@ -519,12 +519,22 @@ export const postPhoneVerify = endpoint({
 /**
  * @api GET https://accountinformation.roblox.com/v1/promotion-channels
  * @summary Get the user's promotion channels
+ * @param alwaysReturnUrls Whether all promotion channel links should be returned as full URLs.
  */
 export const getPromotionChannels = endpoint({
   method: 'get' as const,
   path: '/v1/promotion-channels',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    alwaysReturnUrls: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    alwaysReturnUrls: z.boolean().optional(),
+  },
   response: Roblox_AccountInformation_Api_Models_PromotionChannelsResponse,
   errors: [
     {
@@ -659,7 +669,8 @@ export const deleteStarCodeAffiliates = endpoint({
 /**
  * @api GET https://accountinformation.roblox.com/v1/users/:userId/promotion-channels
  * @summary Get promotion channels for a given user ID
- * @param userId
+ * @param userId The ID of the user to fetch the promotion channels for.
+ * @param alwaysReturnUrls Whether all promotion channel links should be returned as full URLs.
  */
 export const getUsersUseridPromotionChannels = endpoint({
   method: 'get' as const,
@@ -670,9 +681,14 @@ export const getUsersUseridPromotionChannels = endpoint({
     userId: {
       style: 'simple',
     },
+    alwaysReturnUrls: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userId: z.number().int(),
+    alwaysReturnUrls: z.boolean().optional(),
   },
   response: Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse,
   errors: [

@@ -35,6 +35,43 @@ const Roblox_Catalog_Api_BundleProductModel = z
     premiumPricing: Roblox_Catalog_Api_PremiumPricingModel,
   })
   .passthrough();
+const Roblox_Catalog_Api_SaleLocation = z
+  .object({
+    saleLocationType: z.union([
+      z.literal(0),
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+      z.literal(5),
+      z.literal(6),
+      z.literal(7),
+    ]),
+    saleLocationTypeId: z.number().int(),
+    universeIds: z.array(z.number()),
+    enabledUniverseIds: z.array(z.number()),
+  })
+  .passthrough();
+const Roblox_Catalog_Api_CollectibleItemDetail = z
+  .object({
+    collectibleItemId: z.string(),
+    collectibleProductId: z.string(),
+    price: z.number().int(),
+    lowestPrice: z.number().int(),
+    lowestResalePrice: z.number().int(),
+    totalQuantity: z.number().int(),
+    unitsAvailable: z.number().int(),
+    saleLocation: Roblox_Catalog_Api_SaleLocation,
+    hasResellers: z.boolean(),
+    saleStatus: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    quantityLimitPerUser: z.number().int(),
+    offSaleDeadline: z.string().datetime({ offset: true }),
+    collectibleItemType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+    lowestAvailableResaleProductId: z.string(),
+    lowestAvailableResaleItemInstanceId: z.string(),
+    resaleRestriction: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  })
+  .passthrough();
 const Roblox_Catalog_Api_BundleDetailsModel = z
   .object({
     id: z.number().int(),
@@ -57,6 +94,7 @@ const Roblox_Catalog_Api_BundleDetailsModel = z
         z.literal(9),
       ]),
     ),
+    collectibleItemDetail: Roblox_Catalog_Api_CollectibleItemDetail,
   })
   .passthrough();
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_BundleDetailsModel_ = z
@@ -194,6 +232,8 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z
       z.literal(78),
       z.literal(79),
       z.literal(80),
+      z.literal(81),
+      z.literal(82),
     ]),
     bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     name: z.string(),
@@ -256,6 +296,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z
       z.literal(4),
       z.literal(5),
       z.literal(6),
+      z.literal(7),
     ]),
     hasResellers: z.boolean(),
     isOffSale: z.boolean(),
@@ -430,42 +471,6 @@ export const getBundlesBundleidRecommendations = endpoint({
   ],
 });
 /**
- * @api POST https://catalog.roblox.com/v1/bundles/:bundleId/unpack
- * @summary Unpacks a bundle and grants all of the associated items.
-It may take a few seconds for all items to be granted after the request finishes.
- * @param bundleId 
- */
-export const postBundlesBundleidUnpack = endpoint({
-  method: 'post' as const,
-  path: '/v1/bundles/:bundleId/unpack',
-  baseUrl: 'https://catalog.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    bundleId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    bundleId: z.number().int(),
-  },
-  response: z.void(),
-  errors: [
-    {
-      status: 400,
-      description: `1: Invalid bundle
-2: Bundle is not owned`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
  * @api GET https://catalog.roblox.com/v1/bundles/details
  * @summary Returns details about the given bundleIds.
  * @param bundleIds
@@ -494,7 +499,7 @@ export const getBundlesDetails = endpoint({
 });
 /**
  * @api POST https://catalog.roblox.com/v1/catalog/items/details
- * @summary Returns list of item details
+ * @summary Returns list of item details.
  * @param body Roblox.Catalog.Api.MultigetItemDetailsRequestModel
  */
 export const postCatalogItemsDetails = endpoint({
@@ -859,7 +864,7 @@ export const deleteFavoritesUsersUseridBundlesBundleidFavorite = endpoint({
 /**
  * @api GET https://catalog.roblox.com/v1/favorites/users/:userId/favorites/:subtypeId/bundles
  * @summary Lists the bundles favorited by a given user with the given bundle subtypeId.
-After 1/31/2024, only cursor based pagination will be supported.
+After 5/31/2024, only cursor based pagination will be supported.
  * @param userId 
  * @param subtypeId 
  * @param pageNumber 
@@ -908,7 +913,10 @@ export const getFavoritesUsersUseridFavoritesSubtypeidBundles = endpoint({
   errors: [
     {
       status: 400,
-      description: `1: Invalid user Id.`,
+      description: `1: Invalid user Id.
+3: Cannot request so many bundles at once.
+9: Invalid pagination request. Please provide only pageNumber or cursor, not both.
+10: Invalid previous pagination request. Please provide a cursor when isPrevious is true`,
     },
     {
       status: 401,
@@ -918,6 +926,10 @@ export const getFavoritesUsersUseridFavoritesSubtypeidBundles = endpoint({
       status: 403,
       description: `6: You are not authorized to perform this action.
 8: Invalid page number`,
+    },
+    {
+      status: 500,
+      description: `11: Internal server error. Please check if you have provided correct pagination cursor`,
     },
   ],
 });

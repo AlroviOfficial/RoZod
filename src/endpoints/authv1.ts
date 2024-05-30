@@ -11,16 +11,6 @@ const Roblox_Web_WebAPI_Models_ApiSuccessResponse = z.object({ success: z.boolea
 const Roblox_Authentication_Api_Models_AuthMetaDataResponse = z
   .object({ cookieLawNoticeTimeout: z.number().int() })
   .passthrough();
-const Roblox_Authentication_Api_Models_CanSendCredentialsVerificationMessageResponse = z
-  .object({ canSend: z.boolean() })
-  .passthrough();
-const Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest = z
-  .object({
-    credentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
-    credentialValue: z.string(),
-    password: z.string(),
-  })
-  .passthrough();
 const Roblox_Authentication_Api_Models_MetadataResponse = z
   .object({
     isUpdateUsernameEnabled: z.boolean(),
@@ -33,6 +23,7 @@ const Roblox_Authentication_Api_Models_MetadataResponse = z
     IsKoreaIdVerificationEnabled: z.boolean(),
     IsPasswordRequiredForUsernameChange: z.boolean(),
     IsPasskeyFeatureEnabled: z.boolean(),
+    IsAltBrowserTracker: z.boolean(),
   })
   .passthrough();
 const Roblox_Authentication_Api_Models_PasswordValidationResponse = z
@@ -139,6 +130,18 @@ const Roblox_Authentication_Api_Models_RecommendedUsernameResponse = z
     suggestedUsernames: z.array(z.string()),
   })
   .passthrough();
+const Roblox_Authentication_Api_Models_RecommendedUsernameFromDisplayNameRequest = z
+  .object({
+    displayName: z.string(),
+    birthday: z.string().datetime({ offset: true }),
+  })
+  .passthrough();
+const Roblox_Authentication_Api_Models_RecommendedUsernameRequest = z
+  .object({
+    username: z.string(),
+    birthday: z.string().datetime({ offset: true }),
+  })
+  .passthrough();
 const Roblox_Authentication_Api_Models_XboxConnectionModel = z
   .object({ hasConnectedXboxAccount: z.boolean() })
   .passthrough();
@@ -146,11 +149,24 @@ const Roblox_Authentication_Api_Models_XboxLoginConsecutiveDaysResponse = z
   .object({ count: z.number().int() })
   .passthrough();
 const Roblox_Authentication_Api_Models_AccountPinResponse = z.object({ unlockedUntil: z.number() }).passthrough();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
+const Roblox_Authentication_Api_Models_Request_ExternalAccessRequest = z
+  .object({
+    authenticationProof: z.string(),
+    identityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+    additionalInfoPayload: z.record(z.object({}).passthrough()),
+  })
+  .passthrough();
+const Roblox_Authentication_Api_Models_Response_ExternalIdentityGateway_ExternalIdentityAccessResponse = z
+  .object({
+    placeId: z.number().int(),
+    isolationContext: z.string(),
+    launchData: z.string(),
+  })
+  .passthrough();
 const Roblox_Authentication_Api_Models_Request_ExternalLoginRequest = z
   .object({
     authenticationProof: z.string(),
-    identityProvider: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+    identityProvider: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     additionalInfoPayload: z.record(z.object({}).passthrough()),
   })
   .passthrough();
@@ -160,7 +176,7 @@ const Roblox_Authentication_Api_Models_Request_ExternalLoginAndLinkRequest = z
     cvalue: z.string(),
     password: z.string(),
     authenticationProof: z.string(),
-    identityProvider: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+    IdentityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     additionalInfoPayload: z.record(z.object({}).passthrough()),
   })
   .passthrough();
@@ -171,18 +187,36 @@ const Roblox_Authentication_Api_Models_Request_ExternalSignupRequest = z
     birthday: z.string().datetime({ offset: true }),
     locale: z.string(),
     authenticationProof: z.string(),
-    identityProvider: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+    IdentityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     additionalInfoPayload: z.record(z.object({}).passthrough()),
   })
   .passthrough();
 const Roblox_Authentication_Api_Models_Request_ExternalUnlinkRequest = z
   .object({
-    identityProvider: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+    IdentityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     additionalInfoPayload: z.record(z.object({}).passthrough()),
   })
   .passthrough();
 const Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest = z
   .object({ loginTicket: z.string(), resultToken: z.string() })
+  .passthrough();
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
+const Roblox_Authentication_Api_Models_Request_InitializeLoginRequest = z
+  .object({
+    ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+    cvalue: z.string().min(1),
+  })
+  .passthrough();
+const Roblox_Authentication_Api_Models_LoginMethodModel = z
+  .object({
+    method: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+    priority: z.number().int(),
+  })
+  .passthrough();
+const Roblox_Authentication_Api_Models_Response_InitializeLoginResponse = z
+  .object({
+    loginMethods: z.array(Roblox_Authentication_Api_Models_LoginMethodModel),
+  })
   .passthrough();
 const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel = z
   .object({
@@ -206,6 +240,11 @@ const Roblox_Authentication_Api_Models_LoginRequest = z
     captchaToken: z.string(),
     captchaProvider: z.string(),
     challengeId: z.string(),
+  })
+  .passthrough();
+const Roblox_Authentication_Api_Models_Request_LogoutFromAllSessionsAndReauthenticateRequest = z
+  .object({
+    SecureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
   })
   .passthrough();
 const Roblox_Authentication_Api_Models_Request_DeletePasskeysRequest = z
@@ -258,6 +297,7 @@ const Roblox_Authentication_Api_Models_SignupRequest = z
     password: z.string(),
     gender: z.union([z.literal(1), z.literal(2), z.literal(3)]),
     birthday: z.string().datetime({ offset: true }),
+    displayName: z.string(),
     isTosAgreementBoxChecked: z.boolean(),
     email: z.string(),
     locale: z.string(),
@@ -329,7 +369,11 @@ const Roblox_Authentication_Api_Models_TwoStepVerificationVerifyRequest = z
   })
   .passthrough();
 const Roblox_Authentication_Api_Models_PasswordChangeModel = z
-  .object({ currentPassword: z.string(), newPassword: z.string() })
+  .object({
+    currentPassword: z.string(),
+    newPassword: z.string(),
+    secureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
+  })
   .passthrough();
 const Roblox_Authentication_Api_Models_UsernameChangeRequest = z
   .object({ username: z.string(), password: z.string() })
@@ -510,138 +554,22 @@ export const getAuthMetadata = endpoint({
   errors: [],
 });
 /**
- * @api GET https://auth.roblox.com/v1/credentials/verification
- * @summary Checks if it is possible to send a verification message for the provided credentials.
- * @param CredentialType Credentials type Roblox.Platform.Authentication.CredentialsType.
- * @param CredentialValue Credentials value.
- * @param Password Credentials password.
+ * @api POST https://auth.roblox.com/v1/external/access
+ * @summary Signs a user up for Roblox and links the account to the authenticated external provider ID.
+ * @param body
  */
-export const getCredentialsVerification = endpoint({
-  method: 'get' as const,
-  path: '/v1/credentials/verification',
-  baseUrl: 'https://auth.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    CredentialType: {
-      style: 'form',
-      explode: true,
-    },
-    CredentialValue: {
-      style: 'form',
-      explode: true,
-    },
-    Password: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    CredentialType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
-    CredentialValue: z.string(),
-    Password: z.string(),
-  },
-  response: z.object({ canSend: z.boolean() }).passthrough(),
-  errors: [
-    {
-      status: 400,
-      description: `0: An unexpected error occurred.
-1: Credential value and password are required. Please try again.`,
-    },
-    {
-      status: 404,
-      description: `5: Credentials verification operation is unavailable. Please try again later.`,
-    },
-    {
-      status: 429,
-      description: `2: Too many attempts. Please wait a bit.`,
-    },
-    {
-      status: 503,
-      description: `5: Credentials verification operation is unavailable. Please try again later.`,
-    },
-  ],
-});
-/**
- * @api POST https://auth.roblox.com/v1/credentials/verification
- * @summary Checks if it is possible to send a verification message for the provided credentials.
- * @param body Request model with a credential value, type, and password.
- */
-export const postCredentialsVerification = endpoint({
+export const postExternalAccess = endpoint({
   method: 'post' as const,
-  path: '/v1/credentials/verification',
+  path: '/v1/external/access',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
   serializationMethod: {
     body: {},
   },
   parameters: {},
-  body: Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest,
-  response: z.object({ canSend: z.boolean() }).passthrough(),
-  errors: [
-    {
-      status: 400,
-      description: `0: An unexpected error occurred.
-1: Credential value and password are required. Please try again.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 404,
-      description: `5: Credentials verification operation is unavailable. Please try again later.`,
-    },
-    {
-      status: 429,
-      description: `2: Too many attempts. Please wait a bit.`,
-    },
-    {
-      status: 503,
-      description: `5: Credentials verification operation is unavailable. Please try again later.`,
-    },
-  ],
-});
-/**
- * @api POST https://auth.roblox.com/v1/credentials/verification/send
- * @summary Sends a verification message to the provided credentials.
- * @param body Request model with a credential value, type, and password.
- */
-export const postCredentialsVerificationSend = endpoint({
-  method: 'post' as const,
-  path: '/v1/credentials/verification/send',
-  baseUrl: 'https://auth.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Authentication_Api_Models_SendCredentialsVerificationMessageRequest,
-  response: z.object({}).passthrough(),
-  errors: [
-    {
-      status: 400,
-      description: `0: An unexpected error occurred.
-1: Credential value and password are required. Please try again.
-3: Verification with received credential type is not supported.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-4: Could not send a verification message. Please try again later.`,
-    },
-    {
-      status: 404,
-      description: `5: Credentials verification operation is unavailable. Please try again later.`,
-    },
-    {
-      status: 429,
-      description: `2: Too many attempts. Please wait a bit.`,
-    },
-    {
-      status: 503,
-      description: `5: Credentials verification operation is unavailable. Please try again later.`,
-    },
-  ],
+  body: Roblox_Authentication_Api_Models_Request_ExternalAccessRequest,
+  response: Roblox_Authentication_Api_Models_Response_ExternalIdentityGateway_ExternalIdentityAccessResponse,
+  errors: [],
 });
 /**
  * @api POST https://auth.roblox.com/v1/external/login
@@ -763,6 +691,42 @@ export const postIdentityVerificationLogin = endpoint({
   ],
 });
 /**
+ * @api POST https://auth.roblox.com/v1/identity/initialize-login
+ * @summary Initiates identifier-first login flow by returning a list of login methods for user(s).
+ * @param body
+ */
+export const postIdentityInitializeLogin = endpoint({
+  method: 'post' as const,
+  path: '/v1/identity/initialize-login',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_Request_InitializeLoginRequest,
+  response: Roblox_Authentication_Api_Models_Response_InitializeLoginResponse,
+  errors: [
+    {
+      status: 400,
+      description: `3: User identifier and type are required.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+2: Invalid user identifier.`,
+    },
+    {
+      status: 500,
+      description: `0: An unknown error occurred.`,
+    },
+    {
+      status: 503,
+      description: `1: This feature is disabled.`,
+    },
+  ],
+});
+/**
  * @api POST https://auth.roblox.com/v1/login
  * @summary Authenticates a user.
  * @param body Roblox.Authentication.Api.Models.LoginRequest.
@@ -797,7 +761,8 @@ export const postLogin = endpoint({
 10: Received credentials are unverified.
 12: Existing login session found. Please log out first.
 14: The account is unable to log in. Please log in to the LuoBu app.
-15: Too many attempts. Please wait a bit.`,
+15: Too many attempts. Please wait a bit.
+27: The account is unable to login. Please log in with the VNG app.`,
     },
     {
       status: 429,
@@ -833,12 +798,18 @@ export const postLogout = endpoint({
 /**
  * @api POST https://auth.roblox.com/v1/logoutfromallsessionsandreauthenticate
  * @summary Logs out user from all other sessions.
+ * @param body
  */
 export const postLogoutfromallsessionsandreauthenticate = endpoint({
   method: 'post' as const,
   path: '/v1/logoutfromallsessionsandreauthenticate',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_Request_LogoutFromAllSessionsAndReauthenticateRequest,
   response: z.object({}).passthrough(),
   errors: [
     {
@@ -1426,7 +1397,7 @@ export const postUsername = endpoint({
 10: This username is already in use
 11: Username not appropriate for Roblox
 12: Usernames can be 3 to 20 characters long
-13: Usernames can�t start or end with _ and can have at most one _
+13: Usernames can’t start or end with _ and can have at most one _
 14: Only a-z, A-Z, 0-9, and _ are allowed
 15: Username is null
 16: Username might contain private information
@@ -1604,6 +1575,59 @@ export const getValidatorsEmail = endpoint({
   errors: [],
 });
 /**
+ * @api GET https://auth.roblox.com/v1/validators/recommendedUsernameFromDisplayName
+ * @summary Validates the given display name, and if valid, will convert it to a valid username and return suggested username(s) if available.
+ * @param DisplayName Gets or sets the display name, which will create a recommended username if available.
+ * @param BirthDay Gets or sets the birth day.
+ */
+export const getValidatorsRecommendedusernamefromdisplayname = endpoint({
+  method: 'get' as const,
+  path: '/v1/validators/recommendedUsernameFromDisplayName',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    DisplayName: {
+      style: 'form',
+      explode: true,
+    },
+    BirthDay: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    DisplayName: z.string(),
+    BirthDay: z.string().datetime({ offset: true }),
+  },
+  response: Roblox_Authentication_Api_Models_RecommendedUsernameResponse,
+  errors: [],
+});
+/**
+ * @api POST https://auth.roblox.com/v1/validators/recommendedUsernameFromDisplayName
+ * @summary Validates the given display name, and if valid, will convert it to a valid username and return suggested username(s) if available.
+            
+This is a POST request and explicitly does not receive the parameter values from the query
+ * @param body 
+ */
+export const postValidatorsRecommendedusernamefromdisplayname = endpoint({
+  method: 'post' as const,
+  path: '/v1/validators/recommendedUsernameFromDisplayName',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_RecommendedUsernameFromDisplayNameRequest,
+  response: Roblox_Authentication_Api_Models_RecommendedUsernameResponse,
+  errors: [
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+  ],
+});
+/**
  * @api GET https://auth.roblox.com/v1/validators/username
  * @summary Tries to get a valid username if the current username is taken
  * @param Username Gets or sets the username to use as the base username provided by the user
@@ -1630,6 +1654,30 @@ export const getValidatorsUsername = endpoint({
   },
   response: Roblox_Authentication_Api_Models_RecommendedUsernameResponse,
   errors: [],
+});
+/**
+ * @api POST https://auth.roblox.com/v1/validators/username
+ * @summary Tries to get a valid username if the current username is taken
+This is a POST request and explicitly does not receive the parameter values from the query
+ * @param body 
+ */
+export const postValidatorsUsername = endpoint({
+  method: 'post' as const,
+  path: '/v1/validators/username',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_RecommendedUsernameRequest,
+  response: Roblox_Authentication_Api_Models_RecommendedUsernameResponse,
+  errors: [
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+  ],
 });
 /**
  * @api GET https://auth.roblox.com/v1/xbox/connection

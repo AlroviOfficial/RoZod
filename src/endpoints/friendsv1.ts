@@ -103,6 +103,7 @@ const Roblox_Paging_CursoredPagedResult_Roblox_Friends_Api_Models_Response_Frien
     PreviousCursor: z.string(),
     PageItems: z.array(Roblox_Friends_Api_Models_Response_FriendResponse),
     NextCursor: z.string(),
+    HasMore: z.boolean(),
   })
   .passthrough();
 const Roblox_Friends_Api_Models_Response_UserPresenceResponseModel = z
@@ -154,6 +155,9 @@ const Roblox_Friends_Api_Models_Response_FollowingExistsResponseModel = z
   .object({
     followings: z.array(Roblox_Friends_Api_Models_Response_FollowingExistsResponse),
   })
+  .passthrough();
+const Roblox_Friends_Api_Models_Response_DeclineAllFriendRequestsResponse = z
+  .object({ backgrounded: z.boolean() })
   .passthrough();
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
 const Roblox_Friends_Api_Models_Request_FriendingTokenRequestModel = z
@@ -409,7 +413,7 @@ export const postUserFriendRequestsDeclineAll = endpoint({
   path: '/v1/user/friend-requests/decline-all',
   baseUrl: 'https://friends.roblox.com',
   requestFormat: 'json' as const,
-  response: z.object({}).passthrough(),
+  response: z.object({ backgrounded: z.boolean() }).passthrough(),
   errors: [
     {
       status: 401,
@@ -1005,7 +1009,7 @@ export const getUsersUseridFriendsFind = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    userSort: z.union([z.literal(0), z.literal(1)]).optional(),
+    userSort: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),
     cursor: z.string().optional(),
     limit: z.number().int().optional().default(50),
   },
@@ -1075,7 +1079,7 @@ export const getUsersUseridFriendsOnline = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    userSort: z.union([z.literal(0), z.literal(1)]).optional(),
+    userSort: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_,
   errors: [

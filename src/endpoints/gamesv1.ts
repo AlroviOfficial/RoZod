@@ -269,6 +269,7 @@ const Roblox_Games_Api_Models_Response_GameRecommendationsResponse = z
     nextPaginationKey: z.string(),
   })
   .passthrough();
+const Roblox_Games_Api_Models_Response_GameSortTopicLayoutData = z.object({ infoText: z.string() }).passthrough();
 const Roblox_Games_Api_Models_Response_GameSort = z
   .object({
     token: z.string(),
@@ -284,6 +285,7 @@ const Roblox_Games_Api_Models_Response_GameSort = z
     contextUniverseId: z.number().int(),
     contextCountryRegionId: z.number().int(),
     tokenExpiryInSeconds: z.number(),
+    topicLayoutData: Roblox_Games_Api_Models_Response_GameSortTopicLayoutData,
   })
   .passthrough();
 const Roblox_Games_Api_Models_Response_TimeFilter = z

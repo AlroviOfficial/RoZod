@@ -420,6 +420,37 @@ export const getUsersUseridBadges = endpoint({
   ],
 });
 /**
+ * @api GET https://badges.roblox.com/v1/users/:userId/badges/:badgeId/awarded-date
+ * @summary Gets timestamp for when a single badge was awarded to a user.
+ * @param userId User id.
+ * @param badgeId Badge id.
+ */
+export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
+  method: 'get' as const,
+  path: '/v1/users/:userId/badges/:badgeId/awarded-date',
+  baseUrl: 'https://badges.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    badgeId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+    badgeId: z.number().int(),
+  },
+  response: z.void(),
+  errors: [
+    {
+      status: 404,
+      description: `4: User is invalid or does not exist.`,
+    },
+  ],
+});
+/**
  * @api GET https://badges.roblox.com/v1/users/:userId/badges/awarded-dates
  * @summary Gets timestamps for when badges were awarded to a user.
  * @param userId The user Id.

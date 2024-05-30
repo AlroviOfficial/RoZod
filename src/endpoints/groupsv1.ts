@@ -138,6 +138,7 @@ const Roblox_Groups_Api_GroupMembershipMetadataResponse = z
     areGroupFundsVisible: z.boolean(),
     areEnemiesAllowed: z.boolean(),
     canConfigure: z.boolean(),
+    isNotificationsEnabled: z.boolean(),
   })
   .passthrough();
 const Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem = z
@@ -449,6 +450,7 @@ const Roblox_Groups_Api_GroupMembershipDetailResponse = z
     group: Roblox_Groups_Api_GroupDetailResponse,
     role: Roblox_Groups_Api_GroupRoleResponse,
     isPrimaryGroup: z.boolean(),
+    isNotificationsEnabled: z.boolean(),
   })
   .passthrough();
 const Roblox_Groups_Api_UserGroupMembershipResponse = z
@@ -507,6 +509,9 @@ const Roblox_Groups_Api_UpdateGroupDescriptionRequest = z.object({ description: 
 const Roblox_Groups_Api_GroupDescriptionResponse = z.object({ newDescription: z.string() }).passthrough();
 const Roblox_Groups_Api_UpdateGroupNameRequest = z.object({ name: z.string() }).passthrough();
 const Roblox_Groups_Api_UpdateGroupNameResponse = z.object({ newName: z.string() }).passthrough();
+const Roblox_Groups_Api_UpdateGroupNotificationPreferenceRequest = z
+  .object({ notificationsEnabled: z.boolean() })
+  .passthrough();
 const Roblox_Groups_Api_Models_Request_UpdateRoleSetRequest = z
   .object({ name: z.string(), description: z.string(), rank: z.number().int() })
   .passthrough();
@@ -784,7 +789,7 @@ export const patchGroupsGroupidDescription = endpoint({
  * @param groupId The group id.
  * @param limit The number of results per request.
  * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder Sorted by group join request creation date
+ * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidJoinRequests = endpoint({
   method: 'get' as const,
@@ -1033,7 +1038,8 @@ export const deleteGroupsGroupidJoinRequestsUsersUserid = endpoint({
   errors: [
     {
       status: 400,
-      description: `3: The user is invalid or does not exist.`,
+      description: `1: The group is invalid or does not exist.
+3: The user is invalid or does not exist.`,
     },
     {
       status: 401,
@@ -1050,6 +1056,7 @@ export const deleteGroupsGroupidJoinRequestsUsersUserid = endpoint({
  * @api GET https://groups.roblox.com/v1/groups/:groupId/membership
  * @summary Gets group membership information in the context of the authenticated user
  * @param groupId The group Id.
+ * @param includeNotificationPreferences
  */
 export const getGroupsGroupidMembership = endpoint({
   method: 'get' as const,
@@ -1060,9 +1067,14 @@ export const getGroupsGroupidMembership = endpoint({
     groupId: {
       style: 'simple',
     },
+    includeNotificationPreferences: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     groupId: z.number().int(),
+    includeNotificationPreferences: z.boolean(),
   },
   response: Roblox_Groups_Api_GroupMembershipMetadataResponse,
   errors: [
@@ -1179,6 +1191,43 @@ export const getGroupsGroupidNameHistory = endpoint({
     {
       status: 403,
       description: `23: Insufficient permissions to complete the request.`,
+    },
+  ],
+});
+/**
+ * @api PATCH https://groups.roblox.com/v1/groups/:groupId/notification-preference
+ * @summary Updates the group's settings
+ * @param body Roblox.Groups.Api.UpdateGroupSettingsRequest
+ * @param groupId The id of the group the user is in.
+ */
+export const patchGroupsGroupidNotificationPreference = endpoint({
+  method: 'patch' as const,
+  path: '/v1/groups/:groupId/notification-preference',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json' as const,
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+  },
+  body: z.object({ notificationsEnabled: z.boolean() }).passthrough(),
+  response: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  errors: [
+    {
+      status: 400,
+      description: `1: Group is invalid or does not exist.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
     },
   ],
 });
@@ -2472,7 +2521,6 @@ export const postGroupsGroupidUsers = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-5: You must pass the captcha test before joining this group.
 6: You are already in the maximum number of groups.
 9: You do not have the builders club membership necessary to join this group.
 14: You cannot join a closed group.`,
@@ -2675,8 +2723,7 @@ export const postGroupsGroupidWallPosts = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-2: You do not have permission to access this group wall.
-7: Captcha must be solved.`,
+2: You do not have permission to access this group wall.`,
     },
     {
       status: 429,
@@ -3183,7 +3230,7 @@ export const getUsersUseridFriendsGroupsRoles = endpoint({
       description: `3: The user is invalid or does not exist.`,
     },
     {
-      status: 401,
+      status: 403,
       description: `3: The user is invalid or does not exist.`,
     },
   ],
@@ -3219,6 +3266,7 @@ export const getUsersUseridGroupsPrimaryRole = endpoint({
  * @summary Gets a list of all group roles for groups the specified user is in.
  * @param userId The user id.
  * @param includeLocked
+ * @param includeNotificationPreferences
  */
 export const getUsersUseridGroupsRoles = endpoint({
   method: 'get' as const,
@@ -3233,10 +3281,15 @@ export const getUsersUseridGroupsRoles = endpoint({
       style: 'form',
       explode: true,
     },
+    includeNotificationPreferences: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userId: z.number().int(),
     includeLocked: z.boolean(),
+    includeNotificationPreferences: z.boolean(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipDetailResponse_,
   errors: [

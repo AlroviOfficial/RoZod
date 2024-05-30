@@ -82,6 +82,7 @@ const Roblox_Groups_Api_GroupMembershipResponse = z
   .object({
     group: Roblox_Web_Responses_Groups_GroupBasicResponse,
     role: Roblox_Web_Responses_Groups_GroupRoleBasicResponse,
+    isNotificationsEnabled: z.boolean(),
   })
   .passthrough();
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_ = z
@@ -202,8 +203,7 @@ export const postGroupsGroupidWallPosts = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-2: You do not have permission to access this group wall.
-7: Captcha must be solved.`,
+2: You do not have permission to access this group wall.`,
     },
     {
       status: 429,
@@ -216,6 +216,7 @@ export const postGroupsGroupidWallPosts = endpoint({
  * @summary Gets a list of all group roles for groups the specified user is in.
  * @param userId The user id.
  * @param includeLocked
+ * @param includeNotificationPreferences
  */
 export const getUsersUseridGroupsRoles = endpoint({
   method: 'get' as const,
@@ -230,10 +231,15 @@ export const getUsersUseridGroupsRoles = endpoint({
       style: 'form',
       explode: true,
     },
+    includeNotificationPreferences: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userId: z.number().int(),
     includeLocked: z.boolean(),
+    includeNotificationPreferences: z.boolean(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_,
   errors: [

@@ -22,10 +22,22 @@ const Roblox_Api_Avatar_Models_BodyColorsModel = z
   })
   .passthrough();
 const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({ id: z.number().int(), name: z.string() }).passthrough();
+const Roblox_Avatarcore_Shared_V3Beta1_AssetPosition = z
+  .object({ X: z.number(), Y: z.number(), Z: z.number() })
+  .passthrough();
+const Roblox_Avatarcore_Shared_V3Beta1_AssetRotation = z
+  .object({ X: z.number(), Y: z.number(), Z: z.number() })
+  .passthrough();
+const Roblox_Avatarcore_Shared_V3Beta1_AssetScale = z
+  .object({ Scale: z.number(), X: z.number(), Y: z.number(), Z: z.number() })
+  .passthrough();
 const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z
   .object({
     order: z.number().int(),
     puffiness: z.number(),
+    position: Roblox_Avatarcore_Shared_V3Beta1_AssetPosition,
+    rotation: Roblox_Avatarcore_Shared_V3Beta1_AssetRotation,
+    scale: Roblox_Avatarcore_Shared_V3Beta1_AssetScale,
     version: z.number().int(),
   })
   .passthrough();
@@ -56,27 +68,6 @@ const Roblox_Api_Avatar_Models_AvatarModelV2 = z
     emotes: z.array(Roblox_Api_Avatar_Models_EmoteResponseModel),
   })
   .passthrough();
-const Roblox_Api_Avatar_Models_AvatarMetadataModel = z
-  .object({
-    enableDefaultClothingMessage: z.boolean(),
-    isAvatarScaleEmbeddedInTab: z.boolean(),
-    isBodyTypeScaleOutOfTab: z.boolean(),
-    scaleHeightIncrement: z.number(),
-    scaleWidthIncrement: z.number(),
-    scaleHeadIncrement: z.number(),
-    scaleProportionIncrement: z.number(),
-    scaleBodyTypeIncrement: z.number(),
-    supportProportionAndBodyType: z.boolean(),
-    showDefaultClothingMessageOnPageLoad: z.boolean(),
-    areThreeDeeThumbsEnabled: z.boolean(),
-    isAvatarWearingApiCallsLockingOnFrontendEnabled: z.boolean(),
-    isOutfitHandlingOnFrontendEnabled: z.boolean(),
-    isJustinUiChangesEnabled: z.boolean(),
-    isCategoryReorgEnabled: z.boolean(),
-    LCEnabledInEditorAndCatalog: z.boolean(),
-    isLCCompletelyEnabled: z.boolean(),
-  })
-  .passthrough();
 const Roblox_Api_Avatar_Models_ScaleRulesModel = z
   .object({ min: z.number(), max: z.number(), increment: z.number() })
   .passthrough();
@@ -85,6 +76,109 @@ const Roblox_Api_Avatar_Models_AssetTypeRulesModel = z
     maxNumber: z.number().int(),
     id: z.number().int(),
     name: z.string(),
+  })
+  .passthrough();
+const Roblox_Avatarcore_Common_Models_AccessoryPositionModel = z
+  .object({
+    xPosition: z.number(),
+    yPosition: z.number(),
+    zPosition: z.number(),
+  })
+  .passthrough();
+const Roblox_Avatarcore_Common_Models_AccessoryRotationModel = z
+  .object({
+    xRotation: z.number(),
+    yRotation: z.number(),
+    zRotation: z.number(),
+  })
+  .passthrough();
+const Roblox_Avatarcore_Common_Models_AccessoryScaleModel = z
+  .object({ xScale: z.number(), yScale: z.number(), zScale: z.number() })
+  .passthrough();
+const Roblox_Avatarcore_Common_Models_AccessoryRefinementModel = z
+  .object({
+    position: Roblox_Avatarcore_Common_Models_AccessoryPositionModel,
+    rotation: Roblox_Avatarcore_Common_Models_AccessoryRotationModel,
+    scale: Roblox_Avatarcore_Common_Models_AccessoryScaleModel,
+  })
+  .passthrough();
+const Roblox_Api_Avatar_Models_AvatarRulesModel_accessoryRefinementLowerBounds = z
+  .object({
+    Image: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    TShirt: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Audio: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Mesh: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Lua: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    HTML: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Text: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Hat: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Place: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Model: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Shirt: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Pants: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Decal: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Avatar: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Head: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Face: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Gear: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Badge: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    GroupEmblem: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Animation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Arms: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Legs: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Torso: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    RightArm: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    LeftArm: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    LeftLeg: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    RightLeg: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Package: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    YouTubeVideo: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    GamePass: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    App: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Code: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Plugin: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    SolidModel: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    MeshPart: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    HairAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    FaceAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    NeckAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    ShoulderAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    FrontAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    BackAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    WaistAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    ClimbAnimation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    DeathAnimation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    FallAnimation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    IdleAnimation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    JumpAnimation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    RunAnimation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    SwimAnimation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    WalkAnimation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    PoseAnimation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    LocalizationTableManifest: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    LocalizationTableTranslation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    EmoteAnimation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    Video: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    TexturePack: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    TShirtAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    ShirtAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    PantsAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    JacketAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    SweaterAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    ShortsAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    LeftShoeAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    RightShoeAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    DressSkirtAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    FontFamily: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    FontFace: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    MeshHiddenSurfaceRemoval: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    EyebrowAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    EyelashAccessory: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    MoodAnimation: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    DynamicHead: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    CodeSnippet: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    AdsVideo: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
+    OtaUpdate: Roblox_Avatarcore_Common_Models_AccessoryRefinementModel,
   })
   .passthrough();
 const Roblox_Api_Avatar_Models_BodyColorModel = z
@@ -105,6 +199,87 @@ const Roblox_Api_Avatar_Models_AvatarRulesModel = z
     playerAvatarTypes: z.array(z.union([z.literal(1), z.literal(3)])),
     scales: z.record(Roblox_Api_Avatar_Models_ScaleRulesModel),
     wearableAssetTypes: z.array(Roblox_Api_Avatar_Models_AssetTypeRulesModel),
+    accessoryRefinementTypes: z.array(
+      z.union([
+        z.literal(1),
+        z.literal(2),
+        z.literal(3),
+        z.literal(4),
+        z.literal(5),
+        z.literal(6),
+        z.literal(7),
+        z.literal(8),
+        z.literal(9),
+        z.literal(10),
+        z.literal(11),
+        z.literal(12),
+        z.literal(13),
+        z.literal(16),
+        z.literal(17),
+        z.literal(18),
+        z.literal(19),
+        z.literal(21),
+        z.literal(22),
+        z.literal(24),
+        z.literal(25),
+        z.literal(26),
+        z.literal(27),
+        z.literal(28),
+        z.literal(29),
+        z.literal(30),
+        z.literal(31),
+        z.literal(32),
+        z.literal(33),
+        z.literal(34),
+        z.literal(35),
+        z.literal(37),
+        z.literal(38),
+        z.literal(39),
+        z.literal(40),
+        z.literal(41),
+        z.literal(42),
+        z.literal(43),
+        z.literal(44),
+        z.literal(45),
+        z.literal(46),
+        z.literal(47),
+        z.literal(48),
+        z.literal(49),
+        z.literal(50),
+        z.literal(51),
+        z.literal(52),
+        z.literal(53),
+        z.literal(54),
+        z.literal(55),
+        z.literal(56),
+        z.literal(59),
+        z.literal(60),
+        z.literal(61),
+        z.literal(62),
+        z.literal(63),
+        z.literal(64),
+        z.literal(65),
+        z.literal(66),
+        z.literal(67),
+        z.literal(68),
+        z.literal(69),
+        z.literal(70),
+        z.literal(71),
+        z.literal(72),
+        z.literal(73),
+        z.literal(74),
+        z.literal(75),
+        z.literal(76),
+        z.literal(77),
+        z.literal(78),
+        z.literal(79),
+        z.literal(80),
+        z.literal(81),
+        z.literal(82),
+      ]),
+    ),
+    accessoryRefinementLowerBounds: Roblox_Api_Avatar_Models_AvatarRulesModel_accessoryRefinementLowerBounds,
+    accessoryRefinementUpperBounds: z.unknown(),
     bodyColorsPalette: z.array(Roblox_Api_Avatar_Models_BodyColorModel),
     basicBodyColorsPalette: z.array(Roblox_Api_Avatar_Models_BodyColorModel),
     minimumDeltaEBodyColorDifference: z.number(),
@@ -112,6 +287,27 @@ const Roblox_Api_Avatar_Models_AvatarRulesModel = z
     defaultClothingAssetLists: Roblox_Api_Avatar_Models_DefaultClothingAssets,
     bundlesEnabledForUser: z.boolean(),
     emotesEnabledForUser: z.boolean(),
+  })
+  .passthrough();
+const Roblox_Api_Avatar_Models_AvatarMetadataModel = z
+  .object({
+    enableDefaultClothingMessage: z.boolean(),
+    isAvatarScaleEmbeddedInTab: z.boolean(),
+    isBodyTypeScaleOutOfTab: z.boolean(),
+    scaleHeightIncrement: z.number(),
+    scaleWidthIncrement: z.number(),
+    scaleHeadIncrement: z.number(),
+    scaleProportionIncrement: z.number(),
+    scaleBodyTypeIncrement: z.number(),
+    supportProportionAndBodyType: z.boolean(),
+    showDefaultClothingMessageOnPageLoad: z.boolean(),
+    areThreeDeeThumbsEnabled: z.boolean(),
+    isAvatarWearingApiCallsLockingOnFrontendEnabled: z.boolean(),
+    isOutfitHandlingOnFrontendEnabled: z.boolean(),
+    isJustinUiChangesEnabled: z.boolean(),
+    isCategoryReorgEnabled: z.boolean(),
+    LCEnabledInEditorAndCatalog: z.boolean(),
+    isLCCompletelyEnabled: z.boolean(),
   })
   .passthrough();
 const Roblox_Api_Avatar_Models_UniverseAvatarAssetOverrideResponseModel = z

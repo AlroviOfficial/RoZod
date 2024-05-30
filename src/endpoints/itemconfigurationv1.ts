@@ -52,6 +52,7 @@ const Roblox_ItemConfiguration_Api_PriceConfigurationModel = z
     priceInRobux: z.number().int(),
     premiumDiscountPercentage: z.number().int(),
     premiumPriceInRobux: z.number().int(),
+    priceOffset: z.number().int(),
   })
   .passthrough();
 const Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel = z
@@ -181,7 +182,8 @@ export const getCreationsGetAssets = endpoint({
   errors: [
     {
       status: 400,
-      description: `5: Invalid assetType`,
+      description: `5: Invalid assetType
+10: Invalid Asset Category`,
     },
     {
       status: 401,

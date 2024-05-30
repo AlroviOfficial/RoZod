@@ -50,53 +50,6 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_Univers
     data: z.array(Roblox_Api_Develop_Models_UniverseModel),
   })
   .passthrough();
-const Roblox_Api_Develop_Models_PlaceCompatibilityModel = z
-  .object({
-    status: z.union([z.literal(0), z.literal(1), z.literal(2)]),
-    platformName: z.string(),
-    crashRatePercentage: z.number(),
-  })
-  .passthrough();
-const Roblox_Api_Develop_Models_Response_PlaceCompatibilitiesResponse = z
-  .object({
-    Compatibilities: z.array(Roblox_Api_Develop_Models_PlaceCompatibilityModel),
-  })
-  .passthrough();
-const Roblox_Api_Develop_Models_Response_StatisticsRange = z
-  .object({ type: z.string(), data: z.record(z.number()) })
-  .passthrough();
-const Roblox_Api_Develop_Models_StatisticsResponse = z
-  .object({
-    placeId: z.number().int(),
-    dataType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    dataGranularity: z.union([z.literal(0), z.literal(1), z.literal(2)]),
-    startTime: z.string().datetime({ offset: true }),
-    endTime: z.string().datetime({ offset: true }),
-    data: z.record(Roblox_Api_Develop_Models_Response_StatisticsRange),
-  })
-  .passthrough();
-const Roblox_Api_Develop_Models_DeveloperProductRevenue = z
-  .object({ developerProductName: z.string(), revenueAmount: z.number().int() })
-  .passthrough();
-const Roblox_Api_Develop_Models_DeveloperProductAggregationResponse_developerProductRevenueByDevice = z
-  .object({
-    Computer: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    Phone: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    Tablet: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    Console: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    VR: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-  })
-  .passthrough();
-const Roblox_Api_Develop_Models_DeveloperProductAggregationResponse = z
-  .object({
-    allDevicesDeveloperProductRevenue: z.array(Roblox_Api_Develop_Models_DeveloperProductRevenue),
-    developerProductRevenueByDevice:
-      Roblox_Api_Develop_Models_DeveloperProductAggregationResponse_developerProductRevenueByDevice,
-  })
-  .passthrough();
-const Roblox_Api_Develop_Models_Response_StatisticsAgeDataResponse = z
-  .object({ isAgeDataAvailable: z.boolean() })
-  .passthrough();
 const Roblox_Web_Responses_Users_SkinnyUserResponse = z
   .object({ id: z.number().int(), name: z.string(), displayName: z.string() })
   .passthrough();
@@ -117,16 +70,11 @@ const Roblox_Web_Responses_Plugins_PluginResponse = z
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Plugins_PluginResponse_ = z
   .object({ data: z.array(Roblox_Web_Responses_Plugins_PluginResponse) })
   .passthrough();
-const Roblox_Api_Develop_Models_DevStatsCreatorDashboardMetadataResponse = z
-  .object({
-    isPlayFabDataSourceChartsEnabled: z.boolean(),
-    playFabDataSourceChartsAvailableByKPITypes: z.array(z.string()),
-  })
-  .passthrough();
 const Roblox_Api_Develop_Models_UniverseSettingsResponse = z
   .object({
     allowPrivateServers: z.boolean(),
     privateServerPrice: z.number().int(),
+    isMeshTextureApiAccessAllowed: z.boolean(),
     id: z.number().int(),
     name: z.string(),
     universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
@@ -192,6 +140,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequest = z
     playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
     isForSale: z.boolean(),
     price: z.number().int(),
+    isMeshTextureApiAccessAllowed: z.boolean(),
   })
   .passthrough();
 const Roblox_Api_Develop_Models_PrivateServerDetailsResponse = z
@@ -200,13 +149,6 @@ const Roblox_Api_Develop_Models_PrivateServerDetailsResponse = z
     price: z.number().int(),
     activeServersCount: z.number().int(),
     activeSubscriptionsCount: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Api_Develop_Models_LiveStatsResponseModel = z
-  .object({
-    totalPlayerCount: z.number().int(),
-    playerCountsByDeviceType: z.record(z.number().int()),
-    gameCount: z.number().int(),
   })
   .passthrough();
 const Roblox_Api_Develop_Models_UniversePermissionsModel = z
@@ -225,22 +167,6 @@ const Roblox_Api_Develop_Models_Response_TeamCreateSettingsResponse = z
   .passthrough();
 const Roblox_Api_Develop_Models_UpdateTeamCreateSettingsRequest = z.object({ isEnabled: z.boolean() }).passthrough();
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
-const Roblox_Api_Develop_Models_UserResponse = z
-  .object({
-    buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-    userId: z.number().int(),
-    username: z.string(),
-    displayName: z.string(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UserResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Api_Develop_Models_UserResponse),
-  })
-  .passthrough();
-const Roblox_Api_Develop_Models_TeamCreateMembershipRequest = z.object({ userId: z.number().int() }).passthrough();
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseModel_ = z
   .object({ data: z.array(Roblox_Api_Develop_Models_UniverseModel) })
   .passthrough();
@@ -293,6 +219,7 @@ const Roblox_Develop_Api_UpdatePluginRequest = z
     commentsEnabled: z.boolean(),
   })
   .passthrough();
+const Roblox_Api_Develop_Models_TeamCreateMembershipRequest = z.object({ userId: z.number().int() }).passthrough();
 
 /**
  * @api GET https://develop.roblox.com/v1/assets/voting
@@ -461,245 +388,6 @@ export const patchPlacesPlaceid = endpoint({
   ],
 });
 /**
- * @api GET https://develop.roblox.com/v1/places/:placeId/compatibilities
- * @summary Gets compatibility of place with different platforms placeId
- * @param placeId The place id for the place to be updated.
- */
-export const getPlacesPlaceidCompatibilities = endpoint({
-  method: 'get' as const,
-  path: '/v1/places/:placeId/compatibilities',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    placeId: z.number().int(),
-  },
-  response: Roblox_Api_Develop_Models_Response_PlaceCompatibilitiesResponse,
-  errors: [
-    {
-      status: 400,
-      description: `placeId is invalid.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `Authenticated user is not authorized to manage this place.`,
-    },
-  ],
-});
-/**
- * @api GET https://develop.roblox.com/v1/places/:placeId/stats/:type
- * @summary Get statistics data for a place.
- * @param placeId The place id.
- * @param type The data type.
- * @param granularity The Roblox.Api.Develop.Models.StatisticsDataGranularity.
- * @param divisionType Optional division type for the data.
- * @param startTime Optional time of first sample.
- * @param endTime Optional time of last sample.
- */
-export const getPlacesPlaceidStatsType = endpoint({
-  method: 'get' as const,
-  path: '/v1/places/:placeId/stats/:type',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
-    type: {
-      style: 'simple',
-    },
-    granularity: {
-      style: 'form',
-      explode: true,
-    },
-    divisionType: {
-      style: 'form',
-      explode: true,
-    },
-    startTime: {
-      style: 'form',
-      explode: true,
-    },
-    endTime: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    placeId: z.number().int(),
-    type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    granularity: z.union([z.literal(0), z.literal(1), z.literal(2)]),
-    divisionType: z.union([z.literal(0), z.literal(1)]).optional(),
-    startTime: z.string().datetime({ offset: true }).optional(),
-    endTime: z.string().datetime({ offset: true }).optional(),
-  },
-  response: Roblox_Api_Develop_Models_StatisticsResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `2: Not authorized to perform this action.`,
-    },
-    {
-      status: 404,
-      description: `1: The place is invalid.
-3: Too many data points requested.
-4: The requested data type is not known.`,
-    },
-  ],
-});
-/**
- * @api GET https://develop.roblox.com/v1/places/:placeId/stats/:type/legacy/flot
- * @summary Get statistics data for a place in a certain format.
-DO NOT USE THIS ENDPOINT. It may be removed at any time. Use GetStatistics instead.
- * @param placeId The place id.
- * @param type The data type.
- * @param timeFrame The Roblox.Api.Develop.Models.StatisticsDataGranularity.
- * @param divisionType Optional division type for the data.
- * @param startTime Optional time of first sample.
- * @param endTime Optional time of last sample.
- */
-export const getPlacesPlaceidStatsTypeLegacyFlot = endpoint({
-  method: 'get' as const,
-  path: '/v1/places/:placeId/stats/:type/legacy/flot',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
-    type: {
-      style: 'simple',
-    },
-    timeFrame: {
-      style: 'form',
-      explode: true,
-    },
-    divisionType: {
-      style: 'form',
-      explode: true,
-    },
-    startTime: {
-      style: 'form',
-      explode: true,
-    },
-    endTime: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    placeId: z.number().int(),
-    type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    timeFrame: z.union([z.literal(0), z.literal(1), z.literal(2)]),
-    divisionType: z.union([z.literal(0), z.literal(1)]).optional(),
-    startTime: z.string().datetime({ offset: true }).optional(),
-    endTime: z.string().datetime({ offset: true }).optional(),
-  },
-  response: z.object({}).passthrough(),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `2: Not authorized to perform this action.`,
-    },
-    {
-      status: 404,
-      description: `1: The place is invalid.
-3: Too many data points requested.
-4: The requested data type is not known.`,
-    },
-  ],
-});
-/**
- * @api GET https://develop.roblox.com/v1/places/:placeId/stats/developer-product-aggregation
- * @summary An endpoint that returns whether the age data is available for a place.
- * @param placeId The place Id.
- * @param timeFrame The Roblox.Api.Develop.Models.StatisticsDataGranularity.
- */
-export const getPlacesPlaceidStatsDeveloperProductAggregation = endpoint({
-  method: 'get' as const,
-  path: '/v1/places/:placeId/stats/developer-product-aggregation',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
-    timeFrame: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    placeId: z.number().int(),
-    timeFrame: z.union([z.literal(0), z.literal(1), z.literal(2)]),
-  },
-  response: Roblox_Api_Develop_Models_DeveloperProductAggregationResponse,
-  errors: [
-    {
-      status: 400,
-      description: `1: The place is invalid.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `2: Not authorized to perform this action.`,
-    },
-  ],
-});
-/**
- * @api GET https://develop.roblox.com/v1/places/:placeId/stats/is-age-data-available
- * @summary An endpoint that returns whether the age data is available for a place.
- * @param placeId The place Id.
- */
-export const getPlacesPlaceidStatsIsAgeDataAvailable = endpoint({
-  method: 'get' as const,
-  path: '/v1/places/:placeId/stats/is-age-data-available',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    placeId: z.number().int(),
-  },
-  response: z.object({ isAgeDataAvailable: z.boolean() }).passthrough(),
-  errors: [
-    {
-      status: 400,
-      description: `1: The place is invalid.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `2: Not authorized to perform this action.`,
-    },
-  ],
-});
-/**
  * @api GET https://develop.roblox.com/v1/places/:placeId/teamcreate/active_session/members
  * @summary List of users in the active Team Create session
  * @param placeId The place Id.
@@ -827,22 +515,6 @@ export const patchPluginsPluginid = endpoint({
     {
       status: 404,
       description: `3: The id is invalid.`,
-    },
-  ],
-});
-/**
- * @api GET https://develop.roblox.com/v1/stats/creator-dashboard-metadata
- */
-export const getStatsCreatorDashboardMetadata = endpoint({
-  method: 'get' as const,
-  path: '/v1/stats/creator-dashboard-metadata',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json' as const,
-  response: Roblox_Api_Develop_Models_DevStatsCreatorDashboardMetadataResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
     },
   ],
 });
@@ -1124,7 +796,6 @@ export const patchUniversesUniverseidConfiguration = endpoint({
 10: Invalid UniverseBodyType.
 11: Invalid UniverseJointPositioningType.
 12: The universe has no root place.
-13: At least one playable device must be provided.
 15: Price is required when isForSale is true.
 16: This game cannot be offered for sale because it is not public.
 17: This game cannot be offered for sale because it has private servers enabled.
@@ -1219,40 +890,6 @@ export const postUniversesUniverseidDeactivate = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 3: You are not authorized to configure this universe.`,
-    },
-  ],
-});
-/**
- * @api GET https://develop.roblox.com/v1/universes/:universeId/live-stats
- * @param universeId
- */
-export const getUniversesUniverseidLiveStats = endpoint({
-  method: 'get' as const,
-  path: '/v1/universes/:universeId/live-stats',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    universeId: z.number().int(),
-  },
-  response: Roblox_Api_Develop_Models_LiveStatsResponseModel,
-  errors: [
-    {
-      status: 400,
-      description: `1: The universe does not exist.
-2: This universe does not have a root place.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `3: You are not authorized to configure this universe.`,
     },
   ],
 });
@@ -1404,61 +1041,6 @@ export const patchUniversesUniverseidTeamcreate = endpoint({
       status: 403,
       description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.Unauthorized
 0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api GET https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
- * @summary List of users allowed to TeamCreate a universe.
- * @param universeId The universe Id.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder TeamCreate membership grant date
- */
-export const getUniversesUniverseidTeamcreateMemberships = endpoint({
-  method: 'get' as const,
-  path: '/v1/universes/:universeId/teamcreate/memberships',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    universeId: z.number().int(),
-    limit: z
-      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
-      .optional()
-      .default(10),
-    cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
-  },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UserResponse_,
-  errors: [
-    {
-      status: 400,
-      description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.InvalidUniverse`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `Roblox.Api.Develop.ResponseEnums.TeamCreateErrors.TeamCreateDisabled`,
     },
   ],
 });
@@ -1646,48 +1228,6 @@ export const getUserGroupsCanmanagegamesoritems = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json' as const,
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GroupModel_,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api GET https://develop.roblox.com/v1/user/teamcreate/memberships
- * @summary List of universes the authenticated user has permission to TeamCreate.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder TeamCreate membership grant date
- */
-export const getUserTeamcreateMemberships = endpoint({
-  method: 'get' as const,
-  path: '/v1/user/teamcreate/memberships',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    limit: z
-      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
-      .optional()
-      .default(10),
-    cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
-  },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UniverseModel_,
   errors: [
     {
       status: 401,

@@ -321,6 +321,7 @@ export const postEmail = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 1: PIN is locked.
+2: This feature is currently disabled. Please try again later.
 3: There are too many accounts associated with this email address.
 11: You must be on the Corporate network to log in.`,
     },
@@ -369,6 +370,7 @@ export const patchEmail = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 1: PIN is locked.
+2: This feature is currently disabled. Please try again later.
 3: There are too many accounts associated with this email address.
 11: You must be on the Corporate network to log in.`,
     },
@@ -416,6 +418,7 @@ export const postEmailVerify = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 1: PIN is locked.
+2: This feature is currently disabled. Please try again later.
 11: You must be on the Corporate network to log in.`,
     },
     {

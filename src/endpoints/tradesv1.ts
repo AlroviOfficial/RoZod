@@ -373,7 +373,8 @@ export const getTradesTradestatustypeCount = endpoint({
 });
 /**
  * @api POST https://trades.roblox.com/v1/trades/expire-outdated
- * @summary Expires Outdated Inbound Trades for User
+ * @summary Deprecated. TradeSession are automatically set to expire while the inbound/outbound trades are fetched.
+Expires Outdated Inbound Trades for User
  */
 export const postTradesExpireOutdated = endpoint({
   method: 'post' as const,

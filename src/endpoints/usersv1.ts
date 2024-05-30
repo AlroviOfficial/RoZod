@@ -249,7 +249,8 @@ export const getDisplayNamesValidate = endpoint({
 2: Display name is too long
 3: Display name contains invalid characters
 4: Display name has been moderated
-6: Request must contain a birthdate`,
+6: Request must contain a birthdate
+8: Display name has too many combinations of character sets`,
     },
     {
       status: 429,
@@ -418,7 +419,8 @@ export const patchUsersUseridDisplayNames = endpoint({
       description: `1: Display name is too short
 2: Display name is too long
 3: Display name contains invalid characters
-4: Display name has been moderated`,
+4: Display name has been moderated
+8: Display name has too many combinations of character sets`,
     },
     {
       status: 401,
@@ -466,7 +468,8 @@ export const getUsersUseridDisplayNamesValidate = endpoint({
       description: `1: Display name is too short
 2: Display name is too long
 3: Display name contains invalid characters
-4: Display name has been moderated`,
+4: Display name has been moderated
+8: Display name has too many combinations of character sets`,
     },
     {
       status: 401,

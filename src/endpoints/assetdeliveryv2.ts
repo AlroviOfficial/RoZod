@@ -6,7 +6,26 @@ const Roblox_Web_Assets_IAssetItemError = z
   .object({
     Code: z.number().int(),
     Message: z.string(),
-    CustomErrorCode: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    CustomErrorCode: z.union([
+      z.literal(0),
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+      z.literal(5),
+      z.literal(6),
+      z.literal(7),
+      z.literal(8),
+      z.literal(9),
+      z.literal(10),
+    ]),
+  })
+  .passthrough();
+const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z
+  .object({
+    format: z.string(),
+    majorVersion: z.string(),
+    fidelity: z.string(),
   })
   .passthrough();
 const Roblox_Web_Assets_IAssetResponseItemV2 = z
@@ -18,6 +37,7 @@ const Roblox_Web_Assets_IAssetResponseItemV2 = z
     IsCopyrightProtected: z.boolean(),
     IsArchived: z.boolean(),
     AssetTypeId: z.number().int(),
+    ContentRepresentationSpecifier: Roblox_Web_Assets_AssetContentRepresentationSpecifier,
   })
   .passthrough();
 const Roblox_Web_Assets_IAssetResponseItem = z
@@ -28,6 +48,7 @@ const Roblox_Web_Assets_IAssetResponseItem = z
     IsHashDynamic: z.boolean(),
     IsCopyrightProtected: z.boolean(),
     IsArchived: z.boolean(),
+    ContentRepresentationSpecifier: Roblox_Web_Assets_AssetContentRepresentationSpecifier,
   })
   .passthrough();
 const Roblox_Web_Assets_BatchAssetRequestItem = z
@@ -50,6 +71,8 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z
     modulePlaceId: z.number().int(),
     assetFormat: z.string(),
     'roblox-assetFormat': z.string(),
+    contentRepresentationPriorityList: z.string(),
+    doNotFallbackToBaselineRepresentation: z.boolean(),
   })
   .passthrough();
 
@@ -163,6 +186,8 @@ export const getAliasAlias = endpoint({
  * @param expectedAssetType
  * @param skipSigningScripts
  * @param permissionContext
+ * @param doNotFallbackToBaselineRepresentation
+ * @param contentRepresentationPriorityList
  */
 export const getAsset = endpoint({
   method: 'get' as const,
@@ -252,6 +277,14 @@ export const getAsset = endpoint({
       style: 'form',
       explode: true,
     },
+    doNotFallbackToBaselineRepresentation: {
+      style: 'form',
+      explode: true,
+    },
+    contentRepresentationPriorityList: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     'Accept-Encoding': z.string(),
@@ -276,6 +309,8 @@ export const getAsset = endpoint({
     expectedAssetType: z.string().optional(),
     skipSigningScripts: z.boolean().optional(),
     permissionContext: z.string().optional(),
+    doNotFallbackToBaselineRepresentation: z.boolean().optional(),
+    contentRepresentationPriorityList: z.string().optional(),
   },
   response: Roblox_Web_Assets_IAssetResponseItemV2,
   errors: [],
@@ -381,6 +416,8 @@ export const getAssethashHash = endpoint({
  * @param modulePlaceId
  * @param serverplaceid
  * @param expectedAssetType
+ * @param doNotFallbackToBaselineRepresentation
+ * @param contentRepresentationPriorityList
  */
 export const getAssetidAssetid = endpoint({
   method: 'get' as const,
@@ -433,6 +470,14 @@ export const getAssetidAssetid = endpoint({
       style: 'form',
       explode: true,
     },
+    doNotFallbackToBaselineRepresentation: {
+      style: 'form',
+      explode: true,
+    },
+    contentRepresentationPriorityList: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     assetId: z.number().int(),
@@ -448,6 +493,8 @@ export const getAssetidAssetid = endpoint({
     modulePlaceId: z.number().int().optional(),
     serverplaceid: z.number().int().optional(),
     expectedAssetType: z.string().optional(),
+    doNotFallbackToBaselineRepresentation: z.boolean().optional(),
+    contentRepresentationPriorityList: z.string().optional(),
   },
   response: Roblox_Web_Assets_IAssetResponseItemV2,
   errors: [],
@@ -468,6 +515,8 @@ export const getAssetidAssetid = endpoint({
  * @param modulePlaceId
  * @param serverplaceid
  * @param expectedAssetType
+ * @param doNotFallbackToBaselineRepresentation
+ * @param contentRepresentationPriorityList
  */
 export const getAssetidAssetidVersionVersion = endpoint({
   method: 'get' as const,
@@ -523,6 +572,14 @@ export const getAssetidAssetidVersionVersion = endpoint({
       style: 'form',
       explode: true,
     },
+    doNotFallbackToBaselineRepresentation: {
+      style: 'form',
+      explode: true,
+    },
+    contentRepresentationPriorityList: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     assetId: z.number().int(),
@@ -539,6 +596,8 @@ export const getAssetidAssetidVersionVersion = endpoint({
     modulePlaceId: z.number().int().optional(),
     serverplaceid: z.number().int().optional(),
     expectedAssetType: z.string().optional(),
+    doNotFallbackToBaselineRepresentation: z.boolean().optional(),
+    contentRepresentationPriorityList: z.string().optional(),
   },
   response: Roblox_Web_Assets_IAssetResponseItemV2,
   errors: [],

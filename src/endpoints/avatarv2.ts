@@ -22,10 +22,22 @@ const Roblox_Api_Avatar_Models_BodyColors3Model = z
   })
   .passthrough();
 const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({ id: z.number().int(), name: z.string() }).passthrough();
+const Roblox_Avatarcore_Shared_V3Beta1_AssetPosition = z
+  .object({ X: z.number(), Y: z.number(), Z: z.number() })
+  .passthrough();
+const Roblox_Avatarcore_Shared_V3Beta1_AssetRotation = z
+  .object({ X: z.number(), Y: z.number(), Z: z.number() })
+  .passthrough();
+const Roblox_Avatarcore_Shared_V3Beta1_AssetScale = z
+  .object({ Scale: z.number(), X: z.number(), Y: z.number(), Z: z.number() })
+  .passthrough();
 const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z
   .object({
     order: z.number().int(),
     puffiness: z.number(),
+    position: Roblox_Avatarcore_Shared_V3Beta1_AssetPosition,
+    rotation: Roblox_Avatarcore_Shared_V3Beta1_AssetRotation,
+    scale: Roblox_Avatarcore_Shared_V3Beta1_AssetScale,
     version: z.number().int(),
   })
   .passthrough();
@@ -180,7 +192,8 @@ export const postAvatarSetWearingAssets = endpoint({
     {
       status: 400,
       description: `3: Invalid assetId
-5: Meta does not apply to specified asset type`,
+5: Meta does not apply to specified asset type
+7: Required meta is not provided for the specific asset type`,
     },
     {
       status: 401,
@@ -314,7 +327,8 @@ export const patchOutfitsUseroutfitid = endpoint({
 4: Invalid outfit name
 5: Asset is not wearable by you
 8: Invalid Player Avatar Type. Valid types are R6 and R15
-11: Meta does not apply to specified asset type`,
+11: Meta does not apply to specified asset type
+12: Meta is required for this specific asset type`,
     },
     {
       status: 401,
@@ -405,7 +419,8 @@ export const postOutfitsCreate = endpoint({
 5: Asset is not wearable by you and was not added to the outfit
 7: Invalid Player Avatar Type. Valid types are R6 and R15
 8: Invalid assetIds
-9: Meta does not apply to specified asset type`,
+9: Meta does not apply to specified asset type
+10: Required meta is not provided for the specific asset type`,
     },
     {
       status: 401,

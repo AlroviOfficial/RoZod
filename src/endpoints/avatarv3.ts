@@ -2,10 +2,22 @@ import { z } from 'zod';
 import { endpoint } from '..';
 
 const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({ id: z.number().int(), name: z.string() }).passthrough();
+const Roblox_Avatarcore_Shared_V3Beta1_AssetPosition = z
+  .object({ X: z.number(), Y: z.number(), Z: z.number() })
+  .passthrough();
+const Roblox_Avatarcore_Shared_V3Beta1_AssetRotation = z
+  .object({ X: z.number(), Y: z.number(), Z: z.number() })
+  .passthrough();
+const Roblox_Avatarcore_Shared_V3Beta1_AssetScale = z
+  .object({ Scale: z.number(), X: z.number(), Y: z.number(), Z: z.number() })
+  .passthrough();
 const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z
   .object({
     order: z.number().int(),
     puffiness: z.number(),
+    position: Roblox_Avatarcore_Shared_V3Beta1_AssetPosition,
+    rotation: Roblox_Avatarcore_Shared_V3Beta1_AssetRotation,
+    scale: Roblox_Avatarcore_Shared_V3Beta1_AssetScale,
     version: z.number().int(),
   })
   .passthrough();
@@ -48,6 +60,8 @@ const Roblox_Api_Avatar_Models_OutfitDetailsModelV2 = z
     playerAvatarType: z.string(),
     outfitType: z.string(),
     isEditable: z.boolean(),
+    universeId: z.number().int(),
+    moderationStatus: z.string(),
   })
   .passthrough();
 const Roblox_Platform_Avatar_BodyColorsModelV2 = z
@@ -76,7 +90,6 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV3 = z
     outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   })
   .passthrough();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
 const Roblox_Api_Avatar_Models_OutfitModel = z
   .object({ id: z.number().int(), name: z.string(), isEditable: z.boolean() })
   .passthrough();
@@ -114,7 +127,8 @@ export const patchOutfitsUseroutfitid = endpoint({
 4: Invalid outfit name
 5: Asset is not wearable by you
 8: Invalid Player Avatar Type. Valid types are R6 and R15
-11: Meta does not apply to specified asset type`,
+11: Meta does not apply to specified asset type
+12: Meta is required for this specific asset type`,
     },
     {
       status: 401,
@@ -163,54 +177,6 @@ export const getOutfitsUseroutfitidDetails = endpoint({
   ],
 });
 /**
- * @api POST https://avatar.roblox.com/v3/outfits/:userOutfitId/update
- * @summary Updates the contents of the outfit.
- * @param body The updated outfit
- * @param userOutfitId The user outfit id.
- * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
- */
-export const postOutfitsUseroutfitidUpdate = endpoint({
-  method: 'post' as const,
-  path: '/v3/outfits/:userOutfitId/update',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json' as const,
-  serializationMethod: {
-    body: {},
-    userOutfitId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    userOutfitId: z.number().int(),
-  },
-  body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
-  response: z.object({}).passthrough(),
-  errors: [
-    {
-      status: 400,
-      description: `1: The specified userOutfit does not exist!
-3: Body colors must be valid BrickColor IDs
-4: Invalid outfit name
-5: Asset is not wearable by you
-7: Invalid assetIds
-8: Invalid Player Avatar Type. Valid types are R6 and R15`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-2: You don&#x27;t have permission to update this outfit.`,
-    },
-    {
-      status: 500,
-      description: `6: An error occurred while trying to update the outfit`,
-    },
-  ],
-});
-/**
  * @api POST https://avatar.roblox.com/v3/outfits/create
  * @summary Creates a new outfit.
  * @param body The new outfit
@@ -227,7 +193,7 @@ export const postOutfitsCreate = endpoint({
   },
   parameters: {},
   body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
-  response: z.object({}).passthrough(),
+  response: Roblox_Api_Avatar_Models_OutfitModel,
   errors: [
     {
       status: 400,
@@ -236,7 +202,8 @@ export const postOutfitsCreate = endpoint({
 5: Asset is not wearable by you and was not added to the outfit
 7: Invalid Player Avatar Type. Valid types are R6 and R15
 8: Invalid assetIds
-9: Meta does not apply to specified asset type`,
+9: Meta does not apply to specified asset type
+10: Required meta is not provided for the specific asset type`,
     },
     {
       status: 401,

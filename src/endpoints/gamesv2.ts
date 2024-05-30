@@ -101,6 +101,8 @@ const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_Asse
       z.literal(78),
       z.literal(79),
       z.literal(80),
+      z.literal(81),
+      z.literal(82),
     ]),
     name: z.string(),
   })
