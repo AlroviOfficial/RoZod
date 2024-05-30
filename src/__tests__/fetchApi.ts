@@ -23,9 +23,11 @@ test('fetch game icons', () => {
 
 // Should fail, since no cookie is provided.
 test('fetch group members', () => {
-  fetchApi(getGroupsGroupidMembership, { groupId: 11479637, includeNotificationPreferences: false }).catch((error: Error) => {
-    expect(error.message).toBe('Invalid response data');
-  });
+  fetchApi(getGroupsGroupidMembership, { groupId: 11479637, includeNotificationPreferences: false }).catch(
+    (error: Error) => {
+      expect(error.message).toBe('Invalid response data');
+    },
+  );
 });
 
 test('fetch games favoritedCount', () => {
