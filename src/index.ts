@@ -53,60 +53,14 @@ type InferZodObjectRequired<T extends z.ZodRawShape> = {
 
 type Merge<T, U> = T & U extends object ? { [K in keyof (T & U)]: (T & U)[K] } : T & U;
 
-// Infers the schema of a Zod type.
-type InferSchema<T extends z.ZodType<any>> = T extends z.ZodOptional<infer U>
-  ? InferSchema<U> | undefined
-  : T extends z.ZodUnion<infer U>
-  ? InferSchema<U[number]>
-  : T extends z.ZodNumber
-  ? number
-  : T extends z.ZodBoolean
-  ? boolean
-  : T extends z.ZodString
-  ? string
-  : T extends z.ZodNull
-  ? null
-  : T extends z.ZodUndefined
-  ? undefined
-  : T extends z.ZodAny
-  ? any
-  : T extends z.ZodDate
-  ? Date
-  : T extends z.ZodArray<infer U, any>
-  ? InferSchema<U>[]
-  : T extends z.ZodObject<infer U, any, any>
-  ? Merge<
-      { [K in InferZodObjectRequired<U>]: InferSchema<U[K]> },
-      { [K in InferZodObjectOptional<U>]?: InferSchema<U[K]> }
-    >
-  : T extends z.ZodEnum<infer U>
-  ? U[number]
-  : T extends z.ZodRecord<z.ZodString, infer U>
-  ? { [K in string]: InferSchema<U> }
-  : T extends z.ZodNativeEnum<infer U>
-  ? U
-  : T extends z.ZodPromise<infer U>
-  ? Promise<InferSchema<U>>
-  : T extends z.ZodEffects<infer U, any, any>
-  ? InferSchema<U>
-  : T extends z.ZodTuple<infer U>
-  ? { [K in keyof U]: InferSchema<U[K]> }
-  : T extends z.ZodDefault<infer U>
-  ? InferSchema<U>
-  : T extends z.ZodUnion<infer U>
-  ? InferSchema<U[number]>
-  : T extends z.ZodLiteral<infer U>
-  ? U
-  : never;
-
 type InferNonEmpty<T extends Record<string, z.Schema<any>>> = Merge<
-  { [K in InferZodObjectRequired<T>]: InferSchema<T[K]> },
-  { [K in InferZodObjectOptional<T>]?: InferSchema<T[K]> }
+  { [K in InferZodObjectRequired<T>]: z.infer<T[K]> },
+  { [K in InferZodObjectOptional<T>]?: z.infer<T[K]> }
 >;
 
-const endpoint = <T extends Record<string, z.Schema<any>>, U extends z.ZodType<any>, E extends z.ZodType<any>>(
+const endpoint = <T extends Record<string, z.Schema<any>>, U extends z.ZodTypeAny, E extends z.ZodTypeAny>(
   endpoint: EndpointGeneric<T, U, E>,
-): EndpointGeneric<InferNonEmpty<T>, InferSchema<U>, E extends z.ZodType<any> ? InferSchema<E> : undefined> => {
+): EndpointGeneric<InferNonEmpty<T>, z.infer<U>, E extends z.ZodTypeAny ? z.infer<E> : undefined> => {
   return endpoint as any;
 };
 

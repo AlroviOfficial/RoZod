@@ -1,4 +1,4 @@
-import { ExtractParams, ExtractResponse, fetchApi, fetchApiPages, fetchApiSplit } from '../index';
+import { ExtractParams, ExtractResponse, endpoint, fetchApi, fetchApiPages, fetchApiSplit } from '../index';
 import { getGamesIcons, getUsersAvatarHeadshot, postBatch } from '../endpoints/thumbnailsv1';
 import { getGroupsGroupidMembership } from '../endpoints/groupsv1';
 import { getGamesUniverseidFavoritesCount } from '../endpoints/gamesv1';
@@ -44,11 +44,11 @@ test('fetch raw', () => {
 
 // Custom endpoint. Won't work either, as we are not authenticated.
 test('fetch omni recommendations', () => {
-  const endpoint = {
-    method: 'post' as const,
+  const omni = endpoint({
+    method: 'post',
     baseUrl: 'https://apis.roblox.com/',
     path: 'discovery-api/omni-recommendation-metadata',
-    requestFormat: 'json' as const,
+    requestFormat: 'json',
     response: z.object({
       contentMetadata: z.object({
         Game: z.array(
@@ -65,8 +65,8 @@ test('fetch omni recommendations', () => {
         }),
       ),
     }),
-  };
-  fetchApi(endpoint).catch((error: Error) => {
+  });
+  fetchApi(omni, {}).catch((error: Error) => {
     expect(error.message).toBe('Invalid response data');
   });
 });

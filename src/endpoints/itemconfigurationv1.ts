@@ -1,92 +1,81 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_ItemConfiguration_Api_AssetCreationsResponse = z
-  .object({ assetId: z.number().int(), name: z.string() })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_ItemConfiguration_Api_AssetCreationsResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_ItemConfiguration_Api_AssetCreationsResponse),
-  })
-  .passthrough();
-const Roblox_ItemConfiguration_Api_TagDetails = z
-  .object({
-    tagId: z.string(),
-    name: z.string(),
-    localizedDisplayName: z.string(),
-    status: z.enum(['Success', 'MissingItem']),
-  })
-  .passthrough();
-const Roblox_ItemConfiguration_Api_ItemTagDetails = z
-  .object({ id: z.string(), tag: Roblox_ItemConfiguration_Api_TagDetails })
-  .passthrough();
-const Roblox_ItemConfiguration_Api_ItemWithTags = z
-  .object({
-    id: z.string(),
-    itemTags: z.array(Roblox_ItemConfiguration_Api_ItemTagDetails),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_ItemWithTags_ = z
-  .object({ data: z.array(Roblox_ItemConfiguration_Api_ItemWithTags) })
-  .passthrough();
-const Roblox_ItemConfiguration_Api_CreateItemTagRequest = z
-  .object({ itemId: z.string(), tagId: z.string() })
-  .passthrough();
-const Roblox_ItemConfiguration_Api_ItemTagsMetadataResponse = z
-  .object({
-    isItemTagsFeatureEnabled: z.boolean(),
-    enabledAssetTypes: z.array(z.string()),
-    maximumItemTagsPerItem: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_TagDetails_ = z
-  .object({ data: z.array(Roblox_ItemConfiguration_Api_TagDetails) })
-  .passthrough();
-const Roblox_ItemConfiguration_Api_AssetCreationsDetailsRequest = z
-  .object({ assetIds: z.array(z.number()) })
-  .passthrough();
-const Roblox_ItemConfiguration_Api_PriceConfigurationModel = z
-  .object({
-    priceInRobux: z.number().int(),
-    premiumDiscountPercentage: z.number().int(),
-    premiumPriceInRobux: z.number().int(),
-    priceOffset: z.number().int(),
-  })
-  .passthrough();
-const Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel = z
-  .object({
-    saleAvailabilityLocations: z.array(z.enum(['Undefined', 'Catalog', 'AllUniverses', 'MyUniverses'])),
-  })
-  .passthrough();
-const Roblox_ItemConfiguration_Api_AssetCreationsDetailsResponse = z
-  .object({
-    assetId: z.number().int(),
-    name: z.string(),
-    status: z.enum([
-      'Unknown',
-      'ReviewPending',
-      'Moderated',
-      'ReviewApproved',
-      'OnSale',
-      'OffSale',
-      'DelayedRelease',
-      'Free',
-    ]),
-    description: z.string(),
-    creatorType: z.enum(['Unknown', 'User', 'Group']),
-    creatorTargetId: z.number().int(),
-    price: z.number().int(),
-    priceConfiguration: Roblox_ItemConfiguration_Api_PriceConfigurationModel,
-    isArchived: z.boolean(),
-    assetType: z.string(),
-    releaseConfiguration: Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel,
-    created: z.string().datetime({ offset: true }),
-    updated: z.string().datetime({ offset: true }),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
+const Roblox_ItemConfiguration_Api_AssetCreationsResponse = z.object({
+  assetId: z.number().int(),
+  name: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_ItemConfiguration_Api_AssetCreationsResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_ItemConfiguration_Api_AssetCreationsResponse),
+});
+const Roblox_ItemConfiguration_Api_TagDetails = z.object({
+  tagId: z.string(),
+  name: z.string(),
+  localizedDisplayName: z.string(),
+  status: z.enum(['Success', 'MissingItem']),
+});
+const Roblox_ItemConfiguration_Api_ItemTagDetails = z.object({
+  id: z.string(),
+  tag: Roblox_ItemConfiguration_Api_TagDetails,
+});
+const Roblox_ItemConfiguration_Api_ItemWithTags = z.object({
+  id: z.string(),
+  itemTags: z.array(Roblox_ItemConfiguration_Api_ItemTagDetails),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_ItemWithTags_ = z.object({
+  data: z.array(Roblox_ItemConfiguration_Api_ItemWithTags),
+});
+const Roblox_ItemConfiguration_Api_CreateItemTagRequest = z.object({
+  itemId: z.string(),
+  tagId: z.string(),
+});
+const Roblox_ItemConfiguration_Api_ItemTagsMetadataResponse = z.object({
+  isItemTagsFeatureEnabled: z.boolean(),
+  enabledAssetTypes: z.array(z.string()),
+  maximumItemTagsPerItem: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_TagDetails_ = z.object({
+  data: z.array(Roblox_ItemConfiguration_Api_TagDetails),
+});
+const Roblox_ItemConfiguration_Api_AssetCreationsDetailsRequest = z.object({
+  assetIds: z.array(z.number()),
+});
+const Roblox_ItemConfiguration_Api_PriceConfigurationModel = z.object({
+  priceInRobux: z.number().int(),
+  premiumDiscountPercentage: z.number().int(),
+  premiumPriceInRobux: z.number().int(),
+  priceOffset: z.number().int(),
+});
+const Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel = z.object({
+  saleAvailabilityLocations: z.array(z.enum(['Undefined', 'Catalog', 'AllUniverses', 'MyUniverses'])),
+});
+const Roblox_ItemConfiguration_Api_AssetCreationsDetailsResponse = z.object({
+  assetId: z.number().int(),
+  name: z.string(),
+  status: z.enum([
+    'Unknown',
+    'ReviewPending',
+    'Moderated',
+    'ReviewApproved',
+    'OnSale',
+    'OffSale',
+    'DelayedRelease',
+    'Free',
+  ]),
+  description: z.string(),
+  creatorType: z.enum(['Unknown', 'User', 'Group']),
+  creatorTargetId: z.number().int(),
+  price: z.number().int(),
+  priceConfiguration: Roblox_ItemConfiguration_Api_PriceConfigurationModel,
+  isArchived: z.boolean(),
+  assetType: z.string(),
+  releaseConfiguration: Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel,
+  created: z.string().datetime({ offset: true }),
+  updated: z.string().datetime({ offset: true }),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
  * @api POST https://itemconfiguration.roblox.com/v1/creations/get-asset-details
@@ -94,10 +83,10 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
  * @param body
  */
 export const postCreationsGetAssetDetails = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/creations/get-asset-details',
   baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -142,10 +131,10 @@ export const postCreationsGetAssetDetails = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  */
 export const getCreationsGetAssets = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/creations/get-assets',
   baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     assetType: {
       style: 'form',
@@ -210,10 +199,10 @@ export const getCreationsGetAssets = endpoint({
  * @param itemIds
  */
 export const getItemTags = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/item-tags',
   baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     itemIds: {
       style: 'form',
@@ -243,10 +232,10 @@ export const getItemTags = endpoint({
  * @param body
  */
 export const postItemTags = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/item-tags',
   baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -283,10 +272,10 @@ export const postItemTags = endpoint({
  * @param itemTagId
  */
 export const deleteItemTagsItemtagid = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/item-tags/:itemTagId',
   baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     itemTagId: {
       style: 'simple',
@@ -295,7 +284,7 @@ export const deleteItemTagsItemtagid = endpoint({
   parameters: {
     itemTagId: z.string(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -317,10 +306,10 @@ export const deleteItemTagsItemtagid = endpoint({
  * @summary Gets the metadata related to item tags
  */
 export const getItemTagsMetadata = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/item-tags/metadata',
   baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   response: Roblox_ItemConfiguration_Api_ItemTagsMetadataResponse,
   errors: [],
 });
@@ -330,10 +319,10 @@ export const getItemTagsMetadata = endpoint({
  * @param tagIds
  */
 export const getTags = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/tags',
   baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     tagIds: {
       style: 'form',
@@ -362,10 +351,10 @@ export const getTags = endpoint({
  * @param numberOfResults Must be 1, 5, 10, or 25
  */
 export const getTagsPrefixSearch = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/tags/prefix-search',
   baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     prefix: {
       style: 'form',

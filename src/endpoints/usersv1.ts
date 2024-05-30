@@ -1,108 +1,108 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_Users_Api_BirthdateResponse = z
-  .object({
-    birthMonth: z.number().int(),
-    birthDay: z.number().int(),
-    birthYear: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Users_Api_BirthdateRequest = z
-  .object({
-    birthMonth: z.number().int(),
-    birthDay: z.number().int(),
-    birthYear: z.number().int(),
-    password: z.string(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
-const Roblox_Users_Api_DescriptionResponse = z.object({ description: z.string() }).passthrough();
-const Roblox_Users_Api_DescriptionRequest = z.object({ description: z.string() }).passthrough();
-const Roblox_Users_Api_GenderResponse = z.object({ gender: z.number().int() }).passthrough();
-const Roblox_Users_Api_GenderRequest = z.object({ gender: z.string() }).passthrough();
-const Roblox_Users_Api_GetUserResponse = z
-  .object({
-    description: z.string(),
-    created: z.string().datetime({ offset: true }),
-    isBanned: z.boolean(),
-    externalAppDisplayName: z.string(),
-    hasVerifiedBadge: z.boolean(),
-    id: z.number().int(),
-    name: z.string(),
-    displayName: z.string(),
-  })
-  .passthrough();
-const Roblox_Users_Api_UsernameHistoryResponse = z.object({ name: z.string() }).passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Users_Api_UsernameHistoryResponse),
-  })
-  .passthrough();
-const Roblox_Users_Api_AuthenticatedUserResponse = z
-  .object({ id: z.number().int(), name: z.string(), displayName: z.string() })
-  .passthrough();
-const Roblox_Users_Api_UserAgeBracketResponse = z.object({ ageBracket: z.number().int() }).passthrough();
-const Roblox_Users_Api_UserCountryCodeResponse = z.object({ countryCode: z.string() }).passthrough();
-const Roblox_Users_Api_UserRolesResponse = z.object({ roles: z.array(z.string()) }).passthrough();
-const Roblox_Users_Api_UserSearchResponse = z
-  .object({
-    previousUsernames: z.array(z.string()),
-    hasVerifiedBadge: z.boolean(),
-    id: z.number().int(),
-    name: z.string(),
-    displayName: z.string(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UserSearchResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Users_Api_UserSearchResponse),
-  })
-  .passthrough();
-const Roblox_Users_Api_MultiGetByUsernameRequest = z
-  .object({ usernames: z.array(z.string()), excludeBannedUsers: z.boolean() })
-  .passthrough();
-const Roblox_Users_Api_MultiGetUserByNameResponse = z
-  .object({
-    requestedUsername: z.string(),
-    hasVerifiedBadge: z.boolean(),
-    id: z.number().int(),
-    name: z.string(),
-    displayName: z.string(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_ = z
-  .object({ data: z.array(Roblox_Users_Api_MultiGetUserByNameResponse) })
-  .passthrough();
-const Roblox_Users_Api_MultiGetByUserIdRequest = z
-  .object({ userIds: z.array(z.number()), excludeBannedUsers: z.boolean() })
-  .passthrough();
-const Roblox_Users_Api_VerifiedBadgeUserResponse = z
-  .object({
-    hasVerifiedBadge: z.boolean(),
-    id: z.number().int(),
-    name: z.string(),
-    displayName: z.string(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_VerifiedBadgeUserResponse_ = z
-  .object({ data: z.array(Roblox_Users_Api_VerifiedBadgeUserResponse) })
-  .passthrough();
-const Roblox_Users_Api_SetDisplayNameRequest = z.object({ newDisplayName: z.string() }).passthrough();
+const Roblox_Users_Api_BirthdateResponse = z.object({
+  birthMonth: z.number().int(),
+  birthDay: z.number().int(),
+  birthYear: z.number().int(),
+});
+const Roblox_Users_Api_BirthdateRequest = z.object({
+  birthMonth: z.number().int(),
+  birthDay: z.number().int(),
+  birthYear: z.number().int(),
+  password: z.string(),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Users_Api_DescriptionResponse = z.object({
+  description: z.string(),
+});
+const Roblox_Users_Api_DescriptionRequest = z.object({
+  description: z.string(),
+});
+const Roblox_Users_Api_GenderResponse = z.object({ gender: z.number().int() });
+const Roblox_Users_Api_GenderRequest = z.object({ gender: z.string() });
+const Roblox_Users_Api_GetUserResponse = z.object({
+  description: z.string(),
+  created: z.string().datetime({ offset: true }),
+  isBanned: z.boolean(),
+  externalAppDisplayName: z.string(),
+  hasVerifiedBadge: z.boolean(),
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Users_Api_UsernameHistoryResponse = z.object({ name: z.string() });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Users_Api_UsernameHistoryResponse),
+});
+const Roblox_Users_Api_AuthenticatedUserResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Users_Api_UserAgeBracketResponse = z.object({
+  ageBracket: z.number().int(),
+});
+const Roblox_Users_Api_UserCountryCodeResponse = z.object({
+  countryCode: z.string(),
+});
+const Roblox_Users_Api_UserRolesResponse = z.object({
+  roles: z.array(z.string()),
+});
+const Roblox_Users_Api_UserSearchResponse = z.object({
+  previousUsernames: z.array(z.string()),
+  hasVerifiedBadge: z.boolean(),
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UserSearchResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Users_Api_UserSearchResponse),
+});
+const Roblox_Users_Api_MultiGetByUsernameRequest = z.object({
+  usernames: z.array(z.string()),
+  excludeBannedUsers: z.boolean(),
+});
+const Roblox_Users_Api_MultiGetUserByNameResponse = z.object({
+  requestedUsername: z.string(),
+  hasVerifiedBadge: z.boolean(),
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_ = z.object({
+  data: z.array(Roblox_Users_Api_MultiGetUserByNameResponse),
+});
+const Roblox_Users_Api_MultiGetByUserIdRequest = z.object({
+  userIds: z.array(z.number()),
+  excludeBannedUsers: z.boolean(),
+});
+const Roblox_Users_Api_VerifiedBadgeUserResponse = z.object({
+  hasVerifiedBadge: z.boolean(),
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_VerifiedBadgeUserResponse_ = z.object({
+  data: z.array(Roblox_Users_Api_VerifiedBadgeUserResponse),
+});
+const Roblox_Users_Api_SetDisplayNameRequest = z.object({
+  newDisplayName: z.string(),
+});
 
 /**
  * @api GET https://users.roblox.com/v1/birthdate
  * @summary Get the user's birthdate
  */
 export const getBirthdate = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/birthdate',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   response: Roblox_Users_Api_BirthdateResponse,
   errors: [
     {
@@ -121,16 +121,16 @@ export const getBirthdate = endpoint({
  * @param body The Roblox.Users.Api.BirthdateRequest
  */
 export const postBirthdate = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/birthdate',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
   parameters: {},
   body: Roblox_Users_Api_BirthdateRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -160,11 +160,11 @@ export const postBirthdate = endpoint({
  * @summary Get the user's description
  */
 export const getDescription = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/description',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
-  response: z.object({ description: z.string() }).passthrough(),
+  requestFormat: 'json',
+  response: z.object({ description: z.string() }),
   errors: [
     {
       status: 400,
@@ -182,16 +182,16 @@ export const getDescription = endpoint({
  * @param body The Roblox.Users.Api.DescriptionRequest
  */
 export const postDescription = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/description',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
   parameters: {},
-  body: z.object({ description: z.string() }).passthrough(),
-  response: z.object({ description: z.string() }).passthrough(),
+  body: z.object({ description: z.string() }),
+  response: z.object({ description: z.string() }),
   errors: [
     {
       status: 400,
@@ -223,10 +223,10 @@ export const postDescription = endpoint({
  * @param birthdate The new user's birthdate
  */
 export const getDisplayNamesValidate = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/display-names/validate',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     displayName: {
       style: 'form',
@@ -241,7 +241,7 @@ export const getDisplayNamesValidate = endpoint({
     displayName: z.string(),
     birthdate: z.string().datetime({ offset: true }),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -263,11 +263,11 @@ export const getDisplayNamesValidate = endpoint({
  * @summary Get the user's gender
  */
 export const getGender = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/gender',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
-  response: z.object({ gender: z.number().int() }).passthrough(),
+  requestFormat: 'json',
+  response: z.object({ gender: z.number().int() }),
   errors: [
     {
       status: 400,
@@ -285,16 +285,16 @@ export const getGender = endpoint({
  * @param body The Roblox.Users.Api.GenderRequest
  */
 export const postGender = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/gender',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
   parameters: {},
-  body: z.object({ gender: z.string() }).passthrough(),
-  response: z.object({}).passthrough(),
+  body: z.object({ gender: z.string() }),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -324,10 +324,10 @@ export const postGender = endpoint({
 Does not require X-CSRF-Token protection because this is essentially a get request but as a POST to avoid URI limits.
  */
 export const postUsernamesUsers = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/usernames/users',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -348,10 +348,10 @@ export const postUsernamesUsers = endpoint({
  * @description Does not require X-CSRF-Token protection because this is essentially a get request but as a POST to avoid URI limits.
  */
 export const postUsers = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/users',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -371,10 +371,10 @@ export const postUsers = endpoint({
  * @param userId The user id.
  */
 export const getUsersUserid = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -398,10 +398,10 @@ export const getUsersUserid = endpoint({
  * @param userId the user id
  */
 export const patchUsersUseridDisplayNames = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/users/:userId/display-names',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     userId: {
@@ -411,8 +411,8 @@ export const patchUsersUseridDisplayNames = endpoint({
   parameters: {
     userId: z.number().int(),
   },
-  body: z.object({ newDisplayName: z.string() }).passthrough(),
-  response: z.object({}).passthrough(),
+  body: z.object({ newDisplayName: z.string() }),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -444,10 +444,10 @@ export const patchUsersUseridDisplayNames = endpoint({
  * @param displayName The display name.
  */
 export const getUsersUseridDisplayNamesValidate = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/display-names/validate',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -461,7 +461,7 @@ export const getUsersUseridDisplayNamesValidate = endpoint({
     userId: z.number().int(),
     displayName: z.string(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -494,10 +494,10 @@ export const getUsersUseridDisplayNamesValidate = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridUsernameHistory = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/username-history',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -537,10 +537,10 @@ export const getUsersUseridUsernameHistory = endpoint({
  * @summary Gets the minimal authenticated user.
  */
 export const getUsersAuthenticated = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/authenticated',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   response: Roblox_Users_Api_AuthenticatedUserResponse,
   errors: [
     {
@@ -554,11 +554,11 @@ export const getUsersAuthenticated = endpoint({
  * @summary Gets the age bracket of the authenticated user.
  */
 export const getUsersAuthenticatedAgeBracket = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/authenticated/age-bracket',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
-  response: z.object({ ageBracket: z.number().int() }).passthrough(),
+  requestFormat: 'json',
+  response: z.object({ ageBracket: z.number().int() }),
   errors: [
     {
       status: 401,
@@ -571,11 +571,11 @@ export const getUsersAuthenticatedAgeBracket = endpoint({
  * @summary Gets the country code of the authenticated user.
  */
 export const getUsersAuthenticatedCountryCode = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/authenticated/country-code',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
-  response: z.object({ countryCode: z.string() }).passthrough(),
+  requestFormat: 'json',
+  response: z.object({ countryCode: z.string() }),
   errors: [
     {
       status: 401,
@@ -588,10 +588,10 @@ export const getUsersAuthenticatedCountryCode = endpoint({
  * @summary Gets the (public) roles of the authenticated user, such as `"Soothsayer"` and `"BetaTester"`.
  */
 export const getUsersAuthenticatedRoles = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/authenticated/roles',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   response: Roblox_Users_Api_UserRolesResponse,
   errors: [
     {
@@ -609,10 +609,10 @@ export const getUsersAuthenticatedRoles = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  */
 export const getUsersSearch = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/search',
   baseUrl: 'https://users.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     keyword: {
       style: 'form',

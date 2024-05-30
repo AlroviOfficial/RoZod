@@ -1,29 +1,23 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel = z
-  .object({
-    clientPublicKey: z.string(),
-    clientEpochTimestamp: z.number().int(),
-    saiSignature: z.string(),
-    serverNonce: z.string(),
-  })
-  .passthrough();
-const Roblox_Authentication_Api_TwoStepVerificationLoginRequest = z
-  .object({
-    challengeId: z.string(),
-    verificationToken: z.string(),
-    rememberDevice: z.boolean(),
-    secureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
-    accountBlob: z.string(),
-  })
-  .passthrough();
-const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z
-  .object({
-    identityVerificationLoginTicket: z.string(),
-    accountBlob: z.string(),
-  })
-  .passthrough();
+const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel = z.object({
+  clientPublicKey: z.string(),
+  clientEpochTimestamp: z.number().int(),
+  saiSignature: z.string(),
+  serverNonce: z.string(),
+});
+const Roblox_Authentication_Api_TwoStepVerificationLoginRequest = z.object({
+  challengeId: z.string(),
+  verificationToken: z.string(),
+  rememberDevice: z.boolean(),
+  secureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
+  accountBlob: z.string(),
+});
+const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z.object({
+  identityVerificationLoginTicket: z.string(),
+  accountBlob: z.string(),
+});
 
 /**
  * @api POST https://auth.roblox.com/v3/users/:userId/two-step-verification/login
@@ -32,10 +26,10 @@ const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z
  * @param userId The user ID to authenticate as.
  */
 export const postUsersUseridTwoStepVerificationLogin = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v3/users/:userId/two-step-verification/login',
   baseUrl: 'https://auth.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     userId: {

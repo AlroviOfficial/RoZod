@@ -45,6 +45,10 @@ handlebars.registerHelper("toCamelCase", function (input) {
 });
 handlebars.registerHelper('toUpperCase', (str) => str.toUpperCase());
 
+handlebars.registerHelper('regexReplace', (str, regex, replace) => {
+  return str.replace(new RegExp(regex), replace);
+});
+
 console.log('Generating OpenAPI files from Swagger files...');
 const urls = fs.readFileSync('urls.txt', 'utf-8')
   .split('\n')

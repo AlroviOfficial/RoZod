@@ -1,523 +1,451 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_Groups_Api_Models_Response_UserModel = z
-  .object({
-    buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-    hasVerifiedBadge: z.boolean(),
-    userId: z.number().int(),
-    username: z.string(),
-    displayName: z.string(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_ShoutResponse = z
-  .object({
-    body: z.string(),
-    poster: Roblox_Groups_Api_Models_Response_UserModel,
-    created: z.string().datetime({ offset: true }),
-    updated: z.string().datetime({ offset: true }),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupDetailResponse = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    owner: Roblox_Groups_Api_Models_Response_UserModel,
-    shout: Roblox_Groups_Api_ShoutResponse,
-    memberCount: z.number().int(),
-    isBuildersClubOnly: z.boolean(),
-    publicEntryAllowed: z.boolean(),
-    isLocked: z.boolean(),
-    hasVerifiedBadge: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupRoleResponse = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    rank: z.number().int(),
-    memberCount: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_UserGroupRoleResponse = z
-  .object({
-    user: Roblox_Groups_Api_Models_Response_UserModel,
-    role: Roblox_Groups_Api_GroupRoleResponse,
-  })
-  .passthrough();
+const Roblox_Groups_Api_Models_Response_UserModel = z.object({
+  buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  hasVerifiedBadge: z.boolean(),
+  userId: z.number().int(),
+  username: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Groups_Api_ShoutResponse = z.object({
+  body: z.string(),
+  poster: Roblox_Groups_Api_Models_Response_UserModel,
+  created: z.string().datetime({ offset: true }),
+  updated: z.string().datetime({ offset: true }),
+});
+const Roblox_Groups_Api_GroupDetailResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  owner: Roblox_Groups_Api_Models_Response_UserModel,
+  shout: Roblox_Groups_Api_ShoutResponse,
+  memberCount: z.number().int(),
+  isBuildersClubOnly: z.boolean(),
+  publicEntryAllowed: z.boolean(),
+  isLocked: z.boolean(),
+  hasVerifiedBadge: z.boolean(),
+});
+const Roblox_Groups_Api_GroupRoleResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  rank: z.number().int(),
+  memberCount: z.number().int(),
+});
+const Roblox_Groups_Api_UserGroupRoleResponse = z.object({
+  user: Roblox_Groups_Api_Models_Response_UserModel,
+  role: Roblox_Groups_Api_GroupRoleResponse,
+});
 const Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem = z
   .object({
     actor: Roblox_Groups_Api_UserGroupRoleResponse,
     actionType: z.string(),
-    description: z.object({}).passthrough(),
+    description: z.object({}),
     created: z.string().datetime({ offset: true }),
   })
   .passthrough();
-const Roblox_Groups_Api_GroupAuditLogPageResponse_Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem_ = z
-  .object({
+const Roblox_Groups_Api_GroupAuditLogPageResponse_Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem_ =
+  z.object({
     previousPageCursor: z.string(),
     nextPageCursor: z.string(),
     data: z.array(Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupJoinRequestResponse = z
-  .object({
-    requester: Roblox_Groups_Api_Models_Response_UserModel,
-    created: z.string().datetime({ offset: true }),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupJoinRequestResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Groups_Api_GroupJoinRequestResponse),
-  })
-  .passthrough();
-const Roblox_Groups_Api_MembersRequest = z.object({ UserIds: z.array(z.number()) }).passthrough();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
-const Roblox_Groups_Api_GroupPostsPermissionsModel = z
-  .object({
-    viewWall: z.boolean(),
-    postToWall: z.boolean(),
-    deleteFromWall: z.boolean(),
-    viewStatus: z.boolean(),
-    postToStatus: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupMembershipPermissionsModel = z
-  .object({
-    changeRank: z.boolean(),
-    inviteMembers: z.boolean(),
-    removeMembers: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupManagementPermissionsModel = z
-  .object({
-    manageRelationships: z.boolean(),
-    manageClan: z.boolean(),
-    viewAuditLogs: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupEconomyPermissionsModel = z
-  .object({
-    spendGroupFunds: z.boolean(),
-    advertiseGroup: z.boolean(),
-    createItems: z.boolean(),
-    manageItems: z.boolean(),
-    addGroupPlaces: z.boolean(),
-    manageGroupGames: z.boolean(),
-    viewGroupPayouts: z.boolean(),
-    viewAnalytics: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupOpenCloudPermissionsModel = z
-  .object({
-    useCloudAuthentication: z.boolean(),
-    administerCloudAuthentication: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupPermissionsModel = z
-  .object({
-    groupPostsPermissions: Roblox_Groups_Api_GroupPostsPermissionsModel,
-    groupMembershipPermissions: Roblox_Groups_Api_GroupMembershipPermissionsModel,
-    groupManagementPermissions: Roblox_Groups_Api_GroupManagementPermissionsModel,
-    groupEconomyPermissions: Roblox_Groups_Api_GroupEconomyPermissionsModel,
-    groupOpenCloudPermissions: Roblox_Groups_Api_GroupOpenCloudPermissionsModel,
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupMembershipMetadataResponse = z
-  .object({
-    groupId: z.number().int(),
-    isPrimary: z.boolean(),
-    isPendingJoin: z.boolean(),
-    userRole: Roblox_Groups_Api_UserGroupRoleResponse,
-    permissions: Roblox_Groups_Api_GroupPermissionsModel,
-    areGroupGamesVisible: z.boolean(),
-    areGroupFundsVisible: z.boolean(),
-    areEnemiesAllowed: z.boolean(),
-    canConfigure: z.boolean(),
-    isNotificationsEnabled: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem = z
-  .object({ name: z.string(), created: z.string().datetime({ offset: true }) })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem_ = z
-  .object({
+  });
+const Roblox_Groups_Api_GroupJoinRequestResponse = z.object({
+  requester: Roblox_Groups_Api_Models_Response_UserModel,
+  created: z.string().datetime({ offset: true }),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupJoinRequestResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Groups_Api_GroupJoinRequestResponse),
+});
+const Roblox_Groups_Api_MembersRequest = z.object({
+  UserIds: z.array(z.number()),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Groups_Api_GroupPostsPermissionsModel = z.object({
+  viewWall: z.boolean(),
+  postToWall: z.boolean(),
+  deleteFromWall: z.boolean(),
+  viewStatus: z.boolean(),
+  postToStatus: z.boolean(),
+});
+const Roblox_Groups_Api_GroupMembershipPermissionsModel = z.object({
+  changeRank: z.boolean(),
+  inviteMembers: z.boolean(),
+  removeMembers: z.boolean(),
+});
+const Roblox_Groups_Api_GroupManagementPermissionsModel = z.object({
+  manageRelationships: z.boolean(),
+  manageClan: z.boolean(),
+  viewAuditLogs: z.boolean(),
+});
+const Roblox_Groups_Api_GroupEconomyPermissionsModel = z.object({
+  spendGroupFunds: z.boolean(),
+  advertiseGroup: z.boolean(),
+  createItems: z.boolean(),
+  manageItems: z.boolean(),
+  addGroupPlaces: z.boolean(),
+  manageGroupGames: z.boolean(),
+  viewGroupPayouts: z.boolean(),
+  viewAnalytics: z.boolean(),
+});
+const Roblox_Groups_Api_GroupOpenCloudPermissionsModel = z.object({
+  useCloudAuthentication: z.boolean(),
+  administerCloudAuthentication: z.boolean(),
+});
+const Roblox_Groups_Api_GroupPermissionsModel = z.object({
+  groupPostsPermissions: Roblox_Groups_Api_GroupPostsPermissionsModel,
+  groupMembershipPermissions: Roblox_Groups_Api_GroupMembershipPermissionsModel,
+  groupManagementPermissions: Roblox_Groups_Api_GroupManagementPermissionsModel,
+  groupEconomyPermissions: Roblox_Groups_Api_GroupEconomyPermissionsModel,
+  groupOpenCloudPermissions: Roblox_Groups_Api_GroupOpenCloudPermissionsModel,
+});
+const Roblox_Groups_Api_GroupMembershipMetadataResponse = z.object({
+  groupId: z.number().int(),
+  isPrimary: z.boolean(),
+  isPendingJoin: z.boolean(),
+  userRole: Roblox_Groups_Api_UserGroupRoleResponse,
+  permissions: Roblox_Groups_Api_GroupPermissionsModel,
+  areGroupGamesVisible: z.boolean(),
+  areGroupFundsVisible: z.boolean(),
+  areEnemiesAllowed: z.boolean(),
+  canConfigure: z.boolean(),
+  isNotificationsEnabled: z.boolean(),
+});
+const Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem = z.object({
+  name: z.string(),
+  created: z.string().datetime({ offset: true }),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem_ =
+  z.object({
     previousPageCursor: z.string(),
     nextPageCursor: z.string(),
     data: z.array(Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupPayoutRestrictionResponse = z
-  .object({
-    canUseRecurringPayout: z.boolean(),
-    canUseOneTimePayout: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupPayoutResponse = z
-  .object({
-    user: Roblox_Groups_Api_Models_Response_UserModel,
-    percentage: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupPayoutResponse_ = z
-  .object({ data: z.array(Roblox_Groups_Api_GroupPayoutResponse) })
-  .passthrough();
-const Roblox_Groups_Api_PayoutRecipientRequest = z
-  .object({
-    recipientId: z.number().int(),
-    recipientType: z.union([z.literal(0), z.literal(1)]),
-    amount: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_PayoutRequest = z
-  .object({
-    PayoutType: z.union([z.literal(1), z.literal(2)]),
-    Recipients: z.array(Roblox_Groups_Api_PayoutRecipientRequest),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupRelationshipsResponse = z
-  .object({
-    groupId: z.number().int(),
-    relationshipType: z.union([z.literal(1), z.literal(2)]),
-    totalGroupCount: z.number().int(),
-    relatedGroups: z.array(Roblox_Groups_Api_GroupDetailResponse),
-    nextRowIndex: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_RelationshipsRequest = z.object({ GroupIds: z.array(z.number()) }).passthrough();
-const Roblox_Groups_Api_GroupAllRolesResponse = z
-  .object({
-    groupId: z.number().int(),
-    roles: z.array(Roblox_Groups_Api_GroupRoleResponse),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupPermissionsResponse = z
-  .object({
-    groupId: z.number().int(),
-    role: Roblox_Groups_Api_GroupRoleResponse,
-    permissions: Roblox_Groups_Api_GroupPermissionsModel,
-  })
-  .passthrough();
-const Roblox_Groups_Api_UpdatePermissionsRequest_permissions = z
-  .object({
-    DeleteFromWall: z.boolean(),
-    PostToWall: z.boolean(),
-    InviteMembers: z.boolean(),
-    PostToStatus: z.boolean(),
-    RemoveMembers: z.boolean(),
-    ViewStatus: z.boolean(),
-    ViewWall: z.boolean(),
-    ChangeRank: z.boolean(),
-    AdvertiseGroup: z.boolean(),
-    ManageRelationships: z.boolean(),
-    AddGroupPlaces: z.boolean(),
-    ViewAuditLogs: z.boolean(),
-    CreateItems: z.boolean(),
-    ManageItems: z.boolean(),
-    SpendGroupFunds: z.boolean(),
-    ManageClan: z.boolean(),
-    ManageGroupGames: z.boolean(),
-    UseCloudAuthentication: z.boolean(),
-    AdministerCloudAuthentication: z.boolean(),
-    ViewAnalytics: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_UpdatePermissionsRequest = z
-  .object({
-    permissions: Roblox_Groups_Api_UpdatePermissionsRequest_permissions,
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_UserModel_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Groups_Api_Models_Response_UserModel),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupPermissionsResponse_ = z
-  .object({ data: z.array(Roblox_Groups_Api_GroupPermissionsResponse) })
-  .passthrough();
-const Roblox_Groups_Api_GroupSettingsResponse = z
-  .object({
-    isApprovalRequired: z.boolean(),
-    isBuildersClubRequired: z.boolean(),
-    areEnemiesAllowed: z.boolean(),
-    areGroupFundsVisible: z.boolean(),
-    areGroupGamesVisible: z.boolean(),
-    isGroupNameChangeEnabled: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_UpdateGroupSettingsRequest = z
-  .object({
-    isApprovalRequired: z.boolean(),
-    areEnemiesAllowed: z.boolean(),
-    areGroupFundsVisible: z.boolean(),
-    areGroupGamesVisible: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_SocialLinkResponse = z
-  .object({
-    id: z.number().int(),
-    type: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-    ]),
-    url: z.string(),
-    title: z.string(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_SocialLinkResponse_ = z
-  .object({ data: z.array(Roblox_Groups_Api_SocialLinkResponse) })
-  .passthrough();
-const Roblox_Groups_Api_SocialLinkRequest = z
-  .object({
-    type: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-    ]),
-    url: z.string(),
-    title: z.string(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_UserGroupRoleResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Groups_Api_UserGroupRoleResponse),
-  })
-  .passthrough();
-const Roblox_Groups_Api_JoinGroupRequest = z
-  .object({
-    sessionId: z.string(),
-    redemptionToken: z.string(),
-    captchaId: z.string(),
-    captchaToken: z.string(),
-    captchaProvider: z.string(),
-    challengeId: z.string(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_Models_Response_GroupWallPostModel = z
-  .object({
-    id: z.number().int(),
-    poster: Roblox_Groups_Api_Models_Response_UserModel,
-    body: z.string(),
-    created: z.string().datetime({ offset: true }),
-    updated: z.string().datetime({ offset: true }),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_GroupWallPostModel_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Groups_Api_Models_Response_GroupWallPostModel),
-  })
-  .passthrough();
-const Roblox_Groups_Api_CreateWallPostRequest = z
-  .object({
-    body: z.string(),
-    captchaId: z.string(),
-    captchaToken: z.string(),
-    captchaProvider: z.string(),
-    challengeId: z.string(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupConfigurationResponse = z
-  .object({
-    nameMaxLength: z.number().int(),
-    descriptionMaxLength: z.number().int(),
-    iconMaxFileSizeMb: z.number().int(),
-    cost: z.number().int(),
-    isUsingTwoStepWebviewComponent: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_RecurringPayoutsConfigurationResponse = z
-  .object({ maxPayoutPartners: z.number().int() })
-  .passthrough();
-const Roblox_Groups_Api_RoleConfigurationResponse = z
-  .object({
-    nameMaxLength: z.number().int(),
-    descriptionMaxLength: z.number().int(),
-    limit: z.number().int(),
-    cost: z.number().int(),
-    minRank: z.number().int(),
-    maxRank: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupNameChangeConfigurationResponse = z
-  .object({
-    cost: z.number().int(),
-    cooldownInDays: z.number().int(),
-    ownershipCooldownInDays: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupConfigurationDisplayOptionsResponse = z
-  .object({
-    groupConfiguration: Roblox_Groups_Api_GroupConfigurationResponse,
-    recurringPayoutsConfiguration: Roblox_Groups_Api_RecurringPayoutsConfigurationResponse,
-    roleConfiguration: Roblox_Groups_Api_RoleConfigurationResponse,
-    groupNameChangeConfiguration: Roblox_Groups_Api_GroupNameChangeConfigurationResponse,
-    isPremiumPayoutsEnabled: z.boolean(),
-    isDefaultEmblemPolicyEnabled: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupsDisplayOptionsResponse = z
-  .object({
-    groupLimit: z.number().int(),
-    currentGroupCount: z.number().int(),
-    groupStatusMaxLength: z.number().int(),
-    groupPostMaxLength: z.number().int(),
-    isGroupWallNotificationsEnabled: z.boolean(),
-    groupWallNotificationsSubscribeIntervalInMilliseconds: z.number().int(),
-    areProfileGroupsHidden: z.boolean(),
-    isGroupDetailsPolicyEnabled: z.boolean(),
-    showPreviousGroupNames: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupSearchResponseItem = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    memberCount: z.number().int(),
-    previousName: z.string(),
-    publicEntryAllowed: z.boolean(),
-    created: z.string().datetime({ offset: true }),
-    updated: z.string().datetime({ offset: true }),
-    hasVerifiedBadge: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupSearchPageResponse = z
-  .object({
-    keyword: z.string(),
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Groups_Api_GroupSearchResponseItem),
-  })
-  .passthrough();
-const Roblox_Web_Responses_Groups_GroupBasicResponse = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    memberCount: z.number().int(),
-    hasVerifiedBadge: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupBasicResponse_ = z
-  .object({ data: z.array(Roblox_Web_Responses_Groups_GroupBasicResponse) })
-  .passthrough();
-const Roblox_Groups_Api_GroupSearchMetadataResponse = z
-  .object({
-    SuggestedGroupKeywords: z.array(z.string()),
-    ShowFriendsGroupsSort: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupRoleDetailResponse = z
-  .object({
-    groupId: z.number().int(),
-    id: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    rank: z.number().int(),
-    memberCount: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupRoleDetailResponse_ = z
-  .object({ data: z.array(Roblox_Groups_Api_GroupRoleDetailResponse) })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupDetailResponse_ = z
-  .object({ data: z.array(Roblox_Groups_Api_GroupDetailResponse) })
-  .passthrough();
-const Roblox_Groups_Api_GroupMembershipDetailResponse = z
-  .object({
-    group: Roblox_Groups_Api_GroupDetailResponse,
-    role: Roblox_Groups_Api_GroupRoleResponse,
-    isPrimaryGroup: z.boolean(),
-    isNotificationsEnabled: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_UserGroupMembershipResponse = z
-  .object({
-    user: Roblox_Groups_Api_Models_Response_UserModel,
-    groups: z.array(Roblox_Groups_Api_GroupMembershipDetailResponse),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_UserGroupMembershipResponse_ = z
-  .object({ data: z.array(Roblox_Groups_Api_UserGroupMembershipResponse) })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipDetailResponse_ = z
-  .object({ data: z.array(Roblox_Groups_Api_GroupMembershipDetailResponse) })
-  .passthrough();
-const Roblox_Groups_Api_ChangeOwnerRequest = z.object({ userId: z.number().int() }).passthrough();
-const Roblox_Groups_Api_Models_Request_CreateRoleSetRequest = z
-  .object({
-    name: z.string(),
-    description: z.string(),
-    rank: z.number().int(),
-    usingGroupFunds: z.boolean(),
-  })
-  .passthrough();
-const groups_create_body = z
-  .object({
-    name: z.string(),
-    description: z.string(),
-    publicGroup: z.boolean(),
-    buildersClubMembersOnly: z.boolean(),
-    Files: z.instanceof(File),
-  })
-  .passthrough();
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_ = z
-  .object({ id: z.number().int(), type: z.literal(0), name: z.string() })
-  .passthrough();
-const Roblox_Web_Responses_Groups_GroupResponseV2 = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
-    memberCount: z.number().int(),
-    created: z.string().datetime({ offset: true }),
-    hasVerifiedBadge: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Groups_Api_GroupPolicyRequest = z.object({ groupIds: z.array(z.number()) }).passthrough();
-const Roblox_Groups_Api_GroupPolicyResponse = z
-  .object({ canViewGroup: z.boolean(), groupId: z.number().int() })
-  .passthrough();
-const Roblox_Groups_Api_GroupPoliciesResponse = z
-  .object({ groups: z.array(Roblox_Groups_Api_GroupPolicyResponse) })
-  .passthrough();
-const Roblox_Groups_Api_PrimaryGroupRequest = z.object({ groupId: z.number().int() }).passthrough();
-const Roblox_Groups_Api_UpdateGroupDescriptionRequest = z.object({ description: z.string() }).passthrough();
-const Roblox_Groups_Api_GroupDescriptionResponse = z.object({ newDescription: z.string() }).passthrough();
-const Roblox_Groups_Api_UpdateGroupNameRequest = z.object({ name: z.string() }).passthrough();
-const Roblox_Groups_Api_UpdateGroupNameResponse = z.object({ newName: z.string() }).passthrough();
-const Roblox_Groups_Api_UpdateGroupNotificationPreferenceRequest = z
-  .object({ notificationsEnabled: z.boolean() })
-  .passthrough();
-const Roblox_Groups_Api_Models_Request_UpdateRoleSetRequest = z
-  .object({ name: z.string(), description: z.string(), rank: z.number().int() })
-  .passthrough();
-const Roblox_Groups_Api_PostGroupStatusRequest = z.object({ message: z.string() }).passthrough();
-const Roblox_Groups_Api_UpdateUserRoleRequest = z.object({ roleId: z.number().int() }).passthrough();
-const groups_icon_body = z.object({ Files: z.instanceof(File) }).passthrough();
+  });
+const Roblox_Groups_Api_GroupPayoutRestrictionResponse = z.object({
+  canUseRecurringPayout: z.boolean(),
+  canUseOneTimePayout: z.boolean(),
+});
+const Roblox_Groups_Api_GroupPayoutResponse = z.object({
+  user: Roblox_Groups_Api_Models_Response_UserModel,
+  percentage: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupPayoutResponse_ = z.object({
+  data: z.array(Roblox_Groups_Api_GroupPayoutResponse),
+});
+const Roblox_Groups_Api_PayoutRecipientRequest = z.object({
+  recipientId: z.number().int(),
+  recipientType: z.union([z.literal(0), z.literal(1)]),
+  amount: z.number().int(),
+});
+const Roblox_Groups_Api_PayoutRequest = z.object({
+  PayoutType: z.union([z.literal(1), z.literal(2)]),
+  Recipients: z.array(Roblox_Groups_Api_PayoutRecipientRequest),
+});
+const Roblox_Groups_Api_GroupRelationshipsResponse = z.object({
+  groupId: z.number().int(),
+  relationshipType: z.union([z.literal(1), z.literal(2)]),
+  totalGroupCount: z.number().int(),
+  relatedGroups: z.array(Roblox_Groups_Api_GroupDetailResponse),
+  nextRowIndex: z.number().int(),
+});
+const Roblox_Groups_Api_RelationshipsRequest = z.object({
+  GroupIds: z.array(z.number()),
+});
+const Roblox_Groups_Api_GroupAllRolesResponse = z.object({
+  groupId: z.number().int(),
+  roles: z.array(Roblox_Groups_Api_GroupRoleResponse),
+});
+const Roblox_Groups_Api_GroupPermissionsResponse = z.object({
+  groupId: z.number().int(),
+  role: Roblox_Groups_Api_GroupRoleResponse,
+  permissions: Roblox_Groups_Api_GroupPermissionsModel,
+});
+const Roblox_Groups_Api_UpdatePermissionsRequest_permissions = z.object({
+  DeleteFromWall: z.boolean(),
+  PostToWall: z.boolean(),
+  InviteMembers: z.boolean(),
+  PostToStatus: z.boolean(),
+  RemoveMembers: z.boolean(),
+  ViewStatus: z.boolean(),
+  ViewWall: z.boolean(),
+  ChangeRank: z.boolean(),
+  AdvertiseGroup: z.boolean(),
+  ManageRelationships: z.boolean(),
+  AddGroupPlaces: z.boolean(),
+  ViewAuditLogs: z.boolean(),
+  CreateItems: z.boolean(),
+  ManageItems: z.boolean(),
+  SpendGroupFunds: z.boolean(),
+  ManageClan: z.boolean(),
+  ManageGroupGames: z.boolean(),
+  UseCloudAuthentication: z.boolean(),
+  AdministerCloudAuthentication: z.boolean(),
+  ViewAnalytics: z.boolean(),
+});
+const Roblox_Groups_Api_UpdatePermissionsRequest = z.object({
+  permissions: Roblox_Groups_Api_UpdatePermissionsRequest_permissions,
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_UserModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Groups_Api_Models_Response_UserModel),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupPermissionsResponse_ = z.object({
+  data: z.array(Roblox_Groups_Api_GroupPermissionsResponse),
+});
+const Roblox_Groups_Api_GroupSettingsResponse = z.object({
+  isApprovalRequired: z.boolean(),
+  isBuildersClubRequired: z.boolean(),
+  areEnemiesAllowed: z.boolean(),
+  areGroupFundsVisible: z.boolean(),
+  areGroupGamesVisible: z.boolean(),
+  isGroupNameChangeEnabled: z.boolean(),
+});
+const Roblox_Groups_Api_UpdateGroupSettingsRequest = z.object({
+  isApprovalRequired: z.boolean(),
+  areEnemiesAllowed: z.boolean(),
+  areGroupFundsVisible: z.boolean(),
+  areGroupGamesVisible: z.boolean(),
+});
+const Roblox_Groups_Api_SocialLinkResponse = z.object({
+  id: z.number().int(),
+  type: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+  ]),
+  url: z.string(),
+  title: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_SocialLinkResponse_ = z.object({
+  data: z.array(Roblox_Groups_Api_SocialLinkResponse),
+});
+const Roblox_Groups_Api_SocialLinkRequest = z.object({
+  type: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+  ]),
+  url: z.string(),
+  title: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_UserGroupRoleResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Groups_Api_UserGroupRoleResponse),
+});
+const Roblox_Groups_Api_JoinGroupRequest = z.object({
+  sessionId: z.string(),
+  redemptionToken: z.string(),
+  captchaId: z.string(),
+  captchaToken: z.string(),
+  captchaProvider: z.string(),
+  challengeId: z.string(),
+});
+const Roblox_Groups_Api_Models_Response_GroupWallPostModel = z.object({
+  id: z.number().int(),
+  poster: Roblox_Groups_Api_Models_Response_UserModel,
+  body: z.string(),
+  created: z.string().datetime({ offset: true }),
+  updated: z.string().datetime({ offset: true }),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_GroupWallPostModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Groups_Api_Models_Response_GroupWallPostModel),
+});
+const Roblox_Groups_Api_CreateWallPostRequest = z.object({
+  body: z.string(),
+  captchaId: z.string(),
+  captchaToken: z.string(),
+  captchaProvider: z.string(),
+  challengeId: z.string(),
+});
+const Roblox_Groups_Api_GroupConfigurationResponse = z.object({
+  nameMaxLength: z.number().int(),
+  descriptionMaxLength: z.number().int(),
+  iconMaxFileSizeMb: z.number().int(),
+  cost: z.number().int(),
+  isUsingTwoStepWebviewComponent: z.boolean(),
+});
+const Roblox_Groups_Api_RecurringPayoutsConfigurationResponse = z.object({
+  maxPayoutPartners: z.number().int(),
+});
+const Roblox_Groups_Api_RoleConfigurationResponse = z.object({
+  nameMaxLength: z.number().int(),
+  descriptionMaxLength: z.number().int(),
+  limit: z.number().int(),
+  cost: z.number().int(),
+  minRank: z.number().int(),
+  maxRank: z.number().int(),
+});
+const Roblox_Groups_Api_GroupNameChangeConfigurationResponse = z.object({
+  cost: z.number().int(),
+  cooldownInDays: z.number().int(),
+  ownershipCooldownInDays: z.number().int(),
+});
+const Roblox_Groups_Api_GroupConfigurationDisplayOptionsResponse = z.object({
+  groupConfiguration: Roblox_Groups_Api_GroupConfigurationResponse,
+  recurringPayoutsConfiguration: Roblox_Groups_Api_RecurringPayoutsConfigurationResponse,
+  roleConfiguration: Roblox_Groups_Api_RoleConfigurationResponse,
+  groupNameChangeConfiguration: Roblox_Groups_Api_GroupNameChangeConfigurationResponse,
+  isPremiumPayoutsEnabled: z.boolean(),
+  isDefaultEmblemPolicyEnabled: z.boolean(),
+});
+const Roblox_Groups_Api_GroupsDisplayOptionsResponse = z.object({
+  groupLimit: z.number().int(),
+  currentGroupCount: z.number().int(),
+  groupStatusMaxLength: z.number().int(),
+  groupPostMaxLength: z.number().int(),
+  isGroupWallNotificationsEnabled: z.boolean(),
+  groupWallNotificationsSubscribeIntervalInMilliseconds: z.number().int(),
+  areProfileGroupsHidden: z.boolean(),
+  isGroupDetailsPolicyEnabled: z.boolean(),
+  showPreviousGroupNames: z.boolean(),
+});
+const Roblox_Groups_Api_GroupSearchResponseItem = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  memberCount: z.number().int(),
+  previousName: z.string(),
+  publicEntryAllowed: z.boolean(),
+  created: z.string().datetime({ offset: true }),
+  updated: z.string().datetime({ offset: true }),
+  hasVerifiedBadge: z.boolean(),
+});
+const Roblox_Groups_Api_GroupSearchPageResponse = z.object({
+  keyword: z.string(),
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Groups_Api_GroupSearchResponseItem),
+});
+const Roblox_Web_Responses_Groups_GroupBasicResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  memberCount: z.number().int(),
+  hasVerifiedBadge: z.boolean(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupBasicResponse_ = z.object({
+  data: z.array(Roblox_Web_Responses_Groups_GroupBasicResponse),
+});
+const Roblox_Groups_Api_GroupSearchMetadataResponse = z.object({
+  SuggestedGroupKeywords: z.array(z.string()),
+  ShowFriendsGroupsSort: z.boolean(),
+});
+const Roblox_Groups_Api_GroupRoleDetailResponse = z.object({
+  groupId: z.number().int(),
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  rank: z.number().int(),
+  memberCount: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupRoleDetailResponse_ = z.object({
+  data: z.array(Roblox_Groups_Api_GroupRoleDetailResponse),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupDetailResponse_ = z.object({
+  data: z.array(Roblox_Groups_Api_GroupDetailResponse),
+});
+const Roblox_Groups_Api_GroupMembershipDetailResponse = z.object({
+  group: Roblox_Groups_Api_GroupDetailResponse,
+  role: Roblox_Groups_Api_GroupRoleResponse,
+  isPrimaryGroup: z.boolean(),
+  isNotificationsEnabled: z.boolean(),
+});
+const Roblox_Groups_Api_UserGroupMembershipResponse = z.object({
+  user: Roblox_Groups_Api_Models_Response_UserModel,
+  groups: z.array(Roblox_Groups_Api_GroupMembershipDetailResponse),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_UserGroupMembershipResponse_ = z.object({
+  data: z.array(Roblox_Groups_Api_UserGroupMembershipResponse),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipDetailResponse_ = z.object({
+  data: z.array(Roblox_Groups_Api_GroupMembershipDetailResponse),
+});
+const Roblox_Groups_Api_ChangeOwnerRequest = z.object({
+  userId: z.number().int(),
+});
+const Roblox_Groups_Api_Models_Request_CreateRoleSetRequest = z.object({
+  name: z.string(),
+  description: z.string(),
+  rank: z.number().int(),
+  usingGroupFunds: z.boolean(),
+});
+const groups_create_body = z.object({
+  name: z.string(),
+  description: z.string(),
+  publicGroup: z.boolean(),
+  buildersClubMembersOnly: z.boolean(),
+  Files: z.instanceof(File),
+});
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_ = z.object({
+  id: z.number().int(),
+  type: z.literal(0),
+  name: z.string(),
+});
+const Roblox_Web_Responses_Groups_GroupResponseV2 = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
+  memberCount: z.number().int(),
+  created: z.string().datetime({ offset: true }),
+  hasVerifiedBadge: z.boolean(),
+});
+const Roblox_Groups_Api_GroupPolicyRequest = z.object({
+  groupIds: z.array(z.number()),
+});
+const Roblox_Groups_Api_GroupPolicyResponse = z.object({
+  canViewGroup: z.boolean(),
+  groupId: z.number().int(),
+});
+const Roblox_Groups_Api_GroupPoliciesResponse = z.object({
+  groups: z.array(Roblox_Groups_Api_GroupPolicyResponse),
+});
+const Roblox_Groups_Api_PrimaryGroupRequest = z.object({
+  groupId: z.number().int(),
+});
+const Roblox_Groups_Api_UpdateGroupDescriptionRequest = z.object({
+  description: z.string(),
+});
+const Roblox_Groups_Api_GroupDescriptionResponse = z.object({
+  newDescription: z.string(),
+});
+const Roblox_Groups_Api_UpdateGroupNameRequest = z.object({ name: z.string() });
+const Roblox_Groups_Api_UpdateGroupNameResponse = z.object({
+  newName: z.string(),
+});
+const Roblox_Groups_Api_UpdateGroupNotificationPreferenceRequest = z.object({
+  notificationsEnabled: z.boolean(),
+});
+const Roblox_Groups_Api_Models_Request_UpdateRoleSetRequest = z.object({
+  name: z.string(),
+  description: z.string(),
+  rank: z.number().int(),
+});
+const Roblox_Groups_Api_PostGroupStatusRequest = z.object({
+  message: z.string(),
+});
+const Roblox_Groups_Api_UpdateUserRoleRequest = z.object({
+  roleId: z.number().int(),
+});
+const groups_icon_body = z.object({ Files: z.instanceof(File) });
 
 /**
  * @api GET https://groups.roblox.com/v1/groups/:groupId
@@ -525,10 +453,10 @@ const groups_icon_body = z.object({ Files: z.instanceof(File) }).passthrough();
  * @param groupId The group Id.
  */
 export const getGroupsGroupid = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -556,10 +484,10 @@ export const getGroupsGroupid = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidAuditLog = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/audit-log',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -667,10 +595,10 @@ export const getGroupsGroupidAuditLog = endpoint({
  * @param groupId The group Id.
  */
 export const postGroupsGroupidChangeOwner = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/change-owner',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -680,8 +608,8 @@ export const postGroupsGroupidChangeOwner = endpoint({
   parameters: {
     groupId: z.number().int(),
   },
-  body: z.object({ userId: z.number().int() }).passthrough(),
-  response: z.object({}).passthrough(),
+  body: z.object({ userId: z.number().int() }),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -708,10 +636,10 @@ export const postGroupsGroupidChangeOwner = endpoint({
  * @param groupId The group Id.
  */
 export const postGroupsGroupidClaimOwnership = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/claim-ownership',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -720,7 +648,7 @@ export const postGroupsGroupidClaimOwnership = endpoint({
   parameters: {
     groupId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -750,10 +678,10 @@ export const postGroupsGroupidClaimOwnership = endpoint({
  * @param groupId The id of the group the user is in.
  */
 export const patchGroupsGroupidDescription = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/groups/:groupId/description',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -763,8 +691,8 @@ export const patchGroupsGroupidDescription = endpoint({
   parameters: {
     groupId: z.number().int(),
   },
-  body: z.object({ description: z.string() }).passthrough(),
-  response: z.object({ newDescription: z.string() }).passthrough(),
+  body: z.object({ description: z.string() }),
+  response: z.object({ newDescription: z.string() }),
   errors: [
     {
       status: 400,
@@ -792,10 +720,10 @@ export const patchGroupsGroupidDescription = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidJoinRequests = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/join-requests',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -845,10 +773,10 @@ export const getGroupsGroupidJoinRequests = endpoint({
  * @param groupId The group id.
  */
 export const postGroupsGroupidJoinRequests = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/join-requests',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -859,7 +787,7 @@ export const postGroupsGroupidJoinRequests = endpoint({
     groupId: z.number().int(),
   },
   body: Roblox_Groups_Api_MembersRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -894,10 +822,10 @@ export const postGroupsGroupidJoinRequests = endpoint({
  * @param groupId The group id.
  */
 export const deleteGroupsGroupidJoinRequests = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/groups/:groupId/join-requests',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -908,7 +836,7 @@ export const deleteGroupsGroupidJoinRequests = endpoint({
     groupId: z.number().int(),
   },
   body: Roblox_Groups_Api_MembersRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -932,10 +860,10 @@ export const deleteGroupsGroupidJoinRequests = endpoint({
  * @param userId The user Id.
  */
 export const getGroupsGroupidJoinRequestsUsersUserid = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/join-requests/users/:userId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -971,10 +899,10 @@ export const getGroupsGroupidJoinRequestsUsersUserid = endpoint({
  * @param userId The user Id.
  */
 export const postGroupsGroupidJoinRequestsUsersUserid = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/join-requests/users/:userId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -987,7 +915,7 @@ export const postGroupsGroupidJoinRequestsUsersUserid = endpoint({
     groupId: z.number().int(),
     userId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1018,10 +946,10 @@ export const postGroupsGroupidJoinRequestsUsersUserid = endpoint({
  * @param userId The user Id.
  */
 export const deleteGroupsGroupidJoinRequestsUsersUserid = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/groups/:groupId/join-requests/users/:userId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1034,7 +962,7 @@ export const deleteGroupsGroupidJoinRequestsUsersUserid = endpoint({
     groupId: z.number().int(),
     userId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1059,10 +987,10 @@ export const deleteGroupsGroupidJoinRequestsUsersUserid = endpoint({
  * @param includeNotificationPreferences
  */
 export const getGroupsGroupidMembership = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/membership',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1092,10 +1020,10 @@ export const getGroupsGroupidMembership = endpoint({
  * @description This endpoint will charge Robux for the group rename.
  */
 export const patchGroupsGroupidName = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/groups/:groupId/name',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -1105,8 +1033,8 @@ export const patchGroupsGroupidName = endpoint({
   parameters: {
     groupId: z.number().int(),
   },
-  body: z.object({ name: z.string() }).passthrough(),
-  response: z.object({ newName: z.string() }).passthrough(),
+  body: z.object({ name: z.string() }),
+  response: z.object({ newName: z.string() }),
   errors: [
     {
       status: 400,
@@ -1152,10 +1080,10 @@ export const patchGroupsGroupidName = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidNameHistory = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/name-history',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1201,10 +1129,10 @@ export const getGroupsGroupidNameHistory = endpoint({
  * @param groupId The id of the group the user is in.
  */
 export const patchGroupsGroupidNotificationPreference = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/groups/:groupId/notification-preference',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -1214,7 +1142,7 @@ export const patchGroupsGroupidNotificationPreference = endpoint({
   parameters: {
     groupId: z.number().int(),
   },
-  body: z.object({ notificationsEnabled: z.boolean() }).passthrough(),
+  body: z.object({ notificationsEnabled: z.boolean() }),
   response: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   errors: [
     {
@@ -1237,10 +1165,10 @@ export const patchGroupsGroupidNotificationPreference = endpoint({
  * @param groupId The group id.
  */
 export const getGroupsGroupidPayoutRestriction = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/payout-restriction',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1271,10 +1199,10 @@ export const getGroupsGroupidPayoutRestriction = endpoint({
  * @param groupId The group id.
  */
 export const getGroupsGroupidPayouts = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/payouts',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1306,10 +1234,10 @@ export const getGroupsGroupidPayouts = endpoint({
  * @param groupId The group Id.
  */
 export const postGroupsGroupidPayouts = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/payouts',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -1320,7 +1248,7 @@ export const postGroupsGroupidPayouts = endpoint({
     groupId: z.number().int(),
   },
   body: Roblox_Groups_Api_PayoutRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1356,10 +1284,10 @@ export const postGroupsGroupidPayouts = endpoint({
 If a recipient in the request is not a valid member in the group they will not be added to the recurring payouts.
  */
 export const postGroupsGroupidPayoutsRecurring = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/payouts/recurring',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -1370,7 +1298,7 @@ export const postGroupsGroupidPayoutsRecurring = endpoint({
     groupId: z.number().int(),
   },
   body: Roblox_Groups_Api_PayoutRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1406,10 +1334,10 @@ export const postGroupsGroupidPayoutsRecurring = endpoint({
  * @param MaxRows The maximum number of rows for the page request, should be at least 1.
  */
 export const getGroupsGroupidRelationshipsGrouprelationshiptype = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1450,10 +1378,10 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptype = endpoint({
  * @param relatedGroupId The id of the group you want to create a relationship with.
  */
 export const postGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1470,7 +1398,7 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid =
     groupRelationshipType: z.string(),
     relatedGroupId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1502,10 +1430,10 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid =
  * @param relatedGroupId The id of the group you want to delete the relationship with.
  */
 export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1522,7 +1450,7 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid
     groupRelationshipType: z.string(),
     relatedGroupId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1550,10 +1478,10 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid
  * @param MaxRows The maximum number of rows for the page request, should be at least 1.
  */
 export const getGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1602,10 +1530,10 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoi
  * @param groupRelationshipType The type of group relationship being made
  */
 export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -1620,7 +1548,7 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpo
     groupRelationshipType: z.string(),
   },
   body: Roblox_Groups_Api_RelationshipsRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -1640,10 +1568,10 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpo
  * @param groupRelationshipType The type of group relationship being made
  */
 export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -1658,7 +1586,7 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequests = end
     groupRelationshipType: z.string(),
   },
   body: Roblox_Groups_Api_RelationshipsRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -1678,10 +1606,10 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequests = end
  * @param relatedGroupId The id of the group you want to accept the relationship request with.
  */
 export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedgroupid = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1698,7 +1626,7 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedg
     groupRelationshipType: z.string(),
     relatedGroupId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1726,10 +1654,10 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedg
  * @param relatedGroupId The id of the group you want to accept the relationship request with.
  */
 export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedgroupid = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1746,7 +1674,7 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelate
     groupRelationshipType: z.string(),
     relatedGroupId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1772,10 +1700,10 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelate
  * @param groupId The group id.
  */
 export const getGroupsGroupidRoles = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/roles',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1799,10 +1727,10 @@ export const getGroupsGroupidRoles = endpoint({
  * @param roleSetId The group's role set id.
  */
 export const getGroupsGroupidRolesRolesetidPermissions = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/roles/:roleSetId/permissions',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1840,10 +1768,10 @@ export const getGroupsGroupidRolesRolesetidPermissions = endpoint({
  * @param roleSetId The roleset's id.
  */
 export const patchGroupsGroupidRolesRolesetidPermissions = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/groups/:groupId/roles/:roleSetId/permissions',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -1858,7 +1786,7 @@ export const patchGroupsGroupidRolesRolesetidPermissions = endpoint({
     roleSetId: z.number().int(),
   },
   body: Roblox_Groups_Api_UpdatePermissionsRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -1887,10 +1815,10 @@ export const patchGroupsGroupidRolesRolesetidPermissions = endpoint({
  * @param sortOrder Sorted by user group join date
  */
 export const getGroupsGroupidRolesRolesetidUsers = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/roles/:roleSetId/users',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1939,10 +1867,10 @@ export const getGroupsGroupidRolesRolesetidUsers = endpoint({
  * @param groupId The group id.
  */
 export const getGroupsGroupidRolesGuestPermissions = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/roles/guest/permissions',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1965,10 +1893,10 @@ export const getGroupsGroupidRolesGuestPermissions = endpoint({
  * @param groupId The group id.
  */
 export const getGroupsGroupidRolesPermissions = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/roles/permissions',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -1992,10 +1920,10 @@ export const getGroupsGroupidRolesPermissions = endpoint({
  * @param rolesetId The roleset Id.
  */
 export const deleteGroupsGroupidRolesetsRolesetid = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/groups/:groupId/rolesets/:rolesetId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -2008,7 +1936,7 @@ export const deleteGroupsGroupidRolesetsRolesetid = endpoint({
     groupId: z.number().int(),
     rolesetId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -2037,10 +1965,10 @@ export const deleteGroupsGroupidRolesetsRolesetid = endpoint({
  * @param rolesetId The roleset Id.
  */
 export const patchGroupsGroupidRolesetsRolesetid = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/groups/:groupId/rolesets/:rolesetId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -2087,10 +2015,10 @@ export const patchGroupsGroupidRolesetsRolesetid = endpoint({
  * @param groupId The group Id.
  */
 export const postGroupsGroupidRolesetsCreate = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/rolesets/create',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -2134,10 +2062,10 @@ export const postGroupsGroupidRolesetsCreate = endpoint({
  * @param groupId The id of the group the user is in.
  */
 export const getGroupsGroupidSettings = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/settings',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -2169,10 +2097,10 @@ export const getGroupsGroupidSettings = endpoint({
  * @param groupId The id of the group the user is in.
  */
 export const patchGroupsGroupidSettings = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/groups/:groupId/settings',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -2183,7 +2111,7 @@ export const patchGroupsGroupidSettings = endpoint({
     groupId: z.number().int(),
   },
   body: Roblox_Groups_Api_UpdateGroupSettingsRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -2210,10 +2138,10 @@ export const patchGroupsGroupidSettings = endpoint({
  * @param groupId The Id of the game
  */
 export const getGroupsGroupidSocialLinks = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/social-links',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -2249,10 +2177,10 @@ export const getGroupsGroupidSocialLinks = endpoint({
  * @param groupId The id of the game
  */
 export const postGroupsGroupidSocialLinks = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/social-links',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -2300,10 +2228,10 @@ export const postGroupsGroupidSocialLinks = endpoint({
  * @param socialLinkId The id of the social link
  */
 export const deleteGroupsGroupidSocialLinksSociallinkid = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/groups/:groupId/social-links/:socialLinkId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -2316,7 +2244,7 @@ export const deleteGroupsGroupidSocialLinksSociallinkid = endpoint({
     groupId: z.number().int(),
     socialLinkId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -2348,10 +2276,10 @@ export const deleteGroupsGroupidSocialLinksSociallinkid = endpoint({
  * @param socialLinkId The id of the social link being updated
  */
 export const patchGroupsGroupidSocialLinksSociallinkid = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/groups/:groupId/social-links/:socialLinkId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -2366,7 +2294,7 @@ export const patchGroupsGroupidSocialLinksSociallinkid = endpoint({
     socialLinkId: z.number().int(),
   },
   body: Roblox_Groups_Api_SocialLinkRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -2408,10 +2336,10 @@ export const patchGroupsGroupidSocialLinksSociallinkid = endpoint({
  * @param groupId The group Id.
  */
 export const patchGroupsGroupidStatus = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/groups/:groupId/status',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -2421,7 +2349,7 @@ export const patchGroupsGroupidStatus = endpoint({
   parameters: {
     groupId: z.number().int(),
   },
-  body: z.object({ message: z.string() }).passthrough(),
+  body: z.object({ message: z.string() }),
   response: Roblox_Groups_Api_ShoutResponse,
   errors: [
     {
@@ -2449,10 +2377,10 @@ export const patchGroupsGroupidStatus = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidUsers = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/users',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -2494,10 +2422,10 @@ export const getGroupsGroupidUsers = endpoint({
  * @param groupId The group Id.
  */
 export const postGroupsGroupidUsers = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/users',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -2508,7 +2436,7 @@ export const postGroupsGroupidUsers = endpoint({
     groupId: z.number().int(),
   },
   body: Roblox_Groups_Api_JoinGroupRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -2547,10 +2475,10 @@ export const postGroupsGroupidUsers = endpoint({
  * @param userId The Id of the user being removed.
  */
 export const deleteGroupsGroupidUsersUserid = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/groups/:groupId/users/:userId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -2563,7 +2491,7 @@ export const deleteGroupsGroupidUsersUserid = endpoint({
     groupId: z.number().int(),
     userId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -2594,10 +2522,10 @@ export const deleteGroupsGroupidUsersUserid = endpoint({
  * @param userId The id of the user being updated.
  */
 export const patchGroupsGroupidUsersUserid = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/groups/:groupId/users/:userId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -2611,8 +2539,8 @@ export const patchGroupsGroupidUsersUserid = endpoint({
     groupId: z.number().int(),
     userId: z.number().int(),
   },
-  body: z.object({ roleId: z.number().int() }).passthrough(),
-  response: z.object({}).passthrough(),
+  body: z.object({ roleId: z.number().int() }),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -2646,10 +2574,10 @@ export const patchGroupsGroupidUsersUserid = endpoint({
  * @param sortOrder Sorted by group wall post Id
  */
 export const getGroupsGroupidWallPosts = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/:groupId/wall/posts',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -2695,10 +2623,10 @@ export const getGroupsGroupidWallPosts = endpoint({
  * @param groupId The group id.
  */
 export const postGroupsGroupidWallPosts = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/wall/posts',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     groupId: {
@@ -2738,10 +2666,10 @@ export const postGroupsGroupidWallPosts = endpoint({
  * @param postId The group wall post id.
  */
 export const deleteGroupsGroupidWallPostsPostid = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/groups/:groupId/wall/posts/:postId',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -2754,7 +2682,7 @@ export const deleteGroupsGroupidWallPostsPostid = endpoint({
     groupId: z.number().int(),
     postId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -2778,10 +2706,10 @@ export const deleteGroupsGroupidWallPostsPostid = endpoint({
  * @param groupId The group id.
  */
 export const postGroupsGroupidWallSubscribe = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/:groupId/wall/subscribe',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -2814,10 +2742,10 @@ export const postGroupsGroupidWallSubscribe = endpoint({
  * @param userId The user id.
  */
 export const deleteGroupsGroupidWallUsersUseridPosts = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/groups/:groupId/wall/users/:userId/posts',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
       style: 'simple',
@@ -2830,7 +2758,7 @@ export const deleteGroupsGroupidWallUsersUseridPosts = endpoint({
     groupId: z.number().int(),
     userId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -2853,10 +2781,10 @@ export const deleteGroupsGroupidWallUsersUseridPosts = endpoint({
  * @summary Gets Group configuration contextual information
  */
 export const getGroupsConfigurationMetadata = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/configuration/metadata',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   response: Roblox_Groups_Api_GroupConfigurationDisplayOptionsResponse,
   errors: [],
 });
@@ -2868,10 +2796,10 @@ export const getGroupsConfigurationMetadata = endpoint({
 Http status code 413 is thrown when the group icon file size is too large.
  */
 export const postGroupsCreate = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/create',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'form-data' as const,
+  requestFormat: 'form-data',
   serializationMethod: {
     body: {},
   },
@@ -2925,10 +2853,10 @@ export const postGroupsCreate = endpoint({
  * @param groupId The group Id.
  */
 export const patchGroupsIcon = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/groups/icon',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'form-data' as const,
+  requestFormat: 'form-data',
   serializationMethod: {
     body: {},
     groupId: {
@@ -2939,8 +2867,8 @@ export const patchGroupsIcon = endpoint({
   parameters: {
     groupId: z.number().int(),
   },
-  body: z.object({ Files: z.instanceof(File) }).passthrough(),
-  response: z.object({}).passthrough(),
+  body: z.object({ Files: z.instanceof(File) }),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -2972,10 +2900,10 @@ Current number of groups a user is a member of.
 Whether to show/hide certain features based on device type.
  */
 export const getGroupsMetadata = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/metadata',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   response: Roblox_Groups_Api_GroupsDisplayOptionsResponse,
   errors: [],
 });
@@ -2985,10 +2913,10 @@ export const getGroupsMetadata = endpoint({
  * @param body
  */
 export const postGroupsPolicies = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/groups/policies',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -3020,10 +2948,10 @@ export const postGroupsPolicies = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  */
 export const getGroupsSearch = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/search',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     keyword: {
       style: 'form',
@@ -3068,10 +2996,10 @@ export const getGroupsSearch = endpoint({
  * @description Should only be used for direct lookups where a user is inputting a group name, shouldn't be used for search pages.
  */
 export const getGroupsSearchLookup = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/search/lookup',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     groupName: {
       style: 'form',
@@ -3096,10 +3024,10 @@ export const getGroupsSearchLookup = endpoint({
 we will use coco to return different suggested groups based upon that user's request context
  */
 export const getGroupsSearchMetadata = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/groups/search/metadata',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   response: Roblox_Groups_Api_GroupSearchMetadataResponse,
   errors: [
     {
@@ -3114,10 +3042,10 @@ export const getGroupsSearchMetadata = endpoint({
  * @param ids A list of role ids
  */
 export const getRoles = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/roles',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     ids: {
       style: 'form',
@@ -3140,10 +3068,10 @@ export const getRoles = endpoint({
  * @summary Gets groups that the authenticated user has requested to join
  */
 export const getUserGroupsPending = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/user/groups/pending',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupDetailResponse_,
   errors: [
     {
@@ -3158,16 +3086,16 @@ export const getUserGroupsPending = endpoint({
  * @param body The request body containing the group id.
  */
 export const postUserGroupsPrimary = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/user/groups/primary',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
   parameters: {},
-  body: z.object({ groupId: z.number().int() }).passthrough(),
-  response: z.object({}).passthrough(),
+  body: z.object({ groupId: z.number().int() }),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -3189,11 +3117,11 @@ export const postUserGroupsPrimary = endpoint({
  * @summary Removes the authenticated user's primary group
  */
 export const deleteUserGroupsPrimary = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/user/groups/primary',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
-  response: z.object({}).passthrough(),
+  requestFormat: 'json',
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -3211,10 +3139,10 @@ export const deleteUserGroupsPrimary = endpoint({
  * @param userId The user id.
  */
 export const getUsersUseridFriendsGroupsRoles = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/friends/groups/roles',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -3241,10 +3169,10 @@ export const getUsersUseridFriendsGroupsRoles = endpoint({
  * @param userId The user id.
  */
 export const getUsersUseridGroupsPrimaryRole = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/groups/primary/role',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -3269,10 +3197,10 @@ export const getUsersUseridGroupsPrimaryRole = endpoint({
  * @param includeNotificationPreferences
  */
 export const getUsersUseridGroupsRoles = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/groups/roles',
   baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',

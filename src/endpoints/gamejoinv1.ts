@@ -1,200 +1,180 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_GameJoin_Api_GameJoinRequest = z
-  .object({
-    isoContext: z.string(),
-    eventId: z.string().uuid(),
-    gameJoinAttemptId: z.string().uuid(),
-    placeId: z.number().int(),
-    gamerTag: z.string(),
-    isPlayTogetherGame: z.boolean(),
-    browserTrackerId: z.number().int(),
-    isTeleport: z.boolean(),
-    isImmersiveAdsTeleport: z.boolean(),
-    channelName: z.string(),
-    joinOrigin: z.string(),
-  })
-  .passthrough();
-const Roblox_Web_GameJoin_StatusData_CreatorExperienceBanData = z
-  .object({
-    startTime: z.string().datetime({ offset: true }),
-    durationSeconds: z.number().int(),
-    displayReason: z.string(),
-    isInherited: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Web_GameJoin_StatusData = z
-  .object({
-    creatorExperienceBan: Roblox_Web_GameJoin_StatusData_CreatorExperienceBanData,
-  })
-  .passthrough();
-const Roblox_Web_GameLaunch_ConnectionFlow_ServerConnection = z
-  .object({ Address: z.string(), Port: z.number().int() })
-  .passthrough();
-const Roblox_Web_GameLaunch_ConnectionFlow_UdmuxEndpoint = z
-  .object({ Address: z.string(), Port: z.number().int() })
-  .passthrough();
-const Roblox_Web_GameLaunch_ConnectionFlow_JoinInformation = z
-  .object({
-    ClientPort: z.number().int(),
-    MachineAddress: z.string(),
-    ServerPort: z.number().int(),
-    ServerConnections: z.array(Roblox_Web_GameLaunch_ConnectionFlow_ServerConnection),
-    UdmuxEndpoints: z.array(Roblox_Web_GameLaunch_ConnectionFlow_UdmuxEndpoint),
-    DirectServerReturn: z.boolean(),
-    TokenGenAlgorithm: z.number().int(),
-    PepperId: z.number().int(),
-    TokenValue: z.string(),
-    PingUrl: z.string(),
-    PingInterval: z.number().int(),
-    UserName: z.string(),
-    DisplayName: z.string(),
-    HasVerifiedBadge: z.boolean(),
-    SeleniumTestMode: z.boolean(),
-    UserId: z.number().int(),
-    RobloxLocale: z.string(),
-    GameLocale: z.string(),
-    SuperSafeChat: z.boolean(),
-    FlexibleChatEnabled: z.boolean(),
-    CharacterAppearance: z.string(),
-    ClientTicket: z.string(),
-    GameId: z.string(),
-    PlaceId: z.number().int(),
-    BaseUrl: z.string(),
-    ChatStyle: z.string(),
-    CreatorId: z.number().int(),
-    CreatorTypeEnum: z.string(),
-    MembershipType: z.string(),
-    AccountAge: z.number().int(),
-    CookieStoreFirstTimePlayKey: z.string(),
-    CookieStoreFiveMinutePlayKey: z.string(),
-    CookieStoreEnabled: z.boolean(),
-    IsUnknownOrUnder13: z.boolean(),
-    GameChatType: z.string(),
-    SessionId: z.string(),
-    AnalyticsSessionId: z.string(),
-    DataCenterId: z.number().int(),
-    UniverseId: z.number().int(),
-    FollowUserId: z.number().int(),
-    characterAppearanceId: z.number().int(),
-    CountryCode: z.string(),
-    AlternateName: z.string(),
-    RandomSeed1: z.string().regex(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/),
-    ClientPublicKeyData: z.string(),
-    RccVersion: z.string(),
-    ChannelName: z.string(),
-    VerifiedAMP: z.number().int(),
-    PrivateServerOwnerID: z.number().int(),
-    PrivateServerID: z.string(),
-    EventID: z.string(),
-    EphemeralEarlyPubKey: z.string(),
-  })
-  .passthrough();
-const Roblox_GameJoin_Api_GameJoinResponse = z
-  .object({
-    jobId: z.string(),
-    status: z.number().int(),
-    statusData: Roblox_Web_GameJoin_StatusData,
-    joinScriptUrl: z.string(),
-    authenticationUrl: z.string(),
-    authenticationTicket: z.string(),
-    message: z.string(),
-    joinScript: Roblox_Web_GameLaunch_ConnectionFlow_JoinInformation,
-    queuePosition: z.number().int(),
-  })
-  .passthrough();
-const Roblox_GameJoin_Api_JoinGameInstanceRequest = z
-  .object({
-    gameId: z.string().uuid(),
-    cId: z.string(),
-    gameJoinAttemptId: z.string().uuid(),
-    placeId: z.number().int(),
-    gamerTag: z.string(),
-    isPlayTogetherGame: z.boolean(),
-    browserTrackerId: z.number().int(),
-    isTeleport: z.boolean(),
-    isImmersiveAdsTeleport: z.boolean(),
-    channelName: z.string(),
-    joinOrigin: z.string(),
-  })
-  .passthrough();
-const Roblox_GameJoin_Api_JoinPlayTogetherGameRequest = z
-  .object({
-    conversationId: z.number().int(),
-    gameJoinAttemptId: z.string().uuid(),
-    placeId: z.number().int(),
-    gamerTag: z.string(),
-    isPlayTogetherGame: z.boolean(),
-    browserTrackerId: z.number().int(),
-    isTeleport: z.boolean(),
-    isImmersiveAdsTeleport: z.boolean(),
-    channelName: z.string(),
-    joinOrigin: z.string(),
-  })
-  .passthrough();
-const Roblox_GameJoin_Api_JoinPrivateGameRequest = z
-  .object({
-    accessCode: z.string(),
-    linkCode: z.string(),
-    gameJoinAttemptId: z.string().uuid(),
-    placeId: z.number().int(),
-    gamerTag: z.string(),
-    isPlayTogetherGame: z.boolean(),
-    browserTrackerId: z.number().int(),
-    isTeleport: z.boolean(),
-    isImmersiveAdsTeleport: z.boolean(),
-    channelName: z.string(),
-    joinOrigin: z.string(),
-  })
-  .passthrough();
-const Roblox_GameJoin_Api_JoinReservedGameRequest = z
-  .object({
-    accessCode: z.string(),
-    cId: z.string(),
-    gameJoinAttemptId: z.string().uuid(),
-    placeId: z.number().int(),
-    gamerTag: z.string(),
-    isPlayTogetherGame: z.boolean(),
-    browserTrackerId: z.number().int(),
-    isTeleport: z.boolean(),
-    isImmersiveAdsTeleport: z.boolean(),
-    channelName: z.string(),
-    joinOrigin: z.string(),
-  })
-  .passthrough();
-const Roblox_GameJoin_Api_PlayWithUserRequest = z
-  .object({
-    userIdToFollow: z.number().int(),
-    gameJoinAttemptId: z.string().uuid(),
-    placeId: z.number().int(),
-    gamerTag: z.string(),
-    isPlayTogetherGame: z.boolean(),
-    browserTrackerId: z.number().int(),
-    isTeleport: z.boolean(),
-    isImmersiveAdsTeleport: z.boolean(),
-    channelName: z.string(),
-    joinOrigin: z.string(),
-  })
-  .passthrough();
-const Roblox_GameJoin_Api_TeamCreateRequest = z
-  .object({
-    gameJoinAttemptId: z.string().uuid(),
-    placeId: z.number().int(),
-    gamerTag: z.string(),
-    isPlayTogetherGame: z.boolean(),
-    browserTrackerId: z.number().int(),
-    isTeleport: z.boolean(),
-    isImmersiveAdsTeleport: z.boolean(),
-    channelName: z.string(),
-    joinOrigin: z.string(),
-  })
-  .passthrough();
+const Roblox_GameJoin_Api_GameJoinRequest = z.object({
+  isoContext: z.string(),
+  eventId: z.string().uuid(),
+  gameJoinAttemptId: z.string().uuid(),
+  placeId: z.number().int(),
+  gamerTag: z.string(),
+  isPlayTogetherGame: z.boolean(),
+  browserTrackerId: z.number().int(),
+  isTeleport: z.boolean(),
+  isImmersiveAdsTeleport: z.boolean(),
+  channelName: z.string(),
+  joinOrigin: z.string(),
+});
+const Roblox_Web_GameJoin_StatusData_CreatorExperienceBanData = z.object({
+  startTime: z.string().datetime({ offset: true }),
+  durationSeconds: z.number().int(),
+  displayReason: z.string(),
+  isInherited: z.boolean(),
+});
+const Roblox_Web_GameJoin_StatusData = z.object({
+  creatorExperienceBan: Roblox_Web_GameJoin_StatusData_CreatorExperienceBanData,
+});
+const Roblox_Web_GameLaunch_ConnectionFlow_ServerConnection = z.object({
+  Address: z.string(),
+  Port: z.number().int(),
+});
+const Roblox_Web_GameLaunch_ConnectionFlow_UdmuxEndpoint = z.object({
+  Address: z.string(),
+  Port: z.number().int(),
+});
+const Roblox_Web_GameLaunch_ConnectionFlow_JoinInformation = z.object({
+  ClientPort: z.number().int(),
+  MachineAddress: z.string(),
+  ServerPort: z.number().int(),
+  ServerConnections: z.array(Roblox_Web_GameLaunch_ConnectionFlow_ServerConnection),
+  UdmuxEndpoints: z.array(Roblox_Web_GameLaunch_ConnectionFlow_UdmuxEndpoint),
+  DirectServerReturn: z.boolean(),
+  TokenGenAlgorithm: z.number().int(),
+  PepperId: z.number().int(),
+  TokenValue: z.string(),
+  PingUrl: z.string(),
+  PingInterval: z.number().int(),
+  UserName: z.string(),
+  DisplayName: z.string(),
+  HasVerifiedBadge: z.boolean(),
+  SeleniumTestMode: z.boolean(),
+  UserId: z.number().int(),
+  RobloxLocale: z.string(),
+  GameLocale: z.string(),
+  SuperSafeChat: z.boolean(),
+  FlexibleChatEnabled: z.boolean(),
+  CharacterAppearance: z.string(),
+  ClientTicket: z.string(),
+  GameId: z.string(),
+  PlaceId: z.number().int(),
+  BaseUrl: z.string(),
+  ChatStyle: z.string(),
+  CreatorId: z.number().int(),
+  CreatorTypeEnum: z.string(),
+  MembershipType: z.string(),
+  AccountAge: z.number().int(),
+  CookieStoreFirstTimePlayKey: z.string(),
+  CookieStoreFiveMinutePlayKey: z.string(),
+  CookieStoreEnabled: z.boolean(),
+  IsUnknownOrUnder13: z.boolean(),
+  GameChatType: z.string(),
+  SessionId: z.string(),
+  AnalyticsSessionId: z.string(),
+  DataCenterId: z.number().int(),
+  UniverseId: z.number().int(),
+  FollowUserId: z.number().int(),
+  characterAppearanceId: z.number().int(),
+  CountryCode: z.string(),
+  AlternateName: z.string(),
+  RandomSeed1: z.string().regex(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/),
+  ClientPublicKeyData: z.string(),
+  RccVersion: z.string(),
+  ChannelName: z.string(),
+  VerifiedAMP: z.number().int(),
+  PrivateServerOwnerID: z.number().int(),
+  PrivateServerID: z.string(),
+  EventID: z.string(),
+  EphemeralEarlyPubKey: z.string(),
+});
+const Roblox_GameJoin_Api_GameJoinResponse = z.object({
+  jobId: z.string(),
+  status: z.number().int(),
+  statusData: Roblox_Web_GameJoin_StatusData,
+  joinScriptUrl: z.string(),
+  authenticationUrl: z.string(),
+  authenticationTicket: z.string(),
+  message: z.string(),
+  joinScript: Roblox_Web_GameLaunch_ConnectionFlow_JoinInformation,
+  queuePosition: z.number().int(),
+});
+const Roblox_GameJoin_Api_JoinGameInstanceRequest = z.object({
+  gameId: z.string().uuid(),
+  cId: z.string(),
+  gameJoinAttemptId: z.string().uuid(),
+  placeId: z.number().int(),
+  gamerTag: z.string(),
+  isPlayTogetherGame: z.boolean(),
+  browserTrackerId: z.number().int(),
+  isTeleport: z.boolean(),
+  isImmersiveAdsTeleport: z.boolean(),
+  channelName: z.string(),
+  joinOrigin: z.string(),
+});
+const Roblox_GameJoin_Api_JoinPlayTogetherGameRequest = z.object({
+  conversationId: z.number().int(),
+  gameJoinAttemptId: z.string().uuid(),
+  placeId: z.number().int(),
+  gamerTag: z.string(),
+  isPlayTogetherGame: z.boolean(),
+  browserTrackerId: z.number().int(),
+  isTeleport: z.boolean(),
+  isImmersiveAdsTeleport: z.boolean(),
+  channelName: z.string(),
+  joinOrigin: z.string(),
+});
+const Roblox_GameJoin_Api_JoinPrivateGameRequest = z.object({
+  accessCode: z.string(),
+  linkCode: z.string(),
+  gameJoinAttemptId: z.string().uuid(),
+  placeId: z.number().int(),
+  gamerTag: z.string(),
+  isPlayTogetherGame: z.boolean(),
+  browserTrackerId: z.number().int(),
+  isTeleport: z.boolean(),
+  isImmersiveAdsTeleport: z.boolean(),
+  channelName: z.string(),
+  joinOrigin: z.string(),
+});
+const Roblox_GameJoin_Api_JoinReservedGameRequest = z.object({
+  accessCode: z.string(),
+  cId: z.string(),
+  gameJoinAttemptId: z.string().uuid(),
+  placeId: z.number().int(),
+  gamerTag: z.string(),
+  isPlayTogetherGame: z.boolean(),
+  browserTrackerId: z.number().int(),
+  isTeleport: z.boolean(),
+  isImmersiveAdsTeleport: z.boolean(),
+  channelName: z.string(),
+  joinOrigin: z.string(),
+});
+const Roblox_GameJoin_Api_PlayWithUserRequest = z.object({
+  userIdToFollow: z.number().int(),
+  gameJoinAttemptId: z.string().uuid(),
+  placeId: z.number().int(),
+  gamerTag: z.string(),
+  isPlayTogetherGame: z.boolean(),
+  browserTrackerId: z.number().int(),
+  isTeleport: z.boolean(),
+  isImmersiveAdsTeleport: z.boolean(),
+  channelName: z.string(),
+  joinOrigin: z.string(),
+});
+const Roblox_GameJoin_Api_TeamCreateRequest = z.object({
+  gameJoinAttemptId: z.string().uuid(),
+  placeId: z.number().int(),
+  gamerTag: z.string(),
+  isPlayTogetherGame: z.boolean(),
+  browserTrackerId: z.number().int(),
+  isTeleport: z.boolean(),
+  isImmersiveAdsTeleport: z.boolean(),
+  channelName: z.string(),
+  joinOrigin: z.string(),
+});
 const Roblox_GameJoin_Api_TeamCreateResponse = z
   .object({
     status: z.number().int(),
     message: z.string(),
-    settings: z.object({}).passthrough(),
+    settings: z.object({}),
   })
   .passthrough();
 
@@ -204,10 +184,10 @@ const Roblox_GameJoin_Api_TeamCreateResponse = z
  * @param body The Roblox.GameJoin.Api.GameJoinRequest in JSON format
  */
 export const postJoinGame = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/join-game',
   baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -231,10 +211,10 @@ export const postJoinGame = endpoint({
  * @param body The Roblox.GameJoin.Api.JoinGameInstanceRequest in JSON format
  */
 export const postJoinGameInstance = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/join-game-instance',
   baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -258,10 +238,10 @@ export const postJoinGameInstance = endpoint({
  * @param body The Roblox.GameJoin.Api.JoinPlayTogetherGameRequest in JSON format
  */
 export const postJoinPlayTogetherGame = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/join-play-together-game',
   baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -285,10 +265,10 @@ export const postJoinPlayTogetherGame = endpoint({
  * @param body The Roblox.GameJoin.Api.JoinPrivateGameRequest in JSON format
  */
 export const postJoinPrivateGame = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/join-private-game',
   baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -312,10 +292,10 @@ export const postJoinPrivateGame = endpoint({
  * @param body The Roblox.GameJoin.Api.JoinReservedGameRequest in JSON format
  */
 export const postJoinReservedGame = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/join-reserved-game',
   baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -339,10 +319,10 @@ export const postJoinReservedGame = endpoint({
  * @param body The Roblox.GameJoin.Api.PlayWithUserRequest in JSON format
  */
 export const postPlayWithUser = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/play-with-user',
   baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -368,10 +348,10 @@ export const postPlayWithUser = endpoint({
 round-trip would impact client performance.
  */
 export const postTeamCreate = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/team-create',
   baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -402,10 +382,10 @@ export const postTeamCreate = endpoint({
 More specifically, it requires Xsrf protection and disables user-agent check so that it can be called from browsers.
  */
 export const postTeamCreatePreemptive = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/team-create-preemptive',
   baseUrl: 'https://gamejoin.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },

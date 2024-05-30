@@ -1,67 +1,59 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_Web_Assets_IAssetItemError = z
-  .object({
-    Code: z.number().int(),
-    Message: z.string(),
-    CustomErrorCode: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-      z.literal(9),
-      z.literal(10),
-    ]),
-  })
-  .passthrough();
-const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z
-  .object({
-    format: z.string(),
-    majorVersion: z.string(),
-    fidelity: z.string(),
-  })
-  .passthrough();
-const Roblox_Web_Assets_IAssetResponseItem = z
-  .object({
-    Location: z.string(),
-    Errors: z.array(Roblox_Web_Assets_IAssetItemError),
-    RequestId: z.string(),
-    IsHashDynamic: z.boolean(),
-    IsCopyrightProtected: z.boolean(),
-    IsArchived: z.boolean(),
-    ContentRepresentationSpecifier: Roblox_Web_Assets_AssetContentRepresentationSpecifier,
-  })
-  .passthrough();
-const Roblox_Web_Assets_BatchAssetRequestItem = z
-  .object({
-    assetName: z.string(),
-    assetType: z.string(),
-    clientInsert: z.boolean(),
-    placeId: z.number().int(),
-    requestId: z.string(),
-    scriptInsert: z.boolean(),
-    serverPlaceId: z.number().int(),
-    universeId: z.number().int(),
-    accept: z.string(),
-    encoding: z.string(),
-    hash: z.string(),
-    userAssetId: z.number().int(),
-    assetId: z.number().int(),
-    version: z.number().int(),
-    assetVersionId: z.number().int(),
-    modulePlaceId: z.number().int(),
-    assetFormat: z.string(),
-    'roblox-assetFormat': z.string(),
-    contentRepresentationPriorityList: z.string(),
-    doNotFallbackToBaselineRepresentation: z.boolean(),
-  })
-  .passthrough();
+const Roblox_Web_Assets_IAssetItemError = z.object({
+  Code: z.number().int(),
+  Message: z.string(),
+  CustomErrorCode: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+    z.literal(10),
+  ]),
+});
+const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z.object({
+  format: z.string(),
+  majorVersion: z.string(),
+  fidelity: z.string(),
+});
+const Roblox_Web_Assets_IAssetResponseItem = z.object({
+  Location: z.string(),
+  Errors: z.array(Roblox_Web_Assets_IAssetItemError),
+  RequestId: z.string(),
+  IsHashDynamic: z.boolean(),
+  IsCopyrightProtected: z.boolean(),
+  IsArchived: z.boolean(),
+  ContentRepresentationSpecifier: Roblox_Web_Assets_AssetContentRepresentationSpecifier,
+});
+const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
+  assetName: z.string(),
+  assetType: z.string(),
+  clientInsert: z.boolean(),
+  placeId: z.number().int(),
+  requestId: z.string(),
+  scriptInsert: z.boolean(),
+  serverPlaceId: z.number().int(),
+  universeId: z.number().int(),
+  accept: z.string(),
+  encoding: z.string(),
+  hash: z.string(),
+  userAssetId: z.number().int(),
+  assetId: z.number().int(),
+  version: z.number().int(),
+  assetVersionId: z.number().int(),
+  modulePlaceId: z.number().int(),
+  assetFormat: z.string(),
+  'roblox-assetFormat': z.string(),
+  contentRepresentationPriorityList: z.string(),
+  doNotFallbackToBaselineRepresentation: z.boolean(),
+});
 
 /**
  * @api GET https://assetdelivery.roblox.com/v1/alias/:alias
@@ -81,10 +73,10 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z
  * @param expectedAssetType
  */
 export const getAliasAlias = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/alias/:alias',
   baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     alias: {
       style: 'simple',
@@ -178,10 +170,10 @@ export const getAliasAlias = endpoint({
  * @param contentRepresentationPriorityList
  */
 export const getAsset = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/asset',
   baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     'Accept-Encoding': {
       style: 'simple',
@@ -321,10 +313,10 @@ export const getAsset = endpoint({
  * @param expectedAssetType
  */
 export const getAssethashHash = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/assetHash/:hash',
   baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     hash: {
       style: 'simple',
@@ -410,10 +402,10 @@ export const getAssethashHash = endpoint({
  * @param contentRepresentationPriorityList
  */
 export const getAssetidAssetid = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/assetId/:assetId',
   baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     assetId: {
       style: 'simple',
@@ -510,10 +502,10 @@ export const getAssetidAssetid = endpoint({
  * @param contentRepresentationPriorityList
  */
 export const getAssetidAssetidVersionVersion = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/assetId/:assetId/version/:version',
   baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     assetId: {
       style: 'simple',
@@ -601,10 +593,10 @@ export const getAssetidAssetidVersionVersion = endpoint({
  * @param Roblox-Browser-Asset-Request
  */
 export const postAssetsBatch = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/assets/batch',
   baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     'Roblox-Place-Id': {
@@ -643,10 +635,10 @@ export const postAssetsBatch = endpoint({
  * @param expectedAssetType
  */
 export const getAssetversionidAssetversionid = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/assetVersionId/:assetVersionId',
   baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     assetVersionId: {
       style: 'simple',
@@ -731,10 +723,10 @@ export const getAssetversionidAssetversionid = endpoint({
  * @param expectedAssetType
  */
 export const getMarassethashMarassethashMarchecksumMarchecksum = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/marAssetHash/:marAssetHash/marCheckSum/:marCheckSum',
   baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     marAssetHash: {
       style: 'simple',
@@ -831,10 +823,10 @@ export const getMarassethashMarassethashMarchecksumMarchecksum = endpoint({
  * @param expectedAssetType
  */
 export const getUserassetidUserassetid = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/userAssetId/:userAssetId',
   baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userAssetId: {
       style: 'simple',

@@ -1,98 +1,84 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_Web_Responses_Badges_BadgeAwardStatisticsResponse = z
-  .object({
-    pastDayAwardedCount: z.number().int(),
-    awardedCount: z.number().int(),
-    winRatePercentage: z.number(),
-  })
-  .passthrough();
-const Roblox_Badges_Api_UniverseResponse = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    rootPlaceId: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Badges_Api_BadgeResponse = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    displayName: z.string(),
-    displayDescription: z.string(),
-    enabled: z.boolean(),
-    iconImageId: z.number().int(),
-    displayIconImageId: z.number().int(),
-    created: z.string().datetime({ offset: true }),
-    updated: z.string().datetime({ offset: true }),
-    statistics: Roblox_Web_Responses_Badges_BadgeAwardStatisticsResponse,
-    awardingUniverse: Roblox_Badges_Api_UniverseResponse,
-  })
-  .passthrough();
-const Roblox_Badges_Api_UpdateBadgeRequest = z
-  .object({ name: z.string(), description: z.string(), enabled: z.boolean() })
-  .passthrough();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
-const Roblox_Badges_Api_BadgeMetadataResponse = z
-  .object({
-    badgeCreationPrice: z.number().int(),
-    maxBadgeNameLength: z.number().int(),
-    maxBadgeDescriptionLength: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Badges_Api_BadgeResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Badges_Api_BadgeResponse),
-  })
-  .passthrough();
-const universeId_badges_body = z
-  .object({
-    name: z.string(),
-    description: z.string(),
-    paymentSourceType: z.union([z.literal(1), z.literal(2)]),
-    files: z.instanceof(File),
-    expectedCost: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Badges_BadgeAwarderType_ = z
-  .object({ id: z.number().int(), type: z.literal(1), name: z.string() })
-  .passthrough();
-const Roblox_Web_Responses_Badges_BadgeResponseV2 = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    displayName: z.string(),
-    displayDescription: z.string(),
-    enabled: z.boolean(),
-    iconImageId: z.number().int(),
-    displayIconImageId: z.number().int(),
-    awarder: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Badges_BadgeAwarderType_,
-    statistics: Roblox_Web_Responses_Badges_BadgeAwardStatisticsResponse,
-    created: z.string().datetime({ offset: true }),
-    updated: z.string().datetime({ offset: true }),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Badges_BadgeResponseV2_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Web_Responses_Badges_BadgeResponseV2),
-  })
-  .passthrough();
-const Roblox_Badges_Api_BadgeAwardResponse = z
-  .object({
-    badgeId: z.number().int(),
-    awardedDate: z.string().datetime({ offset: true }),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Badges_Api_BadgeAwardResponse_ = z
-  .object({ data: z.array(Roblox_Badges_Api_BadgeAwardResponse) })
-  .passthrough();
+const Roblox_Web_Responses_Badges_BadgeAwardStatisticsResponse = z.object({
+  pastDayAwardedCount: z.number().int(),
+  awardedCount: z.number().int(),
+  winRatePercentage: z.number(),
+});
+const Roblox_Badges_Api_UniverseResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  rootPlaceId: z.number().int(),
+});
+const Roblox_Badges_Api_BadgeResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  displayName: z.string(),
+  displayDescription: z.string(),
+  enabled: z.boolean(),
+  iconImageId: z.number().int(),
+  displayIconImageId: z.number().int(),
+  created: z.string().datetime({ offset: true }),
+  updated: z.string().datetime({ offset: true }),
+  statistics: Roblox_Web_Responses_Badges_BadgeAwardStatisticsResponse,
+  awardingUniverse: Roblox_Badges_Api_UniverseResponse,
+});
+const Roblox_Badges_Api_UpdateBadgeRequest = z.object({
+  name: z.string(),
+  description: z.string(),
+  enabled: z.boolean(),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Badges_Api_BadgeMetadataResponse = z.object({
+  badgeCreationPrice: z.number().int(),
+  maxBadgeNameLength: z.number().int(),
+  maxBadgeDescriptionLength: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Badges_Api_BadgeResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Badges_Api_BadgeResponse),
+});
+const universeId_badges_body = z.object({
+  name: z.string(),
+  description: z.string(),
+  paymentSourceType: z.union([z.literal(1), z.literal(2)]),
+  files: z.instanceof(File),
+  expectedCost: z.number().int(),
+});
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Badges_BadgeAwarderType_ = z.object({
+  id: z.number().int(),
+  type: z.literal(1),
+  name: z.string(),
+});
+const Roblox_Web_Responses_Badges_BadgeResponseV2 = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  displayName: z.string(),
+  displayDescription: z.string(),
+  enabled: z.boolean(),
+  iconImageId: z.number().int(),
+  displayIconImageId: z.number().int(),
+  awarder: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Badges_BadgeAwarderType_,
+  statistics: Roblox_Web_Responses_Badges_BadgeAwardStatisticsResponse,
+  created: z.string().datetime({ offset: true }),
+  updated: z.string().datetime({ offset: true }),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Badges_BadgeResponseV2_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Web_Responses_Badges_BadgeResponseV2),
+});
+const Roblox_Badges_Api_BadgeAwardResponse = z.object({
+  badgeId: z.number().int(),
+  awardedDate: z.string().datetime({ offset: true }),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Badges_Api_BadgeAwardResponse_ = z.object({
+  data: z.array(Roblox_Badges_Api_BadgeAwardResponse),
+});
 
 /**
  * @api GET https://badges.roblox.com/v1/badges/:badgeId
@@ -100,10 +86,10 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Badges_Api_BadgeAwardResp
  * @param badgeId The badge Id.
  */
 export const getBadgesBadgeid = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/badges/:badgeId',
   baseUrl: 'https://badges.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     badgeId: {
       style: 'simple',
@@ -127,10 +113,10 @@ export const getBadgesBadgeid = endpoint({
  * @param badgeId The badge Id.
  */
 export const patchBadgesBadgeid = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/badges/:badgeId',
   baseUrl: 'https://badges.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     badgeId: {
@@ -141,7 +127,7 @@ export const patchBadgesBadgeid = endpoint({
     badgeId: z.number().int(),
   },
   body: Roblox_Badges_Api_UpdateBadgeRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -167,10 +153,10 @@ export const patchBadgesBadgeid = endpoint({
  * @summary Gets metadata about the badges system.
  */
 export const getBadgesMetadata = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/badges/metadata',
   baseUrl: 'https://badges.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   response: Roblox_Badges_Api_BadgeMetadataResponse,
   errors: [],
 });
@@ -183,10 +169,10 @@ export const getBadgesMetadata = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUniversesUniverseidBadges = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/universes/:universeId/badges',
   baseUrl: 'https://badges.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
       style: 'simple',
@@ -228,10 +214,10 @@ export const getUniversesUniverseidBadges = endpoint({
  * @param universeId The ID of the universe to create the badge for.
  */
 export const postUniversesUniverseidBadges = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/universes/:universeId/badges',
   baseUrl: 'https://badges.roblox.com',
-  requestFormat: 'form-data' as const,
+  requestFormat: 'form-data',
   serializationMethod: {
     body: {},
     universeId: {
@@ -279,10 +265,10 @@ export const postUniversesUniverseidBadges = endpoint({
  * @param universeId The universe Id.
  */
 export const getUniversesUniverseidFreeBadgesQuota = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/universes/:universeId/free-badges-quota',
   baseUrl: 'https://badges.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
       style: 'simple',
@@ -306,10 +292,10 @@ export const getUniversesUniverseidFreeBadgesQuota = endpoint({
  * @param badgeId The badge Id.
  */
 export const deleteUserUseridBadgesBadgeid = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/user/:userId/badges/:badgeId',
   baseUrl: 'https://badges.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -322,7 +308,7 @@ export const deleteUserUseridBadgesBadgeid = endpoint({
     userId: z.number().int(),
     badgeId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -344,10 +330,10 @@ export const deleteUserUseridBadgesBadgeid = endpoint({
  * @param badgeId The badge Id.
  */
 export const deleteUserBadgesBadgeid = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/user/badges/:badgeId',
   baseUrl: 'https://badges.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     badgeId: {
       style: 'simple',
@@ -356,7 +342,7 @@ export const deleteUserBadgesBadgeid = endpoint({
   parameters: {
     badgeId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -381,10 +367,10 @@ export const deleteUserBadgesBadgeid = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridBadges = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/badges',
   baseUrl: 'https://badges.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -426,10 +412,10 @@ export const getUsersUseridBadges = endpoint({
  * @param badgeId Badge id.
  */
 export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/badges/:badgeId/awarded-date',
   baseUrl: 'https://badges.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -457,10 +443,10 @@ export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
  * @param badgeIds The CSV of badge Ids.
  */
 export const getUsersUseridBadgesAwardedDates = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/badges/awarded-dates',
   baseUrl: 'https://badges.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',

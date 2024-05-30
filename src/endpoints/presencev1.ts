@@ -1,45 +1,39 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_Presence_Api_Models_Request_LastOnlineRequest = z.object({ userIds: z.array(z.number()) }).passthrough();
-const Roblox_Presence_Api_Models_Response_LastOnline = z
-  .object({
-    userId: z.number().int(),
-    lastOnline: z.string().datetime({ offset: true }),
-  })
-  .passthrough();
-const Roblox_Presence_Api_Models_Response_LastOnlineResponse = z
-  .object({
-    lastOnlineTimestamps: z.array(Roblox_Presence_Api_Models_Response_LastOnline),
-  })
-  .passthrough();
-const Roblox_Presence_Api_Models_Request_RegisterAppPresenceRequest = z
-  .object({
-    location: z.string(),
-    placeId: z.number().int(),
-    disconnect: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
-const Roblox_Presence_Api_Models_Request_UserPresenceRequest = z.object({ userIds: z.array(z.number()) }).passthrough();
-const Roblox_Presence_Api_Models_Response_UserPresence = z
-  .object({
-    userPresenceType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-    lastLocation: z.string(),
-    placeId: z.number().int(),
-    rootPlaceId: z.number().int(),
-    gameId: z.string().uuid(),
-    universeId: z.number().int(),
-    userId: z.number().int(),
-    lastOnline: z.string().datetime({ offset: true }),
-    invisibleModeExpiry: z.string().datetime({ offset: true }),
-  })
-  .passthrough();
-const Roblox_Presence_Api_Models_Response_UserPresencesResponse = z
-  .object({
-    userPresences: z.array(Roblox_Presence_Api_Models_Response_UserPresence),
-  })
-  .passthrough();
+const Roblox_Presence_Api_Models_Request_LastOnlineRequest = z.object({
+  userIds: z.array(z.number()),
+});
+const Roblox_Presence_Api_Models_Response_LastOnline = z.object({
+  userId: z.number().int(),
+  lastOnline: z.string().datetime({ offset: true }),
+});
+const Roblox_Presence_Api_Models_Response_LastOnlineResponse = z.object({
+  lastOnlineTimestamps: z.array(Roblox_Presence_Api_Models_Response_LastOnline),
+});
+const Roblox_Presence_Api_Models_Request_RegisterAppPresenceRequest = z.object({
+  location: z.string(),
+  placeId: z.number().int(),
+  disconnect: z.boolean(),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Presence_Api_Models_Request_UserPresenceRequest = z.object({
+  userIds: z.array(z.number()),
+});
+const Roblox_Presence_Api_Models_Response_UserPresence = z.object({
+  userPresenceType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  lastLocation: z.string(),
+  placeId: z.number().int(),
+  rootPlaceId: z.number().int(),
+  gameId: z.string().uuid(),
+  universeId: z.number().int(),
+  userId: z.number().int(),
+  lastOnline: z.string().datetime({ offset: true }),
+  invisibleModeExpiry: z.string().datetime({ offset: true }),
+});
+const Roblox_Presence_Api_Models_Response_UserPresencesResponse = z.object({
+  userPresences: z.array(Roblox_Presence_Api_Models_Response_UserPresence),
+});
 
 /**
  * @api POST https://presence.roblox.com/v1/presence/last-online
@@ -47,10 +41,10 @@ const Roblox_Presence_Api_Models_Response_UserPresencesResponse = z
  * @param body
  */
 export const postPresenceLastOnline = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/presence/last-online',
   baseUrl: 'https://presence.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -65,16 +59,16 @@ export const postPresenceLastOnline = endpoint({
  * @param body
  */
 export const postPresenceRegisterAppPresence = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/presence/register-app-presence',
   baseUrl: 'https://presence.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
   parameters: {},
   body: Roblox_Presence_Api_Models_Request_RegisterAppPresenceRequest,
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 401,
@@ -92,10 +86,10 @@ export const postPresenceRegisterAppPresence = endpoint({
  * @param body
  */
 export const postPresenceUsers = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/presence/users',
   baseUrl: 'https://presence.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },

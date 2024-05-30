@@ -1,74 +1,64 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_Inventory_Api_Models_AssetIdListModel = z.object({ assetIds: z.array(z.number()) }).passthrough();
-const Roblox_Inventory_Api_Models_CollectibleUserAssetModel = z
-  .object({
-    userAssetId: z.number().int(),
-    serialNumber: z.number().int(),
-    assetId: z.number().int(),
-    name: z.string(),
-    recentAveragePrice: z.number().int(),
-    originalPrice: z.number().int(),
-    assetStock: z.number().int(),
-    buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-    isOnHold: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Inventory_Api_Models_CollectibleUserAssetModel),
-  })
-  .passthrough();
-const Roblox_Inventory_Api_Models_CanViewInventoryResponse = z.object({ canView: z.boolean() }).passthrough();
-const Roblox_Inventory_Api_AssetsExplorerCategoryItemModel = z
-  .object({
-    name: z.string(),
-    displayName: z.string(),
-    filter: z.string(),
-    id: z.number().int(),
-    type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    categoryType: z.string(),
-  })
-  .passthrough();
-const Roblox_Inventory_Api_AssetsExplorerCategoryModel = z
-  .object({
-    name: z.string(),
-    displayName: z.string(),
-    categoryType: z.string(),
-    items: z.array(Roblox_Inventory_Api_AssetsExplorerCategoryItemModel),
-  })
-  .passthrough();
-const Roblox_Inventory_Api_CategoriesModel = z
-  .object({
-    categories: z.array(Roblox_Inventory_Api_AssetsExplorerCategoryModel),
-  })
-  .passthrough();
+const Roblox_Inventory_Api_Models_AssetIdListModel = z.object({
+  assetIds: z.array(z.number()),
+});
+const Roblox_Inventory_Api_Models_CollectibleUserAssetModel = z.object({
+  userAssetId: z.number().int(),
+  serialNumber: z.number().int(),
+  assetId: z.number().int(),
+  name: z.string(),
+  recentAveragePrice: z.number().int(),
+  originalPrice: z.number().int(),
+  assetStock: z.number().int(),
+  buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  isOnHold: z.boolean(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Inventory_Api_Models_CollectibleUserAssetModel),
+});
+const Roblox_Inventory_Api_Models_CanViewInventoryResponse = z.object({
+  canView: z.boolean(),
+});
+const Roblox_Inventory_Api_AssetsExplorerCategoryItemModel = z.object({
+  name: z.string(),
+  displayName: z.string(),
+  filter: z.string(),
+  id: z.number().int(),
+  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  categoryType: z.string(),
+});
+const Roblox_Inventory_Api_AssetsExplorerCategoryModel = z.object({
+  name: z.string(),
+  displayName: z.string(),
+  categoryType: z.string(),
+  items: z.array(Roblox_Inventory_Api_AssetsExplorerCategoryItemModel),
+});
+const Roblox_Inventory_Api_CategoriesModel = z.object({
+  categories: z.array(Roblox_Inventory_Api_AssetsExplorerCategoryModel),
+});
 const Roblox_Inventory_Api_Models_InventoryPageResponse = z
   .object({
-    data: z.array(z.object({}).passthrough()),
+    data: z.array(z.object({})),
     total: z.number().int(),
     includesAccessories: z.boolean(),
   })
   .passthrough();
-const Roblox_Inventory_Api_Models_IItemModel = z
-  .object({
-    Id: z.number().int(),
-    Name: z.string(),
-    Type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    InstanceId: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Inventory_Api_Models_IItemModel),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
+const Roblox_Inventory_Api_Models_IItemModel = z.object({
+  Id: z.number().int(),
+  Name: z.string(),
+  Type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  InstanceId: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Inventory_Api_Models_IItemModel),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
  * @api POST https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
@@ -77,10 +67,10 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
  * @param itemTargetId ID of the item
  */
 export const postCollectionsItemsItemtypeItemtargetid = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/collections/items/:itemType/:itemTargetId',
   baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     itemType: {
       style: 'simple',
@@ -93,7 +83,7 @@ export const postCollectionsItemsItemtypeItemtargetid = endpoint({
     itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     itemTargetId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -123,10 +113,10 @@ export const postCollectionsItemsItemtypeItemtargetid = endpoint({
  * @param itemTargetId ID of the item
  */
 export const deleteCollectionsItemsItemtypeItemtargetid = endpoint({
-  method: 'delete' as const,
+  method: 'delete',
   path: '/v1/collections/items/:itemType/:itemTargetId',
   baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     itemType: {
       style: 'simple',
@@ -139,7 +129,7 @@ export const deleteCollectionsItemsItemtypeItemtargetid = endpoint({
     itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     itemTargetId: z.number().int(),
   },
-  response: z.object({}).passthrough(),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -164,10 +154,10 @@ export const deleteCollectionsItemsItemtypeItemtargetid = endpoint({
  * @param packageID The asset ID of the package
  */
 export const getPackagesPackageidAssets = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/packages/:packageId/assets',
   baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     packageID: {
       style: 'simple',
@@ -189,10 +179,10 @@ export const getPackagesPackageidAssets = endpoint({
  * @param sortOrder Sorted by userAssetId
  */
 export const getUsersUseridAssetsCollectibles = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/assets/collectibles',
   baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -319,10 +309,10 @@ export const getUsersUseridAssetsCollectibles = endpoint({
  * @param userId The user identifier.
  */
 export const getUsersUseridCanViewInventory = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/can-view-inventory',
   baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -331,7 +321,7 @@ export const getUsersUseridCanViewInventory = endpoint({
   parameters: {
     userId: z.number().int(),
   },
-  response: z.object({ canView: z.boolean() }).passthrough(),
+  response: z.object({ canView: z.boolean() }),
   errors: [
     {
       status: 400,
@@ -345,10 +335,10 @@ export const getUsersUseridCanViewInventory = endpoint({
  * @param userId
  */
 export const getUsersUseridCategories = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/categories',
   baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -366,10 +356,10 @@ export const getUsersUseridCategories = endpoint({
  * @param userId
  */
 export const getUsersUseridCategoriesFavorites = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/categories/favorites',
   baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -392,10 +382,10 @@ Note that the 'Hat' asset type may return accessories while we are migrating.
  * @param keyword Filter results for items containing this.
  */
 export const getUsersUseridInventoryAssettype = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/inventory/:assetType',
   baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -521,10 +511,10 @@ Place creators can make requests as if they were the Game Server.
  * @param itemTargetId ID of the item in question
  */
 export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/items/:itemType/:itemTargetId',
   baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -562,10 +552,10 @@ export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
  * @param itemTargetId ID of the item in question
  */
 export const getUsersUseridItemsItemtypeItemtargetidIsOwned = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/users/:userId/items/:itemType/:itemTargetId/is-owned',
   baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',

@@ -1,410 +1,365 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_Games_Api_Models_Response_GameCreator = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    type: z.string(),
-    isRNVAccount: z.boolean(),
-    hasVerifiedBadge: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_GameDetailResponse = z
-  .object({
-    id: z.number().int(),
-    rootPlaceId: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    sourceName: z.string(),
-    sourceDescription: z.string(),
-    creator: Roblox_Games_Api_Models_Response_GameCreator,
-    price: z.number().int(),
-    allowedGearGenres: z.array(z.string()),
-    allowedGearCategories: z.array(z.string()),
-    isGenreEnforced: z.boolean(),
-    copyingAllowed: z.boolean(),
-    playing: z.number().int(),
-    visits: z.number().int(),
-    maxPlayers: z.number().int(),
-    created: z.string().datetime({ offset: true }),
-    updated: z.string().datetime({ offset: true }),
-    studioAccessToApisAllowed: z.boolean(),
-    createVipServersAllowed: z.boolean(),
-    universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
-    genre: z.string(),
-    isAllGenre: z.boolean(),
-    isFavoritedByUser: z.boolean(),
-    favoritedCount: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_ = z
-  .object({
-    data: z.array(Roblox_Games_Api_Models_Response_GameDetailResponse),
-  })
-  .passthrough();
-const Roblox_Games_Api_GameServerPlayerResponse = z
-  .object({
-    playerToken: z.string(),
-    id: z.number().int(),
-    name: z.string(),
-    displayName: z.string(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_VerifiedBadgeUserResponse = z
-  .object({
-    hasVerifiedBadge: z.boolean(),
-    id: z.number().int(),
-    name: z.string(),
-    displayName: z.string(),
-  })
-  .passthrough();
-const Roblox_Web_Responses_Games_GameServerResponse = z
-  .object({
-    id: z.string().uuid(),
-    maxPlayers: z.number().int(),
-    playing: z.number().int(),
-    playerTokens: z.array(z.string()),
-    players: z.array(Roblox_Games_Api_GameServerPlayerResponse),
-    fps: z.number(),
-    ping: z.number().int(),
-    name: z.string(),
-    vipServerId: z.number().int(),
-    accessCode: z.string().uuid(),
-    owner: Roblox_Games_Api_Models_Response_VerifiedBadgeUserResponse,
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Web_Responses_Games_GameServerResponse),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_GameFavoriteResponse = z.object({ isFavorited: z.boolean() }).passthrough();
-const Roblox_Games_Api_Models_Request_GameFavoritesRequest = z.object({ isFavorited: z.boolean() }).passthrough();
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({}).passthrough();
-const Roblox_Games_Api_Models_Response_GameFavoritesCountResponse = z
-  .object({ favoritesCount: z.number().int() })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_GamePassResponse = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    displayName: z.string(),
-    productId: z.number().int(),
-    price: z.number().int(),
-    sellerName: z.string(),
-    sellerId: z.number().int(),
-    isOwned: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Games_Api_Models_Response_GamePassResponse_ = z
-  .object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Games_Api_Models_Response_GamePassResponse),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_GameMediaItem = z
-  .object({
-    id: z.number().int(),
-    assetTypeId: z.number().int(),
-    assetType: z.string(),
-    imageId: z.number().int(),
-    videoHash: z.string(),
-    videoTitle: z.string(),
-    approved: z.boolean(),
-    altText: z.string(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameMediaItem_ = z
-  .object({ data: z.array(Roblox_Games_Api_Models_Response_GameMediaItem) })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_GameVoteResponse = z
-  .object({
-    id: z.number().int(),
-    upVotes: z.number().int(),
-    downVotes: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_UserGameVoteResponse = z
-  .object({
-    canVote: z.boolean(),
-    userVote: z.boolean(),
-    reasonForNotVoteable: z.string(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_Thumbnail = z
-  .object({
-    final: z.boolean(),
-    url: z.string(),
-    cdnUrl: z.string(),
-    retryToken: z.string(),
-    universeId: z.number().int(),
-    placeId: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_GameProductResponse = z
-  .object({
-    universeId: z.number().int(),
-    isForSale: z.boolean(),
-    productId: z.number().int(),
-    price: z.number().int(),
-    sellerId: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameProductResponse_ = z
-  .object({
-    data: z.array(Roblox_Games_Api_Models_Response_GameProductResponse),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_GameResponseModel = z
-  .object({
-    creatorId: z.number().int(),
-    creatorName: z.string(),
-    creatorType: z.string(),
-    creatorHasVerifiedBadge: z.boolean(),
-    totalUpVotes: z.number().int(),
-    totalDownVotes: z.number().int(),
-    universeId: z.number().int(),
-    name: z.string(),
-    placeId: z.number().int(),
-    playerCount: z.number().int(),
-    imageToken: z.string(),
-    isSponsored: z.boolean(),
-    nativeAdData: z.string(),
-    isShowSponsoredLabel: z.boolean(),
-    price: z.number().int(),
-    analyticsIdentifier: z.string(),
-    gameDescription: z.string(),
-    genre: z.string(),
-    minimumAge: z.number().int(),
-    ageRecommendationDisplayName: z.string(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_ElasticSearchDebugInfoModel = z.object({ esQuery: z.string() }).passthrough();
-const Roblox_Games_Api_Models_Response_GamesSearchResponse = z
-  .object({
-    games: z.array(Roblox_Games_Api_Models_Response_GameResponseModel),
-    suggestedKeyword: z.string(),
-    correctedKeyword: z.string(),
-    filteredKeyword: z.string(),
-    hasMoreRows: z.boolean(),
-    nextPageExclusiveStartId: z.number().int(),
-    featuredSearchUniverseId: z.number().int(),
-    emphasis: z.boolean(),
-    cutOffIndex: z.number().int(),
-    algorithm: z.string(),
-    algorithmQueryType: z.string(),
-    suggestionAlgorithm: z.string(),
-    relatedGames: z.array(Roblox_Games_Api_Models_Response_GameResponseModel),
-    esDebugInfo: Roblox_Games_Api_Models_Response_ElasticSearchDebugInfoModel,
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_SpotlightTypeData = z.object({}).passthrough();
-const Roblox_Games_Api_Models_Response_GameSpotlightResponse = z
-  .object({
-    spotlightType: z.string(),
-    spotlightActionText: z.string(),
-    spotlightTypeData: Roblox_Games_Api_Models_Response_SpotlightTypeData,
-    gameInfo: Roblox_Games_Api_Models_Response_GameResponseModel,
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameSpotlightResponse_ = z
-  .object({
-    data: z.array(Roblox_Games_Api_Models_Response_GameSpotlightResponse),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_PlaceDetails = z
-  .object({
-    placeId: z.number().int(),
-    name: z.string(),
-    description: z.string(),
-    sourceName: z.string(),
-    sourceDescription: z.string(),
-    url: z.string(),
-    builder: z.string(),
-    builderId: z.number().int(),
-    hasVerifiedBadge: z.boolean(),
-    isPlayable: z.boolean(),
-    reasonProhibited: z.string(),
-    universeId: z.number().int(),
-    universeRootPlaceId: z.number().int(),
-    price: z.number().int(),
-    imageToken: z.string(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z
-  .object({
-    playabilityStatus: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-      z.literal(9),
-      z.literal(10),
-      z.literal(11),
-      z.literal(12),
-      z.literal(13),
-      z.literal(14),
-      z.literal(15),
-      z.literal(16),
-      z.literal(17),
-      z.literal(18),
-      z.literal(19),
-    ]),
-    isPlayable: z.boolean(),
-    universeId: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_GameRecommendationsResponse = z
-  .object({
-    games: z.array(Roblox_Games_Api_Models_Response_GameResponseModel),
-    nextPaginationKey: z.string(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_GameSortTopicLayoutData = z.object({ infoText: z.string() }).passthrough();
-const Roblox_Games_Api_Models_Response_GameSort = z
-  .object({
-    token: z.string(),
-    name: z.string(),
-    displayName: z.string(),
-    gameSetTypeId: z.number().int(),
-    gameSetTargetId: z.number().int(),
-    timeOptionsAvailable: z.boolean(),
-    genreOptionsAvailable: z.boolean(),
-    numberOfRows: z.number().int(),
-    numberOfGames: z.number().int(),
-    isDefaultSort: z.boolean(),
-    contextUniverseId: z.number().int(),
-    contextCountryRegionId: z.number().int(),
-    tokenExpiryInSeconds: z.number(),
-    topicLayoutData: Roblox_Games_Api_Models_Response_GameSortTopicLayoutData,
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_TimeFilter = z
-  .object({
-    token: z.string(),
-    name: z.string(),
-    tokenExpiryInSeconds: z.number(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_GenreFilter = z
-  .object({
-    token: z.string(),
-    name: z.string(),
-    tokenExpiryInSeconds: z.number(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_GameFilter = z
-  .object({
-    token: z.string(),
-    name: z.string(),
-    tokenExpiryInSeconds: z.number().int(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_PageContext = z
-  .object({ pageId: z.string().uuid(), isSeeAllPage: z.boolean() })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_GameSortsResponse = z
-  .object({
-    sorts: z.array(Roblox_Games_Api_Models_Response_GameSort),
-    timeFilters: z.array(Roblox_Games_Api_Models_Response_TimeFilter),
-    genreFilters: z.array(Roblox_Games_Api_Models_Response_GenreFilter),
-    gameFilters: z.array(Roblox_Games_Api_Models_Response_GameFilter),
-    pageContext: Roblox_Games_Api_Models_Response_PageContext,
-    gameSortStyle: z.string(),
-  })
-  .passthrough();
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameVoteResponse_ = z
-  .object({
-    data: z.array(Roblox_Games_Api_Models_Response_GameVoteResponse),
-  })
-  .passthrough();
-const Roblox_Games_Api_PrivateServersResponse = z
-  .object({
-    privateServerResponses: z.array(Roblox_Web_Responses_Games_GameServerResponse),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Response_PrivateServersEnabledInUniverseResponse = z
-  .object({ privateServersEnabled: z.boolean() })
-  .passthrough();
-const Roblox_Games_Api_VipServerCanInviteResponse = z.object({ canInvite: z.boolean() }).passthrough();
-const Roblox_Games_Api_PlaceResponse = z.object({ id: z.number().int(), name: z.string() }).passthrough();
-const Roblox_Games_Api_GameResponse = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    rootPlace: Roblox_Games_Api_PlaceResponse,
-  })
-  .passthrough();
-const Roblox_Games_Api_VipServerSubscriptionResponse = z
-  .object({
-    active: z.boolean(),
-    expired: z.boolean(),
-    expirationDate: z.string().datetime({ offset: true }),
-    price: z.number().int(),
-    canRenew: z.boolean(),
-    hasInsufficientFunds: z.boolean(),
-    hasRecurringProfile: z.boolean(),
-    hasPriceChanged: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Web_Responses_Users_SkinnyUserResponse = z
-  .object({ id: z.number().int(), name: z.string(), displayName: z.string() })
-  .passthrough();
-const Roblox_Games_Api_VipServerPermissionsResponse = z
-  .object({
-    clanAllowed: z.boolean(),
-    enemyClanId: z.number().int(),
-    friendsAllowed: z.boolean(),
-    users: z.array(Roblox_Web_Responses_Users_SkinnyUserResponse),
-  })
-  .passthrough();
-const Roblox_Games_Api_VipServerVoiceSettingsResponse = z.object({ enabled: z.boolean() }).passthrough();
-const Roblox_Games_Api_VipServerResponse = z
-  .object({
-    id: z.number().int(),
-    name: z.string(),
-    game: Roblox_Games_Api_GameResponse,
-    joinCode: z.string(),
-    active: z.boolean(),
-    subscription: Roblox_Games_Api_VipServerSubscriptionResponse,
-    permissions: Roblox_Games_Api_VipServerPermissionsResponse,
-    voiceSettings: Roblox_Games_Api_VipServerVoiceSettingsResponse,
-    link: z.string(),
-  })
-  .passthrough();
-const Roblox_Games_Api_VipServerUpdateRequest = z
-  .object({ name: z.string(), newJoinCode: z.boolean(), active: z.boolean() })
-  .passthrough();
-const Roblox_Games_Api_CreateVipServersRequest = z
-  .object({
-    name: z.string(),
-    expectedPrice: z.number().int(),
-    isPurchaseConfirmed: z.boolean(),
-  })
-  .passthrough();
-const Roblox_Games_Api_Models_Request_SetUserGameVoteRequest = z.object({ vote: z.boolean() }).passthrough();
-const Roblox_Games_Api_VipServerUpdatePermissionsRequest = z
-  .object({
-    clanAllowed: z.boolean(),
-    enemyClanId: z.number().int(),
-    friendsAllowed: z.boolean(),
-    usersToAdd: z.array(z.number()),
-    usersToRemove: z.array(z.number()),
-  })
-  .passthrough();
-const Roblox_Games_Api_VipServerUpdateSubscriptionRequest = z
-  .object({ active: z.boolean(), price: z.number().int() })
-  .passthrough();
-const Roblox_Games_Api_VipServerUpdateVoiceSettingsRequest = z.object({ enabled: z.boolean() }).passthrough();
+const Roblox_Games_Api_Models_Response_GameCreator = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  type: z.string(),
+  isRNVAccount: z.boolean(),
+  hasVerifiedBadge: z.boolean(),
+});
+const Roblox_Games_Api_Models_Response_GameDetailResponse = z.object({
+  id: z.number().int(),
+  rootPlaceId: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  sourceName: z.string(),
+  sourceDescription: z.string(),
+  creator: Roblox_Games_Api_Models_Response_GameCreator,
+  price: z.number().int(),
+  allowedGearGenres: z.array(z.string()),
+  allowedGearCategories: z.array(z.string()),
+  isGenreEnforced: z.boolean(),
+  copyingAllowed: z.boolean(),
+  playing: z.number().int(),
+  visits: z.number().int(),
+  maxPlayers: z.number().int(),
+  created: z.string().datetime({ offset: true }),
+  updated: z.string().datetime({ offset: true }),
+  studioAccessToApisAllowed: z.boolean(),
+  createVipServersAllowed: z.boolean(),
+  universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  genre: z.string(),
+  isAllGenre: z.boolean(),
+  isFavoritedByUser: z.boolean(),
+  favoritedCount: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_ = z.object({
+  data: z.array(Roblox_Games_Api_Models_Response_GameDetailResponse),
+});
+const Roblox_Games_Api_GameServerPlayerResponse = z.object({
+  playerToken: z.string(),
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Games_Api_Models_Response_VerifiedBadgeUserResponse = z.object({
+  hasVerifiedBadge: z.boolean(),
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Web_Responses_Games_GameServerResponse = z.object({
+  id: z.string().uuid(),
+  maxPlayers: z.number().int(),
+  playing: z.number().int(),
+  playerTokens: z.array(z.string()),
+  players: z.array(Roblox_Games_Api_GameServerPlayerResponse),
+  fps: z.number(),
+  ping: z.number().int(),
+  name: z.string(),
+  vipServerId: z.number().int(),
+  accessCode: z.string().uuid(),
+  owner: Roblox_Games_Api_Models_Response_VerifiedBadgeUserResponse,
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Web_Responses_Games_GameServerResponse),
+});
+const Roblox_Games_Api_Models_Response_GameFavoriteResponse = z.object({
+  isFavorited: z.boolean(),
+});
+const Roblox_Games_Api_Models_Request_GameFavoritesRequest = z.object({
+  isFavorited: z.boolean(),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Games_Api_Models_Response_GameFavoritesCountResponse = z.object({
+  favoritesCount: z.number().int(),
+});
+const Roblox_Games_Api_Models_Response_GamePassResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+  productId: z.number().int(),
+  price: z.number().int(),
+  sellerName: z.string(),
+  sellerId: z.number().int(),
+  isOwned: z.boolean(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Games_Api_Models_Response_GamePassResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Games_Api_Models_Response_GamePassResponse),
+});
+const Roblox_Games_Api_Models_Response_GameMediaItem = z.object({
+  id: z.number().int(),
+  assetTypeId: z.number().int(),
+  assetType: z.string(),
+  imageId: z.number().int(),
+  videoHash: z.string(),
+  videoTitle: z.string(),
+  approved: z.boolean(),
+  altText: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameMediaItem_ = z.object({
+  data: z.array(Roblox_Games_Api_Models_Response_GameMediaItem),
+});
+const Roblox_Games_Api_Models_Response_GameVoteResponse = z.object({
+  id: z.number().int(),
+  upVotes: z.number().int(),
+  downVotes: z.number().int(),
+});
+const Roblox_Games_Api_Models_Response_UserGameVoteResponse = z.object({
+  canVote: z.boolean(),
+  userVote: z.boolean(),
+  reasonForNotVoteable: z.string(),
+});
+const Roblox_Games_Api_Models_Response_Thumbnail = z.object({
+  final: z.boolean(),
+  url: z.string(),
+  cdnUrl: z.string(),
+  retryToken: z.string(),
+  universeId: z.number().int(),
+  placeId: z.number().int(),
+});
+const Roblox_Games_Api_Models_Response_GameProductResponse = z.object({
+  universeId: z.number().int(),
+  isForSale: z.boolean(),
+  productId: z.number().int(),
+  price: z.number().int(),
+  sellerId: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameProductResponse_ = z.object({
+  data: z.array(Roblox_Games_Api_Models_Response_GameProductResponse),
+});
+const Roblox_Games_Api_Models_Response_GameResponseModel = z.object({
+  creatorId: z.number().int(),
+  creatorName: z.string(),
+  creatorType: z.string(),
+  creatorHasVerifiedBadge: z.boolean(),
+  totalUpVotes: z.number().int(),
+  totalDownVotes: z.number().int(),
+  universeId: z.number().int(),
+  name: z.string(),
+  placeId: z.number().int(),
+  playerCount: z.number().int(),
+  imageToken: z.string(),
+  isSponsored: z.boolean(),
+  nativeAdData: z.string(),
+  isShowSponsoredLabel: z.boolean(),
+  price: z.number().int(),
+  analyticsIdentifier: z.string(),
+  gameDescription: z.string(),
+  genre: z.string(),
+  minimumAge: z.number().int(),
+  ageRecommendationDisplayName: z.string(),
+});
+const Roblox_Games_Api_Models_Response_ElasticSearchDebugInfoModel = z.object({
+  esQuery: z.string(),
+});
+const Roblox_Games_Api_Models_Response_GamesSearchResponse = z.object({
+  games: z.array(Roblox_Games_Api_Models_Response_GameResponseModel),
+  suggestedKeyword: z.string(),
+  correctedKeyword: z.string(),
+  filteredKeyword: z.string(),
+  hasMoreRows: z.boolean(),
+  nextPageExclusiveStartId: z.number().int(),
+  featuredSearchUniverseId: z.number().int(),
+  emphasis: z.boolean(),
+  cutOffIndex: z.number().int(),
+  algorithm: z.string(),
+  algorithmQueryType: z.string(),
+  suggestionAlgorithm: z.string(),
+  relatedGames: z.array(Roblox_Games_Api_Models_Response_GameResponseModel),
+  esDebugInfo: Roblox_Games_Api_Models_Response_ElasticSearchDebugInfoModel,
+});
+const Roblox_Games_Api_Models_Response_SpotlightTypeData = z.object({});
+const Roblox_Games_Api_Models_Response_GameSpotlightResponse = z.object({
+  spotlightType: z.string(),
+  spotlightActionText: z.string(),
+  spotlightTypeData: Roblox_Games_Api_Models_Response_SpotlightTypeData,
+  gameInfo: Roblox_Games_Api_Models_Response_GameResponseModel,
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameSpotlightResponse_ = z.object({
+  data: z.array(Roblox_Games_Api_Models_Response_GameSpotlightResponse),
+});
+const Roblox_Games_Api_Models_Response_PlaceDetails = z.object({
+  placeId: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  sourceName: z.string(),
+  sourceDescription: z.string(),
+  url: z.string(),
+  builder: z.string(),
+  builderId: z.number().int(),
+  hasVerifiedBadge: z.boolean(),
+  isPlayable: z.boolean(),
+  reasonProhibited: z.string(),
+  universeId: z.number().int(),
+  universeRootPlaceId: z.number().int(),
+  price: z.number().int(),
+  imageToken: z.string(),
+});
+const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z.object({
+  playabilityStatus: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+    z.literal(10),
+    z.literal(11),
+    z.literal(12),
+    z.literal(13),
+    z.literal(14),
+    z.literal(15),
+    z.literal(16),
+    z.literal(17),
+    z.literal(18),
+    z.literal(19),
+  ]),
+  isPlayable: z.boolean(),
+  universeId: z.number().int(),
+});
+const Roblox_Games_Api_Models_Response_GameRecommendationsResponse = z.object({
+  games: z.array(Roblox_Games_Api_Models_Response_GameResponseModel),
+  nextPaginationKey: z.string(),
+});
+const Roblox_Games_Api_Models_Response_GameSortTopicLayoutData = z.object({
+  infoText: z.string(),
+});
+const Roblox_Games_Api_Models_Response_GameSort = z.object({
+  token: z.string(),
+  name: z.string(),
+  displayName: z.string(),
+  gameSetTypeId: z.number().int(),
+  gameSetTargetId: z.number().int(),
+  timeOptionsAvailable: z.boolean(),
+  genreOptionsAvailable: z.boolean(),
+  numberOfRows: z.number().int(),
+  numberOfGames: z.number().int(),
+  isDefaultSort: z.boolean(),
+  contextUniverseId: z.number().int(),
+  contextCountryRegionId: z.number().int(),
+  tokenExpiryInSeconds: z.number(),
+  topicLayoutData: Roblox_Games_Api_Models_Response_GameSortTopicLayoutData,
+});
+const Roblox_Games_Api_Models_Response_TimeFilter = z.object({
+  token: z.string(),
+  name: z.string(),
+  tokenExpiryInSeconds: z.number(),
+});
+const Roblox_Games_Api_Models_Response_GenreFilter = z.object({
+  token: z.string(),
+  name: z.string(),
+  tokenExpiryInSeconds: z.number(),
+});
+const Roblox_Games_Api_Models_Response_GameFilter = z.object({
+  token: z.string(),
+  name: z.string(),
+  tokenExpiryInSeconds: z.number().int(),
+});
+const Roblox_Games_Api_Models_Response_PageContext = z.object({
+  pageId: z.string().uuid(),
+  isSeeAllPage: z.boolean(),
+});
+const Roblox_Games_Api_Models_Response_GameSortsResponse = z.object({
+  sorts: z.array(Roblox_Games_Api_Models_Response_GameSort),
+  timeFilters: z.array(Roblox_Games_Api_Models_Response_TimeFilter),
+  genreFilters: z.array(Roblox_Games_Api_Models_Response_GenreFilter),
+  gameFilters: z.array(Roblox_Games_Api_Models_Response_GameFilter),
+  pageContext: Roblox_Games_Api_Models_Response_PageContext,
+  gameSortStyle: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameVoteResponse_ = z.object({
+  data: z.array(Roblox_Games_Api_Models_Response_GameVoteResponse),
+});
+const Roblox_Games_Api_PrivateServersResponse = z.object({
+  privateServerResponses: z.array(Roblox_Web_Responses_Games_GameServerResponse),
+});
+const Roblox_Games_Api_Models_Response_PrivateServersEnabledInUniverseResponse = z.object({
+  privateServersEnabled: z.boolean(),
+});
+const Roblox_Games_Api_VipServerCanInviteResponse = z.object({
+  canInvite: z.boolean(),
+});
+const Roblox_Games_Api_PlaceResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+});
+const Roblox_Games_Api_GameResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  rootPlace: Roblox_Games_Api_PlaceResponse,
+});
+const Roblox_Games_Api_VipServerSubscriptionResponse = z.object({
+  active: z.boolean(),
+  expired: z.boolean(),
+  expirationDate: z.string().datetime({ offset: true }),
+  price: z.number().int(),
+  canRenew: z.boolean(),
+  hasInsufficientFunds: z.boolean(),
+  hasRecurringProfile: z.boolean(),
+  hasPriceChanged: z.boolean(),
+});
+const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Roblox_Games_Api_VipServerPermissionsResponse = z.object({
+  clanAllowed: z.boolean(),
+  enemyClanId: z.number().int(),
+  friendsAllowed: z.boolean(),
+  users: z.array(Roblox_Web_Responses_Users_SkinnyUserResponse),
+});
+const Roblox_Games_Api_VipServerVoiceSettingsResponse = z.object({
+  enabled: z.boolean(),
+});
+const Roblox_Games_Api_VipServerResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  game: Roblox_Games_Api_GameResponse,
+  joinCode: z.string(),
+  active: z.boolean(),
+  subscription: Roblox_Games_Api_VipServerSubscriptionResponse,
+  permissions: Roblox_Games_Api_VipServerPermissionsResponse,
+  voiceSettings: Roblox_Games_Api_VipServerVoiceSettingsResponse,
+  link: z.string(),
+});
+const Roblox_Games_Api_VipServerUpdateRequest = z.object({
+  name: z.string(),
+  newJoinCode: z.boolean(),
+  active: z.boolean(),
+});
+const Roblox_Games_Api_CreateVipServersRequest = z.object({
+  name: z.string(),
+  expectedPrice: z.number().int(),
+  isPurchaseConfirmed: z.boolean(),
+});
+const Roblox_Games_Api_Models_Request_SetUserGameVoteRequest = z.object({
+  vote: z.boolean(),
+});
+const Roblox_Games_Api_VipServerUpdatePermissionsRequest = z.object({
+  clanAllowed: z.boolean(),
+  enemyClanId: z.number().int(),
+  friendsAllowed: z.boolean(),
+  usersToAdd: z.array(z.number()),
+  usersToRemove: z.array(z.number()),
+});
+const Roblox_Games_Api_VipServerUpdateSubscriptionRequest = z.object({
+  active: z.boolean(),
+  price: z.number().int(),
+});
+const Roblox_Games_Api_VipServerUpdateVoiceSettingsRequest = z.object({
+  enabled: z.boolean(),
+});
 
 /**
  * @api GET https://games.roblox.com/v1/games
@@ -412,10 +367,10 @@ const Roblox_Games_Api_VipServerUpdateVoiceSettingsRequest = z.object({ enabled:
  * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
  */
 export const getGames = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeIds: {
       style: 'form',
@@ -442,10 +397,10 @@ export const getGames = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGamesPlaceidPrivateServers = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/:placeId/private-servers',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     placeId: {
       style: 'simple',
@@ -496,10 +451,10 @@ export const getGamesPlaceidPrivateServers = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  */
 export const getGamesPlaceidServersServertype = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/:placeId/servers/:serverType',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     placeId: {
       style: 'simple',
@@ -558,10 +513,10 @@ export const getGamesPlaceidServersServertype = endpoint({
  * @param universeId The Id of the universe.
  */
 export const getGamesUniverseidFavorites = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/:universeId/favorites',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
       style: 'simple',
@@ -570,7 +525,7 @@ export const getGamesUniverseidFavorites = endpoint({
   parameters: {
     universeId: z.number().int(),
   },
-  response: z.object({ isFavorited: z.boolean() }).passthrough(),
+  response: z.object({ isFavorited: z.boolean() }),
   errors: [
     {
       status: 400,
@@ -593,10 +548,10 @@ export const getGamesUniverseidFavorites = endpoint({
  * @param universeId The Id of the universe.
  */
 export const postGamesUniverseidFavorites = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/games/:universeId/favorites',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universeId: {
@@ -606,8 +561,8 @@ export const postGamesUniverseidFavorites = endpoint({
   parameters: {
     universeId: z.number().int(),
   },
-  body: z.object({ isFavorited: z.boolean() }).passthrough(),
-  response: z.object({}).passthrough(),
+  body: z.object({ isFavorited: z.boolean() }),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -638,10 +593,10 @@ export const postGamesUniverseidFavorites = endpoint({
  * @param universeId The Id of the universe.
  */
 export const getGamesUniverseidFavoritesCount = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/:universeId/favorites/count',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
       style: 'simple',
@@ -650,7 +605,7 @@ export const getGamesUniverseidFavoritesCount = endpoint({
   parameters: {
     universeId: z.number().int(),
   },
-  response: z.object({ favoritesCount: z.number().int() }).passthrough(),
+  response: z.object({ favoritesCount: z.number().int() }),
   errors: [
     {
       status: 400,
@@ -671,10 +626,10 @@ export const getGamesUniverseidFavoritesCount = endpoint({
  * @param cursor The cursor to figure out where to start fetching
  */
 export const getGamesUniverseidGamePasses = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/:universeId/game-passes',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
       style: 'simple',
@@ -719,10 +674,10 @@ export const getGamesUniverseidGamePasses = endpoint({
  * @param universeId The id of the universe we get media data from.
  */
 export const getGamesUniverseidMedia = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/:universeId/media',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
       style: 'simple',
@@ -750,10 +705,10 @@ export const getGamesUniverseidMedia = endpoint({
  * @param universeId The id of the universe.
  */
 export const patchGamesUniverseidUserVotes = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/games/:universeId/user-votes',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universeId: {
@@ -763,8 +718,8 @@ export const patchGamesUniverseidUserVotes = endpoint({
   parameters: {
     universeId: z.number().int(),
   },
-  body: z.object({ vote: z.boolean() }).passthrough(),
-  response: z.object({}).passthrough(),
+  body: z.object({ vote: z.boolean() }),
+  response: z.object({}),
   errors: [
     {
       status: 400,
@@ -803,10 +758,10 @@ export const patchGamesUniverseidUserVotes = endpoint({
  * @param universeId The id of the universe we get vote status from.
  */
 export const getGamesUniverseidVotes = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/:universeId/votes',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
       style: 'simple',
@@ -842,10 +797,10 @@ export const getGamesUniverseidVotes = endpoint({
  * @param universeId The id of the universe we get user vote status from.
  */
 export const getGamesUniverseidVotesUser = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/:universeId/votes/user',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
       style: 'simple',
@@ -887,10 +842,10 @@ export const getGamesUniverseidVotesUser = endpoint({
  * @param width
  */
 export const getGamesGameThumbnail = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/game-thumbnail',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     imageToken: {
       style: 'form',
@@ -926,10 +881,10 @@ export const getGamesGameThumbnail = endpoint({
  * @param width
  */
 export const getGamesGameThumbnails = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/game-thumbnails',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     imageTokens: {
       style: 'form',
@@ -963,10 +918,10 @@ export const getGamesGameThumbnails = endpoint({
  * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
  */
 export const getGamesGamesProductInfo = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/games-product-info',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeIds: {
       style: 'form',
@@ -1005,10 +960,10 @@ export const getGamesGamesProductInfo = endpoint({
  * @param SessionId SessionId
  */
 export const getGamesList = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/list',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     SortToken: {
       style: 'form',
@@ -1106,10 +1061,10 @@ export const getGamesList = endpoint({
  * @summary Gets games that the client should spotlight.
  */
 export const getGamesListSpotlight = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/list-spotlight',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameSpotlightResponse_,
   errors: [
     {
@@ -1124,10 +1079,10 @@ export const getGamesListSpotlight = endpoint({
  * @param placeIds List of placeId to uniquely Identify a place
  */
 export const getGamesMultigetPlaceDetails = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/multiget-place-details',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     placeIds: {
       style: 'form',
@@ -1151,10 +1106,10 @@ export const getGamesMultigetPlaceDetails = endpoint({
  * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
  */
 export const getGamesMultigetPlayabilityStatus = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/multiget-playability-status',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeIds: {
       style: 'form',
@@ -1182,10 +1137,10 @@ This parameter is usually not needed for the first page.
  * @param IsTruncatedResultsEnabled Truncated Results
  */
 export const getGamesRecommendationsAlgorithmAlgorithmname = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/recommendations/algorithm/:algorithmName',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     algorithmName: {
       style: 'simple',
@@ -1231,10 +1186,10 @@ This parameter is usually not needed for the first page.
  * @param IsTruncatedResultsEnabled Truncated Results
  */
 export const getGamesRecommendationsGameUniverseid = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/recommendations/game/:universeId',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
       style: 'simple',
@@ -1276,10 +1231,10 @@ export const getGamesRecommendationsGameUniverseid = endpoint({
  * @param GameSortsContext Context to determine which game sorts are being requested.
  */
 export const getGamesSorts = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/sorts',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     GameSortsContext: {
       style: 'form',
@@ -1307,10 +1262,10 @@ export const getGamesSorts = endpoint({
  * @param universeId The id of the universe.
  */
 export const postGamesVipServersUniverseid = endpoint({
-  method: 'post' as const,
+  method: 'post',
   path: '/v1/games/vip-servers/:universeId',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universeId: {
@@ -1351,10 +1306,10 @@ export const postGamesVipServersUniverseid = endpoint({
  * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
  */
 export const getGamesVotes = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/games/votes',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeIds: {
       style: 'form',
@@ -1387,10 +1342,10 @@ export const getGamesVotes = endpoint({
  * @param privateServerIds
  */
 export const getPrivateServers = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/private-servers',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     privateServerIds: {
       style: 'form',
@@ -1428,10 +1383,10 @@ export const getPrivateServers = endpoint({
  * @param universeId
  */
 export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/private-servers/enabled-in-universe/:universeId',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
       style: 'simple',
@@ -1440,7 +1395,7 @@ export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
   parameters: {
     universeId: z.number().int(),
   },
-  response: z.object({ privateServersEnabled: z.boolean() }).passthrough(),
+  response: z.object({ privateServersEnabled: z.boolean() }),
   errors: [
     {
       status: 400,
@@ -1454,10 +1409,10 @@ export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
  * @param userId The user id.
  */
 export const getVipServerCanInviteUserid = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/vip-server/can-invite/:userId',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
       style: 'simple',
@@ -1466,7 +1421,7 @@ export const getVipServerCanInviteUserid = endpoint({
   parameters: {
     userId: z.number().int(),
   },
-  response: z.object({ canInvite: z.boolean() }).passthrough(),
+  response: z.object({ canInvite: z.boolean() }),
   errors: [
     {
       status: 401,
@@ -1484,10 +1439,10 @@ export const getVipServerCanInviteUserid = endpoint({
  * @param id The VIP Server ID
  */
 export const getVipServersId = endpoint({
-  method: 'get' as const,
+  method: 'get',
   path: '/v1/vip-servers/:id',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     id: {
       style: 'simple',
@@ -1524,10 +1479,10 @@ export const getVipServersId = endpoint({
  * @param id The VIP Server ID
  */
 export const patchVipServersId = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/vip-servers/:id',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     id: {
@@ -1575,10 +1530,10 @@ export const patchVipServersId = endpoint({
  * @param id The VIP Server ID
  */
 export const patchVipServersIdPermissions = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/vip-servers/:id/permissions',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     id: {
@@ -1622,10 +1577,10 @@ export const patchVipServersIdPermissions = endpoint({
  * @param id The VIP Server ID
  */
 export const patchVipServersIdSubscription = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/vip-servers/:id/subscription',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     id: {
@@ -1671,10 +1626,10 @@ export const patchVipServersIdSubscription = endpoint({
  * @param id The VIP Server ID
  */
 export const patchVipServersIdVoicesettings = endpoint({
-  method: 'patch' as const,
+  method: 'patch',
   path: '/v1/vip-servers/:id/voicesettings',
   baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json' as const,
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     id: {
@@ -1684,8 +1639,8 @@ export const patchVipServersIdVoicesettings = endpoint({
   parameters: {
     id: z.number().int(),
   },
-  body: z.object({ enabled: z.boolean() }).passthrough(),
-  response: z.object({ enabled: z.boolean() }).passthrough(),
+  body: z.object({ enabled: z.boolean() }),
+  response: z.object({ enabled: z.boolean() }),
   errors: [
     {
       status: 400,
