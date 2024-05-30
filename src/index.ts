@@ -81,8 +81,8 @@ type InferSchema<T extends z.ZodType<any>> = T extends z.ZodOptional<infer U>
     >
   : T extends z.ZodEnum<infer U>
   ? U[number]
-  : T extends z.ZodRecord<infer E, infer U>
-  ? { [K in z.infer<E>]: InferSchema<U> }
+  : T extends z.ZodRecord<z.ZodString, infer U>
+  ? { [K in string]: InferSchema<U> }
   : T extends z.ZodNativeEnum<infer U>
   ? U
   : T extends z.ZodPromise<infer U>
