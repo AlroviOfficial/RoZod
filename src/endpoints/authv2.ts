@@ -75,6 +75,7 @@ const Roblox_Authentication_Api_Models_RecoveryMetadataResponse = z.object({
   isPhoneFeatureEnabledForUsername: z.boolean(),
   isPhoneFeatureEnabledForPassword: z.boolean(),
   isBedev2CaptchaEnabledForPasswordReset: z.boolean(),
+  isUsernameRecoveryDeprecated: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_RevertAccountInfoResponse = z.object({
   isTwoStepVerificationEnabled: z.boolean(),
@@ -434,8 +435,8 @@ export const getPasswordsCurrentStatus = endpoint({
 /**
  * @api GET https://auth.roblox.com/v2/passwords/reset
  * @summary Gets metadata needed for the password reset view.
- * @param TargetType The Roblox.Authentication.Api.Models.GetPasswordResetMetadataRequest.TargetType
- * @param Ticket The ticket that was generated when the reset password request was sent
+ * @param TargetType
+ * @param Ticket
  */
 export const getPasswordsReset = endpoint({
   method: 'get',
@@ -609,8 +610,8 @@ export const postPasswordsResetVerify = endpoint({
 /**
  * @api GET https://auth.roblox.com/v2/passwords/validate
  * @summary Endpoint for checking if a password is valid.
- * @param Username The username.
- * @param Password The password.
+ * @param Username
+ * @param Password
  */
 export const getPasswordsValidate = endpoint({
   method: 'get',
@@ -1047,9 +1048,9 @@ export const postUsernamesRecover = endpoint({
 /**
  * @api GET https://auth.roblox.com/v2/usernames/validate
  * @summary Checks if a username is valid.
- * @param Username The username
- * @param Birthday The birthday
- * @param Context Roblox.Authentication.Api.Models.UsernameValidationContext
+ * @param Username
+ * @param Birthday
+ * @param Context
  */
 export const getUsernamesValidate = endpoint({
   method: 'get',

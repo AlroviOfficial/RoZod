@@ -21,18 +21,17 @@ const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({
   id: z.number().int(),
   name: z.string(),
 });
-const Roblox_Avatarcore_Shared_V3Beta1_AssetPosition = z.object({
+const Roblox_Avatarcore_Shared_V3_AssetPosition = z.object({
   X: z.number(),
   Y: z.number(),
   Z: z.number(),
 });
-const Roblox_Avatarcore_Shared_V3Beta1_AssetRotation = z.object({
+const Roblox_Avatarcore_Shared_V3_AssetRotation = z.object({
   X: z.number(),
   Y: z.number(),
   Z: z.number(),
 });
-const Roblox_Avatarcore_Shared_V3Beta1_AssetScale = z.object({
-  Scale: z.number(),
+const Roblox_Avatarcore_Shared_V3_AssetScale = z.object({
   X: z.number(),
   Y: z.number(),
   Z: z.number(),
@@ -40,9 +39,9 @@ const Roblox_Avatarcore_Shared_V3Beta1_AssetScale = z.object({
 const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z.object({
   order: z.number().int(),
   puffiness: z.number(),
-  position: Roblox_Avatarcore_Shared_V3Beta1_AssetPosition,
-  rotation: Roblox_Avatarcore_Shared_V3Beta1_AssetRotation,
-  scale: Roblox_Avatarcore_Shared_V3Beta1_AssetScale,
+  position: Roblox_Avatarcore_Shared_V3_AssetPosition,
+  rotation: Roblox_Avatarcore_Shared_V3_AssetRotation,
+  scale: Roblox_Avatarcore_Shared_V3_AssetScale,
   version: z.number().int(),
 });
 const Roblox_Api_Avatar_Models_AssetModelV2 = z.object({
@@ -341,6 +340,7 @@ const Roblox_Api_Avatar_Models_OutfitModel = z.object({
   id: z.number().int(),
   name: z.string(),
   isEditable: z.boolean(),
+  outfitType: z.string(),
 });
 const Roblox_Api_Avatar_Models_AvatarFilteredPageResponse_Roblox_Api_Avatar_Models_OutfitModel_ = z.object({
   filteredCount: z.number().int(),
@@ -827,47 +827,6 @@ export const postOutfitsUseroutfitidUpdate = endpoint({
     {
       status: 500,
       description: `6: An error occurred while trying to update the outfit`,
-    },
-  ],
-});
-/**
- * @api POST https://avatar.roblox.com/v1/outfits/:userOutfitId/wear
- * @summary Wears the outfit
- * @param userOutfitId The user outfit id
- * @description Applies the outfit's appearance to your avatar
-If the user no longer owns one or more of the assets, invalidAssetIds will be populated with the unwearable assets.
- */
-export const postOutfitsUseroutfitidWear = endpoint({
-  method: 'post',
-  path: '/v1/outfits/:userOutfitId/wear',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    userOutfitId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    userOutfitId: z.number().int(),
-  },
-  response: Roblox_Api_Avatar_Models_WearResponseModel,
-  errors: [
-    {
-      status: 400,
-      description: `1: The specified userOutfitId is invalid!`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-2: You don&#x27;t have permission to wear this outfit!`,
-    },
-    {
-      status: 429,
-      description: `3: The flood limit has been exceeded!`,
     },
   ],
 });

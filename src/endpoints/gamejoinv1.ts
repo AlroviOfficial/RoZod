@@ -10,14 +10,17 @@ const Roblox_GameJoin_Api_GameJoinRequest = z.object({
   isPlayTogetherGame: z.boolean(),
   browserTrackerId: z.number().int(),
   isTeleport: z.boolean(),
+  isQueueAllowedOverride: z.boolean(),
   isImmersiveAdsTeleport: z.boolean(),
   channelName: z.string(),
   joinOrigin: z.string(),
+  partyId: z.string().uuid(),
 });
 const Roblox_Web_GameJoin_StatusData_CreatorExperienceBanData = z.object({
   startTime: z.string().datetime({ offset: true }),
   durationSeconds: z.number().int(),
   displayReason: z.string(),
+  displayReasonTextFilterStatus: z.number().int(),
   isInherited: z.boolean(),
 });
 const Roblox_Web_GameJoin_StatusData = z.object({
@@ -84,6 +87,7 @@ const Roblox_Web_GameLaunch_ConnectionFlow_JoinInformation = z.object({
   PrivateServerID: z.string(),
   EventID: z.string(),
   EphemeralEarlyPubKey: z.string(),
+  PartyId: z.string(),
 });
 const Roblox_GameJoin_Api_GameJoinResponse = z.object({
   jobId: z.string(),
@@ -105,9 +109,11 @@ const Roblox_GameJoin_Api_JoinGameInstanceRequest = z.object({
   isPlayTogetherGame: z.boolean(),
   browserTrackerId: z.number().int(),
   isTeleport: z.boolean(),
+  isQueueAllowedOverride: z.boolean(),
   isImmersiveAdsTeleport: z.boolean(),
   channelName: z.string(),
   joinOrigin: z.string(),
+  partyId: z.string().uuid(),
 });
 const Roblox_GameJoin_Api_JoinPlayTogetherGameRequest = z.object({
   conversationId: z.number().int(),
@@ -117,9 +123,11 @@ const Roblox_GameJoin_Api_JoinPlayTogetherGameRequest = z.object({
   isPlayTogetherGame: z.boolean(),
   browserTrackerId: z.number().int(),
   isTeleport: z.boolean(),
+  isQueueAllowedOverride: z.boolean(),
   isImmersiveAdsTeleport: z.boolean(),
   channelName: z.string(),
   joinOrigin: z.string(),
+  partyId: z.string().uuid(),
 });
 const Roblox_GameJoin_Api_JoinPrivateGameRequest = z.object({
   accessCode: z.string(),
@@ -130,9 +138,11 @@ const Roblox_GameJoin_Api_JoinPrivateGameRequest = z.object({
   isPlayTogetherGame: z.boolean(),
   browserTrackerId: z.number().int(),
   isTeleport: z.boolean(),
+  isQueueAllowedOverride: z.boolean(),
   isImmersiveAdsTeleport: z.boolean(),
   channelName: z.string(),
   joinOrigin: z.string(),
+  partyId: z.string().uuid(),
 });
 const Roblox_GameJoin_Api_JoinReservedGameRequest = z.object({
   accessCode: z.string(),
@@ -143,9 +153,11 @@ const Roblox_GameJoin_Api_JoinReservedGameRequest = z.object({
   isPlayTogetherGame: z.boolean(),
   browserTrackerId: z.number().int(),
   isTeleport: z.boolean(),
+  isQueueAllowedOverride: z.boolean(),
   isImmersiveAdsTeleport: z.boolean(),
   channelName: z.string(),
   joinOrigin: z.string(),
+  partyId: z.string().uuid(),
 });
 const Roblox_GameJoin_Api_PlayWithUserRequest = z.object({
   userIdToFollow: z.number().int(),
@@ -155,9 +167,11 @@ const Roblox_GameJoin_Api_PlayWithUserRequest = z.object({
   isPlayTogetherGame: z.boolean(),
   browserTrackerId: z.number().int(),
   isTeleport: z.boolean(),
+  isQueueAllowedOverride: z.boolean(),
   isImmersiveAdsTeleport: z.boolean(),
   channelName: z.string(),
   joinOrigin: z.string(),
+  partyId: z.string().uuid(),
 });
 const Roblox_GameJoin_Api_TeamCreateRequest = z.object({
   gameJoinAttemptId: z.string().uuid(),
@@ -166,9 +180,11 @@ const Roblox_GameJoin_Api_TeamCreateRequest = z.object({
   isPlayTogetherGame: z.boolean(),
   browserTrackerId: z.number().int(),
   isTeleport: z.boolean(),
+  isQueueAllowedOverride: z.boolean(),
   isImmersiveAdsTeleport: z.boolean(),
   channelName: z.string(),
   joinOrigin: z.string(),
+  partyId: z.string().uuid(),
 });
 const Roblox_GameJoin_Api_TeamCreateResponse = z
   .object({

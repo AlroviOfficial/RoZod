@@ -187,11 +187,6 @@ const Roblox_Api_Develop_Models_PlaceModel = z.object({
   name: z.string(),
   description: z.string(),
 });
-const Roblox_Api_Develop_Models_AliasRequest = z.object({
-  name: z.string(),
-  type: z.union([z.literal(1), z.literal(2), z.literal(3)]),
-  targetId: z.number().int(),
-});
 const Roblox_Develop_Api_UpdatePluginRequest = z.object({
   name: z.string(),
   description: z.string(),
@@ -559,151 +554,6 @@ export const postUniversesUniverseidActivate = endpoint({
 3: You are not authorized to configure this universe.
 6: The root place for this universe is under review and can not be activated.
 7: Creator already has the maximum number of places active.`,
-    },
-  ],
-});
-/**
- * @api POST https://develop.roblox.com/v1/universes/:universeId/aliases
- * @summary Creates an alias.
- * @param body The request body containing the alias attributes.
- * @param universeId The universe Id.
- */
-export const postUniversesUniverseidAliases = endpoint({
-  method: 'post',
-  path: '/v1/universes/:universeId/aliases',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    universeId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    universeId: z.number().int(),
-  },
-  body: Roblox_Api_Develop_Models_AliasRequest,
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: The request body is missing.
-2: The alias name is required.
-3: The alias type is required.
-4: The alias target is required.
-6: The alias name is invalid.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-10: You are not authorized to configure this universe.`,
-    },
-    {
-      status: 404,
-      description: `7: The universe does not exist.`,
-    },
-    {
-      status: 409,
-      description: `8: An alias with the provided name already exists.`,
-    },
-  ],
-});
-/**
- * @api DELETE https://develop.roblox.com/v1/universes/:universeId/aliases/:name
- * @summary Deletes an alias.
- * @param universeId The universe id.
- * @param name The name of the alias to delete.
- */
-export const deleteUniversesUniverseidAliasesName = endpoint({
-  method: 'delete',
-  path: '/v1/universes/:universeId/aliases/:name',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
-    name: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    universeId: z.number().int(),
-    name: z.string(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-10: You are not authorized to configure this universe.`,
-    },
-    {
-      status: 404,
-      description: `7: The universe does not exist.
-9: An alias with the provided name does not exist.`,
-    },
-  ],
-});
-/**
- * @api PATCH https://develop.roblox.com/v1/universes/:universeId/aliases/:name
- * @summary Updates an alias.
- * @param body The request body containing the alias attributes to update.
- * @param universeId The universe Id.
- * @param name The name of the alias to update.
- */
-export const patchUniversesUniverseidAliasesName = endpoint({
-  method: 'patch',
-  path: '/v1/universes/:universeId/aliases/:name',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    universeId: {
-      style: 'simple',
-    },
-    name: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    universeId: z.number().int(),
-    name: z.string(),
-  },
-  body: Roblox_Api_Develop_Models_AliasRequest,
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: The request body is missing.
-5: Either none or both alias type and target should be provided.
-6: The alias name is invalid.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-10: You are not authorized to configure this universe.`,
-    },
-    {
-      status: 404,
-      description: `7: The universe does not exist.
-9: An alias with the provided name does not exist.`,
-    },
-    {
-      status: 409,
-      description: `8: An alias with the provided name already exists.`,
     },
   ],
 });
@@ -1127,7 +977,7 @@ export const getUniversesMultigetPermissions = endpoint({
 /**
  * @api GET https://develop.roblox.com/v1/universes/multiget/teamcreate
  * @summary Gets TeamCreate settings for multiple universes specified by Ids
- * @param ids
+ * @param ids The universe Ids.
  */
 export const getUniversesMultigetTeamcreate = endpoint({
   method: 'get',
@@ -1154,32 +1004,6 @@ export const getUniversesMultigetTeamcreate = endpoint({
       description: `0: Authorization has been denied for this request.`,
     },
   ],
-});
-/**
- * @api GET https://develop.roblox.com/v1/user/:userId/canmanage/:assetId
- * @summary Returns whether the user can manage a given asset.
- * @param userId The ID of the user.
- * @param assetId The ID of the asset.
- */
-export const getUserUseridCanmanageAssetid = endpoint({
-  method: 'get',
-  path: '/v1/user/:userId/canmanage/:assetId',
-  baseUrl: 'https://develop.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    assetId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    userId: z.number().int(),
-    assetId: z.number().int(),
-  },
-  response: z.void(),
-  errors: [],
 });
 /**
  * @api GET https://develop.roblox.com/v1/user/groups/canmanage

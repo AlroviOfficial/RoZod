@@ -1,17 +1,19 @@
-const fs = require('fs');
-const path = require('path');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
-const pLimit = require('p-limit');
-const { generateZodClientFromOpenAPI } = require('@alexop/openapi-zod-client');
-const SwaggerParser = require('@apidevtools/swagger-parser');
+import { readFileSync, readdirSync, writeFileSync } from 'fs';
+import { basename } from 'path';
+import { promisify } from 'util';
+import {exec as execOld} from 'child_process';
+const exec = promisify(execOld);
+import pLimit from 'p-limit';
+import { generateZodClientFromOpenAPI } from '@alexop/openapi-zod-client';
+import parser from '@apidevtools/swagger-parser';
 
 const limit = pLimit(2);
 
 const FOLDER_OPENAPI = 'openapi';
 const FOLDER_ZODIOS = 'src/endpoints';
 
-const handlebars = require('handlebars').create();
+import HB from 'handlebars';
+const handlebars = HB.create();
 
 handlebars.registerHelper("ifeq", function (a, b, options) {
   if (a === b) {
@@ -50,7 +52,7 @@ handlebars.registerHelper('regexReplace', (str, regex, replace) => {
 });
 
 console.log('Generating OpenAPI files from Swagger files...');
-const urls = fs.readFileSync('urls.txt', 'utf-8')
+const urls = readFileSync('urls.txt', 'utf-8')
   .split('\n')
   .filter((url) => url.trim() !== '');
 Promise.all(
@@ -60,7 +62,7 @@ Promise.all(
         console.log(`Converting ${url}`);
         const [, subdomain, domain] = url.match(/https:\/\/([^\.]+)\.(.+)\//);
         const apiName = url.split('/').slice(-1)[0];
-        await util.promisify(exec)(
+        await promisify(exec)(
           `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${subdomain}${apiName}"`,
         );
       }
@@ -69,15 +71,15 @@ Promise.all(
 ).then(() => {
   console.log('Generating Zodios endpoints...');
 
-  const openApiFiles = fs.readdirSync(FOLDER_OPENAPI).filter((file) => {
-    const folderContents = fs.readdirSync(`${FOLDER_OPENAPI}/${file}`);
+  const openApiFiles = readdirSync(FOLDER_OPENAPI).filter((file) => {
+    const folderContents = readdirSync(`${FOLDER_OPENAPI}/${file}`);
     return folderContents.some((file) => file.endsWith('.yaml'));
   });
 
   openApiFiles.forEach(async (folder) => {
     console.log(`Generating Zodios for ${folder}`);
 
-    const fileName = path.basename(folder, '.yaml');
+    const fileName = basename(folder, '.yaml');
     const matchingUrl = urls.find((url) => {
       const apiVersion = url.match(/\/v(\d+)/)[1];
       return url.includes(`${fileName.replace(/v\d+$/, '')}.roblox.com/docs/json/v${apiVersion}`);
@@ -85,7 +87,7 @@ Promise.all(
 
     if (matchingUrl) {
       const [, subdomain, domain] = matchingUrl.match(/https?:\/\/([^\.]+)\.([^\/]+)/);
-      const openApiDoc = await SwaggerParser.parse(`${FOLDER_OPENAPI}/${folder}/openapi.yaml`);
+      const openApiDoc = await parser.parse(`${FOLDER_OPENAPI}/${folder}/openapi.yaml`);
       generateZodClientFromOpenAPI({
         openApiDoc: openApiDoc,
         templatePath: './template.hbs',
@@ -115,9 +117,9 @@ Promise.all(
   });
 
   // Take all the endpoint files and move them to ./lib/endpoints but renamed to their name plus .d.ts
-  const endpointFiles = fs.readdirSync(FOLDER_ZODIOS).filter((file) => file.endsWith('.ts'));
+  const endpointFiles = readdirSync(FOLDER_ZODIOS).filter((file) => file.endsWith('.ts'));
   endpointFiles.forEach((file) => {
-    const fileName = path.basename(file, '.ts');
-    fs.writeFileSync(`./lib/endpoints/${fileName}.d.ts`, fs.readFileSync(`./src/endpoints/${fileName}.ts`, 'utf-8'));
+    const fileName = basename(file, '.ts');
+    writeFileSync(`./lib/endpoints/${fileName}.d.ts`, readFileSync(`./src/endpoints/${fileName}.ts`, 'utf-8'));
   });
 });

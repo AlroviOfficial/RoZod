@@ -517,6 +517,8 @@ export const postPhoneVerify = endpoint({
  * @api GET https://accountinformation.roblox.com/v1/promotion-channels
  * @summary Get the user's promotion channels
  * @param alwaysReturnUrls Whether all promotion channel links should be returned as full URLs.
+ * @param filterLink Whether all promotion channel links should be filtered.
+ * @param onlyShortenTwitter Whether all promotion channels links except for Twitter should be returned as full URLs. If false, all promotion channels will be shortened.
  */
 export const getPromotionChannels = endpoint({
   method: 'get',
@@ -528,9 +530,19 @@ export const getPromotionChannels = endpoint({
       style: 'form',
       explode: true,
     },
+    filterLink: {
+      style: 'form',
+      explode: true,
+    },
+    onlyShortenTwitter: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     alwaysReturnUrls: z.boolean().optional(),
+    filterLink: z.boolean().optional(),
+    onlyShortenTwitter: z.boolean().optional().default(true),
   },
   response: Roblox_AccountInformation_Api_Models_PromotionChannelsResponse,
   errors: [
@@ -668,6 +680,7 @@ export const deleteStarCodeAffiliates = endpoint({
  * @summary Get promotion channels for a given user ID
  * @param userId The ID of the user to fetch the promotion channels for.
  * @param alwaysReturnUrls Whether all promotion channel links should be returned as full URLs.
+ * @param filterLink Whether all promotion channel links should be filtered.
  */
 export const getUsersUseridPromotionChannels = endpoint({
   method: 'get',
@@ -682,10 +695,15 @@ export const getUsersUseridPromotionChannels = endpoint({
       style: 'form',
       explode: true,
     },
+    filterLink: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userId: z.number().int(),
     alwaysReturnUrls: z.boolean().optional(),
+    filterLink: z.boolean().optional(),
   },
   response: Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse,
   errors: [

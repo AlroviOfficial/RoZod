@@ -21,18 +21,17 @@ const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({
   id: z.number().int(),
   name: z.string(),
 });
-const Roblox_Avatarcore_Shared_V3Beta1_AssetPosition = z.object({
+const Roblox_Avatarcore_Shared_V3_AssetPosition = z.object({
   X: z.number(),
   Y: z.number(),
   Z: z.number(),
 });
-const Roblox_Avatarcore_Shared_V3Beta1_AssetRotation = z.object({
+const Roblox_Avatarcore_Shared_V3_AssetRotation = z.object({
   X: z.number(),
   Y: z.number(),
   Z: z.number(),
 });
-const Roblox_Avatarcore_Shared_V3Beta1_AssetScale = z.object({
-  Scale: z.number(),
+const Roblox_Avatarcore_Shared_V3_AssetScale = z.object({
   X: z.number(),
   Y: z.number(),
   Z: z.number(),
@@ -40,9 +39,9 @@ const Roblox_Avatarcore_Shared_V3Beta1_AssetScale = z.object({
 const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z.object({
   order: z.number().int(),
   puffiness: z.number(),
-  position: Roblox_Avatarcore_Shared_V3Beta1_AssetPosition,
-  rotation: Roblox_Avatarcore_Shared_V3Beta1_AssetRotation,
-  scale: Roblox_Avatarcore_Shared_V3Beta1_AssetScale,
+  position: Roblox_Avatarcore_Shared_V3_AssetPosition,
+  rotation: Roblox_Avatarcore_Shared_V3_AssetRotation,
+  scale: Roblox_Avatarcore_Shared_V3_AssetScale,
   version: z.number().int(),
 });
 const Roblox_Api_Avatar_Models_AssetModelV2 = z.object({
@@ -70,6 +69,7 @@ const Roblox_Api_Avatar_Models_OutfitModel = z.object({
   id: z.number().int(),
   name: z.string(),
   isEditable: z.boolean(),
+  outfitType: z.string(),
 });
 const Roblox_Api_Avatar_Models_AvatarPageResponse_Roblox_Api_Avatar_Models_OutfitModel_ = z.object({
   data: z.array(Roblox_Api_Avatar_Models_OutfitModel),

@@ -27,24 +27,15 @@ const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z.object({
   majorVersion: z.string(),
   fidelity: z.string(),
 });
-const Roblox_Web_Assets_IAssetResponseItemV2 = z.object({
-  Locations: z.array(Roblox_Web_Assets_AssetFormatLocation),
-  Errors: z.array(Roblox_Web_Assets_IAssetItemError),
-  RequestId: z.string(),
+const Roblox_Web_Assets_AssetResponseItemV2 = z.object({
+  locations: z.array(Roblox_Web_Assets_AssetFormatLocation),
+  errors: z.array(Roblox_Web_Assets_IAssetItemError),
+  requestId: z.string(),
   IsHashDynamic: z.boolean(),
   IsCopyrightProtected: z.boolean(),
-  IsArchived: z.boolean(),
-  AssetTypeId: z.number().int(),
-  ContentRepresentationSpecifier: Roblox_Web_Assets_AssetContentRepresentationSpecifier,
-});
-const Roblox_Web_Assets_IAssetResponseItem = z.object({
-  Location: z.string(),
-  Errors: z.array(Roblox_Web_Assets_IAssetItemError),
-  RequestId: z.string(),
-  IsHashDynamic: z.boolean(),
-  IsCopyrightProtected: z.boolean(),
-  IsArchived: z.boolean(),
-  ContentRepresentationSpecifier: Roblox_Web_Assets_AssetContentRepresentationSpecifier,
+  isArchived: z.boolean(),
+  assetTypeId: z.number().int(),
+  contentRepresentationSpecifier: Roblox_Web_Assets_AssetContentRepresentationSpecifier,
 });
 const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
   assetName: z.string(),
@@ -152,7 +143,7 @@ export const getAliasAlias = endpoint({
     serverplaceid: z.number().int().optional(),
     expectedAssetType: z.string().optional(),
   },
-  response: Roblox_Web_Assets_IAssetResponseItemV2,
+  response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
 });
 /**
@@ -305,93 +296,7 @@ export const getAsset = endpoint({
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
   },
-  response: Roblox_Web_Assets_IAssetResponseItemV2,
-  errors: [],
-});
-/**
- * @api GET https://assetdelivery.roblox.com/v2/assetHash/:hash
- * @param hash
- * @param Accept-Encoding
- * @param Roblox-Place-Id
- * @param AssetType
- * @param Accept
- * @param AssetFormat
- * @param Roblox-AssetFormat
- * @param skipSigningScripts
- * @param clientInsert
- * @param scriptinsert
- * @param modulePlaceId
- * @param serverplaceid
- * @param expectedAssetType
- */
-export const getAssethashHash = endpoint({
-  method: 'get',
-  path: '/v2/assetHash/:hash',
-  baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    hash: {
-      style: 'simple',
-    },
-    'Accept-Encoding': {
-      style: 'simple',
-    },
-    'Roblox-Place-Id': {
-      style: 'simple',
-    },
-    AssetType: {
-      style: 'simple',
-    },
-    Accept: {
-      style: 'simple',
-    },
-    AssetFormat: {
-      style: 'simple',
-    },
-    'Roblox-AssetFormat': {
-      style: 'simple',
-    },
-    skipSigningScripts: {
-      style: 'form',
-      explode: true,
-    },
-    clientInsert: {
-      style: 'form',
-      explode: true,
-    },
-    scriptinsert: {
-      style: 'form',
-      explode: true,
-    },
-    modulePlaceId: {
-      style: 'form',
-      explode: true,
-    },
-    serverplaceid: {
-      style: 'form',
-      explode: true,
-    },
-    expectedAssetType: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    hash: z.string(),
-    'Accept-Encoding': z.string(),
-    'Roblox-Place-Id': z.number().int(),
-    AssetType: z.string(),
-    Accept: z.string(),
-    AssetFormat: z.string(),
-    'Roblox-AssetFormat': z.string(),
-    skipSigningScripts: z.boolean().optional(),
-    clientInsert: z.number().int().optional(),
-    scriptinsert: z.number().int().optional(),
-    modulePlaceId: z.number().int().optional(),
-    serverplaceid: z.number().int().optional(),
-    expectedAssetType: z.string().optional(),
-  },
-  response: Roblox_Web_Assets_IAssetResponseItemV2,
+  response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
 });
 /**
@@ -489,7 +394,7 @@ export const getAssetidAssetid = endpoint({
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
   },
-  response: Roblox_Web_Assets_IAssetResponseItemV2,
+  response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
 });
 /**
@@ -592,7 +497,7 @@ export const getAssetidAssetidVersionVersion = endpoint({
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
   },
-  response: Roblox_Web_Assets_IAssetResponseItemV2,
+  response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
 });
 /**
@@ -625,7 +530,7 @@ export const postAssetsBatch = endpoint({
     'Roblox-Browser-Asset-Request': z.string(),
   },
   body: z.array(Roblox_Web_Assets_BatchAssetRequestItem),
-  response: z.array(Roblox_Web_Assets_IAssetResponseItemV2),
+  response: z.array(Roblox_Web_Assets_AssetResponseItemV2),
   errors: [],
 });
 /**
@@ -711,7 +616,7 @@ export const getAssetversionidAssetversionid = endpoint({
     serverplaceid: z.number().int().optional(),
     expectedAssetType: z.string().optional(),
   },
-  response: Roblox_Web_Assets_IAssetResponseItemV2,
+  response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
 });
 /**
@@ -802,7 +707,7 @@ export const getMarassethashMarassethashMarchecksumMarchecksum = endpoint({
     serverplaceid: z.number().int().optional(),
     expectedAssetType: z.string().optional(),
   },
-  response: Roblox_Web_Assets_IAssetResponseItem,
+  response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
 });
 /**
@@ -888,6 +793,6 @@ export const getUserassetidUserassetid = endpoint({
     serverplaceid: z.number().int().optional(),
     expectedAssetType: z.string().optional(),
   },
-  response: Roblox_Web_Assets_IAssetResponseItemV2,
+  response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
 });

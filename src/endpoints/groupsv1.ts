@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
+const Roblox_Groups_Client_GroupFeaturedContentResponse = z.object({
+  groupId: z.number().int(),
+  contentType: z.string(),
+  contentId: z.string(),
+});
 const Roblox_Groups_Api_Models_Response_UserModel = z.object({
   buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   hasVerifiedBadge: z.boolean(),
@@ -75,6 +80,7 @@ const Roblox_Groups_Api_GroupMembershipPermissionsModel = z.object({
   changeRank: z.boolean(),
   inviteMembers: z.boolean(),
   removeMembers: z.boolean(),
+  banMembers: z.boolean(),
 });
 const Roblox_Groups_Api_GroupManagementPermissionsModel = z.object({
   manageRelationships: z.boolean(),
@@ -113,6 +119,7 @@ const Roblox_Groups_Api_GroupMembershipMetadataResponse = z.object({
   areEnemiesAllowed: z.boolean(),
   canConfigure: z.boolean(),
   isNotificationsEnabled: z.boolean(),
+  isBannedFromGroup: z.boolean(),
 });
 const Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem = z.object({
   name: z.string(),
@@ -169,6 +176,7 @@ const Roblox_Groups_Api_UpdatePermissionsRequest_permissions = z.object({
   InviteMembers: z.boolean(),
   PostToStatus: z.boolean(),
   RemoveMembers: z.boolean(),
+  BanMembers: z.boolean(),
   ViewStatus: z.boolean(),
   ViewWall: z.boolean(),
   ChangeRank: z.boolean(),
@@ -317,6 +325,7 @@ const Roblox_Groups_Api_GroupsDisplayOptionsResponse = z.object({
   areProfileGroupsHidden: z.boolean(),
   isGroupDetailsPolicyEnabled: z.boolean(),
   showPreviousGroupNames: z.boolean(),
+  areGroupBansEnabled: z.boolean(),
 });
 const Roblox_Groups_Api_GroupSearchResponseItem = z.object({
   id: z.number().int(),
@@ -448,6 +457,96 @@ const Roblox_Groups_Api_UpdateUserRoleRequest = z.object({
 const groups_icon_body = z.object({ Files: z.instanceof(File) });
 
 /**
+ * @api GET https://groups.roblox.com/v1/featured-content/event
+ * @summary Gets the featured event for a group
+ * @param groupId The group Id.
+ */
+export const getFeaturedContentEvent = endpoint({
+  method: 'get',
+  path: '/v1/featured-content/event',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+  },
+  response: Roblox_Groups_Client_GroupFeaturedContentResponse,
+  errors: [],
+});
+/**
+ * @api POST https://groups.roblox.com/v1/featured-content/event
+ * @summary Sets the featured event for a group
+ * @param groupId The group Id.
+ * @param eventId The event Id.
+ */
+export const postFeaturedContentEvent = endpoint({
+  method: 'post',
+  path: '/v1/featured-content/event',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'form',
+      explode: true,
+    },
+    eventId: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    eventId: z.number().int(),
+  },
+  response: Roblox_Groups_Client_GroupFeaturedContentResponse,
+  errors: [
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+3: User is not authorized to set featured content for this group.`,
+    },
+  ],
+});
+/**
+ * @api DELETE https://groups.roblox.com/v1/featured-content/event
+ * @summary Deletes the featured event for a group
+ * @param groupId The group Id.
+ * @param eventId The event Id.
+ */
+export const deleteFeaturedContentEvent = endpoint({
+  method: 'delete',
+  path: '/v1/featured-content/event',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'form',
+      explode: true,
+    },
+    eventId: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    eventId: z.number().int(),
+  },
+  response: z.void(),
+  errors: [
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+3: User is not authorized to set featured content for this group.`,
+    },
+  ],
+});
+/**
  * @api GET https://groups.roblox.com/v1/groups/:groupId
  * @summary Gets group information
  * @param groupId The group Id.
@@ -562,6 +661,8 @@ export const getGroupsGroupidAuditLog = endpoint({
         'PublishPlace',
         'UpdateRolesetRank',
         'UpdateRolesetData',
+        'BanMember',
+        'UnbanMember',
       ])
       .optional(),
     userId: z.number().int().optional(),
@@ -1812,7 +1913,7 @@ export const patchGroupsGroupidRolesRolesetidPermissions = endpoint({
  * @param roleSetId The group's role set id.
  * @param limit The number of results per request.
  * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder Sorted by user group join date
+ * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidRolesRolesetidUsers = endpoint({
   method: 'get',
@@ -2355,7 +2456,6 @@ export const patchGroupsGroupidStatus = endpoint({
     {
       status: 400,
       description: `1: Group is invalid or does not exist.
-6: You are not authorized to set the status of this group
 7: Missing group status content.`,
     },
     {
@@ -2364,7 +2464,8 @@ export const patchGroupsGroupidStatus = endpoint({
     },
     {
       status: 403,
-      description: `0: Token Validation Failed`,
+      description: `0: Token Validation Failed
+6: You are not authorized to set the status of this group`,
     },
   ],
 });

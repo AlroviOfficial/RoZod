@@ -29,6 +29,7 @@ const Roblox_Friends_Api_FriendRequest = z.object({
     z.literal(9),
   ]),
   contactName: z.string(),
+  senderNickname: z.string(),
 });
 const Roblox_Friends_Api_FriendRequestResponse = z.object({
   friendRequest: Roblox_Friends_Api_FriendRequest,
@@ -46,15 +47,6 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestR
   previousPageCursor: z.string(),
   nextPageCursor: z.string(),
   data: z.array(Roblox_Friends_Api_FriendRequestResponse),
-});
-const Roblox_Friends_Api_Models_Response_UserRecommendation = z.object({
-  userId: z.number().int(),
-  userName: z.string(),
-  userProfilePageUrl: z.string(),
-  userPresenceType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-});
-const Roblox_Friends_Api_Models_Response_UserRecommendationsResponse = z.object({
-  recommendedUsers: z.array(Roblox_Friends_Api_Models_Response_UserRecommendation),
 });
 const Roblox_Friends_Api_PendingFriendRequestCountModel = z.object({
   count: z.number().int(),
@@ -137,6 +129,9 @@ const Roblox_Friends_Api_Models_Response_FollowingExistsResponseModel = z.object
   followings: z.array(Roblox_Friends_Api_Models_Response_FollowingExistsResponse),
 });
 const Roblox_Friends_Api_Models_Response_DeclineAllFriendRequestsResponse = z.object({ backgrounded: z.boolean() });
+const Roblox_Friends_Api_MultigetAreFriendsRequestModel = z.object({
+  targetUserIds: z.array(z.number()),
+});
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Friends_Api_Models_Request_FriendingTokenRequestModel = z.object({
   friendingToken: z.string(),
@@ -146,11 +141,6 @@ const Roblox_Web_Captcha_Models_Request_CaptchaTokenRequest = z.object({
   captchaToken: z.string(),
   captchaProvider: z.string(),
   challengeId: z.string(),
-});
-const Roblox_Friends_Api_RecountResponse = z.object({
-  existingCount: z.number().int(),
-  computedCount: z.number().int(),
-  updated: z.boolean(),
 });
 const Roblox_Friends_Api_FriendshipRequestModel = z.object({
   friendshipOriginSourceType: z.union([
@@ -165,6 +155,7 @@ const Roblox_Friends_Api_FriendshipRequestModel = z.object({
     z.literal(8),
     z.literal(9),
   ]),
+  senderNickname: z.string(),
 });
 
 /**
@@ -307,24 +298,6 @@ export const getMyFriendsRequests = endpoint({
   ],
 });
 /**
- * @api GET https://friends.roblox.com/v1/recommended-users
- * @summary Return a list of Recommendations for the Authenticated User.
-V1 API to just return list of existing friends for the Authenticated user.
- */
-export const getRecommendedUsers = endpoint({
-  method: 'get',
-  path: '/v1/recommended-users',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_Friends_Api_Models_Response_UserRecommendationsResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
  * @api POST https://friends.roblox.com/v1/user/following-exists
  * @summary Returns whether or not the current user is following each userId in a list of userIds
  * @param body The userIds potentially being followed
@@ -387,6 +360,37 @@ export const postUserFriendRequestsDeclineAll = endpoint({
   requestFormat: 'json',
   response: z.object({ backgrounded: z.boolean() }),
   errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+  ],
+});
+/**
+ * @api POST https://friends.roblox.com/v1/user/multiget-are-friends
+ * @summary Check if the requesting user is friends with the specified users.
+ * @param body The user ids to check against with the requesting user.
+ */
+export const postUserMultigetAreFriends = endpoint({
+  method: 'post',
+  path: '/v1/user/multiget-are-friends',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Friends_Api_MultigetAreFriendsRequestModel,
+  response: z.array(z.number()),
+  errors: [
+    {
+      status: 400,
+      description: `1: The target user is invalid or does not exist.`,
+    },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
@@ -726,45 +730,6 @@ export const getUsersTargetuseridFollowingsCount = endpoint({
   ],
 });
 /**
- * @api POST https://friends.roblox.com/v1/users/:targetUserId/followings/recount
- * @summary Recompute the number of followings for a user by comparing the existing counter to list of followings
- * @param targetUserId
- */
-export const postUsersTargetuseridFollowingsRecount = endpoint({
-  method: 'post',
-  path: '/v1/users/:targetUserId/followings/recount',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    targetUserId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    targetUserId: z.number().int(),
-  },
-  response: Roblox_Friends_Api_RecountResponse,
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.
-32: Counter over limit.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 429,
-      description: `9: The flood limit has been exceeded.`,
-    },
-  ],
-});
-/**
  * @api POST https://friends.roblox.com/v1/users/:targetUserId/request-friendship
  * @summary Send a friend request to target user
  * @param body The source which the friend request originated from
@@ -795,7 +760,8 @@ export const postUsersTargetuseridRequestFriendship = endpoint({
 7: The user cannot be friends with itself.
 10: The friend request does not exist.
 13: The users are not in the same game.
-31: User with max friends sent friend request.`,
+31: User with max friends sent friend request.
+35: Invalid nickname.`,
     },
     {
       status: 401,
@@ -981,7 +947,10 @@ export const getUsersUseridFriendsFind = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    userSort: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),
+    userSort: z
+      .union([z.literal(0), z.literal(1), z.literal(2)])
+      .optional()
+      .default(2),
     cursor: z.string().optional(),
     limit: z.number().int().optional().default(50),
   },
@@ -1071,7 +1040,6 @@ export const getUsersUseridFriendsOnline = endpoint({
  * @summary Search for friends by name using a text query.
  * @param userId The user Id to get the friends for.
  * @param query The string to search names of friends for.
- * @param userSort Specifies how to sort the returned friends.
  * @param cursor The paging cursor for the previous or next page.
  * @param limit The number of results per request.
  */
@@ -1088,10 +1056,6 @@ export const getUsersUseridFriendsSearch = endpoint({
       style: 'form',
       explode: true,
     },
-    userSort: {
-      style: 'form',
-      explode: true,
-    },
     cursor: {
       style: 'form',
       explode: true,
@@ -1104,7 +1068,6 @@ export const getUsersUseridFriendsSearch = endpoint({
   parameters: {
     userId: z.number().int(),
     query: z.string().optional(),
-    userSort: z.literal(0).optional(),
     cursor: z.string().optional(),
     limit: z.number().int().optional().default(20),
   },

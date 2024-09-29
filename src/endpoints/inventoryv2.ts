@@ -96,6 +96,7 @@ const Roblox_Inventory_Api_V2_UserAssetItemModelV2 = z.object({
     z.literal(79),
     z.literal(80),
     z.literal(81),
+    z.literal(82),
   ]),
   created: z.string().datetime({ offset: true }),
 });
@@ -125,6 +126,7 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_Inven
   nextPageCursor: z.string(),
   data: z.array(Roblox_Inventory_Api_Models_InventoryItemModel),
 });
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
  * @api GET https://inventory.roblox.com/v2/assets/:assetId/owners
@@ -178,11 +180,55 @@ export const getAssetsAssetidOwners = endpoint({
   ],
 });
 /**
+ * @api DELETE https://inventory.roblox.com/v2/inventory/asset/:assetId
+ * @summary Give up an asset owned by the authenticated user.
+Assets that are created by Roblox user or are limited edition are not eligible for deletion
+and will return NotEligibleForDelete.
+ * @param assetId ID of the asset to delete.
+ */
+export const deleteInventoryAssetAssetid = endpoint({
+  method: 'delete',
+  path: '/v2/inventory/asset/:assetId',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    assetId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    assetId: z.number().int(),
+  },
+  response: z.object({}),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+4: You are not authorized.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+2: You don&#x27;t own the specified item.
+3: The item is not allowed to be deleted.`,
+    },
+    {
+      status: 404,
+      description: `1: The item does not exist.`,
+    },
+    {
+      status: 500,
+      description: `0: An unknown error occured.`,
+    },
+  ],
+});
+/**
  * @api GET https://inventory.roblox.com/v2/users/:userId/inventory
  * @summary Get user's inventory by multiple Roblox.Platform.Assets.AssetType.
  * @param userId The inventory owner's userId.
  * @param assetTypes The asset types to query.
- * @param filterDisapprovedAssets
+ * @param filterDisapprovedAssets Filters moderated assets when enabled.
+ * @param showApprovedOnly Filters moderated assets and assets pending review when enabled.
  * @param limit The number of results per request.
  * @param cursor The paging cursor for the previous or next page.
  * @param sortOrder The order the results are sorted in.
@@ -204,6 +250,10 @@ export const getUsersUseridInventory = endpoint({
       style: 'form',
       explode: true,
     },
+    showApprovedOnly: {
+      style: 'form',
+      explode: true,
+    },
     limit: {
       style: 'form',
       explode: true,
@@ -221,6 +271,7 @@ export const getUsersUseridInventory = endpoint({
     userId: z.number().int(),
     assetTypes: z.array(z.object({})),
     filterDisapprovedAssets: z.boolean().optional(),
+    showApprovedOnly: z.boolean().optional(),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()

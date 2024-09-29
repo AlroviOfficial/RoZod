@@ -11,12 +11,6 @@ const Roblox_Presence_Api_Models_Response_LastOnline = z.object({
 const Roblox_Presence_Api_Models_Response_LastOnlineResponse = z.object({
   lastOnlineTimestamps: z.array(Roblox_Presence_Api_Models_Response_LastOnline),
 });
-const Roblox_Presence_Api_Models_Request_RegisterAppPresenceRequest = z.object({
-  location: z.string(),
-  placeId: z.number().int(),
-  disconnect: z.boolean(),
-});
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Presence_Api_Models_Request_UserPresenceRequest = z.object({
   userIds: z.array(z.number()),
 });
@@ -52,33 +46,6 @@ export const postPresenceLastOnline = endpoint({
   body: Roblox_Presence_Api_Models_Request_LastOnlineRequest,
   response: Roblox_Presence_Api_Models_Response_LastOnlineResponse,
   errors: [],
-});
-/**
- * @api POST https://presence.roblox.com/v1/presence/register-app-presence
- * @summary Register User Presence for IOS, Android, Xbox, regular studio session
- * @param body
- */
-export const postPresenceRegisterAppPresence = endpoint({
-  method: 'post',
-  path: '/v1/presence/register-app-presence',
-  baseUrl: 'https://presence.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Presence_Api_Models_Request_RegisterAppPresenceRequest,
-  response: z.object({}),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
 });
 /**
  * @api POST https://presence.roblox.com/v1/presence/users

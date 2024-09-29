@@ -3,6 +3,8 @@ import { endpoint } from '..';
 
 const Roblox_AccountSettings_Api_Models_Response_UserAccountCountry = z.object({
   countryName: z.string(),
+  subdivisionIso: z.string(),
+  localizedSubdivision: z.string(),
   localizedName: z.string(),
   countryId: z.number().int(),
 });

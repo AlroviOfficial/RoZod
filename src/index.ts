@@ -7,7 +7,7 @@ import {
   GENERIC_CHALLENGE_ID_HEADER,
   GENERIC_CHALLENGE_METADATA_HEADER,
   GENERIC_CHALLENGE_TYPE_HEADER,
-} from 'parse-roblox-errors/esm/challenge';
+} from 'parse-roblox-errors';
 
 type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 type RequestFormat = 'json' | 'text' | 'form-data';
@@ -70,8 +70,8 @@ type ExtractParams<S extends EndpointGeneric<any, any, any>> = S['parameters'] e
     ? undefined
     : { body: S['body'] }
   : S['body'] extends undefined
-  ? S['parameters']
-  : S['parameters'] & { body: S['body'] };
+    ? S['parameters']
+    : S['parameters'] & { body: S['body'] };
 
 type ExtractResponse<S extends EndpointGeneric<any, any, any>> = S['response'];
 

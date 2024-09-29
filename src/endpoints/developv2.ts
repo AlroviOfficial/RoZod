@@ -111,6 +111,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
   permissions: Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions,
   optInRegions: z.array(z.union([z.literal(0), z.literal(1)])),
   optOutRegions: z.array(z.union([z.literal(0), z.literal(1)])),
+  isMeshTextureApiAccessAllowed: z.boolean(),
 });
 const Roblox_Api_Develop_Models_UniverseModerationPolicyStatus = z.object({
   region: z.union([z.literal(0), z.literal(1)]),
@@ -120,6 +121,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z.object({
   allowPrivateServers: z.boolean(),
   privateServerPrice: z.number().int(),
   optInRegions: z.array(Roblox_Api_Develop_Models_UniverseModerationPolicyStatus),
+  isMeshTextureApiAccessAllowed: z.boolean(),
   id: z.number().int(),
   name: z.string(),
   description: z.string(),

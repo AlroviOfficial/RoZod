@@ -282,6 +282,7 @@ export const getUsersUseridAssetsCollectibles = endpoint({
         z.literal(79),
         z.literal(80),
         z.literal(81),
+        z.literal(82),
       ])
       .optional(),
     limit: z
@@ -483,6 +484,7 @@ export const getUsersUseridInventoryAssettype = endpoint({
       z.literal(79),
       z.literal(80),
       z.literal(81),
+      z.literal(82),
     ]),
     pageNumber: z.number().int().optional().default(1),
     itemsPerPage: z.number().int().optional().default(25),

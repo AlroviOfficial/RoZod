@@ -15,6 +15,7 @@ const Roblox_Web_WebAPI_Models_ApiSuccessResponse = z.object({
 const Roblox_Authentication_Api_Models_AuthMetaDataResponse = z.object({
   cookieLawNoticeTimeout: z.number().int(),
 });
+const Roblox_Authentication_Api_Models_Response_GetClientAssertionResponse = z.object({ clientAssertion: z.string() });
 const Roblox_Authentication_Api_Models_MetadataResponse = z.object({
   isUpdateUsernameEnabled: z.boolean(),
   ftuxAvatarAssetMap: z.string(),
@@ -42,6 +43,7 @@ const Roblox_Authentication_Api_Models_RecoveryMetadataResponse = z.object({
   isPhoneFeatureEnabledForUsername: z.boolean(),
   isPhoneFeatureEnabledForPassword: z.boolean(),
   isBedev2CaptchaEnabledForPasswordReset: z.boolean(),
+  isUsernameRecoveryDeprecated: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_RevertAccountInfoResponse = z.object({
   isTwoStepVerificationEnabled: z.boolean(),
@@ -187,6 +189,10 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Authentication_Api_Models_Request_InitializeLoginRequest = z.object({
   ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
   cvalue: z.string().min(1),
+  captchaId: z.string().optional(),
+  captchaToken: z.string().optional(),
+  captchaProvider: z.string().optional(),
+  challengeId: z.string().optional(),
 });
 const Roblox_Authentication_Api_Models_LoginMethodModel = z.object({
   method: z.union([z.literal(0), z.literal(1), z.literal(2)]),
@@ -234,6 +240,14 @@ const Roblox_Authentication_Api_Models_Response_PasskeyCredential = z.object({
 });
 const Roblox_Authentication_Api_Models_Response_ListPasskeyCredentialResponse = z.object({
   credentials: z.array(Roblox_Authentication_Api_Models_Response_PasskeyCredential),
+});
+const Roblox_Authentication_Api_Models_Request_StartAuthenticationByUserRequest = z.object({
+  ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+  cvalue: z.string().min(1),
+});
+const Roblox_Authentication_Api_Models_Response_StartAuthenticationByUserResponse = z.object({
+  authenticationOptions: z.string(),
+  sessionId: z.string(),
 });
 const Roblox_Authentication_Api_Models_Response_StartAuthenticationResponse = z.object({
   authenticationOptions: z.string(),
@@ -512,6 +526,23 @@ export const getAuthMetadata = endpoint({
   requestFormat: 'json',
   response: z.object({ cookieLawNoticeTimeout: z.number().int() }),
   errors: [],
+});
+/**
+ * @api GET https://auth.roblox.com/v1/client-assertion
+ * @summary Creates a client assertion to be used when generating an auth ticket.
+ */
+export const getClientAssertion = endpoint({
+  method: 'get',
+  path: '/v1/client-assertion',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  response: z.object({ clientAssertion: z.string() }),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+  ],
 });
 /**
  * @api POST https://auth.roblox.com/v1/external/access
@@ -897,6 +928,39 @@ export const postPasskeyListcredentials = endpoint({
   ],
 });
 /**
+ * @api POST https://auth.roblox.com/v1/passkey/start-authentication-by-user
+ * @summary Initializes passkey authentication for the user(s) corresponding to the identifier provided.
+ * @param body
+ */
+export const postPasskeyStartAuthenticationByUser = endpoint({
+  method: 'post',
+  path: '/v1/passkey/start-authentication-by-user',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_Request_StartAuthenticationByUserRequest,
+  response: Roblox_Authentication_Api_Models_Response_StartAuthenticationByUserResponse,
+  errors: [
+    {
+      status: 400,
+      description: `5: User identifier and type are required.
+6: Multi-user passkey authentication is not supported for this credential type.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+4: No passkeys registered for any users found.`,
+    },
+    {
+      status: 503,
+      description: `2: Feature disabled.`,
+    },
+  ],
+});
+/**
  * @api POST https://auth.roblox.com/v1/passkey/StartAuthentication
  * @summary Provides a challenge for the Passkey to authenticate.
  */
@@ -947,8 +1011,8 @@ export const postPasskeyStartregistration = endpoint({
 /**
  * @api GET https://auth.roblox.com/v1/passwords/validate
  * @summary Endpoint for checking if a password is valid.
- * @param Username The username.
- * @param Password The password.
+ * @param Username
+ * @param Password
  */
 export const getPasswordsValidate = endpoint({
   method: 'get',
@@ -1447,9 +1511,9 @@ export const postUsernamesRecover = endpoint({
 /**
  * @api GET https://auth.roblox.com/v1/usernames/validate
  * @summary Checks if a username is valid.
- * @param Username The username
- * @param Birthday The birthday
- * @param Context Roblox.Authentication.Api.Models.UsernameValidationContext
+ * @param Username
+ * @param Birthday
+ * @param Context
  */
 export const getUsernamesValidate = endpoint({
   method: 'get',
@@ -1515,7 +1579,7 @@ export const postUsernamesValidate = endpoint({
 /**
  * @api GET https://auth.roblox.com/v1/validators/email
  * @summary Tries to check if an email is valid
- * @param Email Gets or sets the email to check for validation
+ * @param Email
  */
 export const getValidatorsEmail = endpoint({
   method: 'get',
@@ -1537,8 +1601,8 @@ export const getValidatorsEmail = endpoint({
 /**
  * @api GET https://auth.roblox.com/v1/validators/recommendedUsernameFromDisplayName
  * @summary Validates the given display name, and if valid, will convert it to a valid username and return suggested username(s) if available.
- * @param DisplayName Gets or sets the display name, which will create a recommended username if available.
- * @param BirthDay Gets or sets the birth day.
+ * @param DisplayName
+ * @param BirthDay
  */
 export const getValidatorsRecommendedusernamefromdisplayname = endpoint({
   method: 'get',
@@ -1590,8 +1654,8 @@ export const postValidatorsRecommendedusernamefromdisplayname = endpoint({
 /**
  * @api GET https://auth.roblox.com/v1/validators/username
  * @summary Tries to get a valid username if the current username is taken
- * @param Username Gets or sets the username to use as the base username provided by the user
- * @param BirthDay Gets or sets the birth day.
+ * @param Username
+ * @param BirthDay
  */
 export const getValidatorsUsername = endpoint({
   method: 'get',
