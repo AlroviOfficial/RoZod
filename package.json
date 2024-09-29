@@ -32,6 +32,7 @@
     "@alexop/openapi-zod-client": "^1.11.2",
     "@apidevtools/swagger-parser": "^10.1.0",
     "@types/jest": "^29.5.13",
+    "@types/node": "^20.13.1",
     "@typescript-eslint/eslint-plugin": "^8.7.0",
     "@typescript-eslint/parser": "^8.7.0",
     "@zodios/plugins": "^10.6.0",
