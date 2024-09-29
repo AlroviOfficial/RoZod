@@ -17,7 +17,7 @@
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
   <a href="#credits">Credits</a> •
-  <a href="#disclaimer">Disclaimer</a>
+  <a href="#disclaimer">Disclaimer</a> •
   <a href="http://rozod.alrovi.com">Documentation</a>
 </p>
 
