@@ -18,8 +18,8 @@
   "license": "ISC",
   "dependencies": {
     "parse-roblox-errors": "^1.1.10",
-    "roblox-bat": "^0.4.0",
-    "zod": "^3.23.8"
+    "roblox-bat": "^0.5.1",
+    "zod": "^3.24.2"
   },
   "repository": {
     "url": "https://github.com/AlroviOfficial/RoZod"
