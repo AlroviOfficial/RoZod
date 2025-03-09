@@ -76,6 +76,15 @@ const Roblox_Groups_Api_GroupPostsPermissionsModel = z.object({
   viewStatus: z.boolean(),
   postToStatus: z.boolean(),
 });
+const Roblox_Groups_Api_GroupForumsPermissionsModel = z.object({
+  manageCategories: z.boolean(),
+  createPosts: z.boolean(),
+  removePosts: z.boolean(),
+  lockPosts: z.boolean(),
+  pinPosts: z.boolean(),
+  createComments: z.boolean(),
+  removeComments: z.boolean(),
+});
 const Roblox_Groups_Api_GroupMembershipPermissionsModel = z.object({
   changeRank: z.boolean(),
   inviteMembers: z.boolean(),
@@ -103,10 +112,17 @@ const Roblox_Groups_Api_GroupOpenCloudPermissionsModel = z.object({
 });
 const Roblox_Groups_Api_GroupPermissionsModel = z.object({
   groupPostsPermissions: Roblox_Groups_Api_GroupPostsPermissionsModel,
+  groupForumsPermissions: Roblox_Groups_Api_GroupForumsPermissionsModel,
   groupMembershipPermissions: Roblox_Groups_Api_GroupMembershipPermissionsModel,
   groupManagementPermissions: Roblox_Groups_Api_GroupManagementPermissionsModel,
   groupEconomyPermissions: Roblox_Groups_Api_GroupEconomyPermissionsModel,
   groupOpenCloudPermissions: Roblox_Groups_Api_GroupOpenCloudPermissionsModel,
+});
+const Roblox_Groups_Api_GroupNotificationPreferenceData = z.object({
+  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  enabled: z.boolean(),
+  name: z.string(),
+  description: z.string(),
 });
 const Roblox_Groups_Api_GroupMembershipMetadataResponse = z.object({
   groupId: z.number().int(),
@@ -119,7 +135,9 @@ const Roblox_Groups_Api_GroupMembershipMetadataResponse = z.object({
   areEnemiesAllowed: z.boolean(),
   canConfigure: z.boolean(),
   isNotificationsEnabled: z.boolean(),
+  notificationPreferences: z.array(Roblox_Groups_Api_GroupNotificationPreferenceData),
   isBannedFromGroup: z.boolean(),
+  isBanEvading: z.boolean(),
 });
 const Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem = z.object({
   name: z.string(),
@@ -192,6 +210,13 @@ const Roblox_Groups_Api_UpdatePermissionsRequest_permissions = z.object({
   UseCloudAuthentication: z.boolean(),
   AdministerCloudAuthentication: z.boolean(),
   ViewAnalytics: z.boolean(),
+  ManageCategories: z.boolean(),
+  CreatePosts: z.boolean(),
+  RemovePosts: z.boolean(),
+  LockPosts: z.boolean(),
+  PinPosts: z.boolean(),
+  CreateComments: z.boolean(),
+  RemoveComments: z.boolean(),
 });
 const Roblox_Groups_Api_UpdatePermissionsRequest = z.object({
   permissions: Roblox_Groups_Api_UpdatePermissionsRequest_permissions,
@@ -326,6 +351,7 @@ const Roblox_Groups_Api_GroupsDisplayOptionsResponse = z.object({
   isGroupDetailsPolicyEnabled: z.boolean(),
   showPreviousGroupNames: z.boolean(),
   areGroupBansEnabled: z.boolean(),
+  canEnableGroupNotifications: z.boolean(),
 });
 const Roblox_Groups_Api_GroupSearchResponseItem = z.object({
   id: z.number().int(),
@@ -376,6 +402,7 @@ const Roblox_Groups_Api_GroupMembershipDetailResponse = z.object({
   role: Roblox_Groups_Api_GroupRoleResponse,
   isPrimaryGroup: z.boolean(),
   isNotificationsEnabled: z.boolean(),
+  notificationPreferences: z.array(Roblox_Groups_Api_GroupNotificationPreferenceData),
 });
 const Roblox_Groups_Api_UserGroupMembershipResponse = z.object({
   user: Roblox_Groups_Api_Models_Response_UserModel,
@@ -442,6 +469,7 @@ const Roblox_Groups_Api_UpdateGroupNameResponse = z.object({
 });
 const Roblox_Groups_Api_UpdateGroupNotificationPreferenceRequest = z.object({
   notificationsEnabled: z.boolean(),
+  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
 });
 const Roblox_Groups_Api_Models_Request_UpdateRoleSetRequest = z.object({
   name: z.string(),
@@ -677,7 +705,8 @@ export const getGroupsGroupidAuditLog = endpoint({
   errors: [
     {
       status: 400,
-      description: `1: Group is invalid or does not exist.`,
+      description: `1: Group is invalid or does not exist.
+8: Invalid or missing pagination parameters`,
     },
     {
       status: 401,
@@ -1243,7 +1272,7 @@ export const patchGroupsGroupidNotificationPreference = endpoint({
   parameters: {
     groupId: z.number().int(),
   },
-  body: z.object({ notificationsEnabled: z.boolean() }),
+  body: Roblox_Groups_Api_UpdateGroupNotificationPreferenceRequest,
   response: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   errors: [
     {
@@ -2456,7 +2485,8 @@ export const patchGroupsGroupidStatus = endpoint({
     {
       status: 400,
       description: `1: Group is invalid or does not exist.
-7: Missing group status content.`,
+7: Missing group status content.
+32: Description was filtered.`,
     },
     {
       status: 401,
@@ -2667,6 +2697,41 @@ export const patchGroupsGroupidUsersUserid = endpoint({
   ],
 });
 /**
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/users/:userId/permissions
+ * @summary Gets the permissions a user has in a group. Only available to group owner and RCC
+ * @param groupId The group id.
+ * @param userId The user id.
+ */
+export const getGroupsGroupidUsersUseridPermissions = endpoint({
+  method: 'get',
+  path: '/v1/groups/:groupId/users/:userId/permissions',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    userId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    userId: z.number().int(),
+  },
+  response: Roblox_Groups_Api_GroupPermissionsResponse,
+  errors: [
+    {
+      status: 400,
+      description: `1: Group is invalid or does not exist.`,
+    },
+    {
+      status: 403,
+      description: `3: You are not authorized to view/edit permissions for this role.`,
+    },
+  ],
+});
+/**
  * @api GET https://groups.roblox.com/v1/groups/:groupId/wall/posts
  * @summary Gets a list of group wall posts.
  * @param groupId The group id.
@@ -2753,6 +2818,10 @@ export const postGroupsGroupidWallPosts = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 2: You do not have permission to access this group wall.`,
+    },
+    {
+      status: 405,
+      description: `1: The group is invalid or does not exist.`,
     },
     {
       status: 429,

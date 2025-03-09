@@ -51,7 +51,16 @@ const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
   displayName: z.string(),
 });
 const Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse = z.object({
-  mediaType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+  mediaType: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+  ]),
   ticket: z.string(),
 });
 const Roblox_Authentication_Api_Models_LoginResponse = z.object({
@@ -208,6 +217,8 @@ const Roblox_Authentication_Api_Models_SignupRequest = z.object({
   otpSession: Roblox_Authentication_Api_Models_Request_OtpSessionModel,
   dataToken: z.string(),
   accountBlob: z.string(),
+  passkeySessionId: z.string(),
+  passkeyRegistrationResponse: z.string(),
   captchaId: z.string(),
   captchaToken: z.string(),
   captchaProvider: z.string(),
@@ -797,7 +808,8 @@ export const postSignup = endpoint({
     {
       status: 500,
       description: `Internal server error
-15: Insert acceptances failed.`,
+15: Insert acceptances failed.
+27: Pre-auth passkey registration failed`,
     },
     {
       status: 503,

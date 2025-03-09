@@ -76,6 +76,7 @@ const Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions 
 const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
   allowPrivateServers: z.boolean(),
   privateServerPrice: z.number().int(),
+  isRewardedOnDemandAdsAllowed: z.boolean(),
   name: z.string(),
   description: z.string(),
   universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
@@ -112,6 +113,8 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
   optInRegions: z.array(z.union([z.literal(0), z.literal(1)])),
   optOutRegions: z.array(z.union([z.literal(0), z.literal(1)])),
   isMeshTextureApiAccessAllowed: z.boolean(),
+  fiatBasePriceId: z.string(),
+  fiatProductChangeType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
 });
 const Roblox_Api_Develop_Models_UniverseModerationPolicyStatus = z.object({
   region: z.union([z.literal(0), z.literal(1)]),
@@ -122,6 +125,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z.object({
   privateServerPrice: z.number().int(),
   optInRegions: z.array(Roblox_Api_Develop_Models_UniverseModerationPolicyStatus),
   isMeshTextureApiAccessAllowed: z.boolean(),
+  isRewardedOnDemandAdsAllowed: z.boolean(),
   id: z.number().int(),
   name: z.string(),
   description: z.string(),
@@ -156,6 +160,10 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z.object({
   universeAvatarMaxScales: Roblox_Web_Responses_Avatar_ScaleModel,
   studioAccessToApisAllowed: z.boolean(),
   permissions: Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions,
+  isForSaleInFiat: z.boolean(),
+  fiatBasePriceId: z.string(),
+  fiatModerationStatus: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  eligibleForTextChatMigration: z.boolean(),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 

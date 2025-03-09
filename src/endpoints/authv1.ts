@@ -68,7 +68,16 @@ const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
   displayName: z.string(),
 });
 const Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse = z.object({
-  mediaType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+  mediaType: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+  ]),
   ticket: z.string(),
 });
 const Roblox_Authentication_Api_Models_LoginResponse = z.object({
@@ -227,6 +236,10 @@ const Roblox_Authentication_Api_Models_Request_LogoutFromAllSessionsAndReauthent
 const Roblox_Authentication_Api_Models_Request_DeletePasskeysRequest = z.object({
   credentialNicknames: z.array(z.string()),
 });
+const Roblox_Authentication_Api_Models_Request_FinishPasskeyPreauthRegistrationRequest = z.object({
+  sessionId: z.string(),
+  registrationResponse: z.string(),
+});
 const Roblox_Authentication_Api_Models_Request_FinishPasskeyRegistrationRequest = z.object({
   sessionId: z.string(),
   credentialNickname: z.string(),
@@ -247,6 +260,13 @@ const Roblox_Authentication_Api_Models_Request_StartAuthenticationByUserRequest 
 });
 const Roblox_Authentication_Api_Models_Response_StartAuthenticationByUserResponse = z.object({
   authenticationOptions: z.string(),
+  sessionId: z.string(),
+});
+const Roblox_Authentication_Api_Models_Request_StartPasskeyPreauthRegistrationRequest = z.object({
+  username: z.string(),
+});
+const Roblox_Authentication_Api_Models_Response_StartPasskeyPreauthRegistrationResponse = z.object({
+  creationOptions: z.string(),
   sessionId: z.string(),
 });
 const Roblox_Authentication_Api_Models_Response_StartAuthenticationResponse = z.object({
@@ -297,6 +317,8 @@ const Roblox_Authentication_Api_Models_SignupRequest = z.object({
   otpSession: Roblox_Authentication_Api_Models_Request_OtpSessionModel,
   dataToken: z.string(),
   accountBlob: z.string(),
+  passkeySessionId: z.string(),
+  passkeyRegistrationResponse: z.string(),
   captchaId: z.string(),
   captchaToken: z.string(),
   captchaProvider: z.string(),
@@ -371,7 +393,7 @@ const Roblox_Authentication_Api_Models_XboxCollectionsOfUserResponse = z.object(
 
 /**
  * @api GET https://auth.roblox.com/v1/account/pin
- * @summary Gets the account pin status. If the account pin is valid, this returns the time in seconds until when the account pin is unlocked.
+ * @summary Gets the account pin status.
  */
 export const getAccountPin = endpoint({
   method: 'get',
@@ -388,7 +410,7 @@ export const getAccountPin = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/account/pin
- * @summary Reuqest to create the account pin.
+ * @summary Request to create the account pin.
  * @param body The Roblox.Authentication.Api.Models.AccountPinRequest.
  */
 export const postAccountPin = endpoint({
@@ -541,6 +563,70 @@ export const getClientAssertion = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
+ * @api GET https://auth.roblox.com/v1/external/:identityProviderId/sso/oauth/callback
+ * @summary Callback function that external identity provider calls post user authentication.
+ * @param identityProviderId
+ * @param code
+ * @param state
+ */
+export const getExternalIdentityprovideridSsoOauthCallback = endpoint({
+  method: 'get',
+  path: '/v1/external/:identityProviderId/sso/oauth/callback',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    identityProviderId: {
+      style: 'simple',
+    },
+    code: {
+      style: 'form',
+      explode: true,
+    },
+    state: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    identityProviderId: z.number().int(),
+    code: z.string(),
+    state: z.string(),
+  },
+  response: z.void(),
+  errors: [
+    {
+      status: 302,
+      description: `Redirect`,
+    },
+  ],
+});
+/**
+ * @api GET https://auth.roblox.com/v1/external/:identityProviderId/sso/oauth/init
+ * @summary Signs a user up for Roblox and links the account to the authenticated external provider ID.
+ * @param identityProviderId
+ */
+export const getExternalIdentityprovideridSsoOauthInit = endpoint({
+  method: 'get',
+  path: '/v1/external/:identityProviderId/sso/oauth/init',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    identityProviderId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    identityProviderId: z.number().int(),
+  },
+  response: z.void(),
+  errors: [
+    {
+      status: 302,
+      description: `Redirect`,
     },
   ],
 });
@@ -858,6 +944,46 @@ export const postPasskeyDeletecredentialbatch = endpoint({
   ],
 });
 /**
+ * @api POST https://auth.roblox.com/v1/passkey/finish-preauth-registration
+ * @param body
+ */
+export const postPasskeyFinishPreauthRegistration = endpoint({
+  method: 'post',
+  path: '/v1/passkey/finish-preauth-registration',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_Request_FinishPasskeyPreauthRegistrationRequest,
+  response: z.object({}),
+  errors: [
+    {
+      status: 400,
+      description: `0: An unknown error occurred with the request.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+0: An unknown error occurred with the request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+1: Reached limit of pass keys registered.`,
+    },
+    {
+      status: 500,
+      description: `0: An unknown error occurred with the request.`,
+    },
+    {
+      status: 503,
+      description: `2: Feature disabled.`,
+    },
+  ],
+});
+/**
  * @api POST https://auth.roblox.com/v1/passkey/FinishRegistration
  * @summary Complete Passkey registration by providing credential creation options.
  * @param body The request body.Roblox.Authentication.Api.Models.Request.FinishPasskeyRegistrationRequest.
@@ -961,6 +1087,33 @@ export const postPasskeyStartAuthenticationByUser = endpoint({
   ],
 });
 /**
+ * @api POST https://auth.roblox.com/v1/passkey/start-preauth-registration
+ * @summary Initiates  Passkey preauthenticated registration by providing credential creation options.
+ * @param body
+ */
+export const postPasskeyStartPreauthRegistration = endpoint({
+  method: 'post',
+  path: '/v1/passkey/start-preauth-registration',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: z.object({ username: z.string() }),
+  response: Roblox_Authentication_Api_Models_Response_StartPasskeyPreauthRegistrationResponse,
+  errors: [
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+    {
+      status: 503,
+      description: `2: Feature disabled.`,
+    },
+  ],
+});
+/**
  * @api POST https://auth.roblox.com/v1/passkey/StartAuthentication
  * @summary Provides a challenge for the Passkey to authenticate.
  */
@@ -983,7 +1136,7 @@ export const postPasskeyStartauthentication = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/passkey/StartRegistration
- * @summary Initiates  Passkey registration by providing credential creation options.
+ * @summary Initiates Passkey registration by providing credential creation options.
  */
 export const postPasskeyStartregistration = endpoint({
   method: 'post',
@@ -1198,7 +1351,8 @@ export const postSignup = endpoint({
     {
       status: 500,
       description: `Internal server error
-15: Insert acceptances failed.`,
+15: Insert acceptances failed.
+27: Pre-auth passkey registration failed`,
     },
     {
       status: 503,

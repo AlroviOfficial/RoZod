@@ -89,7 +89,6 @@ const Roblox_Trades_Api_CanTradeResponse = z.object({
     z.literal(7),
   ]),
 });
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Trades_Api_TradeOfferRequest = z.object({
   userId: z.number().int(),
   userAssetIds: z.array(z.number()),
@@ -99,6 +98,7 @@ const Roblox_Trades_Api_TradeRequest = z.object({
   offers: z.array(Roblox_Trades_Api_TradeOfferRequest),
 });
 const Roblox_Trades_Api_NewTradeResponse = z.object({ id: z.number().int() });
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
  * @api GET https://trades.roblox.com/v1/trades/:tradeId
@@ -127,50 +127,6 @@ export const getTradesTradeid = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api POST https://trades.roblox.com/v1/trades/:tradeId/accept
- * @summary Accepts a trade.
- * @param tradeId The trade id.
- */
-export const postTradesTradeidAccept = endpoint({
-  method: 'post',
-  path: '/v1/trades/:tradeId/accept',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    tradeId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    tradeId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `2: The trade cannot be found or you are not authorized to view it.
-3: The trade is inactive.
-4: You are not authorized to modify this trade.
-6: Trade needs to be confirmed by the other party.
-6: Trade needs to be confirmed by the other party.
-7: The user cannot trade. See field for whether the user who cannot trade is the sender or receiver.
-23: The trade reaches Two Step Verification thresholds and the user has not verified in the past time threshold.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 503,
-      description: `5: Trading system is unavailable`,
     },
   ],
 });

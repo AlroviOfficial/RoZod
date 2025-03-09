@@ -56,19 +56,21 @@ const urls = readFileSync('urls.txt', 'utf-8')
   .split('\n')
   .filter((url) => url.trim() !== '');
 Promise.all(
-  urls.map((url) =>
-    limit(async () => {
-      if (url.trim()) {
-        console.log(`Converting ${url}`);
-        const [, subdomain, domain] = url.match(/https:\/\/([^\.]+)\.(.+)\//);
-        const apiName = url.split('/').slice(-1)[0];
-        await promisify(exec)(
-          `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${subdomain}${apiName}"`,
-        );
-      }
-    }),
-  ),
-).then(() => {
+  [Promise.resolve()]
+  // urls.map((url) =>
+  //   limit(async () => {
+  //     if (url.trim()) {
+  //       console.log(`Converting ${url}`);
+  //       // Get from "https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/endpointName/version"
+  //       const endpointName = url.match(/\/legacy\/([^/]+)\/v\d+/)[1];
+  //       const apiName = url.split('/').slice(-1)[0].replace(/\.json/, '');
+  //       await promisify(exec)(
+  //         `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${endpointName}${apiName}"`,
+  //       );
+  //     }
+  //   }),
+  // ),
+).then(async () => {
   console.log('Generating Zodios endpoints...');
 
   const openApiFiles = readdirSync(FOLDER_OPENAPI).filter((file) => {
@@ -76,44 +78,51 @@ Promise.all(
     return folderContents.some((file) => file.endsWith('.yaml'));
   });
 
-  openApiFiles.forEach(async (folder) => {
+   openApiFiles.map(async (folder) => {
     console.log(`Generating Zodios for ${folder}`);
 
     const fileName = basename(folder, '.yaml');
     const matchingUrl = urls.find((url) => {
       const apiVersion = url.match(/\/v(\d+)/)[1];
-      return url.includes(`${fileName.replace(/v\d+$/, '')}.roblox.com/docs/json/v${apiVersion}`);
+      // new url is "https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/${fileName.replace(/v\d+$/, '')}/v${apiVersion}"
+      return url.includes(`https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/${fileName.replace(/v\d+$/, '')}/v${apiVersion}`);
     });
 
     if (matchingUrl) {
-      const [, subdomain, domain] = matchingUrl.match(/https?:\/\/([^\.]+)\.([^\/]+)/);
+      const subdomain = matchingUrl.match(/\/legacy\/([^/]+)\/v\d+/)[1];
+      const domain = 'roblox.com';
+      try {
       const openApiDoc = await parser.parse(`${FOLDER_OPENAPI}/${folder}/openapi.yaml`);
-      generateZodClientFromOpenAPI({
-        openApiDoc: openApiDoc,
-        templatePath: './template.hbs',
-        distPath: `${FOLDER_ZODIOS}/${fileName}.ts`,
-        handlebars,
-        options: {
-          baseUrl: `https://${subdomain}.${domain}`,
-          withDeprecatedEndpoints: true,
-          withImplicitRequiredProps: true,
-          withDefaultValues: true,
-          withAlias: (path, method, OpenAPIOperation) => {
-            // Returns a string that will be used as the alias for the endpoint
-            // Example: GET /v1/private-servers/enabled-in-universe/:universeId => getPrivateServersEnabledInUniverse
-            const url = path.replace(/\/v\d+\//, '/').replace(/\/:(\w+)/g, '/$1');
-            const urlParts = url.split(/[/-]/).filter((part) => part !== '');
-            const methodParts = method.split(' ');
-            const methodPart = methodParts[0].toLowerCase();
-            const endpointName = urlParts
-              .map((part) => part.replace(/(\w)(\w*)/, (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()))
-              .join('')
-              .replace(/[{}]/g, '');
-            return `${methodPart}${endpointName}`;
+        await generateZodClientFromOpenAPI({
+          openApiDoc: openApiDoc,
+          templatePath: './template.hbs',
+          distPath: `${FOLDER_ZODIOS}/${fileName}.ts`,
+          handlebars,
+          options: {
+            baseUrl: `https://${subdomain}.${domain}`,
+            withDeprecatedEndpoints: true,
+            withImplicitRequiredProps: true,
+            withDefaultValues: true,
+            withAlias: (path, method, OpenAPIOperation) => {
+              // Returns a string that will be used as the alias for the endpoint
+              // Example: GET /v1/private-servers/enabled-in-universe/:universeId => getPrivateServersEnabledInUniverse
+              const url = path.replace(/\/v\d+\//, '/').replace(/\/:(\w+)/g, '/$1');
+              const urlParts = url.split(/[/-]/).filter((part) => part !== '');
+              const methodParts = method.split(' ');
+              const methodPart = methodParts[0].toLowerCase();
+              const endpointName = urlParts
+                .map((part) => part.replace(/(\w)(\w*)/, (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()))
+                .join('')
+                .replace(/[{}]/g, '');
+              return `${methodPart}${endpointName}`;
+            },
           },
-        },
-      });
+        });
+      } catch (error) {
+        console.error(`Error generating Zodios for ${folder}: ${error}`);
+      }
     }
+    return folder;
   });
 
   // Take all the endpoint files and move them to ./lib/endpoints but renamed to their name plus .d.ts

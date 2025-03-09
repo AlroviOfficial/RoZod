@@ -10,8 +10,6 @@ const Roblox_AccountSettings_Api_Models_Response_UserAccountCountry = z.object({
 });
 const Roblox_AccountSettings_Api_Models_Response_AccountCountrySettingsResponse = z.object({
   value: Roblox_AccountSettings_Api_Models_Response_UserAccountCountry,
-  options: z.array(Roblox_AccountSettings_Api_Models_Response_UserAccountCountry),
-  modifiable: z.boolean(),
 });
 const Roblox_AccountSettings_Api_UpdateAccountCountryRequest = z.object({
   targetCountryId: z.number().int(),
@@ -67,12 +65,6 @@ const Roblox_AccountSettings_Api_InventoryPrivacyUpdateResponse = z.object({
     z.literal(7),
   ]),
   privacySettingResponse: z.union([z.literal(0), z.literal(1)]),
-});
-const Roblox_AccountSettings_Api_PrivateMessagePrivacyResponse = z.object({
-  privateMessagePrivacy: z.string(),
-});
-const Roblox_AccountSettings_Api_PrivateMessagePrivacyRequest = z.object({
-  privateMessagePrivacy: z.string(),
 });
 const Roblox_AccountSettings_Api_ThemeConfigurationResponse = z.object({
   themeType: z.string(),
@@ -518,57 +510,6 @@ export const postInventoryPrivacy = endpoint({
     {
       status: 403,
       description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.InventoryHidingFeatureDisabled
-0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api GET https://accountsettings.roblox.com/v1/private-message-privacy
- * @summary Get a user's private message privacy setting
- */
-export const getPrivateMessagePrivacy = endpoint({
-  method: 'get',
-  path: '/v1/private-message-privacy',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json',
-  response: z.object({ privateMessagePrivacy: z.string() }),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api POST https://accountsettings.roblox.com/v1/private-message-privacy
- * @summary Updates a user's private message privacy setting
- * @param body
- */
-export const postPrivateMessagePrivacy = endpoint({
-  method: 'post',
-  path: '/v1/private-message-privacy',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: z.object({ privateMessagePrivacy: z.string() }),
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.InvalidSettingOption`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.AccountLocked
-            OR
-            Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.SettingLockedCuratedGamesEnabled
 0: Token Validation Failed`,
     },
   ],

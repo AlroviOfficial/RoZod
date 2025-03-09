@@ -3,7 +3,7 @@ import { endpoint } from '..';
 
 const Roblox_GameJoin_Api_GameJoinRequest = z.object({
   isoContext: z.string(),
-  eventId: z.string().uuid(),
+  eventId: z.string(),
   gameJoinAttemptId: z.string().uuid(),
   placeId: z.number().int(),
   gamerTag: z.string(),
@@ -70,6 +70,7 @@ const Roblox_Web_GameLaunch_ConnectionFlow_JoinInformation = z.object({
   CookieStoreEnabled: z.boolean(),
   IsUnknownOrUnder13: z.boolean(),
   GameChatType: z.string(),
+  WhoCanWhisperChatWithMeInExperiences: z.string(),
   SessionId: z.string(),
   AnalyticsSessionId: z.string(),
   DataCenterId: z.number().int(),
@@ -85,7 +86,7 @@ const Roblox_Web_GameLaunch_ConnectionFlow_JoinInformation = z.object({
   VerifiedAMP: z.number().int(),
   PrivateServerOwnerID: z.number().int(),
   PrivateServerID: z.string(),
-  EventID: z.string(),
+  EventId: z.string(),
   EphemeralEarlyPubKey: z.string(),
   PartyId: z.string(),
 });
@@ -186,13 +187,11 @@ const Roblox_GameJoin_Api_TeamCreateRequest = z.object({
   joinOrigin: z.string(),
   partyId: z.string().uuid(),
 });
-const Roblox_GameJoin_Api_TeamCreateResponse = z
-  .object({
-    status: z.number().int(),
-    message: z.string(),
-    settings: z.object({}),
-  })
-  .passthrough();
+const Roblox_GameJoin_Api_TeamCreateResponse = z.object({
+  status: z.number().int(),
+  message: z.string(),
+  settings: z.object({}),
+});
 
 /**
  * @api POST https://gamejoin.roblox.com/v1/join-game
@@ -328,6 +327,28 @@ export const postJoinReservedGame = endpoint({
       description: `3: Too many requests, please slow down.`,
     },
   ],
+});
+/**
+ * @api GET https://gamejoin.roblox.com/v1/join-team-test
+ * @summary Endpoint to join a team test.
+ * @param PlaceId The Target Place Id for Team Test.
+ */
+export const getJoinTeamTest = endpoint({
+  method: 'get',
+  path: '/v1/join-team-test',
+  baseUrl: 'https://gamejoin.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    PlaceId: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    PlaceId: z.number().int(),
+  },
+  response: z.void(),
+  errors: [],
 });
 /**
  * @api POST https://gamejoin.roblox.com/v1/play-with-user

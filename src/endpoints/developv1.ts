@@ -64,6 +64,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   allowPrivateServers: z.boolean(),
   privateServerPrice: z.number().int(),
   isMeshTextureApiAccessAllowed: z.boolean(),
+  isRewardedOnDemandAdsAllowed: z.boolean(),
   id: z.number().int(),
   name: z.string(),
   universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
@@ -96,6 +97,9 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   price: z.number().int(),
   isStudioAccessToApisAllowed: z.boolean(),
   privacyType: z.string(),
+  isForSaleInFiat: z.boolean(),
+  fiatBasePriceId: z.string(),
+  fiatModerationStatus: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
 });
 const Roblox_Api_Develop_Models_UniverseSettingsRequest = z.object({
   name: z.string(),
@@ -128,6 +132,9 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequest = z.object({
   isForSale: z.boolean(),
   price: z.number().int(),
   isMeshTextureApiAccessAllowed: z.boolean(),
+  isRewardedOnDemandAdsAllowed: z.boolean(),
+  fiatBasePriceId: z.string(),
+  fiatProductChangeType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
 });
 const Roblox_Api_Develop_Models_PrivateServerDetailsResponse = z.object({
   isEnabled: z.boolean(),

@@ -96,6 +96,7 @@ const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_Asse
     z.literal(80),
     z.literal(81),
     z.literal(82),
+    z.literal(83),
   ]),
   name: z.string(),
 });
@@ -119,6 +120,7 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameRe
  * @api GET https://games.roblox.com/v2/games/:universeId/media
  * @summary Get the game media data
  * @param universeId The id of the universe we get media data from.
+ * @param fetchAllExperienceRelatedMedia to tell if the API query is to fetch all related media for this experience
  */
 export const getGamesUniverseidMedia = endpoint({
   method: 'get',
@@ -129,9 +131,14 @@ export const getGamesUniverseidMedia = endpoint({
     universeId: {
       style: 'simple',
     },
+    fetchAllExperienceRelatedMedia: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     universeId: z.number().int(),
+    fetchAllExperienceRelatedMedia: z.boolean().optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Games_GameMediaItemResponseV2_,
   errors: [

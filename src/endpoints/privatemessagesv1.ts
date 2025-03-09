@@ -40,7 +40,6 @@ const Roblox_PrivateMessages_Api_Models_GetMessagesResponse = z.object({
   totalPages: z.number().int(),
   pageNumber: z.number().int(),
 });
-const Roblox_PrivateMessages_Api_Models_Messages_Response_CanMessageResponse = z.object({ canMessage: z.boolean() });
 const Roblox_PrivateMessages_Api_Models_UnreadMessagesCountResponse = z.object({
   count: z.number().int(),
 });
@@ -53,19 +52,6 @@ const Roblox_PrivateMessages_Api_Models_FailedMessageResponse = z.object({
 });
 const Roblox_PrivateMessages_Api_Models_BatchMessagesResponse = z.object({
   failedMessages: z.array(Roblox_PrivateMessages_Api_Models_FailedMessageResponse),
-});
-const Roblox_PrivateMessages_Api_Models_SendMessageRequest = z.object({
-  userId: z.number().int(),
-  subject: z.string(),
-  body: z.string(),
-  recipientId: z.number().int(),
-  replyMessageId: z.number().int(),
-  includePreviousMessage: z.boolean(),
-});
-const Roblox_PrivateMessages_Api_Models_SendMessageResponse = z.object({
-  success: z.boolean(),
-  shortMessage: z.string(),
-  message: z.string(),
 });
 
 /**
@@ -175,36 +161,6 @@ export const getMessagesMessageid = endpoint({
   ],
 });
 /**
- * @api GET https://privatemessages.roblox.com/v1/messages/:userId/can-message
- * @summary Gets whether the sender can send a message to the specified user.
- * @param userId
- */
-export const getMessagesUseridCanMessage = endpoint({
-  method: 'get',
-  path: '/v1/messages/:userId/can-message',
-  baseUrl: 'https://privatemessages.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    userId: z.number().int(),
-  },
-  response: z.object({ canMessage: z.boolean() }),
-  errors: [
-    {
-      status: 400,
-      description: `8: Invalid user ID.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
  * @api POST https://privatemessages.roblox.com/v1/messages/archive
  * @summary Archives a batch of messages.
  * @param body
@@ -287,33 +243,6 @@ export const postMessagesMarkUnread = endpoint({
       status: 400,
       description: `5: Too many ids in a batch request.`,
     },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api POST https://privatemessages.roblox.com/v1/messages/send
- * @summary Sends a message to a specified user.
- * @param body
- */
-export const postMessagesSend = endpoint({
-  method: 'post',
-  path: '/v1/messages/send',
-  baseUrl: 'https://privatemessages.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_PrivateMessages_Api_Models_SendMessageRequest,
-  response: Roblox_PrivateMessages_Api_Models_SendMessageResponse,
-  errors: [
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,

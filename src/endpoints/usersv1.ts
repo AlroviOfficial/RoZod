@@ -37,7 +37,7 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryR
   nextPageCursor: z.string(),
   data: z.array(Roblox_Users_Api_UsernameHistoryResponse),
 });
-const Roblox_Users_Api_AuthenticatedUserResponse = z.object({
+const Roblox_Users_Api_AuthenticatedGetUserResponse = z.object({
   id: z.number().int(),
   name: z.string(),
   displayName: z.string(),
@@ -51,17 +51,17 @@ const Roblox_Users_Api_UserCountryCodeResponse = z.object({
 const Roblox_Users_Api_UserRolesResponse = z.object({
   roles: z.array(z.string()),
 });
-const Roblox_Users_Api_UserSearchResponse = z.object({
+const Roblox_Users_Api_SearchGetUserResponse = z.object({
   previousUsernames: z.array(z.string()),
   hasVerifiedBadge: z.boolean(),
   id: z.number().int(),
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UserSearchResponse_ = z.object({
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_SearchGetUserResponse_ = z.object({
   previousPageCursor: z.string(),
   nextPageCursor: z.string(),
-  data: z.array(Roblox_Users_Api_UserSearchResponse),
+  data: z.array(Roblox_Users_Api_SearchGetUserResponse),
 });
 const Roblox_Users_Api_MultiGetByUsernameRequest = z.object({
   usernames: z.array(z.string()),
@@ -81,14 +81,14 @@ const Roblox_Users_Api_MultiGetByUserIdRequest = z.object({
   userIds: z.array(z.number()),
   excludeBannedUsers: z.boolean(),
 });
-const Roblox_Users_Api_VerifiedBadgeUserResponse = z.object({
+const Roblox_Users_Api_MultiGetUserResponse = z.object({
   hasVerifiedBadge: z.boolean(),
   id: z.number().int(),
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_VerifiedBadgeUserResponse_ = z.object({
-  data: z.array(Roblox_Users_Api_VerifiedBadgeUserResponse),
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserResponse_ = z.object({
+  data: z.array(Roblox_Users_Api_MultiGetUserResponse),
 });
 const Roblox_Users_Api_SetDisplayNameRequest = z.object({
   newDisplayName: z.string(),
@@ -357,7 +357,7 @@ export const postUsers = endpoint({
   },
   parameters: {},
   body: Roblox_Users_Api_MultiGetByUserIdRequest,
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_VerifiedBadgeUserResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserResponse_,
   errors: [
     {
       status: 400,
@@ -541,7 +541,7 @@ export const getUsersAuthenticated = endpoint({
   path: '/v1/users/authenticated',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
-  response: Roblox_Users_Api_AuthenticatedUserResponse,
+  response: Roblox_Users_Api_AuthenticatedGetUserResponse,
   errors: [
     {
       status: 401,
@@ -640,7 +640,7 @@ export const getUsersSearch = endpoint({
       .default(10),
     cursor: z.string().optional(),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UserSearchResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_SearchGetUserResponse_,
   errors: [
     {
       status: 400,

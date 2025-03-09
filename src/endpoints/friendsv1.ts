@@ -48,6 +48,7 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestR
   nextPageCursor: z.string(),
   data: z.array(Roblox_Friends_Api_FriendRequestResponse),
 });
+const Roblox_Friends_Api_Models_Response_NewFriendRequestsCountResponse = z.object({ count: z.number().int() });
 const Roblox_Friends_Api_PendingFriendRequestCountModel = z.object({
   count: z.number().int(),
 });
@@ -117,6 +118,12 @@ const Roblox_Friends_Api_CaptchaStatusResponseModel = z.object({
   success: z.boolean(),
   isCaptchaRequired: z.boolean(),
 });
+const Roblox_Friends_Api_MultigetAreFriendsRequestModel = z.object({
+  targetUserIds: z.array(z.number()),
+});
+const Roblox_Friends_Api_MultigetAreFriendsResponse = z.object({
+  friendsId: z.array(z.number()),
+});
 const Roblox_Friends_Api_FollowingExistsRequestModel = z.object({
   targetUserIds: z.array(z.number()),
 });
@@ -129,9 +136,6 @@ const Roblox_Friends_Api_Models_Response_FollowingExistsResponseModel = z.object
   followings: z.array(Roblox_Friends_Api_Models_Response_FollowingExistsResponse),
 });
 const Roblox_Friends_Api_Models_Response_DeclineAllFriendRequestsResponse = z.object({ backgrounded: z.boolean() });
-const Roblox_Friends_Api_MultigetAreFriendsRequestModel = z.object({
-  targetUserIds: z.array(z.number()),
-});
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Friends_Api_Models_Request_FriendingTokenRequestModel = z.object({
   friendingToken: z.string(),
@@ -157,6 +161,7 @@ const Roblox_Friends_Api_FriendshipRequestModel = z.object({
   ]),
   senderNickname: z.string(),
 });
+const Roblox_Friends_Api_Models_Response_ClearNewFriendRequestResponse = z.object({ status: z.boolean() });
 
 /**
  * @api POST https://friends.roblox.com/v1/contacts/:targetContactId/request-friendship
@@ -298,6 +303,75 @@ export const getMyFriendsRequests = endpoint({
   ],
 });
 /**
+ * @api DELETE https://friends.roblox.com/v1/my/new-friend-requests
+ */
+export const deleteMyNewFriendRequests = endpoint({
+  method: 'delete',
+  path: '/v1/my/new-friend-requests',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
+  response: z.object({ status: z.boolean() }),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+  ],
+});
+/**
+ * @api GET https://friends.roblox.com/v1/my/new-friend-requests/count
+ */
+export const getMyNewFriendRequestsCount = endpoint({
+  method: 'get',
+  path: '/v1/my/new-friend-requests/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
+  response: z.object({ count: z.number().int() }),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
+ * @api POST https://friends.roblox.com/v1/user/:userId/multiget-are-friends
+ * @summary Check if the requesting user is friends with the specified users.
+ * @param body The user ids to check against with the requesting user.
+ * @param userId The requesting userId.
+ */
+export const postUserUseridMultigetAreFriends = endpoint({
+  method: 'post',
+  path: '/v1/user/:userId/multiget-are-friends',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    userId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+  },
+  body: Roblox_Friends_Api_MultigetAreFriendsRequestModel,
+  response: Roblox_Friends_Api_MultigetAreFriendsResponse,
+  errors: [
+    {
+      status: 400,
+      description: `1: The target user is invalid or does not exist.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+  ],
+});
+/**
  * @api POST https://friends.roblox.com/v1/user/following-exists
  * @summary Returns whether or not the current user is following each userId in a list of userIds
  * @param body The userIds potentially being followed
@@ -360,37 +434,6 @@ export const postUserFriendRequestsDeclineAll = endpoint({
   requestFormat: 'json',
   response: z.object({ backgrounded: z.boolean() }),
   errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api POST https://friends.roblox.com/v1/user/multiget-are-friends
- * @summary Check if the requesting user is friends with the specified users.
- * @param body The user ids to check against with the requesting user.
- */
-export const postUserMultigetAreFriends = endpoint({
-  method: 'post',
-  path: '/v1/user/multiget-are-friends',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Friends_Api_MultigetAreFriendsRequestModel,
-  response: z.array(z.number()),
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.`,
-    },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
@@ -960,10 +1003,6 @@ export const getUsersUseridFriendsFind = endpoint({
       status: 400,
       description: `1: The target user is invalid or does not exist.
 6: Invalid parameters.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
     },
   ],
 });

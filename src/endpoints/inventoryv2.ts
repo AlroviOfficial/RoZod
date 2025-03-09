@@ -97,6 +97,7 @@ const Roblox_Inventory_Api_V2_UserAssetItemModelV2 = z.object({
     z.literal(80),
     z.literal(81),
     z.literal(82),
+    z.literal(83),
   ]),
   created: z.string().datetime({ offset: true }),
 });

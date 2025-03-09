@@ -102,30 +102,6 @@ const Roblox_Catalog_Api_BundleFavoriteModel = z.object({
   userId: z.number().int(),
   created: z.string().datetime({ offset: true }),
 });
-const Roblox_Catalog_Api_FavoriteBundlesResponse = z.object({
-  favorites: z.array(Roblox_Catalog_Api_BundleDetailsModel),
-  moreFavorites: z.boolean(),
-  nextCursor: z.string(),
-  previousCursor: z.string(),
-});
-const Roblox_Catalog_Api_OwnedBundleModel = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  bundleType: z.string(),
-  creator: Roblox_Catalog_Api_BundleCreatorModel,
-});
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_OwnedBundleModel_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Catalog_Api_OwnedBundleModel),
-});
-const Roblox_Catalog_Api_MultigetItemDetailsRequestItem = z.object({
-  itemType: z.union([z.literal(1), z.literal(2)]),
-  id: z.number().int(),
-});
-const Roblox_Catalog_Api_MultigetItemDetailsRequestModel = z.object({
-  items: z.array(Roblox_Catalog_Api_MultigetItemDetailsRequestItem),
-});
 const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
   id: z.number().int(),
   itemType: z.union([z.literal(1), z.literal(2)]),
@@ -205,6 +181,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
     z.literal(80),
     z.literal(81),
     z.literal(82),
+    z.literal(83),
   ]),
   bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   name: z.string(),
@@ -226,7 +203,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
     ]),
   ),
   creatorHasVerifiedBadge: z.boolean(),
-  creatorType: z.union([z.literal(1), z.literal(2)]),
+  creatorType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
   creatorTargetId: z.number().int(),
   creatorName: z.string(),
   price: z.number().int(),
@@ -251,6 +228,35 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
   hasResellers: z.boolean(),
   isOffSale: z.boolean(),
   quantityLimitPerUser: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Catalog_Api_CatalogSearchDetailedResponseItem),
+});
+const Roblox_Catalog_Api_FavoriteBundlesResponse = z.object({
+  favorites: z.array(Roblox_Catalog_Api_BundleDetailsModel),
+  moreFavorites: z.boolean(),
+  nextCursor: z.string(),
+  previousCursor: z.string(),
+});
+const Roblox_Catalog_Api_OwnedBundleModel = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  bundleType: z.string(),
+  creator: Roblox_Catalog_Api_BundleCreatorModel,
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_OwnedBundleModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Catalog_Api_OwnedBundleModel),
+});
+const Roblox_Catalog_Api_MultigetItemDetailsRequestItem = z.object({
+  itemType: z.union([z.literal(1), z.literal(2)]),
+  id: z.number().int(),
+});
+const Roblox_Catalog_Api_MultigetItemDetailsRequestModel = z.object({
+  items: z.array(Roblox_Catalog_Api_MultigetItemDetailsRequestItem),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_ = z.object({
   data: z.array(Roblox_Catalog_Api_CatalogSearchDetailedResponseItem),
@@ -805,6 +811,72 @@ export const deleteFavoritesUsersUseridBundlesBundleidFavorite = endpoint({
   ],
 });
 /**
+ * @api GET https://catalog.roblox.com/v1/favorites/users/:userId/favorites/:assetTypeId/assets
+ * @summary Lists the marketplace assets favorited by a given user with the given assetTypeId.
+ * @param userId
+ * @param assetTypeId
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
+ */
+export const getFavoritesUsersUseridFavoritesAssettypeidAssets = endpoint({
+  method: 'get',
+  path: '/v1/favorites/users/:userId/favorites/:assetTypeId/assets',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    assetTypeId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+    assetTypeId: z.number().int(),
+    limit: z
+      .union([z.literal(10), z.literal(18), z.literal(24), z.literal(25), z.literal(50), z.literal(100)])
+      .optional()
+      .default(10),
+    cursor: z.string().optional(),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Desc'),
+  },
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_,
+  errors: [
+    {
+      status: 400,
+      description: `1: Invalid user Id.
+8: Ascending order is not allowed.
+11: Invalid asset type id.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `6: You are not authorized to perform this action.`,
+    },
+    {
+      status: 500,
+      description: `99: Internal server error.`,
+    },
+  ],
+});
+/**
  * @api GET https://catalog.roblox.com/v1/favorites/users/:userId/favorites/:subtypeId/bundles
  * @summary Lists the bundles favorited by a given user with the given bundle subtypeId.
 After 5/31/2024, only cursor based pagination will be supported.
@@ -914,9 +986,9 @@ export const postTopicGetTopics = endpoint({
  * @api GET https://catalog.roblox.com/v1/users/:userId/bundles
  * @summary Lists the bundles owned by a given user.
  * @param userId
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder Sorted by bundle
+ * @param cursor
+ * @param limit
+ * @param sortOrder
  */
 export const getUsersUseridBundles = endpoint({
   method: 'get',
@@ -927,11 +999,11 @@ export const getUsersUseridBundles = endpoint({
     userId: {
       style: 'simple',
     },
-    limit: {
+    cursor: {
       style: 'form',
       explode: true,
     },
-    cursor: {
+    limit: {
       style: 'form',
       explode: true,
     },
@@ -942,12 +1014,12 @@ export const getUsersUseridBundles = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    limit: z
-      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
+    cursor: z.string(),
+    limit: z.number().int().optional().default(10),
+    sortOrder: z
+      .union([z.literal(1), z.literal(2)])
       .optional()
-      .default(10),
-    cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+      .default(2),
   },
   response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_OwnedBundleModel_,
   errors: [
@@ -961,9 +1033,9 @@ export const getUsersUseridBundles = endpoint({
  * @api GET https://catalog.roblox.com/v1/users/:userId/bundles/:bundleType
  * @param userId
  * @param bundleType
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param cursor
+ * @param limit
+ * @param sortOrder
  */
 export const getUsersUseridBundlesBundletype = endpoint({
   method: 'get',
@@ -977,11 +1049,11 @@ export const getUsersUseridBundlesBundletype = endpoint({
     bundleType: {
       style: 'simple',
     },
-    limit: {
+    cursor: {
       style: 'form',
       explode: true,
     },
-    cursor: {
+    limit: {
       style: 'form',
       explode: true,
     },
@@ -993,12 +1065,12 @@ export const getUsersUseridBundlesBundletype = endpoint({
   parameters: {
     userId: z.number().int(),
     bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-    limit: z
-      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
+    cursor: z.string(),
+    limit: z.number().int().optional().default(10),
+    sortOrder: z
+      .union([z.literal(1), z.literal(2)])
       .optional()
-      .default(10),
-    cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Desc'),
+      .default(2),
   },
   response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_OwnedBundleModel_,
   errors: [],

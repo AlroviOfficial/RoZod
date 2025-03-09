@@ -145,10 +145,10 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
   for (const key in extendedParams) {
     if (!{}.hasOwnProperty.call(extendedParams, key)) continue;
     if (key === 'body') continue;
-    
+
     const value = extendedParams[key];
     const pathParamPattern = new RegExp(`:${key}`);
-    
+
     // Check if this is a path parameter
     if (pathParamPattern.test(processedPath)) {
       processedPath = processedPath.replace(pathParamPattern, String(value));
@@ -160,7 +160,7 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
   for (const key in extendedParams) {
     if (!{}.hasOwnProperty.call(extendedParams, key)) continue;
     if (key === 'body' || usedPathParams.has(key)) continue;
-    
+
     const value = extendedParams[key];
     const serializedValue = serializeQueryParam(key, value, endpoint.serializationMethod);
     if (serializedValue !== undefined) {
@@ -225,7 +225,12 @@ async function fetch(url: string, info?: RequestInit, challengeData?: ParsedChal
   if (!onRobloxSite) {
     hbaClient.isAuthenticated = headers.get('cookie')?.includes('.ROBLOSECURITY');
   }
-  const setHeaders = await hbaClient.generateBaseHeaders(url, info?.method, info?.credentials === 'include', info?.body);
+  const setHeaders = await hbaClient.generateBaseHeaders(
+    url,
+    info?.method,
+    info?.credentials === 'include',
+    info?.body,
+  );
   for (const key in setHeaders) {
     headers.set(key, setHeaders[key]);
   }

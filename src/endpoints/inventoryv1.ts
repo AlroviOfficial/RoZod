@@ -58,6 +58,23 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItem
   nextPageCursor: z.string(),
   data: z.array(Roblox_Inventory_Api_Models_IItemModel),
 });
+const Roblox_Inventory_Api_Models_CreatorModel = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  type: z.union([z.literal(1), z.literal(2)]),
+});
+const Roblox_Inventory_Api_Models_PlaceModel = z.object({
+  universeId: z.number().int(),
+  placeId: z.number().int(),
+  name: z.string(),
+  creator: Roblox_Inventory_Api_Models_CreatorModel,
+  priceInRobux: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_PlaceModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Inventory_Api_Models_PlaceModel),
+});
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
@@ -283,6 +300,7 @@ export const getUsersUseridAssetsCollectibles = endpoint({
         z.literal(80),
         z.literal(81),
         z.literal(82),
+        z.literal(83),
       ])
       .optional(),
     limit: z
@@ -485,6 +503,7 @@ export const getUsersUseridInventoryAssettype = endpoint({
       z.literal(80),
       z.literal(81),
       z.literal(82),
+      z.literal(83),
     ]),
     pageNumber: z.number().int().optional().default(1),
     itemsPerPage: z.number().int().optional().default(25),
@@ -584,6 +603,54 @@ export const getUsersUseridItemsItemtypeItemtargetidIsOwned = endpoint({
 7: The specified Asset does not exist!
 10: The specified asset is not a badge!
 12: The specified bundle does not exist!`,
+    },
+  ],
+});
+/**
+ * @api GET https://inventory.roblox.com/v1/users/:userId/places/inventory
+ * @summary Gets Created, MyGames, or OtherGames places inventory for a user
+ * @param userId
+ * @param placesTab
+ * @param itemsPerPage
+ * @param cursor
+ */
+export const getUsersUseridPlacesInventory = endpoint({
+  method: 'get',
+  path: '/v1/users/:userId/places/inventory',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+    placesTab: {
+      style: 'form',
+      explode: true,
+    },
+    itemsPerPage: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+    placesTab: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+    itemsPerPage: z.number().int(),
+    cursor: z.number().int(),
+  },
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_PlaceModel_,
+  errors: [
+    {
+      status: 400,
+      description: `6: Invalid request`,
+    },
+    {
+      status: 403,
+      description: `3: Insufficient permission.`,
     },
   ],
 });

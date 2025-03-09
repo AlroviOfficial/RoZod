@@ -66,10 +66,17 @@ const Roblox_Web_Responses_Groups_GroupRoleBasicResponse = z.object({
   name: z.string(),
   rank: z.number().int(),
 });
+const Roblox_Groups_Api_GroupNotificationPreferenceData = z.object({
+  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  enabled: z.boolean(),
+  name: z.string(),
+  description: z.string(),
+});
 const Roblox_Groups_Api_GroupMembershipResponse = z.object({
   group: Roblox_Web_Responses_Groups_GroupBasicResponse,
   role: Roblox_Web_Responses_Groups_GroupRoleBasicResponse,
   isNotificationsEnabled: z.boolean(),
+  notificationPreferences: z.array(Roblox_Groups_Api_GroupNotificationPreferenceData),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_ = z.object({
   data: z.array(Roblox_Groups_Api_GroupMembershipResponse),

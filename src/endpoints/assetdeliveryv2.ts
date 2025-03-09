@@ -1,9 +1,14 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
+const Roblox_AssetDelivery_Api_AssetMetadata = z.object({
+  metadataType: z.literal(1),
+  value: z.string(),
+});
 const Roblox_Web_Assets_AssetFormatLocation = z.object({
   assetFormat: z.string(),
   location: z.string(),
+  assetMetadatas: z.array(Roblox_AssetDelivery_Api_AssetMetadata),
 });
 const Roblox_Web_Assets_IAssetItemError = z.object({
   Code: z.number().int(),
@@ -534,92 +539,6 @@ export const postAssetsBatch = endpoint({
   errors: [],
 });
 /**
- * @api GET https://assetdelivery.roblox.com/v2/assetVersionId/:assetVersionId
- * @param assetVersionId
- * @param Accept-Encoding
- * @param Roblox-Place-Id
- * @param AssetType
- * @param Accept
- * @param AssetFormat
- * @param Roblox-AssetFormat
- * @param skipSigningScripts
- * @param clientInsert
- * @param scriptinsert
- * @param modulePlaceId
- * @param serverplaceid
- * @param expectedAssetType
- */
-export const getAssetversionidAssetversionid = endpoint({
-  method: 'get',
-  path: '/v2/assetVersionId/:assetVersionId',
-  baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    assetVersionId: {
-      style: 'simple',
-    },
-    'Accept-Encoding': {
-      style: 'simple',
-    },
-    'Roblox-Place-Id': {
-      style: 'simple',
-    },
-    AssetType: {
-      style: 'simple',
-    },
-    Accept: {
-      style: 'simple',
-    },
-    AssetFormat: {
-      style: 'simple',
-    },
-    'Roblox-AssetFormat': {
-      style: 'simple',
-    },
-    skipSigningScripts: {
-      style: 'form',
-      explode: true,
-    },
-    clientInsert: {
-      style: 'form',
-      explode: true,
-    },
-    scriptinsert: {
-      style: 'form',
-      explode: true,
-    },
-    modulePlaceId: {
-      style: 'form',
-      explode: true,
-    },
-    serverplaceid: {
-      style: 'form',
-      explode: true,
-    },
-    expectedAssetType: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    assetVersionId: z.number().int(),
-    'Accept-Encoding': z.string(),
-    'Roblox-Place-Id': z.number().int(),
-    AssetType: z.string(),
-    Accept: z.string(),
-    AssetFormat: z.string(),
-    'Roblox-AssetFormat': z.string(),
-    skipSigningScripts: z.boolean().optional(),
-    clientInsert: z.number().int().optional(),
-    scriptinsert: z.number().int().optional(),
-    modulePlaceId: z.number().int().optional(),
-    serverplaceid: z.number().int().optional(),
-    expectedAssetType: z.string().optional(),
-  },
-  response: Roblox_Web_Assets_AssetResponseItemV2,
-  errors: [],
-});
-/**
  * @api GET https://assetdelivery.roblox.com/v2/marAssetHash/:marAssetHash/marCheckSum/:marCheckSum
  * @param marAssetHash
  * @param marCheckSum
@@ -694,92 +613,6 @@ export const getMarassethashMarassethashMarchecksumMarchecksum = endpoint({
   parameters: {
     marAssetHash: z.string(),
     marCheckSum: z.string(),
-    'Accept-Encoding': z.string(),
-    'Roblox-Place-Id': z.number().int(),
-    AssetType: z.string(),
-    Accept: z.string(),
-    AssetFormat: z.string(),
-    'Roblox-AssetFormat': z.string(),
-    skipSigningScripts: z.boolean().optional(),
-    clientInsert: z.number().int().optional(),
-    scriptinsert: z.number().int().optional(),
-    modulePlaceId: z.number().int().optional(),
-    serverplaceid: z.number().int().optional(),
-    expectedAssetType: z.string().optional(),
-  },
-  response: Roblox_Web_Assets_AssetResponseItemV2,
-  errors: [],
-});
-/**
- * @api GET https://assetdelivery.roblox.com/v2/userAssetId/:userAssetId
- * @param userAssetId
- * @param Accept-Encoding
- * @param Roblox-Place-Id
- * @param AssetType
- * @param Accept
- * @param AssetFormat
- * @param Roblox-AssetFormat
- * @param skipSigningScripts
- * @param clientInsert
- * @param scriptinsert
- * @param modulePlaceId
- * @param serverplaceid
- * @param expectedAssetType
- */
-export const getUserassetidUserassetid = endpoint({
-  method: 'get',
-  path: '/v2/userAssetId/:userAssetId',
-  baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    userAssetId: {
-      style: 'simple',
-    },
-    'Accept-Encoding': {
-      style: 'simple',
-    },
-    'Roblox-Place-Id': {
-      style: 'simple',
-    },
-    AssetType: {
-      style: 'simple',
-    },
-    Accept: {
-      style: 'simple',
-    },
-    AssetFormat: {
-      style: 'simple',
-    },
-    'Roblox-AssetFormat': {
-      style: 'simple',
-    },
-    skipSigningScripts: {
-      style: 'form',
-      explode: true,
-    },
-    clientInsert: {
-      style: 'form',
-      explode: true,
-    },
-    scriptinsert: {
-      style: 'form',
-      explode: true,
-    },
-    modulePlaceId: {
-      style: 'form',
-      explode: true,
-    },
-    serverplaceid: {
-      style: 'form',
-      explode: true,
-    },
-    expectedAssetType: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    userAssetId: z.number().int(),
     'Accept-Encoding': z.string(),
     'Roblox-Place-Id': z.number().int(),
     AssetType: z.string(),

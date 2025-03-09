@@ -17,7 +17,7 @@ describe('Path parameter integration tests', () => {
       // If the path parameter was duplicated as a query parameter,
       // the request would fail or give unexpected results
     } catch (error) {
-      // We don't care about auth errors or rate limits, just that 
+      // We don't care about auth errors or rate limits, just that
       // the URL was constructed correctly
       expect((error as Error).message).not.toContain('userId=1');
     }
@@ -26,10 +26,10 @@ describe('Path parameter integration tests', () => {
   // Test fetching user promotion channels - uses multiple path parameters
   test('getUsersUseridPromotionChannels constructs URL with path parameter', async () => {
     try {
-      await fetchApi(getUsersUseridPromotionChannels, { 
-        userId: 1, 
+      await fetchApi(getUsersUseridPromotionChannels, {
+        userId: 1,
         alwaysReturnUrls: true,
-        filterLink: true
+        filterLink: true,
       });
     } catch (error) {
       // The path parameter should be in the path only, not in query parameters
@@ -54,11 +54,11 @@ describe('Path parameter integration tests', () => {
   // Test fetching user games - uses path parameter and additional query parameters
   test('getUsersUseridGames constructs URL with path parameter and query params', async () => {
     try {
-      await fetchApi(getUsersUseridGames, { 
+      await fetchApi(getUsersUseridGames, {
         userId: 1,
         limit: 10,
         cursor: 'next_page_token',
-        sortOrder: 'Asc'
+        sortOrder: 'Asc',
       });
     } catch (error) {
       // Path parameter should not be duplicated in query string
@@ -73,11 +73,11 @@ describe('Path parameter integration tests', () => {
   // Test fetching group games - uses path parameter and additional query parameters
   test('getGroupsGroupidGames constructs URL with path parameter and query params', async () => {
     try {
-      await fetchApi(getGroupsGroupidGames, { 
+      await fetchApi(getGroupsGroupidGames, {
         groupId: 1,
         limit: 10,
         cursor: 'next_page_token',
-        sortOrder: 'Asc'
+        sortOrder: 'Asc',
       });
     } catch (error) {
       // Path parameter should not be duplicated in query string

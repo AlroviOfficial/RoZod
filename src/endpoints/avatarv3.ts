@@ -62,6 +62,7 @@ const Roblox_Api_Avatar_Models_OutfitDetailsModelV2 = z.object({
   isEditable: z.boolean(),
   universeId: z.number().int(),
   moderationStatus: z.string(),
+  bundleId: z.number().int(),
 });
 const Roblox_Platform_Avatar_BodyColorsModelV2 = z.object({
   headColor3: z.string(),

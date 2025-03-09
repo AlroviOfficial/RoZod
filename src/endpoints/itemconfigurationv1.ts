@@ -40,7 +40,7 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_Tag
   data: z.array(Roblox_ItemConfiguration_Api_TagDetails),
 });
 const Roblox_ItemConfiguration_Api_AssetCreationsDetailsRequest = z.object({
-  assetIds: z.array(z.number()),
+  AssetIds: z.array(z.number()),
 });
 const Roblox_ItemConfiguration_Api_PriceConfigurationModel = z.object({
   priceInRobux: z.number().int(),
@@ -74,12 +74,14 @@ const Roblox_ItemConfiguration_Api_AssetCreationsDetailsResponse = z.object({
   releaseConfiguration: Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel,
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
+  isDelisted: z.boolean(),
+  isCreatedForBundle: z.boolean(),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
  * @api POST https://itemconfiguration.roblox.com/v1/creations/get-asset-details
- * @summary Gets the asset status and other configuration details for the given assetIds list
+ * @summary Gets the asset status and other configuration details for the given assetIds list.
  * @param body
  */
 export const postCreationsGetAssetDetails = endpoint({
@@ -123,7 +125,7 @@ export const postCreationsGetAssetDetails = endpoint({
 });
 /**
  * @api GET https://itemconfiguration.roblox.com/v1/creations/get-assets
- * @summary Gets the user created asset information filtered by the given asset type
+ * @summary Gets the user created asset information filtered by the given asset type.
  * @param assetType
  * @param isArchived
  * @param groupId
@@ -195,7 +197,7 @@ export const getCreationsGetAssets = endpoint({
 });
 /**
  * @api GET https://itemconfiguration.roblox.com/v1/item-tags
- * @summary Gets all related item tags for each item id listed
+ * @summary Gets all related item tags for each item id listed.
  * @param itemIds
  */
 export const getItemTags = endpoint({
@@ -228,7 +230,7 @@ export const getItemTags = endpoint({
 });
 /**
  * @api POST https://itemconfiguration.roblox.com/v1/item-tags
- * @summary Creates a new item tag
+ * @summary Creates a new item tag.
  * @param body
  */
 export const postItemTags = endpoint({
@@ -268,7 +270,7 @@ export const postItemTags = endpoint({
 });
 /**
  * @api DELETE https://itemconfiguration.roblox.com/v1/item-tags/:itemTagId
- * @summary Deletes an item tag from an item
+ * @summary Deletes an item tag from an item.
  * @param itemTagId
  */
 export const deleteItemTagsItemtagid = endpoint({
@@ -303,7 +305,7 @@ export const deleteItemTagsItemtagid = endpoint({
 });
 /**
  * @api GET https://itemconfiguration.roblox.com/v1/item-tags/metadata
- * @summary Gets the metadata related to item tags
+ * @summary Gets the metadata related to item tags.
  */
 export const getItemTagsMetadata = endpoint({
   method: 'get',
@@ -315,7 +317,7 @@ export const getItemTagsMetadata = endpoint({
 });
 /**
  * @api GET https://itemconfiguration.roblox.com/v1/tags
- * @summary Gets the information for a list of tag Ids
+ * @summary Gets the information for a list of tag Ids.
  * @param tagIds
  */
 export const getTags = endpoint({
@@ -346,9 +348,9 @@ export const getTags = endpoint({
 });
 /**
  * @api GET https://itemconfiguration.roblox.com/v1/tags/prefix-search
- * @summary Searches for up to numberOfResults tags based on the given prefix
+ * @summary Searches for up to numberOfResults tags based on the given prefix.
  * @param prefix
- * @param numberOfResults Must be 1, 5, 10, or 25
+ * @param numberOfResults Must be 1, 5, 10, or 25.
  */
 export const getTagsPrefixSearch = endpoint({
   method: 'get',

@@ -8,6 +8,12 @@ const Roblox_Games_Api_Models_Response_GameCreator = z.object({
   isRNVAccount: z.boolean(),
   hasVerifiedBadge: z.boolean(),
 });
+const Roblox_Games_Api_Models_Response_RefundPolicy = z.object({
+  policyText: z.string(),
+  learnMoreBaseUrl: z.string(),
+  locale: z.string(),
+  articleId: z.string(),
+});
 const Roblox_Games_Api_Models_Response_GameDetailResponse = z.object({
   id: z.number().int(),
   rootPlaceId: z.number().int(),
@@ -35,6 +41,10 @@ const Roblox_Games_Api_Models_Response_GameDetailResponse = z.object({
   isAllGenre: z.boolean(),
   isFavoritedByUser: z.boolean(),
   favoritedCount: z.number().int(),
+  licenseDescription: z.string(),
+  refundLink: z.string(),
+  localizedFiatPrice: z.string(),
+  refundPolicy: Roblox_Games_Api_Models_Response_RefundPolicy,
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_ = z.object({
   data: z.array(Roblox_Games_Api_Models_Response_GameDetailResponse),
@@ -117,13 +127,9 @@ const Roblox_Games_Api_Models_Response_UserGameVoteResponse = z.object({
   userVote: z.boolean(),
   reasonForNotVoteable: z.string(),
 });
-const Roblox_Games_Api_Models_Response_Thumbnail = z.object({
-  final: z.boolean(),
-  url: z.string(),
-  cdnUrl: z.string(),
-  retryToken: z.string(),
-  universeId: z.number().int(),
-  placeId: z.number().int(),
+const Roblox_Games_Api_Models_Response_PurchaseData = z.object({
+  localizedFiatPrice: z.string(),
+  basePriceId: z.string(),
 });
 const Roblox_Games_Api_Models_Response_GameProductResponse = z.object({
   universeId: z.number().int(),
@@ -131,41 +137,10 @@ const Roblox_Games_Api_Models_Response_GameProductResponse = z.object({
   productId: z.number().int(),
   price: z.number().int(),
   sellerId: z.number().int(),
+  fiatPurchaseData: Roblox_Games_Api_Models_Response_PurchaseData,
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameProductResponse_ = z.object({
   data: z.array(Roblox_Games_Api_Models_Response_GameProductResponse),
-});
-const Roblox_Games_Api_Models_Response_SpotlightTypeData = z.object({});
-const Roblox_Games_Api_Models_Response_GameResponseModel = z.object({
-  creatorId: z.number().int(),
-  creatorName: z.string(),
-  creatorType: z.string(),
-  creatorHasVerifiedBadge: z.boolean(),
-  totalUpVotes: z.number().int(),
-  totalDownVotes: z.number().int(),
-  universeId: z.number().int(),
-  name: z.string(),
-  placeId: z.number().int(),
-  playerCount: z.number().int(),
-  imageToken: z.string(),
-  isSponsored: z.boolean(),
-  nativeAdData: z.string(),
-  isShowSponsoredLabel: z.boolean(),
-  price: z.number().int(),
-  analyticsIdentifier: z.string(),
-  gameDescription: z.string(),
-  genre: z.string(),
-  minimumAge: z.number().int(),
-  ageRecommendationDisplayName: z.string(),
-});
-const Roblox_Games_Api_Models_Response_GameSpotlightResponse = z.object({
-  spotlightType: z.string(),
-  spotlightActionText: z.string(),
-  spotlightTypeData: Roblox_Games_Api_Models_Response_SpotlightTypeData,
-  gameInfo: Roblox_Games_Api_Models_Response_GameResponseModel,
-});
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameSpotlightResponse_ = z.object({
-  data: z.array(Roblox_Games_Api_Models_Response_GameSpotlightResponse),
 });
 const Roblox_Games_Api_Models_Response_PlaceDetails = z.object({
   placeId: z.number().int(),
@@ -183,6 +158,7 @@ const Roblox_Games_Api_Models_Response_PlaceDetails = z.object({
   universeRootPlaceId: z.number().int(),
   price: z.number().int(),
   imageToken: z.string(),
+  fiatPurchaseData: Roblox_Games_Api_Models_Response_PurchaseData,
 });
 const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z.object({
   playabilityStatus: z.union([
@@ -206,9 +182,37 @@ const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z.object({
     z.literal(17),
     z.literal(18),
     z.literal(19),
+    z.literal(20),
+    z.literal(21),
+    z.literal(22),
+    z.literal(23),
+    z.literal(24),
   ]),
   isPlayable: z.boolean(),
   universeId: z.number().int(),
+  unplayableDisplayText: z.string(),
+});
+const Roblox_Games_Api_Models_Response_GameResponseModel = z.object({
+  creatorId: z.number().int(),
+  creatorName: z.string(),
+  creatorType: z.string(),
+  creatorHasVerifiedBadge: z.boolean(),
+  totalUpVotes: z.number().int(),
+  totalDownVotes: z.number().int(),
+  universeId: z.number().int(),
+  name: z.string(),
+  placeId: z.number().int(),
+  playerCount: z.number().int(),
+  imageToken: z.string(),
+  isSponsored: z.boolean(),
+  nativeAdData: z.string(),
+  isShowSponsoredLabel: z.boolean(),
+  price: z.number().int(),
+  analyticsIdentifier: z.string(),
+  gameDescription: z.string(),
+  genre: z.string(),
+  minimumAge: z.number().int(),
+  ageRecommendationDisplayName: z.string(),
 });
 const Roblox_Games_Api_Models_Response_GameRecommendationsResponse = z.object({
   games: z.array(Roblox_Games_Api_Models_Response_GameResponseModel),
@@ -541,7 +545,7 @@ export const postGamesUniverseidFavorites = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/:universeId/favorites/count
- * @summary Get the favorites count of the a specific game
+ * @summary Get the favorites count of a specific game.
  * @param universeId The Id of the universe.
  */
 export const getGamesUniverseidFavoritesCount = endpoint({
@@ -787,84 +791,6 @@ export const getGamesUniverseidVotesUser = endpoint({
   ],
 });
 /**
- * @api GET https://games.roblox.com/v1/games/game-thumbnail
- * @summary Get a single game thumbnail
- * @param imageToken
- * @param height
- * @param width
- */
-export const getGamesGameThumbnail = endpoint({
-  method: 'get',
-  path: '/v1/games/game-thumbnail',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    imageToken: {
-      style: 'form',
-      explode: true,
-    },
-    height: {
-      style: 'form',
-      explode: true,
-    },
-    width: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    imageToken: z.string(),
-    height: z.number().int().optional().default(50),
-    width: z.number().int().optional().default(50),
-  },
-  response: z.void(),
-  errors: [
-    {
-      status: 404,
-      description: `10: This endpoint is deprecated`,
-    },
-  ],
-});
-/**
- * @api GET https://games.roblox.com/v1/games/game-thumbnails
- * @summary Gets a list of game thumbnails
- * @param imageTokens
- * @param height
- * @param width
- */
-export const getGamesGameThumbnails = endpoint({
-  method: 'get',
-  path: '/v1/games/game-thumbnails',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    imageTokens: {
-      style: 'form',
-      explode: true,
-    },
-    height: {
-      style: 'form',
-      explode: true,
-    },
-    width: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    imageTokens: z.array(z.string()),
-    height: z.number().int().optional().default(50),
-    width: z.number().int().optional().default(50),
-  },
-  response: z.array(Roblox_Games_Api_Models_Response_Thumbnail),
-  errors: [
-    {
-      status: 404,
-      description: `10: This endpoint is deprecated`,
-    },
-  ],
-});
-/**
  * @api GET https://games.roblox.com/v1/games/games-product-info
  * @summary Gets a list of games' product info, used to purchase a game
  * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
@@ -888,23 +814,6 @@ export const getGamesGamesProductInfo = endpoint({
       status: 400,
       description: `8: No universe IDs were specified.
 9: Too many universe IDs were requested.`,
-    },
-  ],
-});
-/**
- * @api GET https://games.roblox.com/v1/games/list-spotlight
- * @summary Gets games that the client should spotlight.
- */
-export const getGamesListSpotlight = endpoint({
-  method: 'get',
-  path: '/v1/games/list-spotlight',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameSpotlightResponse_,
-  errors: [
-    {
-      status: 500,
-      description: `0: Compliance Context service is unavailable.`,
     },
   ],
 });
@@ -959,55 +868,6 @@ export const getGamesMultigetPlayabilityStatus = endpoint({
       status: 400,
       description: `8: No universe IDs were specified.
 9: Too many universe IDs were requested.`,
-    },
-  ],
-});
-/**
- * @api GET https://games.roblox.com/v1/games/recommendations/algorithm/:algorithmName
- * @summary Get games recommendations
- * @param algorithmName The algorithm name of recommendations
- * @param PaginationKey The key of a page, which includes the start row index and all other necessary information to query the data.
-This parameter is usually not needed for the first page.
- * @param MaxRows The requested number of rows.
- * @param IsTruncatedResultsEnabled Truncated Results
- */
-export const getGamesRecommendationsAlgorithmAlgorithmname = endpoint({
-  method: 'get',
-  path: '/v1/games/recommendations/algorithm/:algorithmName',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    algorithmName: {
-      style: 'simple',
-    },
-    PaginationKey: {
-      style: 'form',
-      explode: true,
-    },
-    MaxRows: {
-      style: 'form',
-      explode: true,
-    },
-    IsTruncatedResultsEnabled: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    algorithmName: z.string(),
-    PaginationKey: z.string(),
-    MaxRows: z.number().int(),
-    IsTruncatedResultsEnabled: z.boolean(),
-  },
-  response: Roblox_Games_Api_Models_Response_GameRecommendationsResponse,
-  errors: [
-    {
-      status: 400,
-      description: `1: The pagination key is invalid.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
     },
   ],
 });
