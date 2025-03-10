@@ -138,7 +138,7 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
  * @param sortOrder Sorted by userAssetId
  */
 export const getAssetsAssetidOwners = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/assets/:assetId/owners',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -188,7 +188,7 @@ and will return NotEligibleForDelete.
  * @param assetId ID of the asset to delete.
  */
 export const deleteInventoryAssetAssetid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v2/inventory/asset/:assetId',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -236,7 +236,7 @@ export const deleteInventoryAssetAssetid = endpoint({
  * @description GamePass and Badges not allowed.
  */
 export const getUsersUseridInventory = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/users/:userId/inventory',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -304,7 +304,7 @@ export const getUsersUseridInventory = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridInventoryAssettypeid = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/users/:userId/inventory/:assetTypeId',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',

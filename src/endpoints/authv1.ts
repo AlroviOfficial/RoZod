@@ -396,7 +396,7 @@ const Roblox_Authentication_Api_Models_XboxCollectionsOfUserResponse = z.object(
  * @summary Gets the account pin status.
  */
 export const getAccountPin = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/account/pin',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -414,7 +414,7 @@ export const getAccountPin = endpoint({
  * @param body The Roblox.Authentication.Api.Models.AccountPinRequest.
  */
 export const postAccountPin = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/account/pin',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -441,7 +441,7 @@ export const postAccountPin = endpoint({
  * @param body
  */
 export const deleteAccountPin = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/account/pin',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -468,7 +468,7 @@ export const deleteAccountPin = endpoint({
  * @param body The request body.
  */
 export const patchAccountPin = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/account/pin',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -494,7 +494,7 @@ export const patchAccountPin = endpoint({
  * @summary Request to locks the account which has an account pin enabled.
  */
 export const postAccountPinLock = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/account/pin/lock',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -516,7 +516,7 @@ export const postAccountPinLock = endpoint({
  * @param body The Roblox.Authentication.Api.Models.AccountPinRequest containing the entered pin.
  */
 export const postAccountPinUnlock = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/account/pin/unlock',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -542,7 +542,7 @@ export const postAccountPinUnlock = endpoint({
  * @summary Gets Auth meta data
  */
 export const getAuthMetadata = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/auth/metadata',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -554,7 +554,7 @@ export const getAuthMetadata = endpoint({
  * @summary Creates a client assertion to be used when generating an auth ticket.
  */
 export const getClientAssertion = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/client-assertion',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -574,7 +574,7 @@ export const getClientAssertion = endpoint({
  * @param state
  */
 export const getExternalIdentityprovideridSsoOauthCallback = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/external/:identityProviderId/sso/oauth/callback',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -610,7 +610,7 @@ export const getExternalIdentityprovideridSsoOauthCallback = endpoint({
  * @param identityProviderId
  */
 export const getExternalIdentityprovideridSsoOauthInit = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/external/:identityProviderId/sso/oauth/init',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -636,7 +636,7 @@ export const getExternalIdentityprovideridSsoOauthInit = endpoint({
  * @param body
  */
 export const postExternalAccess = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/external/access',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -654,7 +654,7 @@ export const postExternalAccess = endpoint({
  * @param body
  */
 export const postExternalLogin = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/external/login',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -677,7 +677,7 @@ export const postExternalLogin = endpoint({
  * @param body
  */
 export const postExternalLoginandlink = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/external/loginAndLink',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -700,7 +700,7 @@ export const postExternalLoginandlink = endpoint({
  * @param body
  */
 export const postExternalSignup = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/external/signup',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -723,7 +723,7 @@ export const postExternalSignup = endpoint({
  * @param body
  */
 export const postExternalUnlink = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/external/unlink',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -746,7 +746,7 @@ export const postExternalUnlink = endpoint({
  * @param body
  */
 export const postIdentityVerificationLogin = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/identity-verification/login',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -773,7 +773,7 @@ export const postIdentityVerificationLogin = endpoint({
  * @param body
  */
 export const postIdentityInitializeLogin = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/identity/initialize-login',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -809,7 +809,7 @@ export const postIdentityInitializeLogin = endpoint({
  * @param body Roblox.Authentication.Api.Models.LoginRequest.
  */
 export const postLogin = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/login',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -856,7 +856,7 @@ export const postLogin = endpoint({
  * @summary Destroys the current authentication session.
  */
 export const postLogout = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/logout',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -878,7 +878,7 @@ export const postLogout = endpoint({
  * @param body
  */
 export const postLogoutfromallsessionsandreauthenticate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/logoutfromallsessionsandreauthenticate',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -904,7 +904,7 @@ export const postLogoutfromallsessionsandreauthenticate = endpoint({
  * @summary Get the metadata
  */
 export const getMetadata = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/metadata',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -917,7 +917,7 @@ export const getMetadata = endpoint({
  * @param body The request body!:DisableTwoStepVerificationRequest.
  */
 export const postPasskeyDeletecredentialbatch = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/passkey/DeleteCredentialBatch',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -948,7 +948,7 @@ export const postPasskeyDeletecredentialbatch = endpoint({
  * @param body
  */
 export const postPasskeyFinishPreauthRegistration = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/passkey/finish-preauth-registration',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -989,7 +989,7 @@ export const postPasskeyFinishPreauthRegistration = endpoint({
  * @param body The request body.Roblox.Authentication.Api.Models.Request.FinishPasskeyRegistrationRequest.
  */
 export const postPasskeyFinishregistration = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/passkey/FinishRegistration',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1027,7 +1027,7 @@ export const postPasskeyFinishregistration = endpoint({
  * @param body
  */
 export const postPasskeyListcredentials = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/passkey/ListCredentials',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1059,7 +1059,7 @@ export const postPasskeyListcredentials = endpoint({
  * @param body
  */
 export const postPasskeyStartAuthenticationByUser = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/passkey/start-authentication-by-user',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1092,7 +1092,7 @@ export const postPasskeyStartAuthenticationByUser = endpoint({
  * @param body
  */
 export const postPasskeyStartPreauthRegistration = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/passkey/start-preauth-registration',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1118,7 +1118,7 @@ export const postPasskeyStartPreauthRegistration = endpoint({
  * @summary Provides a challenge for the Passkey to authenticate.
  */
 export const postPasskeyStartauthentication = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/passkey/StartAuthentication',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1139,7 +1139,7 @@ export const postPasskeyStartauthentication = endpoint({
  * @summary Initiates Passkey registration by providing credential creation options.
  */
 export const postPasskeyStartregistration = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/passkey/StartRegistration',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1168,7 +1168,7 @@ export const postPasskeyStartregistration = endpoint({
  * @param Password
  */
 export const getPasswordsValidate = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/passwords/validate',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1200,7 +1200,7 @@ export const getPasswordsValidate = endpoint({
  * @param body The Roblox.Authentication.Api.Models.PasswordValidationModel.
  */
 export const postPasswordsValidate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/passwords/validate',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1226,7 +1226,7 @@ export const postPasswordsValidate = endpoint({
  * @summary Get metadata for forgot endpoints
  */
 export const getRecoveryMetadata = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/recovery/metadata',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1244,7 +1244,7 @@ export const getRecoveryMetadata = endpoint({
  * @param ticket Ticket Guid to revert account.
  */
 export const getRevertAccount = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/revert/account',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1275,7 +1275,7 @@ export const getRevertAccount = endpoint({
  * @param body The Roblox.Authentication.Api.Models.RevertAccountSubmitRequest containing the necessary information to revert account.
  */
 export const postRevertAccount = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/revert/account',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1311,7 +1311,7 @@ export const postRevertAccount = endpoint({
  * @param body Roblox.Authentication.Api.Models.SignupRequest
  */
 export const postSignup = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/signup',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1367,7 +1367,7 @@ export const postSignup = endpoint({
  * @param provider The social authentication provider, e.g. Facebook
  */
 export const postSocialProviderDisconnect = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/social/:provider/disconnect',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1410,7 +1410,7 @@ export const postSocialProviderDisconnect = endpoint({
  * @summary Get social network user information if the given social auth method is connected to current user.
  */
 export const getSocialConnectedProviders = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/social/connected-providers',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1427,7 +1427,7 @@ export const getSocialConnectedProviders = endpoint({
  * @summary Get metadata for two step verification
  */
 export const getTwostepverificationMetadata = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/twostepverification/metadata',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1440,7 +1440,7 @@ export const getTwostepverificationMetadata = endpoint({
  * @param body The request.
  */
 export const postTwostepverificationResend = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/twostepverification/resend',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1481,7 +1481,7 @@ export const postTwostepverificationResend = endpoint({
  * @param body The request model containing information needed to verify with two step verification.
  */
 export const postTwostepverificationVerify = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/twostepverification/verify',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1520,7 +1520,7 @@ export const postTwostepverificationVerify = endpoint({
  * @description The current password is needed for verification that the password can be changed.
  */
 export const postUserPasswordsChange = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/user/passwords/change',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1558,7 +1558,7 @@ export const postUserPasswordsChange = endpoint({
  * @param body The Roblox.Authentication.Api.Models.UsernameChangeRequest
  */
 export const postUsername = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/username',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1612,7 +1612,7 @@ export const postUsername = endpoint({
  * @description This endpoint can be expanded in the future to include other query parameters such as "startsWith"
  */
 export const getUsernames = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/usernames',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1634,7 +1634,7 @@ export const getUsernames = endpoint({
  * @param body
  */
 export const postUsernamesRecover = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/usernames/recover',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1670,7 +1670,7 @@ export const postUsernamesRecover = endpoint({
  * @param Context
  */
 export const getUsernamesValidate = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/usernames/validate',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1708,7 +1708,7 @@ export const getUsernamesValidate = endpoint({
  * @param body The Roblox.Authentication.Api.Models.UsernameValidationRequest.
  */
 export const postUsernamesValidate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/usernames/validate',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1736,7 +1736,7 @@ export const postUsernamesValidate = endpoint({
  * @param Email
  */
 export const getValidatorsEmail = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/validators/email',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1759,7 +1759,7 @@ export const getValidatorsEmail = endpoint({
  * @param BirthDay
  */
 export const getValidatorsRecommendedusernamefromdisplayname = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/validators/recommendedUsernameFromDisplayName',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1788,7 +1788,7 @@ This is a POST request and explicitly does not receive the parameter values from
  * @param body 
  */
 export const postValidatorsRecommendedusernamefromdisplayname = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/validators/recommendedUsernameFromDisplayName',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1812,7 +1812,7 @@ export const postValidatorsRecommendedusernamefromdisplayname = endpoint({
  * @param BirthDay
  */
 export const getValidatorsUsername = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/validators/username',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1840,7 +1840,7 @@ This is a POST request and explicitly does not receive the parameter values from
  * @param body 
  */
 export const postValidatorsUsername = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/validators/username',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1862,7 +1862,7 @@ export const postValidatorsUsername = endpoint({
  * @summary Check if the current user has an Xbox connected.
  */
 export const getXboxConnection = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/xbox/connection',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1882,7 +1882,7 @@ export const getXboxConnection = endpoint({
  * @summary Unlink the current ROBLOX account from the Xbox live account.
  */
 export const postXboxDisconnect = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/xbox/disconnect',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1904,7 +1904,7 @@ export const postXboxDisconnect = endpoint({
  * @summary Get the consecutive days the xbox user has been logged in.
  */
 export const getXboxGetLoginConsecutiveDays = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/xbox/get-login-consecutive-days',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
@@ -1929,7 +1929,7 @@ export const getXboxGetLoginConsecutiveDays = endpoint({
  * @param body
  */
 export const postXboxTranslate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/xbox/translate',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',

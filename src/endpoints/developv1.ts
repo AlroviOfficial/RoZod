@@ -209,7 +209,7 @@ const Roblox_Api_Develop_Models_TeamCreateMembershipRequest = z.object({
  * @param assetIds The ids of the Roblox.Platform.Assets.IAsset.
  */
 export const getAssetsVoting = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/assets/voting',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -231,7 +231,7 @@ export const getAssetsVoting = endpoint({
 Sort order of templates specified by Roblox.
  */
 export const getGametemplates = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/gametemplates',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -248,7 +248,7 @@ export const getGametemplates = endpoint({
  * @param sortOrder Sorted by universeId
  */
 export const getGroupsGroupidUniverses = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/universes',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -299,7 +299,7 @@ export const getGroupsGroupidUniverses = endpoint({
  * @description Currently the only supported functionality for updating the configuration is around Name, and Description.
  */
 export const postPlacesPlaceid = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -338,7 +338,7 @@ export const postPlacesPlaceid = endpoint({
  * @description Currently the only supported functionality for updating the configuration is around Name, and Description.
  */
 export const patchPlacesPlaceid = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -377,7 +377,7 @@ export const patchPlacesPlaceid = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  */
 export const getPlacesPlaceidTeamcreateActive_sessionMembers = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/places/:placeId/teamcreate/active_session/members',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -434,7 +434,7 @@ export const getPlacesPlaceidTeamcreateActive_sessionMembers = endpoint({
  * @param pluginIds The plugin ids.
  */
 export const getPlugins = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/plugins',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -462,7 +462,7 @@ export const getPlugins = endpoint({
  * @param pluginId The id of the plugin.
  */
 export const patchPluginsPluginid = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/plugins/:pluginId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -506,7 +506,7 @@ export const patchPluginsPluginid = endpoint({
  * @param universeId The Universe id.
  */
 export const getUniversesUniverseid = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/universes/:universeId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -532,7 +532,7 @@ export const getUniversesUniverseid = endpoint({
  * @param universeId The universe id.
  */
 export const postUniversesUniverseidActivate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/universes/:universeId/activate',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -570,7 +570,7 @@ export const postUniversesUniverseidActivate = endpoint({
  * @param universeId The universe Id.
  */
 export const getUniversesUniverseidConfiguration = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/universes/:universeId/configuration',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -605,7 +605,7 @@ export const getUniversesUniverseidConfiguration = endpoint({
  * @param universeId The universeId.
  */
 export const patchUniversesUniverseidConfiguration = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/universes/:universeId/configuration',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -666,7 +666,7 @@ export const patchUniversesUniverseidConfiguration = endpoint({
  * @param universeId The universe Id.
  */
 export const getUniversesUniverseidConfigurationVipServers = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/universes/:universeId/configuration/vip-servers',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -700,7 +700,7 @@ export const getUniversesUniverseidConfigurationVipServers = endpoint({
  * @param universeId The universe id.
  */
 export const postUniversesUniverseidDeactivate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/universes/:universeId/deactivate',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -736,7 +736,7 @@ export const postUniversesUniverseidDeactivate = endpoint({
  * @param universeId The universe id.
  */
 export const getUniversesUniverseidPermissions = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/universes/:universeId/permissions',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -770,7 +770,7 @@ export const getUniversesUniverseidPermissions = endpoint({
  * @param sortOrder Sorted by placeId
  */
 export const getUniversesUniverseidPlaces = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/universes/:universeId/places',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -814,7 +814,7 @@ export const getUniversesUniverseidPlaces = endpoint({
  * @param universeId The universe Id.
  */
 export const getUniversesUniverseidTeamcreate = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/universes/:universeId/teamcreate',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -850,7 +850,7 @@ export const getUniversesUniverseidTeamcreate = endpoint({
  * @description Enables, or disables team create for a universe.
  */
 export const patchUniversesUniverseidTeamcreate = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/universes/:universeId/teamcreate',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -888,7 +888,7 @@ export const patchUniversesUniverseidTeamcreate = endpoint({
  * @param universeId The universe Id.
  */
 export const deleteUniversesUniverseidTeamcreateMemberships = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/universes/:universeId/teamcreate/memberships',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -926,7 +926,7 @@ export const deleteUniversesUniverseidTeamcreateMemberships = endpoint({
  * @description If a universe can not be found for a given ID (such as -1) it will be skipped.
  */
 export const getUniversesMultiget = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/universes/multiget',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -955,7 +955,7 @@ export const getUniversesMultiget = endpoint({
  * @description If a universe can not be found for a given ID (such as -1) it will be skipped.
  */
 export const getUniversesMultigetPermissions = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/universes/multiget/permissions',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -987,7 +987,7 @@ export const getUniversesMultigetPermissions = endpoint({
  * @param ids The universe Ids.
  */
 export const getUniversesMultigetTeamcreate = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/universes/multiget/teamcreate',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -1017,7 +1017,7 @@ export const getUniversesMultigetTeamcreate = endpoint({
  * @summary Gets a list of Groups that a user can manage.
  */
 export const getUserGroupsCanmanage = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/user/groups/canmanage',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -1034,7 +1034,7 @@ export const getUserGroupsCanmanage = endpoint({
  * @summary Gets a list of groups a user can manage games or items for.
  */
 export const getUserGroupsCanmanagegamesoritems = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/user/groups/canmanagegamesoritems',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -1055,7 +1055,7 @@ export const getUserGroupsCanmanagegamesoritems = endpoint({
  * @param sortOrder Sorted by universeId
  */
 export const getUserUniverses = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/user/universes',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',

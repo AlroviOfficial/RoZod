@@ -123,7 +123,7 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameRe
  * @param fetchAllExperienceRelatedMedia to tell if the API query is to fetch all related media for this experience
  */
 export const getGamesUniverseidMedia = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/games/:universeId/media',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -162,7 +162,7 @@ export const getGamesUniverseidMedia = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidGames = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/groups/:groupId/games',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -222,7 +222,7 @@ export const getGroupsGroupidGames = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidGamesv2 = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/groups/:groupId/gamesV2',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -282,7 +282,7 @@ export const getGroupsGroupidGamesv2 = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridFavoriteGames = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/users/:userId/favorite/games',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -333,7 +333,7 @@ export const getUsersUseridFavoriteGames = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridGames = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/users/:userId/games',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',

@@ -323,7 +323,7 @@ const Roblox_Games_Api_VipServerUpdateVoiceSettingsRequest = z.object({
  * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
  */
 export const getGames = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -353,7 +353,7 @@ export const getGames = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGamesPlaceidPrivateServers = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/:placeId/private-servers',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -407,7 +407,7 @@ export const getGamesPlaceidPrivateServers = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  */
 export const getGamesPlaceidServersServertype = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/:placeId/servers/:serverType',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -469,7 +469,7 @@ export const getGamesPlaceidServersServertype = endpoint({
  * @param universeId The Id of the universe.
  */
 export const getGamesUniverseidFavorites = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/:universeId/favorites',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -504,7 +504,7 @@ export const getGamesUniverseidFavorites = endpoint({
  * @param universeId The Id of the universe.
  */
 export const postGamesUniverseidFavorites = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/games/:universeId/favorites',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -549,7 +549,7 @@ export const postGamesUniverseidFavorites = endpoint({
  * @param universeId The Id of the universe.
  */
 export const getGamesUniverseidFavoritesCount = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/:universeId/favorites/count',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -582,7 +582,7 @@ export const getGamesUniverseidFavoritesCount = endpoint({
  * @param cursor The cursor to figure out where to start fetching
  */
 export const getGamesUniverseidGamePasses = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/:universeId/game-passes',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -630,7 +630,7 @@ export const getGamesUniverseidGamePasses = endpoint({
  * @param universeId The id of the universe we get media data from.
  */
 export const getGamesUniverseidMedia = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/:universeId/media',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -661,7 +661,7 @@ export const getGamesUniverseidMedia = endpoint({
  * @param universeId The id of the universe.
  */
 export const patchGamesUniverseidUserVotes = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/games/:universeId/user-votes',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -714,7 +714,7 @@ export const patchGamesUniverseidUserVotes = endpoint({
  * @param universeId The id of the universe we get vote status from.
  */
 export const getGamesUniverseidVotes = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/:universeId/votes',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -753,7 +753,7 @@ export const getGamesUniverseidVotes = endpoint({
  * @param universeId The id of the universe we get user vote status from.
  */
 export const getGamesUniverseidVotesUser = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/:universeId/votes/user',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -796,7 +796,7 @@ export const getGamesUniverseidVotesUser = endpoint({
  * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
  */
 export const getGamesGamesProductInfo = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/games-product-info',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -823,7 +823,7 @@ export const getGamesGamesProductInfo = endpoint({
  * @param placeIds List of placeId to uniquely Identify a place
  */
 export const getGamesMultigetPlaceDetails = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/multiget-place-details',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -850,7 +850,7 @@ export const getGamesMultigetPlaceDetails = endpoint({
  * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
  */
 export const getGamesMultigetPlayabilityStatus = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/multiget-playability-status',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -881,7 +881,7 @@ This parameter is usually not needed for the first page.
  * @param IsTruncatedResultsEnabled Truncated Results
  */
 export const getGamesRecommendationsGameUniverseid = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/recommendations/game/:universeId',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -927,7 +927,7 @@ export const getGamesRecommendationsGameUniverseid = endpoint({
  * @param universeId The id of the universe.
  */
 export const postGamesVipServersUniverseid = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/games/vip-servers/:universeId',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -971,7 +971,7 @@ export const postGamesVipServersUniverseid = endpoint({
  * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
  */
 export const getGamesVotes = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/votes',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -1007,7 +1007,7 @@ export const getGamesVotes = endpoint({
  * @param privateServerIds
  */
 export const getPrivateServers = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/private-servers',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -1048,7 +1048,7 @@ export const getPrivateServers = endpoint({
  * @param universeId
  */
 export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/private-servers/enabled-in-universe/:universeId',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -1076,7 +1076,7 @@ export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
  * @param cursor Current cursor
  */
 export const getPrivateServersMyPrivateServers = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/private-servers/my-private-servers',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -1117,7 +1117,7 @@ export const getPrivateServersMyPrivateServers = endpoint({
  * @param userId The user id.
  */
 export const getVipServerCanInviteUserid = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/vip-server/can-invite/:userId',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -1147,7 +1147,7 @@ export const getVipServerCanInviteUserid = endpoint({
  * @param id The VIP Server ID
  */
 export const getVipServersId = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/vip-servers/:id',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -1187,7 +1187,7 @@ export const getVipServersId = endpoint({
  * @param id The VIP Server ID
  */
 export const patchVipServersId = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/vip-servers/:id',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -1238,7 +1238,7 @@ export const patchVipServersId = endpoint({
  * @param id The VIP Server ID
  */
 export const patchVipServersIdPermissions = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/vip-servers/:id/permissions',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -1285,7 +1285,7 @@ export const patchVipServersIdPermissions = endpoint({
  * @param id The VIP Server ID
  */
 export const patchVipServersIdSubscription = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/vip-servers/:id/subscription',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
@@ -1334,7 +1334,7 @@ export const patchVipServersIdSubscription = endpoint({
  * @param id The VIP Server ID
  */
 export const patchVipServersIdVoicesettings = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/vip-servers/:id/voicesettings',
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',

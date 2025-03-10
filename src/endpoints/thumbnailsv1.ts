@@ -77,7 +77,7 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_
  * @param Roblox-Place-Id (optional) placeid
  */
 export const getAssetThumbnailAnimated = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/asset-thumbnail-animated',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -113,7 +113,7 @@ export const getAssetThumbnailAnimated = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getAssets = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/assets',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -204,7 +204,7 @@ export const getAssets = endpoint({
  * @param Roblox-Place-Id (optional) placeid
  */
 export const getAssetsThumbnail3d = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/assets-thumbnail-3d',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -238,7 +238,7 @@ export const getAssetsThumbnail3d = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getBadgesIcons = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/badges/icons',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -303,7 +303,7 @@ export const getBadgesIcons = endpoint({
  * @param Roblox-Place-Id (optional) placeid
  */
 export const postBatch = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/batch',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -342,7 +342,7 @@ export const postBatch = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getBundlesThumbnails = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/bundles/thumbnails',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -390,7 +390,7 @@ export const getBundlesThumbnails = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getDeveloperProductsIcons = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/developer-products/icons',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -438,7 +438,7 @@ export const getDeveloperProductsIcons = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getGamePasses = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/game-passes',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -487,7 +487,7 @@ export const getGamePasses = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getGamesUniverseidThumbnails = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/:universeId/thumbnails',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -546,7 +546,7 @@ use the 'targetId' of the objects in the result array.
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getGamesIcons = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/icons',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -609,7 +609,7 @@ export const getGamesIcons = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getGamesMultigetThumbnails = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/games/multiget/thumbnails',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -667,7 +667,7 @@ export const getGamesMultigetThumbnails = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getGroupsIcons = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/icons',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -716,7 +716,7 @@ export const getGroupsIcons = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getPlacesGameicons = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/places/gameicons',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -777,7 +777,7 @@ export const getPlacesGameicons = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getUsersAvatar = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/avatar',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -840,7 +840,7 @@ export const getUsersAvatar = endpoint({
  * @param userId user Id for avatar
  */
 export const getUsersAvatar3d = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/avatar-3d',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -870,7 +870,7 @@ export const getUsersAvatar3d = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getUsersAvatarBust = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/avatar-bust',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -921,7 +921,7 @@ export const getUsersAvatarBust = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getUsersAvatarHeadshot = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/avatar-headshot',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -981,7 +981,7 @@ export const getUsersAvatarHeadshot = endpoint({
  * @param outfitId CSV for the userIds to get user outfits
  */
 export const getUsersOutfit3d = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/outfit-3d',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',
@@ -1006,7 +1006,7 @@ export const getUsersOutfit3d = endpoint({
  * @param isCircular The circle thumbnail output parameter, true or false
  */
 export const getUsersOutfits = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/outfits',
   baseUrl: 'https://thumbnails.roblox.com',
   requestFormat: 'json',

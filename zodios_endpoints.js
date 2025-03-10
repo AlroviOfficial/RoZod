@@ -1,7 +1,7 @@
-import { readFileSync, readdirSync, writeFileSync } from 'fs';
-import { basename } from 'path';
+import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from 'fs';
+import { basename, dirname } from 'path';
 import { promisify } from 'util';
-import {exec as execOld} from 'child_process';
+import { exec as execOld } from 'child_process';
 const exec = promisify(execOld);
 import pLimit from 'p-limit';
 import { generateZodClientFromOpenAPI } from '@alexop/openapi-zod-client';
@@ -11,39 +11,46 @@ const limit = pLimit(2);
 
 const FOLDER_OPENAPI = 'openapi';
 const FOLDER_ZODIOS = 'src/endpoints';
+const FOLDER_OPENCLOUD = 'src/opencloud';
 
 import HB from 'handlebars';
 const handlebars = HB.create();
 
+function ensureDirExists(dir) {
+  if (!existsSync(dir)) {
+    mkdirSync(dir, { recursive: true });
+  }
+}
+
 handlebars.registerHelper("ifeq", function (a, b, options) {
   if (a === b) {
-      return options.fn(this);
+    return options.fn(this);
   }
 
   return options.inverse(this);
 });
 handlebars.registerHelper("ifNotEmptyObj", function (obj, options) {
   if (typeof obj === "object" && Object.keys(obj).length > 0) {
-      return options.fn(this);
+    return options.fn(this);
   }
 
   return options.inverse(this);
 });
 handlebars.registerHelper("toCamelCase", function (input) {
   if (/^[a-z][a-zA-Z0-9]*$/.test(input)) {
-      return input
+    return input
   }
 
   const words = input.split(/[\s_-]/);
   return words
-      .map((word, index) => {
-          if (index === 0) {
-              return word.toLowerCase();
-          }
+    .map((word, index) => {
+      if (index === 0) {
+        return word.toLowerCase();
+      }
 
-          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-      })
-      .join("");
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join("");
 });
 handlebars.registerHelper('toUpperCase', (str) => str.toUpperCase());
 
@@ -51,34 +58,208 @@ handlebars.registerHelper('regexReplace', (str, regex, replace) => {
   return str.replace(new RegExp(regex), replace);
 });
 
+handlebars.registerHelper('normalizePathForJS', (method, path) => {
+  // Special case handling for endpoints with colons as action indicators like "asset:archive"
+  if (path.includes('/:')) {
+    const actionMatch = path.match(/\/([^\/]+):([\w-]+)$/);
+    if (actionMatch) {
+      // Extract the resource and action (e.g., "assetId:archive" -> "assetId" and "archive")
+      const resource = actionMatch[1];
+      const action = actionMatch[2];
+
+      // Reconstruct path with the action as a separate segment
+      path = path.replace(`/${resource}:${action}`, `/${resource}/${action}`);
+    }
+  }
+
+  // Step 1: Replace colons with underscores, since colons can't be in JS identifiers
+  path = path.replace(/:/g, '_');
+
+  // Step 2: Replace hyphens with camelCase
+  path = path.replace(/-(\w)/g, (_, c) => c.toUpperCase());
+  path = path.replace(/-/g, '');
+
+  // Step 3: Handle standard-datastores and other hyphenated names
+  path = path.replace(/standardDatastores/g, 'datastores');
+  path = path.replace(/orderedDatastores/g, 'orderedDatastores');
+
+  // Step 4: Remove the version prefix
+  path = path.replace(/^\/v\d+\//, '/');
+
+  // Step 5: Replace _ with camelCase for path parameters (e.g., Group_id -> GroupId)
+  path = path.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
+
+  // Step 5: Split path into meaningful segments
+  const segments = path.split('/').filter(Boolean);
+
+  let finalName = method.toLowerCase();
+
+  // For endpoints with many segments, use a more structured approach
+  if (segments.length > 0) {
+    finalName += segments[0].charAt(0).toUpperCase() + segments[0].slice(1);
+
+    for (let i = 1; i < segments.length; i++) {
+      let segment = segments[i];
+
+      // If this segment is a placeholder (starts with underscore after colon replacement)
+      if (segment.startsWith('_')) {
+        // Replace with "By" + parameter name with capital first letter
+        const paramName = segment.substring(1);
+        finalName += 'By' + paramName.charAt(0).toUpperCase() + paramName.slice(1);
+      } else {
+        // Regular segment - add with capital first letter
+        finalName += segment.charAt(0).toUpperCase() + segment.slice(1);
+      }
+    }
+  }
+
+  // Fix any remaining special characters that aren't valid in JS identifiers
+  finalName = finalName.replace(/[^\w$]/g, '');
+
+  return finalName;
+});
+
+const openCloudV1Apis = [
+  {
+    url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/universes-api/v1.json',
+    name: 'universes',
+    version: 'v1',
+    baseUrl: 'https://apis.roblox.com/cloud'
+  },
+  {
+    url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/messaging-service/v1.json',
+    name: 'messaging',
+    version: 'v1',
+    baseUrl: 'https://apis.roblox.com/cloud'
+  },
+  {
+    url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/datastores-api/v1.json',
+    name: 'datastores',
+    version: 'v1',
+    baseUrl: 'https://apis.roblox.com/cloud'
+  },
+  {
+    url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/datastores-api/ordered-v1.json',
+    name: 'datastores-ordered',
+    version: 'v1',
+    baseUrl: 'https://apis.roblox.com/cloud'
+  },
+  {
+    url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/assets/v1.json',
+    name: 'assets',
+    version: 'v1',
+    baseUrl: 'https://apis.roblox.com/cloud'
+  }
+];
+
+const openCloudV2Apis = [
+  {
+    url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/cloud.docs.json',
+    name: 'cloud',
+    version: 'v2',
+    baseUrl: 'https://apis.roblox.com/cloud'
+  }
+];
+
+async function downloadGithubRawFile(githubUrl) {
+  const rawUrl = githubUrl
+    .replace('github.com', 'raw.githubusercontent.com')
+    .replace('/blob/', '/');
+
+  console.log(`Downloading ${rawUrl}`);
+  const response = await fetch(rawUrl);
+  return await response.json();
+}
+
+async function processOpenCloudApi(apiDef) {
+  console.log(`Processing OpenCloud API: ${apiDef.name} ${apiDef.version}`);
+
+  const outputFolder = `${FOLDER_OPENCLOUD}/${apiDef.version}`;
+  ensureDirExists(outputFolder);
+
+  try {
+    const openApiDoc = await downloadGithubRawFile(apiDef.url);
+
+    if (apiDef.name === 'assets' || apiDef.name === 'universes') {
+      const paths = openApiDoc.paths;
+      for (const path in paths) {
+        if (!path.includes(':')) {
+          continue
+        }
+        for (const method in paths[path]) {
+          if (paths[path][method].operationId) {
+            continue
+          }
+          // Create a simple operationId from the method and path
+          const segments = path
+            .split('/')
+            .filter(Boolean)
+            .map(s => s.replace(/^:/, ''))
+            .join('_');
+          paths[path][method].operationId = `${method}_${segments}`;
+        }
+      }
+    }
+
+    await generateZodClientFromOpenAPI({
+      openApiDoc,
+      templatePath: './opencloud_template.hbs',
+      distPath: `${outputFolder}/${apiDef.name}.ts`,
+      handlebars,
+      options: {
+        baseUrl: apiDef.baseUrl,
+        withDeprecatedEndpoints: true,
+        withImplicitRequiredProps: true,
+        withDefaultValues: true,
+      },
+    });
+
+    // Copy to lib directory for distribution
+    ensureDirExists(`./lib/opencloud/${apiDef.version}`);
+    writeFileSync(
+      `./lib/opencloud/${apiDef.version}/${apiDef.name}.d.ts`,
+      readFileSync(`${outputFolder}/${apiDef.name}.ts`, 'utf-8')
+    );
+
+    console.log(`Successfully generated ${apiDef.name} ${apiDef.version}`);
+  } catch (error) {
+    console.error(`Error generating OpenCloud API for ${apiDef.name} ${apiDef.version}: ${error}`);
+  }
+}
+
 console.log('Generating OpenAPI files from Swagger files...');
 const urls = readFileSync('urls.txt', 'utf-8')
   .split('\n')
   .filter((url) => url.trim() !== '');
 Promise.all(
-  [Promise.resolve()]
-  // urls.map((url) =>
-  //   limit(async () => {
-  //     if (url.trim()) {
-  //       console.log(`Converting ${url}`);
-  //       // Get from "https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/endpointName/version"
-  //       const endpointName = url.match(/\/legacy\/([^/]+)\/v\d+/)[1];
-  //       const apiName = url.split('/').slice(-1)[0].replace(/\.json/, '');
-  //       await promisify(exec)(
-  //         `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${endpointName}${apiName}"`,
-  //       );
-  //     }
-  //   }),
-  // ),
+  urls.map((url) =>
+    limit(async () => {
+      if (url.trim()) {
+        console.log(`Converting ${url}`);
+        const endpointName = url.match(/\/legacy\/([^/]+)\/v\d+/)[1];
+        const apiName = url.split('/').slice(-1)[0].replace(/\.json/, '');
+        await promisify(exec)(
+          `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${endpointName}${apiName}"`,
+        );
+      }
+    }),
+  ),
 ).then(async () => {
   console.log('Generating Zodios endpoints...');
+
+  // Create necessary directories
+  ensureDirExists(FOLDER_ZODIOS);
+  ensureDirExists(`${FOLDER_OPENCLOUD}/v1`);
+  ensureDirExists(`${FOLDER_OPENCLOUD}/v2`);
+  ensureDirExists('./lib/opencloud/v1');
+  ensureDirExists('./lib/opencloud/v2');
 
   const openApiFiles = readdirSync(FOLDER_OPENAPI).filter((file) => {
     const folderContents = readdirSync(`${FOLDER_OPENAPI}/${file}`);
     return folderContents.some((file) => file.endsWith('.yaml'));
   });
 
-   openApiFiles.map(async (folder) => {
+  openApiFiles.map(async (folder) => {
     console.log(`Generating Zodios for ${folder}`);
 
     const fileName = basename(folder, '.yaml');
@@ -92,7 +273,7 @@ Promise.all(
       const subdomain = matchingUrl.match(/\/legacy\/([^/]+)\/v\d+/)[1];
       const domain = 'roblox.com';
       try {
-      const openApiDoc = await parser.parse(`${FOLDER_OPENAPI}/${folder}/openapi.yaml`);
+        const openApiDoc = await parser.parse(`${FOLDER_OPENAPI}/${folder}/openapi.yaml`);
         await generateZodClientFromOpenAPI({
           openApiDoc: openApiDoc,
           templatePath: './template.hbs',
@@ -129,6 +310,16 @@ Promise.all(
   const endpointFiles = readdirSync(FOLDER_ZODIOS).filter((file) => file.endsWith('.ts'));
   endpointFiles.forEach((file) => {
     const fileName = basename(file, '.ts');
+    ensureDirExists('./lib/endpoints');
     writeFileSync(`./lib/endpoints/${fileName}.d.ts`, readFileSync(`./src/endpoints/${fileName}.ts`, 'utf-8'));
   });
+
+  // Process OpenCloud APIs
+  console.log('Generating OpenCloud API endpoints...');
+  await Promise.all([
+    ...openCloudV1Apis.map(apiDef => processOpenCloudApi(apiDef)),
+    ...openCloudV2Apis.map(apiDef => processOpenCloudApi(apiDef))
+  ]);
+
+  console.log('All endpoints generated successfully!');
 });

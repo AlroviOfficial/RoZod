@@ -178,7 +178,7 @@ or granted by package permission.
  * @param sortOrder Sort by version number, default is desc.
  */
 export const getAssetsIdVersions = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/assets/:id/versions',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -221,7 +221,7 @@ export const getAssetsIdVersions = endpoint({
  * @param placeId The place id for the place to be updated.
  */
 export const getPlacesPlaceid = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -256,7 +256,7 @@ export const getPlacesPlaceid = endpoint({
  * @param placeId The place id for the place to be updated.
  */
 export const patchPlacesPlaceid = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v2/places/:placeId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -294,7 +294,7 @@ export const patchPlacesPlaceid = endpoint({
  * @param gameId the Guid of the game instance System.Guid
  */
 export const deleteTeamtestPlaceid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v2/teamtest/:placeId',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
@@ -331,7 +331,7 @@ V2 Contains data for avatar scale and asset override.
  * @param universeId The universeId.
  */
 export const patchUniversesUniverseidConfiguration = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v2/universes/:universeId/configuration',
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',

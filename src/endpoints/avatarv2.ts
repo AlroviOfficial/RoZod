@@ -121,7 +121,7 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
  * @summary Returns details about the authenticated user's avatar
  */
 export const getAvatarAvatar = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/avatar/avatar',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -139,7 +139,7 @@ export const getAvatarAvatar = endpoint({
  * @param body
  */
 export const postAvatarSetBodyColors = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/avatar/set-body-colors',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -168,7 +168,7 @@ export const postAvatarSetBodyColors = endpoint({
 Any assets being worn before this method is called are automatically removed.
  */
 export const postAvatarSetWearingAssets = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/avatar/set-wearing-assets',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -206,7 +206,7 @@ export const postAvatarSetWearingAssets = endpoint({
  * @description Includes assets, bodycolors, and playerAvatarType.
  */
 export const getAvatarUsersUseridAvatar = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/avatar/users/:userId/avatar',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -238,7 +238,7 @@ export const getAvatarUsersUseridAvatar = endpoint({
  * @param isEditable Whether the outfits are editable. A null value will lead to no filtering.
  */
 export const getAvatarUsersUseridOutfits = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/avatar/users/:userId/outfits',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -293,7 +293,7 @@ export const getAvatarUsersUseridOutfits = endpoint({
 Accepts partial updates.
  */
 export const patchOutfitsUseroutfitid = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v2/outfits/:userOutfitId',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -343,7 +343,7 @@ export const patchOutfitsUseroutfitid = endpoint({
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
  */
 export const postOutfitsUseroutfitidUpdate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/outfits/:userOutfitId/update',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -391,7 +391,7 @@ export const postOutfitsUseroutfitidUpdate = endpoint({
 The name property of the request is optional as one will be auto-generated when the request has a null name.
  */
 export const postOutfitsCreate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/outfits/create',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',

@@ -84,7 +84,7 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
  * @param itemTargetId ID of the item
  */
 export const postCollectionsItemsItemtypeItemtargetid = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/collections/items/:itemType/:itemTargetId',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -130,7 +130,7 @@ export const postCollectionsItemsItemtypeItemtargetid = endpoint({
  * @param itemTargetId ID of the item
  */
 export const deleteCollectionsItemsItemtypeItemtargetid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/collections/items/:itemType/:itemTargetId',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -171,7 +171,7 @@ export const deleteCollectionsItemsItemtypeItemtargetid = endpoint({
  * @param packageID The asset ID of the package
  */
 export const getPackagesPackageidAssets = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/packages/:packageId/assets',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -196,7 +196,7 @@ export const getPackagesPackageidAssets = endpoint({
  * @param sortOrder Sorted by userAssetId
  */
 export const getUsersUseridAssetsCollectibles = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/assets/collectibles',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -328,7 +328,7 @@ export const getUsersUseridAssetsCollectibles = endpoint({
  * @param userId The user identifier.
  */
 export const getUsersUseridCanViewInventory = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/can-view-inventory',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -354,7 +354,7 @@ export const getUsersUseridCanViewInventory = endpoint({
  * @param userId
  */
 export const getUsersUseridCategories = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/categories',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -375,7 +375,7 @@ export const getUsersUseridCategories = endpoint({
  * @param userId
  */
 export const getUsersUseridCategoriesFavorites = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/categories/favorites',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -401,7 +401,7 @@ Note that the 'Hat' asset type may return accessories while we are migrating.
  * @param keyword Filter results for items containing this.
  */
 export const getUsersUseridInventoryAssettype = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/inventory/:assetType',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -532,7 +532,7 @@ Place creators can make requests as if they were the Game Server.
  * @param itemTargetId ID of the item in question
  */
 export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/items/:itemType/:itemTargetId',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -573,7 +573,7 @@ export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
  * @param itemTargetId ID of the item in question
  */
 export const getUsersUseridItemsItemtypeItemtargetidIsOwned = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/items/:itemType/:itemTargetId/is-owned',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
@@ -615,7 +615,7 @@ export const getUsersUseridItemsItemtypeItemtargetidIsOwned = endpoint({
  * @param cursor
  */
 export const getUsersUseridPlacesInventory = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/places/inventory',
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',

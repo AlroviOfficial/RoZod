@@ -25,7 +25,7 @@ const Roblox_Presence_Api_Models_Response_UserPresencesResponse = z.object({
  * @param body
  */
 export const postPresenceUsers = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/presence/users',
   baseUrl: 'https://presence.roblox.com',
   requestFormat: 'json',

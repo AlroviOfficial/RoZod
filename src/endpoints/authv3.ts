@@ -26,7 +26,7 @@ const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z.ob
  * @param userId The user ID to authenticate as.
  */
 export const postUsersUseridTwoStepVerificationLogin = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v3/users/:userId/two-step-verification/login',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',

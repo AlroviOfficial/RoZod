@@ -11,7 +11,7 @@ const Roblox_Web_Responses_Economy_CurrencyResponse = z.object({
  * @description Currency can only be retrieved for the authenticated user.
  */
 export const getUserCurrency = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/user/currency',
   baseUrl: 'https://economy.roblox.com',
   requestFormat: 'json',

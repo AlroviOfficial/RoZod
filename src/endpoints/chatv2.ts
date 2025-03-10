@@ -210,7 +210,7 @@ const Roblox_Chat_Api_Models_UserVisibleStatusResponse = z.object({
  * @param body
  */
 export const postAddToConversation = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/add-to-conversation',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -236,7 +236,7 @@ export const postAddToConversation = endpoint({
  * @summary For every authenticated user, the clients hit this endpoint to get the chat related settings. Example : Chat is enabled or not
  */
 export const getChatSettings = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/chat-settings',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -254,7 +254,7 @@ export const getChatSettings = endpoint({
  * @param conversationIds Ids of the conversations to be returned
  */
 export const getGetConversations = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/get-conversations',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -283,7 +283,7 @@ export const getGetConversations = endpoint({
  * @param exclusiveStartMessageId
  */
 export const getGetMessages = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/get-messages',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -320,7 +320,7 @@ export const getGetMessages = endpoint({
  * @param featureNames string array to request feature rollout settings
  */
 export const getGetRolloutSettings = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/get-rollout-settings',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -346,7 +346,7 @@ export const getGetRolloutSettings = endpoint({
  * @summary Gets the count of unread conversations
  */
 export const getGetUnreadConversationCount = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/get-unread-conversation-count',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -365,7 +365,7 @@ export const getGetUnreadConversationCount = endpoint({
  * @param pageSize
  */
 export const getGetUnreadConversations = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/get-unread-conversations',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -398,7 +398,7 @@ export const getGetUnreadConversations = endpoint({
  * @param pageSize
  */
 export const getGetUnreadMessages = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/get-unread-messages',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -431,7 +431,7 @@ export const getGetUnreadMessages = endpoint({
  * @param pageSize
  */
 export const getGetUserConversations = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/get-user-conversations',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -463,7 +463,7 @@ export const getGetUserConversations = endpoint({
  * @param body
  */
 export const postMarkAsRead = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/mark-as-read',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -490,7 +490,7 @@ export const postMarkAsRead = endpoint({
  * @param body
  */
 export const postMarkAsSeen = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/mark-as-seen',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -516,7 +516,7 @@ export const postMarkAsSeen = endpoint({
  * @summary Get Chat metadata.
  */
 export const getMetadata = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/metadata',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -535,7 +535,7 @@ export const getMetadata = endpoint({
  * @param pageSize
  */
 export const getMultiGetLatestMessages = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v2/multi-get-latest-messages',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -567,7 +567,7 @@ export const getMultiGetLatestMessages = endpoint({
  * @param body
  */
 export const postRemoveFromConversation = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/remove-from-conversation',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -594,7 +594,7 @@ export const postRemoveFromConversation = endpoint({
  * @param body
  */
 export const postRenameGroupConversation = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/rename-group-conversation',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -620,7 +620,7 @@ export const postRenameGroupConversation = endpoint({
  * @param body
  */
 export const postSendGameLinkMessage = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/send-game-link-message',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -647,7 +647,7 @@ export const postSendGameLinkMessage = endpoint({
  * @param body
  */
 export const postSendMessage = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/send-message',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -674,7 +674,7 @@ export const postSendMessage = endpoint({
  * @param body
  */
 export const postStartCloudEditConversation = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/start-cloud-edit-conversation',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -701,7 +701,7 @@ export const postStartCloudEditConversation = endpoint({
  * @param body
  */
 export const postStartGroupConversation = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/start-group-conversation',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -728,7 +728,7 @@ export const postStartGroupConversation = endpoint({
  * @param body
  */
 export const postStartOneToOneConversation = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/start-one-to-one-conversation',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',
@@ -755,7 +755,7 @@ export const postStartOneToOneConversation = endpoint({
  * @param body
  */
 export const postUpdateUserTypingStatus = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v2/update-user-typing-status',
   baseUrl: 'https://chat.roblox.com',
   requestFormat: 'json',

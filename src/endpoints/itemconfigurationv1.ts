@@ -85,7 +85,7 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
  * @param body
  */
 export const postCreationsGetAssetDetails = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/creations/get-asset-details',
   baseUrl: 'https://itemconfiguration.roblox.com',
   requestFormat: 'json',
@@ -133,7 +133,7 @@ export const postCreationsGetAssetDetails = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  */
 export const getCreationsGetAssets = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/creations/get-assets',
   baseUrl: 'https://itemconfiguration.roblox.com',
   requestFormat: 'json',
@@ -201,7 +201,7 @@ export const getCreationsGetAssets = endpoint({
  * @param itemIds
  */
 export const getItemTags = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/item-tags',
   baseUrl: 'https://itemconfiguration.roblox.com',
   requestFormat: 'json',
@@ -234,7 +234,7 @@ export const getItemTags = endpoint({
  * @param body
  */
 export const postItemTags = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/item-tags',
   baseUrl: 'https://itemconfiguration.roblox.com',
   requestFormat: 'json',
@@ -274,7 +274,7 @@ export const postItemTags = endpoint({
  * @param itemTagId
  */
 export const deleteItemTagsItemtagid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/item-tags/:itemTagId',
   baseUrl: 'https://itemconfiguration.roblox.com',
   requestFormat: 'json',
@@ -308,7 +308,7 @@ export const deleteItemTagsItemtagid = endpoint({
  * @summary Gets the metadata related to item tags.
  */
 export const getItemTagsMetadata = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/item-tags/metadata',
   baseUrl: 'https://itemconfiguration.roblox.com',
   requestFormat: 'json',
@@ -321,7 +321,7 @@ export const getItemTagsMetadata = endpoint({
  * @param tagIds
  */
 export const getTags = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/tags',
   baseUrl: 'https://itemconfiguration.roblox.com',
   requestFormat: 'json',
@@ -353,7 +353,7 @@ export const getTags = endpoint({
  * @param numberOfResults Must be 1, 5, 10, or 25.
  */
 export const getTagsPrefixSearch = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/tags/prefix-search',
   baseUrl: 'https://itemconfiguration.roblox.com',
   requestFormat: 'json',

@@ -109,7 +109,7 @@ const Roblox_AccountInformation_Api_Models_VerifyPhoneRequest = z.object({
  * @summary Get the user's birthdate
  */
 export const getBirthdate = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/birthdate',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -131,7 +131,7 @@ export const getBirthdate = endpoint({
  * @param body The Roblox.AccountInformation.Api.Models.BirthdateRequest
  */
 export const postBirthdate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/birthdate',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -170,7 +170,7 @@ export const postBirthdate = endpoint({
  * @summary Get the user's description
  */
 export const getDescription = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/description',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -192,7 +192,7 @@ export const getDescription = endpoint({
  * @param body The Roblox.AccountInformation.Api.Models.DescriptionRequest
  */
 export const postDescription = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/description',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -232,7 +232,7 @@ export const postDescription = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.VerifyEmailRequest
  */
 export const postEmailVerify = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/email/verify',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -254,7 +254,7 @@ export const postEmailVerify = endpoint({
  * @summary Get the user's gender
  */
 export const getGender = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/gender',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -276,7 +276,7 @@ export const getGender = endpoint({
  * @param body The Roblox.AccountInformation.Api.Models.GenderRequest
  */
 export const postGender = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/gender',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -312,7 +312,7 @@ export const postGender = endpoint({
  * @summary Get the metadata
  */
 export const getMetadata = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/metadata',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -324,7 +324,7 @@ export const getMetadata = endpoint({
  * @summary Get Verified Phone Number
  */
 export const getPhone = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/phone',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -346,7 +346,7 @@ export const getPhone = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhone = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/phone',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -394,7 +394,7 @@ export const postPhone = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhoneDelete = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/phone/delete',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -435,7 +435,7 @@ export const postPhoneDelete = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhoneResend = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/phone/resend',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -474,7 +474,7 @@ export const postPhoneResend = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.VerifyPhoneRequest
  */
 export const postPhoneVerify = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/phone/verify',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -521,7 +521,7 @@ export const postPhoneVerify = endpoint({
  * @param onlyShortenTwitter Whether all promotion channels links except for Twitter should be returned as full URLs. If false, all promotion channels will be shortened.
  */
 export const getPromotionChannels = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/promotion-channels',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -562,7 +562,7 @@ export const getPromotionChannels = endpoint({
  * @param body The Roblox.AccountInformation.Api.Models.PromotionChannelsRequest
  */
 export const postPromotionChannels = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/promotion-channels',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -599,7 +599,7 @@ export const postPromotionChannels = endpoint({
  * @summary Gets a star code affiliate supporter for the authenticated user
  */
 export const getStarCodeAffiliates = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/star-code-affiliates',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -621,7 +621,7 @@ export const getStarCodeAffiliates = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.StarCodeAffiliateRequest
  */
 export const postStarCodeAffiliates = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/star-code-affiliates',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -655,7 +655,7 @@ export const postStarCodeAffiliates = endpoint({
  * @summary Removes the star code affiliate supporter for the authenticated user
  */
 export const deleteStarCodeAffiliates = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/star-code-affiliates',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -683,7 +683,7 @@ export const deleteStarCodeAffiliates = endpoint({
  * @param filterLink Whether all promotion channel links should be filtered.
  */
 export const getUsersUseridPromotionChannels = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/promotion-channels',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -719,7 +719,7 @@ export const getUsersUseridPromotionChannels = endpoint({
  * @param userId
  */
 export const getUsersUseridRobloxBadges = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/roblox-badges',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
@@ -739,7 +739,7 @@ export const getUsersUseridRobloxBadges = endpoint({
  * @summary Returns number of consecutive login days for xbox users
  */
 export const getXboxLiveConsecutiveLoginDays = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/xbox-live/consecutive-login-days',
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',

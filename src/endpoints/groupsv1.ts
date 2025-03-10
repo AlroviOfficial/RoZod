@@ -490,7 +490,7 @@ const groups_icon_body = z.object({ Files: z.instanceof(File) });
  * @param groupId The group Id.
  */
 export const getFeaturedContentEvent = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/featured-content/event',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -513,7 +513,7 @@ export const getFeaturedContentEvent = endpoint({
  * @param eventId The event Id.
  */
 export const postFeaturedContentEvent = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/featured-content/event',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -547,7 +547,7 @@ export const postFeaturedContentEvent = endpoint({
  * @param eventId The event Id.
  */
 export const deleteFeaturedContentEvent = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/featured-content/event',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -580,7 +580,7 @@ export const deleteFeaturedContentEvent = endpoint({
  * @param groupId The group Id.
  */
 export const getGroupsGroupid = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -611,7 +611,7 @@ export const getGroupsGroupid = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidAuditLog = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/audit-log',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -725,7 +725,7 @@ export const getGroupsGroupidAuditLog = endpoint({
  * @param groupId The group Id.
  */
 export const postGroupsGroupidChangeOwner = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/change-owner',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -766,7 +766,7 @@ export const postGroupsGroupidChangeOwner = endpoint({
  * @param groupId The group Id.
  */
 export const postGroupsGroupidClaimOwnership = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/claim-ownership',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -808,7 +808,7 @@ export const postGroupsGroupidClaimOwnership = endpoint({
  * @param groupId The id of the group the user is in.
  */
 export const patchGroupsGroupidDescription = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/groups/:groupId/description',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -850,7 +850,7 @@ export const patchGroupsGroupidDescription = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidJoinRequests = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/join-requests',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -903,7 +903,7 @@ export const getGroupsGroupidJoinRequests = endpoint({
  * @param groupId The group id.
  */
 export const postGroupsGroupidJoinRequests = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/join-requests',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -952,7 +952,7 @@ export const postGroupsGroupidJoinRequests = endpoint({
  * @param groupId The group id.
  */
 export const deleteGroupsGroupidJoinRequests = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/groups/:groupId/join-requests',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -990,7 +990,7 @@ export const deleteGroupsGroupidJoinRequests = endpoint({
  * @param userId The user Id.
  */
 export const getGroupsGroupidJoinRequestsUsersUserid = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/join-requests/users/:userId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1029,7 +1029,7 @@ export const getGroupsGroupidJoinRequestsUsersUserid = endpoint({
  * @param userId The user Id.
  */
 export const postGroupsGroupidJoinRequestsUsersUserid = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/join-requests/users/:userId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1076,7 +1076,7 @@ export const postGroupsGroupidJoinRequestsUsersUserid = endpoint({
  * @param userId The user Id.
  */
 export const deleteGroupsGroupidJoinRequestsUsersUserid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/groups/:groupId/join-requests/users/:userId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1117,7 +1117,7 @@ export const deleteGroupsGroupidJoinRequestsUsersUserid = endpoint({
  * @param includeNotificationPreferences
  */
 export const getGroupsGroupidMembership = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/membership',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1150,7 +1150,7 @@ export const getGroupsGroupidMembership = endpoint({
  * @description This endpoint will charge Robux for the group rename.
  */
 export const patchGroupsGroupidName = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/groups/:groupId/name',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1210,7 +1210,7 @@ export const patchGroupsGroupidName = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidNameHistory = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/name-history',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1259,7 +1259,7 @@ export const getGroupsGroupidNameHistory = endpoint({
  * @param groupId The id of the group the user is in.
  */
 export const patchGroupsGroupidNotificationPreference = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/groups/:groupId/notification-preference',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1295,7 +1295,7 @@ export const patchGroupsGroupidNotificationPreference = endpoint({
  * @param groupId The group id.
  */
 export const getGroupsGroupidPayoutRestriction = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/payout-restriction',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1329,7 +1329,7 @@ export const getGroupsGroupidPayoutRestriction = endpoint({
  * @param groupId The group id.
  */
 export const getGroupsGroupidPayouts = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/payouts',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1364,7 +1364,7 @@ export const getGroupsGroupidPayouts = endpoint({
  * @param groupId The group Id.
  */
 export const postGroupsGroupidPayouts = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/payouts',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1414,7 +1414,7 @@ export const postGroupsGroupidPayouts = endpoint({
 If a recipient in the request is not a valid member in the group they will not be added to the recurring payouts.
  */
 export const postGroupsGroupidPayoutsRecurring = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/payouts/recurring',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1464,7 +1464,7 @@ export const postGroupsGroupidPayoutsRecurring = endpoint({
  * @param MaxRows The maximum number of rows for the page request, should be at least 1.
  */
 export const getGroupsGroupidRelationshipsGrouprelationshiptype = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1508,7 +1508,7 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptype = endpoint({
  * @param relatedGroupId The id of the group you want to create a relationship with.
  */
 export const postGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1560,7 +1560,7 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid =
  * @param relatedGroupId The id of the group you want to delete the relationship with.
  */
 export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/:relatedGroupId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1608,7 +1608,7 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRelatedgroupid
  * @param MaxRows The maximum number of rows for the page request, should be at least 1.
  */
 export const getGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1660,7 +1660,7 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoi
  * @param groupRelationshipType The type of group relationship being made
  */
 export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1698,7 +1698,7 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpo
  * @param groupRelationshipType The type of group relationship being made
  */
 export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1736,7 +1736,7 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequests = end
  * @param relatedGroupId The id of the group you want to accept the relationship request with.
  */
 export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedgroupid = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1784,7 +1784,7 @@ export const postGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedg
  * @param relatedGroupId The id of the group you want to accept the relationship request with.
  */
 export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelatedgroupid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/groups/:groupId/relationships/:groupRelationshipType/requests/:relatedGroupId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1830,7 +1830,7 @@ export const deleteGroupsGroupidRelationshipsGrouprelationshiptypeRequestsRelate
  * @param groupId The group id.
  */
 export const getGroupsGroupidRoles = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/roles',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1857,7 +1857,7 @@ export const getGroupsGroupidRoles = endpoint({
  * @param roleSetId The group's role set id.
  */
 export const getGroupsGroupidRolesRolesetidPermissions = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/roles/:roleSetId/permissions',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1898,7 +1898,7 @@ export const getGroupsGroupidRolesRolesetidPermissions = endpoint({
  * @param roleSetId The roleset's id.
  */
 export const patchGroupsGroupidRolesRolesetidPermissions = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/groups/:groupId/roles/:roleSetId/permissions',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1945,7 +1945,7 @@ export const patchGroupsGroupidRolesRolesetidPermissions = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidRolesRolesetidUsers = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/roles/:roleSetId/users',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -1997,7 +1997,7 @@ export const getGroupsGroupidRolesRolesetidUsers = endpoint({
  * @param groupId The group id.
  */
 export const getGroupsGroupidRolesGuestPermissions = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/roles/guest/permissions',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2023,7 +2023,7 @@ export const getGroupsGroupidRolesGuestPermissions = endpoint({
  * @param groupId The group id.
  */
 export const getGroupsGroupidRolesPermissions = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/roles/permissions',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2050,7 +2050,7 @@ export const getGroupsGroupidRolesPermissions = endpoint({
  * @param rolesetId The roleset Id.
  */
 export const deleteGroupsGroupidRolesetsRolesetid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/groups/:groupId/rolesets/:rolesetId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2095,7 +2095,7 @@ export const deleteGroupsGroupidRolesetsRolesetid = endpoint({
  * @param rolesetId The roleset Id.
  */
 export const patchGroupsGroupidRolesetsRolesetid = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/groups/:groupId/rolesets/:rolesetId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2145,7 +2145,7 @@ export const patchGroupsGroupidRolesetsRolesetid = endpoint({
  * @param groupId The group Id.
  */
 export const postGroupsGroupidRolesetsCreate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/rolesets/create',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2192,7 +2192,7 @@ export const postGroupsGroupidRolesetsCreate = endpoint({
  * @param groupId The id of the group the user is in.
  */
 export const getGroupsGroupidSettings = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/settings',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2227,7 +2227,7 @@ export const getGroupsGroupidSettings = endpoint({
  * @param groupId The id of the group the user is in.
  */
 export const patchGroupsGroupidSettings = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/groups/:groupId/settings',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2268,7 +2268,7 @@ export const patchGroupsGroupidSettings = endpoint({
  * @param groupId The Id of the game
  */
 export const getGroupsGroupidSocialLinks = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/social-links',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2307,7 +2307,7 @@ export const getGroupsGroupidSocialLinks = endpoint({
  * @param groupId The id of the game
  */
 export const postGroupsGroupidSocialLinks = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/social-links',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2358,7 +2358,7 @@ export const postGroupsGroupidSocialLinks = endpoint({
  * @param socialLinkId The id of the social link
  */
 export const deleteGroupsGroupidSocialLinksSociallinkid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/groups/:groupId/social-links/:socialLinkId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2406,7 +2406,7 @@ export const deleteGroupsGroupidSocialLinksSociallinkid = endpoint({
  * @param socialLinkId The id of the social link being updated
  */
 export const patchGroupsGroupidSocialLinksSociallinkid = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/groups/:groupId/social-links/:socialLinkId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2466,7 +2466,7 @@ export const patchGroupsGroupidSocialLinksSociallinkid = endpoint({
  * @param groupId The group Id.
  */
 export const patchGroupsGroupidStatus = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/groups/:groupId/status',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2508,7 +2508,7 @@ export const patchGroupsGroupidStatus = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidUsers = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/users',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2553,7 +2553,7 @@ export const getGroupsGroupidUsers = endpoint({
  * @param groupId The group Id.
  */
 export const postGroupsGroupidUsers = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/users',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2606,7 +2606,7 @@ export const postGroupsGroupidUsers = endpoint({
  * @param userId The Id of the user being removed.
  */
 export const deleteGroupsGroupidUsersUserid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/groups/:groupId/users/:userId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2653,7 +2653,7 @@ export const deleteGroupsGroupidUsersUserid = endpoint({
  * @param userId The id of the user being updated.
  */
 export const patchGroupsGroupidUsersUserid = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/groups/:groupId/users/:userId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2703,7 +2703,7 @@ export const patchGroupsGroupidUsersUserid = endpoint({
  * @param userId The user id.
  */
 export const getGroupsGroupidUsersUseridPermissions = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/users/:userId/permissions',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2740,7 +2740,7 @@ export const getGroupsGroupidUsersUseridPermissions = endpoint({
  * @param sortOrder Sorted by group wall post Id
  */
 export const getGroupsGroupidWallPosts = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/:groupId/wall/posts',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2789,7 +2789,7 @@ export const getGroupsGroupidWallPosts = endpoint({
  * @param groupId The group id.
  */
 export const postGroupsGroupidWallPosts = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/wall/posts',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2836,7 +2836,7 @@ export const postGroupsGroupidWallPosts = endpoint({
  * @param postId The group wall post id.
  */
 export const deleteGroupsGroupidWallPostsPostid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/groups/:groupId/wall/posts/:postId',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2876,7 +2876,7 @@ export const deleteGroupsGroupidWallPostsPostid = endpoint({
  * @param groupId The group id.
  */
 export const postGroupsGroupidWallSubscribe = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/:groupId/wall/subscribe',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2912,7 +2912,7 @@ export const postGroupsGroupidWallSubscribe = endpoint({
  * @param userId The user id.
  */
 export const deleteGroupsGroupidWallUsersUseridPosts = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/groups/:groupId/wall/users/:userId/posts',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2951,7 +2951,7 @@ export const deleteGroupsGroupidWallUsersUseridPosts = endpoint({
  * @summary Gets Group configuration contextual information
  */
 export const getGroupsConfigurationMetadata = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/configuration/metadata',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -2966,7 +2966,7 @@ export const getGroupsConfigurationMetadata = endpoint({
 Http status code 413 is thrown when the group icon file size is too large.
  */
 export const postGroupsCreate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/create',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'form-data',
@@ -3023,7 +3023,7 @@ export const postGroupsCreate = endpoint({
  * @param groupId The group Id.
  */
 export const patchGroupsIcon = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/groups/icon',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'form-data',
@@ -3070,7 +3070,7 @@ Current number of groups a user is a member of.
 Whether to show/hide certain features based on device type.
  */
 export const getGroupsMetadata = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/metadata',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -3083,7 +3083,7 @@ export const getGroupsMetadata = endpoint({
  * @param body
  */
 export const postGroupsPolicies = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/groups/policies',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -3118,7 +3118,7 @@ export const postGroupsPolicies = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  */
 export const getGroupsSearch = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/search',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -3166,7 +3166,7 @@ export const getGroupsSearch = endpoint({
  * @description Should only be used for direct lookups where a user is inputting a group name, shouldn't be used for search pages.
  */
 export const getGroupsSearchLookup = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/search/lookup',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -3194,7 +3194,7 @@ export const getGroupsSearchLookup = endpoint({
 we will use coco to return different suggested groups based upon that user's request context
  */
 export const getGroupsSearchMetadata = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/groups/search/metadata',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -3212,7 +3212,7 @@ export const getGroupsSearchMetadata = endpoint({
  * @param ids A list of role ids
  */
 export const getRoles = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/roles',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -3238,7 +3238,7 @@ export const getRoles = endpoint({
  * @summary Gets groups that the authenticated user has requested to join
  */
 export const getUserGroupsPending = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/user/groups/pending',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -3256,7 +3256,7 @@ export const getUserGroupsPending = endpoint({
  * @param body The request body containing the group id.
  */
 export const postUserGroupsPrimary = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/user/groups/primary',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -3287,7 +3287,7 @@ export const postUserGroupsPrimary = endpoint({
  * @summary Removes the authenticated user's primary group
  */
 export const deleteUserGroupsPrimary = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/user/groups/primary',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -3309,7 +3309,7 @@ export const deleteUserGroupsPrimary = endpoint({
  * @param userId The user id.
  */
 export const getUsersUseridFriendsGroupsRoles = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/friends/groups/roles',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -3339,7 +3339,7 @@ export const getUsersUseridFriendsGroupsRoles = endpoint({
  * @param userId The user id.
  */
 export const getUsersUseridGroupsPrimaryRole = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/groups/primary/role',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
@@ -3367,7 +3367,7 @@ export const getUsersUseridGroupsPrimaryRole = endpoint({
  * @param includeNotificationPreferences
  */
 export const getUsersUseridGroupsRoles = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/groups/roles',
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',

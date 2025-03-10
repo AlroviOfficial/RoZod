@@ -1,0 +1,100 @@
+import { z } from "zod";
+import { endpoint } from "../..";
+
+{{#if imports}}
+{{#each imports}}
+import { {{{@key}}} } from "./{{{this}}}"
+{{/each}}
+{{/if}}
+
+{{#if types}}
+{{#each types}}
+{{{this}}};
+{{/each}}
+{{/if}}
+
+{{#each schemas}}
+const {{@key}}{{#if (lookup ../circularTypeByName @key)}}: z.ZodType<{{@key}}>{{/if}} = {{{regexReplace this "\.passthrough\(\)" ""}}};
+{{/each}}
+
+{{#each endpoints}}
+/**
+ * @api {{toUpperCase method}} {{#if @root.options.baseUrl}}{{@root.options.baseUrl}}{{/if}}{{path}}
+ {{#if summary}}
+ * @summary {{{summary}}}
+ {{/if}}
+ {{#if parameters}}
+ {{#each parameters}}
+ * @param {{{name}}} {{{description}}}
+ {{/each}}
+ {{/if}}
+ {{#if tags}}
+ * @tags {{{tags}}}
+ {{/if}}
+ {{#if description}}
+ * @description {{{description}}}
+ {{/if}}
+ */
+export const {{normalizePathForJS method path}} = endpoint({
+	method: "{{toUpperCase method}}",
+	path: "{{path}}",
+	{{#if @root.options.baseUrl}}
+	baseUrl: "{{@root.options.baseUrl}}",
+	{{/if}}
+	{{#if style}}
+	style: `{{style}}`,
+	{{/if}}
+	{{#if requestFormat}}
+	requestFormat: "{{requestFormat}}",
+	{{/if}}
+	{{#if parameters}}
+	serializationMethod: { 
+	  {{#each parameters}}
+	    "{{name}}": {
+	      {{#if style}}
+	        "style": "{{style}}",
+	      {{/if}}
+	      {{#if explode}}
+	        "explode": true
+	      {{/if}}
+	    }{{#unless @last}},{{/unless}}
+	  {{/each}}
+	},
+	parameters: {
+		{{#each parameters}}
+		{{!-- If not equal to body --}}
+		{{#ifeq name "body"}}
+		{{else}}
+		"{{name}}": {{{regexReplace schema "\.passthrough\(\)" ""}}},
+		{{/ifeq}}
+		{{/each}}
+	},
+	{{!-- If name is "body" inside a parameter, add that here --}}
+	{{#each parameters}}
+	{{#ifeq name "body"}}
+	body: {{{regexReplace schema "\.passthrough\(\)" ""}}},
+	{{/ifeq}}
+	{{/each}}
+	{{/if}}
+	response: {{{regexReplace response "\.passthrough\(\)" ""}}},
+	{{#if errors.length}}
+	errors: [
+		{{#each errors}}
+		{
+			{{#ifeq status "default" }}
+			status: "default",
+			{{else}}
+			status: {{status}},
+			{{/ifeq}}
+			{{#if description}}
+			description: `{{description}}`,
+			{{/if}}
+		},
+		{{/each}}
+	]
+	{{/if}}
+	{{#unless errors.length}}
+	errors: [],
+	{{/unless}}
+});
+{{/each}}

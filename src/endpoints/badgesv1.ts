@@ -107,7 +107,7 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Badges_Api_BadgeAwardResp
  * @param badgeId The badge Id.
  */
 export const getBadgesBadgeid = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/badges/:badgeId',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
@@ -134,7 +134,7 @@ export const getBadgesBadgeid = endpoint({
  * @param badgeId The badge Id.
  */
 export const patchBadgesBadgeid = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/badges/:badgeId',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
@@ -176,7 +176,7 @@ export const patchBadgesBadgeid = endpoint({
  * @summary Gets metadata about the badges system.
  */
 export const getBadgesMetadata = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/badges/metadata',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
@@ -193,7 +193,7 @@ export const getBadgesMetadata = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUniversesUniverseidBadges = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/universes/:universeId/badges',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
@@ -243,7 +243,7 @@ export const getUniversesUniverseidBadges = endpoint({
  * @param universeId The ID of the universe to create the badge for.
  */
 export const postUniversesUniverseidBadges = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/universes/:universeId/badges',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'form-data',
@@ -294,7 +294,7 @@ export const postUniversesUniverseidBadges = endpoint({
  * @param universeId The universe Id.
  */
 export const getUniversesUniverseidFreeBadgesQuota = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/universes/:universeId/free-badges-quota',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
@@ -321,7 +321,7 @@ export const getUniversesUniverseidFreeBadgesQuota = endpoint({
  * @param badgeId The badge Id.
  */
 export const deleteUserUseridBadgesBadgeid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/user/:userId/badges/:badgeId',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
@@ -359,7 +359,7 @@ export const deleteUserUseridBadgesBadgeid = endpoint({
  * @param badgeId The badge Id.
  */
 export const deleteUserBadgesBadgeid = endpoint({
-  method: 'delete',
+  method: 'DELETE',
   path: '/v1/user/badges/:badgeId',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
@@ -396,7 +396,7 @@ export const deleteUserBadgesBadgeid = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridBadges = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/badges',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
@@ -441,7 +441,7 @@ export const getUsersUseridBadges = endpoint({
  * @param badgeId Badge id.
  */
 export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/badges/:badgeId/awarded-date',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
@@ -472,7 +472,7 @@ export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
  * @param badgeIds The CSV of badge Ids.
  */
 export const getUsersUseridBadgesAwardedDates = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/badges/awarded-dates',
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',

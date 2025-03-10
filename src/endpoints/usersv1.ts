@@ -99,7 +99,7 @@ const Roblox_Users_Api_SetDisplayNameRequest = z.object({
  * @summary Get the user's birthdate
  */
 export const getBirthdate = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/birthdate',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -121,7 +121,7 @@ export const getBirthdate = endpoint({
  * @param body The Roblox.Users.Api.BirthdateRequest
  */
 export const postBirthdate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/birthdate',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -160,7 +160,7 @@ export const postBirthdate = endpoint({
  * @summary Get the user's description
  */
 export const getDescription = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/description',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -182,7 +182,7 @@ export const getDescription = endpoint({
  * @param body The Roblox.Users.Api.DescriptionRequest
  */
 export const postDescription = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/description',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -223,7 +223,7 @@ export const postDescription = endpoint({
  * @param birthdate The new user's birthdate
  */
 export const getDisplayNamesValidate = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/display-names/validate',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -263,7 +263,7 @@ export const getDisplayNamesValidate = endpoint({
  * @summary Get the user's gender
  */
 export const getGender = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/gender',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -285,7 +285,7 @@ export const getGender = endpoint({
  * @param body The Roblox.Users.Api.GenderRequest
  */
 export const postGender = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/gender',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -324,7 +324,7 @@ export const postGender = endpoint({
 Does not require X-CSRF-Token protection because this is essentially a get request but as a POST to avoid URI limits.
  */
 export const postUsernamesUsers = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/usernames/users',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -348,7 +348,7 @@ export const postUsernamesUsers = endpoint({
  * @description Does not require X-CSRF-Token protection because this is essentially a get request but as a POST to avoid URI limits.
  */
 export const postUsers = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/users',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -371,7 +371,7 @@ export const postUsers = endpoint({
  * @param userId The user id.
  */
 export const getUsersUserid = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -398,7 +398,7 @@ export const getUsersUserid = endpoint({
  * @param userId the user id
  */
 export const patchUsersUseridDisplayNames = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/users/:userId/display-names',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -444,7 +444,7 @@ export const patchUsersUseridDisplayNames = endpoint({
  * @param displayName The display name.
  */
 export const getUsersUseridDisplayNamesValidate = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/display-names/validate',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -494,7 +494,7 @@ export const getUsersUseridDisplayNamesValidate = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridUsernameHistory = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/username-history',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -537,7 +537,7 @@ export const getUsersUseridUsernameHistory = endpoint({
  * @summary Gets the minimal authenticated user.
  */
 export const getUsersAuthenticated = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/authenticated',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -554,7 +554,7 @@ export const getUsersAuthenticated = endpoint({
  * @summary Gets the age bracket of the authenticated user.
  */
 export const getUsersAuthenticatedAgeBracket = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/authenticated/age-bracket',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -571,7 +571,7 @@ export const getUsersAuthenticatedAgeBracket = endpoint({
  * @summary Gets the country code of the authenticated user.
  */
 export const getUsersAuthenticatedCountryCode = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/authenticated/country-code',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -588,7 +588,7 @@ export const getUsersAuthenticatedCountryCode = endpoint({
  * @summary Gets the (public) roles of the authenticated user, such as `"Soothsayer"` and `"BetaTester"`.
  */
 export const getUsersAuthenticatedRoles = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/authenticated/roles',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
@@ -609,7 +609,7 @@ export const getUsersAuthenticatedRoles = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  */
 export const getUsersSearch = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/search',
   baseUrl: 'https://users.roblox.com',
   requestFormat: 'json',
