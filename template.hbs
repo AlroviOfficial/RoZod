@@ -36,7 +36,7 @@ const {{@key}}{{#if (lookup ../circularTypeByName @key)}}: z.ZodType<{{@key}}>{{
  {{/if}}
  */
 export const {{alias}} = endpoint({
-	method: "{{method}}",
+	method: "{{toUpperCase method}}",
 	path: "{{path}}",
 	{{#if @root.options.baseUrl}}
 	baseUrl: "{{@root.options.baseUrl}}",

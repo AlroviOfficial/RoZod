@@ -9,7 +9,7 @@ import {
   GENERIC_CHALLENGE_TYPE_HEADER,
 } from 'parse-roblox-errors';
 
-type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
+type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 type RequestFormat = 'json' | 'text' | 'form-data';
 
 type SerializationMethod = Record<string, { style?: string; explode?: boolean }>;
