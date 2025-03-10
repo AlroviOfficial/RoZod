@@ -373,7 +373,7 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV1 = z.object({
  * @summary Returns details about the authenticated user's avatar
  */
 export const getAvatar = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/avatar',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -394,7 +394,7 @@ Does not include packages because they cannot be worn on your avatar directly.
 PlayerAvatarTypes are the types of avatars you can choose between.
  */
 export const getAvatarRules = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/avatar-rules',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -407,7 +407,7 @@ export const getAvatarRules = endpoint({
  * @param assetId The asset id.
  */
 export const postAvatarAssetsAssetidRemove = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/avatar/assets/:assetId/remove',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -443,7 +443,7 @@ export const postAvatarAssetsAssetidRemove = endpoint({
  * @param assetId The asset id.
  */
 export const postAvatarAssetsAssetidWear = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/avatar/assets/:assetId/wear',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -477,7 +477,7 @@ export const postAvatarAssetsAssetidWear = endpoint({
  * @summary Returns metadata used by the avatar page of the website
  */
 export const getAvatarMetadata = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/avatar/metadata',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -489,7 +489,7 @@ export const getAvatarMetadata = endpoint({
  * @summary Requests the authenticated user's thumbnail be redrawn
  */
 export const postAvatarRedrawThumbnail = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/avatar/redraw-thumbnail',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -516,7 +516,7 @@ export const postAvatarRedrawThumbnail = endpoint({
  * @param body
  */
 export const postAvatarSetBodyColors = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/avatar/set-body-colors',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -544,7 +544,7 @@ export const postAvatarSetBodyColors = endpoint({
  * @description This is the avatar type chosen on the Avatar page. Some games can override this and force your character to be R6 or R15.
  */
 export const postAvatarSetPlayerAvatarType = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/avatar/set-player-avatar-type',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -576,7 +576,7 @@ export const postAvatarSetPlayerAvatarType = endpoint({
  * @param body
  */
 export const postAvatarSetScales = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/avatar/set-scales',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -611,7 +611,7 @@ export const postAvatarSetScales = endpoint({
 Any assets being worn before this method is called are automatically removed.
  */
 export const postAvatarSetWearingAssets = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/avatar/set-wearing-assets',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -648,7 +648,7 @@ During mixed mode this may return unreliable results.
  * @param universeId 
  */
 export const getGameStartInfo = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/game-start-info',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -672,7 +672,7 @@ export const getGameStartInfo = endpoint({
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types. Accepts partial updates.
  */
 export const patchOutfitsUseroutfitid = endpoint({
-  method: 'patch',
+  method: 'PATCH',
   path: '/v1/outfits/:userOutfitId',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -719,7 +719,7 @@ export const patchOutfitsUseroutfitid = endpoint({
  * @description You are only allowed to delete outfits you created.
  */
 export const postOutfitsUseroutfitidDelete = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/outfits/:userOutfitId/delete',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -757,7 +757,7 @@ export const postOutfitsUseroutfitidDelete = endpoint({
  * @param userOutfitId
  */
 export const getOutfitsUseroutfitidDetails = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/outfits/:userOutfitId/details',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -790,7 +790,7 @@ export const getOutfitsUseroutfitidDetails = endpoint({
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
  */
 export const postOutfitsUseroutfitidUpdate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/outfits/:userOutfitId/update',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -838,7 +838,7 @@ export const postOutfitsUseroutfitidUpdate = endpoint({
 The name property of the request is optional as one will be auto-generated when the request has a null name.
  */
 export const postOutfitsCreate = endpoint({
-  method: 'post',
+  method: 'POST',
   path: '/v1/outfits/create',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -879,7 +879,7 @@ Recent items can be Assets or Outfits
  * @param recentItemListType 
  */
 export const getRecentItemsRecentitemlisttypeList = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/recent-items/:recentItemListType/list',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -914,7 +914,7 @@ export const getRecentItemsRecentitemlisttypeList = endpoint({
  * @description Includes assets, bodycolors, and playerAvatarType.
  */
 export const getUsersUseridAvatar = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/avatar',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -941,7 +941,7 @@ export const getUsersUseridAvatar = endpoint({
  * @param userId The user id.
  */
 export const getUsersUseridCurrentlyWearing = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/currently-wearing',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
@@ -973,7 +973,7 @@ Gets a list of outfits for the specified user.
  * @param isEditable Whether the outfits are editable. A null value will lead to no filtering.
  */
 export const getUsersUseridOutfits = endpoint({
-  method: 'get',
+  method: 'GET',
   path: '/v1/users/:userId/outfits',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
