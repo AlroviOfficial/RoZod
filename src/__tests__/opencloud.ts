@@ -74,7 +74,7 @@ describe('OpenCloud v1 Assets API', () => {
 
 describe('OpenCloud v2 Cloud API', () => {
   test('Get Experience Info', () => {
-    fetchApi(OpenCloud.v2.cloud.getCloudV2UniversesUniverseId, {
+    fetchApi(OpenCloud.v2.getCloudV2UniversesUniverseId, {
       universe_id: '1534453623',
     }).catch((error: Error) => {
       // Expect unauthorized error since we don't have API key
