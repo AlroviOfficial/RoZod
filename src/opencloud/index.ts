@@ -32,7 +32,7 @@ export const v1 = {
  * OpenCloud v2 APIs
  * @description Roblox OpenCloud v2 APIs
  */
-export const v2 = CloudV2
+export const v2 = CloudV2;
 
 // Named exports for direct access
 export { UniversesV1, MessagingV1, DatastoresV1, DatastoresOrderedV1, AssetsV1, CloudV2 };
