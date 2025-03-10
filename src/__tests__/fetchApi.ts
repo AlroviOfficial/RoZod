@@ -45,7 +45,7 @@ test('fetch raw', () => {
 // Custom endpoint. Won't work either, as we are not authenticated.
 test('fetch omni recommendations', () => {
   const omni = endpoint({
-    method: 'post',
+    method: 'POST',
     baseUrl: 'https://apis.roblox.com/',
     path: 'discovery-api/omni-recommendation-metadata',
     requestFormat: 'json',

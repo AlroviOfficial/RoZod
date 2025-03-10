@@ -27,7 +27,7 @@ describe('Path parameters in URL construction', () => {
   // Test for path parameters not being duplicated as query parameters
   test('path parameters are not duplicated as query parameters', async () => {
     const testEndpoint = endpoint({
-      method: 'get',
+      method: 'GET',
       baseUrl: 'https://apis.roblox.com',
       path: '/users/:userId/info',
       response: z.object({
@@ -45,7 +45,7 @@ describe('Path parameters in URL construction', () => {
   // Test for multiple path parameters
   test('multiple path parameters are correctly replaced', async () => {
     const testEndpoint = endpoint({
-      method: 'get',
+      method: 'GET',
       baseUrl: 'https://apis.roblox.com',
       path: '/groups/:groupId/users/:userId/role',
       response: z.object({
@@ -64,7 +64,7 @@ describe('Path parameters in URL construction', () => {
   // Test for mix of path and query parameters
   test('mix of path and query parameters are handled correctly', async () => {
     const testEndpoint = endpoint({
-      method: 'get',
+      method: 'GET',
       baseUrl: 'https://apis.roblox.com',
       path: '/users/:userId/friends',
       response: z.object({
@@ -84,7 +84,7 @@ describe('Path parameters in URL construction', () => {
   // Test for path parameter with same name as a query parameter
   test('path parameter is not duplicated as query even when query parameter has same name', async () => {
     const testEndpoint = endpoint({
-      method: 'get',
+      method: 'GET',
       baseUrl: 'https://apis.roblox.com',
       path: '/users/:userId',
       response: z.object({
@@ -104,7 +104,7 @@ describe('Path parameters in URL construction', () => {
   test('real endpoint with path parameter', async () => {
     // Import a real endpoint from the project that uses path parameters
     const usersEndpoint = endpoint({
-      method: 'get',
+      method: 'GET',
       baseUrl: 'https://users.roblox.com/v1',
       path: '/users/:userId',
       response: z.object({
