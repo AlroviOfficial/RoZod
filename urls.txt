@@ -52,6 +52,7 @@ https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/chat/v2.json
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/privatemessages/v1.json
 
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/trades/v1.json
+https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/trades/v2.json
 
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/itemconfiguration/v1.json
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/publish/v1.json

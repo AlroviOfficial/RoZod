@@ -3,7 +3,10 @@ import { Cache, ChromeStore, LocalStorageStore, MemoryStore } from './cache';
 import { HBAClient } from 'roblox-bat';
 import {
   type ParsedChallenge,
+  type AnyError,
   parseChallengeHeaders,
+  parseBEDEV1Error,
+  parseBEDEV2Error,
   GENERIC_CHALLENGE_ID_HEADER,
   GENERIC_CHALLENGE_METADATA_HEADER,
   GENERIC_CHALLENGE_TYPE_HEADER,
@@ -58,18 +61,27 @@ type InferNonEmpty<T extends Record<string, z.Schema<any>>> = Merge<
   { [K in InferZodObjectOptional<T>]?: z.infer<T[K]> }
 >;
 
-const endpoint = <T extends Record<string, z.Schema<any>>, U extends z.ZodTypeAny, E extends z.ZodTypeAny>(
+const endpoint = <
+  T extends Record<string, z.Schema<any>>,
+  U extends z.ZodTypeAny,
+  E extends z.ZodTypeAny | undefined = undefined,
+>(
   endpoint: EndpointGeneric<T, U, E>,
 ): EndpointGeneric<InferNonEmpty<T>, z.infer<U>, E extends z.ZodTypeAny ? z.infer<E> : undefined> => {
   return endpoint as any;
 };
 
 // Extract the parameter, and also include the body as a parameter, if it exists. Parameters shouldn't be undefined if body exists
+// true only when T is exactly undefined (not when T is a union including undefined)
+type IsExactlyUndefined<T> = [T] extends [undefined]
+  ? ([undefined] extends [T] ? true : false)
+  : false;
+
 type ExtractParams<S extends EndpointGeneric<any, any, any>> = S['parameters'] extends undefined
-  ? S['body'] extends undefined
+  ? IsExactlyUndefined<S['body']> extends true
     ? undefined
     : { body: S['body'] }
-  : S['body'] extends undefined
+  : IsExactlyUndefined<S['body']> extends true
     ? S['parameters']
     : S['parameters'] & { body: S['body'] };
 
@@ -84,7 +96,7 @@ function extractDefaultValues<S extends EndpointSchema>(endpoint: S): Partial<Ex
   for (const key of paramKeys) {
     const schema = endpoint.parameters?.[key as string];
     if (schema instanceof z.ZodDefault) {
-      (defaultValues as Record<string, unknown>)[key as string] = schema._def.defaultValue();
+      (defaultValues as Record<string, unknown>)[key as string] = schema._zod.def.defaultValue;
     }
   }
 
@@ -136,17 +148,18 @@ function serializeQueryParam(key: string, value: any, serializationMethod?: Seri
   return explode ? mapStr(value, `&${key}=`) : mapStr(value, joinTbl[style]);
 }
 
-function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams: ExtractParams<S>) {
+function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams: ExtractParams<S> | undefined) {
   let processedPath = endpoint.path;
   const queryParams: Record<string, string> = {};
   const usedPathParams: Set<string> = new Set();
+  const paramsObject = (extendedParams ?? {}) as Record<string, any>;
 
   // First pass: identify path parameters
-  for (const key in extendedParams) {
-    if (!{}.hasOwnProperty.call(extendedParams, key)) continue;
+  for (const key in paramsObject) {
+    if (!Object.hasOwn(paramsObject, key)) continue;
     if (key === 'body') continue;
 
-    const value = extendedParams[key];
+    const value = paramsObject[key];
     const pathParamPattern = new RegExp(`:${key}`);
 
     // Check if this is a path parameter
@@ -157,11 +170,11 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
   }
 
   // Second pass: add remaining parameters as query parameters
-  for (const key in extendedParams) {
-    if (!{}.hasOwnProperty.call(extendedParams, key)) continue;
+  for (const key in paramsObject) {
+    if (!Object.hasOwn(paramsObject, key)) continue;
     if (key === 'body' || usedPathParams.has(key)) continue;
 
-    const value = extendedParams[key];
+    const value = paramsObject[key];
     const serializedValue = serializeQueryParam(key, value, endpoint.serializationMethod);
     if (serializedValue !== undefined) {
       queryParams[key] = serializedValue;
@@ -333,11 +346,41 @@ interface TypedJsonResponse<T> extends Response {
  * @param requestOptions Any additional options to pass to fetch.
  * @returns The response from the endpoint.
  */
-async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
+// Overloads for returnRaw: presence of returnRaw: true is required
+async function fetchApi<S extends EndpointSchema>(
   endpoint: S,
   params: ExtractParams<S>,
-  requestOptions?: RequestOptions<R>,
-): Promise<R extends false ? ExtractResponse<S> : TypedJsonResponse<ExtractResponse<S>>>;
+  requestOptions: Omit<RequestOptions<true>, 'returnRaw'> & { returnRaw: true },
+): Promise<TypedJsonResponse<ExtractResponse<S>>>;
+async function fetchApi<S extends EndpointSchema>(
+  endpoint: S & { parameters?: undefined },
+  params: ExtractParams<S> | undefined,
+  requestOptions: Omit<RequestOptions<true>, 'returnRaw'> & { returnRaw: true },
+): Promise<TypedJsonResponse<ExtractResponse<S>>>;
+
+// Overloads for throwOnError: true (and not returnRaw)
+async function fetchApi<S extends EndpointSchema>(
+  endpoint: S,
+  params: ExtractParams<S>,
+  requestOptions: Omit<RequestOptions<false>, 'throwOnError' | 'returnRaw'> & { throwOnError: true; returnRaw?: false },
+): Promise<ExtractResponse<S>>;
+async function fetchApi<S extends EndpointSchema>(
+  endpoint: S & { parameters?: undefined },
+  params: ExtractParams<S> | undefined,
+  requestOptions: Omit<RequestOptions<false>, 'throwOnError' | 'returnRaw'> & { throwOnError: true; returnRaw?: false },
+): Promise<ExtractResponse<S>>;
+
+// Default overloads (no returnRaw and throwOnError not true): may return AnyError
+async function fetchApi<S extends EndpointSchema>(
+  endpoint: S,
+  params: ExtractParams<S>,
+  requestOptions?: Omit<RequestOptions<false>, 'returnRaw'> & { returnRaw?: false },
+): Promise<ExtractResponse<S> | AnyError>;
+async function fetchApi<S extends EndpointSchema>(
+  endpoint: S & { parameters?: undefined },
+  params?: ExtractParams<S>,
+  requestOptions?: Omit<RequestOptions<false>, 'returnRaw'> & { returnRaw?: false },
+): Promise<ExtractResponse<S> | AnyError>;
 
 /**
  * Fetches the data from the given endpoint and returns it.
@@ -347,11 +390,14 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
  * @param requestOptions Any additional options to pass to fetch.
  * @returns The response from the endpoint.
  */
+// Back-compat generic signature (less precise)
 async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
-  endpoint: S & { parameters?: undefined },
-  params?: ExtractParams<S>,
+  endpoint: S,
+  params: ExtractParams<S> | undefined,
   requestOptions?: RequestOptions<R>,
-): Promise<R extends false ? ExtractResponse<S> : TypedJsonResponse<ExtractResponse<S>>>;
+): Promise<
+  R extends true ? TypedJsonResponse<ExtractResponse<S>> : ExtractResponse<S> | AnyError
+>;
 
 /**
  * Fetches the data from the given endpoint and returns it.
@@ -365,7 +411,9 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
   endpoint: S,
   params?: ExtractParams<S>,
   requestOptions: RequestOptions<R> = { mode: 'cors', credentials: 'include' },
-): Promise<R extends false ? ExtractResponse<S> : TypedJsonResponse<ExtractResponse<S>>> {
+): Promise<
+  R extends true ? TypedJsonResponse<ExtractResponse<S>> : ExtractResponse<S> | AnyError
+> {
   const { method, requestFormat = 'json' } = endpoint;
   const defaultValues = extractDefaultValues(endpoint);
   const extendedParams = { ...defaultValues, ...params } as ExtractParams<S>;
@@ -405,26 +453,57 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
     method,
   );
 
-  const error = endpoint.errors?.find(({ status }) => status === response.status);
-  if (error) {
-    if (requestOptions.throwOnError === true) {
-      throw new Error(error.description);
-    } else {
-      return error.description as any;
-    }
-  }
-
   if (requestOptions.returnRaw) {
     return response;
+  }
+
+  // Parse and return structured AnyError for non-OK responses
+  if (!response.ok) {
+    const baseLower = (endpoint.baseUrl ?? '').toLowerCase();
+    const isRobloxDomain = baseLower.includes('roblox.com');
+
+    let parsedError: AnyError;
+    if (isRobloxDomain) {
+      const useV2 = baseLower.includes('apis.roblox.com');
+      const parsedErrors = await (useV2 ? parseBEDEV2Error(response) : parseBEDEV1Error(response));
+      parsedError = Array.isArray(parsedErrors)
+        ? parsedErrors[0] ?? { message: 'Unknown error' }
+        : (parsedErrors as unknown as AnyError);
+    } else {
+      // Generic fallback for non-roblox domains: best-effort textual message
+      try {
+        const contentType = response.headers.get('content-type') ?? '';
+        if (contentType.includes('application/json')) {
+          const json: any = await response.json();
+          const jsonMessage = typeof json?.message === 'string' ? json.message : JSON.stringify(json);
+          parsedError = { message: jsonMessage };
+        } else {
+          const text = await response.text();
+          parsedError = { message: text?.slice(0, 1000) || response.statusText || `HTTP ${response.status}` };
+        }
+      } catch {
+        parsedError = { message: response.statusText || `HTTP ${response.status}` };
+      }
+    }
+
+    if (requestOptions.throwOnError === true) {
+      throw new Error(parsedError.userFacingMessage ?? parsedError.message);
+    }
+
+    return parsedError as any;
   }
 
   const reponseFormat = response.headers.get('content-type')?.includes('application/json') ? 'json' : 'text';
 
   if (reponseFormat === 'json' && !response.headers.get('content-type')?.includes('application/json')) {
-    throw new Error('Invalid response data');
+    const invalidDataError: AnyError = { message: 'Invalid response data' };
+    if (requestOptions.throwOnError === true) {
+      throw new Error(invalidDataError.message);
+    }
+    return invalidDataError as any;
   }
 
-  if (requestOptions.cacheTime && cacheKey) {
+  if (response.ok && requestOptions.cacheTime && cacheKey) {
     const responseClone = response.clone();
     const cacheTime = requestOptions.cacheTime;
     setTimeout(() => {
@@ -437,7 +516,20 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
     );
   }
 
-  return reponseFormat === 'json' ? await response.json() : await response.text();
+  const successPayload =
+    reponseFormat === 'json'
+      ? ((await response.json()) as ExtractResponse<S>)
+      : ((await response.text()) as unknown as ExtractResponse<S>);
+
+  return successPayload as any;
+}
+
+export function isAnyErrorResponse<T>(value: T | AnyError): value is AnyError;
+export function isAnyErrorResponse<T>(value: T[] | AnyError): value is AnyError;
+export function isAnyErrorResponse(value: unknown): value is AnyError {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const candidate = value as Record<string, unknown>;
+  return typeof candidate['message'] === 'string';
 }
 
 /**
@@ -461,40 +553,47 @@ async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
   max?: Partial<{ [K in keyof ExtractParams<S>]: number }>,
   transform: (response: ExtractResponse<S>) => T = (response: ExtractResponse<S>) => response as unknown as T,
   requestOptions?: RequestOptions,
-): Promise<T[]> {
+): Promise<T[] | AnyError> {
   const fetchTransformed = async (transformparams: ExtractParams<S>) => {
     const response = await fetchApi(endpoint, transformparams, requestOptions);
-    return transform ? transform(response) : (response as T);
+    if (isAnyErrorResponse(response)) return response;
+    return transform ? transform(response as ExtractResponse<S>) : (response as T);
   };
 
   if (!max) {
-    return [await fetchTransformed(params)];
+    const single = await fetchTransformed(params);
+    if (isAnyErrorResponse(single)) return single;
+    return [single as T];
   }
 
   const splitParams: ExtractParams<S>[] = [];
+  const paramsObj = (params ?? {}) as Record<string, unknown>;
   for (const key in max) {
-    if (!Object.hasOwn(max, key) || !{}.hasOwnProperty.call(params, key)) {
+    if (!Object.hasOwn(max, key) || !Object.hasOwn(paramsObj, key)) {
       continue;
     }
     const maxItems = max[key as keyof ExtractParams<S>];
-    const items = params[key];
+    const items = paramsObj[key];
     if (Array.isArray(items)) {
       for (let i = 0; i < items.length; i = i + (maxItems || 1)) {
         const itemsSubset = items.slice(i, i + (maxItems || 1));
-        const newParams = { ...params, [key]: itemsSubset } as ExtractParams<S>;
+        const newParams = { ...paramsObj, [key]: itemsSubset } as ExtractParams<S>;
         splitParams.push(newParams);
       }
     }
   }
 
   if (splitParams.length === 0) {
-    return [await fetchTransformed(params)];
+    const single = await fetchTransformed(params);
+    if (isAnyErrorResponse(single)) return single;
+    return [single as T];
   }
 
   const promises = splitParams.map(fetchTransformed);
   const allResults = await Promise.all(promises);
-
-  return allResults;
+  const firstError = allResults.find((r) => isAnyErrorResponse(r));
+  if (firstError) return firstError as AnyError;
+  return allResults as T[];
 }
 
 /**
@@ -511,20 +610,18 @@ async function fetchApiPages<S extends EndpointSchema>(
   initialParams: ExtractParams<S>,
   requestOptions?: RequestOptions,
   limit: number = 1000,
-): Promise<ExtractResponse<S>[]> {
-  const allResults: ExtractResponse<S>[] = [];
+): Promise<Array<ExtractResponse<S>> | AnyError> {
+  const allResults: Array<ExtractResponse<S>> = [];
 
   for await (const response of fetchApiPagesGenerator(endpoint, initialParams, requestOptions, limit)) {
     if (response === null || response === undefined) {
       break;
     }
-    const foundError = endpoint.errors?.find(({ description }) => description === response);
-    if (foundError) {
-      allResults.push(response as any);
-      break;
+    if (isAnyErrorResponse(response)) {
+      return response;
     }
 
-    const { nextPageCursor, ...rest } = response;
+    const { nextPageCursor, ...rest } = response as ExtractResponse<S> & { nextPageCursor?: string | null };
     allResults.push(rest);
 
     if (allResults.length >= limit || nextPageCursor === null || nextPageCursor === undefined) {
@@ -558,7 +655,7 @@ async function* fetchApiPagesGenerator<S extends EndpointSchema, R extends boole
   initialParams: ExtractParams<S>,
   requestOptions?: RequestOptions<R>,
   limit: number = 1000,
-): AsyncGenerator<ExtractResponse<S>, void, unknown> {
+): AsyncGenerator<ExtractResponse<S> | AnyError, void, unknown> {
   let cursor = '';
 
   while (true) {
@@ -567,12 +664,19 @@ async function* fetchApiPagesGenerator<S extends EndpointSchema, R extends boole
 
     yield response;
 
-    if (response.nextPageCursor === null || response.nextPageCursor === undefined || limit-- <= 0) {
+    if (isAnyErrorResponse(response)) {
       break;
     }
 
-    cursor = response.nextPageCursor;
+    // response is successful here
+    const nextCursor = (response as ExtractResponse<S> & { nextPageCursor?: string | null }).nextPageCursor;
+    if (nextCursor === null || nextCursor === undefined || limit-- <= 0) {
+      break;
+    }
+
+    cursor = nextCursor as string;
   }
 }
 
 export { fetchApi, fetchApiSplit, fetchApiPages, fetchApiPagesGenerator, ExtractResponse, ExtractParams, endpoint };
+export type { AnyError };
