@@ -6,7 +6,7 @@
 <h4 align="center">Type-safe Roblox API and OpenCloud client for TypeScript</h4>
 
 <p align="center">
-    <a href="https://www.npmjs.com/package/rozod"><img alt="npm bundle size" src="https://img.shields.io/bundlephobia/minzip/rozod?style=for-the-badge"></a>
+    <a href="https://www.npmjs.com/package/rozod"><img alt="npm bundle size" src="https://img.shields.io/bundlephobia/min/rozod?style=for-the-badge"></a>
     <a href="https://www.npmjs.com/package/rozod"><img alt="npm" src="https://img.shields.io/npm/v/rozod?style=for-the-badge"></a>
     <a href="https://www.npmjs.com/package/rozod"><img alt="npm" src="https://img.shields.io/npm/dt/rozod?style=for-the-badge"></a>
 </p>
@@ -25,15 +25,19 @@
 
 ## About
 
-`RoZod` makes working with Roblox APIs simple and type-safe in TypeScript. With just a few lines of code, you can fetch data from both traditional Roblox web APIs and the newer OpenCloud APIs with full type safety.
+`RoZod` makes working with Roblox APIs simple and type-safe in TypeScript. With **650+ classic Roblox web API endpoints** and **95+ OpenCloud endpoints** (all code-generated from official Roblox documentation), you get comprehensive coverage of virtually every available Roblox API with full type safety.
+
+Perfect for everything from small one-time NodeJS/Bun/Deno scripts to large-scale production applications. RoZod powers [RoGold](https://rogold.live), a browser extension with **800,000+ active users**, handling millions of API requests daily across both frontend extensions and backend workflows.
 
 ## Features
 
 - ✨ **Simple Interface** - Easy to understand API with minimal boilerplate
 - 🔒 **Type Safety** - Complete TypeScript type safety for requests and responses
-- 📚 **Comprehensive API Coverage** - Access to both traditional Roblox web APIs and OpenCloud APIs
+- 📚 **750+ Total Endpoints** - 650+ classic web APIs + 95+ OpenCloud APIs, all code-generated from official docs
+- 🚀 **Production Ready** - Battle-tested in applications serving 800,000+ users
 - 🔄 **Pagination Helpers** - Easy tools for handling paginated responses
 - 🔁 **Batch Processing** - Split large requests automatically to avoid API limits
+- 🌐 **Universal Runtime Support** - Works seamlessly in NodeJS, Bun, Deno, and browsers
 - 🔍 **Custom Endpoints** - Define your own endpoints with full type safety
 - 🧩 **Smart Error Handling** - Choose between safe unions or throw-on-error
 

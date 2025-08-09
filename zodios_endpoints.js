@@ -352,9 +352,9 @@ Promise.all(
         console.log(`Converting ${url}`);
         const endpointName = url.match(/\/legacy\/([^/]+)\/v\d+/)[1];
         const apiName = url.split('/').slice(-1)[0].replace(/\.json/, '');
-        await promisify(exec)(
-          `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${endpointName}${apiName}"`,
-        );
+        // await promisify(exec)(
+        //   `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${endpointName}${apiName}"`,
+        // );
       }
     }),
   ),

@@ -11,7 +11,27 @@
   "exclude": ["node_modules", "**/__tests__/*"],
   "typedocOptions": {
     "out": "./docs",
-    "entryPoints": ["./src/index.ts"],
+    "entryPoints": ["./src/index.ts", "./src/endpoints", "./src/opencloud"],
     "entryPointStrategy": "expand",
+    "blockTags": [
+      "@api",
+      "@description",
+      "@tags",
+      "@summary",
+      "@param",
+      "@returns",
+      "@yields",
+      "@example"
+    ],
+    "modifierTags": [
+      "@api",
+      "@description", 
+      "@tags",
+      "@summary",
+      "@param",
+      "@returns",
+      "@yields",
+      "@example"
+    ]
   }
 }
