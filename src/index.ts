@@ -406,22 +406,30 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
 async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
   endpoint: S,
   params?: ExtractParams<S>,
-  requestOptions: RequestOptions<R> = { mode: 'cors', credentials: 'include' },
+  requestOptions: RequestOptions<R> = {},
 ): Promise<R extends true ? TypedJsonResponse<ExtractResponse<S>> : ExtractResponse<S> | AnyError> {
   const { method, requestFormat = 'json' } = endpoint;
   const defaultValues = extractDefaultValues(endpoint);
   const extendedParams = { ...defaultValues, ...params } as ExtractParams<S>;
-  const headers = new Headers(requestOptions.headers);
+
+  // Merge default request options with provided options
+  const mergedRequestOptions = {
+    mode: 'cors' as RequestMode,
+    credentials: 'include' as RequestCredentials,
+    ...requestOptions,
+  };
+
+  const headers = new Headers(mergedRequestOptions.headers);
 
   const url = prepareRequestUrl(endpoint, extendedParams);
   const body = prepareRequestBody(method, requestFormat, params?.body, headers);
 
-  const cacheKey = requestOptions.cacheKey;
+  const cacheKey = mergedRequestOptions.cacheKey;
 
   let cacheToUse: typeof Cache.prototype;
-  if (requestOptions.cacheType === 'local') {
+  if (mergedRequestOptions.cacheType === 'local') {
     cacheToUse = localStorageCache;
-  } else if (requestOptions.cacheType === 'chrome') {
+  } else if (mergedRequestOptions.cacheType === 'chrome') {
     cacheToUse = chromeStorageCache;
   } else {
     cacheToUse = cache;
@@ -432,13 +440,13 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
     return cachedResponse;
   }
 
-  const retries = requestOptions.retries ?? 0;
-  const retryDelay = requestOptions.retryDelay ?? 0;
+  const retries = mergedRequestOptions.retries ?? 0;
+  const retryDelay = mergedRequestOptions.retryDelay ?? 0;
 
   const response = await handleRetryFetch(
     url,
     {
-      ...requestOptions,
+      ...mergedRequestOptions,
       headers,
     },
     retries,
@@ -447,7 +455,7 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
     method,
   );
 
-  if (requestOptions.returnRaw) {
+  if (mergedRequestOptions.returnRaw) {
     return response;
   }
 
@@ -480,7 +488,7 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
       }
     }
 
-    if (requestOptions.throwOnError === true) {
+    if (mergedRequestOptions.throwOnError === true) {
       throw new Error(parsedError.userFacingMessage ?? parsedError.message);
     }
 
@@ -491,15 +499,15 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
 
   if (reponseFormat === 'json' && !response.headers.get('content-type')?.includes('application/json')) {
     const invalidDataError: AnyError = { message: 'Invalid response data' };
-    if (requestOptions.throwOnError === true) {
+    if (mergedRequestOptions.throwOnError === true) {
       throw new Error(invalidDataError.message);
     }
     return invalidDataError as any;
   }
 
-  if (response.ok && requestOptions.cacheTime && cacheKey) {
+  if (response.ok && mergedRequestOptions.cacheTime && cacheKey) {
     const responseClone = response.clone();
-    const cacheTime = requestOptions.cacheTime;
+    const cacheTime = mergedRequestOptions.cacheTime;
     setTimeout(() => {
       cacheToUse.delete('rozod_cache:' + cacheKey);
     }, cacheTime);
