@@ -24,6 +24,7 @@
 ---
 
 ## About
+
 `RoZod` makes working with Roblox APIs simple and type-safe in TypeScript. With just a few lines of code, you can fetch data from both traditional Roblox web APIs and the newer OpenCloud APIs with full type safety.
 
 ## Features
@@ -34,6 +35,7 @@
 - 🔄 **Pagination Helpers** - Easy tools for handling paginated responses
 - 🔁 **Batch Processing** - Split large requests automatically to avoid API limits
 - 🔍 **Custom Endpoints** - Define your own endpoints with full type safety
+- 🧩 **Smart Error Handling** - Choose between safe unions or throw-on-error
 
 ## Installation
 
@@ -53,6 +55,9 @@ import { getUsersUserdetails } from 'rozod/lib/endpoints/usersv1';
 
 // Fetch user details with full type safety
 const userInfo = await fetchApi(getUsersUserdetails, { userIds: [1, 123456] });
+if (isAnyErrorResponse(userInfo)) {
+  return;
+}
 console.log(userInfo.data[0].displayName); // Properly typed!
 ```
 
@@ -88,8 +93,8 @@ import { getGroupsGroupidWallPosts } from 'rozod/lib/endpoints/groupsv2';
 // Process pages as they arrive
 const pages = fetchApiPagesGenerator(getGroupsGroupidWallPosts, { groupId: 11479637 });
 for await (const page of pages) {
-    console.log(`Processing page with ${page.data.length} posts`);
-    // Do something with this page
+  console.log(`Processing page with ${page.data.length} posts`);
+  // Do something with this page
 }
 ```
 
@@ -101,11 +106,45 @@ import { getGamesIcons } from 'rozod/lib/endpoints/gamesv1';
 
 // Will automatically split into smaller batches of 100 universeIds per request
 const data = await fetchApiSplit(
-    getGamesIcons, 
-    { universeIds: [1, 2, 3, 4, 5, /* many more IDs */] }, 
-    { universeIds: 100 }
+  getGamesIcons,
+  { universeIds: [1, 2, 3, 4, 5 /* many more IDs */] },
+  { universeIds: 100 },
 );
 console.log(data);
+```
+
+### Handling Errors
+
+By default, requests return either the success type or a simple `AnyError`. Use the tiny helper to check:
+
+```ts
+import { fetchApi, isAnyErrorResponse } from 'rozod';
+import { getGamesIcons } from 'rozod/lib/endpoints/gamesv1';
+
+const res = await fetchApi(getGamesIcons, { universeIds: [1534453623] });
+if (isAnyErrorResponse(res)) {
+  console.error(res.message);
+} else {
+  console.log(res.data);
+}
+```
+
+Prefer a straight try/catch? Enable throwing:
+
+```ts
+try {
+  const res = await fetchApi(getGamesIcons, { universeIds: [1534453623] }, { throwOnError: true });
+  console.log(res.data);
+} catch (err) {
+  console.error((err as Error).message);
+}
+```
+
+Need the raw Response? Use `returnRaw: true`:
+
+```ts
+const resp = await fetchApi(getGamesIcons, { universeIds: [1534453623] }, { returnRaw: true });
+const json = await resp.json();
 ```
 
 ## OpenCloud
@@ -117,8 +156,8 @@ import { fetchApi } from 'rozod';
 import { v2 } from 'rozod/lib/opencloud';
 
 // Get universe details through OpenCloud
-const universeInfo = await fetchApi(v2.getCloudV2UniversesUniverseId, { 
-    universe_id: '123456789'
+const universeInfo = await fetchApi(v2.getCloudV2UniversesUniverseId, {
+  universe_id: '123456789',
 });
 
 // Access typed properties
@@ -133,13 +172,10 @@ import { fetchApi } from 'rozod';
 import { getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries } from 'rozod/lib/opencloud/v2/cloud';
 
 // Get DataStore entries with type safety
-const dataStoreEntries = await fetchApi(
-    getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries, 
-    {
-        universe_id: '123456789',
-        data_store_id: 'MyStore'
-    }
-);
+const dataStoreEntries = await fetchApi(getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries, {
+  universe_id: '123456789',
+  data_store_id: 'MyStore',
+});
 ```
 
 ## Custom Endpoints
@@ -156,11 +192,11 @@ const myCustomEndpoint = endpoint({
   baseUrl: 'https://my-api.example.com',
   parameters: {
     customId: z.string(),
-    optional: z.string().optional()
+    optional: z.string().optional(),
   },
   response: z.object({
     success: z.boolean(),
-    data: z.array(z.string())
+    data: z.array(z.string()),
   }),
 });
 
@@ -168,7 +204,9 @@ const response = await fetchApi(myCustomEndpoint, { customId: '123' });
 ```
 
 ## Credits
+
 This repository is maintained by Alrovi ApS, the company behind RoGold.
 
 ## Disclaimer
+
 RoZod is not affiliated with, maintained, authorized, endorsed, or sponsored by Roblox Corporation or any of its affiliates.
