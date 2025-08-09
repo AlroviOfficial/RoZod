@@ -187,7 +187,8 @@ export const postGroupsGroupidWallPosts = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.
-5: Your post was empty, white space, or more than 500 characters.`,
+5: Your post was empty, white space, or more than 500 characters.
+9: The provided content was moderated.`,
     },
     {
       status: 401,
@@ -210,6 +211,7 @@ export const postGroupsGroupidWallPosts = endpoint({
  * @param userId The user id.
  * @param includeLocked
  * @param includeNotificationPreferences
+ * @param discoveryType
  */
 export const getUsersUseridGroupsRoles = endpoint({
   method: 'GET',
@@ -228,11 +230,16 @@ export const getUsersUseridGroupsRoles = endpoint({
       style: 'form',
       explode: true,
     },
+    discoveryType: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userId: z.number().int(),
     includeLocked: z.boolean(),
     includeNotificationPreferences: z.boolean(),
+    discoveryType: z.union([z.literal(0), z.literal(1)]),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_,
   errors: [

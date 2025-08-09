@@ -85,6 +85,10 @@ const Roblox_Groups_Api_GroupForumsPermissionsModel = z.object({
   createComments: z.boolean(),
   removeComments: z.boolean(),
 });
+const Roblox_Groups_Api_GroupContentModerationPermissionsModel = z.object({
+  manageKeywordBlockList: z.boolean(),
+  viewKeywordBlockList: z.boolean(),
+});
 const Roblox_Groups_Api_GroupMembershipPermissionsModel = z.object({
   changeRank: z.boolean(),
   inviteMembers: z.boolean(),
@@ -113,6 +117,7 @@ const Roblox_Groups_Api_GroupOpenCloudPermissionsModel = z.object({
 const Roblox_Groups_Api_GroupPermissionsModel = z.object({
   groupPostsPermissions: Roblox_Groups_Api_GroupPostsPermissionsModel,
   groupForumsPermissions: Roblox_Groups_Api_GroupForumsPermissionsModel,
+  groupContentModerationPermissions: Roblox_Groups_Api_GroupContentModerationPermissionsModel,
   groupMembershipPermissions: Roblox_Groups_Api_GroupMembershipPermissionsModel,
   groupManagementPermissions: Roblox_Groups_Api_GroupManagementPermissionsModel,
   groupEconomyPermissions: Roblox_Groups_Api_GroupEconomyPermissionsModel,
@@ -137,7 +142,6 @@ const Roblox_Groups_Api_GroupMembershipMetadataResponse = z.object({
   isNotificationsEnabled: z.boolean(),
   notificationPreferences: z.array(Roblox_Groups_Api_GroupNotificationPreferenceData),
   isBannedFromGroup: z.boolean(),
-  isBanEvading: z.boolean(),
 });
 const Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem = z.object({
   name: z.string(),
@@ -217,6 +221,8 @@ const Roblox_Groups_Api_UpdatePermissionsRequest_permissions = z.object({
   PinPosts: z.boolean(),
   CreateComments: z.boolean(),
   RemoveComments: z.boolean(),
+  ManageKeywordBlockList: z.boolean(),
+  ViewKeywordBlockList: z.boolean(),
 });
 const Roblox_Groups_Api_UpdatePermissionsRequest = z.object({
   permissions: Roblox_Groups_Api_UpdatePermissionsRequest_permissions,
@@ -236,12 +242,14 @@ const Roblox_Groups_Api_GroupSettingsResponse = z.object({
   areGroupFundsVisible: z.boolean(),
   areGroupGamesVisible: z.boolean(),
   isGroupNameChangeEnabled: z.boolean(),
+  verificationLevel: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
 });
 const Roblox_Groups_Api_UpdateGroupSettingsRequest = z.object({
   isApprovalRequired: z.boolean(),
   areEnemiesAllowed: z.boolean(),
   areGroupFundsVisible: z.boolean(),
   areGroupGamesVisible: z.boolean(),
+  verificationLevel: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
 });
 const Roblox_Groups_Api_SocialLinkResponse = z.object({
   id: z.number().int(),
@@ -604,7 +612,7 @@ export const getGroupsGroupid = endpoint({
  * @api GET https://groups.roblox.com/v1/groups/:groupId/audit-log
  * @summary Gets the Group's audit log
  * @param groupId The id of the group the user is in.
- * @param actionType
+ * @param actionType Filter for specific type of action performed
  * @param userId Filter for specific user id
  * @param limit The number of results per request.
  * @param cursor The paging cursor for the previous or next page.
@@ -691,6 +699,21 @@ export const getGroupsGroupidAuditLog = endpoint({
         'UpdateRolesetData',
         'BanMember',
         'UnbanMember',
+        'CreateForumCategory',
+        'UpdateForumCategory',
+        'ArchiveForumCategory',
+        'DeleteForumCategory',
+        'DeleteForumPost',
+        'DeleteForumComment',
+        'CreateRoleset',
+        'DeleteRoleset',
+        'CreateCommerceProduct',
+        'SetCommerceProductActive',
+        'ArchiveCommerceProduct',
+        'AcceptCommerceProductBundlingFee',
+        'SetCommerceProductInactive',
+        'ConnectMerchant',
+        'DisconnectMerchant',
       ])
       .optional(),
     userId: z.number().int().optional(),
@@ -2304,7 +2327,7 @@ export const getGroupsGroupidSocialLinks = endpoint({
  * @api POST https://groups.roblox.com/v1/groups/:groupId/social-links
  * @summary Posts a social links
  * @param body The Roblox.Groups.Api.SocialLinkRequest
- * @param groupId The id of the game
+ * @param groupId The id of the group
  */
 export const postGroupsGroupidSocialLinks = endpoint({
   method: 'POST',
@@ -2354,7 +2377,7 @@ export const postGroupsGroupidSocialLinks = endpoint({
 /**
  * @api DELETE https://groups.roblox.com/v1/groups/:groupId/social-links/:socialLinkId
  * @summary Deletes a social link
- * @param groupId The id of the game you are editting, required for permissions checking
+ * @param groupId The id of the game you are editing, required for permissions checking
  * @param socialLinkId The id of the social link
  */
 export const deleteGroupsGroupidSocialLinksSociallinkid = endpoint({
@@ -2582,7 +2605,8 @@ export const postGroupsGroupidUsers = endpoint({
       description: `0: Token Validation Failed
 6: You are already in the maximum number of groups.
 9: You do not have the builders club membership necessary to join this group.
-14: You cannot join a closed group.`,
+14: You cannot join a closed group.
+33: You do not have the required verification level to join this group.`,
     },
     {
       status: 409,
@@ -2729,6 +2753,10 @@ export const getGroupsGroupidUsersUseridPermissions = endpoint({
       status: 403,
       description: `3: You are not authorized to view/edit permissions for this role.`,
     },
+    {
+      status: 404,
+      description: `3: The user is invalid or does not exist.`,
+    },
   ],
 });
 /**
@@ -2808,7 +2836,8 @@ export const postGroupsGroupidWallPosts = endpoint({
     {
       status: 400,
       description: `1: The group is invalid or does not exist.
-5: Your post was empty, white space, or more than 500 characters.`,
+5: Your post was empty, white space, or more than 500 characters.
+9: The provided content was moderated.`,
     },
     {
       status: 401,
@@ -3113,7 +3142,7 @@ export const postGroupsPolicies = endpoint({
  * @api GET https://groups.roblox.com/v1/groups/search
  * @summary Search for groups by keyword.
  * @param keyword The keyword or phrase to use as the search parameter.
- * @param prioritizeExactMatch Whether or not to prioritize the exact match for the keyword (optional, defaults to false.
+ * @param prioritizeExactMatch Whether or not to prioritize the exact match for the keyword (optional, defaults to false).
  * @param limit The number of results per request.
  * @param cursor The paging cursor for the previous or next page.
  */
@@ -3365,6 +3394,7 @@ export const getUsersUseridGroupsPrimaryRole = endpoint({
  * @param userId The user id.
  * @param includeLocked
  * @param includeNotificationPreferences
+ * @param discoveryType
  */
 export const getUsersUseridGroupsRoles = endpoint({
   method: 'GET',
@@ -3383,11 +3413,16 @@ export const getUsersUseridGroupsRoles = endpoint({
       style: 'form',
       explode: true,
     },
+    discoveryType: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userId: z.number().int(),
     includeLocked: z.boolean(),
     includeNotificationPreferences: z.boolean(),
+    discoveryType: z.union([z.literal(0), z.literal(1)]),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipDetailResponse_,
   errors: [

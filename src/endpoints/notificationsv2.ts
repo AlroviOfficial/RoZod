@@ -1,81 +1,6 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_Api_Notifications_Models_RolloutSettingsModel = z.object({
-  featureName: z.string(),
-  isRolloutEnabled: z.boolean(),
-  isValidFeature: z.boolean(),
-});
-const Roblox_Api_Notifications_Models_NotificationRolloutSettingsModel = z.object({
-  rollOutFeatureEnabledList: z.array(Roblox_Api_Notifications_Models_RolloutSettingsModel),
-});
-const Roblox_Api_Notifications_Models_ReceiverDestinationSettingModel = z.object({
-  name: z.string(),
-  platform: z.enum([
-    'ChromeOnDesktop',
-    'AndroidNative',
-    'FirefoxOnDesktop',
-    'IOSNative',
-    'AndroidAmazon',
-    'IOSTencent',
-    'AndroidTencentService',
-    'IOSPushKit',
-  ]),
-  destinationId: z.number().int(),
-  isEnabled: z.boolean(),
-  isSetByReceiver: z.boolean(),
-});
-const Roblox_Api_Notifications_Models_ReceiverNotificationSettingGroupModel = z.object({
-  notificationSourceType: z.enum([
-    'Test',
-    'FriendRequestReceived',
-    'FriendRequestAccepted',
-    'PartyInviteReceived',
-    'PartyMemberJoined',
-    'ChatNewMessage',
-    'PrivateMessageReceived',
-    'UserAddedToPrivateServerWhiteList',
-    'ConversationUniverseChanged',
-    'TeamCreateInvite',
-    'GameUpdate',
-    'DeveloperMetricsAvailable',
-    'GroupJoinRequestAccepted',
-    'Sendr',
-    'ExperienceInvitation',
-  ]),
-  receiverDestinationType: z.enum(['DesktopPush', 'MobilePush', 'NotificationStream']),
-  isEnabled: z.boolean(),
-  isOverridable: z.boolean(),
-  isSetByReceiver: z.boolean(),
-  pushNotificationDestinationPreferences: z.array(Roblox_Api_Notifications_Models_ReceiverDestinationSettingModel),
-});
-const Roblox_Api_Notifications_Models_UserNotificationSettingsModel = z.object({
-  notificationBandSettings: z.array(Roblox_Api_Notifications_Models_ReceiverNotificationSettingGroupModel),
-  optedOutNotificationSourceTypes: z.array(
-    z.enum([
-      'Test',
-      'FriendRequestReceived',
-      'FriendRequestAccepted',
-      'PartyInviteReceived',
-      'PartyMemberJoined',
-      'ChatNewMessage',
-      'PrivateMessageReceived',
-      'UserAddedToPrivateServerWhiteList',
-      'ConversationUniverseChanged',
-      'TeamCreateInvite',
-      'GameUpdate',
-      'DeveloperMetricsAvailable',
-      'GroupJoinRequestAccepted',
-      'Sendr',
-      'ExperienceInvitation',
-    ]),
-  ),
-  optedOutReceiverDestinationTypes: z.array(z.enum(['DesktopPush', 'MobilePush', 'NotificationStream'])),
-});
-const Roblox_Api_Notifications_RealTimeNotificationsSettingsResponseModel = z.object({
-  primaryDomain: z.string(),
-  fallbackDomain: z.string(),
-});
 const Roblox_Api_Notifications_Models_ChromeManifestModel = z.object({
   name: z.string(),
   gcm_sender_id: z.string(),
@@ -120,10 +45,6 @@ const Roblox_Api_Notifications_Models_PushNotificationClientMetadata = z
   .passthrough();
 const Roblox_Api_Notifications_Models_GetMetadataResponseModel = z.object({
   metadata: Roblox_Api_Notifications_Models_PushNotificationClientMetadata,
-  statusMessage: z.string(),
-});
-const Roblox_Api_Notifications_Models_NotificationIdsResponseModel = z.object({
-  ids: z.array(z.string()),
   statusMessage: z.string(),
 });
 const Roblox_Api_Notifications_Models_GameUpdateNotificationModel = z.object({
@@ -174,56 +95,7 @@ const Roblox_Api_Notifications_Models_UnreadStreamNotificationsModel = z.object(
 const Roblox_Api_Notifications_Models_SuccessResponseModel = z.object({
   statusMessage: z.string(),
 });
-const Roblox_Api_Notifications_Models_MarkAsReadRequestModel = z.object({
-  platformType: z.enum([
-    'ChromeOnDesktop',
-    'AndroidNative',
-    'FirefoxOnDesktop',
-    'IOSNative',
-    'AndroidAmazon',
-    'IOSTencent',
-    'AndroidTencentService',
-    'IOSPushKit',
-  ]),
-  notificationId: z.string().uuid(),
-});
-const Roblox_Api_Notifications_Models_MarkCategoryAsReadRequestModel = z.object({
-  notificationType: z.enum([
-    'Test',
-    'FriendRequestReceived',
-    'FriendRequestAccepted',
-    'PartyInviteReceived',
-    'PartyMemberJoined',
-    'ChatNewMessage',
-    'PrivateMessageReceived',
-    'UserAddedToPrivateServerWhiteList',
-    'ConversationUniverseChanged',
-    'TeamCreateInvite',
-    'GameUpdate',
-    'DeveloperMetricsAvailable',
-    'GroupJoinRequestAccepted',
-    'Sendr',
-    'ExperienceInvitation',
-  ]),
-  category: z.string(),
-  latestNotificationId: z.string().uuid(),
-});
-const Roblox_Api_Notifications_Models_MarkInteractionRequestModel = z.object({
-  platformType: z.enum([
-    'ChromeOnDesktop',
-    'AndroidNative',
-    'FirefoxOnDesktop',
-    'IOSNative',
-    'AndroidAmazon',
-    'IOSTencent',
-    'AndroidTencentService',
-    'IOSPushKit',
-  ]),
-  notificationToken: z.string(),
-  notificationId: z.string().uuid(),
-  interactionType: z.enum(['Click', 'Dismiss', 'Action']),
-});
-const Roblox_Api_Notifications_Models_RegisterAndroidAmazonRequestModel = z.object({
+const Roblox_Api_Notifications_Models_RegisterAndroidRequestModel = z.object({
   notificationToken: z.string(),
   authorizeForUser: z.boolean(),
   oldNotificationToken: z.string(),
@@ -249,27 +121,6 @@ const Roblox_Api_Notifications_Models_RegistrationResponseModel = z.object({
   registration: Roblox_Api_Notifications_Models_PushNotificationRegistration,
   statusMessage: z.string(),
 });
-const Roblox_Api_Notifications_Models_RegisterAndroidRequestModel = z.object({
-  notificationToken: z.string(),
-  authorizeForUser: z.boolean(),
-  oldNotificationToken: z.string(),
-  deviceName: z.string(),
-});
-const Roblox_Api_Notifications_Models_RegisterTencentServiceRequestModel = z.object({
-  notificationToken: z.string(),
-  destinationIdentifier: z.string(),
-  authorizeForUser: z.boolean(),
-  deviceName: z.string(),
-});
-const Roblox_Api_Notifications_Models_RegisterChromeRequestModel = z.object({
-  notificationToken: z.string(),
-  initiatedByUser: z.boolean(),
-});
-const Roblox_Api_Notifications_Models_RegisterFirefoxRequestModel = z.object({
-  notificationToken: z.string(),
-  notificationEndpoint: z.string(),
-  initiatedByUser: z.boolean(),
-});
 const Roblox_Api_Notifications_Models_RegisterIOSNativeRequestModel = z.object({
   notificationToken: z.string(),
   destinationIdentifier: z.string(),
@@ -284,76 +135,7 @@ const Roblox_Api_Notifications_Models_RegisterIOSPushKitRequestModel = z.object(
   oldNotificationToken: z.string(),
   deviceName: z.string(),
 });
-const Roblox_Api_Notifications_Models_GameUpdateNotificationReadRequestModel = z.object({
-  universeId: z.number().int(),
-  createdOn: z.string(),
-  currentUserId: z.number().int(),
-});
-const Roblox_Api_Notifications_Models_MarkInteractedRequestModel = z.object({
-  eventId: z.string().uuid(),
-});
 
-/**
- * @api GET https://notifications.roblox.com/v2/notifications/get-rollout-settings
- * @summary Gets the notification settings related to rollout
- * @param featureNames names of features to get the corresponding rollout values
- */
-export const getNotificationsGetRolloutSettings = endpoint({
-  method: 'GET',
-  path: '/v2/notifications/get-rollout-settings',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    featureNames: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    featureNames: z.array(z.string()),
-  },
-  response: Roblox_Api_Notifications_Models_NotificationRolloutSettingsModel,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api GET https://notifications.roblox.com/v2/notifications/get-settings
- * @summary Gets settings related to notifications for the signed in user
- */
-export const getNotificationsGetSettings = endpoint({
-  method: 'GET',
-  path: '/v2/notifications/get-settings',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_Api_Notifications_Models_UserNotificationSettingsModel,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api GET https://notifications.roblox.com/v2/notifications/settings/realtime
- * @summary Gets the notification settings related to realtime
- */
-export const getNotificationsSettingsRealtime = endpoint({
-  method: 'GET',
-  path: '/v2/notifications/settings/realtime',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_Api_Notifications_RealTimeNotificationsSettingsResponseModel,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
 /**
  * @api GET https://notifications.roblox.com/v2/push-notifications/chrome-manifest
  * @summary Get Chrome Manifest to link GCM project to Chrome Browser
@@ -469,92 +251,6 @@ export const getPushNotificationsGetDestinations = endpoint({
   ],
 });
 /**
- * @api POST https://notifications.roblox.com/v2/push-notifications/mark-as-read
- * @summary Marks the specified notification as read.
- * @param body 
- * @description This will notify the user's other notification clients (such as other push 
-            devices and the Notification Stream) of the change.
- */
-export const postPushNotificationsMarkAsRead = endpoint({
-  method: 'POST',
-  path: '/v2/push-notifications/mark-as-read',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Api_Notifications_Models_MarkAsReadRequestModel,
-  response: z.object({ statusMessage: z.string() }),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api POST https://notifications.roblox.com/v2/push-notifications/mark-category-as-read
- * @summary Mark all notifications in the specified stacking category up until the specified date read
- * @param body 
- * @description This will notify the user's 
-            other notification clients (such as other push devices and the Notification Stream) of the change. This would typically be triggered 
-            by the user clicking/interacting with a stack of notifications
- */
-export const postPushNotificationsMarkCategoryAsRead = endpoint({
-  method: 'POST',
-  path: '/v2/push-notifications/mark-category-as-read',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Api_Notifications_Models_MarkCategoryAsReadRequestModel,
-  response: z.object({ statusMessage: z.string() }),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api POST https://notifications.roblox.com/v2/push-notifications/mark-interaction
- * @summary Marks Interaction status for push notification
- * @param body
- */
-export const postPushNotificationsMarkInteraction = endpoint({
-  method: 'POST',
-  path: '/v2/push-notifications/mark-interaction',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Api_Notifications_Models_MarkInteractionRequestModel,
-  response: z.object({ statusMessage: z.string() }),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
  * @api GET https://notifications.roblox.com/v2/push-notifications/metadata
  * @summary Gets the corresponding metadata for the specified notification
  * @param notificationToken Token for the notification
@@ -588,72 +284,6 @@ export const getPushNotificationsMetadata = endpoint({
   ],
 });
 /**
- * @api GET https://notifications.roblox.com/v2/push-notifications/notification-ids
- * @summary Gets the notificationIds for the specified notification token
- * @param notificationToken Token for the notification
- * @param limit Max number of notifications to get
- * @param cursor starting point to get the notifications
- */
-export const getPushNotificationsNotificationIds = endpoint({
-  method: 'GET',
-  path: '/v2/push-notifications/notification-ids',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    notificationToken: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    notificationToken: z.string(),
-    limit: z.number().int(),
-    cursor: z.number().int().optional(),
-  },
-  response: Roblox_Api_Notifications_Models_NotificationIdsResponseModel,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api POST https://notifications.roblox.com/v2/push-notifications/register-android-amazon
- * @summary Register Amazon Android for push notifications
- * @param body
- */
-export const postPushNotificationsRegisterAndroidAmazon = endpoint({
-  method: 'POST',
-  path: '/v2/push-notifications/register-android-amazon',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Api_Notifications_Models_RegisterAndroidAmazonRequestModel,
-  response: Roblox_Api_Notifications_Models_RegistrationResponseModel,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
  * @api POST https://notifications.roblox.com/v2/push-notifications/register-android-native
  * @summary Register Android Native for push notifications
  * @param body
@@ -668,87 +298,6 @@ export const postPushNotificationsRegisterAndroidNative = endpoint({
   },
   parameters: {},
   body: Roblox_Api_Notifications_Models_RegisterAndroidRequestModel,
-  response: Roblox_Api_Notifications_Models_RegistrationResponseModel,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api POST https://notifications.roblox.com/v2/push-notifications/register-android-tencent-service
- * @summary Register Android Tencent service device for push notifications
- * @param body
- */
-export const postPushNotificationsRegisterAndroidTencentService = endpoint({
-  method: 'POST',
-  path: '/v2/push-notifications/register-android-tencent-service',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Api_Notifications_Models_RegisterTencentServiceRequestModel,
-  response: Roblox_Api_Notifications_Models_RegistrationResponseModel,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api POST https://notifications.roblox.com/v2/push-notifications/register-chrome
- * @summary Registers Chrome for push notifications
- * @param body
- */
-export const postPushNotificationsRegisterChrome = endpoint({
-  method: 'POST',
-  path: '/v2/push-notifications/register-chrome',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Api_Notifications_Models_RegisterChromeRequestModel,
-  response: Roblox_Api_Notifications_Models_RegistrationResponseModel,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api POST https://notifications.roblox.com/v2/push-notifications/register-firefox
- * @summary Registers Firefox for push notifications
- * @param body
- */
-export const postPushNotificationsRegisterFirefox = endpoint({
-  method: 'POST',
-  path: '/v2/push-notifications/register-firefox',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Api_Notifications_Models_RegisterFirefoxRequestModel,
   response: Roblox_Api_Notifications_Models_RegistrationResponseModel,
   errors: [
     {
@@ -837,34 +386,8 @@ export const postStreamNotificationsClearUnread = endpoint({
   ],
 });
 /**
- * @api POST https://notifications.roblox.com/v2/stream-notifications/game-update-notification-read
- * @summary Sends metrics when a Game Update Notification is Read from the Game Update Notifications Section of the Notification Stream
- * @param body
- */
-export const postStreamNotificationsGameUpdateNotificationRead = endpoint({
-  method: 'POST',
-  path: '/v2/stream-notifications/game-update-notification-read',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Api_Notifications_Models_GameUpdateNotificationReadRequestModel,
-  response: z.object({ statusMessage: z.string() }),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
  * @api GET https://notifications.roblox.com/v2/stream-notifications/get-latest-game-updates
+ * @summary Get the latest non aggregated Game Updates sent to the logged in user
  * @param universeIds List of universe IDs
  * @param sinceDateTime For retrieving only updates that created after a time point.
  */
@@ -925,33 +448,6 @@ export const getStreamNotificationsGetRecent = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api POST https://notifications.roblox.com/v2/stream-notifications/mark-interacted
- * @summary Marks a Notification Stream Entry as Interacted
- * @param body eventId (Guid) : Id corresponding to the Notification stream Entry to be marked as Interacted
- */
-export const postStreamNotificationsMarkInteracted = endpoint({
-  method: 'POST',
-  path: '/v2/stream-notifications/mark-interacted',
-  baseUrl: 'https://notifications.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: z.object({ eventId: z.string().uuid() }),
-  response: z.object({ statusMessage: z.string() }),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
     },
   ],
 });

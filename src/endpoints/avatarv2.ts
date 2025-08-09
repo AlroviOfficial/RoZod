@@ -21,17 +21,17 @@ const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({
   id: z.number().int(),
   name: z.string(),
 });
-const Roblox_Avatarcore_Shared_V3_AssetPosition = z.object({
+const Roblox_Api_Avatar_Models_AssetPosition = z.object({
   X: z.number(),
   Y: z.number(),
   Z: z.number(),
 });
-const Roblox_Avatarcore_Shared_V3_AssetRotation = z.object({
+const Roblox_Api_Avatar_Models_AssetRotation = z.object({
   X: z.number(),
   Y: z.number(),
   Z: z.number(),
 });
-const Roblox_Avatarcore_Shared_V3_AssetScale = z.object({
+const Roblox_Api_Avatar_Models_AssetScale = z.object({
   X: z.number(),
   Y: z.number(),
   Z: z.number(),
@@ -39,9 +39,9 @@ const Roblox_Avatarcore_Shared_V3_AssetScale = z.object({
 const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z.object({
   order: z.number().int(),
   puffiness: z.number(),
-  position: Roblox_Avatarcore_Shared_V3_AssetPosition,
-  rotation: Roblox_Avatarcore_Shared_V3_AssetRotation,
-  scale: Roblox_Avatarcore_Shared_V3_AssetScale,
+  position: Roblox_Api_Avatar_Models_AssetPosition,
+  rotation: Roblox_Api_Avatar_Models_AssetRotation,
+  scale: Roblox_Api_Avatar_Models_AssetScale,
   version: z.number().int(),
 });
 const Roblox_Api_Avatar_Models_AssetModelV2 = z.object({
@@ -50,6 +50,7 @@ const Roblox_Api_Avatar_Models_AssetModelV2 = z.object({
   assetType: Roblox_Api_Avatar_Models_AssetTypeModel,
   currentVersionId: z.number().int(),
   meta: Roblox_Api_Avatar_Models_AssetMetaModelV1,
+  assetStatus: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(5)]),
 });
 const Roblox_Api_Avatar_Models_EmoteResponseModel = z.object({
   assetId: z.number().int(),
@@ -112,13 +113,13 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV2 = z.object({
   assets: z.array(Roblox_Api_Avatar_Models_AssetWearModel),
   scale: Roblox_Web_Responses_Avatar_ScaleModel,
   playerAvatarType: z.string(),
-  outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(4)]),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
  * @api GET https://avatar.roblox.com/v2/avatar/avatar
- * @summary Returns details about the authenticated user's avatar
+ * @summary Returns details about the authenticated user's avatar.
  */
 export const getAvatarAvatar = endpoint({
   method: 'GET',
@@ -135,7 +136,7 @@ export const getAvatarAvatar = endpoint({
 });
 /**
  * @api POST https://avatar.roblox.com/v2/avatar/set-body-colors
- * @summary Sets the authenticated user's body colors
+ * @summary Sets the authenticated user's body colors.
  * @param body
  */
 export const postAvatarSetBodyColors = endpoint({
@@ -162,8 +163,8 @@ export const postAvatarSetBodyColors = endpoint({
 });
 /**
  * @api POST https://avatar.roblox.com/v2/avatar/set-wearing-assets
- * @summary Sets the avatar's current assets to the list
- * @param body Model of assets to be worn
+ * @summary Sets the avatar's current assets to the list.
+ * @param body Model of assets to be worn.
  * @description Only allows items that you own, are not expired, and are wearable asset types.
 Any assets being worn before this method is called are automatically removed.
  */
@@ -201,7 +202,7 @@ export const postAvatarSetWearingAssets = endpoint({
 });
 /**
  * @api GET https://avatar.roblox.com/v2/avatar/users/:userId/avatar
- * @summary Returns details about a specified user's avatar
+ * @summary Returns details about a specified user's avatar.
  * @param userId
  * @description Includes assets, bodycolors, and playerAvatarType.
  */
@@ -232,7 +233,7 @@ export const getAvatarUsersUseridAvatar = endpoint({
  * @summary Gets a list of outfits for the specified user.
  * @param userId The user id.
  * @param paginationToken The token received from the response to get the next page. For the first request, this value should be empty. Note : If no value is sent the 1st page will be returned.
- * @param outfitType The outfit type being searched for, null will return all outfitTypes
+ * @param outfitType The outfit type being searched for, null will return all outfitTypes.
  * @param page The page number of the current page of requests, default is 1.
  * @param itemsPerPage The max number of outfits that can be returned.
  * @param isEditable Whether the outfits are editable. A null value will lead to no filtering.
@@ -287,7 +288,7 @@ export const getAvatarUsersUseridOutfits = endpoint({
 /**
  * @api PATCH https://avatar.roblox.com/v2/outfits/:userOutfitId
  * @summary Updates the contents of an outfit.
- * @param body The updated outfit
+ * @param body The updated outfit.
  * @param userOutfitId The user outfit id.
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
 Accepts partial updates.
@@ -338,7 +339,7 @@ export const patchOutfitsUseroutfitid = endpoint({
 /**
  * @api POST https://avatar.roblox.com/v2/outfits/:userOutfitId/update
  * @summary Updates the contents of the outfit.
- * @param body The updated outfit
+ * @param body The updated outfit.
  * @param userOutfitId The user outfit id.
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
  */
@@ -386,7 +387,7 @@ export const postOutfitsUseroutfitidUpdate = endpoint({
 /**
  * @api POST https://avatar.roblox.com/v2/outfits/create
  * @summary Creates a new outfit.
- * @param body The new outfit
+ * @param body The new outfit.
  * @description Fails if any of the assetIds are not owned by the user, or not wearable types.
 The name property of the request is optional as one will be auto-generated when the request has a null name.
  */

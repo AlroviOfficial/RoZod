@@ -1,4 +1,13 @@
-import { AnyError, ExtractParams, ExtractResponse, endpoint, fetchApi, fetchApiPages, fetchApiSplit, isAnyErrorResponse } from '../index';
+import {
+  AnyError,
+  ExtractParams,
+  ExtractResponse,
+  endpoint,
+  fetchApi,
+  fetchApiPages,
+  fetchApiSplit,
+  isAnyErrorResponse,
+} from '../index';
 import { getGamesIcons, getUsersAvatarHeadshot, postBatch } from '../endpoints/thumbnailsv1';
 import { getGroupsGroupidMembership } from '../endpoints/groupsv1';
 import { getGamesUniverseidFavoritesCount } from '../endpoints/gamesv1';
@@ -35,7 +44,7 @@ test('fetch group members', () => {
 });
 
 test('fetch games favoritedCount', () => {
-  fetchApi(getGamesUniverseidFavoritesCount, { universeId: 1534453623 }, {throwOnError: true}).then((data) => {
+  fetchApi(getGamesUniverseidFavoritesCount, { universeId: 1534453623 }, { throwOnError: true }).then((data) => {
     expect(data).toHaveProperty('favoritesCount');
   });
 });
@@ -70,7 +79,7 @@ test('fetch omni recommendations', () => {
       ),
     }),
   });
-  fetchApi(omni, {}, {throwOnError: true}).catch((error: AnyError) => {
+  fetchApi(omni, {}, { throwOnError: true }).catch((error: AnyError) => {
     expect(error.message).toBe('Authentication cookie is empty');
   });
 });

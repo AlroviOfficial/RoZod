@@ -344,7 +344,7 @@ export const getSponsoredCampaignsMultiGetCanUserSponsor = endpoint({
     campaignTargetType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     campaignTargetIds: z.array(z.number()),
   },
-  response: z.record(z.boolean()),
+  response: z.boolean(),
   errors: [
     {
       status: 400,

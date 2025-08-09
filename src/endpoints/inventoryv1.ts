@@ -23,7 +23,7 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_Colle
 const Roblox_Inventory_Api_Models_CanViewInventoryResponse = z.object({
   canView: z.boolean(),
 });
-const Roblox_Inventory_Api_AssetsExplorerCategoryItemModel = z.object({
+const Roblox_Inventory_Api_Models_AssetsExplorerCategoryItemModel = z.object({
   name: z.string(),
   displayName: z.string(),
   filter: z.string(),
@@ -31,27 +31,20 @@ const Roblox_Inventory_Api_AssetsExplorerCategoryItemModel = z.object({
   type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   categoryType: z.string(),
 });
-const Roblox_Inventory_Api_AssetsExplorerCategoryModel = z.object({
+const Roblox_Inventory_Api_Models_AssetsExplorerCategoryModel = z.object({
   name: z.string(),
   displayName: z.string(),
   categoryType: z.string(),
-  items: z.array(Roblox_Inventory_Api_AssetsExplorerCategoryItemModel),
+  items: z.array(Roblox_Inventory_Api_Models_AssetsExplorerCategoryItemModel),
 });
-const Roblox_Inventory_Api_CategoriesModel = z.object({
-  categories: z.array(Roblox_Inventory_Api_AssetsExplorerCategoryModel),
+const Roblox_Inventory_Api_Models_CategoriesModel = z.object({
+  categories: z.array(Roblox_Inventory_Api_Models_AssetsExplorerCategoryModel),
 });
-const Roblox_Inventory_Api_Models_InventoryPageResponse = z
-  .object({
-    data: z.array(z.object({})),
-    total: z.number().int(),
-    includesAccessories: z.boolean(),
-  })
-  .passthrough();
 const Roblox_Inventory_Api_Models_IItemModel = z.object({
-  Id: z.number().int(),
-  Name: z.string(),
-  Type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-  InstanceId: z.number().int(),
+  id: z.number().int(),
+  name: z.string(),
+  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  instanceId: z.number().int(),
 });
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ = z.object({
   previousPageCursor: z.string(),
@@ -80,7 +73,7 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 /**
  * @api POST https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
  * @summary Adds an item to the appropriate collection
- * @param itemType Type of the item (ie. Asset, Bundle)
+ * @param itemType Type of the item (i.e. Asset, Bundle)
  * @param itemTargetId ID of the item
  */
 export const postCollectionsItemsItemtypeItemtargetid = endpoint({
@@ -126,7 +119,7 @@ export const postCollectionsItemsItemtypeItemtargetid = endpoint({
 /**
  * @api DELETE https://inventory.roblox.com/v1/collections/items/:itemType/:itemTargetId
  * @summary Removes an item to the appropriate collection
- * @param itemType Type of the item (ie. Asset, Bundle)
+ * @param itemType Type of the item (i.e. Asset, Bundle)
  * @param itemTargetId ID of the item
  */
 export const deleteCollectionsItemsItemtypeItemtargetid = endpoint({
@@ -301,6 +294,9 @@ export const getUsersUseridAssetsCollectibles = endpoint({
         z.literal(81),
         z.literal(82),
         z.literal(83),
+        z.literal(84),
+        z.literal(85),
+        z.literal(86),
       ])
       .optional(),
     limit: z
@@ -366,7 +362,7 @@ export const getUsersUseridCategories = endpoint({
   parameters: {
     userId: z.number().int(),
   },
-  response: Roblox_Inventory_Api_CategoriesModel,
+  response: Roblox_Inventory_Api_Models_CategoriesModel,
   errors: [],
 });
 /**
@@ -387,148 +383,15 @@ export const getUsersUseridCategoriesFavorites = endpoint({
   parameters: {
     userId: z.number().int(),
   },
-  response: Roblox_Inventory_Api_CategoriesModel,
+  response: Roblox_Inventory_Api_Models_CategoriesModel,
   errors: [],
-});
-/**
- * @api GET https://inventory.roblox.com/v1/users/:userId/inventory/:assetType
- * @summary Gets a list of assets by type for the specified user.
-Note that the 'Hat' asset type may return accessories while we are migrating.
- * @param userId The user identifier.
- * @param assetType The asset type.
- * @param pageNumber The start index.
- * @param itemsPerPage The max number of items that can be returned.
- * @param keyword Filter results for items containing this.
- */
-export const getUsersUseridInventoryAssettype = endpoint({
-  method: 'GET',
-  path: '/v1/users/:userId/inventory/:assetType',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    assetType: {
-      style: 'simple',
-    },
-    pageNumber: {
-      style: 'form',
-      explode: true,
-    },
-    itemsPerPage: {
-      style: 'form',
-      explode: true,
-    },
-    keyword: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    userId: z.number().int(),
-    assetType: z.union([
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-      z.literal(9),
-      z.literal(10),
-      z.literal(11),
-      z.literal(12),
-      z.literal(13),
-      z.literal(16),
-      z.literal(17),
-      z.literal(18),
-      z.literal(19),
-      z.literal(21),
-      z.literal(22),
-      z.literal(24),
-      z.literal(25),
-      z.literal(26),
-      z.literal(27),
-      z.literal(28),
-      z.literal(29),
-      z.literal(30),
-      z.literal(31),
-      z.literal(32),
-      z.literal(33),
-      z.literal(34),
-      z.literal(35),
-      z.literal(37),
-      z.literal(38),
-      z.literal(39),
-      z.literal(40),
-      z.literal(41),
-      z.literal(42),
-      z.literal(43),
-      z.literal(44),
-      z.literal(45),
-      z.literal(46),
-      z.literal(47),
-      z.literal(48),
-      z.literal(49),
-      z.literal(50),
-      z.literal(51),
-      z.literal(52),
-      z.literal(53),
-      z.literal(54),
-      z.literal(55),
-      z.literal(56),
-      z.literal(59),
-      z.literal(60),
-      z.literal(61),
-      z.literal(62),
-      z.literal(63),
-      z.literal(64),
-      z.literal(65),
-      z.literal(66),
-      z.literal(67),
-      z.literal(68),
-      z.literal(69),
-      z.literal(70),
-      z.literal(71),
-      z.literal(72),
-      z.literal(73),
-      z.literal(74),
-      z.literal(75),
-      z.literal(76),
-      z.literal(77),
-      z.literal(78),
-      z.literal(79),
-      z.literal(80),
-      z.literal(81),
-      z.literal(82),
-      z.literal(83),
-    ]),
-    pageNumber: z.number().int().optional().default(1),
-    itemsPerPage: z.number().int().optional().default(25),
-    keyword: z.string().optional(),
-  },
-  response: Roblox_Inventory_Api_Models_InventoryPageResponse,
-  errors: [
-    {
-      status: 400,
-      description: `1: The specified user does not exist!
-3: Specified asset type is invalid!`,
-    },
-    {
-      status: 403,
-      description: `1: The specified user does not exist!
-11: You don&#x27;t have permissions to view the specified user&#x27;s inventory.`,
-    },
-  ],
 });
 /**
  * @api GET https://inventory.roblox.com/v1/users/:userId/items/:itemType/:itemTargetId
  * @summary Gets owned items of the specified item type. Game Servers can make requests for any user, but can only make requests for game passes that belong to the place sending the request.
 Place creators can make requests as if they were the Game Server.
  * @param userId ID of the user in question
- * @param itemType Type of the item in question (ie. Asset, GamePass, Badge, Bundle)
+ * @param itemType Type of the item in question (i.e. Asset, GamePass, Badge, Bundle)
  * @param itemTargetId ID of the item in question
  */
 export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
@@ -569,7 +432,7 @@ export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
  * @api GET https://inventory.roblox.com/v1/users/:userId/items/:itemType/:itemTargetId/is-owned
  * @summary Gets whether a user owns an item of type itemType with id itemTargetId.
  * @param userId ID of the user in question
- * @param itemType Type of the item in question (ie. Asset, GamePass, Badge, Bundle)
+ * @param itemType Type of the item in question (i.e. Asset, GamePass, Badge, Bundle)
  * @param itemTargetId ID of the item in question
  */
 export const getUsersUseridItemsItemtypeItemtargetidIsOwned = endpoint({

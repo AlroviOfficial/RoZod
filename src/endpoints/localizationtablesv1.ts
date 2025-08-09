@@ -133,6 +133,7 @@ const Roblox_LocalizationTables_Api_GameAutolocalizationInformationResponse = z.
   isAutomaticEntriesDeletionEnabled: z.boolean(),
   shouldUseLocalizationTable: z.boolean(),
   autoLocalizationTableId: z.string().uuid(),
+  sourceLanguage: z.string(),
   assetId: z.number().int(),
 });
 const Roblox_LocalizationTables_Api_SetAutolocalizationTableForGameRequest = z.object({ tableId: z.string().uuid() });

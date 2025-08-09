@@ -149,13 +149,6 @@ const Roblox_GameInternationalization_Api_UpdateNameDescriptionsResponse = z.obj
 const Roblox_GameInternationalization_Api_Models_Response_GameNameDescriptionMetadataResponse = z.object({
   isNameDescriptionMigrationEnabled: z.boolean(),
 });
-const Roblox_GameInternationalization_Api_GetPlayerPoliciesResponse = z.object({
-  isSubjectToChinaPolicies: z.boolean(),
-  arePaidRandomItemsRestricted: z.boolean(),
-  isPaidItemTradingAllowed: z.boolean(),
-  areAdsAllowed: z.boolean(),
-  allowedExternalLinkReferences: z.array(z.string()),
-});
 const Roblox_GameInternationalization_Api_Language = z.object({
   name: z.string(),
   nativeName: z.string(),
@@ -2588,42 +2581,6 @@ export const getNameDescriptionMetadata = endpoint({
   ],
 });
 /**
- * @api GET https://gameinternationalization.roblox.com/v1/player-policies-client
- */
-export const getPlayerPoliciesClient = endpoint({
-  method: 'GET',
-  path: '/v1/player-policies-client',
-  baseUrl: 'https://gameinternationalization.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_GameInternationalization_Api_GetPlayerPoliciesResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `17: Feature is disabled`,
-    },
-  ],
-});
-/**
- * @api GET https://gameinternationalization.roblox.com/v1/player-policies/all-values
- */
-export const getPlayerPoliciesAllValues = endpoint({
-  method: 'GET',
-  path: '/v1/player-policies/all-values',
-  baseUrl: 'https://gameinternationalization.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_GameInternationalization_Api_GetPlayerPoliciesResponse,
-  errors: [
-    {
-      status: 403,
-      description: `17: Feature is disabled`,
-    },
-  ],
-});
-/**
  * @api GET https://gameinternationalization.roblox.com/v1/source-language/games/:gameId
  * @summary Gets the source language of a game
  * @param gameId
@@ -2808,6 +2765,36 @@ export const getSupportedLanguagesGamesGameidAutomaticTranslationStatus = endpoi
     {
       status: 403,
       description: `18: You do not have permission to manage this game`,
+    },
+    {
+      status: 503,
+      description: `17: Feature is disabled`,
+    },
+  ],
+});
+/**
+ * @api GET https://gameinternationalization.roblox.com/v1/supported-languages/games/:gameId/in-experience-language-selection
+ * @summary Get the user's in-experience language selector languages for a game.
+ * @param gameId The id of the game.
+ */
+export const getSupportedLanguagesGamesGameidInExperienceLanguageSelection = endpoint({
+  method: 'GET',
+  path: '/v1/supported-languages/games/:gameId/in-experience-language-selection',
+  baseUrl: 'https://gameinternationalization.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    gameId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    gameId: z.number().int(),
+  },
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_GameInternationalization_Api_LanguageOrLocale_,
+  errors: [
+    {
+      status: 400,
+      description: `14: Invalid game id`,
     },
     {
       status: 503,

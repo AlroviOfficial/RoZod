@@ -52,83 +52,6 @@ const AssetVersion = z.object({
 });
 
 /**
- * @api GET https://apis.roblox.com/cloud/assets/v1/assets/:assetId/versions
- * @summary List Asset Versions of an Asset
- * @param assetId The unique identifier of the asset.
- * @param maxPageSize Specifies the number of asset versions to include in the response. Valid values range from 1 to 50 (inclusive). Defaults to 8 when not provided.
- * @param pageToken A token for pagination. The value is obtained from a previous request and allows for retrieving the next page of asset versions.
- * @description List all versions of a specific asset, with optional pagination.
- */
-export const getAssetsV1AssetsAssetIdVersions = endpoint({
-  method: 'GET',
-  path: '/assets/v1/assets/:assetId/versions',
-  baseUrl: 'https://apis.roblox.com/cloud',
-  requestFormat: 'json',
-  serializationMethod: {
-    assetId: {},
-    maxPageSize: {},
-    pageToken: {},
-  },
-  parameters: {
-    assetId: z.string(),
-    maxPageSize: z.number().int().optional(),
-    pageToken: z.string().optional(),
-  },
-  response: z.array(AssetVersion),
-  errors: [
-    {
-      status: 400,
-      description: `Bad request - invalid parameters.`,
-    },
-    {
-      status: 403,
-      description: `Forbidden - API key without Read scope or user doesn&#x27;t have access.`,
-    },
-    {
-      status: 404,
-      description: `Asset not found.`,
-    },
-  ],
-});
-/**
- * @api POST https://apis.roblox.com/cloud/assets/v1/assets/:assetId/versions:rollback
- * @summary Rollback an asset to a previous version.
- * @param body 
- * @param assetId The unique identifier of the asset.
- * @description Rollback an asset to a specific previous version.
-
- Provide the asset version path in the form data.
- */
-export const postAssetsV1AssetsAssetIdVersionsRollback = endpoint({
-  method: 'POST',
-  path: '/assets/v1/assets/:assetId/versions:rollback',
-  baseUrl: 'https://apis.roblox.com/cloud',
-  requestFormat: 'form-data',
-  serializationMethod: {
-    body: {},
-    assetId: {},
-  },
-  parameters: {
-    assetId: z.string(),
-  },
-  body: z.object({ assetVersion: z.string() }),
-  response: AssetVersion,
-  errors: [
-    {
-      status: 400,
-      description: `Bad request - invalid request body.`,
-    },
-    {
-      status: 403,
-      description: `Forbidden - API key without Write scope or user doesn&#x27;t have access.`,
-    },
-    {
-      status: 404,
-      description: `Asset or Asset Version not found.`,
-    },
-  ],
-});
-/**
  * @api POST https://apis.roblox.com/cloud/v1/assets
  * @summary Creates an asset with provided content and metadata.
  * @param body 
@@ -166,10 +89,10 @@ export const postAssets = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v1/assets/:assetId
- * @summary Retrieve specific asset content. Include the `readMask` parameter for additional asset metadata.
+ * @summary Retrieve specific asset metadata. Include the `readMask` parameter for additional asset metadata.
  * @param assetId The unique identifier of the asset.
  * @param readMask Asset metadata fields to retrieve, including the description, display name, icon, social links, and previews. Examples: `description%2CdisplayName`, `previews%2CtwitchSocialLink`.
- * @description Retrieve specific asset content and metadata.
+ * @description Retrieve specific asset metadata.
  */
 export const getAssetsAssetId = endpoint({
   method: 'GET',
@@ -312,6 +235,83 @@ export const postAssetsAssetIdRestore = endpoint({
     {
       status: 404,
       description: `Asset not found.`,
+    },
+  ],
+});
+/**
+ * @api GET https://apis.roblox.com/cloud/v1/assets/:assetId/versions
+ * @summary List Asset Versions of an Asset
+ * @param assetId The unique identifier of the asset.
+ * @param maxPageSize Specifies the number of asset versions to include in the response. Valid values range from 1 to 50 (inclusive). Defaults to 8 when not provided.
+ * @param pageToken A token for pagination. The value is obtained from a previous request and allows for retrieving the next page of asset versions.
+ * @description List all versions of a specific asset, with optional pagination.
+ */
+export const getAssetsAssetIdVersions = endpoint({
+  method: 'GET',
+  path: '/v1/assets/:assetId/versions',
+  baseUrl: 'https://apis.roblox.com/cloud',
+  requestFormat: 'json',
+  serializationMethod: {
+    assetId: {},
+    maxPageSize: {},
+    pageToken: {},
+  },
+  parameters: {
+    assetId: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+  },
+  response: z.array(AssetVersion),
+  errors: [
+    {
+      status: 400,
+      description: `Bad request - invalid parameters.`,
+    },
+    {
+      status: 403,
+      description: `Forbidden - API key without Read scope or user doesn&#x27;t have access.`,
+    },
+    {
+      status: 404,
+      description: `Asset not found.`,
+    },
+  ],
+});
+/**
+ * @api POST https://apis.roblox.com/cloud/v1/assets/:assetId/versions:rollback
+ * @summary Rollback an asset to a previous version.
+ * @param body 
+ * @param assetId The unique identifier of the asset.
+ * @description Rollback an asset to a specific previous version.
+
+ Provide the asset version path in the form data.
+ */
+export const postAssetsAssetIdVersionsRollback = endpoint({
+  method: 'POST',
+  path: '/v1/assets/:assetId/versions:rollback',
+  baseUrl: 'https://apis.roblox.com/cloud',
+  requestFormat: 'form-data',
+  serializationMethod: {
+    body: {},
+    assetId: {},
+  },
+  parameters: {
+    assetId: z.string(),
+  },
+  body: z.object({ assetVersion: z.string() }),
+  response: AssetVersion,
+  errors: [
+    {
+      status: 400,
+      description: `Bad request - invalid request body.`,
+    },
+    {
+      status: 403,
+      description: `Forbidden - API key without Write scope or user doesn&#x27;t have access.`,
+    },
+    {
+      status: 404,
+      description: `Asset or Asset Version not found.`,
     },
   ],
 });

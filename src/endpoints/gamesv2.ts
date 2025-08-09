@@ -9,6 +9,7 @@ const Roblox_Web_Responses_Games_GameMediaItemResponseV2 = z.object({
   videoTitle: z.string(),
   approved: z.boolean(),
   altText: z.string(),
+  videoId: z.string(),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Games_GameMediaItemResponseV2_ = z.object({
   data: z.array(Roblox_Web_Responses_Games_GameMediaItemResponseV2),
@@ -97,6 +98,9 @@ const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_Asse
     z.literal(81),
     z.literal(82),
     z.literal(83),
+    z.literal(84),
+    z.literal(85),
+    z.literal(86),
   ]),
   name: z.string(),
 });
@@ -114,6 +118,22 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameRe
   previousPageCursor: z.string(),
   nextPageCursor: z.string(),
   data: z.array(Roblox_Web_Responses_Games_GameResponseV2),
+});
+const Roblox_Web_Responses_Games_GameFavoriteResponseModel = z.object({
+  price: z.number().int(),
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  creator: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_,
+  rootPlace: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_,
+  created: z.string().datetime({ offset: true }),
+  updated: z.string().datetime({ offset: true }),
+  placeVisits: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameFavoriteResponseModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Web_Responses_Games_GameFavoriteResponseModel),
 });
 
 /**
@@ -314,13 +334,13 @@ export const getUsersUseridFavoriteGames = endpoint({
       .optional()
       .default(2),
     limit: z
-      .union([z.literal(10), z.literal(25), z.literal(50)])
+      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Desc'),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameResponseV2_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameFavoriteResponseModel_,
   errors: [],
 });
 /**

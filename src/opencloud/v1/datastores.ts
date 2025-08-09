@@ -49,6 +49,8 @@ export const getUniversesUniverseIdDatastores = endpoint({
  * @param cursor Provide to request the next set of data. See [Cursors](../../../cloud/guides/data-store-api-handling.md#cursors).
  * @param limit The maximum number of items to return. Each call only reads one partition, so it can return fewer than the given value when running out of objectives on one partition.
  * @description Returns a list of entry keys within a data store.
+
+ Entries marked deleted with a tombstone version are still included in the response if they have yet to be permanently deleted.
  */
 export const getUniversesUniverseIdDatastoresDatastoreEntries = endpoint({
   method: 'GET',
@@ -87,6 +89,8 @@ export const getUniversesUniverseIdDatastoresDatastoreEntries = endpoint({
  * @param entryKey The key identifying the entry.
  * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
  * @description Returns the value and metadata associated with an entry.
+
+Entries marked deleted with a tombstone version will return 404 Not Found.
 
 Metadata can be found in the response headers like the following:
 ```text

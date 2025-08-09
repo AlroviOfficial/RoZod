@@ -155,7 +155,6 @@ export const postBirthdate = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-2: PIN is locked.
 5: Invalid birthdate change.`,
     },
     {
@@ -213,8 +212,7 @@ export const postDescription = endpoint({
     },
     {
       status: 403,
-      description: `0: Token Validation Failed
-2: PIN is locked.`,
+      description: `0: Token Validation Failed`,
     },
     {
       status: 500,
@@ -298,8 +296,7 @@ export const postGender = endpoint({
     },
     {
       status: 403,
-      description: `0: Token Validation Failed
-2: PIN is locked.`,
+      description: `0: Token Validation Failed`,
     },
     {
       status: 500,
@@ -370,7 +367,6 @@ export const postPhone = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-4: Account Pin Locked
 5: Incorrect Password
 10: `,
     },
@@ -412,7 +408,6 @@ export const postPhoneDelete = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-4: Account Pin Locked
 5: Incorrect Password`,
     },
     {
@@ -589,7 +584,6 @@ export const postPromotionChannels = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-3: PIN is locked.
 4: Only users who are over twelve years of age may edit social network channels.`,
     },
   ],

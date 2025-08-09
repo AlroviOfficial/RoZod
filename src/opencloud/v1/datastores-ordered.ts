@@ -163,7 +163,7 @@ export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeE
  * @param orderedDataStore The name of the ordered data store.
  * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-store-api-handling.md#scopes).
  * @param entry The entry ID.
- * @description Deletes the specified entry.
+ * @description Deletes the specified entry. Unlike standard data stores, which mark entries for deletion, ordered data store entries are deleted immediately.
  */
 export const deleteUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntry = endpoint({
   method: 'DELETE',

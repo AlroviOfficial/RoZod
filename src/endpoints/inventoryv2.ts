@@ -8,6 +8,7 @@ const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_ = 
 });
 const Roblox_Inventory_Api_V2_AssetOwnerResponse = z.object({
   id: z.number().int(),
+  collectibleItemInstanceId: z.string(),
   serialNumber: z.number().int(),
   owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_,
   created: z.string().datetime({ offset: true }),
@@ -98,6 +99,9 @@ const Roblox_Inventory_Api_V2_UserAssetItemModelV2 = z.object({
     z.literal(81),
     z.literal(82),
     z.literal(83),
+    z.literal(84),
+    z.literal(85),
+    z.literal(86),
   ]),
   created: z.string().datetime({ offset: true }),
 });

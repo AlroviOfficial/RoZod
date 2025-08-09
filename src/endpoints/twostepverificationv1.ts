@@ -575,6 +575,49 @@ export const postUsersUseridChallengesPasskeyVerifyStart = endpoint({
   ],
 });
 /**
+ * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/password/verify
+ * @summary Verifies a two step verification challenge with a password (code).
+ * @param body The request body.Roblox.TwoStepVerification.Api.VerifyCodeRequest.
+ * @param userId The user ID.
+ */
+export const postUsersUseridChallengesPasswordVerify = endpoint({
+  method: 'POST',
+  path: '/v1/users/:userId/challenges/password/verify',
+  baseUrl: 'https://twostepverification.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    userId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+  },
+  body: Roblox_TwoStepVerification_Api_VerifyCodeRequest,
+  response: z.object({ verificationToken: z.string() }),
+  errors: [
+    {
+      status: 400,
+      description: `1: Invalid challenge ID.
+4: The password is invalid.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+2: The user ID is invalid.`,
+    },
+    {
+      status: 429,
+      description: `5: Too many requests.`,
+    },
+    {
+      status: 503,
+      description: `7: Two step verification is currently under maintenance.`,
+    },
+  ],
+});
+/**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/recovery-codes/verify
  * @summary Verifies a two step verification challenge via a recovery code.
  * @param body The Roblox.TwoStepVerification.Api.VerifyCodeRequest.
@@ -870,7 +913,6 @@ export const postUsersUseridConfigurationAuthenticatorDisable = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-6: The account pin is locked.
 8: The user is not allowed to perform the requested action.`,
     },
     {
@@ -919,7 +961,6 @@ export const postUsersUseridConfigurationAuthenticatorEnable = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-6: The account pin is locked.
 11: The two step verification configuration is already enabled.`,
     },
     {
@@ -1010,7 +1051,6 @@ export const postUsersUseridConfigurationEmailDisable = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 2: The user ID is invalid.
-6: The account pin is locked.
 8: The user is not allowed to perform the requested action.`,
     },
     {
@@ -1058,8 +1098,7 @@ export const postUsersUseridConfigurationEmailEnable = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-2: The user ID is invalid.
-6: The account pin is locked.`,
+2: The user ID is invalid.`,
     },
     {
       status: 503,
@@ -1101,7 +1140,6 @@ export const postUsersUseridConfigurationSecurityKeyDisable = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-6: The account pin is locked.
 8: The user is not allowed to perform the requested action.`,
     },
     {
@@ -1270,7 +1308,6 @@ export const postUsersUseridConfigurationSmsDisable = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 2: The user ID is invalid.
-6: The account pin is locked.
 8: The user is not allowed to perform the requested action.`,
     },
     {
@@ -1318,8 +1355,7 @@ export const postUsersUseridConfigurationSmsEnable = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-2: The user ID is invalid.
-6: The account pin is locked.`,
+2: The user ID is invalid.`,
     },
     {
       status: 503,
@@ -1398,8 +1434,7 @@ export const postUsersUseridRecoveryCodesClear = endpoint({
     },
     {
       status: 403,
-      description: `0: Token Validation Failed
-6: The account pin is locked.`,
+      description: `0: Token Validation Failed`,
     },
     {
       status: 429,
@@ -1452,8 +1487,7 @@ export const postUsersUseridRecoveryCodesRegenerate = endpoint({
     },
     {
       status: 403,
-      description: `0: Token Validation Failed
-6: The account pin is locked.`,
+      description: `0: Token Validation Failed`,
     },
     {
       status: 429,

@@ -5,17 +5,17 @@ const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({
   id: z.number().int(),
   name: z.string(),
 });
-const Roblox_Avatarcore_Shared_V3_AssetPosition = z.object({
+const Roblox_Api_Avatar_Models_AssetPosition = z.object({
   X: z.number(),
   Y: z.number(),
   Z: z.number(),
 });
-const Roblox_Avatarcore_Shared_V3_AssetRotation = z.object({
+const Roblox_Api_Avatar_Models_AssetRotation = z.object({
   X: z.number(),
   Y: z.number(),
   Z: z.number(),
 });
-const Roblox_Avatarcore_Shared_V3_AssetScale = z.object({
+const Roblox_Api_Avatar_Models_AssetScale = z.object({
   X: z.number(),
   Y: z.number(),
   Z: z.number(),
@@ -23,9 +23,9 @@ const Roblox_Avatarcore_Shared_V3_AssetScale = z.object({
 const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z.object({
   order: z.number().int(),
   puffiness: z.number(),
-  position: Roblox_Avatarcore_Shared_V3_AssetPosition,
-  rotation: Roblox_Avatarcore_Shared_V3_AssetRotation,
-  scale: Roblox_Avatarcore_Shared_V3_AssetScale,
+  position: Roblox_Api_Avatar_Models_AssetPosition,
+  rotation: Roblox_Api_Avatar_Models_AssetRotation,
+  scale: Roblox_Api_Avatar_Models_AssetScale,
   version: z.number().int(),
 });
 const Roblox_Api_Avatar_Models_AssetModelV2 = z.object({
@@ -34,6 +34,7 @@ const Roblox_Api_Avatar_Models_AssetModelV2 = z.object({
   assetType: Roblox_Api_Avatar_Models_AssetTypeModel,
   currentVersionId: z.number().int(),
   meta: Roblox_Api_Avatar_Models_AssetMetaModelV1,
+  assetStatus: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(5)]),
 });
 const Roblox_Api_Avatar_Models_BodyColors3Model = z.object({
   headColor3: z.string(),
@@ -63,14 +64,7 @@ const Roblox_Api_Avatar_Models_OutfitDetailsModelV2 = z.object({
   universeId: z.number().int(),
   moderationStatus: z.string(),
   bundleId: z.number().int(),
-});
-const Roblox_Platform_Avatar_BodyColorsModelV2 = z.object({
-  headColor3: z.string(),
-  torsoColor3: z.string(),
-  rightArmColor3: z.string(),
-  leftArmColor3: z.string(),
-  rightLegColor3: z.string(),
-  leftLegColor3: z.string(),
+  inventoryType: z.string(),
 });
 const Roblox_Api_Avatar_Models_AssetWearModel = z.object({
   id: z.number().int(),
@@ -78,11 +72,11 @@ const Roblox_Api_Avatar_Models_AssetWearModel = z.object({
 });
 const Roblox_Api_Avatar_Models_OutfitUpdateModelV3 = z.object({
   name: z.string(),
-  bodyColor3s: Roblox_Platform_Avatar_BodyColorsModelV2,
+  bodyColor3s: Roblox_Api_Avatar_Models_BodyColors3Model,
   assets: z.array(Roblox_Api_Avatar_Models_AssetWearModel),
   scale: Roblox_Web_Responses_Avatar_ScaleModel,
   playerAvatarType: z.string(),
-  outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(4)]),
 });
 const Roblox_Api_Avatar_Models_OutfitModel = z.object({
   id: z.number().int(),
@@ -94,7 +88,7 @@ const Roblox_Api_Avatar_Models_OutfitModel = z.object({
 /**
  * @api PATCH https://avatar.roblox.com/v3/outfits/:userOutfitId
  * @summary Updates the contents of an outfit.
- * @param body The updated outfit
+ * @param body The updated outfit.
  * @param userOutfitId The user outfit id.
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
 Accepts partial updates.
@@ -176,7 +170,7 @@ export const getOutfitsUseroutfitidDetails = endpoint({
 /**
  * @api POST https://avatar.roblox.com/v3/outfits/create
  * @summary Creates a new outfit.
- * @param body The new outfit
+ * @param body The new outfit.
  * @description Fails if any of the assetIds are not owned by the user, or not wearable types.
 The name property of the request is optional as one will be auto-generated when the request has a null name.
  */

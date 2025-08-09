@@ -39,6 +39,8 @@ const Roblox_Api_Develop_Models_PlaceModelV2 = z.object({
     ]),
   ),
   maxPlayersAllowed: z.number().int(),
+  created: z.string().datetime({ offset: true }),
+  updated: z.string().datetime({ offset: true }),
   id: z.number().int(),
   universeId: z.number().int(),
   name: z.string(),
@@ -76,13 +78,13 @@ const Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions 
 const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
   allowPrivateServers: z.boolean(),
   privateServerPrice: z.number().int(),
-  isRewardedOnDemandAdsAllowed: z.boolean(),
   name: z.string(),
   description: z.string(),
   universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
   universeAnimationType: z.union([z.literal(1), z.literal(2)]),
   universeCollisionType: z.union([z.literal(1), z.literal(2)]),
   universeJointPositioningType: z.union([z.literal(1), z.literal(2)]),
+  engineAvatarSettings: z.string(),
   isArchived: z.boolean(),
   isFriendsOnly: z.boolean(),
   genre: z.union([
@@ -113,6 +115,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
   optInRegions: z.array(z.union([z.literal(0), z.literal(1)])),
   optOutRegions: z.array(z.union([z.literal(0), z.literal(1)])),
   isMeshTextureApiAccessAllowed: z.boolean(),
+  isRewardedOnDemandAdsAllowed: z.boolean(),
   fiatBasePriceId: z.string(),
   fiatProductChangeType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
 });
@@ -133,6 +136,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z.object({
   universeAnimationType: z.union([z.literal(1), z.literal(2)]),
   universeCollisionType: z.union([z.literal(1), z.literal(2)]),
   universeJointPositioningType: z.union([z.literal(1), z.literal(2)]),
+  engineAvatarSettings: z.string(),
   isArchived: z.boolean(),
   isFriendsOnly: z.boolean(),
   genre: z.union([

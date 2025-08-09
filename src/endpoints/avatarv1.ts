@@ -183,7 +183,7 @@ const Roblox_Api_Avatar_Models_DefaultClothingAssets = z.object({
 });
 const Roblox_Api_Avatar_Models_AvatarRulesModel = z.object({
   playerAvatarTypes: z.array(z.union([z.literal(1), z.literal(3)])),
-  scales: z.record(Roblox_Api_Avatar_Models_ScaleRulesModel),
+  scales: z.record(z.string(), Roblox_Api_Avatar_Models_ScaleRulesModel),
   wearableAssetTypes: z.array(Roblox_Api_Avatar_Models_AssetTypeRulesModel),
   accessoryRefinementTypes: z.array(
     z.union([

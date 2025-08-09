@@ -22,13 +22,6 @@ const Roblox_AccountSettings_Api_Models_AccountsSettingsMetadataModel = z.object
   IsParentalNotificationSettingsInUIEnabled: z.boolean(),
   IsContentControlsEnabled: z.boolean(),
 });
-const Roblox_AccountSettings_Api_AppChatPrivacyResponse = z.object({
-  appChatPrivacy: z.string(),
-});
-const Roblox_AccountSettings_Api_AppChatPrivacyRequest = z.object({
-  appChatPrivacy: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
-});
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_AccountSettings_Api_EmailResponse = z.object({
   emailAddress: z.string(),
   verified: z.boolean(),
@@ -40,32 +33,7 @@ const Roblox_AccountSettings_Api_UpdateEmailRequest = z.object({
   skipVerificationEmail: z.boolean(),
   isAdsAccount: z.boolean(),
 });
-const Roblox_AccountSettings_Api_GameChatPrivacyResponse = z.object({
-  gameChatPrivacy: z.string(),
-});
-const Roblox_AccountSettings_Api_GameChatPrivacyRequest = z.object({
-  gameChatPrivacy: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
-});
-const Roblox_AccountSettings_Api_InventoryPrivacyResponse = z.object({
-  inventoryPrivacy: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
-});
-const Roblox_AccountSettings_Api_InventoryPrivacyRequest = z.object({
-  inventoryPrivacy: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
-});
-const Roblox_AccountSettings_Api_InventoryPrivacyUpdateResponse = z.object({
-  inventoryPrivacy: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
-  tradePrivacy: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-  ]),
-  privacySettingResponse: z.union([z.literal(0), z.literal(1)]),
-});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_AccountSettings_Api_ThemeConfigurationResponse = z.object({
   themeType: z.string(),
 });
@@ -109,19 +77,6 @@ const Roblox_AccountSettings_Api_TradeValueResponse = z.object({
 });
 const Roblox_AccountSettings_Api_TradeValueRequest = z.object({
   tradeValue: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-});
-const Roblox_AccountSettings_Api_Models_Response_GetBlockedUsersResponse = z.object({
-  blockedUserIds: z.array(z.number()),
-});
-const Roblox_AccountSettings_Api_Models_BlockedUser = z.object({
-  userId: z.number().int(),
-  name: z.string(),
-  displayName: z.string(),
-});
-const Roblox_AccountSettings_Api_Models_Response_GetDetailedBlockedUsersResponse = z.object({
-  blockedUsers: z.array(Roblox_AccountSettings_Api_Models_BlockedUser),
-  maxBlockedUsers: z.number().int(),
-  total: z.number().int(),
 });
 const Roblox_AccountSettings_Api_SendVerifyEmailRequest = z.object({
   freeItem: z.boolean(),
@@ -203,57 +158,6 @@ export const getAccountSettingsMetadata = endpoint({
   ],
 });
 /**
- * @api GET https://accountsettings.roblox.com/v1/app-chat-privacy
- * @summary Get a user's app chat privacy setting
- */
-export const getAppChatPrivacy = endpoint({
-  method: 'GET',
-  path: '/v1/app-chat-privacy',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json',
-  response: z.object({ appChatPrivacy: z.string() }),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api POST https://accountsettings.roblox.com/v1/app-chat-privacy
- * @summary Updates a user's app chat privacy setting
- * @param body
- */
-export const postAppChatPrivacy = endpoint({
-  method: 'POST',
-  path: '/v1/app-chat-privacy',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_AccountSettings_Api_AppChatPrivacyRequest,
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.InvalidSettingOption`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.AccountLocked
-            OR
-            Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.SettingLockedCuratedGamesEnabled
-0: Token Validation Failed`,
-    },
-  ],
-});
-/**
  * @api GET https://accountsettings.roblox.com/v1/email
  * @summary Gets the authenticated user's email address and verified status
  */
@@ -299,7 +203,6 @@ export const postEmail = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-1: PIN is locked.
 2: This feature is currently disabled. Please try again later.
 3: There are too many accounts associated with this email address.
 11: You must be on the Corporate network to log in.`,
@@ -348,7 +251,6 @@ export const patchEmail = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-1: PIN is locked.
 2: This feature is currently disabled. Please try again later.
 3: There are too many accounts associated with this email address.
 11: You must be on the Corporate network to log in.`,
@@ -396,7 +298,6 @@ export const postEmailVerify = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-1: PIN is locked.
 2: This feature is currently disabled. Please try again later.
 11: You must be on the Corporate network to log in.`,
     },
@@ -411,106 +312,6 @@ export const postEmailVerify = endpoint({
     {
       status: 503,
       description: `2: This feature is currently disabled. Please try again later.`,
-    },
-  ],
-});
-/**
- * @api GET https://accountsettings.roblox.com/v1/game-chat-privacy
- * @summary Get a user's game chat privacy setting
- */
-export const getGameChatPrivacy = endpoint({
-  method: 'GET',
-  path: '/v1/game-chat-privacy',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json',
-  response: z.object({ gameChatPrivacy: z.string() }),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api POST https://accountsettings.roblox.com/v1/game-chat-privacy
- * @summary Updates a user's game chat privacy setting
- * @param body
- */
-export const postGameChatPrivacy = endpoint({
-  method: 'POST',
-  path: '/v1/game-chat-privacy',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_AccountSettings_Api_GameChatPrivacyRequest,
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.InvalidSettingOption`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.AccountLocked
-            OR
-            Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.SettingLockedCuratedGamesEnabled
-0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api GET https://accountsettings.roblox.com/v1/inventory-privacy
- * @summary Get a user's inventory privacy setting
- */
-export const getInventoryPrivacy = endpoint({
-  method: 'GET',
-  path: '/v1/inventory-privacy',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_AccountSettings_Api_InventoryPrivacyResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api POST https://accountsettings.roblox.com/v1/inventory-privacy
- * @summary Updates a user's inventory privacy setting
- * @param body
- */
-export const postInventoryPrivacy = endpoint({
-  method: 'POST',
-  path: '/v1/inventory-privacy',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_AccountSettings_Api_InventoryPrivacyRequest,
-  response: Roblox_AccountSettings_Api_InventoryPrivacyUpdateResponse,
-  errors: [
-    {
-      status: 400,
-      description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.AccountLocked`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `Roblox.AccountSettings.Api.ResponseEnums.ContactSettingsErrors.InventoryHidingFeatureDisabled
-0: Token Validation Failed`,
     },
   ],
 });
@@ -702,123 +503,6 @@ export const postTradeValue = endpoint({
             OR
             Roblox.AccountSettings.Api.ResponseEnums.TradeSettingsErrors.UserCannotTrade
 0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api POST https://accountsettings.roblox.com/v1/users/:userId/block
- * @summary Blocks another user.
- * @param userId The user ID to block.
- */
-export const postUsersUseridBlock = endpoint({
-  method: 'POST',
-  path: '/v1/users/:userId/block',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    userId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `0: Target user does not exist.
-1: Target user already blocked.
-2: User sending block request has reached their block limit.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.
-7: User is not logged in.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 503,
-      description: `3: User blocking is disabled.
-8: The request failed internally. Please try again later.`,
-    },
-  ],
-});
-/**
- * @api POST https://accountsettings.roblox.com/v1/users/:userId/unblock
- * @summary Unblocks a previously blocked user.
- * @param userId The user ID to unblock.
- */
-export const postUsersUseridUnblock = endpoint({
-  method: 'POST',
-  path: '/v1/users/:userId/unblock',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    userId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `0: Target user does not exist.
-4: Target user for unblock request is not currently blocked.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.
-7: User is not logged in.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 503,
-      description: `3: User blocking is disabled.
-8: The request failed internally. Please try again later.`,
-    },
-  ],
-});
-/**
- * @api GET https://accountsettings.roblox.com/v1/users/get-blocked-users
- * @summary Gets all blocked users.
- */
-export const getUsersGetBlockedUsers = endpoint({
-  method: 'GET',
-  path: '/v1/users/get-blocked-users',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_AccountSettings_Api_Models_Response_GetBlockedUsersResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api GET https://accountsettings.roblox.com/v1/users/get-detailed-blocked-users
- * @summary Gets all blocked users with details.
- */
-export const getUsersGetDetailedBlockedUsers = endpoint({
-  method: 'GET',
-  path: '/v1/users/get-detailed-blocked-users',
-  baseUrl: 'https://accountsettings.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_AccountSettings_Api_Models_Response_GetDetailedBlockedUsersResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
     },
   ],
 });

@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from 'fs';
-import { basename, dirname } from 'path';
+import { basename, dirname, join } from 'path';
 import { promisify } from 'util';
 import { exec as execOld } from 'child_process';
 const exec = promisify(execOld);
@@ -119,6 +119,117 @@ handlebars.registerHelper('normalizePathForJS', (method, path) => {
   return finalName;
 });
 
+// --- Zod v4 compatibility helpers ------------------------------------------------------------
+/**
+ * Transform content by rewriting single-argument z.record(valueSchema) to valueSchema
+ * Only rewrites when the argument list to z.record has no top-level comma.
+ */
+function fixZodRecordSingleArg(content) {
+  const needle = 'z.record(';
+  let output = '';
+  let cursor = 0;
+
+  while (true) {
+    const start = content.indexOf(needle, cursor);
+    if (start === -1) {
+      output += content.slice(cursor);
+      break;
+    }
+
+    // Copy everything up to but not including 'z.record('
+    output += content.slice(cursor, start);
+
+    // Parse argument list until matching ')'
+    let i = start + needle.length; // points at first char after '('
+    let parenDepth = 1; // we are inside the first '('
+    let inSingle = false;
+    let inDouble = false;
+    let inTemplate = false;
+    let prevChar = '';
+    let sawTopLevelComma = false;
+
+    // Capture raw args for possible rewrite
+    const argsStart = i;
+
+    while (i < content.length && parenDepth > 0) {
+      const ch = content[i];
+
+      // Handle string/template contexts to ignore commas inside them
+      if (!inDouble && !inTemplate && ch === "'" && prevChar !== '\\') {
+        inSingle = !inSingle;
+      } else if (!inSingle && !inTemplate && ch === '"' && prevChar !== '\\') {
+        inDouble = !inDouble;
+      } else if (!inSingle && !inDouble && ch === '`' && prevChar !== '\\') {
+        inTemplate = !inTemplate;
+      }
+
+      if (!inSingle && !inDouble && !inTemplate) {
+        if (ch === '(') parenDepth += 1;
+        else if (ch === ')') parenDepth -= 1;
+        else if (ch === ',' && parenDepth === 1) {
+          // Comma at top-level of z.record call => already has two args
+          sawTopLevelComma = true;
+        }
+      }
+
+      if (parenDepth === 0) break;
+      prevChar = ch;
+      i += 1;
+    }
+
+    const args = content.slice(argsStart, i);
+    const trimmed = args.trim();
+
+    if (sawTopLevelComma) {
+      // Already two-argument form: keep original call intact
+      output += 'z.record(' + args + ')';
+    } else {
+      // Single-argument form: z.record(valueSchema) -> valueSchema
+      output += trimmed.length > 0 ? trimmed : 'z.unknown()';
+    }
+
+    cursor = i + 1; // move past closing ')'
+  }
+
+  return output;
+}
+
+function listFilesRecursive(dirPath) {
+  const entries = readdirSync(dirPath, { withFileTypes: true });
+  const files = [];
+  for (const entry of entries) {
+    const full = join(dirPath, entry.name);
+    if (entry.isDirectory()) files.push(...listFilesRecursive(full));
+    else files.push(full);
+  }
+  return files;
+}
+
+function applyZodRecordFixToFile(filePath) {
+  if (!/\.(ts|d\.ts)$/.test(filePath)) return;
+  try {
+    const original = readFileSync(filePath, 'utf-8');
+    if (!original.includes('z.record(')) return;
+    const fixed = fixZodRecordSingleArg(original);
+    if (fixed !== original) {
+      writeFileSync(filePath, fixed, 'utf-8');
+      console.log(`Patched z.record single-arg in ${filePath}`);
+    }
+  } catch (e) {
+    console.warn(`Failed to patch ${filePath}: ${e}`);
+  }
+}
+
+function applyZodRecordFixInDir(dirPath) {
+  try {
+    const files = listFilesRecursive(dirPath);
+    for (const f of files) applyZodRecordFixToFile(f);
+  } catch (e) {
+    // Directory may not exist yet
+  }
+}
+// ------------------------------------------------------------------------------------------------
+
 const openCloudV1Apis = [
   {
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/universes-api/v1.json',
@@ -214,6 +325,9 @@ async function processOpenCloudApi(apiDef) {
       },
     });
 
+    // Apply Zod v4 record fix to the generated file before copying to lib
+    applyZodRecordFixToFile(`${outputFolder}/${apiDef.name}.ts`);
+
     // Copy to lib directory for distribution
     ensureDirExists(`./lib/opencloud/${apiDef.version}`);
     writeFileSync(
@@ -299,6 +413,8 @@ Promise.all(
             },
           },
         });
+        // Apply Zod v4 record fix to the generated endpoint file
+        applyZodRecordFixToFile(`${FOLDER_ZODIOS}/${fileName}.ts`);
       } catch (error) {
         console.error(`Error generating Zodios for ${folder}: ${error}`);
       }
@@ -320,6 +436,12 @@ Promise.all(
     ...openCloudV1Apis.map(apiDef => processOpenCloudApi(apiDef)),
     ...openCloudV2Apis.map(apiDef => processOpenCloudApi(apiDef))
   ]);
+
+  // Final sweep: ensure all generated files (src and lib) are patched
+  applyZodRecordFixInDir(FOLDER_ZODIOS);
+  applyZodRecordFixInDir(FOLDER_OPENCLOUD);
+  applyZodRecordFixInDir('./lib/endpoints');
+  applyZodRecordFixInDir('./lib/opencloud');
 
   console.log('All endpoints generated successfully!');
 });

@@ -5,7 +5,7 @@ const Roblox_Followings_Api_Models_FollowsByTypeResponse = z.object({
   followerType: z.union([z.literal(0), z.literal(1)]),
   followerId: z.number().int(),
   sourceType: z.union([z.literal(0), z.literal(1)]),
-  followedSources: z.record(z.string().datetime({ offset: true })),
+  followedSources: z.string().datetime({ offset: true }),
 });
 
 /**

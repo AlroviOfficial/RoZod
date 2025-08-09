@@ -8,9 +8,15 @@ const Roblox_ClientSettings_Api_Models_Response_ClientVersionResponse = z.object
   nextClientVersionUpload: z.string(),
   nextClientVersion: z.string(),
 });
+const Roblox_ClientSettings_Api_Models_Response_OtaVersionResponse = z.object({
+  name: z.string(),
+  version: z.string(),
+  downloadUrl: z.string(),
+  isStandalone: z.boolean(),
+});
 const Roblox_ClientSettings_Api_Models_Response_UserChannelResponse = z.object({
   channelName: z.string(),
-  channelAssignmentType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  channelAssignmentType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
   token: z.string(),
 });
 
@@ -99,6 +105,52 @@ export const getCompressionDictionariesDictionarysha256 = endpoint({
   },
   response: z.void(),
   errors: [],
+});
+/**
+ * @api GET https://clientsettings.roblox.com/v2/ota-version/:binaryType
+ * @summary Get OTA information for a specific binary type with a given version on some channel.
+Returns empty list if no updates are found or channel/application with the given version does not exist in CVS.
+ * @param binaryType Binary type of the application to get info for
+ * @param channel Channel name. If not provided, production is assumed.
+ * @param version Application version
+ */
+export const getOtaVersionBinarytype = endpoint({
+  method: 'GET',
+  path: '/v2/ota-version/:binaryType',
+  baseUrl: 'https://clientsettings.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    binaryType: {
+      style: 'simple',
+    },
+    channel: {
+      style: 'form',
+      explode: true,
+    },
+    version: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    binaryType: z.string(),
+    channel: z.string().optional(),
+    version: z.string().optional(),
+  },
+  response: z.array(Roblox_ClientSettings_Api_Models_Response_OtaVersionResponse),
+  errors: [
+    {
+      status: 400,
+      description: `2: Invalid binaryType.
+4: Invalid app version.
+6: Missing or invalid channel.
+7: Unsupported binaryType.`,
+    },
+    {
+      status: 401,
+      description: `5: Not authorized to perform this action.`,
+    },
+  ],
 });
 /**
  * @api GET https://clientsettings.roblox.com/v2/user-channel

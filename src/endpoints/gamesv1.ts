@@ -74,6 +74,12 @@ const Roblox_Web_Responses_Games_GameServerResponse = z.object({
   accessCode: z.string().uuid(),
   owner: Roblox_Games_Api_Models_Response_VerifiedBadgeUserResponse,
 });
+const Roblox_Games_Api_Models_Response_GetPrivateServerListResponse = z.object({
+  gameJoinRestricted: z.boolean(),
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Web_Responses_Games_GameServerResponse),
+});
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_ = z.object({
   previousPageCursor: z.string(),
   nextPageCursor: z.string(),
@@ -187,6 +193,7 @@ const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z.object({
     z.literal(22),
     z.literal(23),
     z.literal(24),
+    z.literal(25),
   ]),
   isPlayable: z.boolean(),
   universeId: z.number().int(),
@@ -228,12 +235,17 @@ const Roblox_Games_Api_Models_Response_PrivateServersEnabledInUniverseResponse =
   privateServersEnabled: z.boolean(),
 });
 const Roblox_Games_Api_Models_Response_MyPrivateServersData = z.object({
+  active: z.boolean(),
   universeId: z.number().int(),
   placeId: z.number().int(),
   name: z.string(),
   ownerId: z.number().int(),
   ownerName: z.string(),
   priceInRobux: z.number().int(),
+  privateServerId: z.number().int(),
+  expirationDate: z.string().datetime({ offset: true }),
+  willRenew: z.boolean(),
+  universeName: z.string(),
 });
 const Roblox_Games_Api_Models_Response_MyPrivateServersResponse = z.object({
   nextPageCursor: z.string(),
@@ -320,7 +332,7 @@ const Roblox_Games_Api_VipServerUpdateVoiceSettingsRequest = z.object({
 /**
  * @api GET https://games.roblox.com/v1/games
  * @summary Gets a list of games' detail
- * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
+ * @param universeIds A list of universe Ids. Cannot exceed a maximum of 50 IDs.
  */
 export const getGames = endpoint({
   method: 'GET',
@@ -383,7 +395,7 @@ export const getGamesPlaceidPrivateServers = endpoint({
     cursor: z.string().optional(),
     sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_,
+  response: Roblox_Games_Api_Models_Response_GetPrivateServerListResponse,
   errors: [
     {
       status: 400,
@@ -847,7 +859,7 @@ export const getGamesMultigetPlaceDetails = endpoint({
 /**
  * @api GET https://games.roblox.com/v1/games/multiget-playability-status
  * @summary Gets a list of universe playability statuses for the authenticated user
- * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
+ * @param universeIds A list of universe Ids. Cannot exceed a maximum of 50 IDs.
  */
 export const getGamesMultigetPlayabilityStatus = endpoint({
   method: 'GET',
@@ -968,7 +980,7 @@ export const postGamesVipServersUniverseid = endpoint({
 /**
  * @api GET https://games.roblox.com/v1/games/votes
  * @summary Gets a list of universe vote status
- * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
+ * @param universeIds A list of universe Ids. Cannot exceed a maximum of 50 IDs.
  */
 export const getGamesVotes = endpoint({
   method: 'GET',

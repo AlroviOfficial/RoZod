@@ -3,7 +3,7 @@ import { endpoint } from '..';
 
 const Roblox_EconomyCreatorStats_Api_Models_StatisticsResponse = z.object({
   dataGranularity: z.union([z.literal(0), z.literal(1), z.literal(2)]),
-  data: z.record(z.array(z.array(z.number()))),
+  data: z.array(z.array(z.number())),
 });
 
 /**

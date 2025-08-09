@@ -3,6 +3,7 @@ import { endpoint } from '..';
 
 const Roblox_GameJoin_Api_GameJoinRequest = z.object({
   isoContext: z.string(),
+  gameIdToExclude: z.string().uuid(),
   eventId: z.string(),
   gameJoinAttemptId: z.string().uuid(),
   placeId: z.number().int(),
@@ -89,6 +90,9 @@ const Roblox_Web_GameLaunch_ConnectionFlow_JoinInformation = z.object({
   EventId: z.string(),
   EphemeralEarlyPubKey: z.string(),
   PartyId: z.string(),
+  ShowRobloxTranslations: z.boolean(),
+  MatchmakingAttributes: z.string(),
+  TranslationDisplayMode: z.string(),
 });
 const Roblox_GameJoin_Api_GameJoinResponse = z.object({
   jobId: z.string(),
@@ -249,7 +253,7 @@ export const postJoinGameInstance = endpoint({
 });
 /**
  * @api POST https://gamejoin.roblox.com/v1/join-play-together-game
- * @summary Endpoint to join play together game
+ * @summary Endpoint to join play together game. DEPRECATED
  * @param body The Roblox.GameJoin.Api.JoinPlayTogetherGameRequest in JSON format
  */
 export const postJoinPlayTogetherGame = endpoint({
@@ -332,6 +336,7 @@ export const postJoinReservedGame = endpoint({
  * @api GET https://gamejoin.roblox.com/v1/join-team-test
  * @summary Endpoint to join a team test.
  * @param PlaceId The Target Place Id for Team Test.
+ * @param PlaceVersion The Target Place Version for Team Test.
  */
 export const getJoinTeamTest = endpoint({
   method: 'GET',
@@ -343,9 +348,14 @@ export const getJoinTeamTest = endpoint({
       style: 'form',
       explode: true,
     },
+    PlaceVersion: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     PlaceId: z.number().int(),
+    PlaceVersion: z.number().int(),
   },
   response: z.void(),
   errors: [],

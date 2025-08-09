@@ -86,6 +86,9 @@ const Roblox_Authentication_Api_Models_LoginResponse = z.object({
   identityVerificationLoginTicket: z.string(),
   isBanned: z.boolean(),
   accountBlob: z.string(),
+  shouldUpdateEmail: z.boolean(),
+  recoveryEmail: z.string(),
+  passkeyRegistrationSucceeded: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_ProviderInfoModel = z.object({
   provider: z.string(),
@@ -93,11 +96,6 @@ const Roblox_Authentication_Api_Models_ProviderInfoModel = z.object({
 });
 const Roblox_Authentication_Api_Models_SocialProvidersResponse = z.object({
   providers: z.array(Roblox_Authentication_Api_Models_ProviderInfoModel),
-});
-const Roblox_Authentication_Api_Models_TwoStepVerificationMetadataResponse = z.object({
-  codeLength: z.number().int(),
-  loadingImageUrl: z.string(),
-  supportUrl: z.string(),
 });
 const Roblox_Authentication_Api_Models_UsernamesResponse = z.object({
   usernames: z.array(z.string()),
@@ -139,6 +137,7 @@ const Roblox_Authentication_Api_Models_RecommendedUsernameRequest = z.object({
 });
 const Roblox_Authentication_Api_Models_XboxConnectionModel = z.object({
   hasConnectedXboxAccount: z.boolean(),
+  gamertag: z.string(),
 });
 const Roblox_Authentication_Api_Models_XboxLoginConsecutiveDaysResponse = z.object({ count: z.number().int() });
 const Roblox_Authentication_Api_Models_AccountPinResponse = z.object({
@@ -148,7 +147,7 @@ const Roblox_Authentication_Api_Models_Request_ExternalAccessRequest = z
   .object({
     authenticationProof: z.string(),
     identityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    additionalInfoPayload: z.record(z.object({})),
+    additionalInfoPayload: z.object({}),
   })
   .passthrough();
 const Roblox_Authentication_Api_Models_Response_ExternalIdentityGateway_ExternalIdentityAccessResponse = z.object({
@@ -158,19 +157,44 @@ const Roblox_Authentication_Api_Models_Response_ExternalIdentityGateway_External
 });
 const Roblox_Authentication_Api_Models_Request_ExternalLoginRequest = z
   .object({
+    identityProvider: z.union([
+      z.literal(0),
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+      z.literal(5),
+      z.literal(6),
+      z.literal(7),
+      z.literal(8),
+      z.literal(999),
+    ]),
+    additionalData: z.object({}),
     authenticationProof: z.string(),
-    identityProvider: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    additionalInfoPayload: z.record(z.object({})),
   })
   .passthrough();
+const Roblox_Authentication_Api_Models_Response_ExternalIdentityGateway_ExternalLoginResponse = z.object({
+  success: z.boolean(),
+});
 const Roblox_Authentication_Api_Models_Request_ExternalLoginAndLinkRequest = z
   .object({
-    ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+    ctype: z.union([
+      z.literal(0),
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+      z.literal(5),
+      z.literal(6),
+      z.literal(7),
+      z.literal(8),
+      z.literal(9),
+    ]),
     cvalue: z.string(),
     password: z.string(),
     authenticationProof: z.string(),
     IdentityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    additionalInfoPayload: z.record(z.object({})),
+    additionalInfoPayload: z.object({}),
   })
   .passthrough();
 const Roblox_Authentication_Api_Models_Request_ExternalSignupRequest = z
@@ -181,13 +205,13 @@ const Roblox_Authentication_Api_Models_Request_ExternalSignupRequest = z
     locale: z.string(),
     authenticationProof: z.string(),
     IdentityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    additionalInfoPayload: z.record(z.object({})),
+    additionalInfoPayload: z.object({}),
   })
   .passthrough();
 const Roblox_Authentication_Api_Models_Request_ExternalUnlinkRequest = z
   .object({
     IdentityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    additionalInfoPayload: z.record(z.object({})),
+    additionalInfoPayload: z.object({}),
   })
   .passthrough();
 const Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest = z.object({
@@ -196,7 +220,18 @@ const Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest 
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Authentication_Api_Models_Request_InitializeLoginRequest = z.object({
-  ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+  ctype: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+  ]),
   cvalue: z.string().min(1),
   captchaId: z.string().optional(),
   captchaToken: z.string().optional(),
@@ -216,8 +251,33 @@ const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel =
   saiSignature: z.string(),
   serverNonce: z.string(),
 });
+const Roblox_Authentication_Api_Models_AccountLinkParameters = z.object({
+  LinkingPlatform: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(999),
+  ]),
+});
 const Roblox_Authentication_Api_Models_LoginRequest = z.object({
-  ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+  ctype: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+  ]),
   cvalue: z.string(),
   password: z.string(),
   userId: z.number().int(),
@@ -225,6 +285,7 @@ const Roblox_Authentication_Api_Models_LoginRequest = z.object({
   securityQuestionRedemptionToken: z.string(),
   secureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
   accountBlob: z.string(),
+  accountLinkParameters: Roblox_Authentication_Api_Models_AccountLinkParameters,
   captchaId: z.string(),
   captchaToken: z.string(),
   captchaProvider: z.string(),
@@ -255,7 +316,18 @@ const Roblox_Authentication_Api_Models_Response_ListPasskeyCredentialResponse = 
   credentials: z.array(Roblox_Authentication_Api_Models_Response_PasskeyCredential),
 });
 const Roblox_Authentication_Api_Models_Request_StartAuthenticationByUserRequest = z.object({
-  ctype: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+  ctype: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+  ]),
   cvalue: z.string().min(1),
 });
 const Roblox_Authentication_Api_Models_Response_StartAuthenticationByUserResponse = z.object({
@@ -319,6 +391,7 @@ const Roblox_Authentication_Api_Models_SignupRequest = z.object({
   accountBlob: z.string(),
   passkeySessionId: z.string(),
   passkeyRegistrationResponse: z.string(),
+  accountLinkParameters: Roblox_Authentication_Api_Models_AccountLinkParameters,
   captchaId: z.string(),
   captchaToken: z.string(),
   captchaProvider: z.string(),
@@ -331,38 +404,6 @@ const Roblox_Authentication_Api_Models_SignupResponse = z.object({
   accountBlob: z.string(),
 });
 const Roblox_Authentication_Api_Models_SocialAuthenticationDisconnectRequest = z.object({ Password: z.string() });
-const Roblox_Authentication_Api_Models_TwoStepVerificationTicketRequest = z.object({
-  username: z.string(),
-  ticket: z.string(),
-  actionType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
-  ]),
-});
-const Roblox_Authentication_Api_Models_TwoStepVerificationVerifyRequest = z.object({
-  username: z.string(),
-  ticket: z.string(),
-  code: z.string(),
-  rememberDevice: z.boolean(),
-  actionType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
-  ]),
-});
 const Roblox_Authentication_Api_Models_PasswordChangeModel = z.object({
   currentPassword: z.string(),
   newPassword: z.string(),
@@ -373,7 +414,7 @@ const Roblox_Authentication_Api_Models_UsernameChangeRequest = z.object({
   password: z.string(),
 });
 const Roblox_Authentication_Api_Models_RecoverUsernameRequest = z.object({
-  targetType: z.union([z.literal(0), z.literal(1)]),
+  targetType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
   target: z.string(),
 });
 const Roblox_Authentication_Api_Models_RecoverUsernameResponse = z.object({
@@ -663,18 +704,35 @@ export const postExternalLogin = endpoint({
   },
   parameters: {},
   body: Roblox_Authentication_Api_Models_Request_ExternalLoginRequest,
-  response: z.void(),
+  response: z.object({ success: z.boolean() }),
   errors: [
+    {
+      status: 400,
+      description: `30: Platform is not supported for SSO login.`,
+    },
+    {
+      status: 401,
+      description: `31: No linked account found for SSO login.`,
+    },
     {
       status: 403,
       description: `0: Token Validation Failed`,
+    },
+    {
+      status: 500,
+      description: `0: An unexpected error occurred.`,
+    },
+    {
+      status: 501,
+      description: `0: An unexpected error occurred.`,
     },
   ],
 });
 /**
  * @api POST https://auth.roblox.com/v1/external/loginAndLink
- * @summary Logins in a user to Roblox, then links the Roblox account to the external provider ID
- * @param body
+ * @summary Deprecated endpoint
+Logins in a user to Roblox, then links the Roblox account to the external provider ID
+ * @param body 
  */
 export const postExternalLoginandlink = endpoint({
   method: 'POST',
@@ -811,6 +869,55 @@ export const postIdentityInitializeLogin = endpoint({
 export const postLogin = endpoint({
   method: 'POST',
   path: '/v1/login',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_LoginRequest,
+  response: Roblox_Authentication_Api_Models_LoginResponse,
+  errors: [
+    {
+      status: 400,
+      description: `0: An unexpected error occurred.
+3: Username and Password are required. Please try again.
+8: Login with received credential type is not supported.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+1: Incorrect username or password. Please try again.
+2: You must pass the robot test before logging in.
+4: Account has been locked. Please request a password reset.
+5: Unable to login. Please use Social Network sign on.
+6: Account issue. Please contact Support.
+9: Unable to login with provided credentials. Default login is required.
+10: Received credentials are unverified.
+12: Existing login session found. Please log out first.
+14: The account is unable to log in. Please log in to the LuoBu app.
+15: Too many attempts. Please wait a bit.
+27: The account is unable to login. Please log in with the VNG app.`,
+    },
+    {
+      status: 429,
+      description: `7: Too many attempts. Please wait a bit.`,
+    },
+    {
+      status: 503,
+      description: `11: Service unavailable. Please try again.`,
+    },
+  ],
+});
+/**
+ * @api POST https://auth.roblox.com/v1/login/linked
+ * @summary Endpoint for logging in a user, specifically for linked
+authentication on PCGDK
+ * @param body Roblox.Authentication.Api.Models.LoginRequest
+ */
+export const postLoginLinked = endpoint({
+  method: 'POST',
+  path: '/v1/login/linked',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
@@ -1306,6 +1413,23 @@ export const postRevertAccount = endpoint({
   ],
 });
 /**
+ * @api POST https://auth.roblox.com/v1/session/refresh
+ * @summary Logs out user from the current session and create a new one.
+ */
+export const postSessionRefresh = endpoint({
+  method: 'POST',
+  path: '/v1/session/refresh',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  response: z.object({}),
+  errors: [
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+  ],
+});
+/**
  * @api POST https://auth.roblox.com/v1/signup
  * @summary Endpoint for signing up a new user
  * @param body Roblox.Authentication.Api.Models.SignupRequest
@@ -1357,6 +1481,58 @@ export const postSignup = endpoint({
     {
       status: 503,
       description: `Service unavailable`,
+    },
+  ],
+});
+/**
+ * @api POST https://auth.roblox.com/v1/signup/linked
+ * @summary Endpoint for signing up a new user, specifically for linked
+authentication on PCGDK
+ * @param body Roblox.Authentication.Api.Models.SignupRequest
+ */
+export const postSignupLinked = endpoint({
+  method: 'POST',
+  path: '/v1/signup/linked',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_SignupRequest,
+  response: Roblox_Authentication_Api_Models_SignupResponse,
+  errors: [
+    {
+      status: 400,
+      description: `Bad request
+16: User agreement ids are null.
+21: Empty account switch blob required`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+2: Captcha Failed.
+4: Invalid Birthday.
+5: Invalid Username.
+6: Username already taken.
+7: Invalid Password.
+8: Password and Username are same.
+9: Password is too simple.
+10: Email is invalid.
+11: Asset is invalid.
+12: Too many attempts. Please wait a bit.
+17: One time Passcode session was not valid
+22: Maximum logged in accounts limit reached.`,
+    },
+    {
+      status: 429,
+      description: `3: Too many attempts. Please wait a bit.`,
+    },
+    {
+      status: 500,
+      description: `Internal server error
+15: Insert acceptances failed.
+27: Pre-auth passkey registration failed`,
     },
   ],
 });
@@ -1419,97 +1595,6 @@ export const getSocialConnectedProviders = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api GET https://auth.roblox.com/v1/twostepverification/metadata
- * @summary Get metadata for two step verification
- */
-export const getTwostepverificationMetadata = endpoint({
-  method: 'GET',
-  path: '/v1/twostepverification/metadata',
-  baseUrl: 'https://auth.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_Authentication_Api_Models_TwoStepVerificationMetadataResponse,
-  errors: [],
-});
-/**
- * @api POST https://auth.roblox.com/v1/twostepverification/resend
- * @summary Resends a two step verification code.
- * @param body The request.
- */
-export const postTwostepverificationResend = endpoint({
-  method: 'POST',
-  path: '/v1/twostepverification/resend',
-  baseUrl: 'https://auth.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Authentication_Api_Models_TwoStepVerificationTicketRequest,
-  response: Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse,
-  errors: [
-    {
-      status: 400,
-      description: `1: User is invalid.
-5: Invalid two step verification ticket.
-7: The action is unsupported.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 429,
-      description: `3: Too many attempts. Please try again later.`,
-    },
-    {
-      status: 500,
-      description: `4: Account issue. Please contact Support.`,
-    },
-    {
-      status: 503,
-      description: `2: The two step verification feature is not enabled at this time.`,
-    },
-  ],
-});
-/**
- * @api POST https://auth.roblox.com/v1/twostepverification/verify
- * @summary Verifies a two step verification code.
- * @param body The request model containing information needed to verify with two step verification.
- */
-export const postTwostepverificationVerify = endpoint({
-  method: 'POST',
-  path: '/v1/twostepverification/verify',
-  baseUrl: 'https://auth.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Authentication_Api_Models_TwoStepVerificationVerifyRequest,
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: User is invalid.
-5: Invalid two step verification ticket.
-6: The code is invalid.
-7: The action is unsupported.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 429,
-      description: `3: Too many attempts. Please try again later.`,
-    },
-    {
-      status: 503,
-      description: `2: The two step verification feature is not enabled at this time.`,
     },
   ],
 });
@@ -1860,13 +1945,14 @@ export const postValidatorsUsername = endpoint({
 /**
  * @api GET https://auth.roblox.com/v1/xbox/connection
  * @summary Check if the current user has an Xbox connected.
+Also returns the gamertag of the Xbox account if connected.
  */
 export const getXboxConnection = endpoint({
   method: 'GET',
   path: '/v1/xbox/connection',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
-  response: z.object({ hasConnectedXboxAccount: z.boolean() }),
+  response: Roblox_Authentication_Api_Models_XboxConnectionModel,
   errors: [
     {
       status: 401,

@@ -73,9 +73,7 @@ const endpoint = <
 
 // Extract the parameter, and also include the body as a parameter, if it exists. Parameters shouldn't be undefined if body exists
 // true only when T is exactly undefined (not when T is a union including undefined)
-type IsExactlyUndefined<T> = [T] extends [undefined]
-  ? ([undefined] extends [T] ? true : false)
-  : false;
+type IsExactlyUndefined<T> = [T] extends [undefined] ? ([undefined] extends [T] ? true : false) : false;
 
 type ExtractParams<S extends EndpointGeneric<any, any, any>> = S['parameters'] extends undefined
   ? IsExactlyUndefined<S['body']> extends true
@@ -395,9 +393,7 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
   endpoint: S,
   params: ExtractParams<S> | undefined,
   requestOptions?: RequestOptions<R>,
-): Promise<
-  R extends true ? TypedJsonResponse<ExtractResponse<S>> : ExtractResponse<S> | AnyError
->;
+): Promise<R extends true ? TypedJsonResponse<ExtractResponse<S>> : ExtractResponse<S> | AnyError>;
 
 /**
  * Fetches the data from the given endpoint and returns it.
@@ -411,9 +407,7 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
   endpoint: S,
   params?: ExtractParams<S>,
   requestOptions: RequestOptions<R> = { mode: 'cors', credentials: 'include' },
-): Promise<
-  R extends true ? TypedJsonResponse<ExtractResponse<S>> : ExtractResponse<S> | AnyError
-> {
+): Promise<R extends true ? TypedJsonResponse<ExtractResponse<S>> : ExtractResponse<S> | AnyError> {
   const { method, requestFormat = 'json' } = endpoint;
   const defaultValues = extractDefaultValues(endpoint);
   const extendedParams = { ...defaultValues, ...params } as ExtractParams<S>;
@@ -467,7 +461,7 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
       const useV2 = baseLower.includes('apis.roblox.com');
       const parsedErrors = await (useV2 ? parseBEDEV2Error(response) : parseBEDEV1Error(response));
       parsedError = Array.isArray(parsedErrors)
-        ? parsedErrors[0] ?? { message: 'Unknown error' }
+        ? (parsedErrors[0] ?? { message: 'Unknown error' })
         : (parsedErrors as unknown as AnyError);
     } else {
       // Generic fallback for non-roblox domains: best-effort textual message

@@ -25,6 +25,12 @@ const Roblox_Web_Assets_IAssetItemError = z.object({
     z.literal(8),
     z.literal(9),
     z.literal(10),
+    z.literal(11),
+    z.literal(12),
+    z.literal(13),
+    z.literal(14),
+    z.literal(15),
+    z.literal(16),
   ]),
 });
 const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z.object({
@@ -36,11 +42,10 @@ const Roblox_Web_Assets_AssetResponseItemV2 = z.object({
   locations: z.array(Roblox_Web_Assets_AssetFormatLocation),
   errors: z.array(Roblox_Web_Assets_IAssetItemError),
   requestId: z.string(),
-  IsHashDynamic: z.boolean(),
-  IsCopyrightProtected: z.boolean(),
   isArchived: z.boolean(),
   assetTypeId: z.number().int(),
   contentRepresentationSpecifier: Roblox_Web_Assets_AssetContentRepresentationSpecifier,
+  isRecordable: z.boolean(),
 });
 const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
   assetName: z.string(),
@@ -403,9 +408,9 @@ export const getAssetidAssetid = endpoint({
   errors: [],
 });
 /**
- * @api GET https://assetdelivery.roblox.com/v2/assetId/:assetId/version/:version
+ * @api GET https://assetdelivery.roblox.com/v2/assetId/:assetId/version/:versionNumber
  * @param assetId
- * @param version
+ * @param versionNumber
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
@@ -421,16 +426,16 @@ export const getAssetidAssetid = endpoint({
  * @param doNotFallbackToBaselineRepresentation
  * @param contentRepresentationPriorityList
  */
-export const getAssetidAssetidVersionVersion = endpoint({
+export const getAssetidAssetidVersionVersionnumber = endpoint({
   method: 'GET',
-  path: '/v2/assetId/:assetId/version/:version',
+  path: '/v2/assetId/:assetId/version/:versionNumber',
   baseUrl: 'https://assetdelivery.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     assetId: {
       style: 'simple',
     },
-    version: {
+    versionNumber: {
       style: 'simple',
     },
     'Accept-Encoding': {
@@ -486,7 +491,7 @@ export const getAssetidAssetidVersionVersion = endpoint({
   },
   parameters: {
     assetId: z.number().int(),
-    version: z.number().int(),
+    versionNumber: z.number().int(),
     'Accept-Encoding': z.string(),
     'Roblox-Place-Id': z.number().int(),
     AssetType: z.string(),

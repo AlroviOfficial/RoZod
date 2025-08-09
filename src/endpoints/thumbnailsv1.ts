@@ -174,6 +174,11 @@ export const getAssets = endpoint({
         '728x90',
         '768x432',
         '1200x80',
+        '330x110',
+        '660x220',
+        '1320x440',
+        '720x228',
+        '1440x456',
       ])
       .optional()
       .default('30x30'),
@@ -201,6 +206,7 @@ export const getAssets = endpoint({
  * @api GET https://thumbnails.roblox.com/v1/assets-thumbnail-3d
  * @summary Thumbnails assets.
  * @param assetId The asset id.
+ * @param useGltf (optional) formatType
  * @param Roblox-Place-Id (optional) placeid
  */
 export const getAssetsThumbnail3d = endpoint({
@@ -213,12 +219,17 @@ export const getAssetsThumbnail3d = endpoint({
       style: 'form',
       explode: true,
     },
+    useGltf: {
+      style: 'form',
+      explode: true,
+    },
     'Roblox-Place-Id': {
       style: 'simple',
     },
   },
   parameters: {
     assetId: z.number().int(),
+    useGltf: z.boolean().optional(),
     'Roblox-Place-Id': z.number().int().optional(),
   },
   response: Roblox_Web_Responses_Thumbnails_ThumbnailResponse,

@@ -100,6 +100,10 @@ const Roblox_Badges_Api_BadgeAwardResponse = z.object({
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Badges_Api_BadgeAwardResponse_ = z.object({
   data: z.array(Roblox_Badges_Api_BadgeAwardResponse),
 });
+const badgeId_icon_body = z.object({ Files: z.instanceof(File) });
+const Roblox_Badges_Api_IconUploadResponse = z.object({
+  targetId: z.number().int(),
+});
 
 /**
  * @api GET https://badges.roblox.com/v1/badges/:badgeId
@@ -123,7 +127,8 @@ export const getBadgesBadgeid = endpoint({
   errors: [
     {
       status: 404,
-      description: `1: Badge is invalid or does not exist.`,
+      description: `1: Badge is invalid or does not exist.
+3: The game is invalid or does not exist.`,
     },
   ],
 });
@@ -167,7 +172,55 @@ export const patchBadgesBadgeid = endpoint({
     },
     {
       status: 404,
+      description: `1: Badge is invalid or does not exist.
+3: The game is invalid or does not exist.`,
+    },
+  ],
+});
+/**
+ * @api POST https://badges.roblox.com/v1/badges/:badgeId/icon
+ * @summary Overwrites a badge icon with a new one.
+ * @param body
+ * @param badgeId The badge Id.
+ */
+export const postBadgesBadgeidIcon = endpoint({
+  method: 'POST',
+  path: '/v1/badges/:badgeId/icon',
+  baseUrl: 'https://badges.roblox.com',
+  requestFormat: 'form-data',
+  serializationMethod: {
+    body: {},
+    badgeId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    badgeId: z.number().int(),
+  },
+  body: z.object({ Files: z.instanceof(File) }),
+  response: z.object({ targetId: z.number().int() }),
+  errors: [
+    {
+      status: 400,
+      description: `6: Text moderated.
+22: Icon file is not present in the request.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+2: You do not have permission to manage this badge.`,
+    },
+    {
+      status: 404,
       description: `1: Badge is invalid or does not exist.`,
+    },
+    {
+      status: 429,
+      description: `13: Too many requests, try again later.`,
     },
   ],
 });

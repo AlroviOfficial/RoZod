@@ -39,7 +39,7 @@ export const getUniversePayoutHistory = endpoint({
     startDate: z.string(),
     endDate: z.string(),
   },
-  response: z.record(Roblox_EngagementPayouts_Api_PayoutResponseModel),
+  response: Roblox_EngagementPayouts_Api_PayoutResponseModel,
   errors: [
     {
       status: 400,

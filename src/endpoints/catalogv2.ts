@@ -8,14 +8,18 @@ const Roblox_Catalog_Api_ElasticsearchDebugInfo = z.object({
   isTerminatedEarly: z.boolean(),
   isForceTerminationEnabledByRequest: z.boolean(),
   searchResultDataSource: z.string(),
+  searchResultRelevanceScore: z.string(),
+  searchResultEngagementScore: z.string(),
 });
-const Roblox_Catalog_Api_BundleItemDetailModel = z.object({
+const Roblox_Catalog_Api_BundleItemDetailModelV2 = z.object({
+  assetType: z.number().int(),
   owned: z.boolean(),
   id: z.number().int(),
   name: z.string(),
   type: z.string(),
 });
-const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
+const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
+  bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModelV2),
   id: z.number().int(),
   itemType: z.union([z.literal(1), z.literal(2)]),
   assetType: z.union([
@@ -95,12 +99,15 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
     z.literal(81),
     z.literal(82),
     z.literal(83),
+    z.literal(84),
+    z.literal(85),
+    z.literal(86),
   ]),
   bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  isRecolorable: z.boolean(),
   name: z.string(),
   description: z.string(),
   productId: z.number().int(),
-  bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModel),
   itemStatus: z.array(z.union([z.literal(1), z.literal(2), z.literal(7)])),
   itemRestrictions: z.array(
     z.union([
@@ -142,12 +149,12 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
   isOffSale: z.boolean(),
   quantityLimitPerUser: z.number().int(),
 });
-const Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_ = z.object({
+const Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2_ = z.object({
   keyword: z.string(),
   elasticsearchDebugInfo: Roblox_Catalog_Api_ElasticsearchDebugInfo,
   previousPageCursor: z.string(),
   nextPageCursor: z.string(),
-  data: z.array(Roblox_Catalog_Api_CatalogSearchDetailedResponseItem),
+  data: z.array(Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2),
 });
 
 /**
@@ -167,7 +174,7 @@ const Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSea
  * @param IncludeNotForSale
  * @param TriggeredByTopicDiscovery
  * @param SalesTypeFilter
- * @param Topics
+ * @param Topics The input topics format is split by ",". E.g "topics=cat,hat,red".
  * @param limit The number of results per request.
  * @param cursor The paging cursor for the previous or next page.
  * @param sortOrder The order the results are sorted in.
@@ -283,7 +290,7 @@ export const getSearchItemsDetails = endpoint({
     cursor: z.string().optional(),
     sortOrder: z.literal('Desc').optional().default('Desc'),
   },
-  response: Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_,
+  response: Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2_,
   errors: [
     {
       status: 400,

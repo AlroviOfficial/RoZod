@@ -28,7 +28,7 @@
     "url": "https://github.com/AlroviOfficial/RoZod/issues"
   },
   "devDependencies": {
-    "@alexop/openapi-zod-client": "^1.11.2",
+    "openapi-zod-client": "^1.18.3",
     "@apidevtools/swagger-parser": "^10.1.0",
     "@types/jest": "^29.5.13",
     "@types/node": "^20.13.1",
