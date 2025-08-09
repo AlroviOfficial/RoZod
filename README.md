@@ -182,6 +182,107 @@ const dataStoreEntries = await fetchApi(getCloudV2UniversesUniverseIdDataStoresD
 });
 ```
 
+## Authentication
+
+RoZod handles Roblox authentication automatically with comprehensive security features:
+
+### Browser Environments
+
+In browsers, authentication works automatically when users are logged into Roblox:
+
+```ts
+import { fetchApi } from 'rozod';
+import { getUsersUserdetails } from 'rozod/lib/endpoints/usersv1';
+
+// Cookies are sent automatically - no setup required!
+const userInfo = await fetchApi(getUsersUserdetails, { userIds: [123456] });
+```
+
+### Server Environments (Node.js/Bun/Deno)
+
+For server environments, you need to provide the `.ROBLOSECURITY` cookie manually:
+
+```ts
+import { fetchApi } from 'rozod';
+import { getUsersUserdetails } from 'rozod/lib/endpoints/usersv1';
+
+const userInfo = await fetchApi(
+  getUsersUserdetails, 
+  { userIds: [123456] },
+  {
+    headers: {
+      'Cookie': '.ROBLOSECURITY=your_cookie_here'
+    }
+  }
+);
+```
+
+### Security Features
+
+RoZod automatically handles advanced Roblox security requirements:
+
+- **✅ XCSRF Token Management** - Automatic CSRF token retrieval and caching
+- **✅ Hardware-Backed Authentication** - Full HBA signature support  
+- **✅ Challenge Handling** - Captchas, 2FA, and other authentication challenges
+- **✅ Cookie Security** - Secure cookie parsing and validation
+
+### Challenge Handling
+
+For advanced authentication challenges (captchas, 2FA), set up a global challenge handler:
+
+```ts
+import { setHandleGenericChallenge } from 'rozod';
+
+setHandleGenericChallenge(async (challenge) => {
+  // Handle captcha, 2FA, or other challenges
+  // Return the challenge response or undefined to skip
+  if (challenge.challengeType === 'captcha') {
+    const solution = await solveCaptcha(challenge.challengeId);
+    return {
+      challengeType: challenge.challengeType,
+      challengeId: challenge.challengeId,
+      challengeBase64Metadata: solution
+    };
+  }
+});
+```
+
+### Hardware-Backed Authentication (Advanced)
+
+For Node.js environments requiring custom HBA keys:
+
+```ts
+import { changeHBAKeys } from 'rozod';
+
+// Provide your own crypto key pair for HBA signatures
+const keyPair = await crypto.subtle.generateKey(
+  { name: 'ECDSA', namedCurve: 'P-256' },
+  true,
+  ['sign', 'verify']
+);
+
+changeHBAKeys(keyPair);
+```
+
+### OpenCloud Authentication
+
+OpenCloud APIs require API keys in headers:
+
+```ts
+import { fetchApi } from 'rozod';
+import { v2 } from 'rozod/lib/opencloud';
+
+const universeInfo = await fetchApi(
+  v2.getCloudV2UniversesUniverseId,
+  { universe_id: '123456789' },
+  {
+    headers: {
+      'x-api-key': 'your_opencloud_api_key_here'
+    }
+  }
+);
+```
+
 ## Custom Endpoints
 
 You can define custom endpoints for your specific needs:
