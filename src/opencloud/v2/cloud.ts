@@ -645,7 +645,7 @@ const UserNotification = z.object({
 });
 
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/creator-store-products
+ * @api POST https://apis.roblox.com/cloud/v2/creator-store-products
  * @summary Create Creator Store Product
  * @param body 
  * @description Add a Creator Store product. Only use this method if your product has never
@@ -654,7 +654,7 @@ update the product.
  */
 export const postCloudV2CreatorStoreProducts = endpoint({
   method: 'POST',
-  path: '/cloud/v2/creator-store-products',
+  path: '/v2/creator-store-products',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -666,14 +666,14 @@ export const postCloudV2CreatorStoreProducts = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/creator-store-products/:creator_store_product_id
+ * @api GET https://apis.roblox.com/cloud/v2/creator-store-products/:creator_store_product_id
  * @summary Get Creator Store Product
  * @param creator_store_product_id The creator-store-product ID.
  * @description Get a Creator Store product.
  */
 export const getCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/creator-store-products/:creator_store_product_id',
+  path: '/v2/creator-store-products/:creator_store_product_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -686,7 +686,7 @@ export const getCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
   errors: [],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/cloud/v2/creator-store-products/:creator_store_product_id
+ * @api PATCH https://apis.roblox.com/cloud/v2/creator-store-products/:creator_store_product_id
  * @summary Update Creator Store Product
  * @param body 
  * @param creator_store_product_id The creator-store-product ID.
@@ -697,7 +697,7 @@ product is created. In this situation, `update_mask` is ignored.
  */
 export const patchCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
   method: 'PATCH',
-  path: '/cloud/v2/creator-store-products/:creator_store_product_id',
+  path: '/v2/creator-store-products/:creator_store_product_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -716,14 +716,14 @@ export const patchCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/groups/:group_id
+ * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id
  * @summary Get Group
  * @param group_id The group ID.
  * @description Gets the specified group.
  */
 export const getCloudV2GroupsGroupId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/groups/:group_id',
+  path: '/v2/groups/:group_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -736,7 +736,7 @@ export const getCloudV2GroupsGroupId = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/groups/:group_id/join-requests
+ * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/join-requests
  * @summary List Group Join Requests
  * @param group_id The group ID.
  * @param maxPageSize The maximum number of group join requests to return. The service might
@@ -758,7 +758,7 @@ Example: `"user == 'users/156'"`
  */
 export const getCloudV2GroupsGroupIdJoinRequests = endpoint({
   method: 'GET',
-  path: '/cloud/v2/groups/:group_id/join-requests',
+  path: '/v2/groups/:group_id/join-requests',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -777,7 +777,7 @@ export const getCloudV2GroupsGroupIdJoinRequests = endpoint({
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/groups/:group_id/join-requests/:join_request_id:accept
+ * @api POST https://apis.roblox.com/cloud/v2/groups/:group_id/join-requests/:join_request_id:accept
  * @summary Accept Group Join Request
  * @param body
  * @param group_id The group ID.
@@ -786,7 +786,7 @@ export const getCloudV2GroupsGroupIdJoinRequests = endpoint({
  */
 export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdAccept = endpoint({
   method: 'POST',
-  path: '/cloud/v2/groups/:group_id/join-requests/:join_request_id:accept',
+  path: '/v2/groups/:group_id/join-requests/:join_request_id:accept',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -803,7 +803,7 @@ export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdAccept = endpoint(
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/groups/:group_id/join-requests/:join_request_id:decline
+ * @api POST https://apis.roblox.com/cloud/v2/groups/:group_id/join-requests/:join_request_id:decline
  * @summary Decline Group Join Request
  * @param body
  * @param group_id The group ID.
@@ -812,7 +812,7 @@ export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdAccept = endpoint(
  */
 export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdDecline = endpoint({
   method: 'POST',
-  path: '/cloud/v2/groups/:group_id/join-requests/:join_request_id:decline',
+  path: '/v2/groups/:group_id/join-requests/:join_request_id:decline',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -829,7 +829,7 @@ export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdDecline = endpoint
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/groups/:group_id/memberships
+ * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/memberships
  * @summary List Group Memberships
  * @param group_id The group ID.
  * @param maxPageSize The maximum number of group memberships to return. The service might return
@@ -848,7 +848,7 @@ documentation for more information.
  */
 export const getCloudV2GroupsGroupIdMemberships = endpoint({
   method: 'GET',
-  path: '/cloud/v2/groups/:group_id/memberships',
+  path: '/v2/groups/:group_id/memberships',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -867,7 +867,7 @@ export const getCloudV2GroupsGroupIdMemberships = endpoint({
   errors: [],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/cloud/v2/groups/:group_id/memberships/:membership_id
+ * @api PATCH https://apis.roblox.com/cloud/v2/groups/:group_id/memberships/:membership_id
  * @summary Update Group Membership
  * @param body 
  * @param group_id The group ID.
@@ -879,7 +879,7 @@ rank.
  */
 export const patchCloudV2GroupsGroupIdMembershipsMembershipId = endpoint({
   method: 'PATCH',
-  path: '/cloud/v2/groups/:group_id/memberships/:membership_id',
+  path: '/v2/groups/:group_id/memberships/:membership_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -896,7 +896,7 @@ export const patchCloudV2GroupsGroupIdMembershipsMembershipId = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/groups/:group_id/roles
+ * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/roles
  * @summary List Group Roles
  * @param group_id The group ID.
  * @param maxPageSize The maximum number of group roles to return. The service might return fewer
@@ -921,7 +921,7 @@ permissions in all roles are visible.
  */
 export const getCloudV2GroupsGroupIdRoles = endpoint({
   method: 'GET',
-  path: '/cloud/v2/groups/:group_id/roles',
+  path: '/v2/groups/:group_id/roles',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -938,7 +938,7 @@ export const getCloudV2GroupsGroupIdRoles = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/groups/:group_id/roles/:role_id
+ * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/roles/:role_id
  * @summary Get Group Role
  * @param group_id The group ID.
  * @param role_id The role ID.
@@ -946,7 +946,7 @@ export const getCloudV2GroupsGroupIdRoles = endpoint({
  */
 export const getCloudV2GroupsGroupIdRolesRoleId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/groups/:group_id/roles/:role_id',
+  path: '/v2/groups/:group_id/roles/:role_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -961,7 +961,7 @@ export const getCloudV2GroupsGroupIdRolesRoleId = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/groups/:group_id/shout
+ * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/shout
  * @summary Get Group Shout
  * @param group_id The group ID.
  * @description Gets the group shout.
@@ -974,7 +974,7 @@ shout.
  */
 export const getCloudV2GroupsGroupIdShout = endpoint({
   method: 'GET',
-  path: '/cloud/v2/groups/:group_id/shout',
+  path: '/v2/groups/:group_id/shout',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -987,14 +987,14 @@ export const getCloudV2GroupsGroupIdShout = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id
  * @summary Get Universe
  * @param universe_id The universe ID.
  * @description Gets the specified universe.
  */
 export const getCloudV2UniversesUniverseId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id',
+  path: '/v2/universes/:universe_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1007,7 +1007,7 @@ export const getCloudV2UniversesUniverseId = endpoint({
   errors: [],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id
+ * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id
  * @summary Update Universe
  * @param body 
  * @param universe_id The universe ID.
@@ -1019,7 +1019,7 @@ This method may additionally return the full resource.
  */
 export const patchCloudV2UniversesUniverseId = endpoint({
   method: 'PATCH',
-  path: '/cloud/v2/universes/:universe_id',
+  path: '/v2/universes/:universe_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1036,7 +1036,7 @@ export const patchCloudV2UniversesUniverseId = endpoint({
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id:generateSpeech
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id:generateSpeech
  * @summary Generate Speech
  * @param body
  * @param universe_id The universe ID.
@@ -1044,7 +1044,7 @@ export const patchCloudV2UniversesUniverseId = endpoint({
  */
 export const postCloudV2UniversesUniverseIdGenerateSpeech = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id:generateSpeech',
+  path: '/v2/universes/:universe_id:generateSpeech',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1059,7 +1059,7 @@ export const postCloudV2UniversesUniverseIdGenerateSpeech = endpoint({
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id:generateSpeechAsset
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id:generateSpeechAsset
  * @summary Generate Speech Asset
  * @param body 
  * @param universe_id The universe ID.
@@ -1075,7 +1075,7 @@ could be
  */
 export const postCloudV2UniversesUniverseIdGenerateSpeechAsset = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id:generateSpeechAsset',
+  path: '/v2/universes/:universe_id:generateSpeechAsset',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1090,7 +1090,7 @@ export const postCloudV2UniversesUniverseIdGenerateSpeechAsset = endpoint({
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id:publishMessage
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id:publishMessage
  * @summary Publish Universe Message
  * @param body 
  * @param universe_id The universe ID.
@@ -1101,7 +1101,7 @@ Servers can consume messages via
  */
 export const postCloudV2UniversesUniverseIdPublishMessage = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id:publishMessage',
+  path: '/v2/universes/:universe_id:publishMessage',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1116,7 +1116,7 @@ export const postCloudV2UniversesUniverseIdPublishMessage = endpoint({
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id:restartServers
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id:restartServers
  * @summary Restart Universe Servers
  * @param body 
  * @param universe_id The universe ID.
@@ -1126,7 +1126,7 @@ updates.
  */
 export const postCloudV2UniversesUniverseIdRestartServers = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id:restartServers',
+  path: '/v2/universes/:universe_id:restartServers',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1141,7 +1141,7 @@ export const postCloudV2UniversesUniverseIdRestartServers = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores
  * @summary List Data Stores
  * @param universe_id The universe ID.
  * @param maxPageSize The maximum number of data stores to return. The service might return fewer
@@ -1164,7 +1164,7 @@ Example filter: `id.startsWith("foo")`
  */
 export const getCloudV2UniversesUniverseIdDataStores = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/data-stores',
+  path: '/v2/universes/:universe_id/data-stores',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1183,7 +1183,7 @@ export const getCloudV2UniversesUniverseIdDataStores = endpoint({
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores:snapshot
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores:snapshot
  * @summary Snapshot Data Stores
  * @param body 
  * @param universe_id The universe ID.
@@ -1206,7 +1206,7 @@ Engine guide.
  */
 export const postCloudV2UniversesUniverseIdDataStoresSnapshot = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/data-stores:snapshot',
+  path: '/v2/universes/:universe_id/data-stores:snapshot',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1221,7 +1221,7 @@ export const postCloudV2UniversesUniverseIdDataStoresSnapshot = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries
  * @summary List Data Store Entries
  * @param universe_id The universe ID.
  * @param data_store_id The data-store ID.
@@ -1252,7 +1252,7 @@ Specify the wildcard scope (`-`) to list entries from all scopes.
  */
 export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/entries',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1275,7 +1275,7 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries = endpoin
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries
  * @summary Create Data Store Entry
  * @param body 
  * @param universe_id The universe ID.
@@ -1291,7 +1291,7 @@ Returns a 400 Bad Request if the entry exists.
  */
 export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/entries',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1310,7 +1310,7 @@ export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries = endpoi
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id
  * @summary Get Data Store Entry
  * @param universe_id The universe ID.
  * @param data_store_id The data-store ID.
@@ -1343,7 +1343,7 @@ For example, to get the revision of `my-entry` that was current on
  */
 export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1360,7 +1360,7 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId = 
   errors: [],
 });
 /**
- * @api DELETE https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id
+ * @api DELETE https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id
  * @summary Delete Data Store Entry
  * @param universe_id The universe ID.
  * @param data_store_id The data-store ID.
@@ -1375,7 +1375,7 @@ On success, returns 200 OK. If the entry doesn't exist, returns
  */
 export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId = endpoint({
   method: 'DELETE',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1392,7 +1392,7 @@ export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId
   errors: [],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id
+ * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id
  * @summary Update Data Store Entry
  * @param body 
  * @param universe_id The universe ID.
@@ -1413,7 +1413,7 @@ be provided when updating an entry.
  */
 export const patchCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId = endpoint({
   method: 'PATCH',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1434,7 +1434,7 @@ export const patchCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId 
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:increment
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:increment
  * @summary Increment Data Store Entry
  * @param body 
  * @param universe_id The universe ID.
@@ -1457,7 +1457,7 @@ this API.
  */
 export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryIdIncrement = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:increment',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:increment',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1476,7 +1476,7 @@ export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryIdIn
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:listRevisions
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:listRevisions
  * @summary List Data Store Entry Revisions
  * @param universe_id The universe ID.
  * @param data_store_id The data-store ID.
@@ -1513,7 +1513,7 @@ In order to get the full entry at a revision, you can use the provided
  */
 export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryIdListRevisions = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:listRevisions',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:listRevisions',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1536,7 +1536,7 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryIdLis
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries
  * @summary List Data Store Entries
  * @param universe_id The universe ID.
  * @param data_store_id The data-store ID.
@@ -1568,7 +1568,7 @@ Specify the wildcard scope (`-`) to list entries from all scopes.
  */
 export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntries = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1593,7 +1593,7 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntr
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries
  * @summary Create Data Store Entry
  * @param body 
  * @param universe_id The universe ID.
@@ -1610,7 +1610,7 @@ Returns a 400 Bad Request if the entry exists.
  */
 export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntries = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1631,7 +1631,7 @@ export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEnt
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id
  * @summary Get Data Store Entry
  * @param universe_id The universe ID.
  * @param data_store_id The data-store ID.
@@ -1665,7 +1665,7 @@ For example, to get the revision of `my-entry` that was current on
  */
 export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1684,7 +1684,7 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntr
   errors: [],
 });
 /**
- * @api DELETE https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id
+ * @api DELETE https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id
  * @summary Delete Data Store Entry
  * @param universe_id The universe ID.
  * @param data_store_id The data-store ID.
@@ -1700,7 +1700,7 @@ On success, returns 200 OK. If the entry doesn't exist, returns
  */
 export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
   method: 'DELETE',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1719,7 +1719,7 @@ export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdE
   errors: [],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id
+ * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id
  * @summary Update Data Store Entry
  * @param body 
  * @param universe_id The universe ID.
@@ -1741,7 +1741,7 @@ be provided when updating an entry.
  */
 export const patchCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
   method: 'PATCH',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1764,7 +1764,7 @@ export const patchCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEn
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:increment
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:increment
  * @summary Increment Data Store Entry
  * @param body 
  * @param universe_id The universe ID.
@@ -1788,7 +1788,7 @@ this API.
  */
 export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryIdIncrement = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:increment',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:increment',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1809,7 +1809,7 @@ export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEnt
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:listRevisions
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:listRevisions
  * @summary List Data Store Entry Revisions
  * @param universe_id The universe ID.
  * @param data_store_id The data-store ID.
@@ -1847,7 +1847,7 @@ In order to get the full entry at a revision, you can use the provided
  */
 export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryIdListRevisions = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:listRevisions',
+  path: '/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:listRevisions',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1872,7 +1872,7 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntr
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/luau-execution-session-task-binary-inputs
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/luau-execution-session-task-binary-inputs
  * @summary Create Luau Execution Session Task Binary Input
  * @param body
  * @param universe_id The universe ID.
@@ -1880,7 +1880,7 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntr
  */
 export const postCloudV2UniversesUniverseIdLuauExecutionSessionTaskBinaryInputs = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/luau-execution-session-task-binary-inputs',
+  path: '/v2/universes/:universe_id/luau-execution-session-task-binary-inputs',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1895,7 +1895,7 @@ export const postCloudV2UniversesUniverseIdLuauExecutionSessionTaskBinaryInputs 
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/memory-store:flush
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store:flush
  * @summary Flush Memory Store
  * @param body
  * @param universe_id The universe ID.
@@ -1903,7 +1903,7 @@ export const postCloudV2UniversesUniverseIdLuauExecutionSessionTaskBinaryInputs 
  */
 export const postCloudV2UniversesUniverseIdMemoryStoreFlush = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/memory-store:flush',
+  path: '/v2/universes/:universe_id/memory-store:flush',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1918,7 +1918,7 @@ export const postCloudV2UniversesUniverseIdMemoryStoreFlush = endpoint({
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items
  * @summary Create Memory Store Queue Item
  * @param body 
  * @param universe_id The universe ID.
@@ -1935,7 +1935,7 @@ item will be inserted after existing values with the same priority.
  */
 export const postCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItems = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items',
+  path: '/v2/universes/:universe_id/memory-store/queues/:queue_id/items',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1952,7 +1952,7 @@ export const postCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItems = endpo
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items:discard
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items:discard
  * @summary Discard Memory Store Queue Items
  * @param body 
  * @param universe_id The universe ID.
@@ -1963,7 +1963,7 @@ Takes a `readId` from a previous `Read` operation.
  */
 export const postCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItemsDiscard = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items:discard',
+  path: '/v2/universes/:universe_id/memory-store/queues/:queue_id/items:discard',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -1980,7 +1980,7 @@ export const postCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItemsDiscard 
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items:read
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items:read
  * @summary Read Memory Store Queue Items
  * @param universe_id The universe ID.
  * @param queue_id The queue ID.
@@ -2006,7 +2006,7 @@ Defaults to `30s`.
  */
 export const getCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItemsRead = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items:read',
+  path: '/v2/universes/:universe_id/memory-store/queues/:queue_id/items:read',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2027,7 +2027,7 @@ export const getCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItemsRead = en
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items
  * @summary List Memory Store Sorted Map Items
  * @param universe_id The universe ID.
  * @param sorted_map_id The sorted-map ID.
@@ -2060,7 +2060,7 @@ Example: `id > "key-001" && id < "key-100"`
  */
 export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items',
+  path: '/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2083,7 +2083,7 @@ export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems 
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items
  * @summary Create Memory Store Sorted Map Item
  * @param body 
  * @param universe_id The universe ID.
@@ -2098,7 +2098,7 @@ encoded if it contains any url breaking special characters.
  */
 export const postCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items',
+  path: '/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2117,7 +2117,7 @@ export const postCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id
  * @summary Get Memory Store Sorted Map Item
  * @param universe_id The universe ID.
  * @param sorted_map_id The sorted-map ID.
@@ -2126,7 +2126,7 @@ export const postCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems
  */
 export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsItemId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id',
+  path: '/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2143,7 +2143,7 @@ export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsI
   errors: [],
 });
 /**
- * @api DELETE https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id
+ * @api DELETE https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id
  * @summary Delete Memory Store Sorted Map Item
  * @param universe_id The universe ID.
  * @param sorted_map_id The sorted-map ID.
@@ -2152,7 +2152,7 @@ export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsI
  */
 export const deleteCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsItemId = endpoint({
   method: 'DELETE',
-  path: '/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id',
+  path: '/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2169,7 +2169,7 @@ export const deleteCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdIte
   errors: [],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id
+ * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id
  * @summary Update Memory Store Sorted Map Item
  * @param body 
  * @param universe_id The universe ID.
@@ -2181,7 +2181,7 @@ store sorted map item is created.
  */
 export const patchCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsItemId = endpoint({
   method: 'PATCH',
-  path: '/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id',
+  path: '/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2202,7 +2202,7 @@ export const patchCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItem
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries
  * @summary List Ordered Data Store Entries
  * @param universe_id The universe ID.
  * @param ordered_data_store_id The ordered-data-store ID.
@@ -2238,7 +2238,7 @@ Example filters: `entry <= 10`; `entry >= 10 && entry <= 30`
  */
 export const getCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntries = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries',
+  path: '/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2263,7 +2263,7 @@ export const getCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdSco
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries
  * @summary Create Ordered Data Store Entry
  * @param body 
  * @param universe_id The universe ID.
@@ -2280,7 +2280,7 @@ Returns a 400 Bad Request if the entry exists.
  */
 export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntries = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries',
+  path: '/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2301,7 +2301,7 @@ export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdSc
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id
  * @summary Get Ordered Data Store Entry
  * @param universe_id The universe ID.
  * @param ordered_data_store_id The ordered-data-store ID.
@@ -2311,7 +2311,7 @@ export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdSc
  */
 export const getCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id',
+  path: '/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2330,7 +2330,7 @@ export const getCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdSco
   errors: [],
 });
 /**
- * @api DELETE https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id
+ * @api DELETE https://apis.roblox.com/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id
  * @summary Delete Ordered Data Store Entry
  * @param universe_id The universe ID.
  * @param ordered_data_store_id The ordered-data-store ID.
@@ -2343,7 +2343,7 @@ On success, returns 200 OK. If the entry doesn't exist, returns
  */
 export const deleteCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
   method: 'DELETE',
-  path: '/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id',
+  path: '/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2362,7 +2362,7 @@ export const deleteCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreId
   errors: [],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id
+ * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id
  * @summary Update Ordered Data Store Entry
  * @param body 
  * @param universe_id The universe ID.
@@ -2375,7 +2375,7 @@ data store entry is created.
  */
 export const patchCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
   method: 'PATCH',
-  path: '/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id',
+  path: '/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2398,7 +2398,7 @@ export const patchCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdS
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id:increment
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id:increment
  * @summary Increment Ordered Data Store Entry
  * @param body 
  * @param universe_id The universe ID.
@@ -2419,7 +2419,7 @@ this API.
 export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryIdIncrement =
   endpoint({
     method: 'POST',
-    path: '/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id:increment',
+    path: '/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id:increment',
     baseUrl: 'https://apis.roblox.com/cloud',
     requestFormat: 'json',
     serializationMethod: {
@@ -2440,7 +2440,7 @@ export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdSc
     errors: [],
   });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/places/:place_id
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id
  * @summary Get Place
  * @param universe_id The universe ID.
  * @param place_id The place ID.
@@ -2448,7 +2448,7 @@ export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdSc
  */
 export const getCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/places/:place_id',
+  path: '/v2/universes/:universe_id/places/:place_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2463,7 +2463,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
   errors: [],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/places/:place_id
+ * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id
  * @summary Update Place
  * @param body
  * @param universe_id The universe ID.
@@ -2473,7 +2473,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
  */
 export const patchCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
   method: 'PATCH',
-  path: '/cloud/v2/universes/:universe_id/places/:place_id',
+  path: '/v2/universes/:universe_id/places/:place_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2492,7 +2492,7 @@ export const patchCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id
  * @summary Get Instance
  * @param universe_id The universe ID.
  * @param place_id The place ID.
@@ -2506,7 +2506,7 @@ that has an error code of `422`.
  */
 export const getCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id',
+  path: '/v2/universes/:universe_id/places/:place_id/instances/:instance_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2523,7 +2523,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId = end
   errors: [],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id
+ * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id
  * @summary Update Instance
  * @param body 
  * @param universe_id The universe ID.
@@ -2537,7 +2537,7 @@ property size is 200,000 bytes after UTF-8 encoding.
  */
 export const patchCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId = endpoint({
   method: 'PATCH',
-  path: '/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id',
+  path: '/v2/universes/:universe_id/places/:place_id/instances/:instance_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2558,7 +2558,7 @@ export const patchCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId = e
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id:listChildren
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id:listChildren
  * @summary List Instance Children
  * @param universe_id The universe ID.
  * @param place_id The place ID.
@@ -2583,7 +2583,7 @@ that has an error code of `422`.
  */
 export const getCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceIdListChildren = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id:listChildren',
+  path: '/v2/universes/:universe_id/places/:place_id/instances/:instance_id:listChildren',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2604,7 +2604,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceIdListCh
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/places/:place_id/luau-execution-session-tasks
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/luau-execution-session-tasks
  * @summary Create Luau Execution Session Task
  * @param body 
  * @param universe_id The universe ID.
@@ -2621,7 +2621,7 @@ Quotas:
  */
 export const postCloudV2UniversesUniverseIdPlacesPlaceIdLuauExecutionSessionTasks = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/places/:place_id/luau-execution-session-tasks',
+  path: '/v2/universes/:universe_id/places/:place_id/luau-execution-session-tasks',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2638,7 +2638,7 @@ export const postCloudV2UniversesUniverseIdPlacesPlaceIdLuauExecutionSessionTask
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions
  * @summary List User Restrictions
  * @param universe_id The universe ID.
  * @param place_id The place ID.
@@ -2654,7 +2654,7 @@ universe or a specific place.
  */
 export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictions = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions',
+  path: '/v2/universes/:universe_id/places/:place_id/user-restrictions',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2673,7 +2673,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictions = endpoi
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id
  * @summary Get User Restriction
  * @param universe_id The universe ID.
  * @param place_id The place ID.
@@ -2682,7 +2682,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictions = endpoi
  */
 export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRestrictionId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id',
+  path: '/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2699,7 +2699,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRestr
   errors: [],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id
+ * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id
  * @summary Update User Restriction
  * @param body 
  * @param universe_id The universe ID.
@@ -2720,7 +2720,7 @@ return an error.
  */
 export const patchCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRestrictionId = endpoint({
   method: 'PATCH',
-  path: '/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id',
+  path: '/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2745,7 +2745,7 @@ export const patchCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRes
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-session-tasks
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-session-tasks
  * @summary Create Luau Execution Session Task
  * @param body 
  * @param universe_id The universe ID.
@@ -2763,7 +2763,7 @@ Quotas:
  */
 export const postCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExecutionSessionTasks = endpoint({
   method: 'POST',
-  path: '/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-session-tasks',
+  path: '/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-session-tasks',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2782,7 +2782,7 @@ export const postCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExe
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id
  * @summary Get Luau Execution Session Task
  * @param universe_id The universe ID.
  * @param place_id The place ID.
@@ -2810,7 +2810,7 @@ Quotas:
 export const getCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExecutionSessionsLuauExecutionSessionIdTasksTaskId =
   endpoint({
     method: 'GET',
-    path: '/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id',
+    path: '/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id',
     baseUrl: 'https://apis.roblox.com/cloud',
     requestFormat: 'json',
     serializationMethod: {
@@ -2833,7 +2833,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExec
     errors: [],
   });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id/logs
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id/logs
  * @summary List Luau Execution Session Task Logs
  * @param universe_id The universe ID.
  * @param place_id The place ID.
@@ -2869,7 +2869,7 @@ Quotas:
 export const getCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExecutionSessionsLuauExecutionSessionIdTasksTaskIdLogs =
   endpoint({
     method: 'GET',
-    path: '/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id/logs',
+    path: '/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id/logs',
     baseUrl: 'https://apis.roblox.com/cloud',
     requestFormat: 'json',
     serializationMethod: {
@@ -2896,7 +2896,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExec
     errors: [],
   });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/subscription-products/:subscription_product_id/subscriptions/:subscription_id
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/subscription-products/:subscription_product_id/subscriptions/:subscription_id
  * @summary Get Subscription
  * @param universe_id The universe ID.
  * @param subscription_product_id The subscription-product ID.
@@ -2927,7 +2927,7 @@ To read all subscriptions made by users for a particular universe, use the
 export const getCloudV2UniversesUniverseIdSubscriptionProductsSubscriptionProductIdSubscriptionsSubscriptionId =
   endpoint({
     method: 'GET',
-    path: '/cloud/v2/universes/:universe_id/subscription-products/:subscription_product_id/subscriptions/:subscription_id',
+    path: '/v2/universes/:universe_id/subscription-products/:subscription_product_id/subscriptions/:subscription_id',
     baseUrl: 'https://apis.roblox.com/cloud',
     requestFormat: 'json',
     serializationMethod: {
@@ -2946,7 +2946,7 @@ export const getCloudV2UniversesUniverseIdSubscriptionProductsSubscriptionProduc
     errors: [],
   });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/user-restrictions
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/user-restrictions
  * @summary List User Restrictions
  * @param universe_id The universe ID.
  * @param maxPageSize The maximum number of user restrictions to return. The service might return
@@ -2961,7 +2961,7 @@ universe or a specific place.
  */
 export const getCloudV2UniversesUniverseIdUserRestrictions = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/user-restrictions',
+  path: '/v2/universes/:universe_id/user-restrictions',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -2978,7 +2978,7 @@ export const getCloudV2UniversesUniverseIdUserRestrictions = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/user-restrictions:listLogs
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/user-restrictions:listLogs
  * @summary List User Restriction Logs
  * @param universe_id The universe ID.
  * @param maxPageSize The maximum number of UserRestrictionLogs to return. The service may return
@@ -3006,7 +3006,7 @@ For universe-level restriction logs, the `place` field will be empty.
  */
 export const getCloudV2UniversesUniverseIdUserRestrictionsListLogs = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/user-restrictions:listLogs',
+  path: '/v2/universes/:universe_id/user-restrictions:listLogs',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -3025,7 +3025,7 @@ export const getCloudV2UniversesUniverseIdUserRestrictionsListLogs = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/user-restrictions/:user_restriction_id
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/user-restrictions/:user_restriction_id
  * @summary Get User Restriction
  * @param universe_id The universe ID.
  * @param user_restriction_id The user-restriction ID.
@@ -3033,7 +3033,7 @@ export const getCloudV2UniversesUniverseIdUserRestrictionsListLogs = endpoint({
  */
 export const getCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/universes/:universe_id/user-restrictions/:user_restriction_id',
+  path: '/v2/universes/:universe_id/user-restrictions/:user_restriction_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -3048,7 +3048,7 @@ export const getCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId = en
   errors: [],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/cloud/v2/universes/:universe_id/user-restrictions/:user_restriction_id
+ * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/user-restrictions/:user_restriction_id
  * @summary Update User Restriction
  * @param body 
  * @param universe_id The universe ID.
@@ -3068,7 +3068,7 @@ return an error.
  */
 export const patchCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId = endpoint({
   method: 'PATCH',
-  path: '/cloud/v2/universes/:universe_id/user-restrictions/:user_restriction_id',
+  path: '/v2/universes/:universe_id/user-restrictions/:user_restriction_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -3091,7 +3091,7 @@ export const patchCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId = 
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/users/:user_id
+ * @api GET https://apis.roblox.com/cloud/v2/users/:user_id
  * @summary Get User
  * @param user_id The user ID.
  * @description Gets a user's basic and advanced information.
@@ -3107,7 +3107,7 @@ scopes:
  */
 export const getCloudV2UsersUserId = endpoint({
   method: 'GET',
-  path: '/cloud/v2/users/:user_id',
+  path: '/v2/users/:user_id',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -3120,7 +3120,7 @@ export const getCloudV2UsersUserId = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/users/:user_id:generateThumbnail
+ * @api GET https://apis.roblox.com/cloud/v2/users/:user_id:generateThumbnail
  * @summary Generate User Thumbnail
  * @param user_id The user ID.
  * @param size Size of the generated thumbnail. The generated thumbnail will have `size *
@@ -3151,7 +3151,7 @@ Possible values:
  */
 export const getCloudV2UsersUserIdGenerateThumbnail = endpoint({
   method: 'GET',
-  path: '/cloud/v2/users/:user_id:generateThumbnail',
+  path: '/v2/users/:user_id:generateThumbnail',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -3170,7 +3170,7 @@ export const getCloudV2UsersUserIdGenerateThumbnail = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/users/:user_id/asset-quotas
+ * @api GET https://apis.roblox.com/cloud/v2/users/:user_id/asset-quotas
  * @summary List Asset Quotas
  * @param user_id The user ID.
  * @param maxPageSize The maximum number of asset quotas to return. The service might return
@@ -3192,7 +3192,7 @@ For example:
  */
 export const getCloudV2UsersUserIdAssetQuotas = endpoint({
   method: 'GET',
-  path: '/cloud/v2/users/:user_id/asset-quotas',
+  path: '/v2/users/:user_id/asset-quotas',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -3211,7 +3211,7 @@ export const getCloudV2UsersUserIdAssetQuotas = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/users/:user_id/inventory-items
+ * @api GET https://apis.roblox.com/cloud/v2/users/:user_id/inventory-items
  * @summary List Inventory Items
  * @param user_id The user ID.
  * @param maxPageSize The maximum number of inventory items to return. The service might return
@@ -3247,7 +3247,7 @@ Rate limits are enforced across all of an owner's API keys.
  */
 export const getCloudV2UsersUserIdInventoryItems = endpoint({
   method: 'GET',
-  path: '/cloud/v2/users/:user_id/inventory-items',
+  path: '/v2/users/:user_id/inventory-items',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
@@ -3266,7 +3266,7 @@ export const getCloudV2UsersUserIdInventoryItems = endpoint({
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/users/:user_id/notifications
+ * @api POST https://apis.roblox.com/cloud/v2/users/:user_id/notifications
  * @summary Create User Notification
  * @param body
  * @param user_id The user ID.
@@ -3274,7 +3274,7 @@ export const getCloudV2UsersUserIdInventoryItems = endpoint({
  */
 export const postCloudV2UsersUserIdNotifications = endpoint({
   method: 'POST',
-  path: '/cloud/v2/users/:user_id/notifications',
+  path: '/v2/users/:user_id/notifications',
   baseUrl: 'https://apis.roblox.com/cloud',
   requestFormat: 'json',
   serializationMethod: {
