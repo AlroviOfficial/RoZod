@@ -268,7 +268,7 @@ const openCloudV2Apis = [
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/cloud.docs.json',
     name: 'cloud',
     version: 'v2',
-    baseUrl: 'https://apis.roblox.com/cloud'
+    baseUrl: 'https://apis.roblox.com'
   }
 ];
 

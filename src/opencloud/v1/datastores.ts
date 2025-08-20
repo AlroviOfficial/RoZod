@@ -9,8 +9,8 @@ const DataStore = z.object({
 /**
  * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores
  * @summary List data stores in an experience
- * @param universeId The identifier of the experience with data stores that you want to access. You can [copy your experience's Universe ID](../../../cloud/guides/usage-data-stores.md#getting-the-universe-id) on the **Creator Dashboard**.
- * @param cursor Provide to request the next set of data. See [Cursors](../../../cloud/guides/data-store-api-handling.md#cursors).
+ * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
+ * @param cursor Provide to request the next set of data.
  * @param limit The maximum number of items to return. Each call only reads one partition, so it can return fewer than the given value when running out of objectives on one partition.
  * @param prefix Provide to return only data stores with this prefix.
  * @description Returns a list of an experience's data stores.
@@ -41,12 +41,12 @@ export const getUniversesUniverseIdDatastores = endpoint({
 /**
  * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries
  * @summary List entries
- * @param universeId The identifier of the experience with data stores that you want to access. You can [copy your experience's Universe ID](../../../cloud/guides/usage-data-stores.md#getting-the-universe-id) on the **Creator Dashboard**.
+ * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
  * @param allScopes Set to true to return keys from all scopes.
  * @param prefix Provide to return only keys with this prefix.
- * @param cursor Provide to request the next set of data. See [Cursors](../../../cloud/guides/data-store-api-handling.md#cursors).
+ * @param cursor Provide to request the next set of data.
  * @param limit The maximum number of items to return. Each call only reads one partition, so it can return fewer than the given value when running out of objectives on one partition.
  * @description Returns a list of entry keys within a data store.
 
@@ -84,7 +84,7 @@ export const getUniversesUniverseIdDatastoresDatastoreEntries = endpoint({
 /**
  * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries/entry
  * @summary Get entry.
- * @param universeId The identifier of the experience with data stores that you want to access. You can [copy your experience's Universe ID](../../../cloud/guides/usage-data-stores.md#getting-the-universe-id) on the **Creator Dashboard**.
+ * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
  * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
@@ -104,7 +104,7 @@ roblox-entry-userids: [1, 2, 3]
 
 | Header | Description |
 |---|---| 
-| `content-md5` | The base-64 encoded MD5 checksum of the content. See [Content-MD5](../../../cloud/guides/data-store-api-handling.md#content-md5). |
+| `content-md5` | The base64-encoded MD5 checksum of the content. See [Content-MD5](../../../cloud/guides/data-stores/request-handling.md#content-md5). |
 | `roblox-entry-version` | The version of the returned entry. |
 | `roblox-entry-created-time` | The time at which the entry was created. |
 | `roblox-entry-version-created-time` | The time at which this particular version was created. |
@@ -136,7 +136,7 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
  * @api POST https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries/entry
  * @summary Set entry.
  * @param body
- * @param universeId The identifier of the experience with data stores that you want to access. You can [copy your experience's Universe ID](../../../cloud/guides/usage-data-stores.md#getting-the-universe-id) on the **Creator Dashboard**.
+ * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
  * @param matchVersion Provide to update only if the current version matches this.
@@ -144,7 +144,7 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
  * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
  * @param roblox-entry-attributes Attributes to be associated with new version of the entry. Serialized by JSON map objects. If not provided, existing attributes are cleared.
  * @param roblox-entry-userids Comma-separated list of Roblox user IDs tagged with the entry. If not provided, existing user IDs are cleared.
- * @param content-md5 The base-64 encoded MD5 checksum of the content. See [Content-MD5](../../../cloud/guides/data-store-api-handling.md#content-md5).
+ * @param content-md5 The base64-encoded MD5 checksum of the content. See [Content-MD5](../../../cloud/guides/data-stores/request-handling.md#content-md5).
  * @description Sets the value, metadata and user IDs associated with an entry.
  */
 export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
@@ -182,7 +182,7 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
 /**
  * @api DELETE https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries/entry
  * @summary Delete entry.
- * @param universeId The identifier of the experience with data stores that you want to access. You can [copy your experience's Universe ID](../../../cloud/guides/usage-data-stores.md#getting-the-universe-id) on the **Creator Dashboard**.
+ * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
  * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
@@ -211,7 +211,7 @@ export const deleteUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint
 /**
  * @api POST https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment
  * @summary Increment entry
- * @param universeId The identifier of the experience with data stores that you want to access. You can [copy your experience's Universe ID](../../../cloud/guides/usage-data-stores.md#getting-the-universe-id) on the **Creator Dashboard**.
+ * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
  * @param incrementBy The amount by which the entry should be incremented, or the starting value if it doesn't exist.
@@ -232,7 +232,7 @@ roblox-entry-userids: [1, 2, 3]
 
 | Header | Description |
 |---|---| 
-| `content-md5` | The base-64 encoded MD5 checksum of the content. See [Content-MD5](../../../cloud/guides/data-store-api-handling.md#content-md5). |
+| `content-md5` | The base64-encoded MD5 checksum of the content. See [Content-MD5](../../../cloud/guides/data-stores/request-handling.md#content-md5). |
 | `roblox-entry-version` | The version of the returned entry. |
 | `roblox-entry-created-time` | The time at which the entry was created. |
 | `roblox-entry-version-created-time` | The time at which this particular version was created. |
@@ -269,11 +269,11 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntryIncrement = e
 /**
  * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions
  * @summary List entry versions
- * @param universeId The identifier of the experience with data stores that you want to access. You can [copy your experience's Universe ID](../../../cloud/guides/usage-data-stores.md#getting-the-universe-id) on the **Creator Dashboard**.
+ * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
  * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
- * @param cursor Provide to request the next set of data (see [Cursors](../../../cloud/guides/data-store-api-handling.md#cursors)).
+ * @param cursor Provide to request the next set of data.
  * @param startTime Provide to not include versions earlier than this timestamp.
  * @param endTime Provide to not include versions later than this timestamp.
  * @param sortOrder Either `Ascending` (earlier versions first) or `Descending` (later versions first).
@@ -330,7 +330,7 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntryVersions = end
 /**
  * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version
  * @summary Get entry version.
- * @param universeId The identifier of the experience with data stores that you want to access. You can [copy your experience's Universe ID](../../../cloud/guides/usage-data-stores.md#getting-the-universe-id) on the **Creator Dashboard**.
+ * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
  * @param versionId The version to inspect.
@@ -349,7 +349,7 @@ roblox-entry-userids: [1, 2, 3]
 
 | Header | Description |
 |---|---| 
-| `content-md5` | The base-64 encoded MD5 checksum of the content. See [Content-MD5](../../../cloud/guides/data-store-api-handling.md#content-md5). |
+| `content-md5` | The base64-encoded MD5 checksum of the content. See [Content-MD5](../../../cloud/guides/data-stores/request-handling.md#content-md5). |
 | `roblox-entry-version` | The version of the returned entry. |
 | `roblox-entry-created-time` | The time at which the entry was created. |
 | `roblox-entry-version-created-time` | The time at which this particular version was created. |

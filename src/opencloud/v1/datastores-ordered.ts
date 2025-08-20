@@ -16,13 +16,13 @@ const IncrementEntryRequest = z.object({ amount: z.number().int() });
 
 /**
  * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries
- * @param universeId The identifier of the experience with ordered data stores that you want to access. See [Universe ID](../../../cloud/guides/data-store-api-handling.md#universe-id) on how to copy it on [Creator Dashboard](https://create.roblox.com/dashboard/creations).
+ * @param universeId The identifier of the experience with ordered data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param orderedDataStore The name of the target ordered data store.
- * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-store-api-handling.md#scopes).
+ * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-stores/request-handling.md#scopes).
  * @param max_page_size The maximum number of entries to return. The service may return fewer than this value. The default value is `10`. The maximum value is `100`, and any input above 100 is coerced to `100`.
  * @param page_token A page token received from a previous `List` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `List` must match the call providing the page token.
  * @param order_by The enumeration direction. The order by default is ascending. Input a `desc` suffix for descending.
- * @param filter The range of qualifying values of entries to return. See [Filters](../../../cloud/guides/data-store-api-handling.md#filters).
+ * @param filter The range of qualifying values of entries to return. See [Filters](../../../cloud/guides/data-stores/request-handling.md#filters).
  * @description Returns a list of entries from an ordered data store.
  */
 export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntries = endpoint({
@@ -67,9 +67,9 @@ export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeE
 /**
  * @api POST https://apis.roblox.com/cloud/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries
  * @param body
- * @param universeId The identifier of the experience with ordered data stores that you want to access. See [Universe ID](../../../cloud/guides/data-store-api-handling.md#universe-id) on how to copy it on [Creator Dashboard](https://create.roblox.com/dashboard/creations).
+ * @param universeId The identifier of the experience with ordered data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param orderedDataStore The name of the ordered data store.
- * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-store-api-handling.md#scopes).
+ * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-stores/request-handling.md#scopes).
  * @param id The name of the entry.
  * @description Creates a new entry with the content value provided.
  */
@@ -114,9 +114,9 @@ export const postUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScope
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry
- * @param universeId The identifier of the experience with ordered data stores that you want to access. See [Universe ID](../../../cloud/guides/data-store-api-handling.md#universe-id) on how to copy it on [Creator Dashboard](https://create.roblox.com/dashboard/creations).
+ * @param universeId The identifier of the experience with ordered data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param orderedDataStore The name of the ordered data store.
- * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-store-api-handling.md#scopes).
+ * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-stores/request-handling.md#scopes).
  * @param entry The entry ID.
  * @description Gets and returns the specified entry.
  */
@@ -159,9 +159,9 @@ export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeE
 });
 /**
  * @api DELETE https://apis.roblox.com/cloud/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry
- * @param universeId The identifier of the experience with ordered data stores that you want to access. See [Universe ID](../../../cloud/guides/data-store-api-handling.md#universe-id) on how to copy it on [Creator Dashboard](https://create.roblox.com/dashboard/creations).
+ * @param universeId The identifier of the experience with ordered data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param orderedDataStore The name of the ordered data store.
- * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-store-api-handling.md#scopes).
+ * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-stores/request-handling.md#scopes).
  * @param entry The entry ID.
  * @description Deletes the specified entry. Unlike standard data stores, which mark entries for deletion, ordered data store entries are deleted immediately.
  */
@@ -205,11 +205,11 @@ export const deleteUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesSco
 /**
  * @api PATCH https://apis.roblox.com/cloud/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry
  * @param body
- * @param universeId The identifier of the experience with ordered data stores that you want to access. See [Universe ID](../../../cloud/guides/data-store-api-handling.md#universe-id) on how to copy it on [Creator Dashboard](https://create.roblox.com/dashboard/creations).
+ * @param universeId The identifier of the experience with ordered data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param orderedDataStore The name of the ordered data store.
- * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-store-api-handling.md#scopes).
+ * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-stores/request-handling.md#scopes).
  * @param entry The entry ID.
- * @param allow_missing The flag to allow the creation of an entry if the entry doesn't exist. See [Allow missing flags](../../../cloud/guides/data-store-api-handling.md#allow-missing-flags).
+ * @param allow_missing The flag to allow the creation of an entry if the entry doesn't exist. See [Allow missing flags](../../../cloud/guides/data-stores/request-handling.md.md#allow-missing-flags).
  * @description Updates an entry value and returns the updated entry.
  */
 export const patchUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntry = endpoint({
@@ -260,9 +260,9 @@ export const patchUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScop
 /**
  * @api POST https://apis.roblox.com/cloud/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry:increment
  * @param body 
- * @param universeId The identifier of the experience with ordered data stores that you want to access. See [Universe ID](../../../cloud/guides/data-store-api-handling.md#universe-id) on how to copy it on [Creator Dashboard](https://create.roblox.com/dashboard/creations).
+ * @param universeId The identifier of the experience with ordered data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param orderedDataStore The name of the ordered data store.
- * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-store-api-handling.md#scopes).
+ * @param scope The name of the data store scope. See [Scopes](../../../cloud/guides/data-stores/request-handling.md#scopes).
  * @param entry The entry ID.
  * @description Increments the value of the key by the provided amount and returns the updated entry.
 
