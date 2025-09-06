@@ -242,6 +242,12 @@ const Operation = z.object({
   error: Status,
   response: GoogleProtobufAny,
 });
+const GenerateThumbnailResponse = GoogleProtobufAny.extend({
+  imageUri: z.string(),
+});
+const GenerateThumbnailOperation = Operation.extend({
+  response: GenerateThumbnailResponse,
+});
 const OrderedDataStoreEntry = z.object({
   path: z.string(),
   value: z.number(),
@@ -3166,7 +3172,7 @@ export const getCloudV2UsersUserIdGenerateThumbnail = endpoint({
     format: z.enum(['FORMAT_UNSPECIFIED', 'PNG', 'JPEG']).optional(),
     shape: z.enum(['SHAPE_UNSPECIFIED', 'ROUND', 'SQUARE']).optional(),
   },
-  response: Operation,
+  response: GenerateThumbnailOperation,
   errors: [],
 });
 /**
