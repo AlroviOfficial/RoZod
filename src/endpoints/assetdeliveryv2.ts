@@ -31,6 +31,11 @@ const Roblox_Web_Assets_IAssetItemError = z.object({
     z.literal(14),
     z.literal(15),
     z.literal(16),
+    z.literal(17),
+    z.literal(18),
+    z.literal(19),
+    z.literal(20),
+    z.literal(21),
   ]),
 });
 const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z.object({
@@ -66,6 +71,8 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
   modulePlaceId: z.number().int(),
   assetFormat: z.string(),
   'roblox-assetFormat': z.string(),
+  assetResolutionMode: z.string(),
+  accessContext: z.string(),
   contentRepresentationPriorityList: z.string(),
   doNotFallbackToBaselineRepresentation: z.boolean(),
 });
@@ -85,6 +92,7 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
  * @param modulePlaceId
  * @param serverplaceid
  * @param expectedAssetType
+ * @param accessContext
  */
 export const getAliasAlias = endpoint({
   method: 'GET',
@@ -137,6 +145,10 @@ export const getAliasAlias = endpoint({
       style: 'form',
       explode: true,
     },
+    accessContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     alias: z.string().regex(/^[0-9]+\/.+/),
@@ -152,6 +164,7 @@ export const getAliasAlias = endpoint({
     modulePlaceId: z.number().int().optional(),
     serverplaceid: z.number().int().optional(),
     expectedAssetType: z.string().optional(),
+    accessContext: z.string().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
@@ -182,6 +195,7 @@ export const getAliasAlias = endpoint({
  * @param permissionContext
  * @param doNotFallbackToBaselineRepresentation
  * @param contentRepresentationPriorityList
+ * @param accessContext
  */
 export const getAsset = endpoint({
   method: 'GET',
@@ -279,6 +293,10 @@ export const getAsset = endpoint({
       style: 'form',
       explode: true,
     },
+    accessContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     'Accept-Encoding': z.string(),
@@ -305,6 +323,7 @@ export const getAsset = endpoint({
     permissionContext: z.string().optional(),
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
+    accessContext: z.string().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
@@ -326,6 +345,7 @@ export const getAsset = endpoint({
  * @param expectedAssetType
  * @param doNotFallbackToBaselineRepresentation
  * @param contentRepresentationPriorityList
+ * @param accessContext
  */
 export const getAssetidAssetid = endpoint({
   method: 'GET',
@@ -386,6 +406,10 @@ export const getAssetidAssetid = endpoint({
       style: 'form',
       explode: true,
     },
+    accessContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     assetId: z.number().int(),
@@ -403,6 +427,7 @@ export const getAssetidAssetid = endpoint({
     expectedAssetType: z.string().optional(),
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
+    accessContext: z.string().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
@@ -425,6 +450,7 @@ export const getAssetidAssetid = endpoint({
  * @param expectedAssetType
  * @param doNotFallbackToBaselineRepresentation
  * @param contentRepresentationPriorityList
+ * @param accessContext
  */
 export const getAssetidAssetidVersionVersionnumber = endpoint({
   method: 'GET',
@@ -488,6 +514,10 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
       style: 'form',
       explode: true,
     },
+    accessContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     assetId: z.number().int(),
@@ -506,6 +536,7 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
     expectedAssetType: z.string().optional(),
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
+    accessContext: z.string().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
@@ -515,7 +546,6 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
  * @param body
  * @param Roblox-Place-Id
  * @param Accept
- * @param Roblox-Browser-Asset-Request
  */
 export const postAssetsBatch = endpoint({
   method: 'POST',
@@ -530,14 +560,10 @@ export const postAssetsBatch = endpoint({
     Accept: {
       style: 'simple',
     },
-    'Roblox-Browser-Asset-Request': {
-      style: 'simple',
-    },
   },
   parameters: {
     'Roblox-Place-Id': z.number().int(),
     Accept: z.string(),
-    'Roblox-Browser-Asset-Request': z.string(),
   },
   body: z.array(Roblox_Web_Assets_BatchAssetRequestItem),
   response: z.array(Roblox_Web_Assets_AssetResponseItemV2),

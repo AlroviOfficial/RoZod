@@ -20,7 +20,9 @@ const Roblox_Users_Api_DescriptionRequest = z.object({
   description: z.string(),
 });
 const Roblox_Users_Api_GenderResponse = z.object({ gender: z.number().int() });
-const Roblox_Users_Api_GenderRequest = z.object({ gender: z.string() });
+const Roblox_Users_Api_GenderRequest = z.object({
+  gender: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+});
 const Roblox_Users_Api_GetUserResponse = z.object({
   description: z.string(),
   created: z.string().datetime({ offset: true }),
@@ -293,7 +295,7 @@ export const postGender = endpoint({
     body: {},
   },
   parameters: {},
-  body: z.object({ gender: z.string() }),
+  body: Roblox_Users_Api_GenderRequest,
   response: z.object({}),
   errors: [
     {

@@ -28,7 +28,7 @@ const Roblox_Inventory_Api_Models_AssetsExplorerCategoryItemModel = z.object({
   displayName: z.string(),
   filter: z.string(),
   id: z.number().int(),
-  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   categoryType: z.string(),
 });
 const Roblox_Inventory_Api_Models_AssetsExplorerCategoryModel = z.object({
@@ -43,7 +43,7 @@ const Roblox_Inventory_Api_Models_CategoriesModel = z.object({
 const Roblox_Inventory_Api_Models_IItemModel = z.object({
   id: z.number().int(),
   name: z.string(),
-  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   instanceId: z.number().int(),
 });
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ = z.object({
@@ -297,6 +297,10 @@ export const getUsersUseridAssetsCollectibles = endpoint({
         z.literal(84),
         z.literal(85),
         z.literal(86),
+        z.literal(87),
+        z.literal(88),
+        z.literal(89),
+        z.literal(90),
       ])
       .optional(),
     limit: z
@@ -412,7 +416,7 @@ export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+    itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     itemTargetId: z.number().int(),
   },
   response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_,
@@ -453,7 +457,7 @@ export const getUsersUseridItemsItemtypeItemtargetidIsOwned = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+    itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     itemTargetId: z.number().int(),
   },
   response: z.boolean(),

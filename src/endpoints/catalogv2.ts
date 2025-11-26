@@ -18,8 +18,14 @@ const Roblox_Catalog_Api_BundleItemDetailModelV2 = z.object({
   name: z.string(),
   type: z.string(),
 });
+const Roblox_Catalog_Api_TimedOption = z.object({
+  days: z.number().int(),
+  price: z.number().int(),
+  selected: z.boolean(),
+});
 const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModelV2),
+  timedOptions: z.array(Roblox_Catalog_Api_TimedOption),
   id: z.number().int(),
   itemType: z.union([z.literal(1), z.literal(2)]),
   assetType: z.union([
@@ -102,6 +108,10 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
     z.literal(84),
     z.literal(85),
     z.literal(86),
+    z.literal(87),
+    z.literal(88),
+    z.literal(89),
+    z.literal(90),
   ]),
   bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   isRecolorable: z.boolean(),
@@ -160,6 +170,7 @@ const Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSea
 /**
  * @api GET https://catalog.roblox.com/v2/search/items/details
  * @summary Search for catalog items.
+ * @param Taxonomy
  * @param AssetTypeIds
  * @param BundleTypeIds
  * @param CategoryFilter
@@ -186,6 +197,10 @@ export const getSearchItemsDetails = endpoint({
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
+    Taxonomy: {
+      style: 'form',
+      explode: true,
+    },
     AssetTypeIds: {
       style: 'form',
       explode: true,
@@ -260,6 +275,7 @@ export const getSearchItemsDetails = endpoint({
     },
   },
   parameters: {
+    Taxonomy: z.string(),
     AssetTypeIds: z.array(z.number()),
     BundleTypeIds: z.array(z.number()),
     CategoryFilter: z.union([
@@ -281,7 +297,7 @@ export const getSearchItemsDetails = endpoint({
     Keyword: z.string(),
     IncludeNotForSale: z.boolean(),
     TriggeredByTopicDiscovery: z.boolean(),
-    SalesTypeFilter: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+    SalesTypeFilter: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     Topics: z.string(),
     limit: z
       .union([z.literal(10), z.literal(28), z.literal(30), z.literal(60), z.literal(120)])

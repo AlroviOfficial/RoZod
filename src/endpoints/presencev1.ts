@@ -1,27 +1,31 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_Presence_Api_Models_Request_UserPresenceRequest = z.object({
-  userIds: z.array(z.number()),
+const UserPresenceRequest = z.object({
+  userIds: z.array(z.number()).nullable(),
 });
-const Roblox_Presence_Api_Models_Response_UserPresence = z.object({
-  userPresenceType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-  lastLocation: z.string(),
-  placeId: z.number().int(),
-  rootPlaceId: z.number().int(),
-  gameId: z.string().uuid(),
-  universeId: z.number().int(),
+const presence_users_body = UserPresenceRequest;
+const PresenceType = z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]);
+const UserPresence = z.object({
+  userPresenceType: PresenceType,
+  lastLocation: z.string().nullable(),
+  placeId: z.number().int().nullable(),
+  rootPlaceId: z.number().int().nullable(),
+  gameId: z.string().uuid().nullable(),
+  universeId: z.number().int().nullable(),
   userId: z.number().int(),
-  lastOnline: z.string().datetime({ offset: true }),
-  invisibleModeExpiry: z.string().datetime({ offset: true }),
 });
-const Roblox_Presence_Api_Models_Response_UserPresencesResponse = z.object({
-  userPresences: z.array(Roblox_Presence_Api_Models_Response_UserPresence),
+const UserPresencesResponse = z.object({
+  userPresences: z.array(UserPresence).nullable(),
 });
+const Error = z.object({
+  code: z.number().int(),
+  message: z.string().nullable(),
+});
+const ErrorResponse = z.object({ errors: z.array(Error).nullable() });
 
 /**
  * @api POST https://presence.roblox.com/v1/presence/users
- * @summary Get Presence for a list of users
  * @param body
  */
 export const postPresenceUsers = endpoint({
@@ -33,7 +37,20 @@ export const postPresenceUsers = endpoint({
     body: {},
   },
   parameters: {},
-  body: Roblox_Presence_Api_Models_Request_UserPresenceRequest,
-  response: Roblox_Presence_Api_Models_Response_UserPresencesResponse,
-  errors: [],
+  body: presence_users_body,
+  response: UserPresencesResponse,
+  errors: [
+    {
+      status: 400,
+      description: `Bad Request`,
+    },
+    {
+      status: 403,
+      description: `Forbidden`,
+    },
+    {
+      status: 429,
+      description: `Too Many Requests`,
+    },
+  ],
 });

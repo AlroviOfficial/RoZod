@@ -48,6 +48,7 @@ const Roblox_LocalizationTables_Api_EntryIdentifier = z.object({
   key: z.string(),
   context: z.string(),
   source: z.string(),
+  entryFormat: z.enum(['Invalid', 'Legacy', 'Icu']),
 });
 const Roblox_InGameContentTables_Client_GameLocation = z.object({
   path: z.string(),
@@ -55,6 +56,7 @@ const Roblox_InGameContentTables_Client_GameLocation = z.object({
 const Roblox_LocalizationTables_Api_EntryMetadata = z.object({
   example: z.string(),
   gameLocations: z.array(Roblox_InGameContentTables_Client_GameLocation),
+  entryFormat: z.enum(['Invalid', 'Legacy', 'Icu']),
 });
 const Roblox_Localizationtables_Localizationtables_V1_ChangeAgent = z.object({
   ChangeAgentType: z.enum(['Invalid', 'User', 'Automation', 'Default']),
@@ -151,6 +153,7 @@ const Roblox_LocalizationTables_Api_EntryIdentifierWithTranslation = z.object({
   key: z.string(),
   context: z.string(),
   source: z.string(),
+  entryFormat: z.enum(['Invalid', 'Legacy', 'Icu']),
 });
 const Roblox_LocalizationTables_Api_GetTableEntriesTranslationFeedbackRequest = z.object({
   sourceLocale: z.string(),
@@ -680,6 +683,7 @@ export const patchLocalizationTableTablesTableid = endpoint({
  * @param tableId
  * @param cursor If null, there are no more entries in the table and you've reached the last page.
  * @param gameId
+ * @param entryFormat
  */
 export const getLocalizationTableTablesTableidEntries = endpoint({
   method: 'GET',
@@ -698,11 +702,16 @@ export const getLocalizationTableTablesTableidEntries = endpoint({
       style: 'form',
       explode: true,
     },
+    entryFormat: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     tableId: z.string().uuid(),
     cursor: z.string().optional(),
     gameId: z.number().int().optional(),
+    entryFormat: z.enum(['Invalid', 'Legacy', 'Icu']).optional().default('Legacy'),
   },
   response: Roblox_LocalizationTables_Api_GetTableEntriesPagedResponse,
   errors: [
@@ -844,6 +853,7 @@ export const postLocalizationTableTablesTableidEntriesTranslationHistory = endpo
  * @summary Gets the number of entries in the specified table
  * @param tableId The table id
  * @param gameId The game id
+ * @param entryFormat
  */
 export const getLocalizationTableTablesTableidEntryCount = endpoint({
   method: 'GET',
@@ -858,10 +868,15 @@ export const getLocalizationTableTablesTableidEntryCount = endpoint({
       style: 'form',
       explode: true,
     },
+    entryFormat: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     tableId: z.string().uuid(),
     gameId: z.number().int().optional(),
+    entryFormat: z.enum(['Invalid', 'Legacy', 'Icu']).optional().default('Legacy'),
   },
   response: Roblox_LocalizationTables_Api_GetTableEntryCountResponse,
   errors: [

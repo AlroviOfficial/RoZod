@@ -43,6 +43,19 @@ const Roblox_Trades_Api_Models_V2_TradeDetailsResponse = z.object({
   participantAOffer: Roblox_Trades_Api_Models_V2_TradeOffer,
   participantBOffer: Roblox_Trades_Api_Models_V2_TradeOffer,
 });
+const Roblox_Trades_Api_Models_V2_CanTradeWithResponse = z.object({
+  userId: z.number().int(),
+  targetUserId: z.number().int(),
+  canTrade: z.boolean(),
+  mutualTradeEligibility: z.enum([
+    'Unknown',
+    'Eligible',
+    'CallingUserIneligible',
+    'TargetUserIneligible',
+    'CannotTradeWithSelf',
+    'CallingUserPrivacySettingsRestricted',
+  ]),
+});
 const Roblox_Trades_Api_Models_V2_TradableItem = z.object({
   collectibleItemId: z.string(),
   itemTarget: Roblox_Trades_Api_Models_V2_ItemTarget,
@@ -56,6 +69,19 @@ const Roblox_Trades_Api_Models_V2_GetUserTradableItemsResponse = z.object({
   userId: z.number().int(),
   items: z.array(Roblox_Trades_Api_Models_V2_TradableItem),
   nextPageCursor: z.string(),
+});
+const Roblox_Trades_Api_Models_V2_CanTradeResponse = z.object({
+  userId: z.number().int(),
+  canTrade: z.boolean(),
+  tradeEligibility: z.enum([
+    'Unknown',
+    'Eligible',
+    'IneligibleTradeSystemDisabled',
+    'IneligibleCannotTradeWithRoblox',
+    'IneligibleUserNotFound',
+    'IneligibleMissingPremiumMembership',
+    'IneligibleLegalOrRegulatoryRestrictions',
+  ]),
 });
 
 /**
@@ -94,6 +120,33 @@ export const getTradesTradeid = endpoint({
     {
       status: 404,
       description: `0: An unknown error occured.`,
+    },
+  ],
+});
+/**
+ * @api GET https://trades.roblox.com/v2/users/:userId/can-trade-with
+ * @summary Checks if the user can trade with a specific user.
+ * @param userId
+ */
+export const getUsersUseridCanTradeWith = endpoint({
+  method: 'GET',
+  path: '/v2/users/:userId/can-trade-with',
+  baseUrl: 'https://trades.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+  },
+  response: Roblox_Trades_Api_Models_V2_CanTradeWithResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+4: You are not authorized to modify this trade.`,
     },
   ],
 });
@@ -195,6 +248,24 @@ export const getUsersUseridTradableitems = endpoint({
     {
       status: 404,
       description: `0: An unknown error occured.`,
+    },
+  ],
+});
+/**
+ * @api GET https://trades.roblox.com/v2/users/me/can-trade
+ * @summary Checks if the calling user can trade with others.
+ */
+export const getUsersMeCanTrade = endpoint({
+  method: 'GET',
+  path: '/v2/users/me/can-trade',
+  baseUrl: 'https://trades.roblox.com',
+  requestFormat: 'json',
+  response: Roblox_Trades_Api_Models_V2_CanTradeResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+4: You are not authorized to modify this trade.`,
     },
   ],
 });

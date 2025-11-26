@@ -35,14 +35,12 @@ const Roblox_Api_Notifications_Models_GetPushDestinationsResponseModel = z.objec
   destinations: z.array(Roblox_Api_Notifications_Models_UserPushDestination),
   statusMessage: z.string(),
 });
-const Roblox_Api_Notifications_Models_PushNotificationClientMetadata = z
-  .object({
-    notificationId: z.string().uuid(),
-    type: z.string(),
-    detail: z.object({}),
-    fallbackDelivered: z.boolean(),
-  })
-  .passthrough();
+const Roblox_Api_Notifications_Models_PushNotificationClientMetadata = z.object({
+  notificationId: z.string().uuid(),
+  type: z.string(),
+  detail: z.object({}),
+  fallbackDelivered: z.boolean(),
+});
 const Roblox_Api_Notifications_Models_GetMetadataResponseModel = z.object({
   metadata: Roblox_Api_Notifications_Models_PushNotificationClientMetadata,
   statusMessage: z.string(),
@@ -55,34 +53,32 @@ const Roblox_Api_Notifications_Models_GameUpdateNotificationModel = z.object({
   content: z.string(),
   universeName: z.string(),
 });
-const Roblox_Api_Notifications_Models_NotificationStreamEntriesModel = z
-  .object({
-    id: z.string().uuid(),
-    notificationSourceType: z.enum([
-      'Test',
-      'FriendRequestReceived',
-      'FriendRequestAccepted',
-      'PartyInviteReceived',
-      'PartyMemberJoined',
-      'ChatNewMessage',
-      'PrivateMessageReceived',
-      'UserAddedToPrivateServerWhiteList',
-      'ConversationUniverseChanged',
-      'TeamCreateInvite',
-      'GameUpdate',
-      'DeveloperMetricsAvailable',
-      'GroupJoinRequestAccepted',
-      'Sendr',
-      'ExperienceInvitation',
-    ]),
-    eventDate: z.string().datetime({ offset: true }),
-    timestamp: z.string(),
-    isInteracted: z.boolean(),
-    metadataCollection: z.array(z.object({})),
-    eventCount: z.number().int(),
-    content: z.object({}).passthrough(),
-  })
-  .passthrough();
+const Roblox_Api_Notifications_Models_NotificationStreamEntriesModel = z.object({
+  id: z.string().uuid(),
+  notificationSourceType: z.enum([
+    'Test',
+    'FriendRequestReceived',
+    'FriendRequestAccepted',
+    'PartyInviteReceived',
+    'PartyMemberJoined',
+    'ChatNewMessage',
+    'PrivateMessageReceived',
+    'UserAddedToPrivateServerWhiteList',
+    'ConversationUniverseChanged',
+    'TeamCreateInvite',
+    'GameUpdate',
+    'DeveloperMetricsAvailable',
+    'GroupJoinRequestAccepted',
+    'Sendr',
+    'ExperienceInvitation',
+  ]),
+  eventDate: z.string().datetime({ offset: true }),
+  timestamp: z.string(),
+  isInteracted: z.boolean(),
+  metadataCollection: z.array(z.object({})),
+  eventCount: z.number().int(),
+  content: z.object({}).passthrough(),
+});
 const Roblox_Api_Notifications_Models_ResponseModels_NotificationStreamMetadataResponse = z.object({
   bannerDismissTimeSpan: z.number().int(),
   signalRDisconnectionResponseInMilliseconds: z.number().int(),

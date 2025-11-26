@@ -147,6 +147,7 @@ const Roblox_Catalog_Api_SubcategoryModel = z.object({
     z.literal(66),
     z.literal(67),
   ]),
+  taxonomy: z.string(),
   assetTypeIds: z.array(z.number()),
   bundleTypeIds: z.array(z.number()),
   subcategoryId: z.number().int(),
@@ -170,6 +171,7 @@ const Roblox_Catalog_Api_CategoryModel = z.object({
     z.literal(17),
     z.literal(18),
   ]),
+  taxonomy: z.string(),
   assetTypeIds: z.array(z.number()),
   bundleTypeIds: z.array(z.number()),
   categoryId: z.number().int(),
@@ -272,6 +274,10 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
     z.literal(84),
     z.literal(85),
     z.literal(86),
+    z.literal(87),
+    z.literal(88),
+    z.literal(89),
+    z.literal(90),
   ]),
   bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   isRecolorable: z.boolean(),
@@ -356,8 +362,14 @@ const Roblox_Catalog_Api_BundleItemDetailModelV2 = z.object({
   name: z.string(),
   type: z.string(),
 });
+const Roblox_Catalog_Api_TimedOption = z.object({
+  days: z.number().int(),
+  price: z.number().int(),
+  selected: z.boolean(),
+});
 const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModelV2),
+  timedOptions: z.array(Roblox_Catalog_Api_TimedOption),
   id: z.number().int(),
   itemType: z.union([z.literal(1), z.literal(2)]),
   assetType: z.union([
@@ -440,6 +452,10 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
     z.literal(84),
     z.literal(85),
     z.literal(86),
+    z.literal(87),
+    z.literal(88),
+    z.literal(89),
+    z.literal(90),
   ]),
   bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   isRecolorable: z.boolean(),
@@ -490,12 +506,12 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2_ = z.object({
   data: z.array(Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2),
 });
-const Roblox_Marketplacetopicdiscovery_Topicdiscoveryservice_V1Beta1_AvatarItem = z.object({
+const Roblox_MarketplaceTopicDiscovery_TopicDiscoveryService_V1Beta1_AvatarItem = z.object({
   TargetId: z.number().int(),
   ItemType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
 });
 const Roblox_Catalog_Api_TopicRequestModel = z.object({
-  items: z.array(Roblox_Marketplacetopicdiscovery_Topicdiscoveryservice_V1Beta1_AvatarItem),
+  items: z.array(Roblox_MarketplaceTopicDiscovery_TopicDiscoveryService_V1Beta1_AvatarItem),
   selectTopics: z.array(z.string()),
   inputQuery: z.string(),
   maxResult: z.number().int(),
@@ -505,13 +521,13 @@ const Roblox_Catalog_Api_TopicModel = z.object({
   displayName: z.string(),
   originalTopicName: z.string(),
 });
-const Roblox_Marketplacetopicdiscovery_Topicdiscoveryservice_V1Beta1_Error = z.object({
+const Roblox_MarketplaceTopicDiscovery_TopicDiscoveryService_V1Beta1_Error = z.object({
   Message: z.string(),
   Code: z.number().int(),
 });
 const Roblox_Catalog_Api_TopicResponse = z.object({
   topics: z.array(Roblox_Catalog_Api_TopicModel),
-  error: Roblox_Marketplacetopicdiscovery_Topicdiscoveryservice_V1Beta1_Error,
+  error: Roblox_MarketplaceTopicDiscovery_TopicDiscoveryService_V1Beta1_Error,
 });
 
 /**

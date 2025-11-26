@@ -96,6 +96,7 @@ const GroupRole_RolePermissions = z.object({
   removeComments: z.boolean(),
   manageBlockedWords: z.boolean(),
   viewBlockedWords: z.boolean(),
+  bypassSlowMode: z.boolean(),
 });
 const GroupRole = z.object({
   path: z.string(),
@@ -121,40 +122,39 @@ const GroupShout = z.object({
 });
 const Universe_SocialLink = z.object({ title: z.string(), uri: z.string() });
 const Universe = z.object({
-  path: z.string(),
-  createTime: z.string().datetime({ offset: true }),
-  updateTime: z.string().datetime({ offset: true }),
-  displayName: z.string(),
-  description: z.string(),
-  user: z.string(),
-  group: z.string(),
-  visibility: z.enum(['VISIBILITY_UNSPECIFIED', 'PUBLIC', 'PRIVATE']),
-  facebookSocialLink: Universe_SocialLink,
-  twitterSocialLink: Universe_SocialLink,
-  youtubeSocialLink: Universe_SocialLink,
-  twitchSocialLink: Universe_SocialLink,
-  discordSocialLink: Universe_SocialLink,
-  robloxGroupSocialLink: Universe_SocialLink,
-  guildedSocialLink: Universe_SocialLink,
-  voiceChatEnabled: z.boolean(),
-  ageRating: z.enum([
-    'AGE_RATING_UNSPECIFIED',
-    'AGE_RATING_ALL',
-    'AGE_RATING_9_PLUS',
-    'AGE_RATING_13_PLUS',
-    'AGE_RATING_17_PLUS',
-  ]),
-  privateServerPriceRobux: z.number().int(),
-  desktopEnabled: z.boolean(),
-  mobileEnabled: z.boolean(),
-  tabletEnabled: z.boolean(),
-  consoleEnabled: z.boolean(),
-  vrEnabled: z.boolean(),
+  path: z.string().optional(),
+  createTime: z.string().datetime({ offset: true }).optional(),
+  updateTime: z.string().datetime({ offset: true }).optional(),
+  displayName: z.string().optional(),
+  description: z.string().optional(),
+  user: z.string().optional(),
+  group: z.string().optional(),
+  visibility: z.enum(['VISIBILITY_UNSPECIFIED', 'PUBLIC', 'PRIVATE']).optional(),
+  facebookSocialLink: Universe_SocialLink.optional(),
+  twitterSocialLink: Universe_SocialLink.optional(),
+  youtubeSocialLink: Universe_SocialLink.optional(),
+  twitchSocialLink: Universe_SocialLink.optional(),
+  discordSocialLink: Universe_SocialLink.optional(),
+  robloxGroupSocialLink: Universe_SocialLink.optional(),
+  guildedSocialLink: Universe_SocialLink.optional(),
+  voiceChatEnabled: z.boolean().optional(),
+  ageRating: z
+    .enum(['AGE_RATING_UNSPECIFIED', 'AGE_RATING_ALL', 'AGE_RATING_9_PLUS', 'AGE_RATING_13_PLUS', 'AGE_RATING_17_PLUS'])
+    .optional(),
+  privateServerPriceRobux: z.number().int().optional(),
+  desktopEnabled: z.boolean().optional(),
+  mobileEnabled: z.boolean().optional(),
+  tabletEnabled: z.boolean().optional(),
+  consoleEnabled: z.boolean().optional(),
+  vrEnabled: z.boolean().optional(),
+  rootPlace: z.string().optional(),
+  templateRootPlace: z.string(),
 });
 const DataStore = z.object({
   path: z.string(),
   createTime: z.string().datetime({ offset: true }),
-  state: z.enum(['STATE_UNSPECIFIED', 'ACTIVE']),
+  expireTime: z.string().datetime({ offset: true }),
+  state: z.enum(['STATE_UNSPECIFIED', 'ACTIVE', 'DELETED']),
   id: z.string(),
 });
 const ListDataStoresResponse = z.object({
@@ -191,6 +191,7 @@ const ListDataStoreEntryRevisionsResponse = z.object({
   dataStoreEntries: z.array(DataStoreEntry),
   nextPageToken: z.string(),
 });
+const UndeleteDataStoreRequest = z.object({});
 const SnapshotDataStoresRequest = z.object({});
 const SnapshotDataStoresResponse = z.object({
   newSnapshotTaken: z.boolean(),
@@ -253,12 +254,15 @@ const ListOrderedDataStoreEntriesResponse = z.object({
 });
 const IncrementOrderedDataStoreEntryRequest = z.object({ amount: z.number() });
 const Place = z.object({
-  path: z.string(),
-  createTime: z.string().datetime({ offset: true }),
-  updateTime: z.string().datetime({ offset: true }),
-  displayName: z.string(),
-  description: z.string(),
-  serverSize: z.number().int(),
+  path: z.string().optional(),
+  createTime: z.string().datetime({ offset: true }).optional(),
+  updateTime: z.string().datetime({ offset: true }).optional(),
+  displayName: z.string().optional(),
+  description: z.string().optional(),
+  serverSize: z.number().int().optional(),
+  root: z.boolean().optional(),
+  universeRuntimeCreation: z.boolean().optional(),
+  templatePlace: z.string(),
 });
 const roblox_engine_Folder = z.object({});
 const roblox_engine_LocalScript = z.object({
@@ -406,22 +410,14 @@ const ListUserRestrictionLogsResponse = z.object({
   logs: z.array(UserRestrictionLog),
   nextPageToken: z.string(),
 });
-const GeneratedSpeechStyle = z.object({
+const GenerateSpeechAssetRequest_GeneratedSpeechStyle = z.object({
   voiceId: z.string(),
   pitch: z.number(),
   speed: z.number(),
 });
-const GenerateSpeechRequest = z.object({
-  text: z.string(),
-  speechStyle: GeneratedSpeechStyle.optional(),
-});
-const GenerateSpeechResponse = z.object({
-  audio: z.string(),
-  remainingQuota: z.number().int(),
-});
 const GenerateSpeechAssetRequest = z.object({
   text: z.string(),
-  speechStyle: GeneratedSpeechStyle.optional(),
+  speechStyle: GenerateSpeechAssetRequest_GeneratedSpeechStyle.optional(),
 });
 const PublishUniverseMessageRequest = z.object({
   topic: z.string(),
@@ -429,6 +425,15 @@ const PublishUniverseMessageRequest = z.object({
 });
 const RestartUniverseServersRequest = z.object({});
 const RestartUniverseServersResponse = z.object({});
+const TranslateTextRequest = z.object({
+  text: z.string(),
+  sourceLanguageCode: z.string().optional(),
+  targetLanguageCodes: z.array(z.string()).optional(),
+});
+const TranslateTextResponse = z.object({
+  sourceLanguageCode: z.string(),
+  translations: z.string(),
+});
 const User_SocialNetworkProfiles = z.object({
   facebook: z.string(),
   twitter: z.string(),
@@ -1036,29 +1041,6 @@ export const patchCloudV2UniversesUniverseId = endpoint({
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id:generateSpeech
- * @summary Generate Speech
- * @param body
- * @param universe_id The universe ID.
- * @description Generates English speech audio from the specified text.
- */
-export const postCloudV2UniversesUniverseIdGenerateSpeech = endpoint({
-  method: 'POST',
-  path: '/cloud/v2/universes/:universe_id:generateSpeech',
-  baseUrl: 'https://apis.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    universe_id: {},
-  },
-  parameters: {
-    universe_id: z.string(),
-  },
-  body: GenerateSpeechRequest,
-  response: GenerateSpeechResponse,
-  errors: [],
-});
-/**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id:generateSpeechAsset
  * @summary Generate Speech Asset
  * @param body 
@@ -1141,6 +1123,29 @@ export const postCloudV2UniversesUniverseIdRestartServers = endpoint({
   errors: [],
 });
 /**
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id:translateText
+ * @summary Translate Text
+ * @param body
+ * @param universe_id The universe ID.
+ * @description Translates the provided text from one language to another.
+ */
+export const postCloudV2UniversesUniverseIdTranslateText = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id:translateText',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+  },
+  body: TranslateTextRequest,
+  response: TranslateTextResponse,
+  errors: [],
+});
+/**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores
  * @summary List Data Stores
  * @param universe_id The universe ID.
@@ -1160,7 +1165,15 @@ The `filter` field supports a very small subset of CEL:
   built-ins are supported.
 
 Example filter: `id.startsWith("foo")`
+ * @param showDeleted If true, resources marked for pending deletion will be included in the
+results.
  * @description Returns a list of data stores.
+
+Data stores scheduled for permanent deletion are omitted from the results
+by default (or when `showDeleted` is set to `false`). When this is the
+case, the operation will check up to 512 data stores. If all checked data
+stores are deleted, it will return an empty list with a page token to
+continue iteration.
  */
 export const getCloudV2UniversesUniverseIdDataStores = endpoint({
   method: 'GET',
@@ -1172,12 +1185,14 @@ export const getCloudV2UniversesUniverseIdDataStores = endpoint({
     maxPageSize: {},
     pageToken: {},
     filter: {},
+    showDeleted: {},
   },
   parameters: {
     universe_id: z.string(),
     maxPageSize: z.number().int().optional(),
     pageToken: z.string().optional(),
     filter: z.string().optional(),
+    showDeleted: z.boolean().optional(),
   },
   response: ListDataStoresResponse,
   errors: [],
@@ -1201,7 +1216,7 @@ snapshot was taken within the same UTC day, this operation is a no-op and
 the time of the latest snapshot will be returned.
 
 For more information on using snapshots, see the [Data
-Stores](https://create.roblox.com/docs/cloud-services/data-stores#snapshots)
+stores](https://create.roblox.com/docs/cloud-services/data-stores#snapshots)
 Engine guide.
  */
 export const postCloudV2UniversesUniverseIdDataStoresSnapshot = endpoint({
@@ -1218,6 +1233,85 @@ export const postCloudV2UniversesUniverseIdDataStoresSnapshot = endpoint({
   },
   body: z.object({}),
   response: SnapshotDataStoresResponse,
+  errors: [],
+});
+/**
+ * @api DELETE https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id
+ * @summary Delete Data Store
+ * @param universe_id The universe ID.
+ * @param data_store_id The data-store ID.
+ * @description Schedules the specified data store for permanent deletion.
+
+This operation assigns the data store an expiry time 30 days in the future,
+at which point permanent deletion begins. To cancel, use the
+`UndeleteDataStore` operation before the data store's expiry time.
+
+Permanent deletion consists of deleting all of the entries in the data
+store and then the data store resource itself. The data store is no longer
+returned by the `ListDataStores` Open Cloud endpoint or
+`ListDataStoresAsync` Luau API, and you can reuse the data store's name.
+
+The duration of the permanent deletion process depends on the number of
+entries in the data store. However, you can expect a data store with 1
+million or fewer entries to be permanently deleted within 3 days.
+
+Data stores scheduled for permanent deletion are returned by the
+`ListDataStores` Open Cloud endpoint when the query parameter `showDeleted`
+is set to `true`. In the return value, each data store will have a
+`DELETED` state and an `expireTime` field.
+
+Data stores scheduled for permanent deletion are immediately made
+inaccessible, meaning attempts to read or write to their entries will fail.
+
+Note: Due to caching in the backend service, attempts to read from or write
+to entries in these data stores can continue to succeed for a limited time
+after the deletion:
+* `GetDataStoreEntry`: can succeed for up to 24 hours.
+* All other endpoints: can succeed for several minutes.
+
+If the data store is already in a `DELETED` state, this operation is a
+no-op, and the data store is returned as-is.
+ */
+export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreId = endpoint({
+  method: 'DELETE',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    data_store_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+  },
+  response: DataStore,
+  errors: [],
+});
+/**
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id:undelete
+ * @summary Undelete Data Store
+ * @param body
+ * @param universe_id The universe ID.
+ * @param data_store_id The data-store ID.
+ * @description Restore the data store
+ */
+export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdUndelete = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id:undelete',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    data_store_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+  },
+  body: z.object({}),
+  response: DataStore,
   errors: [],
 });
 /**
@@ -2859,7 +2953,7 @@ Possible values:
   | Value | Description |
   | --- | --- |
   | VIEW_UNSPECIFIED | The luau execution session task log view is not specified; the default will be used. |
-  | FLAT | If this view is selected, the `messages` field will be populated (and the `structuredMessages` field will not). Each entry of the `messages` array contains only the log message, without additional medata.  This is the default. |
+  | FLAT | If this view is selected, the `messages` field will be populated (and the `structuredMessages` field will not). Each entry of the `messages` array contains only the log message, without additional medata. This is the default. |
   | STRUCTURED | If this view is selected, the `structuredMessages` field will be populated (and the `messages` field will not). Each entry of the `structuredMessages` array contains the log message plus additional metadata (see `LogMessage` for details). |
  * @description Lists log chunks generated by a `LuauExecutionSessionTask`.
 

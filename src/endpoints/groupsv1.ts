@@ -30,6 +30,7 @@ const Roblox_Groups_Api_GroupDetailResponse = z.object({
   publicEntryAllowed: z.boolean(),
   isLocked: z.boolean(),
   hasVerifiedBadge: z.boolean(),
+  hasSocialModules: z.boolean(),
 });
 const Roblox_Groups_Api_GroupRoleResponse = z.object({
   id: z.number().int(),
@@ -42,20 +43,69 @@ const Roblox_Groups_Api_UserGroupRoleResponse = z.object({
   user: Roblox_Groups_Api_Models_Response_UserModel,
   role: Roblox_Groups_Api_GroupRoleResponse,
 });
-const Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem = z
-  .object({
-    actor: Roblox_Groups_Api_UserGroupRoleResponse,
-    actionType: z.string(),
-    description: z.object({}),
-    created: z.string().datetime({ offset: true }),
-  })
-  .passthrough();
+const Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem = z.object({
+  actor: Roblox_Groups_Api_UserGroupRoleResponse,
+  actionType: z.string(),
+  description: z.object({}),
+  created: z.string().datetime({ offset: true }),
+});
 const Roblox_Groups_Api_GroupAuditLogPageResponse_Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem_ =
   z.object({
     previousPageCursor: z.string(),
     nextPageCursor: z.string(),
     data: z.array(Roblox_Groups_Api_Models_Response_GroupAuditLogResponseItem),
   });
+const Roblox_Groups_Api_GroupBanMemberResponse = z.object({
+  user: Roblox_Groups_Api_Models_Response_UserModel,
+  actingUser: Roblox_Groups_Api_UserGroupRoleResponse,
+  created: z.string().datetime({ offset: true }),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupBanMemberResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Groups_Api_GroupBanMemberResponse),
+});
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Groups_Client_BlockedKeywordModel = z.object({
+  id: z.string(),
+  keyword: z.string(),
+  createdBy: z.number().int(),
+  isPrivate: z.boolean(),
+  createdAt: z.string().datetime({ offset: true }),
+  updatedAt: z.string().datetime({ offset: true }),
+});
+const Roblox_Groups_Api_BlockedKeywordPageResponse_Roblox_Groups_Client_BlockedKeywordModel_ = z.object({
+  totalActiveKeywordsCount: z.number().int(),
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Groups_Client_BlockedKeywordModel),
+});
+const Roblox_Groups_Api_CreateBlockedKeywordsRequest = z.object({
+  keywords: z.string(),
+  isPrivate: z.boolean(),
+});
+const Roblox_Groups_Client_CreateBlockedKeywordsResponse = z.object({
+  createdKeywords: z.array(Roblox_Groups_Client_BlockedKeywordModel),
+  hadModeratedKeywords: z.boolean(),
+  hadDuplicateKeywords: z.boolean(),
+});
+const Roblox_Groups_Api_GroupConfigurationDetailsResponse = z.object({
+  groupId: z.number().int(),
+  emblemId: z.number().int(),
+  coverPhotoId: z.number().int(),
+});
+const Roblox_Groups_Client_EmoteModel = z.object({
+  id: z.string(),
+  name: z.string(),
+});
+const Roblox_Groups_Client_EmoteSetModel = z.object({
+  id: z.string(),
+  name: z.string(),
+  emotes: z.array(Roblox_Groups_Client_EmoteModel),
+});
+const Roblox_Groups_Client_GetGroupEmoteSetsResponse = z.object({
+  emoteSets: z.array(Roblox_Groups_Client_EmoteSetModel),
+});
 const Roblox_Groups_Api_GroupJoinRequestResponse = z.object({
   requester: Roblox_Groups_Api_Models_Response_UserModel,
   created: z.string().datetime({ offset: true }),
@@ -68,7 +118,6 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupJoinReques
 const Roblox_Groups_Api_MembersRequest = z.object({
   UserIds: z.array(z.number()),
 });
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Groups_Api_GroupPostsPermissionsModel = z.object({
   viewWall: z.boolean(),
   postToWall: z.boolean(),
@@ -77,6 +126,7 @@ const Roblox_Groups_Api_GroupPostsPermissionsModel = z.object({
   postToStatus: z.boolean(),
 });
 const Roblox_Groups_Api_GroupForumsPermissionsModel = z.object({
+  viewForums: z.boolean(),
   manageCategories: z.boolean(),
   createPosts: z.boolean(),
   removePosts: z.boolean(),
@@ -99,6 +149,7 @@ const Roblox_Groups_Api_GroupManagementPermissionsModel = z.object({
   manageRelationships: z.boolean(),
   manageClan: z.boolean(),
   viewAuditLogs: z.boolean(),
+  bypassSlowmode: z.boolean(),
 });
 const Roblox_Groups_Api_GroupEconomyPermissionsModel = z.object({
   spendGroupFunds: z.boolean(),
@@ -123,6 +174,10 @@ const Roblox_Groups_Api_GroupPermissionsModel = z.object({
   groupEconomyPermissions: Roblox_Groups_Api_GroupEconomyPermissionsModel,
   groupOpenCloudPermissions: Roblox_Groups_Api_GroupOpenCloudPermissionsModel,
 });
+const Roblox_Groups_Api_GroupChannelPermissionsModel = z.object({
+  channelId: z.string(),
+  groupForumsPermissions: Roblox_Groups_Api_GroupForumsPermissionsModel,
+});
 const Roblox_Groups_Api_GroupNotificationPreferenceData = z.object({
   type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   enabled: z.boolean(),
@@ -135,6 +190,7 @@ const Roblox_Groups_Api_GroupMembershipMetadataResponse = z.object({
   isPendingJoin: z.boolean(),
   userRole: Roblox_Groups_Api_UserGroupRoleResponse,
   permissions: Roblox_Groups_Api_GroupPermissionsModel,
+  channelPermissions: z.array(Roblox_Groups_Api_GroupChannelPermissionsModel),
   areGroupGamesVisible: z.boolean(),
   areGroupFundsVisible: z.boolean(),
   areEnemiesAllowed: z.boolean(),
@@ -172,6 +228,7 @@ const Roblox_Groups_Api_PayoutRecipientRequest = z.object({
 const Roblox_Groups_Api_PayoutRequest = z.object({
   PayoutType: z.union([z.literal(1), z.literal(2)]),
   Recipients: z.array(Roblox_Groups_Api_PayoutRecipientRequest),
+  IdempotencyKey: z.string(),
 });
 const Roblox_Groups_Api_GroupRelationshipsResponse = z.object({
   groupId: z.number().int(),
@@ -192,40 +249,8 @@ const Roblox_Groups_Api_GroupPermissionsResponse = z.object({
   role: Roblox_Groups_Api_GroupRoleResponse,
   permissions: Roblox_Groups_Api_GroupPermissionsModel,
 });
-const Roblox_Groups_Api_UpdatePermissionsRequest_permissions = z.object({
-  DeleteFromWall: z.boolean(),
-  PostToWall: z.boolean(),
-  InviteMembers: z.boolean(),
-  PostToStatus: z.boolean(),
-  RemoveMembers: z.boolean(),
-  BanMembers: z.boolean(),
-  ViewStatus: z.boolean(),
-  ViewWall: z.boolean(),
-  ChangeRank: z.boolean(),
-  AdvertiseGroup: z.boolean(),
-  ManageRelationships: z.boolean(),
-  AddGroupPlaces: z.boolean(),
-  ViewAuditLogs: z.boolean(),
-  CreateItems: z.boolean(),
-  ManageItems: z.boolean(),
-  SpendGroupFunds: z.boolean(),
-  ManageClan: z.boolean(),
-  ManageGroupGames: z.boolean(),
-  UseCloudAuthentication: z.boolean(),
-  AdministerCloudAuthentication: z.boolean(),
-  ViewAnalytics: z.boolean(),
-  ManageCategories: z.boolean(),
-  CreatePosts: z.boolean(),
-  RemovePosts: z.boolean(),
-  LockPosts: z.boolean(),
-  PinPosts: z.boolean(),
-  CreateComments: z.boolean(),
-  RemoveComments: z.boolean(),
-  ManageKeywordBlockList: z.boolean(),
-  ViewKeywordBlockList: z.boolean(),
-});
 const Roblox_Groups_Api_UpdatePermissionsRequest = z.object({
-  permissions: Roblox_Groups_Api_UpdatePermissionsRequest_permissions,
+  permissions: z.object({}),
 });
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_UserModel_ = z.object({
   previousPageCursor: z.string(),
@@ -243,6 +268,15 @@ const Roblox_Groups_Api_GroupSettingsResponse = z.object({
   areGroupGamesVisible: z.boolean(),
   isGroupNameChangeEnabled: z.boolean(),
   verificationLevel: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  accountTenureRequirement: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+  ]),
+  slowmode: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
 });
 const Roblox_Groups_Api_UpdateGroupSettingsRequest = z.object({
   isApprovalRequired: z.boolean(),
@@ -250,6 +284,15 @@ const Roblox_Groups_Api_UpdateGroupSettingsRequest = z.object({
   areGroupFundsVisible: z.boolean(),
   areGroupGamesVisible: z.boolean(),
   verificationLevel: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  accountTenureRequirement: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+  ]),
+  slowmode: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
 });
 const Roblox_Groups_Api_SocialLinkResponse = z.object({
   id: z.number().int(),
@@ -321,6 +364,8 @@ const Roblox_Groups_Api_GroupConfigurationResponse = z.object({
   nameMaxLength: z.number().int(),
   descriptionMaxLength: z.number().int(),
   iconMaxFileSizeMb: z.number().int(),
+  coverPhotoMaxFileSizeMb: z.number().int(),
+  validCoverPhotoDimensions: z.string(),
   cost: z.number().int(),
   isUsingTwoStepWebviewComponent: z.boolean(),
 });
@@ -464,6 +509,10 @@ const Roblox_Groups_Api_GroupPoliciesResponse = z.object({
 });
 const Roblox_Groups_Api_PrimaryGroupRequest = z.object({
   groupId: z.number().int(),
+});
+const Roblox_Groups_Api_UpdateBlockedKeywordRequest = z.object({
+  keyword: z.string(),
+  isPrivate: z.boolean(),
 });
 const Roblox_Groups_Api_UpdateGroupDescriptionRequest = z.object({
   description: z.string(),
@@ -705,6 +754,10 @@ export const getGroupsGroupidAuditLog = endpoint({
         'DeleteForumCategory',
         'DeleteForumPost',
         'DeleteForumComment',
+        'PinForumPost',
+        'UnpinForumPost',
+        'LockForumPost',
+        'UnlockForumPost',
         'CreateRoleset',
         'DeleteRoleset',
         'CreateCommerceProduct',
@@ -714,6 +767,10 @@ export const getGroupsGroupidAuditLog = endpoint({
         'SetCommerceProductInactive',
         'ConnectMerchant',
         'DisconnectMerchant',
+        'JoinGroup',
+        'LeaveGroup',
+        'UpdateGroupIcon',
+        'UpdateGroupCoverPhoto',
       ])
       .optional(),
     userId: z.number().int().optional(),
@@ -738,6 +795,432 @@ export const getGroupsGroupidAuditLog = endpoint({
     {
       status: 403,
       description: `23: Insufficient permissions to complete the request.`,
+    },
+  ],
+});
+/**
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/bans
+ * @summary Gets the bans for the group
+ * @param groupId The group Id.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
+ */
+export const getGroupsGroupidBans = endpoint({
+  method: 'GET',
+  path: '/v1/groups/:groupId/bans',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    limit: z
+      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
+      .optional()
+      .default(10),
+    cursor: z.string().optional(),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+  },
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupBanMemberResponse_,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `19: You have insufficient permissions for this request.`,
+    },
+    {
+      status: 404,
+      description: `1: The group is invalid or does not exist.`,
+    },
+    {
+      status: 405,
+      description: `18: The operation is temporarily unavailable. Please try again later.`,
+    },
+  ],
+});
+/**
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/bans/:userId
+ * @summary Fetch the group ban of a user from a group
+ * @param groupId The group Id.
+ * @param userId The user Id.
+ */
+export const getGroupsGroupidBansUserid = endpoint({
+  method: 'GET',
+  path: '/v1/groups/:groupId/bans/:userId',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    userId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    userId: z.number().int(),
+  },
+  response: Roblox_Groups_Api_GroupBanMemberResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `19: You have insufficient permissions for this request.`,
+    },
+    {
+      status: 404,
+      description: `1: The group is invalid or does not exist.
+3: The user is invalid or does not exist.`,
+    },
+    {
+      status: 405,
+      description: `18: The operation is temporarily unavailable. Please try again later.`,
+    },
+  ],
+});
+/**
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/bans/:userId
+ * @summary Bans a user from a group
+ * @param groupId The group Id.
+ * @param userId The Id of the user being banned.
+ */
+export const postGroupsGroupidBansUserid = endpoint({
+  method: 'POST',
+  path: '/v1/groups/:groupId/bans/:userId',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    userId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    userId: z.number().int(),
+  },
+  response: Roblox_Groups_Api_GroupBanMemberResponse,
+  errors: [
+    {
+      status: 400,
+      description: `28: The user is already banned from the group.
+31: You cannot perform this action against the group owner.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+19: You have insufficient permissions for this request.`,
+    },
+    {
+      status: 404,
+      description: `1: The group is invalid or does not exist.
+3: The user is invalid or does not exist.
+3: The user is invalid or does not exist.
+15: User is not a member of the group.`,
+    },
+    {
+      status: 405,
+      description: `18: The operation is temporarily unavailable. Please try again later.`,
+    },
+  ],
+});
+/**
+ * @api DELETE https://groups.roblox.com/v1/groups/:groupId/bans/:userId
+ * @summary Unbans a user from a group
+ * @param groupId The group Id.
+ * @param userId The Id of the user being unbanned.
+ */
+export const deleteGroupsGroupidBansUserid = endpoint({
+  method: 'DELETE',
+  path: '/v1/groups/:groupId/bans/:userId',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    userId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    userId: z.number().int(),
+  },
+  response: z.object({}),
+  errors: [
+    {
+      status: 400,
+      description: `29: The user is not banned from the group.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+19: You have insufficient permissions for this request.`,
+    },
+    {
+      status: 404,
+      description: `1: The group is invalid or does not exist.`,
+    },
+    {
+      status: 405,
+      description: `18: The operation is temporarily unavailable. Please try again later.`,
+    },
+  ],
+});
+/**
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/blocked-keywords
+ * @summary Retrieves a paginated list of blocked keywords for a specific Group.
+ * @param groupId
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
+ */
+export const getGroupsGroupidBlockedKeywords = endpoint({
+  method: 'GET',
+  path: '/v1/groups/:groupId/blocked-keywords',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    limit: z
+      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
+      .optional()
+      .default(10),
+    cursor: z.string().optional(),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+  },
+  response: Roblox_Groups_Api_BlockedKeywordPageResponse_Roblox_Groups_Client_BlockedKeywordModel_,
+  errors: [
+    {
+      status: 400,
+      description: `1: Group is invalid or does not exist.
+6: Limit is invalid.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `9: User is invalid or does not exist.
+10: Insufficient permissions to complete the request.`,
+    },
+    {
+      status: 405,
+      description: `31: Service is currently unavailable.`,
+    },
+  ],
+});
+/**
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/blocked-keywords
+ * @summary Adds new blocked keyword(s) to the specified Group.
+ * @param body
+ * @param groupId
+ */
+export const postGroupsGroupidBlockedKeywords = endpoint({
+  method: 'POST',
+  path: '/v1/groups/:groupId/blocked-keywords',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+  },
+  body: Roblox_Groups_Api_CreateBlockedKeywordsRequest,
+  response: Roblox_Groups_Client_CreateBlockedKeywordsResponse,
+  errors: [
+    {
+      status: 400,
+      description: `1: Group is invalid or does not exist.
+2: One or more keywords are invalid.
+4: Invalid request.
+12: The provided content was moderated.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+8: Insufficient permissions to complete the request.
+9: User is invalid or does not exist.
+10: Insufficient permissions to complete the request.`,
+    },
+    {
+      status: 405,
+      description: `31: Service is currently unavailable.`,
+    },
+    {
+      status: 409,
+      description: `11: There was a conflict in your request.`,
+    },
+  ],
+});
+/**
+ * @api DELETE https://groups.roblox.com/v1/groups/:groupId/blocked-keywords/:keywordId
+ * @summary Deletes a specific blocked keyword from the specified Group.
+ * @param groupId
+ * @param keywordId
+ */
+export const deleteGroupsGroupidBlockedKeywordsKeywordid = endpoint({
+  method: 'DELETE',
+  path: '/v1/groups/:groupId/blocked-keywords/:keywordId',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    keywordId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    keywordId: z.string(),
+  },
+  response: z.void(),
+  errors: [
+    {
+      status: 400,
+      description: `1: Group is invalid or does not exist.
+3: KeywordId is invalid.
+4: Invalid request.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+9: User is invalid or does not exist.
+10: Insufficient permissions to complete the request.`,
+    },
+    {
+      status: 404,
+      description: `7: Not found.`,
+    },
+    {
+      status: 405,
+      description: `31: Service is currently unavailable.`,
+    },
+  ],
+});
+/**
+ * @api PATCH https://groups.roblox.com/v1/groups/:groupId/blocked-keywords/:keywordId
+ * @summary Updates an existing blocked keyword for the specified Group.
+ * @param body
+ * @param groupId
+ * @param keywordId
+ */
+export const patchGroupsGroupidBlockedKeywordsKeywordid = endpoint({
+  method: 'PATCH',
+  path: '/v1/groups/:groupId/blocked-keywords/:keywordId',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+    keywordId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    keywordId: z.string(),
+  },
+  body: Roblox_Groups_Api_UpdateBlockedKeywordRequest,
+  response: Roblox_Groups_Client_BlockedKeywordModel,
+  errors: [
+    {
+      status: 400,
+      description: `1: Group is invalid or does not exist.
+3: KeywordId is invalid.
+4: Invalid request.
+12: The provided content was moderated.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+8: Insufficient permissions to complete the request.
+9: User is invalid or does not exist.
+10: Insufficient permissions to complete the request.`,
+    },
+    {
+      status: 404,
+      description: `7: Not found.`,
+    },
+    {
+      status: 405,
+      description: `31: Service is currently unavailable.`,
+    },
+    {
+      status: 409,
+      description: `11: There was a conflict in your request.`,
     },
   ],
 });
@@ -825,6 +1308,42 @@ export const postGroupsGroupidClaimOwnership = endpoint({
   ],
 });
 /**
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/configuration
+ * @summary Gets group configuration information
+ * @param groupId The group Id.
+ */
+export const getGroupsGroupidConfiguration = endpoint({
+  method: 'GET',
+  path: '/v1/groups/:groupId/configuration',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+  },
+  response: Roblox_Groups_Api_GroupConfigurationDetailsResponse,
+  errors: [
+    {
+      status: 400,
+      description: `1: Group is invalid or does not exist.
+15: User is not a member of the group.`,
+    },
+    {
+      status: 403,
+      description: `1: Group is invalid or does not exist.
+23: Insufficient permissions to complete the request.`,
+    },
+    {
+      status: 503,
+      description: `31: Service is currently unavailable.`,
+    },
+  ],
+});
+/**
  * @api PATCH https://groups.roblox.com/v1/groups/:groupId/description
  * @summary Updates the groups description
  * @param body The Roblox.Groups.Api.UpdateGroupDescriptionRequest.
@@ -863,6 +1382,27 @@ export const patchGroupsGroupidDescription = endpoint({
 23: Insufficient permissions to complete the request.`,
     },
   ],
+});
+/**
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/emotes
+ * @summary Gets a groups emote sets.
+ * @param groupId
+ */
+export const getGroupsGroupidEmotes = endpoint({
+  method: 'GET',
+  path: '/v1/groups/:groupId/emotes',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+  },
+  response: Roblox_Groups_Client_GetGroupEmoteSetsResponse,
+  errors: [],
 });
 /**
  * @api GET https://groups.roblox.com/v1/groups/:groupId/join-requests
@@ -1938,7 +2478,7 @@ export const patchGroupsGroupidRolesRolesetidPermissions = endpoint({
     groupId: z.number().int(),
     roleSetId: z.number().int(),
   },
-  body: Roblox_Groups_Api_UpdatePermissionsRequest,
+  body: z.object({ permissions: z.object({}) }),
   response: z.object({}),
   errors: [
     {
@@ -2010,7 +2550,8 @@ export const getGroupsGroupidRolesRolesetidUsers = endpoint({
     },
     {
       status: 403,
-      description: `2: The roleset is invalid or does not exist.`,
+      description: `2: The roleset is invalid or does not exist.
+35: You do not have permission to view this group&#x27;s member list.`,
     },
   ],
 });
@@ -2567,6 +3108,10 @@ export const getGroupsGroupidUsers = endpoint({
       status: 400,
       description: `1: The group is invalid or does not exist.`,
     },
+    {
+      status: 403,
+      description: `35: You do not have permission to view this group&#x27;s member list.`,
+    },
   ],
 });
 /**
@@ -2574,6 +3119,9 @@ export const getGroupsGroupidUsers = endpoint({
  * @summary Joins a group
  * @param body Only supplied when captcha has been solved.
  * @param groupId The group Id.
+ * @param Roblox-Place-Id The place ID of the experience the player is in.
+ * @param Roblox-Game-Id The player's current game Id.
+ * @param Roblox-Session-Id The player's current session Id.
  */
 export const postGroupsGroupidUsers = endpoint({
   method: 'POST',
@@ -2585,9 +3133,21 @@ export const postGroupsGroupidUsers = endpoint({
     groupId: {
       style: 'simple',
     },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
+    'Roblox-Game-Id': {
+      style: 'simple',
+    },
+    'Roblox-Session-Id': {
+      style: 'simple',
+    },
   },
   parameters: {
     groupId: z.number().int(),
+    'Roblox-Place-Id': z.number().int().optional(),
+    'Roblox-Game-Id': z.string().optional(),
+    'Roblox-Session-Id': z.string().optional(),
   },
   body: Roblox_Groups_Api_JoinGroupRequest,
   response: z.object({}),
@@ -2606,7 +3166,8 @@ export const postGroupsGroupidUsers = endpoint({
 6: You are already in the maximum number of groups.
 9: You do not have the builders club membership necessary to join this group.
 14: You cannot join a closed group.
-33: You do not have the required verification level to join this group.`,
+33: You do not have the required verification level to join this group.
+34: You do not have the required account tenure to join this group.`,
     },
     {
       status: 409,
@@ -2992,6 +3553,7 @@ export const getGroupsConfigurationMetadata = endpoint({
  * @summary Creates a new group.
  * @param body 
  * @description This endpoint will charge Robux for the group purchase.
+Accepts "icon" and "coverPhoto" in Files object. Defaults to first file if "icon" is not present.
 Http status code 413 is thrown when the group icon file size is too large.
  */
 export const postGroupsCreate = endpoint({
@@ -3013,7 +3575,8 @@ export const postGroupsCreate = endpoint({
 16: The group icon is missing from the request.
 18: The description is too long.
 19: The name is too long.
-20: The name has been taken.`,
+20: The name has been taken.
+46: Invalid file format or dimensions for group cover photo.`,
     },
     {
       status: 401,
@@ -3420,9 +3983,9 @@ export const getUsersUseridGroupsRoles = endpoint({
   },
   parameters: {
     userId: z.number().int(),
-    includeLocked: z.boolean(),
-    includeNotificationPreferences: z.boolean(),
-    discoveryType: z.union([z.literal(0), z.literal(1)]),
+    includeLocked: z.boolean().optional(),
+    includeNotificationPreferences: z.boolean().optional(),
+    discoveryType: z.union([z.literal(0), z.literal(1)]).optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipDetailResponse_,
   errors: [

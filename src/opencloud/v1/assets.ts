@@ -1,11 +1,13 @@
 import { z } from 'zod';
 import { endpoint } from '../..';
 
+const AssetPrivacy = z.enum(['default', 'restricted', 'openUse']);
 const Creator = z.object({
   userId: z.number().int(),
   groupId: z.number().int(),
 });
 const CreationContext = z.object({
+  assetPrivacy: AssetPrivacy,
   creator: Creator,
   expectedPrice: z.number().int(),
 });
@@ -49,6 +51,7 @@ const AssetVersion = z.object({
   creationContext: CreationContext,
   path: z.string(),
   moderationResult: ModerationResult,
+  published: z.boolean(),
 });
 
 /**

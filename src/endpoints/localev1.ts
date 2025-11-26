@@ -43,11 +43,15 @@ const Roblox_Locale_Api_UserLocalizationLocusLocalesResponse = z.object({
   signupAndLogin: Roblox_Locale_Api_SupportedLocale,
   generalExperience: Roblox_Locale_Api_SupportedLocale,
   ugc: Roblox_Locale_Api_SupportedLocale,
+  showRobloxTranslations: z.boolean(),
 });
+const Roblox_Locale_Api_SetShowRobloxTranslationsRequest = z.object({
+  showRobloxTranslations: z.boolean(),
+});
+const Roblox_Locale_Api_SuccessResponse = z.object({ success: z.boolean() });
 const Roblox_Locale_Api_SetSupportedLocaleForUserRequest = z.object({
   supportedLocaleCode: z.string(),
 });
-const Roblox_Locale_Api_SuccessResponse = z.object({ success: z.boolean() });
 
 /**
  * @api GET https://locale.roblox.com/v1/country-regions
@@ -104,6 +108,43 @@ export const getLocales = endpoint({
     {
       status: 403,
       description: `Feature is turned off temporary`,
+    },
+    {
+      status: 500,
+      description: `Internal server error`,
+    },
+  ],
+});
+/**
+ * @api POST https://locale.roblox.com/v1/locales/set-show-roblox-translations
+ * @summary Sets whether translations suggested by Roblox will be shown to the user.
+ * @param body Whether to show Roblox-suggested translations
+ */
+export const postLocalesSetShowRobloxTranslations = endpoint({
+  method: 'POST',
+  path: '/v1/locales/set-show-roblox-translations',
+  baseUrl: 'https://locale.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: z.object({ showRobloxTranslations: z.boolean() }),
+  response: z.object({ success: z.boolean() }),
+  errors: [
+    {
+      status: 400,
+      description: `Bad Request`,
+    },
+    {
+      status: 401,
+      description: `Unauthorized
+0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `Feature is turned off temporary
+0: Token Validation Failed`,
     },
     {
       status: 500,

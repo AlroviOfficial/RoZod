@@ -8,14 +8,15 @@ const Roblox_ClientSettings_Api_Models_Response_ClientVersionResponse = z.object
   nextClientVersionUpload: z.string(),
   nextClientVersion: z.string(),
 });
-const Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponse = z
-  .object({
-    activeVersion: z.string(),
-    upgradeSource: z.string(),
-    MD5Sum: z.string(),
-    data: z.object({}),
-  })
-  .passthrough();
+const Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponseData = z.object({
+  UpgradeAction: z.string(),
+});
+const Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponse = z.object({
+  activeVersion: z.string(),
+  upgradeSource: z.string(),
+  MD5Sum: z.string(),
+  data: Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponseData,
+});
 
 /**
  * @api GET https://clientsettings.roblox.com/v1/client-version/:binaryType

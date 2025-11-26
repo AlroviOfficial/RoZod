@@ -1,7 +1,7 @@
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/games/v1.json
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/games/v2.json
-https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/gamejoin/v1.json
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/adconfiguration/v2.json
+https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/matchmaking/v1.json
 
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/groups/v1.json
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/groups/v2.json
@@ -48,7 +48,6 @@ https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/accountinformati
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/accountsettings/v1.json
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/twostepverification/v1.json
 
-https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/chat/v2.json
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/privatemessages/v1.json
 
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/trades/v1.json
@@ -65,4 +64,3 @@ https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/translationroles
 
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/clientsettings/v1.json
 https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/clientsettings/v2.json
-https://prod.docsiteassets.roblox.com/assets/en-us/cloud/legacy/metrics/v1.json

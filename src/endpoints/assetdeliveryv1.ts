@@ -22,6 +22,11 @@ const Roblox_Web_Assets_IAssetItemError = z.object({
     z.literal(14),
     z.literal(15),
     z.literal(16),
+    z.literal(17),
+    z.literal(18),
+    z.literal(19),
+    z.literal(20),
+    z.literal(21),
   ]),
 });
 const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z.object({
@@ -62,6 +67,8 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
   modulePlaceId: z.number().int(),
   assetFormat: z.string(),
   'roblox-assetFormat': z.string(),
+  assetResolutionMode: z.string(),
+  accessContext: z.string(),
   contentRepresentationPriorityList: z.string(),
   doNotFallbackToBaselineRepresentation: z.boolean(),
 });
@@ -82,6 +89,7 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
  * @param modulePlaceId
  * @param serverplaceid
  * @param expectedAssetType
+ * @param accessContext
  */
 export const getAliasAlias = endpoint({
   method: 'GET',
@@ -134,6 +142,10 @@ export const getAliasAlias = endpoint({
       style: 'form',
       explode: true,
     },
+    accessContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     alias: z.string().regex(/^[0-9]+\/.+/),
@@ -149,6 +161,7 @@ export const getAliasAlias = endpoint({
     modulePlaceId: z.number().int().optional(),
     serverplaceid: z.number().int().optional(),
     expectedAssetType: z.string().optional(),
+    accessContext: z.string().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV1,
   errors: [],
@@ -179,6 +192,8 @@ export const getAliasAlias = endpoint({
  * @param permissionContext
  * @param doNotFallbackToBaselineRepresentation
  * @param contentRepresentationPriorityList
+ * @param assetResolutionMode
+ * @param accessContext
  */
 export const getAsset = endpoint({
   method: 'GET',
@@ -276,6 +291,14 @@ export const getAsset = endpoint({
       style: 'form',
       explode: true,
     },
+    assetResolutionMode: {
+      style: 'form',
+      explode: true,
+    },
+    accessContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     'Accept-Encoding': z.string(),
@@ -302,6 +325,8 @@ export const getAsset = endpoint({
     permissionContext: z.string().optional(),
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
+    assetResolutionMode: z.string().optional(),
+    accessContext: z.string().optional(),
   },
   response: z.void(),
   errors: [],
@@ -324,6 +349,7 @@ export const getAsset = endpoint({
  * @param expectedAssetType
  * @param doNotFallbackToBaselineRepresentation
  * @param contentRepresentationPriorityList
+ * @param accessContext
  */
 export const getAssetidAssetid = endpoint({
   method: 'GET',
@@ -384,6 +410,10 @@ export const getAssetidAssetid = endpoint({
       style: 'form',
       explode: true,
     },
+    accessContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     assetId: z.number().int(),
@@ -401,6 +431,7 @@ export const getAssetidAssetid = endpoint({
     expectedAssetType: z.string().optional(),
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
+    accessContext: z.string().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV1,
   errors: [],
@@ -424,6 +455,7 @@ export const getAssetidAssetid = endpoint({
  * @param expectedAssetType
  * @param doNotFallbackToBaselineRepresentation
  * @param contentRepresentationPriorityList
+ * @param accessContext
  */
 export const getAssetidAssetidVersionVersionnumber = endpoint({
   method: 'GET',
@@ -487,6 +519,10 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
       style: 'form',
       explode: true,
     },
+    accessContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     assetId: z.number().int(),
@@ -505,6 +541,7 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
     expectedAssetType: z.string().optional(),
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
+    accessContext: z.string().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV1,
   errors: [],
@@ -514,7 +551,6 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
  * @param body
  * @param Roblox-Place-Id
  * @param Accept
- * @param Roblox-Browser-Asset-Request
  */
 export const postAssetsBatch = endpoint({
   method: 'POST',
@@ -529,14 +565,10 @@ export const postAssetsBatch = endpoint({
     Accept: {
       style: 'simple',
     },
-    'Roblox-Browser-Asset-Request': {
-      style: 'simple',
-    },
   },
   parameters: {
     'Roblox-Place-Id': z.number().int(),
     Accept: z.string(),
-    'Roblox-Browser-Asset-Request': z.string(),
   },
   body: z.array(Roblox_Web_Assets_BatchAssetRequestItem),
   response: z.array(Roblox_Web_Assets_AssetResponseItemV1),
@@ -641,6 +673,240 @@ export const getMarassethashMarassethashMarchecksumMarchecksum = endpoint({
     {
       status: 404,
       description: `5: Asset hash cannot be empty`,
+    },
+  ],
+});
+/**
+ * @api GET https://assetdelivery.roblox.com/v1/openCloud/assetId/:assetId
+ * @summary Retrieves an asset by its ID with OpenCloud auth.
+ * @param assetId The ID of the asset to retrieve.
+ * @param Accept-Encoding The Accept-Encoding header value specifying compression formats (e.g., "gzip, deflate"). Defaults to "gzip, deflate" if not provided.
+ * @param Roblox-Place-Id The Roblox-Place-Id header value identifying the place making the request.
+ * @param AssetType The AssetType header value specifying the expected asset type.
+ * @param Accept The Accept header value specifying the preferred response content type.
+ * @param AssetFormat The AssetFormat header value specifying the desired asset format. Overridden by robloxAssetFormat if both are provided.
+ * @param Roblox-AssetFormat The Roblox-AssetFormat header value specifying the preferred Roblox-specific asset format. Takes precedence over assetFormat.
+ * @param skipSigningScripts Whether to skip script signing for the returned asset. Used for script assets that don't require signing.
+ * @param clientInsert Set to 1 to indicate this is a client insert request.
+ * @param scriptinsert Set to 1 to indicate this is a script insert request.
+ * @param modulePlaceId The place ID of the module making the request.
+ * @param serverplaceid The server place ID making the request.
+ * @param expectedAssetType The expected asset type as a fallback when assetType header is not provided.
+ * @param doNotFallbackToBaselineRepresentation Whether to prevent fallback to baseline representation when specific content representations are not available.
+ * @param contentRepresentationPriorityList Base64URL-encoded JSON string specifying the priority list of desired content representations (format, version, fidelity).
+ * @param accessContext 
+ * @description Returns an object containing a `location` property which is a temporary CDN URL for the asset content. All asset types are supported.
+You should request that URL with the `Accept-Encoding: gzip` header and decompress the result if the response is gzipped. If you are using cURL, the `--compressed` flag will automate these steps for you.
+This endpoint is expected to be called with API key authentication through `apis.roblox.com/asset-delivery-api/v1/assetId/{assetId}`.
+While you are able to make requests to this endpoint with Cookie authentication via `assetdelivery.roblox.com/v1/openCloud/assetId/{assetId}`, we highly discourage use this way.
+Expect unannounced removal of this second route in the future.
+ */
+export const getOpencloudAssetidAssetid = endpoint({
+  method: 'GET',
+  path: '/v1/openCloud/assetId/:assetId',
+  baseUrl: 'https://assetdelivery.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    assetId: {
+      style: 'simple',
+    },
+    'Accept-Encoding': {
+      style: 'simple',
+    },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
+    AssetType: {
+      style: 'simple',
+    },
+    Accept: {
+      style: 'simple',
+    },
+    AssetFormat: {
+      style: 'simple',
+    },
+    'Roblox-AssetFormat': {
+      style: 'simple',
+    },
+    skipSigningScripts: {
+      style: 'form',
+      explode: true,
+    },
+    clientInsert: {
+      style: 'form',
+      explode: true,
+    },
+    scriptinsert: {
+      style: 'form',
+      explode: true,
+    },
+    modulePlaceId: {
+      style: 'form',
+      explode: true,
+    },
+    serverplaceid: {
+      style: 'form',
+      explode: true,
+    },
+    expectedAssetType: {
+      style: 'form',
+      explode: true,
+    },
+    doNotFallbackToBaselineRepresentation: {
+      style: 'form',
+      explode: true,
+    },
+    contentRepresentationPriorityList: {
+      style: 'form',
+      explode: true,
+    },
+    accessContext: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    assetId: z.number().int(),
+    'Accept-Encoding': z.string().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
+    AssetType: z.string().optional(),
+    Accept: z.string().optional(),
+    AssetFormat: z.string().optional(),
+    'Roblox-AssetFormat': z.string().optional(),
+    skipSigningScripts: z.boolean().optional(),
+    clientInsert: z.number().int().optional(),
+    scriptinsert: z.number().int().optional(),
+    modulePlaceId: z.number().int().optional(),
+    serverplaceid: z.number().int().optional(),
+    expectedAssetType: z.string().optional(),
+    doNotFallbackToBaselineRepresentation: z.boolean().optional(),
+    contentRepresentationPriorityList: z.string().optional(),
+    accessContext: z.string().optional(),
+  },
+  response: Roblox_Web_Assets_AssetResponseItemV1,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
+ * @api GET https://assetdelivery.roblox.com/v1/openCloud/assetId/:assetId/version/:versionNumber
+ * @summary Retrieves an asset by its ID and version number with OpenCloud auth.
+ * @param assetId The ID of the asset to retrieve.
+ * @param versionNumber The version number of the asset to retrieve.
+ * @param Accept-Encoding 
+ * @param Roblox-Place-Id 
+ * @param AssetType 
+ * @param Accept 
+ * @param AssetFormat 
+ * @param Roblox-AssetFormat 
+ * @param skipSigningScripts 
+ * @param clientInsert 
+ * @param scriptinsert 
+ * @param modulePlaceId 
+ * @param serverplaceid 
+ * @param expectedAssetType 
+ * @param doNotFallbackToBaselineRepresentation 
+ * @param contentRepresentationPriorityList 
+ * @param accessContext 
+ * @description Refer to the assetId endpoint for details on usage.
+This endpoint is expected to be called with API key authentication through `apis.roblox.com/asset-delivery-api/v1/assetId/{assetId}/version/{versionNumber}`.
+While you are able to make requests to this endpoint with Cookie authentication via `assetdelivery.roblox.com/v1/openCloud/assetId/{assetId}/version/{versionNumber}`, we highly discourage use this way.
+Expect unannounced removal of this second route in the future.
+ */
+export const getOpencloudAssetidAssetidVersionVersionnumber = endpoint({
+  method: 'GET',
+  path: '/v1/openCloud/assetId/:assetId/version/:versionNumber',
+  baseUrl: 'https://assetdelivery.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    assetId: {
+      style: 'simple',
+    },
+    versionNumber: {
+      style: 'simple',
+    },
+    'Accept-Encoding': {
+      style: 'simple',
+    },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
+    AssetType: {
+      style: 'simple',
+    },
+    Accept: {
+      style: 'simple',
+    },
+    AssetFormat: {
+      style: 'simple',
+    },
+    'Roblox-AssetFormat': {
+      style: 'simple',
+    },
+    skipSigningScripts: {
+      style: 'form',
+      explode: true,
+    },
+    clientInsert: {
+      style: 'form',
+      explode: true,
+    },
+    scriptinsert: {
+      style: 'form',
+      explode: true,
+    },
+    modulePlaceId: {
+      style: 'form',
+      explode: true,
+    },
+    serverplaceid: {
+      style: 'form',
+      explode: true,
+    },
+    expectedAssetType: {
+      style: 'form',
+      explode: true,
+    },
+    doNotFallbackToBaselineRepresentation: {
+      style: 'form',
+      explode: true,
+    },
+    contentRepresentationPriorityList: {
+      style: 'form',
+      explode: true,
+    },
+    accessContext: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    assetId: z.number().int(),
+    versionNumber: z.number().int(),
+    'Accept-Encoding': z.string().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
+    AssetType: z.string().optional(),
+    Accept: z.string().optional(),
+    AssetFormat: z.string().optional(),
+    'Roblox-AssetFormat': z.string().optional(),
+    skipSigningScripts: z.boolean().optional(),
+    clientInsert: z.number().int().optional(),
+    scriptinsert: z.number().int().optional(),
+    modulePlaceId: z.number().int().optional(),
+    serverplaceid: z.number().int().optional(),
+    expectedAssetType: z.string().optional(),
+    doNotFallbackToBaselineRepresentation: z.boolean().optional(),
+    contentRepresentationPriorityList: z.string().optional(),
+    accessContext: z.string().optional(),
+  },
+  response: Roblox_Web_Assets_AssetResponseItemV1,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
     },
   ],
 });

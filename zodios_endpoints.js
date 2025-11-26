@@ -120,6 +120,31 @@ handlebars.registerHelper('normalizePathForJS', (method, path) => {
 });
 
 // --- Zod v4 compatibility helpers ------------------------------------------------------------
+
+/**
+ * Fix regex patterns that have unescaped forward slashes inside the pattern.
+ * e.g. /^(user|group)/\d+$/ -> /^(user|group)\/\d+$/
+ */
+function fixUnescapedRegexSlashes(content) {
+  // Fix the specific pattern from toolbox.ts: /^(user|group)/\d+$/
+  return content.replace(
+    /\.regex\(\/\^?\(user\|group\)\/\\d\+\$?\/\)/g,
+    '.regex(/^(user|group)\\/\\d+$/)'
+  );
+}
+
+/**
+ * Fix invalid enum defaults where the default is a numeric string like '1' 
+ * instead of an actual enum value.
+ */
+function fixInvalidEnumDefaults(content) {
+  // Fix: z.enum(['Invalid', 'Legacy', 'Icu']).optional().default('1') -> .default('Legacy')
+  return content.replace(
+    /z\.enum\(\['Invalid', 'Legacy', 'Icu'\]\)\.optional\(\)\.default\('1'\)/g,
+    "z.enum(['Invalid', 'Legacy', 'Icu']).optional().default('Legacy')"
+  );
+}
+
 /**
  * Transform content by rewriting single-argument z.record(valueSchema) to valueSchema
  * Only rewrites when the argument list to z.record has no top-level comma.
@@ -209,11 +234,23 @@ function applyZodRecordFixToFile(filePath) {
   if (!/\.(ts|d\.ts)$/.test(filePath)) return;
   try {
     const original = readFileSync(filePath, 'utf-8');
-    if (!original.includes('z.record(')) return;
-    const fixed = fixZodRecordSingleArg(original);
+    let fixed = original;
+    
+    if (fixed.includes('z.record(')) {
+      fixed = fixZodRecordSingleArg(fixed);
+    }
+    
+    if (fixed.includes('(user|group)')) {
+      fixed = fixUnescapedRegexSlashes(fixed);
+    }
+    
+    if (fixed.includes(".default('1')")) {
+      fixed = fixInvalidEnumDefaults(fixed);
+    }
+    
     if (fixed !== original) {
       writeFileSync(filePath, fixed, 'utf-8');
-      console.log(`Patched z.record single-arg in ${filePath}`);
+      console.log(`Patched ${filePath}`);
     }
   } catch (e) {
     console.warn(`Failed to patch ${filePath}: ${e}`);
@@ -258,6 +295,42 @@ const openCloudV1Apis = [
   {
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/assets/v1.json',
     name: 'assets',
+    version: 'v1',
+    baseUrl: 'https://apis.roblox.com/cloud'
+  },
+  {
+    url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/asset-permissions-api/v1.json',
+    name: 'asset-permissions',
+    version: 'v1',
+    baseUrl: 'https://apis.roblox.com/cloud'
+  },
+  {
+    url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/developer-products-api/v1.json',
+    name: 'developer-products',
+    version: 'v1',
+    baseUrl: 'https://apis.roblox.com/cloud'
+  },
+  {
+    url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/game-passes-http-service/v1.json',
+    name: 'game-passes',
+    version: 'v1',
+    baseUrl: 'https://apis.roblox.com/cloud'
+  },
+  {
+    url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/open-eval-api/v1.json',
+    name: 'open-eval',
+    version: 'v1',
+    baseUrl: 'https://apis.roblox.com/cloud'
+  },
+  {
+    url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/secrets-store-service/v1.json',
+    name: 'secrets-store',
+    version: 'v1',
+    baseUrl: 'https://apis.roblox.com/cloud'
+  },
+  {
+    url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/toolbox-service/v1.json',
+    name: 'toolbox',
     version: 'v1',
     baseUrl: 'https://apis.roblox.com/cloud'
   }
@@ -352,9 +425,9 @@ Promise.all(
         console.log(`Converting ${url}`);
         const endpointName = url.match(/\/legacy\/([^/]+)\/v\d+/)[1];
         const apiName = url.split('/').slice(-1)[0].replace(/\.json/, '');
-        // await promisify(exec)(
-        //   `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${endpointName}${apiName}"`,
-        // );
+        await promisify(exec)(
+          `java -jar swagger-codegen-cli-3.0.42.jar generate -l openapi-yaml -i ${url} -o "${FOLDER_OPENAPI}/${endpointName}${apiName}"`,
+        );
       }
     }),
   ),

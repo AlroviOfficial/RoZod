@@ -921,7 +921,7 @@ export const deleteUniversesUniverseidTeamcreateMemberships = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/multiget
- * @summary Gets a System.Collections.Generic.List`1.
+ * @summary Gets a list of universes.
  * @param ids The universe IDs to get. Limit 100.
  * @description If a universe can not be found for a given ID (such as -1) it will be skipped.
  */

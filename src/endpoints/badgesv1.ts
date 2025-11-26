@@ -368,45 +368,6 @@ export const getUniversesUniverseidFreeBadgesQuota = endpoint({
   ],
 });
 /**
- * @api DELETE https://badges.roblox.com/v1/user/:userId/badges/:badgeId
- * @summary Removes a badge from the user.
- * @param userId The user Id.
- * @param badgeId The badge Id.
- */
-export const deleteUserUseridBadgesBadgeid = endpoint({
-  method: 'DELETE',
-  path: '/v1/user/:userId/badges/:badgeId',
-  baseUrl: 'https://badges.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    badgeId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    userId: z.number().int(),
-    badgeId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 404,
-      description: `1: Badge is invalid or does not exist.`,
-    },
-  ],
-});
-/**
  * @api DELETE https://badges.roblox.com/v1/user/badges/:badgeId
  * @summary Removes a badge from the authenticated user.
  * @param badgeId The badge Id.

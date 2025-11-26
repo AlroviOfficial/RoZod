@@ -10,15 +10,13 @@ const Roblox_Web_Responses_Thumbnails_ThumbnailResponse = z.object({
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_ = z.object({
   data: z.array(Roblox_Web_Responses_Thumbnails_ThumbnailResponse),
 });
-const Roblox_Web_WebAPI_Models_ApiErrorModel = z
-  .object({
-    code: z.number().int(),
-    message: z.string(),
-    userFacingMessage: z.string(),
-    field: z.string(),
-    fieldData: z.object({}),
-  })
-  .passthrough();
+const Roblox_Web_WebAPI_Models_ApiErrorModel = z.object({
+  code: z.number().int(),
+  message: z.string(),
+  userFacingMessage: z.string(),
+  field: z.string(),
+  fieldData: z.object({}),
+});
 const Roblox_Thumbnails_Api_Models_UniverseThumbnailsResponse = z.object({
   universeId: z.number().int(),
   error: Roblox_Web_WebAPI_Models_ApiErrorModel,

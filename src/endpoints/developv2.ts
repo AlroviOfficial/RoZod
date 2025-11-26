@@ -74,6 +74,7 @@ const Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions 
   IsThirdPartyTeleportAllowed: z.boolean(),
   IsThirdPartyAssetAllowed: z.boolean(),
   IsThirdPartyPurchaseAllowed: z.boolean(),
+  IsClientTeleportAllowed: z.boolean(),
 });
 const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
   allowPrivateServers: z.boolean(),

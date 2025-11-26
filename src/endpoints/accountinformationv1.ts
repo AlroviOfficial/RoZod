@@ -6,13 +6,6 @@ const Roblox_AccountInformation_Api_Models_BirthdateResponse = z.object({
   birthDay: z.number().int(),
   birthYear: z.number().int(),
 });
-const Roblox_AccountInformation_Api_Models_BirthdateRequest = z.object({
-  birthMonth: z.number().int(),
-  birthDay: z.number().int(),
-  birthYear: z.number().int(),
-  password: z.string(),
-});
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_AccountInformation_Api_Models_DescriptionResponse = z.object({
   description: z.string(),
 });
@@ -25,6 +18,7 @@ const Roblox_AccountInformation_Api_Models_GenderResponse = z.object({
 const Roblox_AccountInformation_Api_Models_GenderRequest = z.object({
   gender: z.string(),
 });
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_AccountInformation_Api_Models_MetadataResponse = z.object({
   isAllowedNotificationsEndpointDisabled: z.boolean(),
   isAccountSettingsPolicyEnabled: z.boolean(),
@@ -32,9 +26,9 @@ const Roblox_AccountInformation_Api_Models_MetadataResponse = z.object({
   MaxUserDescriptionLength: z.number().int(),
   isUserDescriptionEnabled: z.boolean(),
   isUserBlockEndpointsUpdated: z.boolean(),
-  isPasswordRequiredForAgingDown: z.boolean(),
   shouldUsePersonaForIdVerification: z.boolean(),
   shouldDisplaySessionManagement: z.boolean(),
+  isPasswordRequiredForAgingDown: z.boolean(),
 });
 const Roblox_AccountInformation_Api_Models_PhoneResponse = z.object({
   countryCode: z.string(),
@@ -92,7 +86,6 @@ const Roblox_AccountInformation_Api_RobloxBadgeResponse = z.object({
   description: z.string(),
   imageUrl: z.string(),
 });
-const Roblox_AccountInformation_Api_Models_ConsecutiveLoginDaysResponse = z.object({ count: z.number().int() });
 const Roblox_AccountInformation_Api_Models_VerifyEmailRequest = z.object({
   ticket: z.string(),
 });
@@ -122,45 +115,6 @@ export const getBirthdate = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api POST https://accountinformation.roblox.com/v1/birthdate
- * @summary Update the user's birthdate
- * @param body The Roblox.AccountInformation.Api.Models.BirthdateRequest
- */
-export const postBirthdate = endpoint({
-  method: 'POST',
-  path: '/v1/birthdate',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_AccountInformation_Api_Models_BirthdateRequest,
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: User not found.
-4: The birthdate provided is invalid.
-8: Password is incorrect.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-5: Invalid birthdate change.`,
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occured.
-5: Invalid birthdate change.`,
     },
   ],
 });
@@ -727,22 +681,4 @@ export const getUsersUseridRobloxBadges = endpoint({
   },
   response: z.array(Roblox_AccountInformation_Api_RobloxBadgeResponse),
   errors: [],
-});
-/**
- * @api GET https://accountinformation.roblox.com/v1/xbox-live/consecutive-login-days
- * @summary Returns number of consecutive login days for xbox users
- */
-export const getXboxLiveConsecutiveLoginDays = endpoint({
-  method: 'GET',
-  path: '/v1/xbox-live/consecutive-login-days',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
-  response: z.object({ count: z.number().int() }),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.
-7: The account is not connected to an Xbox Live account`,
-    },
-  ],
 });

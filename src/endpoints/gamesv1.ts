@@ -38,6 +38,7 @@ const Roblox_Games_Api_Models_Response_GameDetailResponse = z.object({
   genre: z.string(),
   genre_l1: z.string(),
   genre_l2: z.string(),
+  untranslated_genre_l1: z.string(),
   isAllGenre: z.boolean(),
   isFavoritedByUser: z.boolean(),
   favoritedCount: z.number().int(),
@@ -228,9 +229,6 @@ const Roblox_Games_Api_Models_Response_GameRecommendationsResponse = z.object({
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameVoteResponse_ = z.object({
   data: z.array(Roblox_Games_Api_Models_Response_GameVoteResponse),
 });
-const Roblox_Games_Api_PrivateServersResponse = z.object({
-  privateServerResponses: z.array(Roblox_Web_Responses_Games_GameServerResponse),
-});
 const Roblox_Games_Api_Models_Response_PrivateServersEnabledInUniverseResponse = z.object({
   privateServersEnabled: z.boolean(),
 });
@@ -325,9 +323,6 @@ const Roblox_Games_Api_VipServerUpdateSubscriptionRequest = z.object({
   active: z.boolean(),
   price: z.number().int(),
 });
-const Roblox_Games_Api_VipServerUpdateVoiceSettingsRequest = z.object({
-  enabled: z.boolean(),
-});
 
 /**
  * @api GET https://games.roblox.com/v1/games
@@ -360,6 +355,7 @@ export const getGames = endpoint({
  * @api GET https://games.roblox.com/v1/games/:placeId/private-servers
  * @summary Get list of private servers user can access for given game id.
  * @param placeId The Id of the place we are geting the private server list for.
+ * @param excludeFriendServers
  * @param limit The number of results per request.
  * @param cursor The paging cursor for the previous or next page.
  * @param sortOrder The order the results are sorted in.
@@ -372,6 +368,10 @@ export const getGamesPlaceidPrivateServers = endpoint({
   serializationMethod: {
     placeId: {
       style: 'simple',
+    },
+    excludeFriendServers: {
+      style: 'form',
+      explode: true,
     },
     limit: {
       style: 'form',
@@ -388,6 +388,7 @@ export const getGamesPlaceidPrivateServers = endpoint({
   },
   parameters: {
     placeId: z.number().int(),
+    excludeFriendServers: z.boolean().optional(),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
@@ -1014,47 +1015,6 @@ export const getGamesVotes = endpoint({
   ],
 });
 /**
- * @api GET https://games.roblox.com/v1/private-servers
- * @summary Get private servers from private server ids
- * @param privateServerIds
- */
-export const getPrivateServers = endpoint({
-  method: 'GET',
-  path: '/v1/private-servers',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    privateServerIds: {
-      style: 'form',
-    },
-  },
-  parameters: {
-    privateServerIds: z.array(z.number()),
-  },
-  response: Roblox_Games_Api_PrivateServersResponse,
-  errors: [
-    {
-      status: 400,
-      description: `8: The creator of this game has disabled private servers for this game.
-34: Invalid request, private server ids cannot be null.
-35: Guest users are not allowed.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `2: You are not the owner of this private server.`,
-    },
-    {
-      status: 404,
-      description: `1: The private server is invalid or does not exist.
-4: The universe does not exist.`,
-    },
-  ],
-});
-/**
  * @api GET https://games.roblox.com/v1/private-servers/enabled-in-universe/:universeId
  * @summary Checks if the private servers are enabled in the specified universe.
  * @param universeId
@@ -1336,49 +1296,6 @@ export const patchVipServersIdSubscription = endpoint({
     {
       status: 429,
       description: `3: Please wait a few minutes before configuring your private server again.`,
-    },
-  ],
-});
-/**
- * @api PATCH https://games.roblox.com/v1/vip-servers/:id/voicesettings
- * @summary Update voice settings for a private server.
- * @param body The Roblox.Games.Api.VipServerUpdateVoiceSettingsRequest
- * @param id The VIP Server ID
- */
-export const patchVipServersIdVoicesettings = endpoint({
-  method: 'PATCH',
-  path: '/v1/vip-servers/:id/voicesettings',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    id: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    id: z.number().int(),
-  },
-  body: z.object({ enabled: z.boolean() }),
-  response: z.object({ enabled: z.boolean() }),
-  errors: [
-    {
-      status: 400,
-      description: `8: The creator of this game has disabled private servers for this game.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-2: You are not the owner of this private server.
-33: You are not eligible for voice chat.`,
-    },
-    {
-      status: 404,
-      description: `1: The private server is invalid or does not exist.`,
     },
   ],
 });

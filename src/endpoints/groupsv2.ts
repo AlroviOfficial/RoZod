@@ -18,6 +18,115 @@ const Roblox_Web_Responses_Groups_GroupResponseV2 = z.object({
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_ = z.object({
   data: z.array(Roblox_Web_Responses_Groups_GroupResponseV2),
 });
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_ = z.object({
+  id: z.number().int(),
+  type: z.union([z.literal(0), z.literal(1)]),
+  name: z.string(),
+});
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_ = z.object({
+  id: z.number().int(),
+  type: z.union([
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+    z.literal(10),
+    z.literal(11),
+    z.literal(12),
+    z.literal(13),
+    z.literal(16),
+    z.literal(17),
+    z.literal(18),
+    z.literal(19),
+    z.literal(21),
+    z.literal(22),
+    z.literal(24),
+    z.literal(25),
+    z.literal(26),
+    z.literal(27),
+    z.literal(28),
+    z.literal(29),
+    z.literal(30),
+    z.literal(31),
+    z.literal(32),
+    z.literal(33),
+    z.literal(34),
+    z.literal(35),
+    z.literal(37),
+    z.literal(38),
+    z.literal(39),
+    z.literal(40),
+    z.literal(41),
+    z.literal(42),
+    z.literal(43),
+    z.literal(44),
+    z.literal(45),
+    z.literal(46),
+    z.literal(47),
+    z.literal(48),
+    z.literal(49),
+    z.literal(50),
+    z.literal(51),
+    z.literal(52),
+    z.literal(53),
+    z.literal(54),
+    z.literal(55),
+    z.literal(56),
+    z.literal(59),
+    z.literal(60),
+    z.literal(61),
+    z.literal(62),
+    z.literal(63),
+    z.literal(64),
+    z.literal(65),
+    z.literal(66),
+    z.literal(67),
+    z.literal(68),
+    z.literal(69),
+    z.literal(70),
+    z.literal(71),
+    z.literal(72),
+    z.literal(73),
+    z.literal(74),
+    z.literal(75),
+    z.literal(76),
+    z.literal(77),
+    z.literal(78),
+    z.literal(79),
+    z.literal(80),
+    z.literal(81),
+    z.literal(82),
+    z.literal(83),
+    z.literal(84),
+    z.literal(85),
+    z.literal(86),
+    z.literal(87),
+    z.literal(88),
+    z.literal(89),
+    z.literal(90),
+  ]),
+  name: z.string(),
+});
+const Roblox_Groups_Api_Models_Response_GroupExperienceResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  creator: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_,
+  rootPlace: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_,
+  created: z.string().datetime({ offset: true }),
+  updated: z.string().datetime({ offset: true }),
+  placeVisits: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_GroupExperienceResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Groups_Api_Models_Response_GroupExperienceResponse),
+});
 const Roblox_Groups_Api_Models_Response_UserModel = z.object({
   buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   hasVerifiedBadge: z.boolean(),
@@ -107,6 +216,59 @@ export const getGroups = endpoint({
       status: 400,
       description: `2: Too many ids in request.
 3: Ids could not be parsed from request.`,
+    },
+  ],
+});
+/**
+ * @api GET https://groups.roblox.com/v2/groups/:groupId/experiences
+ * @summary Gets experiences created by the specified group id.
+ * @param groupId The group Id
+ * @param accessFilter The access type of the experiences.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
+ */
+export const getGroupsGroupidExperiences = endpoint({
+  method: 'GET',
+  path: '/v2/groups/:groupId/experiences',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    accessFilter: {
+      style: 'form',
+      explode: true,
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    accessFilter: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),
+    limit: z
+      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
+      .optional()
+      .default(10),
+    cursor: z.string().optional(),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+  },
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_GroupExperienceResponse_,
+  errors: [
+    {
+      status: 501,
+      description: `47: Code path is not implemented.`,
     },
   ],
 });

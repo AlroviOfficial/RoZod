@@ -12,10 +12,10 @@ const Roblox_Authentication_Api_Models_MetadataResponse = z.object({
   IsAccountRecoveryPromptEnabled: z.boolean(),
   IsContactMethodRequiredAtSignup: z.boolean(),
   IsUserAgreementsSignupIntegrationEnabled: z.boolean(),
-  IsKoreaIdVerificationEnabled: z.boolean(),
   IsPasswordRequiredForUsernameChange: z.boolean(),
   IsPasskeyFeatureEnabled: z.boolean(),
   IsAltBrowserTracker: z.boolean(),
+  IsLoginRedirectPageEnabled: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_PasswordStatusResponse = z.object({
   valid: z.boolean(),
@@ -75,6 +75,7 @@ const Roblox_Authentication_Api_Models_LoginResponse = z.object({
   shouldUpdateEmail: z.boolean(),
   recoveryEmail: z.string(),
   passkeyRegistrationSucceeded: z.boolean(),
+  shouldAutoLoginFromRecovery: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_PasswordValidationResponse = z.object({
   code: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),

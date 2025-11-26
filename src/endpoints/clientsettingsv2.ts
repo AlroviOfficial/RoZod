@@ -1,6 +1,12 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
+const Roblox_ClientSettings_Api_Models_Response_AndroidBinaryLibraryNames = z.object({ engine: z.string() });
+const Roblox_ClientSettings_Api_Models_Response_AndroidBinaryResponse = z.object({
+  moduleName: z.string(),
+  libraryNames: Roblox_ClientSettings_Api_Models_Response_AndroidBinaryLibraryNames,
+  supportsAndroidBinaries: z.boolean(),
+});
 const Roblox_ClientSettings_Api_Models_Response_ClientVersionResponse = z.object({
   version: z.string(),
   clientVersionUpload: z.string(),
@@ -13,6 +19,15 @@ const Roblox_ClientSettings_Api_Models_Response_OtaVersionResponse = z.object({
   version: z.string(),
   downloadUrl: z.string(),
   isStandalone: z.boolean(),
+  assetId: z.string(),
+  assetVersion: z.string(),
+  maxAppVersion: z.string(),
+  tryoutName: z.string(),
+  localAssetURI: z.string(),
+  isForcedUpdate: z.boolean(),
+  appStorageResetId: z.string(),
+  isDevelopmentConfig: z.boolean(),
+  assetsManifest: z.string(),
 });
 const Roblox_ClientSettings_Api_Models_Response_UserChannelResponse = z.object({
   channelName: z.string(),
@@ -20,6 +35,32 @@ const Roblox_ClientSettings_Api_Models_Response_UserChannelResponse = z.object({
   token: z.string(),
 });
 
+/**
+ * @api GET https://clientsettings.roblox.com/v2/android-binaries/:version/channels/:channelName
+ * @summary Retrieve the Android binary information for a given version and channel name.
+ * @param version The version string of the application. i.e. 2.660.392
+ * @param channelName The name of the channel. E.g. ZFlag, ZIntegration
+ */
+export const getAndroidBinariesVersionChannelsChannelname = endpoint({
+  method: 'GET',
+  path: '/v2/android-binaries/:version/channels/:channelName',
+  baseUrl: 'https://clientsettings.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    version: {
+      style: 'simple',
+    },
+    channelName: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    version: z.string(),
+    channelName: z.string(),
+  },
+  response: Roblox_ClientSettings_Api_Models_Response_AndroidBinaryResponse,
+  errors: [],
+});
 /**
  * @api GET https://clientsettings.roblox.com/v2/client-version/:binaryType
  * @summary Get client version information for specific binary type
@@ -113,6 +154,8 @@ Returns empty list if no updates are found or channel/application with the given
  * @param binaryType Binary type of the application to get info for
  * @param channel Channel name. If not provided, production is assumed.
  * @param version Application version
+ * @param tag Tag to filter results by. Only applicable to non-studio application types.
+ * @param name Name to filter results by. Only applicable to non-studio application types.
  */
 export const getOtaVersionBinarytype = endpoint({
   method: 'GET',
@@ -131,11 +174,21 @@ export const getOtaVersionBinarytype = endpoint({
       style: 'form',
       explode: true,
     },
+    tag: {
+      style: 'form',
+      explode: true,
+    },
+    name: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     binaryType: z.string(),
     channel: z.string().optional(),
     version: z.string().optional(),
+    tag: z.string().optional(),
+    name: z.string().optional(),
   },
   response: z.array(Roblox_ClientSettings_Api_Models_Response_OtaVersionResponse),
   errors: [

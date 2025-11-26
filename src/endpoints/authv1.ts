@@ -24,10 +24,10 @@ const Roblox_Authentication_Api_Models_MetadataResponse = z.object({
   IsAccountRecoveryPromptEnabled: z.boolean(),
   IsContactMethodRequiredAtSignup: z.boolean(),
   IsUserAgreementsSignupIntegrationEnabled: z.boolean(),
-  IsKoreaIdVerificationEnabled: z.boolean(),
   IsPasswordRequiredForUsernameChange: z.boolean(),
   IsPasskeyFeatureEnabled: z.boolean(),
   IsAltBrowserTracker: z.boolean(),
+  IsLoginRedirectPageEnabled: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_PasswordValidationResponse = z.object({
   code: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
@@ -89,6 +89,7 @@ const Roblox_Authentication_Api_Models_LoginResponse = z.object({
   shouldUpdateEmail: z.boolean(),
   recoveryEmail: z.string(),
   passkeyRegistrationSucceeded: z.boolean(),
+  shouldAutoLoginFromRecovery: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_ProviderInfoModel = z.object({
   provider: z.string(),
@@ -143,77 +144,67 @@ const Roblox_Authentication_Api_Models_XboxLoginConsecutiveDaysResponse = z.obje
 const Roblox_Authentication_Api_Models_AccountPinResponse = z.object({
   unlockedUntil: z.number(),
 });
-const Roblox_Authentication_Api_Models_Request_ExternalAccessRequest = z
-  .object({
-    authenticationProof: z.string(),
-    identityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    additionalInfoPayload: z.object({}),
-  })
-  .passthrough();
+const Roblox_Authentication_Api_Models_Request_ExternalAccessRequest = z.object({
+  authenticationProof: z.string(),
+  identityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  additionalInfoPayload: z.object({}),
+});
 const Roblox_Authentication_Api_Models_Response_ExternalIdentityGateway_ExternalIdentityAccessResponse = z.object({
   placeId: z.number().int(),
   isolationContext: z.string(),
   launchData: z.string(),
 });
-const Roblox_Authentication_Api_Models_Request_ExternalLoginRequest = z
-  .object({
-    identityProvider: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-      z.literal(999),
-    ]),
-    additionalData: z.object({}),
-    authenticationProof: z.string(),
-  })
-  .passthrough();
+const Roblox_Authentication_Api_Models_Request_ExternalLoginRequest = z.object({
+  identityProvider: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(999),
+  ]),
+  additionalData: z.object({}),
+  authenticationProof: z.string(),
+});
 const Roblox_Authentication_Api_Models_Response_ExternalIdentityGateway_ExternalLoginResponse = z.object({
   success: z.boolean(),
 });
-const Roblox_Authentication_Api_Models_Request_ExternalLoginAndLinkRequest = z
-  .object({
-    ctype: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-      z.literal(7),
-      z.literal(8),
-      z.literal(9),
-    ]),
-    cvalue: z.string(),
-    password: z.string(),
-    authenticationProof: z.string(),
-    IdentityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    additionalInfoPayload: z.object({}),
-  })
-  .passthrough();
-const Roblox_Authentication_Api_Models_Request_ExternalSignupRequest = z
-  .object({
-    username: z.string(),
-    password: z.string(),
-    birthday: z.string().datetime({ offset: true }),
-    locale: z.string(),
-    authenticationProof: z.string(),
-    IdentityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    additionalInfoPayload: z.object({}),
-  })
-  .passthrough();
-const Roblox_Authentication_Api_Models_Request_ExternalUnlinkRequest = z
-  .object({
-    IdentityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    additionalInfoPayload: z.object({}),
-  })
-  .passthrough();
+const Roblox_Authentication_Api_Models_Request_ExternalLoginAndLinkRequest = z.object({
+  ctype: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8),
+    z.literal(9),
+  ]),
+  cvalue: z.string(),
+  password: z.string(),
+  authenticationProof: z.string(),
+  IdentityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  additionalInfoPayload: z.object({}),
+});
+const Roblox_Authentication_Api_Models_Request_ExternalSignupRequest = z.object({
+  username: z.string(),
+  password: z.string(),
+  birthday: z.string().datetime({ offset: true }),
+  locale: z.string(),
+  authenticationProof: z.string(),
+  IdentityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  additionalInfoPayload: z.object({}),
+});
+const Roblox_Authentication_Api_Models_Request_ExternalUnlinkRequest = z.object({
+  IdentityProviderPlatformType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  additionalInfoPayload: z.object({}),
+});
 const Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest = z.object({
   loginTicket: z.string(),
   resultToken: z.string(),
@@ -344,6 +335,9 @@ const Roblox_Authentication_Api_Models_Response_StartPasskeyPreauthRegistrationR
 const Roblox_Authentication_Api_Models_Response_StartAuthenticationResponse = z.object({
   authenticationOptions: z.string(),
   sessionId: z.string(),
+});
+const Roblox_Authentication_Api_Models_Request_StartPasskeyRegistrationRequest = z.object({
+  isSilentUpgrade: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_Response_StartPasskeyRegistrationResponse = z.object({
   creationOptions: z.string(),
@@ -1244,12 +1238,25 @@ export const postPasskeyStartauthentication = endpoint({
 /**
  * @api POST https://auth.roblox.com/v1/passkey/StartRegistration
  * @summary Initiates Passkey registration by providing credential creation options.
+ * @param body
+ * @param flow
  */
 export const postPasskeyStartregistration = endpoint({
   method: 'POST',
   path: '/v1/passkey/StartRegistration',
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    flow: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    flow: z.string().optional(),
+  },
+  body: z.object({ isSilentUpgrade: z.boolean() }),
   response: Roblox_Authentication_Api_Models_Response_StartPasskeyRegistrationResponse,
   errors: [
     {

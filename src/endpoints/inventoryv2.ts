@@ -102,6 +102,10 @@ const Roblox_Inventory_Api_V2_UserAssetItemModelV2 = z.object({
     z.literal(84),
     z.literal(85),
     z.literal(86),
+    z.literal(87),
+    z.literal(88),
+    z.literal(89),
+    z.literal(90),
   ]),
   created: z.string().datetime({ offset: true }),
 });
@@ -116,6 +120,7 @@ const Roblox_Inventory_Api_Models_UserModel = z.object({
   buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
 });
 const Roblox_Inventory_Api_Models_InventoryItemModel = z.object({
+  expireAt: z.string().datetime({ offset: true }),
   userAssetId: z.number().int(),
   assetId: z.number().int(),
   assetName: z.string(),

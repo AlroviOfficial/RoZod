@@ -103,10 +103,10 @@ const Roblox_Friends_Api_Models_Response_UserPresenceResponseModel = z.object({
   gameInstanceId: z.string().uuid(),
   universeId: z.number().int(),
   lastOnline: z.string().datetime({ offset: true }),
-  joinability: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
 });
 const Roblox_Friends_Api_Models_Response_UserPresenceResponse = z.object({
   userPresence: Roblox_Friends_Api_Models_Response_UserPresenceResponseModel,
+  sortScore: z.number(),
   id: z.number().int(),
   name: z.string(),
   displayName: z.string(),
@@ -147,12 +147,6 @@ const Roblox_Friends_Api_Models_Response_FollowingExistsResponseModel = z.object
 });
 const Roblox_Friends_Api_Models_Response_DeclineAllFriendRequestsResponse = z.object({ backgrounded: z.boolean() });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
-const Roblox_Friends_Api_AcceptTrustedFriendRequestResponse = z.object({
-  success: z.boolean(),
-});
-const Roblox_Friends_Api_IgnoreTrustedFriendRequestResponse = z.object({
-  success: z.boolean(),
-});
 const Roblox_Friends_Api_Models_Request_FriendingTokenRequestModel = z.object({
   friendingToken: z.string(),
 });
@@ -161,9 +155,6 @@ const Roblox_Web_Captcha_Models_Request_CaptchaTokenRequest = z.object({
   captchaToken: z.string(),
   captchaProvider: z.string(),
   challengeId: z.string(),
-});
-const Roblox_Friends_Api_RemoveTrustedFriendResponse = z.object({
-  success: z.boolean(),
 });
 const Roblox_Friends_Api_FriendshipRequestModel = z.object({
   friendshipOriginSourceType: z.union([
@@ -179,9 +170,6 @@ const Roblox_Friends_Api_FriendshipRequestModel = z.object({
     z.literal(9),
   ]),
   senderNickname: z.string(),
-});
-const Roblox_Friends_Api_SendTrustedFriendRequestResponse = z.object({
-  success: z.boolean(),
 });
 const Roblox_Friends_Api_Models_Response_ClearNewFriendRequestResponse = z.object({ status: z.boolean() });
 
@@ -293,7 +281,7 @@ export const postMyFriendsRefreshQrSession = endpoint({
  * @summary Get all users that friend requests with targetUserId using exclusive start paging
  * @param limit The number of results per request.
  * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder Sorted by scoring requests based on request time, mutual friends, and request origin
+ * @param friendRequestSort
  */
 export const getMyFriendsRequests = endpoint({
   method: 'GET',
@@ -309,18 +297,18 @@ export const getMyFriendsRequests = endpoint({
       style: 'form',
       explode: true,
     },
-    sortOrder: {
+    friendRequestSort: {
       style: 'form',
       explode: true,
     },
   },
   parameters: {
-    limit: z
-      .union([z.literal(10), z.literal(18), z.literal(25), z.literal(50), z.literal(100)])
-      .optional()
-      .default(10),
+    limit: z.number().int().optional().default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Desc'),
+    friendRequestSort: z
+      .union([z.literal(0), z.literal(1), z.literal(2)])
+      .optional()
+      .default(1),
   },
   response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestResponse_,
   errors: [
@@ -586,42 +574,6 @@ export const postUsersRequesteruseridAcceptFriendRequest = endpoint({
   ],
 });
 /**
- * @api POST https://friends.roblox.com/v1/users/:requesterUserId/accept-trusted-friend-request
- * @summary Accept a trusted friend request.
- * @param requesterUserId Id of user who sent trusted friend request
- */
-export const postUsersRequesteruseridAcceptTrustedFriendRequest = endpoint({
-  method: 'POST',
-  path: '/v1/users/:requesterUserId/accept-trusted-friend-request',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    requesterUserId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    requesterUserId: z.number().int(),
-  },
-  response: z.object({ success: z.boolean() }),
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-2: The user is banned from performing operation.
-3: The user is blocked from performing this action.`,
-    },
-  ],
-});
-/**
  * @api POST https://friends.roblox.com/v1/users/:requesterUserId/decline-friend-request
  * @summary Decline a friend request.
  * @param requesterUserId The user Id of the requester
@@ -645,40 +597,6 @@ export const postUsersRequesteruseridDeclineFriendRequest = endpoint({
       status: 400,
       description: `1: The target user is invalid or does not exist.
 10: The friend request does not exist.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api POST https://friends.roblox.com/v1/users/:requesterUserId/ignore-trusted-friend-request
- * @summary Ignore a trusted friend request.
- * @param requesterUserId Id of user who sent the trusted friend request
- */
-export const postUsersRequesteruseridIgnoreTrustedFriendRequest = endpoint({
-  method: 'POST',
-  path: '/v1/users/:requesterUserId/ignore-trusted-friend-request',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    requesterUserId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    requesterUserId: z.number().int(),
-  },
-  response: z.object({ success: z.boolean() }),
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.`,
     },
     {
       status: 401,
@@ -946,40 +864,6 @@ export const getUsersTargetuseridFollowingsCount = endpoint({
   ],
 });
 /**
- * @api POST https://friends.roblox.com/v1/users/:targetUserId/remove-trusted-friend
- * @summary Removes target user as trusted friend.
- * @param targetUserId The target user id to remove as trusted friend
- */
-export const postUsersTargetuseridRemoveTrustedFriend = endpoint({
-  method: 'POST',
-  path: '/v1/users/:targetUserId/remove-trusted-friend',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    targetUserId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    targetUserId: z.number().int(),
-  },
-  response: z.object({ success: z.boolean() }),
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
  * @api POST https://friends.roblox.com/v1/users/:targetUserId/request-friendship
  * @summary Send a friend request to target user
  * @param body The source which the friend request originated from
@@ -1027,42 +911,6 @@ export const postUsersTargetuseridRequestFriendship = endpoint({
     {
       status: 429,
       description: `9: The flood limit has been exceeded.`,
-    },
-  ],
-});
-/**
- * @api POST https://friends.roblox.com/v1/users/:targetUserId/send-trusted-friend-request
- * @summary Send a trusted friend request.
- * @param targetUserId Id of target user for the trusted friend request
- */
-export const postUsersTargetuseridSendTrustedFriendRequest = endpoint({
-  method: 'POST',
-  path: '/v1/users/:targetUserId/send-trusted-friend-request',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    targetUserId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    targetUserId: z.number().int(),
-  },
-  response: z.object({ success: z.boolean() }),
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-2: The user is banned from performing operation.
-3: The user is blocked from performing this action.`,
     },
   ],
 });

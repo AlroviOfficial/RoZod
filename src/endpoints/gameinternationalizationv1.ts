@@ -155,6 +155,78 @@ const Roblox_GameInternationalization_Api_Language = z.object({
   languageCode: z.string(),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Localization_Client_LanguageFamily = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  nativeName: z.string(),
+  languageCode: z.string(),
+  isRightToLeft: z.boolean(),
+});
+const Roblox_Localization_Client_SupportedLocale = z.object({
+  id: z.number().int(),
+  locale: z.enum([
+    'en_us',
+    'es_es',
+    'fr_fr',
+    'id_id',
+    'it_it',
+    'ja_jp',
+    'ko_kr',
+    'ru_ru',
+    'th_th',
+    'tr_tr',
+    'vi_vn',
+    'pt_br',
+    'de_de',
+    'zh_cn',
+    'zh_tw',
+    'bg_bg',
+    'bn_bd',
+    'cs_cz',
+    'da_dk',
+    'el_gr',
+    'et_ee',
+    'fi_fi',
+    'hi_in',
+    'hr_hr',
+    'hu_hu',
+    'ka_ge',
+    'kk_kz',
+    'km_kh',
+    'lt_lt',
+    'lv_lv',
+    'ms_my',
+    'my_mm',
+    'nb_no',
+    'nl_nl',
+    'fil_ph',
+    'pl_pl',
+    'ro_ro',
+    'uk_ua',
+    'si_lk',
+    'sk_sk',
+    'sl_sl',
+    'sq_al',
+    'bs_ba',
+    'sr_rs',
+    'sv_se',
+    'zh_cjv',
+    'ar_001',
+    'en_gb',
+    'pt_pt',
+    'es_mx',
+    'fr_ca',
+  ]),
+  localeCode: z.string(),
+  name: z.string(),
+  nativeName: z.string(),
+  language: Roblox_Localization_Client_LanguageFamily,
+});
+const Roblox_GameInternationalization_Api_SourceLanguageWithLocales = z.object({
+  languageFamily: Roblox_GameInternationalization_Api_Language,
+  defaultLocale: Roblox_Localization_Client_SupportedLocale,
+  childLocales: z.array(Roblox_Localization_Client_SupportedLocale),
+});
 const Roblox_GameInternationalization_Api_LanguageOrLocale = z.object({
   name: z.string(),
   languageCodeType: z.enum(['Language', 'Locale']),
@@ -245,8 +317,18 @@ const Roblox_GameInternationalization_Api_Models_Response_UploadImageForGameThum
 const Roblox_GameInternationalization_Api_SortImageIdsRequest = z.object({
   mediaAssetIds: z.array(z.number()),
 });
-const Roblox_GameInternationalization_Api_GetNameDescriptionHistoryRequest = z.object({
-  requestType: z.enum(['Name', 'Description']),
+const Roblox_GameInternationalization_Api_GetNameDescriptionHistoryV2Request = z.object({
+  contentId: z.number().int(),
+  contentType: z.enum([
+    'UniverseDisplayNames',
+    'UniverseDisplayDescriptions',
+    'BadgeDisplayName',
+    'BadgeDisplayDescription',
+    'DeveloperProductDisplayName',
+    'DeveloperProductDisplayDescription',
+    'GamePassDisplayName',
+    'GamePassDisplayDescription',
+  ]),
   languageCode: z.string(),
   cursor: z.string(),
   count: z.number().int(),
@@ -264,23 +346,6 @@ const Roblox_GameInternationalization_Api_TranslationHistory = z.object({
 const Roblox_GameInternationalization_Api_GetNameDescriptionHistoryResponse = z.object({
   history: z.array(Roblox_GameInternationalization_Api_TranslationHistory),
   lastEvaluatedId: z.string(),
-});
-const Roblox_GameInternationalization_Api_GetNameDescriptionHistoryV2Request = z.object({
-  contentId: z.number().int(),
-  contentType: z.enum([
-    'UniverseDisplayNames',
-    'UniverseDisplayDescriptions',
-    'BadgeDisplayName',
-    'BadgeDisplayDescription',
-    'DeveloperProductDisplayName',
-    'DeveloperProductDisplayDescription',
-    'GamePassDisplayName',
-    'GamePassDisplayDescription',
-  ]),
-  languageCode: z.string(),
-  cursor: z.string(),
-  count: z.number().int(),
-  sortOrder: z.enum(['Asc', 'Desc']),
 });
 const Roblox_GameInternationalization_Api_RequestTranslationAnalyticsReportRequest = z.object({
   startDateTime: z.string().datetime({ offset: true }),
@@ -2466,58 +2531,6 @@ export const patchNameDescriptionGamesGameid = endpoint({
   ],
 });
 /**
- * @api POST https://gameinternationalization.roblox.com/v1/name-description/games/:gameId/history
- * @summary Gets the history for name or description in a provided language.
- * @param body The request.
- * @param gameId The id of the game
- */
-export const postNameDescriptionGamesGameidHistory = endpoint({
-  method: 'POST',
-  path: '/v1/name-description/games/:gameId/history',
-  baseUrl: 'https://gameinternationalization.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    gameId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    gameId: z.number().int(),
-  },
-  body: Roblox_GameInternationalization_Api_GetNameDescriptionHistoryRequest,
-  response: Roblox_GameInternationalization_Api_GetNameDescriptionHistoryResponse,
-  errors: [
-    {
-      status: 400,
-      description: `13: Request body can&#x27;t be null
-14: Invalid game id
-18: You do not have permission to manage this game
-22: Invalid language code
-39: Count should be at least 1 and less than 50.
-53: Language is not supported for the game.
-54: No history available for source data
-55: Invalid exclusive start Id`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occurred.`,
-    },
-    {
-      status: 503,
-      description: `17: Feature is disabled`,
-    },
-  ],
-});
-/**
  * @api POST https://gameinternationalization.roblox.com/v1/name-description/games/translation-history
  * @summary Gets the history for name or description in a provided language.
  * @param body The request.
@@ -2653,6 +2666,36 @@ export const patchSourceLanguageGamesGameid = endpoint({
     {
       status: 500,
       description: `85: Failed to disable automatic translation status for languages`,
+    },
+    {
+      status: 503,
+      description: `17: Feature is disabled`,
+    },
+  ],
+});
+/**
+ * @api GET https://gameinternationalization.roblox.com/v1/source-language/games/:gameId/language-with-locales
+ * @summary Gets the source language of a game
+ * @param gameId
+ */
+export const getSourceLanguageGamesGameidLanguageWithLocales = endpoint({
+  method: 'GET',
+  path: '/v1/source-language/games/:gameId/language-with-locales',
+  baseUrl: 'https://gameinternationalization.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    gameId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    gameId: z.number().int(),
+  },
+  response: Roblox_GameInternationalization_Api_SourceLanguageWithLocales,
+  errors: [
+    {
+      status: 400,
+      description: `14: Invalid game id`,
     },
     {
       status: 503,
