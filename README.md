@@ -200,12 +200,120 @@ const userInfo = await fetchApi(getUsersUserdetails, { userIds: [123456] });
 
 ### Server Environments (Node.js/Bun/Deno)
 
-For server environments, you need to provide the `.ROBLOSECURITY` cookie manually:
+For server environments, use `configureServer()` to set up authentication once:
 
 ```ts
-import { fetchApi } from 'rozod';
+import { configureServer, fetchApi } from 'rozod';
 import { getUsersUserdetails } from 'rozod/lib/endpoints/usersv1';
 
+// Configure once at startup
+configureServer({ cookies: 'your_roblosecurity_cookie_here' });
+
+// All subsequent requests automatically include the cookie
+const userInfo = await fetchApi(getUsersUserdetails, { userIds: [123456] });
+```
+
+#### Multiple Accounts (Cookie Pool)
+
+Use multiple Roblox accounts for load distribution or fallback:
+
+```ts
+import { configureServer } from 'rozod';
+
+// Multiple accounts with round-robin rotation (default)
+configureServer({
+  cookies: [
+    'account1_roblosecurity_cookie',
+    'account2_roblosecurity_cookie',
+    'account3_roblosecurity_cookie',
+  ],
+});
+
+// Requests automatically cycle through accounts: 1 → 2 → 3 → 1 → 2 → ...
+```
+
+#### Rotation Modes
+
+Control how cookies and user agents are selected:
+
+```ts
+import { configureServer } from 'rozod';
+
+configureServer({
+  cookies: ['cookie1', 'cookie2', 'cookie3'],
+  cookieRotation: 'round-robin',  // Cycle sequentially (default for multiple)
+  // cookieRotation: 'random',    // Pick randomly per request
+  // cookieRotation: 'none',      // Always use first cookie
+
+  userAgents: ['CustomBot/1.0', 'CustomBot/2.0'],  // Optional custom UAs
+  userAgentRotation: 'none',      // Consistent per session (default)
+  // userAgentRotation: 'random',
+  // userAgentRotation: 'round-robin',
+});
+```
+
+#### User Agent Pool
+
+RoZod includes built-in browser user agents applied automatically in server environments. Customize or disable:
+
+```ts
+// Use custom user agents
+configureServer({
+  cookies: '...',
+  userAgents: ['MyBot/1.0', 'MyService/2.0'],
+  userAgentRotation: 'round-robin',
+});
+
+// Disable user agent injection
+configureServer({ cookies: '...', userAgents: [] });
+```
+
+#### OpenCloud API Key
+
+For OpenCloud endpoints (`apis.roblox.com`), set your API key once:
+
+```ts
+import { configureServer } from 'rozod';
+import { v2 } from 'rozod/lib/opencloud';
+
+// Configure OpenCloud API key
+configureServer({ cloudKey: 'your_opencloud_api_key_here' });
+
+// All OpenCloud requests automatically include x-api-key header
+const universeInfo = await fetchApi(v2.getCloudV2UniversesUniverseId, {
+  universe_id: '123456789',
+});
+```
+
+You can configure both classic API cookies and OpenCloud keys together:
+
+```ts
+configureServer({
+  cookies: ['account1', 'account2'],  // For classic *.roblox.com APIs
+  cloudKey: 'your_opencloud_key',     // For apis.roblox.com
+});
+```
+
+> **Note:** The API key is only applied to OpenCloud endpoints (URLs containing `/cloud/`). Cookies are applied to all other Roblox APIs, including undocumented cookie-based APIs on `apis.roblox.com`.
+
+#### Configuration Management
+
+```ts
+import { configureServer, clearServerConfig, getServerConfig } from 'rozod';
+
+// Check current configuration
+const config = getServerConfig();
+console.log(config.cookies, config.cloudKey);
+
+// Clear all server configuration
+clearServerConfig();
+```
+
+#### Manual Headers (Legacy)
+
+You can still pass headers manually per-request if needed:
+
+```ts
 const userInfo = await fetchApi(
   getUsersUserdetails, 
   { userIds: [123456] },
@@ -216,6 +324,8 @@ const userInfo = await fetchApi(
   }
 );
 ```
+
+> **Note:** Manual headers take precedence over `configureServer()` defaults.
 
 ### Security Features
 
@@ -266,12 +376,24 @@ changeHBAKeys(keyPair);
 
 ### OpenCloud Authentication
 
-OpenCloud APIs require API keys in headers:
+OpenCloud APIs require API keys. Use `configureServer()` for automatic injection:
 
 ```ts
-import { fetchApi } from 'rozod';
+import { configureServer, fetchApi } from 'rozod';
 import { v2 } from 'rozod/lib/opencloud';
 
+// Configure once at startup
+configureServer({ cloudKey: 'your_opencloud_api_key_here' });
+
+// All OpenCloud requests automatically include x-api-key
+const universeInfo = await fetchApi(v2.getCloudV2UniversesUniverseId, {
+  universe_id: '123456789',
+});
+```
+
+Or pass headers manually per-request:
+
+```ts
 const universeInfo = await fetchApi(
   v2.getCloudV2UniversesUniverseId,
   { universe_id: '123456789' },

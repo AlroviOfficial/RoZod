@@ -11,6 +11,7 @@ import {
   GENERIC_CHALLENGE_METADATA_HEADER,
   GENERIC_CHALLENGE_TYPE_HEADER,
 } from 'parse-roblox-errors';
+export type { AnyError } from 'parse-roblox-errors';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 type RequestFormat = 'json' | 'text' | 'form-data';
@@ -143,7 +144,8 @@ function serializeQueryParam(key: string, value: any, serializationMethod?: Seri
     pipeDelimited: '|',
   };
 
-  return explode ? mapStr(value, `&${key}=`) : mapStr(value, joinTbl[style]);
+  const joiner = joinTbl[style] ?? ',';
+  return explode ? mapStr(value, `&${key}=`) : mapStr(value, joiner);
 }
 
 function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams: ExtractParams<S> | undefined) {
@@ -182,7 +184,7 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
   const query = Object.keys(queryParams).length
     ? '?' +
       Object.entries(queryParams)
-        .map(([k, v]) => `${k}=${v}`)
+        .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
         .join('&')
     : '';
 
@@ -195,7 +197,7 @@ function prepareRequestBody<S extends EndpointSchema>(
   body: S['body'],
   headers: Headers,
 ): string {
-  if (method !== 'get' && requestFormat === 'json') {
+  if (method !== 'GET' && requestFormat === 'json') {
     body = JSON.stringify(body);
     headers.set('content-type', 'application/json');
   }
@@ -208,6 +210,236 @@ export const hbaClient = new HBAClient({
   onSite: onRobloxSite,
 });
 
+// ============================================================================
+// Server/Node.js Configuration
+// ============================================================================
+
+/**
+ * Default user agents pool - common browser user agents for server-side requests.
+ * These help avoid rate limiting and blocks when making requests from Node.js.
+ */
+const DEFAULT_USER_AGENTS = [
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.1 Safari/605.1.15',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0',
+];
+
+export type PoolRotation = 'none' | 'random' | 'round-robin';
+
+export type ServerConfig = {
+  /**
+   * Pool of .ROBLOSECURITY cookie values (without the cookie name prefix).
+   * Can be a single string or an array for multiple accounts.
+   * Used for classic Roblox web API authentication.
+   */
+  cookies?: string | string[];
+  /**
+   * How to select cookies from the pool.
+   * - 'none': Use the first cookie only (default for single cookie)
+   * - 'random': Pick a random cookie per request
+   * - 'round-robin': Cycle through cookies sequentially
+   * Default: 'round-robin' when multiple cookies provided, 'none' for single cookie
+   */
+  cookieRotation?: PoolRotation;
+  /**
+   * OpenCloud API key for apis.roblox.com endpoints.
+   * Automatically applied as 'x-api-key' header for OpenCloud requests.
+   */
+  cloudKey?: string;
+  /**
+   * Custom user agents pool. If not provided, uses built-in defaults.
+   * Set to empty array to disable user agent injection.
+   */
+  userAgents?: string[];
+  /**
+   * How to select user agents from the pool.
+   * - 'none': Use first/consistent UA for the session
+   * - 'random': Pick a random UA per request
+   * - 'round-robin': Cycle through UAs sequentially
+   * Default: 'none'
+   */
+  userAgentRotation?: PoolRotation;
+};
+
+type ServerConfigInternal = ServerConfig & {
+  _cookieIndex: number;
+  _userAgentIndex: number;
+  _sessionUserAgent?: string;
+  _sessionCookie?: string;
+};
+
+const serverConfig: ServerConfigInternal = {
+  _cookieIndex: 0,
+  _userAgentIndex: 0,
+};
+
+/**
+ * Configures RoZod for server/Node.js environments.
+ * Sets default cookies and user-agents that will be automatically applied to all requests.
+ *
+ * @param config The server configuration options.
+ * @example
+ * ```ts
+ * // Single account
+ * configureServer({ cookies: '_|WARNING:-DO-NOT-SHARE-THIS...' });
+ *
+ * // Multiple accounts with round-robin rotation (default)
+ * configureServer({
+ *   cookies: [
+ *     '_|WARNING:-DO-NOT-SHARE-THIS-1...',
+ *     '_|WARNING:-DO-NOT-SHARE-THIS-2...',
+ *     '_|WARNING:-DO-NOT-SHARE-THIS-3...',
+ *   ],
+ * });
+ *
+ * // Multiple accounts with random selection
+ * configureServer({
+ *   cookies: ['cookie1', 'cookie2', 'cookie3'],
+ *   cookieRotation: 'random',
+ * });
+ *
+ * // With custom user agents and rotation
+ * configureServer({
+ *   cookies: ['...'],
+ *   userAgents: ['MyBot/1.0', 'MyBot/2.0'],
+ *   userAgentRotation: 'round-robin',
+ * });
+ *
+ * // Disable user agent injection
+ * configureServer({ cookies: '...', userAgents: [] });
+ * ```
+ */
+export function configureServer(config: ServerConfig): void {
+  serverConfig.cookies = config.cookies;
+  serverConfig.cookieRotation = config.cookieRotation;
+  serverConfig.cloudKey = config.cloudKey;
+  serverConfig.userAgents = config.userAgents;
+  serverConfig.userAgentRotation = config.userAgentRotation;
+  // Reset indices and session values when config changes
+  serverConfig._cookieIndex = 0;
+  serverConfig._userAgentIndex = 0;
+  serverConfig._sessionUserAgent = undefined;
+  serverConfig._sessionCookie = undefined;
+}
+
+/**
+ * Clears the server configuration.
+ */
+export function clearServerConfig(): void {
+  serverConfig.cookies = undefined;
+  serverConfig.cookieRotation = undefined;
+  serverConfig.cloudKey = undefined;
+  serverConfig.userAgents = undefined;
+  serverConfig.userAgentRotation = undefined;
+  serverConfig._cookieIndex = 0;
+  serverConfig._userAgentIndex = 0;
+  serverConfig._sessionUserAgent = undefined;
+  serverConfig._sessionCookie = undefined;
+}
+
+/**
+ * Gets the current server configuration (read-only copy, excluding internal state).
+ */
+export function getServerConfig(): Readonly<ServerConfig> {
+  return {
+    cookies: serverConfig.cookies,
+    cookieRotation: serverConfig.cookieRotation,
+    cloudKey: serverConfig.cloudKey,
+    userAgents: serverConfig.userAgents,
+    userAgentRotation: serverConfig.userAgentRotation,
+  };
+}
+
+function selectFromPool<T>(
+  pool: T[],
+  rotation: PoolRotation,
+  indexKey: '_cookieIndex' | '_userAgentIndex',
+  sessionKey: '_sessionCookie' | '_sessionUserAgent',
+): T | undefined {
+  if (pool.length === 0) return undefined;
+  if (pool.length === 1) return pool[0];
+
+  switch (rotation) {
+    case 'random':
+      return pool[Math.floor(Math.random() * pool.length)];
+
+    case 'round-robin': {
+      const index = serverConfig[indexKey];
+      serverConfig[indexKey] = (index + 1) % pool.length;
+      return pool[index];
+    }
+
+    case 'none':
+    default: {
+      // Use consistent value for the session
+      const cached = serverConfig[sessionKey] as T | undefined;
+      if (cached !== undefined) return cached;
+      const selected = pool[0];
+      (serverConfig[sessionKey] as T) = selected;
+      return selected;
+    }
+  }
+}
+
+function getServerCookie(): string | undefined {
+  const cookies = serverConfig.cookies;
+  if (!cookies) return undefined;
+
+  const cookiePool = Array.isArray(cookies) ? cookies : [cookies];
+  if (cookiePool.length === 0) return undefined;
+
+  // Default rotation: round-robin for multiple cookies, none for single
+  const defaultRotation: PoolRotation = cookiePool.length > 1 ? 'round-robin' : 'none';
+  const rotation = serverConfig.cookieRotation ?? defaultRotation;
+
+  return selectFromPool(cookiePool, rotation, '_cookieIndex', '_sessionCookie');
+}
+
+function getServerUserAgent(): string | undefined {
+  const userAgents = serverConfig.userAgents ?? DEFAULT_USER_AGENTS;
+  if (userAgents.length === 0) return undefined;
+
+  const rotation = serverConfig.userAgentRotation ?? 'none';
+  return selectFromPool(userAgents, rotation, '_userAgentIndex', '_sessionUserAgent');
+}
+
+function applyServerDefaults(headers: Headers, url: string): void {
+  // Only apply in non-browser environments
+  if (onRobloxSite) return;
+
+  // OpenCloud endpoints are on apis.roblox.com AND contain /cloud/ in the path
+  // (apis.roblox.com/cloud/... for v1, apis.roblox.com/cloud/v2/... for v2)
+  // Note: apis.roblox.com also hosts cookie-based APIs that don't use /cloud/
+  const isOpenCloud =
+    url.includes('apis.roblox.com') && (url.includes('/cloud/') || url.includes('/cloud?'));
+
+  // Apply OpenCloud API key for /cloud/ endpoints
+  if (isOpenCloud && serverConfig.cloudKey && !headers.has('x-api-key')) {
+    headers.set('x-api-key', serverConfig.cloudKey);
+  }
+
+  // Apply cookie if configured and not already set (for non-OpenCloud requests)
+  if (!isOpenCloud && !headers.has('cookie')) {
+    const cookie = getServerCookie();
+    if (cookie) {
+      headers.set('cookie', `.ROBLOSECURITY=${cookie}`);
+    }
+  }
+
+  // Apply user agent if not already set
+  if (!headers.has('user-agent')) {
+    const userAgent = getServerUserAgent();
+    if (userAgent) {
+      headers.set('user-agent', userAgent);
+    }
+  }
+}
+
+// ============================================================================
+
 const getSHA256Hash = async (input: string) => {
   const textAsBuffer = new TextEncoder().encode(input);
   const hashBuffer = await crypto.subtle.digest('SHA-256', textAsBuffer);
@@ -216,7 +448,7 @@ const getSHA256Hash = async (input: string) => {
   return hash;
 };
 
-const csrfAllowedMethods = ['post', 'patch', 'delete', 'put'];
+const csrfAllowedMethods = new Set(['post', 'patch', 'delete', 'put']);
 
 let handleGenericChallengeFn:
   | ((challenge: ParsedChallenge) => Promise<ParsedChallenge | undefined> | ParsedChallenge | undefined)
@@ -231,8 +463,21 @@ export function setHandleGenericChallenge(fn: typeof handleGenericChallengeFn) {
 }
 
 const csrfTokenMap: Record<string, string> = {};
-async function fetch(url: string, info?: RequestInit, challengeData?: ParsedChallenge): Promise<Response> {
+const MAX_CSRF_RETRIES = 3;
+const MAX_CHALLENGE_RETRIES = 3;
+
+async function fetch(
+  url: string,
+  info?: RequestInit,
+  challengeData?: ParsedChallenge,
+  csrfRetries: number = 0,
+  challengeRetries: number = 0,
+): Promise<Response> {
   const headers = new Headers(info?.headers);
+
+  // Apply server defaults (cookie, user-agent, API key) for Node.js environments
+  applyServerDefaults(headers, url);
+
   if (!onRobloxSite) {
     hbaClient.isAuthenticated = headers.get('cookie')?.includes('.ROBLOSECURITY');
   }
@@ -253,10 +498,11 @@ async function fetch(url: string, info?: RequestInit, challengeData?: ParsedChal
   }
 
   let csrfKey: string = 'false';
-  if (info?.method && csrfAllowedMethods.includes(info.method.toLowerCase())) {
-    // Temp i guess? RoZod isn't built for something ike this. so we grab the .ROBLOSECURITY and hash it before setting it to object.
+  if (info?.method && csrfAllowedMethods.has(info.method.toLowerCase())) {
+    // Temp i guess? RoZod isn't built for something like this. so we grab the .ROBLOSECURITY and hash it before setting it to object.
     if (headers.get('cookie')?.includes('.ROBLOSECURITY')) {
-      const parsedCookieValue = headers.get('cookie')!.match(/.ROBLOSECURITY=(_\|.+\|_)?(.+?)(;|$| )/)?.[2];
+      const cookieRegex = /\.ROBLOSECURITY=(_\|.+\|_)?(.+?)(;|$| )/;
+      const parsedCookieValue = cookieRegex.exec(headers.get('cookie')!)?.[2];
       if (parsedCookieValue) {
         csrfKey = await getSHA256Hash(parsedCookieValue);
       }
@@ -276,13 +522,15 @@ async function fetch(url: string, info?: RequestInit, challengeData?: ParsedChal
   if (res.headers.has('x-csrf-token')) {
     csrfTokenMap[csrfKey] = res.headers.get('x-csrf-token')!;
 
-    return fetch(url, info);
+    if (csrfRetries < MAX_CSRF_RETRIES) {
+      return fetch(url, info, challengeData, csrfRetries + 1, challengeRetries);
+    }
   } else if (handleGenericChallengeFn) {
     const challenge = parseChallengeHeaders(res.headers);
-    if (challenge) {
+    if (challenge && challengeRetries < MAX_CHALLENGE_RETRIES) {
       const data = await handleGenericChallengeFn(challenge);
       if (data) {
-        return fetch(url, info, data);
+        return fetch(url, info, data, csrfRetries, challengeRetries + 1);
       }
     }
   }
@@ -351,7 +599,7 @@ async function fetchApi<S extends EndpointSchema>(
   requestOptions: Omit<RequestOptions<true>, 'returnRaw'> & { returnRaw: true },
 ): Promise<TypedJsonResponse<ExtractResponse<S>>>;
 async function fetchApi<S extends EndpointSchema>(
-  endpoint: S & { parameters?: undefined },
+  endpoint: S & { parameters: undefined },
   params: ExtractParams<S> | undefined,
   requestOptions: Omit<RequestOptions<true>, 'returnRaw'> & { returnRaw: true },
 ): Promise<TypedJsonResponse<ExtractResponse<S>>>;
@@ -363,7 +611,7 @@ async function fetchApi<S extends EndpointSchema>(
   requestOptions: Omit<RequestOptions<false>, 'throwOnError' | 'returnRaw'> & { throwOnError: true; returnRaw?: false },
 ): Promise<ExtractResponse<S>>;
 async function fetchApi<S extends EndpointSchema>(
-  endpoint: S & { parameters?: undefined },
+  endpoint: S & { parameters: undefined },
   params: ExtractParams<S> | undefined,
   requestOptions: Omit<RequestOptions<false>, 'throwOnError' | 'returnRaw'> & { throwOnError: true; returnRaw?: false },
 ): Promise<ExtractResponse<S>>;
@@ -375,7 +623,7 @@ async function fetchApi<S extends EndpointSchema>(
   requestOptions?: Omit<RequestOptions<false>, 'returnRaw'> & { returnRaw?: false },
 ): Promise<ExtractResponse<S> | AnyError>;
 async function fetchApi<S extends EndpointSchema>(
-  endpoint: S & { parameters?: undefined },
+  endpoint: S & { parameters: undefined },
   params?: ExtractParams<S>,
   requestOptions?: Omit<RequestOptions<false>, 'returnRaw'> & { returnRaw?: false },
 ): Promise<ExtractResponse<S> | AnyError>;
@@ -495,15 +743,7 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
     return parsedError as any;
   }
 
-  const reponseFormat = response.headers.get('content-type')?.includes('application/json') ? 'json' : 'text';
-
-  if (reponseFormat === 'json' && !response.headers.get('content-type')?.includes('application/json')) {
-    const invalidDataError: AnyError = { message: 'Invalid response data' };
-    if (mergedRequestOptions.throwOnError === true) {
-      throw new Error(invalidDataError.message);
-    }
-    return invalidDataError as any;
-  }
+  const responseFormat = response.headers.get('content-type')?.includes('application/json') ? 'json' : 'text';
 
   if (response.ok && mergedRequestOptions.cacheTime && cacheKey) {
     const responseClone = response.clone();
@@ -513,13 +753,13 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
     }, cacheTime);
     cacheToUse.set(
       'rozod_cache:' + cacheKey,
-      reponseFormat === 'json' ? await responseClone.json() : await responseClone.text(),
+      responseFormat === 'json' ? await responseClone.json() : await responseClone.text(),
       cacheTime,
     );
   }
 
   const successPayload =
-    reponseFormat === 'json'
+    responseFormat === 'json'
       ? ((await response.json()) as ExtractResponse<S>)
       : ((await response.text()) as unknown as ExtractResponse<S>);
 
@@ -594,7 +834,7 @@ async function fetchApiSplit<S extends EndpointSchema, T = ExtractResponse<S>>(
   const promises = splitParams.map(fetchTransformed);
   const allResults = await Promise.all(promises);
   const firstError = allResults.find((r) => isAnyErrorResponse(r));
-  if (firstError) return firstError as AnyError;
+  if (firstError) return firstError;
   return allResults as T[];
 }
 
@@ -624,7 +864,7 @@ async function fetchApiPages<S extends EndpointSchema>(
     }
 
     const { nextPageCursor, ...rest } = response as ExtractResponse<S> & { nextPageCursor?: string | null };
-    allResults.push(rest);
+    allResults.push(rest as ExtractResponse<S>);
 
     if (allResults.length >= limit || nextPageCursor === null || nextPageCursor === undefined) {
       break;
@@ -681,4 +921,3 @@ async function* fetchApiPagesGenerator<S extends EndpointSchema, R extends boole
 }
 
 export { fetchApi, fetchApiSplit, fetchApiPages, fetchApiPagesGenerator, ExtractResponse, ExtractParams, endpoint };
-export type { AnyError };
