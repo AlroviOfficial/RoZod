@@ -198,6 +198,7 @@ const Roblox_Groups_Api_GroupMembershipMetadataResponse = z.object({
   isNotificationsEnabled: z.boolean(),
   notificationPreferences: z.array(Roblox_Groups_Api_GroupNotificationPreferenceData),
   isBannedFromGroup: z.boolean(),
+  canViewMemberList: z.boolean(),
 });
 const Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem = z.object({
   name: z.string(),
@@ -277,6 +278,7 @@ const Roblox_Groups_Api_GroupSettingsResponse = z.object({
     z.literal(5),
   ]),
   slowmode: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  isMemberListVisibleToPublic: z.boolean(),
 });
 const Roblox_Groups_Api_UpdateGroupSettingsRequest = z.object({
   isApprovalRequired: z.boolean(),
@@ -293,6 +295,7 @@ const Roblox_Groups_Api_UpdateGroupSettingsRequest = z.object({
     z.literal(5),
   ]),
   slowmode: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  isMemberListVisibleToPublic: z.boolean(),
 });
 const Roblox_Groups_Api_SocialLinkResponse = z.object({
   id: z.number().int(),

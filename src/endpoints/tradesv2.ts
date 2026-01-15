@@ -83,6 +83,18 @@ const Roblox_Trades_Api_Models_V2_CanTradeResponse = z.object({
     'IneligibleLegalOrRegulatoryRestrictions',
   ]),
 });
+const Roblox_Trades_Api_Models_V2_TradeOfferRequest = z.object({
+  userId: z.number().int(),
+  robux: z.number().int(),
+  collectibleItemInstanceIds: z.array(z.string()),
+});
+const Roblox_Trades_Api_Models_V2_TradeRequest = z.object({
+  senderOffer: Roblox_Trades_Api_Models_V2_TradeOfferRequest,
+  recipientOffer: Roblox_Trades_Api_Models_V2_TradeOfferRequest,
+});
+const Roblox_Trades_Api_Models_V2_NewTradeResponse = z.object({
+  tradeId: z.number().int(),
+});
 
 /**
  * @api GET https://trades.roblox.com/v2/trades/:tradeId
@@ -116,6 +128,76 @@ export const getTradesTradeid = endpoint({
     {
       status: 403,
       description: `4: You are not authorized to modify this trade.`,
+    },
+    {
+      status: 404,
+      description: `0: An unknown error occured.`,
+    },
+  ],
+});
+/**
+ * @api POST https://trades.roblox.com/v2/trades/:tradeId/counter
+ * @summary Counters an existing trade.
+ * @param body
+ * @param tradeId
+ */
+export const postTradesTradeidCounter = endpoint({
+  method: 'POST',
+  path: '/v2/trades/:tradeId/counter',
+  baseUrl: 'https://trades.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    tradeId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    tradeId: z.number().int(),
+  },
+  body: Roblox_Trades_Api_Models_V2_TradeRequest,
+  response: z.object({ tradeId: z.number().int() }),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+4: You are not authorized to modify this trade.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+    {
+      status: 404,
+      description: `0: An unknown error occured.`,
+    },
+  ],
+});
+/**
+ * @api POST https://trades.roblox.com/v2/trades/send
+ * @summary Sends a new trade.
+ * @param body
+ */
+export const postTradesSend = endpoint({
+  method: 'POST',
+  path: '/v2/trades/send',
+  baseUrl: 'https://trades.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Trades_Api_Models_V2_TradeRequest,
+  response: z.object({ tradeId: z.number().int() }),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+4: You are not authorized to modify this trade.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
     },
     {
       status: 404,

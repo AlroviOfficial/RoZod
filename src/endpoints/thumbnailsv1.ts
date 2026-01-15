@@ -54,6 +54,7 @@ const Roblox_Thumbnails_Apis_Models_ThumbnailBatchRequest = z.object({
   size: z.string(),
   format: z.string(),
   isCircular: z.boolean(),
+  accessContext: z.string(),
 });
 const Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse = z.object({
   requestId: z.string(),
@@ -177,6 +178,7 @@ export const getAssets = endpoint({
         '1320x440',
         '720x228',
         '1440x456',
+        '930x480',
       ])
       .optional()
       .default('30x30'),

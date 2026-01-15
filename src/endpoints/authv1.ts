@@ -360,6 +360,16 @@ const Roblox_Authentication_Api_Models_Request_OtpSessionModel = z.object({
   otpSessionToken: z.string(),
   otpContactType: z.union([z.literal(1), z.literal(2)]),
 });
+const Roblox_Authentication_Api_Models_Request_AuditContentValue = z.object({
+  translationKey: z.string(),
+  translationNamespace: z.string(),
+  translatedSourceString: z.string(),
+  parameters: z.string(),
+});
+const Roblox_Authentication_Api_Models_Request_AuditSystemContent = z.object({
+  capturedAuditContent: Roblox_Authentication_Api_Models_Request_AuditContentValue,
+  additionalAuditContent: z.string(),
+});
 const Roblox_Authentication_Api_Models_SignupRequest = z.object({
   username: z.string(),
   password: z.string(),
@@ -386,6 +396,7 @@ const Roblox_Authentication_Api_Models_SignupRequest = z.object({
   passkeySessionId: z.string(),
   passkeyRegistrationResponse: z.string(),
   accountLinkParameters: Roblox_Authentication_Api_Models_AccountLinkParameters,
+  auditSystemContent: Roblox_Authentication_Api_Models_Request_AuditSystemContent,
   captchaId: z.string(),
   captchaToken: z.string(),
   captchaProvider: z.string(),
@@ -1420,6 +1431,32 @@ export const postRevertAccount = endpoint({
   ],
 });
 /**
+ * @api POST https://auth.roblox.com/v1/revert/invalidate-tickets
+ * @summary Invalidates all account security tickets for the authenticated user.
+This endpoint should be called before enrolling in EPP to ensure old revert links cannot be used.
+ */
+export const postRevertInvalidateTickets = endpoint({
+  method: 'POST',
+  path: '/v1/revert/invalidate-tickets',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  response: z.object({}),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+    {
+      status: 503,
+      description: `1: This feature is disabled`,
+    },
+  ],
+});
+/**
  * @api POST https://auth.roblox.com/v1/session/refresh
  * @summary Logs out user from the current session and create a new one.
  */
@@ -1430,6 +1467,10 @@ export const postSessionRefresh = endpoint({
   requestFormat: 'json',
   response: z.object({}),
   errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
     {
       status: 403,
       description: `0: Token Validation Failed`,

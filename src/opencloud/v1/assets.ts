@@ -34,18 +34,12 @@ const Assets_CreateAsset_Body = z.object({
   request: Asset,
   fileContent: z.instanceof(File),
 });
-const Any = z.object({ '@type': z.string() });
-const Status = z.object({
-  code: z.number().int(),
-  message: z.string(),
-  details: z.array(Any),
-});
+const Status = z.object({ code: z.number().int(), message: z.string() });
 const Operation = z.object({
   path: z.string(),
-  metadata: Any,
   done: z.boolean(),
   error: Status,
-  response: Any,
+  response: Asset,
 });
 const AssetVersion = z.object({
   creationContext: CreationContext,
@@ -62,7 +56,7 @@ const AssetVersion = z.object({
 
 You can't add [SocialLink](#SocialLink) objects when you create an asset. Instead, use [Update Asset](#PATCH-v1-assets-_assetId_).
 
-Provide the [Asset](#Asset), binary asset file path, and [content type](../../../cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
+Provide the [Asset](#Asset), binary asset file path, and [content type](/cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
  */
 export const postAssets = endpoint({
   method: 'POST',
@@ -142,7 +136,7 @@ export const getAssetsAssetId = endpoint({
  * @param updateMask Asset metadata fields to update, including the description, display name, icon, and previews. Examples: `description%2CdisplayName`, `previews%2CtwitchSocialLink`.
  * @description Updates an asset with provided content and metadata, including the description, display name, icon, social links, and previews. Currently can only update the content body for **Models**. Icons and Previews must be **Image** assets. Icons must have square dimensions.
 
-Provide the [Asset](#Asset), binary asset file path, and [content type](../../../cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
+Provide the [Asset](#Asset), binary asset file path, and [content type](/cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
  */
 export const patchAssetsAssetId = endpoint({
   method: 'PATCH',

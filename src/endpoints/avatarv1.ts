@@ -73,9 +73,6 @@ const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z.object({
     z.literal(27),
     z.literal(28),
     z.literal(29),
-    z.literal(30),
-    z.literal(31),
-    z.literal(32),
   ]),
   version: z.number().int(),
 });
@@ -87,7 +84,7 @@ const Roblox_Api_Avatar_Models_AssetModelV2 = z.object({
   meta: Roblox_Api_Avatar_Models_AssetMetaModelV1,
   availabilityStatus: z.string(),
   expirationTime: z.string().datetime({ offset: true }),
-  isSwappable: z.boolean(),
+  supportsHeadShapes: z.boolean(),
 });
 const Roblox_Api_Avatar_Models_EmoteResponseModel = z.object({
   assetId: z.number().int(),
@@ -225,11 +222,6 @@ const Roblox_Api_Avatar_Models_AvatarApiSuccessResponse = z.object({
 });
 const Roblox_Api_Avatar_Models_PlayerAvatarTypeModel = z.object({
   playerAvatarType: z.union([z.literal(1), z.literal(3)]),
-});
-const Roblox_Api_Avatar_Models_WearResponseModel = z.object({
-  invalidAssets: z.array(Roblox_Api_Avatar_Models_AssetModelV2),
-  invalidAssetIds: z.array(z.number()),
-  success: z.boolean(),
 });
 
 /**
@@ -392,44 +384,6 @@ export const postAvatarSetScales = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 3: The user does not have permissions to change scales.`,
-    },
-  ],
-});
-/**
- * @api POST https://avatar.roblox.com/v1/avatar/set-wearing-assets
- * @summary Sets the avatar's current assets to the list
-- Flagged as obsolete, does not support layered clothing meta params.
- * @param body The list of asset IDs.
- * @description Only allows items that you own, are not expired, and are wearable asset types.
-Any assets being worn before this method is called are automatically removed.
- */
-export const postAvatarSetWearingAssets = endpoint({
-  method: 'POST',
-  path: '/v1/avatar/set-wearing-assets',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: Roblox_Api_Avatar_Models_AssetIdListModel,
-  response: Roblox_Api_Avatar_Models_WearResponseModel,
-  errors: [
-    {
-      status: 400,
-      description: `3: Invalid assetId`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 500,
-      description: `2: Failed to wear asset.`,
     },
   ],
 });

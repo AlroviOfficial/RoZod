@@ -57,9 +57,6 @@ const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z.object({
     z.literal(27),
     z.literal(28),
     z.literal(29),
-    z.literal(30),
-    z.literal(31),
-    z.literal(32),
   ]),
   version: z.number().int(),
 });
@@ -71,7 +68,7 @@ const Roblox_Api_Avatar_Models_AssetModelV2 = z.object({
   meta: Roblox_Api_Avatar_Models_AssetMetaModelV1,
   availabilityStatus: z.string(),
   expirationTime: z.string().datetime({ offset: true }),
-  isSwappable: z.boolean(),
+  supportsHeadShapes: z.boolean(),
 });
 const Roblox_Api_Avatar_Models_BodyColors3Model = z.object({
   headColor3: z.string(),

@@ -256,7 +256,10 @@ export const getGroupsGroupidExperiences = endpoint({
   },
   parameters: {
     groupId: z.number().int(),
-    accessFilter: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),
+    accessFilter: z
+      .union([z.literal(1), z.literal(2), z.literal(4)])
+      .optional()
+      .default(1),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()

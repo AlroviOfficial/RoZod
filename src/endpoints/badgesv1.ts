@@ -453,6 +453,8 @@ export const getUsersUseridBadges = endpoint({
  * @summary Gets timestamp for when a single badge was awarded to a user.
  * @param userId User id.
  * @param badgeId Badge id.
+ * @param RequestUserIdIsInGameServer Whether the user with the request userId is present in the game server.
+ * @param Roblox-Place-Id Place identifier of the requesting place.
  */
 export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
   method: 'GET',
@@ -466,10 +468,18 @@ export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
     badgeId: {
       style: 'simple',
     },
+    RequestUserIdIsInGameServer: {
+      style: 'simple',
+    },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
   parameters: {
     userId: z.number().int(),
     badgeId: z.number().int(),
+    RequestUserIdIsInGameServer: z.boolean(),
+    'Roblox-Place-Id': z.number().int(),
   },
   response: z.void(),
   errors: [
@@ -484,6 +494,8 @@ export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
  * @summary Gets timestamps for when badges were awarded to a user.
  * @param userId The user Id.
  * @param badgeIds The CSV of badge Ids.
+ * @param RequestUserIdIsInGameServer Whether the user with the request userId is present in the game server.
+ * @param Roblox-Place-Id Place identifier of the requesting place.
  */
 export const getUsersUseridBadgesAwardedDates = endpoint({
   method: 'GET',
@@ -497,10 +509,18 @@ export const getUsersUseridBadgesAwardedDates = endpoint({
     badgeIds: {
       style: 'form',
     },
+    RequestUserIdIsInGameServer: {
+      style: 'simple',
+    },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
   parameters: {
     userId: z.number().int(),
     badgeIds: z.array(z.number()),
+    RequestUserIdIsInGameServer: z.boolean(),
+    'Roblox-Place-Id': z.number().int(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Badges_Api_BadgeAwardResponse_,
   errors: [

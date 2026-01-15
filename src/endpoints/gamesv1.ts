@@ -96,21 +96,6 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Games_Api_Models_Response_GameFavoritesCountResponse = z.object({
   favoritesCount: z.number().int(),
 });
-const Roblox_Games_Api_Models_Response_GamePassResponse = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  displayName: z.string(),
-  productId: z.number().int(),
-  price: z.number().int(),
-  sellerName: z.string(),
-  sellerId: z.number().int(),
-  isOwned: z.boolean(),
-});
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Games_Api_Models_Response_GamePassResponse_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Games_Api_Models_Response_GamePassResponse),
-});
 const Roblox_Games_Api_Models_Response_GameMediaItem = z.object({
   id: z.number().int(),
   assetTypeId: z.number().int(),
@@ -328,6 +313,7 @@ const Roblox_Games_Api_VipServerUpdateSubscriptionRequest = z.object({
  * @api GET https://games.roblox.com/v1/games
  * @summary Gets a list of games' detail
  * @param universeIds A list of universe Ids. Cannot exceed a maximum of 50 IDs.
+ * @param languageCode The HTML language code [optional].
  */
 export const getGames = endpoint({
   method: 'GET',
@@ -338,15 +324,20 @@ export const getGames = endpoint({
     universeIds: {
       style: 'form',
     },
+    languageCode: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     universeIds: z.array(z.number()),
+    languageCode: z.string().optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_,
   errors: [
     {
       status: 400,
-      description: `8: No universe IDs were specified.
+      description: `8: The universe IDs specified are invalid.
 9: Too many universe IDs were requested.`,
     },
   ],
@@ -587,57 +578,6 @@ export const getGamesUniverseidFavoritesCount = endpoint({
   ],
 });
 /**
- * @api GET https://games.roblox.com/v1/games/:universeId/game-passes
- * @summary Get the game's game passes
- * @param universeId The id of the universe.
- * @param limit
- * @param sortOrder
- * @param cursor The cursor to figure out where to start fetching
- */
-export const getGamesUniverseidGamePasses = endpoint({
-  method: 'GET',
-  path: '/v1/games/:universeId/game-passes',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    universeId: z.number().int(),
-    limit: z.number().int(),
-    sortOrder: z
-      .union([z.literal(1), z.literal(2)])
-      .optional()
-      .default(1),
-    cursor: z.string().optional(),
-  },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Games_Api_Models_Response_GamePassResponse_,
-  errors: [
-    {
-      status: 400,
-      description: `2: The universe&#x27;s root place is invalid.`,
-    },
-    {
-      status: 404,
-      description: `1: The requested universe does not exist.`,
-    },
-  ],
-});
-/**
  * @api GET https://games.roblox.com/v1/games/:universeId/media
  * @summary Get the game media data
  * @param universeId The id of the universe we get media data from.
@@ -825,7 +765,7 @@ export const getGamesGamesProductInfo = endpoint({
   errors: [
     {
       status: 400,
-      description: `8: No universe IDs were specified.
+      description: `8: The universe IDs specified are invalid.
 9: Too many universe IDs were requested.`,
     },
   ],
@@ -879,7 +819,7 @@ export const getGamesMultigetPlayabilityStatus = endpoint({
   errors: [
     {
       status: 400,
-      description: `8: No universe IDs were specified.
+      description: `8: The universe IDs specified are invalid.
 9: Too many universe IDs were requested.`,
     },
   ],
@@ -1036,7 +976,7 @@ export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
   errors: [
     {
       status: 400,
-      description: `8: No universe IDs were specified.`,
+      description: `8: The universe IDs specified are invalid.`,
     },
   ],
 });

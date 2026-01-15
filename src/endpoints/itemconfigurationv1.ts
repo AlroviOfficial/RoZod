@@ -223,6 +223,10 @@ export const getItemTags = endpoint({
 6: Invalid item namespace`,
     },
     {
+      status: 404,
+      description: `10: The endpoint was not found`,
+    },
+    {
       status: 429,
       description: `7: Too many requests`,
     },
@@ -263,6 +267,10 @@ export const postItemTags = endpoint({
 5: The current user is missing permissions for the endpoint`,
     },
     {
+      status: 404,
+      description: `10: The endpoint was not found`,
+    },
+    {
       status: 429,
       description: `7: Too many requests`,
     },
@@ -298,6 +306,10 @@ export const deleteItemTagsItemtagid = endpoint({
 5: The current user is missing permissions for the endpoint`,
     },
     {
+      status: 404,
+      description: `10: The endpoint was not found`,
+    },
+    {
       status: 429,
       description: `7: Too many requests`,
     },
@@ -313,7 +325,12 @@ export const getItemTagsMetadata = endpoint({
   baseUrl: 'https://itemconfiguration.roblox.com',
   requestFormat: 'json',
   response: Roblox_ItemConfiguration_Api_ItemTagsMetadataResponse,
-  errors: [],
+  errors: [
+    {
+      status: 404,
+      description: `10: The endpoint was not found`,
+    },
+  ],
 });
 /**
  * @api GET https://itemconfiguration.roblox.com/v1/tags
@@ -339,6 +356,10 @@ export const getTags = endpoint({
       status: 400,
       description: `1: No tag Ids requested
 2: Too many tag Ids requested`,
+    },
+    {
+      status: 404,
+      description: `7: The endpoint was not found`,
     },
     {
       status: 429,
@@ -385,6 +406,10 @@ export const getTagsPrefixSearch = endpoint({
     {
       status: 403,
       description: `4: This endpoint is not yet enabled for the current user`,
+    },
+    {
+      status: 404,
+      description: `7: The endpoint was not found`,
     },
     {
       status: 429,

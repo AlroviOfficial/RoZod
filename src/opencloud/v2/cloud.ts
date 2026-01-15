@@ -423,7 +423,12 @@ const PublishUniverseMessageRequest = z.object({
   topic: z.string(),
   message: z.string(),
 });
-const RestartUniverseServersRequest = z.object({});
+const RestartUniverseServersRequest = z.object({
+  placeIds: z.array(z.number()),
+  closeAllVersions: z.boolean(),
+  bleedOffServers: z.boolean(),
+  bleedOffDurationMinutes: z.number().int(),
+});
 const RestartUniverseServersResponse = z.object({});
 const TranslateTextRequest = z.object({
   text: z.string(),
@@ -1118,7 +1123,7 @@ export const postCloudV2UniversesUniverseIdRestartServers = endpoint({
   parameters: {
     universe_id: z.string(),
   },
-  body: z.object({}),
+  body: RestartUniverseServersRequest,
   response: z.object({}),
   errors: [],
 });

@@ -240,6 +240,31 @@ export const getMetadata = endpoint({
   errors: [],
 });
 /**
+ * @api GET https://friends.roblox.com/v1/my/friends/:userId/check-qr-session
+ * @param userId user Id that shows the qr code
+ */
+export const getMyFriendsUseridCheckQrSession = endpoint({
+  method: 'GET',
+  path: '/v1/my/friends/:userId/check-qr-session',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+  },
+  response: z.boolean(),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
  * @api GET https://friends.roblox.com/v1/my/friends/count
  * @summary Get the number of friends a user has
  */

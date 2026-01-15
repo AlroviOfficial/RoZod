@@ -43,7 +43,7 @@ export const getUniversesUniverseIdDatastores = endpoint({
  * @summary List entries
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
- * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
+ * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
  * @param allScopes Set to true to return keys from all scopes.
  * @param prefix Provide to return only keys with this prefix.
  * @param cursor Provide to request the next set of data.
@@ -87,7 +87,7 @@ export const getUniversesUniverseIdDatastoresDatastoreEntries = endpoint({
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
- * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
+ * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
  * @description Returns the value and metadata associated with an entry.
 
 Entries marked deleted with a tombstone version will return 404 Not Found.
@@ -104,7 +104,7 @@ roblox-entry-userids: [1, 2, 3]
 
 | Header | Description |
 |---|---| 
-| `content-md5` | The base64-encoded MD5 checksum of the content. See [Content-MD5](../../../cloud/guides/data-stores/request-handling.md#content-md5). |
+| `content-md5` | The base64-encoded MD5 checksum of the content. See [Content-MD5](/cloud/guides/data-stores/request-handling.md#content-md5). |
 | `roblox-entry-version` | The version of the returned entry. |
 | `roblox-entry-created-time` | The time at which the entry was created. |
 | `roblox-entry-version-created-time` | The time at which this particular version was created. |
@@ -141,10 +141,10 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
  * @param entryKey The key identifying the entry.
  * @param matchVersion Provide to update only if the current version matches this.
  * @param exclusiveCreate Create the entry only if it does not exist.
- * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
+ * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
  * @param roblox-entry-attributes Attributes to be associated with new version of the entry. Serialized by JSON map objects. If not provided, existing attributes are cleared.
  * @param roblox-entry-userids Comma-separated list of Roblox user IDs tagged with the entry. If not provided, existing user IDs are cleared.
- * @param content-md5 The base64-encoded MD5 checksum of the content. See [Content-MD5](../../../cloud/guides/data-stores/request-handling.md#content-md5).
+ * @param content-md5 The base64-encoded MD5 checksum of the content. See [Content-MD5](/cloud/guides/data-stores/request-handling.md#content-md5).
  * @description Sets the value, metadata and user IDs associated with an entry.
  */
 export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
@@ -185,7 +185,7 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
- * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
+ * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
  * @description Marks the entry as deleted by creating a tombstone version. Entries are deleted permanently after 30 days.
  */
 export const deleteUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
@@ -215,7 +215,7 @@ export const deleteUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
  * @param incrementBy The amount by which the entry should be incremented, or the starting value if it doesn't exist.
- * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
+ * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
  * @param roblox-entry-attributes Attributes to be associated with new version of the entry. Serialized by JSON map objects. If not provided, existing attributes are cleared.
  * @param roblox-entry-userids A comma-separated list of Roblox user IDs that the entry is tagged with. If not provided, existing user IDs are cleared.
  * @description Increments the value for an entry by a given amount, or create a new entry with that amount. Returns the entry and metadata.
@@ -232,7 +232,7 @@ roblox-entry-userids: [1, 2, 3]
 
 | Header | Description |
 |---|---| 
-| `content-md5` | The base64-encoded MD5 checksum of the content. See [Content-MD5](../../../cloud/guides/data-stores/request-handling.md#content-md5). |
+| `content-md5` | The base64-encoded MD5 checksum of the content. See [Content-MD5](/cloud/guides/data-stores/request-handling.md#content-md5). |
 | `roblox-entry-version` | The version of the returned entry. |
 | `roblox-entry-created-time` | The time at which the entry was created. |
 | `roblox-entry-version-created-time` | The time at which this particular version was created. |
@@ -272,7 +272,7 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntryIncrement = e
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
- * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
+ * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
  * @param cursor Provide to request the next set of data.
  * @param startTime Provide to not include versions earlier than this timestamp.
  * @param endTime Provide to not include versions later than this timestamp.
@@ -334,7 +334,7 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntryVersions = end
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
  * @param versionId The version to inspect.
- * @param scope The value is `global` by default. See [Scopes](../../../cloud-services/data-stores/index.md#scopes).
+ * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
  * @description Returns the value and metadata of a specific version of an entry.
 
 Metadata can be found in the response headers like the following:
@@ -349,7 +349,7 @@ roblox-entry-userids: [1, 2, 3]
 
 | Header | Description |
 |---|---| 
-| `content-md5` | The base64-encoded MD5 checksum of the content. See [Content-MD5](../../../cloud/guides/data-stores/request-handling.md#content-md5). |
+| `content-md5` | The base64-encoded MD5 checksum of the content. See [Content-MD5](/cloud/guides/data-stores/request-handling.md#content-md5). |
 | `roblox-entry-version` | The version of the returned entry. |
 | `roblox-entry-created-time` | The time at which the entry was created. |
 | `roblox-entry-version-created-time` | The time at which this particular version was created. |

@@ -450,4 +450,3 @@ describe('OpenCloud API Key Integration', () => {
     expect(config.cloudKey).toBeUndefined();
   });
 });
-

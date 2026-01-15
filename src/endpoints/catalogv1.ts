@@ -6,6 +6,8 @@ const Roblox_Catalog_Api_BundleItemDetailModel = z.object({
   id: z.number().int(),
   name: z.string(),
   type: z.string(),
+  supportsHeadShapes: z.boolean(),
+  assetType: z.number().int(),
 });
 const Roblox_Catalog_Api_BundleCreatorModel = z.object({
   id: z.number().int(),
@@ -325,6 +327,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
   hasResellers: z.boolean(),
   isOffSale: z.boolean(),
   quantityLimitPerUser: z.number().int(),
+  supportsHeadShapes: z.boolean(),
 });
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_ = z.object({
   previousPageCursor: z.string(),
@@ -356,11 +359,12 @@ const Roblox_Catalog_Api_MultigetItemDetailsRequestModel = z.object({
   items: z.array(Roblox_Catalog_Api_MultigetItemDetailsRequestItem),
 });
 const Roblox_Catalog_Api_BundleItemDetailModelV2 = z.object({
-  assetType: z.number().int(),
   owned: z.boolean(),
   id: z.number().int(),
   name: z.string(),
   type: z.string(),
+  supportsHeadShapes: z.boolean(),
+  assetType: z.number().int(),
 });
 const Roblox_Catalog_Api_TimedOption = z.object({
   days: z.number().int(),
@@ -502,6 +506,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   hasResellers: z.boolean(),
   isOffSale: z.boolean(),
   quantityLimitPerUser: z.number().int(),
+  supportsHeadShapes: z.boolean(),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2_ = z.object({
   data: z.array(Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2),

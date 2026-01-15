@@ -3,8 +3,8 @@ import { endpoint } from '../..';
 
 /**
  * @api POST https://apis.roblox.com/cloud/v1/:universeId/places/:placeId/versions
- * @param universeId The identifier of the experience in which you want to publish your place to. You can [copy your experience's Universe ID](../../../cloud/guides/usage-place-publishing.md#publishing-a-place) on **Creator Dashboard**.
- * @param placeId The identifier of your place. See [Publishing places with API keys](../../../cloud/guides/usage-place-publishing.md) on obtaining a Place ID.
+ * @param universeId The identifier of the experience in which you want to publish your place to. You can [copy your experience's Universe ID](/cloud/guides/usage-place-publishing.md#publishing-a-place) on **Creator Dashboard**.
+ * @param placeId The identifier of your place. See [Publishing places with API keys](/cloud/guides/usage-place-publishing.md) on obtaining a Place ID.
  * @param versionType Can only be either: 
 - `Saved`: the place file should be saved, but not published. 
  - `Published`: the place file should be saved and published.

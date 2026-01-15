@@ -101,6 +101,7 @@ const Asset = z.object({
   previewAssets: PreviewAssetsModel.nullable(),
   createTime: z.string().datetime({ offset: true }).nullable(),
   updateTime: z.string().datetime({ offset: true }).nullable(),
+  categoryPath: z.string().nullable(),
 });
 const Audio = Asset;
 const Decal = Asset;

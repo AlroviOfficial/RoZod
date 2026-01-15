@@ -60,6 +60,11 @@ const Roblox_Web_Responses_Plugins_PluginResponse = z.object({
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Plugins_PluginResponse_ = z.object({
   data: z.array(Roblox_Web_Responses_Plugins_PluginResponse),
 });
+const Roblox_Api_Develop_Models_ActivationEligibilityResponse = z.object({
+  isEligible: z.boolean(),
+  maturityRated: z.boolean(),
+  isUserEligibleForPublicPublish: z.boolean(),
+});
 const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   allowPrivateServers: z.boolean(),
   privateServerPrice: z.number().int(),
@@ -176,6 +181,12 @@ const Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel = z.object({
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel_ = z.object({
   data: z.array(Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel),
+});
+const Roblox_Api_Develop_Models_UserPublicPublishEligibilityResponse = z.object({
+  isEligible: z.boolean(),
+  hasTransactions: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  idVerified: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  hasDevex: z.union([z.literal(0), z.literal(1), z.literal(2)]),
 });
 const Roblox_Api_Develop_Models_GroupModel = z.object({
   id: z.number().int(),
@@ -563,6 +574,27 @@ export const postUniversesUniverseidActivate = endpoint({
 7: Creator already has the maximum number of places active.`,
     },
   ],
+});
+/**
+ * @api GET https://develop.roblox.com/v1/universes/:universeId/activation-eligibility
+ * @summary Returns the result of various checks for a user's eligibility to activate a given universe from private to public universeId for authenticated user
+ * @param universeId The universe id.
+ */
+export const getUniversesUniverseidActivationEligibility = endpoint({
+  method: 'GET',
+  path: '/v1/universes/:universeId/activation-eligibility',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    universeId: z.number().int(),
+  },
+  response: Roblox_Api_Develop_Models_ActivationEligibilityResponse,
+  errors: [],
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/:universeId/configuration
@@ -1011,6 +1043,18 @@ export const getUniversesMultigetTeamcreate = endpoint({
       description: `0: Authorization has been denied for this request.`,
     },
   ],
+});
+/**
+ * @api GET https://develop.roblox.com/v1/universes/user-public-publish-eligibility
+ * @summary Returns the result of various checks for a user's eligibility to publish a public universe
+ */
+export const getUniversesUserPublicPublishEligibility = endpoint({
+  method: 'GET',
+  path: '/v1/universes/user-public-publish-eligibility',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
+  response: Roblox_Api_Develop_Models_UserPublicPublishEligibilityResponse,
+  errors: [],
 });
 /**
  * @api GET https://develop.roblox.com/v1/user/groups/canmanage
