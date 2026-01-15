@@ -150,7 +150,7 @@ function serializeQueryParam(key: string, value: any, serializationMethod?: Seri
 
 function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams: ExtractParams<S> | undefined) {
   let processedPath = endpoint.path;
-  const queryParams: Record<string, string> = {};
+  const queryParts: string[] = [];
   const usedPathParams: Set<string> = new Set();
   const paramsObject = (extendedParams ?? {}) as Record<string, any>;
 
@@ -175,18 +175,22 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
     if (key === 'body' || usedPathParams.has(key)) continue;
 
     const value = paramsObject[key];
-    const serializedValue = serializeQueryParam(key, value, endpoint.serializationMethod);
-    if (serializedValue !== undefined) {
-      queryParams[key] = serializedValue;
+    const serializationMethod = endpoint.serializationMethod?.[key];
+
+    // Handle exploded arrays by creating separate query params for each element
+    if (Array.isArray(value) && serializationMethod?.explode) {
+      for (const item of value) {
+        queryParts.push(`${encodeURIComponent(key)}=${encodeURIComponent(String(item))}`);
+      }
+    } else {
+      const serializedValue = serializeQueryParam(key, value, endpoint.serializationMethod);
+      if (serializedValue !== undefined) {
+        queryParts.push(`${encodeURIComponent(key)}=${encodeURIComponent(serializedValue)}`);
+      }
     }
   }
 
-  const query = Object.keys(queryParams).length
-    ? '?' +
-      Object.entries(queryParams)
-        .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
-        .join('&')
-    : '';
+  const query = queryParts.length > 0 ? '?' + queryParts.join('&') : '';
 
   return endpoint.baseUrl + processedPath + query;
 }
@@ -413,8 +417,7 @@ function applyServerDefaults(headers: Headers, url: string): void {
   // OpenCloud endpoints are on apis.roblox.com AND contain /cloud/ in the path
   // (apis.roblox.com/cloud/... for v1, apis.roblox.com/cloud/v2/... for v2)
   // Note: apis.roblox.com also hosts cookie-based APIs that don't use /cloud/
-  const isOpenCloud =
-    url.includes('apis.roblox.com') && (url.includes('/cloud/') || url.includes('/cloud?'));
+  const isOpenCloud = url.includes('apis.roblox.com') && (url.includes('/cloud/') || url.includes('/cloud?'));
 
   // Apply OpenCloud API key for /cloud/ endpoints
   if (isOpenCloud && serverConfig.cloudKey && !headers.has('x-api-key')) {

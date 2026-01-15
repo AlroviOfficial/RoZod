@@ -119,3 +119,66 @@ describe('Path parameters in URL construction', () => {
     expect(lastFetchUrl).toBe('https://users.roblox.com/v1/users/1234');
   });
 });
+
+describe('Array serialization with explode', () => {
+  test('exploded array creates separate query params without double-encoding', async () => {
+    const testEndpoint = endpoint({
+      method: 'GET',
+      baseUrl: 'https://games.roblox.com',
+      path: '/v1/games/multiget-place-details',
+      requestFormat: 'json',
+      serializationMethod: {
+        placeIds: {
+          style: 'form',
+          explode: true,
+        },
+      },
+      parameters: {
+        placeIds: z.array(z.number()),
+      },
+      response: z.array(z.object({ success: z.boolean() })),
+    });
+
+    await fetchApi(testEndpoint, { placeIds: [5967519266, 126865261177769] });
+    // Should produce separate params, NOT double-encoded like placeIds=5967519266%26placeIds%3D126865261177769
+    expect(lastFetchUrl).toBe(
+      'https://games.roblox.com/v1/games/multiget-place-details?placeIds=5967519266&placeIds=126865261177769',
+    );
+  });
+
+  test('exploded array with single element', async () => {
+    const testEndpoint = endpoint({
+      method: 'GET',
+      baseUrl: 'https://api.example.com',
+      path: '/items',
+      serializationMethod: {
+        ids: { style: 'form', explode: true },
+      },
+      parameters: {
+        ids: z.array(z.number()),
+      },
+      response: z.object({ success: z.boolean() }),
+    });
+
+    await fetchApi(testEndpoint, { ids: [123] });
+    expect(lastFetchUrl).toBe('https://api.example.com/items?ids=123');
+  });
+
+  test('non-exploded array uses comma separation', async () => {
+    const testEndpoint = endpoint({
+      method: 'GET',
+      baseUrl: 'https://api.example.com',
+      path: '/items',
+      serializationMethod: {
+        ids: { style: 'form', explode: false },
+      },
+      parameters: {
+        ids: z.array(z.number()),
+      },
+      response: z.object({ success: z.boolean() }),
+    });
+
+    await fetchApi(testEndpoint, { ids: [1, 2, 3] });
+    expect(lastFetchUrl).toBe('https://api.example.com/items?ids=1%2C2%2C3');
+  });
+});
