@@ -1,6 +1,6 @@
 {
   "name": "rozod",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "description": "A TypeScript wrapper for the Roblox API",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
