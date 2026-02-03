@@ -335,6 +335,40 @@ RoZod automatically handles advanced Roblox security requirements:
 - **✅ Hardware-Backed Authentication** - Full HBA signature support  
 - **✅ Challenge Handling** - Captchas, 2FA, and other authentication challenges
 - **✅ Cookie Security** - Secure cookie parsing and validation
+- **✅ Cookie Rotation** - Automatic handling of Roblox's cookie rotation
+
+### Cookie Rotation Handling
+
+Roblox is gradually implementing `.ROBLOSECURITY` cookie rotation for improved security. RoZod automatically detects when cookies are rotated and can notify you to persist the new values:
+
+```ts
+import { configureServer, refreshCookie, getCookies } from 'rozod';
+
+configureServer({
+  cookies: process.env.ROBLOX_COOKIE,
+  onCookieRefresh: async ({ oldCookie, newCookie, poolIndex }) => {
+    // Roblox rotated the cookie - persist the new value
+    await db.updateCookie(poolIndex, newCookie);
+    console.log('Cookie rotated and saved!');
+  }
+});
+```
+
+The internal cookie pool updates automatically, so the callback is only needed if you want to persist cookies across restarts.
+
+You can also proactively refresh cookies before they expire:
+
+```ts
+// Refresh on a schedule or before important operations
+const result = await refreshCookie(0);
+if (result.success) {
+  await db.updateCookie(0, result.newCookie);
+}
+
+// Utility functions
+const allCookies = getCookies();        // Get current cookie values
+updateCookie(0, 'new_value');           // Manually update a cookie
+```
 
 ### Challenge Handling
 
