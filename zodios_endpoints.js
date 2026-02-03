@@ -4,7 +4,7 @@ import { promisify } from 'util';
 import { exec as execOld } from 'child_process';
 const exec = promisify(execOld);
 import pLimit from 'p-limit';
-import { generateZodClientFromOpenAPI } from '@alexop/openapi-zod-client';
+import { generateZodClientFromOpenAPI } from 'openapi-zod-client';
 import parser from '@apidevtools/swagger-parser';
 
 const limit = pLimit(2);
@@ -146,6 +146,20 @@ function fixInvalidEnumDefaults(content) {
 }
 
 /**
+ * Fix regex patterns with double backslashes before forward slashes.
+ * e.g. /^[0-9]+\\/.+/ -> /^[0-9]+\/.+/
+ * The double backslash causes the regex to terminate prematurely since \\ is a 
+ * literal backslash and the following / ends the regex.
+ */
+function fixDoubleBackslashInRegex(content) {
+  // Match .regex(/.../) patterns and fix \\/ to \/
+  return content.replace(
+    /\.regex\(\/([^/]*)\\\\\/(.*?)\/\)/g,
+    '.regex(/$1\\/$2/)'
+  );
+}
+
+/**
  * Transform content by rewriting single-argument z.record(valueSchema) to valueSchema
  * Only rewrites when the argument list to z.record has no top-level comma.
  */
@@ -235,19 +249,23 @@ function applyZodRecordFixToFile(filePath) {
   try {
     const original = readFileSync(filePath, 'utf-8');
     let fixed = original;
-    
+
     if (fixed.includes('z.record(')) {
       fixed = fixZodRecordSingleArg(fixed);
     }
-    
+
     if (fixed.includes('(user|group)')) {
       fixed = fixUnescapedRegexSlashes(fixed);
     }
-    
+
     if (fixed.includes(".default('1')")) {
       fixed = fixInvalidEnumDefaults(fixed);
     }
-    
+
+    if (fixed.includes('\\\\/')) {
+      fixed = fixDoubleBackslashInRegex(fixed);
+    }
+
     if (fixed !== original) {
       writeFileSync(filePath, fixed, 'utf-8');
       console.log(`Patched ${filePath}`);
