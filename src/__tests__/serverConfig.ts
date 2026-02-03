@@ -1,4 +1,11 @@
-import { configureServer, clearServerConfig, getServerConfig } from '../index';
+import {
+  configureServer,
+  clearServerConfig,
+  getServerConfig,
+  getCookies,
+  updateCookie,
+  CookieRefreshEvent,
+} from '../index';
 
 // Store original fetch to restore later
 const originalFetch = globalThis.fetch;
@@ -448,5 +455,248 @@ describe('OpenCloud API Key Integration', () => {
     clearServerConfig();
     const config = getServerConfig();
     expect(config.cloudKey).toBeUndefined();
+  });
+});
+
+describe('Cookie Rotation Handling', () => {
+  test('getCookies should return empty array when no cookies configured', () => {
+    expect(getCookies()).toEqual([]);
+  });
+
+  test('getCookies should return array for single cookie', () => {
+    configureServer({ cookies: 'single-cookie' });
+    expect(getCookies()).toEqual(['single-cookie']);
+  });
+
+  test('getCookies should return copy of cookie array', () => {
+    const original = ['cookie1', 'cookie2'];
+    configureServer({ cookies: original });
+    const result = getCookies();
+
+    expect(result).toEqual(original);
+    // Verify it's a copy, not the same reference
+    result.push('cookie3');
+    expect(getCookies()).toEqual(['cookie1', 'cookie2']);
+  });
+
+  test('updateCookie should update single cookie', () => {
+    configureServer({ cookies: 'old-cookie' });
+    const result = updateCookie(0, 'new-cookie');
+
+    expect(result).toBe(true);
+    expect(getCookies()).toEqual(['new-cookie']);
+  });
+
+  test('updateCookie should update specific cookie in pool', () => {
+    configureServer({ cookies: ['cookie0', 'cookie1', 'cookie2'] });
+    const result = updateCookie(1, 'updated-cookie1');
+
+    expect(result).toBe(true);
+    expect(getCookies()).toEqual(['cookie0', 'updated-cookie1', 'cookie2']);
+  });
+
+  test('updateCookie should return false for invalid index', () => {
+    configureServer({ cookies: ['cookie0', 'cookie1'] });
+
+    expect(updateCookie(-1, 'new')).toBe(false);
+    expect(updateCookie(2, 'new')).toBe(false);
+    expect(updateCookie(100, 'new')).toBe(false);
+  });
+
+  test('updateCookie should return false when no cookies configured', () => {
+    expect(updateCookie(0, 'new')).toBe(false);
+  });
+
+  test('onCookieRefresh callback should be stored in config', () => {
+    const callback = jest.fn();
+    configureServer({ cookies: 'test', onCookieRefresh: callback });
+
+    const config = getServerConfig();
+    expect(config.onCookieRefresh).toBe(callback);
+  });
+
+  test('onCookieRefresh callback should be cleared on clearServerConfig', () => {
+    const callback = jest.fn();
+    configureServer({ cookies: 'test', onCookieRefresh: callback });
+    clearServerConfig();
+
+    const config = getServerConfig();
+    expect(config.onCookieRefresh).toBeUndefined();
+  });
+
+  test('should invoke onCookieRefresh when Set-Cookie header contains new cookie', async () => {
+    const refreshEvents: CookieRefreshEvent[] = [];
+    const callback = jest.fn((event: CookieRefreshEvent) => {
+      refreshEvents.push(event);
+    });
+
+    configureServer({
+      cookies: 'original-cookie-value',
+      onCookieRefresh: callback,
+    });
+
+    // Mock fetch to return a Set-Cookie header with a new cookie
+    globalThis.fetch = jest.fn(async () => {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'set-cookie': '.ROBLOSECURITY=new-rotated-cookie-value; Path=/; HttpOnly',
+        },
+      });
+    });
+
+    await fetchApi(testEndpoint, undefined);
+
+    // Callback should have been invoked
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(refreshEvents[0].oldCookie).toBe('original-cookie-value');
+    expect(refreshEvents[0].newCookie).toBe('new-rotated-cookie-value');
+    expect(refreshEvents[0].poolIndex).toBe(0);
+
+    // Internal cookie should be updated
+    expect(getCookies()).toEqual(['new-rotated-cookie-value']);
+  });
+
+  test('should invoke onCookieRefresh for correct pool index with multiple cookies', async () => {
+    const refreshEvents: CookieRefreshEvent[] = [];
+    const callback = jest.fn((event: CookieRefreshEvent) => {
+      refreshEvents.push(event);
+    });
+
+    configureServer({
+      cookies: ['cookie-a', 'cookie-b', 'cookie-c'],
+      cookieRotation: 'round-robin',
+      onCookieRefresh: callback,
+    });
+
+    // First request uses cookie-a (index 0) - no rotation
+    globalThis.fetch = jest.fn(async () => {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      });
+    });
+    await fetchApi(testEndpoint, undefined);
+
+    // Second request uses cookie-b (index 1) - with rotation
+    globalThis.fetch = jest.fn(async () => {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'set-cookie': '.ROBLOSECURITY=cookie-b-rotated; Path=/',
+        },
+      });
+    });
+    await fetchApi(testEndpoint, undefined);
+
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(refreshEvents[0].oldCookie).toBe('cookie-b');
+    expect(refreshEvents[0].newCookie).toBe('cookie-b-rotated');
+    expect(refreshEvents[0].poolIndex).toBe(1);
+
+    // Cookie pool should be updated at correct index
+    expect(getCookies()).toEqual(['cookie-a', 'cookie-b-rotated', 'cookie-c']);
+  });
+
+  test('should not invoke callback when cookie has not changed', async () => {
+    const callback = jest.fn();
+
+    configureServer({
+      cookies: 'same-cookie',
+      onCookieRefresh: callback,
+    });
+
+    // Mock returns the same cookie value
+    globalThis.fetch = jest.fn(async () => {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'set-cookie': '.ROBLOSECURITY=same-cookie; Path=/',
+        },
+      });
+    });
+
+    await fetchApi(testEndpoint, undefined);
+
+    expect(callback).not.toHaveBeenCalled();
+  });
+
+  test('should not invoke callback when no Set-Cookie header', async () => {
+    const callback = jest.fn();
+
+    configureServer({
+      cookies: 'my-cookie',
+      onCookieRefresh: callback,
+    });
+
+    // Mock returns no Set-Cookie header
+    globalThis.fetch = jest.fn(async () => {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      });
+    });
+
+    await fetchApi(testEndpoint, undefined);
+
+    expect(callback).not.toHaveBeenCalled();
+  });
+
+  test('should handle cookie with _| prefix in Set-Cookie header', async () => {
+    const callback = jest.fn();
+
+    configureServer({
+      cookies: '_|WARNING:-DO-NOT-SHARE|_oldvalue123',
+      onCookieRefresh: callback,
+    });
+
+    globalThis.fetch = jest.fn(async () => {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'set-cookie': '.ROBLOSECURITY=_|WARNING:-DO-NOT-SHARE|_newvalue456; Path=/; HttpOnly',
+        },
+      });
+    });
+
+    await fetchApi(testEndpoint, undefined);
+
+    expect(callback).toHaveBeenCalledWith(
+      expect.objectContaining({
+        newCookie: '_|WARNING:-DO-NOT-SHARE|_newvalue456',
+      }),
+    );
+  });
+
+  test('callback errors should not break request flow', async () => {
+    const errorCallback = jest.fn(() => {
+      throw new Error('Callback error');
+    });
+
+    configureServer({
+      cookies: 'original',
+      onCookieRefresh: errorCallback,
+    });
+
+    globalThis.fetch = jest.fn(async () => {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'set-cookie': '.ROBLOSECURITY=rotated; Path=/',
+        },
+      });
+    });
+
+    // Should not throw despite callback error
+    const result = await fetchApi(testEndpoint, undefined);
+    expect(result).toEqual({ success: true });
+
+    // Cookie should still be updated
+    expect(getCookies()).toEqual(['rotated']);
   });
 });

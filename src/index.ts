@@ -233,6 +233,39 @@ const DEFAULT_USER_AGENTS = [
 
 export type PoolRotation = 'none' | 'random' | 'round-robin';
 
+/**
+ * Event data passed to the cookie refresh callback when Roblox rotates a cookie.
+ */
+export type CookieRefreshEvent = {
+  /** The old cookie value that was used in the request */
+  oldCookie: string;
+  /** The new cookie value received from Roblox */
+  newCookie: string;
+  /** The index in the cookie pool that was updated (-1 if not using a pool) */
+  poolIndex: number;
+};
+
+/**
+ * Callback function invoked when Roblox rotates a .ROBLOSECURITY cookie.
+ * Use this to persist the new cookie value to your storage (env vars, database, etc.).
+ *
+ * @param event - Contains the old cookie, new cookie, and pool index
+ * @returns void or Promise<void>
+ *
+ * @example
+ * ```ts
+ * configureServer({
+ *   cookies: process.env.ROBLOX_COOKIE,
+ *   onCookieRefresh: async (event) => {
+ *     // Update your environment variable or database
+ *     await updateDatabaseCookie(event.newCookie);
+ *     console.log('Cookie rotated! Old cookie index:', event.poolIndex);
+ *   }
+ * });
+ * ```
+ */
+export type CookieRefreshCallback = (event: CookieRefreshEvent) => void | Promise<void>;
+
 export type ServerConfig = {
   /**
    * Pool of .ROBLOSECURITY cookie values (without the cookie name prefix).
@@ -266,6 +299,26 @@ export type ServerConfig = {
    * Default: 'none'
    */
   userAgentRotation?: PoolRotation;
+  /**
+   * Callback invoked when Roblox rotates a .ROBLOSECURITY cookie.
+   * Roblox is gradually implementing cookie rotation for security.
+   * Use this callback to persist the new cookie value to your storage.
+   *
+   * The internal cookie pool is automatically updated, so you only need
+   * this callback if you want to persist the new cookie across restarts.
+   *
+   * @example
+   * ```ts
+   * configureServer({
+   *   cookies: process.env.ROBLOX_COOKIE,
+   *   onCookieRefresh: async ({ oldCookie, newCookie, poolIndex }) => {
+   *     await db.updateCookie(poolIndex, newCookie);
+   *     console.log('Cookie rotated for account', poolIndex);
+   *   }
+   * });
+   * ```
+   */
+  onCookieRefresh?: CookieRefreshCallback;
 };
 
 type ServerConfigInternal = ServerConfig & {
@@ -273,6 +326,10 @@ type ServerConfigInternal = ServerConfig & {
   _userAgentIndex: number;
   _sessionUserAgent?: string;
   _sessionCookie?: string;
+  /** Tracks the cookie used in the most recent request for rotation detection */
+  _lastUsedCookie?: string;
+  /** Tracks the index of the cookie used in the most recent request */
+  _lastUsedCookieIndex?: number;
 };
 
 const serverConfig: ServerConfigInternal = {
@@ -322,11 +379,14 @@ export function configureServer(config: ServerConfig): void {
   serverConfig.cloudKey = config.cloudKey;
   serverConfig.userAgents = config.userAgents;
   serverConfig.userAgentRotation = config.userAgentRotation;
+  serverConfig.onCookieRefresh = config.onCookieRefresh;
   // Reset indices and session values when config changes
   serverConfig._cookieIndex = 0;
   serverConfig._userAgentIndex = 0;
   serverConfig._sessionUserAgent = undefined;
   serverConfig._sessionCookie = undefined;
+  serverConfig._lastUsedCookie = undefined;
+  serverConfig._lastUsedCookieIndex = undefined;
 }
 
 /**
@@ -338,10 +398,13 @@ export function clearServerConfig(): void {
   serverConfig.cloudKey = undefined;
   serverConfig.userAgents = undefined;
   serverConfig.userAgentRotation = undefined;
+  serverConfig.onCookieRefresh = undefined;
   serverConfig._cookieIndex = 0;
   serverConfig._userAgentIndex = 0;
   serverConfig._sessionUserAgent = undefined;
   serverConfig._sessionCookie = undefined;
+  serverConfig._lastUsedCookie = undefined;
+  serverConfig._lastUsedCookieIndex = undefined;
 }
 
 /**
@@ -354,6 +417,7 @@ export function getServerConfig(): Readonly<ServerConfig> {
     cloudKey: serverConfig.cloudKey,
     userAgents: serverConfig.userAgents,
     userAgentRotation: serverConfig.userAgentRotation,
+    onCookieRefresh: serverConfig.onCookieRefresh,
   };
 }
 
@@ -399,7 +463,25 @@ function getServerCookie(): string | undefined {
   const defaultRotation: PoolRotation = cookiePool.length > 1 ? 'round-robin' : 'none';
   const rotation = serverConfig.cookieRotation ?? defaultRotation;
 
-  return selectFromPool(cookiePool, rotation, '_cookieIndex', '_sessionCookie');
+  // Calculate the index that will be used before selecting
+  let indexToUse: number;
+  if (rotation === 'random') {
+    indexToUse = Math.floor(Math.random() * cookiePool.length);
+  } else if (rotation === 'round-robin') {
+    indexToUse = serverConfig._cookieIndex;
+  } else {
+    indexToUse = 0;
+  }
+
+  const cookie = selectFromPool(cookiePool, rotation, '_cookieIndex', '_sessionCookie');
+
+  // Track which cookie was used for rotation detection
+  if (cookie) {
+    serverConfig._lastUsedCookie = cookie;
+    serverConfig._lastUsedCookieIndex = indexToUse;
+  }
+
+  return cookie;
 }
 
 function getServerUserAgent(): string | undefined {
@@ -408,6 +490,270 @@ function getServerUserAgent(): string | undefined {
 
   const rotation = serverConfig.userAgentRotation ?? 'none';
   return selectFromPool(userAgents, rotation, '_userAgentIndex', '_sessionUserAgent');
+}
+
+/**
+ * Extracts the .ROBLOSECURITY cookie value from a Set-Cookie header.
+ * Returns undefined if no .ROBLOSECURITY cookie is found.
+ */
+function extractRoblosecurityFromSetCookie(setCookieHeader: string | null): string | undefined {
+  if (!setCookieHeader) return undefined;
+
+  // Match .ROBLOSECURITY cookie value - handles both with and without _| prefix
+  const match = setCookieHeader.match(/\.ROBLOSECURITY=(_\|[^|]+\|_)?([^;]+)/);
+  if (match) {
+    // Return the full cookie value (prefix + actual value if prefix exists, or just the value)
+    return match[1] ? match[1] + match[2] : match[2];
+  }
+  return undefined;
+}
+
+/**
+ * Handles cookie rotation by checking response headers for a new .ROBLOSECURITY cookie.
+ * If a new cookie is detected, updates the internal pool and invokes the callback.
+ */
+async function handleCookieRotation(response: Response): Promise<void> {
+  // Only process if we're tracking a used cookie and have a callback or need to update pool
+  const lastUsedCookie = serverConfig._lastUsedCookie;
+  const lastUsedIndex = serverConfig._lastUsedCookieIndex;
+
+  if (lastUsedCookie === undefined) return;
+
+  // Check for Set-Cookie header with new .ROBLOSECURITY
+  // Note: In Node.js fetch, we need to handle both single and multiple Set-Cookie headers
+  const setCookieHeaders = response.headers.get('set-cookie');
+  if (!setCookieHeaders) return;
+
+  const newCookie = extractRoblosecurityFromSetCookie(setCookieHeaders);
+  if (!newCookie) return;
+
+  // Check if cookie actually changed (rotation occurred)
+  if (newCookie === lastUsedCookie) return;
+
+  // Update the internal cookie pool
+  const cookies = serverConfig.cookies;
+  if (cookies) {
+    if (Array.isArray(cookies)) {
+      if (lastUsedIndex !== undefined && lastUsedIndex >= 0 && lastUsedIndex < cookies.length) {
+        cookies[lastUsedIndex] = newCookie;
+      }
+    } else {
+      // Single cookie - update it directly
+      serverConfig.cookies = newCookie;
+    }
+
+    // Also update session cookie if using 'none' rotation
+    if (serverConfig._sessionCookie === lastUsedCookie) {
+      serverConfig._sessionCookie = newCookie;
+    }
+  }
+
+  // Invoke the callback if provided
+  if (serverConfig.onCookieRefresh) {
+    try {
+      await serverConfig.onCookieRefresh({
+        oldCookie: lastUsedCookie,
+        newCookie: newCookie,
+        poolIndex: lastUsedIndex ?? -1,
+      });
+    } catch (error) {
+      // Don't let callback errors break the request flow
+      console.error('RoZod: Error in onCookieRefresh callback:', error);
+    }
+  }
+}
+
+/**
+ * Updates a specific cookie in the cookie pool by index.
+ * Useful for manually updating cookies when you receive rotation events through other means.
+ *
+ * @param index - The index in the cookie pool to update (0 for single cookie)
+ * @param newCookie - The new cookie value
+ * @returns true if the cookie was updated, false if the index was invalid
+ *
+ * @example
+ * ```ts
+ * // Update the first (or only) cookie
+ * updateCookie(0, 'new_cookie_value');
+ *
+ * // Update a specific account in a pool
+ * updateCookie(2, 'new_cookie_for_account_3');
+ * ```
+ */
+export function updateCookie(index: number, newCookie: string): boolean {
+  const cookies = serverConfig.cookies;
+  if (!cookies) return false;
+
+  if (Array.isArray(cookies)) {
+    if (index >= 0 && index < cookies.length) {
+      cookies[index] = newCookie;
+      return true;
+    }
+    return false;
+  } else {
+    if (index === 0) {
+      serverConfig.cookies = newCookie;
+      return true;
+    }
+    return false;
+  }
+}
+
+/**
+ * Gets the current cookie values from the pool.
+ * Useful for debugging or persisting all current cookie values.
+ *
+ * @returns Array of current cookie values, or empty array if none configured
+ */
+export function getCookies(): string[] {
+  const cookies = serverConfig.cookies;
+  if (!cookies) return [];
+  return Array.isArray(cookies) ? [...cookies] : [cookies];
+}
+
+/**
+ * Result of a manual cookie refresh operation.
+ */
+export type RefreshCookieResult = {
+  success: boolean;
+  /** The new cookie value if refresh was successful */
+  newCookie?: string;
+  /** Error message if refresh failed */
+  error?: string;
+  /** The index in the cookie pool that was refreshed */
+  poolIndex: number;
+};
+
+/**
+ * Proactively refreshes a cookie session using Roblox's session refresh endpoint.
+ * This creates a new session and invalidates the old one, returning the new cookie.
+ *
+ * Use this to manually trigger cookie rotation before the automatic rotation kicks in,
+ * or to refresh cookies on a schedule to ensure they don't expire.
+ *
+ * @param cookieIndex - Index in the cookie pool to refresh (default: 0). Ignored if using single cookie.
+ * @returns Result object with success status and new cookie value if successful
+ *
+ * @example
+ * ```ts
+ * // Refresh the default/first cookie
+ * const result = await refreshCookie();
+ * if (result.success) {
+ *   console.log('New cookie:', result.newCookie);
+ *   // Persist the new cookie to your storage
+ *   await db.updateCookie(result.poolIndex, result.newCookie);
+ * }
+ *
+ * // Refresh a specific cookie in the pool
+ * const result = await refreshCookie(2); // Refresh third account
+ *
+ * // Refresh all cookies in a pool
+ * const cookies = getCookies();
+ * for (let i = 0; i < cookies.length; i++) {
+ *   const result = await refreshCookie(i);
+ *   if (result.success) {
+ *     await db.updateCookie(i, result.newCookie);
+ *   }
+ * }
+ * ```
+ */
+export async function refreshCookie(cookieIndex: number = 0): Promise<RefreshCookieResult> {
+  const cookies = serverConfig.cookies;
+  if (!cookies) {
+    return { success: false, error: 'No cookies configured', poolIndex: cookieIndex };
+  }
+
+  const cookiePool = Array.isArray(cookies) ? cookies : [cookies];
+  if (cookieIndex < 0 || cookieIndex >= cookiePool.length) {
+    return { success: false, error: `Invalid cookie index: ${cookieIndex}`, poolIndex: cookieIndex };
+  }
+
+  const cookieToRefresh = cookiePool[cookieIndex];
+
+  try {
+    // Create headers with the specific cookie we want to refresh
+    const headers = new Headers();
+    headers.set('cookie', `.ROBLOSECURITY=${cookieToRefresh}`);
+
+    // Apply user agent
+    const userAgent = getServerUserAgent();
+    if (userAgent) {
+      headers.set('user-agent', userAgent);
+    }
+
+    // First, get a CSRF token
+    const csrfResponse = await globalThis.fetch('https://auth.roblox.com/v1/authentication-ticket', {
+      method: 'POST',
+      headers,
+      credentials: 'include',
+    });
+
+    const csrfToken = csrfResponse.headers.get('x-csrf-token');
+    if (csrfToken) {
+      headers.set('x-csrf-token', csrfToken);
+    }
+
+    // Call the session refresh endpoint
+    const response = await globalThis.fetch('https://auth.roblox.com/v1/session/refresh', {
+      method: 'POST',
+      headers,
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text().catch(() => 'Unknown error');
+      return {
+        success: false,
+        error: `Session refresh failed: ${response.status} ${errorText}`,
+        poolIndex: cookieIndex,
+      };
+    }
+
+    // Extract the new cookie from Set-Cookie header
+    const setCookieHeader = response.headers.get('set-cookie');
+    const newCookie = extractRoblosecurityFromSetCookie(setCookieHeader);
+
+    if (!newCookie) {
+      return {
+        success: false,
+        error: 'No new cookie received from session refresh',
+        poolIndex: cookieIndex,
+      };
+    }
+
+    // Update the internal cookie pool
+    if (Array.isArray(serverConfig.cookies)) {
+      serverConfig.cookies[cookieIndex] = newCookie;
+    } else {
+      serverConfig.cookies = newCookie;
+    }
+
+    // Update session cookie if needed
+    if (serverConfig._sessionCookie === cookieToRefresh) {
+      serverConfig._sessionCookie = newCookie;
+    }
+
+    // Invoke callback if provided
+    if (serverConfig.onCookieRefresh) {
+      try {
+        await serverConfig.onCookieRefresh({
+          oldCookie: cookieToRefresh,
+          newCookie: newCookie,
+          poolIndex: cookieIndex,
+        });
+      } catch (error) {
+        console.error('RoZod: Error in onCookieRefresh callback:', error);
+      }
+    }
+
+    return { success: true, newCookie, poolIndex: cookieIndex };
+  } catch (error) {
+    return {
+      success: false,
+      error: `Network error during refresh: ${error instanceof Error ? error.message : String(error)}`,
+      poolIndex: cookieIndex,
+    };
+  }
 }
 
 function applyServerDefaults(headers: Headers, url: string): void {
@@ -522,6 +868,10 @@ async function fetch(
     ...info,
     headers,
   });
+
+  // Handle cookie rotation from response headers
+  await handleCookieRotation(res);
+
   if (res.headers.has('x-csrf-token')) {
     csrfTokenMap[csrfKey] = res.headers.get('x-csrf-token')!;
 
