@@ -463,22 +463,50 @@ function getServerCookie(): string | undefined {
   const defaultRotation: PoolRotation = cookiePool.length > 1 ? 'round-robin' : 'none';
   const rotation = serverConfig.cookieRotation ?? defaultRotation;
 
-  // Calculate the index that will be used before selecting
-  let indexToUse: number;
-  if (rotation === 'random') {
-    indexToUse = Math.floor(Math.random() * cookiePool.length);
-  } else if (rotation === 'round-robin') {
-    indexToUse = serverConfig._cookieIndex;
-  } else {
-    indexToUse = 0;
-  }
+  // Select cookie and track the index used for rotation detection
+  // Note: With concurrent requests, _lastUsedCookie tracking may be imprecise since
+  // a later request could overwrite the tracking before an earlier response arrives.
+  // This is acceptable as cookie rotation is rare and the cookie value itself is still correct.
+  let cookie: string | undefined;
+  let indexUsed: number;
 
-  const cookie = selectFromPool(cookiePool, rotation, '_cookieIndex', '_sessionCookie');
+  if (cookiePool.length === 1) {
+    cookie = cookiePool[0];
+    indexUsed = 0;
+  } else {
+    switch (rotation) {
+      case 'random': {
+        indexUsed = Math.floor(Math.random() * cookiePool.length);
+        cookie = cookiePool[indexUsed];
+        break;
+      }
+      case 'round-robin': {
+        indexUsed = serverConfig._cookieIndex;
+        serverConfig._cookieIndex = (indexUsed + 1) % cookiePool.length;
+        cookie = cookiePool[indexUsed];
+        break;
+      }
+      case 'none':
+      default: {
+        // Use consistent value for the session
+        if (serverConfig._sessionCookie !== undefined) {
+          cookie = serverConfig._sessionCookie;
+          indexUsed = cookiePool.indexOf(cookie);
+          if (indexUsed === -1) indexUsed = 0;
+        } else {
+          cookie = cookiePool[0];
+          indexUsed = 0;
+          serverConfig._sessionCookie = cookie;
+        }
+        break;
+      }
+    }
+  }
 
   // Track which cookie was used for rotation detection
   if (cookie) {
     serverConfig._lastUsedCookie = cookie;
-    serverConfig._lastUsedCookieIndex = indexToUse;
+    serverConfig._lastUsedCookieIndex = indexUsed;
   }
 
   return cookie;
@@ -509,18 +537,57 @@ function extractRoblosecurityFromSetCookie(setCookieHeader: string | null): stri
 }
 
 /**
+ * Updates a cookie in the internal pool and session cache.
+ * @internal
+ */
+function updateCookieInPool(oldCookie: string, newCookie: string, poolIndex: number): void {
+  const cookies = serverConfig.cookies;
+  if (!cookies) return;
+
+  if (Array.isArray(cookies)) {
+    if (poolIndex >= 0 && poolIndex < cookies.length) {
+      cookies[poolIndex] = newCookie;
+    }
+  } else {
+    serverConfig.cookies = newCookie;
+  }
+
+  // Also update session cookie if using 'none' rotation
+  if (serverConfig._sessionCookie === oldCookie) {
+    serverConfig._sessionCookie = newCookie;
+  }
+}
+
+/**
+ * Invokes the onCookieRefresh callback if configured.
+ * Errors are caught and logged to prevent breaking the request flow.
+ * @internal
+ */
+async function invokeRefreshCallback(oldCookie: string, newCookie: string, poolIndex: number): Promise<void> {
+  if (!serverConfig.onCookieRefresh) return;
+
+  try {
+    await serverConfig.onCookieRefresh({ oldCookie, newCookie, poolIndex });
+  } catch (error) {
+    // Don't let callback errors break the request flow
+    // Sanitize error output to avoid potentially logging sensitive data
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('RoZod: Error in onCookieRefresh callback:', errorMessage);
+  }
+}
+
+/**
  * Handles cookie rotation by checking response headers for a new .ROBLOSECURITY cookie.
  * If a new cookie is detected, updates the internal pool and invokes the callback.
  */
 async function handleCookieRotation(response: Response): Promise<void> {
-  // Only process if we're tracking a used cookie and have a callback or need to update pool
+  // Only process if we're tracking a used cookie
   const lastUsedCookie = serverConfig._lastUsedCookie;
   const lastUsedIndex = serverConfig._lastUsedCookieIndex;
 
   if (lastUsedCookie === undefined) return;
 
   // Check for Set-Cookie header with new .ROBLOSECURITY
-  // Note: In Node.js fetch, we need to handle both single and multiple Set-Cookie headers
   const setCookieHeaders = response.headers.get('set-cookie');
   if (!setCookieHeaders) return;
 
@@ -530,37 +597,10 @@ async function handleCookieRotation(response: Response): Promise<void> {
   // Check if cookie actually changed (rotation occurred)
   if (newCookie === lastUsedCookie) return;
 
-  // Update the internal cookie pool
-  const cookies = serverConfig.cookies;
-  if (cookies) {
-    if (Array.isArray(cookies)) {
-      if (lastUsedIndex !== undefined && lastUsedIndex >= 0 && lastUsedIndex < cookies.length) {
-        cookies[lastUsedIndex] = newCookie;
-      }
-    } else {
-      // Single cookie - update it directly
-      serverConfig.cookies = newCookie;
-    }
-
-    // Also update session cookie if using 'none' rotation
-    if (serverConfig._sessionCookie === lastUsedCookie) {
-      serverConfig._sessionCookie = newCookie;
-    }
-  }
-
-  // Invoke the callback if provided
-  if (serverConfig.onCookieRefresh) {
-    try {
-      await serverConfig.onCookieRefresh({
-        oldCookie: lastUsedCookie,
-        newCookie: newCookie,
-        poolIndex: lastUsedIndex ?? -1,
-      });
-    } catch (error) {
-      // Don't let callback errors break the request flow
-      console.error('RoZod: Error in onCookieRefresh callback:', error);
-    }
-  }
+  // Update the internal cookie pool and invoke callback
+  const poolIndex = lastUsedIndex ?? -1;
+  updateCookieInPool(lastUsedCookie, newCookie, poolIndex);
+  await invokeRefreshCallback(lastUsedCookie, newCookie, poolIndex);
 }
 
 /**
@@ -721,30 +761,9 @@ export async function refreshCookie(cookieIndex: number = 0): Promise<RefreshCoo
       };
     }
 
-    // Update the internal cookie pool
-    if (Array.isArray(serverConfig.cookies)) {
-      serverConfig.cookies[cookieIndex] = newCookie;
-    } else {
-      serverConfig.cookies = newCookie;
-    }
-
-    // Update session cookie if needed
-    if (serverConfig._sessionCookie === cookieToRefresh) {
-      serverConfig._sessionCookie = newCookie;
-    }
-
-    // Invoke callback if provided
-    if (serverConfig.onCookieRefresh) {
-      try {
-        await serverConfig.onCookieRefresh({
-          oldCookie: cookieToRefresh,
-          newCookie: newCookie,
-          poolIndex: cookieIndex,
-        });
-      } catch (error) {
-        console.error('RoZod: Error in onCookieRefresh callback:', error);
-      }
-    }
+    // Update internal pool and invoke callback using shared helpers
+    updateCookieInPool(cookieToRefresh, newCookie, cookieIndex);
+    await invokeRefreshCallback(cookieToRefresh, newCookie, cookieIndex);
 
     return { success: true, newCookie, poolIndex: cookieIndex };
   } catch (error) {
