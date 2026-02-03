@@ -64,6 +64,9 @@ const Roblox_Api_Develop_Models_ActivationEligibilityResponse = z.object({
   isEligible: z.boolean(),
   maturityRated: z.boolean(),
   isUserEligibleForPublicPublish: z.boolean(),
+  remainingPublicPublishCount: z.number().int(),
+  isPublicPublish: z.boolean(),
+  isPublishToExistingUniverse: z.boolean(),
 });
 const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   allowPrivateServers: z.boolean(),
@@ -216,8 +219,7 @@ const Roblox_Api_Develop_Models_TeamCreateMembershipRequest = z.object({
 
 /**
  * @api GET https://develop.roblox.com/v1/assets/voting
- * @summary Gets the voting information of the given assets
- * @param assetIds The ids of the Roblox.Platform.Assets.IAsset.
+ * @param assetIds
  */
 export const getAssetsVoting = endpoint({
   method: 'GET',
@@ -225,19 +227,16 @@ export const getAssetsVoting = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    assetIds: {
-      style: 'form',
-    },
+    assetIds: {},
   },
   parameters: {
-    assetIds: z.array(z.number()),
+    assetIds: z.array(z.number().int()),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_Response_AssetVotingModel_,
   errors: [],
 });
 /**
  * @api GET https://develop.roblox.com/v1/gametemplates
- * @summary Gets a page of templates that can be used to start off making games.
  * @description Templates subject to change without notice.
 Sort order of templates specified by Roblox.
  */
@@ -251,12 +250,11 @@ export const getGametemplates = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/groups/:groupId/universes
- * @summary Gets a list of universes for the given group.
- * @param groupId The group id.
- * @param isArchived Whether or not to return archived games.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder Sorted by universeId
+ * @param groupId
+ * @param isArchived
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getGroupsGroupidUniverses = endpoint({
   method: 'GET',
@@ -264,29 +262,15 @@ export const getGroupsGroupidUniverses = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    groupId: {
-      style: 'simple',
-    },
-    isArchived: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    groupId: {},
+    isArchived: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     groupId: z.number().int(),
-    isArchived: z.boolean().optional(),
+    isArchived: z.boolean().optional().default(false),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
@@ -304,9 +288,8 @@ export const getGroupsGroupidUniverses = endpoint({
 });
 /**
  * @api POST https://develop.roblox.com/v1/places/:placeId
- * @summary Updates the place configuration for the place with the id placeId
  * @param body
- * @param placeId The place id for the place to be updated.
+ * @param placeId
  * @description Currently the only supported functionality for updating the configuration is around Name, and Description.
  */
 export const postPlacesPlaceid = endpoint({
@@ -316,9 +299,7 @@ export const postPlacesPlaceid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    placeId: {
-      style: 'simple',
-    },
+    placeId: {},
   },
   parameters: {
     placeId: z.number().int(),
@@ -343,9 +324,8 @@ export const postPlacesPlaceid = endpoint({
 });
 /**
  * @api PATCH https://develop.roblox.com/v1/places/:placeId
- * @summary Updates the place configuration for the place with the id placeId
  * @param body
- * @param placeId The place id for the place to be updated.
+ * @param placeId
  * @description Currently the only supported functionality for updating the configuration is around Name, and Description.
  */
 export const patchPlacesPlaceid = endpoint({
@@ -355,9 +335,7 @@ export const patchPlacesPlaceid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    placeId: {
-      style: 'simple',
-    },
+    placeId: {},
   },
   parameters: {
     placeId: z.number().int(),
@@ -382,10 +360,9 @@ export const patchPlacesPlaceid = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/places/:placeId/teamcreate/active_session/members
- * @summary List of users in the active Team Create session
- * @param placeId The place Id.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
+ * @param placeId
+ * @param limit
+ * @param cursor
  */
 export const getPlacesPlaceidTeamcreateActive_sessionMembers = endpoint({
   method: 'GET',
@@ -393,17 +370,9 @@ export const getPlacesPlaceidTeamcreateActive_sessionMembers = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
+    placeId: {},
+    limit: {},
+    cursor: {},
   },
   parameters: {
     placeId: z.number().int(),
@@ -441,8 +410,7 @@ export const getPlacesPlaceidTeamcreateActive_sessionMembers = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/plugins
- * @summary Gets plugin details by ids.
- * @param pluginIds The plugin ids.
+ * @param pluginIds
  */
 export const getPlugins = endpoint({
   method: 'GET',
@@ -450,12 +418,10 @@ export const getPlugins = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    pluginIds: {
-      style: 'form',
-    },
+    pluginIds: {},
   },
   parameters: {
-    pluginIds: z.array(z.number()),
+    pluginIds: z.array(z.number().int()),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Plugins_PluginResponse_,
   errors: [
@@ -468,9 +434,8 @@ export const getPlugins = endpoint({
 });
 /**
  * @api PATCH https://develop.roblox.com/v1/plugins/:pluginId
- * @summary Updates a plugin.
  * @param body The Roblox.Develop.Api.UpdatePluginRequest.
- * @param pluginId The id of the plugin.
+ * @param pluginId
  */
 export const patchPluginsPluginid = endpoint({
   method: 'PATCH',
@@ -479,9 +444,7 @@ export const patchPluginsPluginid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    pluginId: {
-      style: 'simple',
-    },
+    pluginId: {},
   },
   parameters: {
     pluginId: z.number().int(),
@@ -513,8 +476,7 @@ export const patchPluginsPluginid = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/:universeId
- * @summary Gets a Roblox.Api.Develop.Models.UniverseModel.
- * @param universeId The Universe id.
+ * @param universeId
  */
 export const getUniversesUniverseid = endpoint({
   method: 'GET',
@@ -522,9 +484,7 @@ export const getUniversesUniverseid = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -539,8 +499,7 @@ export const getUniversesUniverseid = endpoint({
 });
 /**
  * @api POST https://develop.roblox.com/v1/universes/:universeId/activate
- * @summary Activates a universes.
- * @param universeId The universe id.
+ * @param universeId
  */
 export const postUniversesUniverseidActivate = endpoint({
   method: 'POST',
@@ -548,9 +507,7 @@ export const postUniversesUniverseidActivate = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -577,8 +534,7 @@ export const postUniversesUniverseidActivate = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/:universeId/activation-eligibility
- * @summary Returns the result of various checks for a user's eligibility to activate a given universe from private to public universeId for authenticated user
- * @param universeId The universe id.
+ * @param universeId
  */
 export const getUniversesUniverseidActivationEligibility = endpoint({
   method: 'GET',
@@ -586,9 +542,7 @@ export const getUniversesUniverseidActivationEligibility = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -598,8 +552,7 @@ export const getUniversesUniverseidActivationEligibility = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/:universeId/configuration
- * @summary Get settings for an owned universe.
- * @param universeId The universe Id.
+ * @param universeId
  */
 export const getUniversesUniverseidConfiguration = endpoint({
   method: 'GET',
@@ -607,9 +560,7 @@ export const getUniversesUniverseidConfiguration = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -632,9 +583,8 @@ export const getUniversesUniverseidConfiguration = endpoint({
 });
 /**
  * @api PATCH https://develop.roblox.com/v1/universes/:universeId/configuration
- * @summary Update universe settings for an owned universe.
  * @param body The Roblox.Api.Develop.Models.UniverseSettingsRequest model.
- * @param universeId The universeId.
+ * @param universeId
  */
 export const patchUniversesUniverseidConfiguration = endpoint({
   method: 'PATCH',
@@ -643,9 +593,7 @@ export const patchUniversesUniverseidConfiguration = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -694,8 +642,7 @@ export const patchUniversesUniverseidConfiguration = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/:universeId/configuration/vip-servers
- * @summary Get settings for an owned universe's VIP servers.
- * @param universeId The universe Id.
+ * @param universeId
  */
 export const getUniversesUniverseidConfigurationVipServers = endpoint({
   method: 'GET',
@@ -703,9 +650,7 @@ export const getUniversesUniverseidConfigurationVipServers = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -728,8 +673,7 @@ export const getUniversesUniverseidConfigurationVipServers = endpoint({
 });
 /**
  * @api POST https://develop.roblox.com/v1/universes/:universeId/deactivate
- * @summary Deactivates a universe.
- * @param universeId The universe id.
+ * @param universeId
  */
 export const postUniversesUniverseidDeactivate = endpoint({
   method: 'POST',
@@ -737,9 +681,7 @@ export const postUniversesUniverseidDeactivate = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -764,8 +706,7 @@ export const postUniversesUniverseidDeactivate = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/:universeId/permissions
- * @summary Returns list of granted and declined permissions related to the universe with the id universeId for authenticated user
- * @param universeId The universe id.
+ * @param universeId
  */
 export const getUniversesUniverseidPermissions = endpoint({
   method: 'GET',
@@ -773,9 +714,7 @@ export const getUniversesUniverseidPermissions = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -794,12 +733,11 @@ export const getUniversesUniverseidPermissions = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/:universeId/places
- * @summary Gets a list of places for a universe.
- * @param universeId The asset id.
+ * @param universeId
  * @param isUniverseCreation
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder Sorted by placeId
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getUniversesUniverseidPlaces = endpoint({
   method: 'GET',
@@ -807,29 +745,15 @@ export const getUniversesUniverseidPlaces = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
-    isUniverseCreation: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    universeId: {},
+    isUniverseCreation: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     universeId: z.number().int(),
-    isUniverseCreation: z.boolean().optional(),
+    isUniverseCreation: z.boolean().optional().default(false),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
@@ -842,8 +766,7 @@ export const getUniversesUniverseidPlaces = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/:universeId/teamcreate
- * @summary Gets TeamCreate settings for an Roblox.Platform.Universes.IUniverse.
- * @param universeId The universe Id.
+ * @param universeId
  */
 export const getUniversesUniverseidTeamcreate = endpoint({
   method: 'GET',
@@ -851,9 +774,7 @@ export const getUniversesUniverseidTeamcreate = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -876,9 +797,8 @@ export const getUniversesUniverseidTeamcreate = endpoint({
 });
 /**
  * @api PATCH https://develop.roblox.com/v1/universes/:universeId/teamcreate
- * @summary Edit team create settings for a universe.
  * @param body The request body containing the team create settings.
- * @param universeId The universe Id.
+ * @param universeId
  * @description Enables, or disables team create for a universe.
  */
 export const patchUniversesUniverseidTeamcreate = endpoint({
@@ -888,9 +808,7 @@ export const patchUniversesUniverseidTeamcreate = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -915,9 +833,8 @@ export const patchUniversesUniverseidTeamcreate = endpoint({
 });
 /**
  * @api DELETE https://develop.roblox.com/v1/universes/:universeId/teamcreate/memberships
- * @summary Removes a user from a TeamCreate permissions list.
  * @param body The request body.
- * @param universeId The universe Id.
+ * @param universeId
  */
 export const deleteUniversesUniverseidTeamcreateMemberships = endpoint({
   method: 'DELETE',
@@ -926,9 +843,7 @@ export const deleteUniversesUniverseidTeamcreateMemberships = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -953,8 +868,7 @@ export const deleteUniversesUniverseidTeamcreateMemberships = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/multiget
- * @summary Gets a list of universes.
- * @param ids The universe IDs to get. Limit 100.
+ * @param ids
  * @description If a universe can not be found for a given ID (such as -1) it will be skipped.
  */
 export const getUniversesMultiget = endpoint({
@@ -963,13 +877,10 @@ export const getUniversesMultiget = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    ids: {
-      style: 'form',
-      explode: true,
-    },
+    ids: {},
   },
   parameters: {
-    ids: z.array(z.number()),
+    ids: z.array(z.number().int()),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseModel_,
   errors: [
@@ -982,8 +893,7 @@ export const getUniversesMultiget = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/multiget/permissions
- * @summary Returns an array of granted and declined permissions related to the universes with the ids in ids for the authenticated user.
- * @param ids The universe ids.
+ * @param ids
  * @description If a universe can not be found for a given ID (such as -1) it will be skipped.
  */
 export const getUniversesMultigetPermissions = endpoint({
@@ -992,13 +902,10 @@ export const getUniversesMultigetPermissions = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    ids: {
-      style: 'form',
-      explode: true,
-    },
+    ids: {},
   },
   parameters: {
-    ids: z.array(z.number()),
+    ids: z.array(z.number().int()),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseIdPermissionsModel_,
   errors: [
@@ -1015,8 +922,7 @@ export const getUniversesMultigetPermissions = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/multiget/teamcreate
- * @summary Gets TeamCreate settings for multiple universes specified by Ids
- * @param ids The universe Ids.
+ * @param ids
  */
 export const getUniversesMultigetTeamcreate = endpoint({
   method: 'GET',
@@ -1024,13 +930,10 @@ export const getUniversesMultigetTeamcreate = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    ids: {
-      style: 'form',
-      explode: true,
-    },
+    ids: {},
   },
   parameters: {
-    ids: z.array(z.number()),
+    ids: z.array(z.number().int()),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel_,
   errors: [
@@ -1046,7 +949,6 @@ export const getUniversesMultigetTeamcreate = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/universes/user-public-publish-eligibility
- * @summary Returns the result of various checks for a user's eligibility to publish a public universe
  */
 export const getUniversesUserPublicPublishEligibility = endpoint({
   method: 'GET',
@@ -1058,7 +960,6 @@ export const getUniversesUserPublicPublishEligibility = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/user/groups/canmanage
- * @summary Gets a list of Groups that a user can manage.
  */
 export const getUserGroupsCanmanage = endpoint({
   method: 'GET',
@@ -1075,7 +976,6 @@ export const getUserGroupsCanmanage = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/user/groups/canmanagegamesoritems
- * @summary Gets a list of groups a user can manage games or items for.
  */
 export const getUserGroupsCanmanagegamesoritems = endpoint({
   method: 'GET',
@@ -1092,11 +992,10 @@ export const getUserGroupsCanmanagegamesoritems = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v1/user/universes
- * @summary Gets a list of universes for the authenticated user.
- * @param isArchived Whether or not to return archived games.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder Sorted by universeId
+ * @param isArchived
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getUserUniverses = endpoint({
   method: 'GET',
@@ -1104,25 +1003,13 @@ export const getUserUniverses = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    isArchived: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    isArchived: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
-    isArchived: z.boolean().optional(),
+    isArchived: z.boolean().optional().default(false),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()

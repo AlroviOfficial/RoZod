@@ -71,9 +71,18 @@ const CreatorModelV2 = z.object({
   name: z.string().nullable(),
   verified: z.boolean().nullable(),
 });
-const Decimal = z.object({ significand: z.number().int(), exponent: z.number().int() });
-const Money = z.object({ currencyCode: z.string().nullable(), quantity: Decimal.nullable() });
-const CreatorStoreProduct = z.object({ purchasePrice: Money.nullable(), purchasable: z.boolean() });
+const Decimal = z.object({
+  significand: z.number().int(),
+  exponent: z.number().int(),
+});
+const Money = z.object({
+  currencyCode: z.string().nullable(),
+  quantity: Decimal.nullable(),
+});
+const CreatorStoreProduct = z.object({
+  purchasePrice: Money.nullable(),
+  purchasable: z.boolean(),
+});
 const LinkType = z.union([
   z.literal(0),
   z.literal(1),
@@ -87,10 +96,14 @@ const LinkType = z.union([
   z.literal(9),
   z.literal(10),
 ]);
-const SocialLinkModel = z.object({ linkType: LinkType, url: z.string().nullable(), title: z.string().nullable() });
+const SocialLinkModel = z.object({
+  linkType: LinkType,
+  url: z.string().nullable(),
+  title: z.string().nullable(),
+});
 const PreviewAssetsModel = z.object({
-  imagePreviewAssets: z.array(z.number()).nullable(),
-  videoPreviewAssets: z.array(z.number()).nullable(),
+  imagePreviewAssets: z.array(z.number().int()).nullable(),
+  videoPreviewAssets: z.array(z.number().int()).nullable(),
 });
 const Asset = z.object({
   id: z.number().int(),
@@ -128,33 +141,32 @@ const HttpValidationProblemDetails = ProblemDetails;
 
 /**
  * @api GET https://apis.roblox.com/cloud/toolbox-service/v2/assets:search
- * @summary Search Creator Store Assets
- * @param searchCategoryType The asset type to search within.
- * @param query The search terms used to filter the results.
- * @param modelSubTypes When searching for models, the subtypes associated with the search results.
- * @param excludedModelSubTypes When searching for models, the subtypes not associated with the search results.
- * @param creator Deprecated: Please refer to the 'userId' and 'groupId' properties instead. The creator type and ID. E.g. "user/123" or "group/456"
- * @param userId The User ID of the creator. Only one of 'userId' and 'groupId' can be present in a query.
- * @param groupId The Group ID of the creator. Only one of 'userId' and 'groupId' can be present in a query.
- * @param pageToken The identifier for the desired search results page. Only one of 'pageNumber' and 'pageToken' can be present in a query.
- * @param pageNumber The page number to retrieve, starting from 0. Only one of 'pageNumber' and 'pageToken' can be present in a query.
- * @param maxPageSize The number of assets to be returned. Cannot be larger than 100.
- * @param sortDirection The sort direction of the search results.
- * @param sortCategory The category to sort the search results by.
- * @param audioMinDurationSeconds When searching for audio, the minimum duration of the audio assets. If included, must be greater than or equal to 0.
- * @param audioMaxDurationSeconds When searching for audio, the maximum duration of the audio assets. If included, must be greater than or equal to 0.
- * @param audioArtist When searching for audio, the artist name of the audio assets.
- * @param audioAlbum When searching for audio, the album name of the audio assets.
+ * @param searchCategoryType
+ * @param query
+ * @param modelSubTypes
+ * @param excludedModelSubTypes
+ * @param creator
+ * @param userId
+ * @param groupId
+ * @param pageToken
+ * @param pageNumber
+ * @param maxPageSize
+ * @param sortDirection
+ * @param sortCategory
+ * @param audioMinDurationSeconds
+ * @param audioMaxDurationSeconds
+ * @param audioArtist
+ * @param audioAlbum
  * @param includeTopCharts
- * @param audioTypes When searching for audio, the type of the audio assets.
- * @param includedInstanceTypes When searching for models, this filters that the following [Instance](https://create.roblox.com/docs/reference/engine/classes/Instance) types are included in the model.
- * @param includeOnlyVerifiedCreators Whether the results should only include assets created by verified creators.
- * @param minPriceCents The minimum price of the asset in cents. If included, must be greater than or equal to 0.
- * @param maxPriceCents The maximum price of the asset in cents. If included, must be greater than or equal to 0.
- * @param facets Additional keywords to query by.
+ * @param audioTypes
+ * @param includedInstanceTypes
+ * @param includeOnlyVerifiedCreators
+ * @param minPriceCents
+ * @param maxPriceCents
+ * @param facets
  * @param categoryPath
- * @param searchView Indicates which fields will be populated in the response.
- * @param musicChartType Indicates which music charts to filter from.
+ * @param searchView
+ * @param musicChartType
  * @description Search Creator Store for assets.
  */
 export const getToolboxServiceV2AssetsSearch = endpoint({
@@ -206,15 +218,15 @@ export const getToolboxServiceV2AssetsSearch = endpoint({
     maxPageSize: z.number().int().gte(1).lte(100).optional().default(25),
     sortDirection: sortDirection,
     sortCategory: sortCategory,
-    audioMinDurationSeconds: z.number().int().gte(0).lte(2147483647).optional(),
+    audioMinDurationSeconds: z.number().int().gte(0).lte(2147483647).optional().default(0),
     audioMaxDurationSeconds: z.number().int().gte(1).lte(2147483647).nullish(),
     audioArtist: z.string().optional(),
     audioAlbum: z.string().optional(),
-    includeTopCharts: z.boolean().nullish(),
+    includeTopCharts: z.boolean().nullish().default(false),
     audioTypes: z.array(SearchAudioTypeModel).nullish(),
     includedInstanceTypes: z.array(ModelInstanceType).nullish(),
     includeOnlyVerifiedCreators: z.boolean().optional().default(true),
-    minPriceCents: z.number().int().gte(0).lte(2147483647).optional(),
+    minPriceCents: z.number().int().gte(0).lte(2147483647).optional().default(0),
     maxPriceCents: z.number().int().gte(0).lte(2147483647).nullish(),
     facets: z.array(z.string()).nullish(),
     categoryPath: z.string().optional(),
@@ -239,8 +251,7 @@ export const getToolboxServiceV2AssetsSearch = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/toolbox-service/v2/assets/:id
- * @summary Get Creator Store Asset Details
- * @param id The asset ID to retrieve details for.
+ * @param id
  * @description Get details for a single Creator Store asset.
  */
 export const getToolboxServiceV2AssetsId = endpoint({

@@ -34,6 +34,10 @@ const Roblox_AccountSettings_Api_UpdateEmailRequest = z.object({
   isAdsAccount: z.boolean(),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_AccountSettings_Api_CurrentEmailsResponse = z.object({
+  verifiedEmail: z.string(),
+  pendingEmail: z.string(),
+});
 const Roblox_AccountSettings_Api_ThemeConfigurationResponse = z.object({
   themeType: z.string(),
 });
@@ -85,7 +89,6 @@ const Roblox_AccountSettings_Api_SendVerifyEmailRequest = z.object({
 
 /**
  * @api GET https://accountsettings.roblox.com/v1/account/settings/account-country
- * @summary Get a user's current account country setting.
  */
 export const getAccountSettingsAccountCountry = endpoint({
   method: 'GET',
@@ -102,7 +105,6 @@ export const getAccountSettingsAccountCountry = endpoint({
 });
 /**
  * @api POST https://accountsettings.roblox.com/v1/account/settings/account-country
- * @summary Updates the user's account country.
  * @param body
  */
 export const postAccountSettingsAccountCountry = endpoint({
@@ -142,7 +144,6 @@ export const postAccountSettingsAccountCountry = endpoint({
 });
 /**
  * @api GET https://accountsettings.roblox.com/v1/account/settings/metadata
- * @summary Returns metadata used by the account settings page
  */
 export const getAccountSettingsMetadata = endpoint({
   method: 'GET',
@@ -159,7 +160,6 @@ export const getAccountSettingsMetadata = endpoint({
 });
 /**
  * @api GET https://accountsettings.roblox.com/v1/email
- * @summary Gets the authenticated user's email address and verified status
  */
 export const getEmail = endpoint({
   method: 'GET',
@@ -176,7 +176,6 @@ export const getEmail = endpoint({
 });
 /**
  * @api POST https://accountsettings.roblox.com/v1/email
- * @summary Updates the authenticated user's email address
  * @param body The request body.
  */
 export const postEmail = endpoint({
@@ -224,7 +223,6 @@ export const postEmail = endpoint({
 });
 /**
  * @api PATCH https://accountsettings.roblox.com/v1/email
- * @summary Updates the authenticated user's email address
  * @param body The request body.
  */
 export const patchEmail = endpoint({
@@ -272,7 +270,6 @@ export const patchEmail = endpoint({
 });
 /**
  * @api POST https://accountsettings.roblox.com/v1/email/verify
- * @summary Send verify email to the authenticated user's email address
  * @param body The request body.
  */
 export const postEmailVerify = endpoint({
@@ -316,10 +313,25 @@ export const postEmailVerify = endpoint({
   ],
 });
 /**
+ * @api GET https://accountsettings.roblox.com/v1/emails
+ */
+export const getEmails = endpoint({
+  method: 'GET',
+  path: '/v1/emails',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
+  response: Roblox_AccountSettings_Api_CurrentEmailsResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
  * @api GET https://accountsettings.roblox.com/v1/themes/:consumerType/:consumerId
- * @summary returns the theme type for a specific consumer.
- * @param consumerType The consumer type
- * @param consumerId The consumer's theme configuration to get. If the consumerType is User always return the AuthenticatedUser's theme type.
+ * @param consumerType
+ * @param consumerId
  */
 export const getThemesConsumertypeConsumerid = endpoint({
   method: 'GET',
@@ -327,12 +339,8 @@ export const getThemesConsumertypeConsumerid = endpoint({
   baseUrl: 'https://accountsettings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    consumerType: {
-      style: 'simple',
-    },
-    consumerId: {
-      style: 'simple',
-    },
+    consumerType: {},
+    consumerId: {},
   },
   parameters: {
     consumerType: z.literal(1),
@@ -352,10 +360,9 @@ export const getThemesConsumertypeConsumerid = endpoint({
 });
 /**
  * @api PATCH https://accountsettings.roblox.com/v1/themes/:consumerType/:consumerId
- * @summary Modify the theme type for consumer.
  * @param body An Roblox.AccountSettings.Api.ThemeConfigurationRequest.
- * @param consumerType The consumer type
- * @param consumerId The consumer's theme configuration to modify. If the consumerType is User always modify the AuthenticatedUser's theme type.
+ * @param consumerType
+ * @param consumerId
  */
 export const patchThemesConsumertypeConsumerid = endpoint({
   method: 'PATCH',
@@ -364,16 +371,12 @@ export const patchThemesConsumertypeConsumerid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    consumerType: {
-      style: 'simple',
-    },
-    consumerId: {
-      style: 'simple',
-    },
+    consumerType: {},
+    consumerId: {},
   },
   parameters: {
     consumerType: z.literal(1),
-    consumerId: z.number().int(),
+    consumerId: z.number().int().default(0),
   },
   body: z.object({ themeType: z.string() }),
   response: z.object({}),
@@ -394,7 +397,6 @@ export const patchThemesConsumertypeConsumerid = endpoint({
 });
 /**
  * @api GET https://accountsettings.roblox.com/v1/themes/types
- * @summary returns all the enabled theme types.
  */
 export const getThemesTypes = endpoint({
   method: 'GET',
@@ -406,7 +408,6 @@ export const getThemesTypes = endpoint({
 });
 /**
  * @api GET https://accountsettings.roblox.com/v1/trade-privacy
- * @summary Get a user's trade privacy setting
  */
 export const getTradePrivacy = endpoint({
   method: 'GET',
@@ -423,7 +424,6 @@ export const getTradePrivacy = endpoint({
 });
 /**
  * @api POST https://accountsettings.roblox.com/v1/trade-privacy
- * @summary Updates a user's trade privacy setting
  * @param body
  */
 export const postTradePrivacy = endpoint({
@@ -457,7 +457,6 @@ export const postTradePrivacy = endpoint({
 });
 /**
  * @api GET https://accountsettings.roblox.com/v1/trade-value
- * @summary Get a user's trade quality filter setting
  */
 export const getTradeValue = endpoint({
   method: 'GET',
@@ -474,7 +473,6 @@ export const getTradeValue = endpoint({
 });
 /**
  * @api POST https://accountsettings.roblox.com/v1/trade-value
- * @summary Updates a user's trade quality filter setting
  * @param body
  */
 export const postTradeValue = endpoint({

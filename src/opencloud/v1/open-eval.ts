@@ -53,7 +53,6 @@ const EvalRecord = z.object({
 
 /**
  * @api POST https://apis.roblox.com/cloud/open-eval-api/v1/eval
- * @summary Performs the evaluation of the Lua script.
  * @param body
  */
 export const postOpenEvalApiV1Eval = endpoint({
@@ -71,8 +70,7 @@ export const postOpenEvalApiV1Eval = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/open-eval-api/v1/eval-records/:jobId
- * @summary Gets the evaluation record by job ID.
- * @param jobId The job ID of the evaluation record.
+ * @param jobId
  */
 export const getOpenEvalApiV1EvalRecordsJobId = endpoint({
   method: 'GET',

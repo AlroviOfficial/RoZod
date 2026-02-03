@@ -7,7 +7,6 @@ const Roblox_Web_Responses_Economy_CurrencyResponse = z.object({
 
 /**
  * @api GET https://economy.roblox.com/v1/user/currency
- * @summary Gets currency for the authenticated user.
  * @description Currency can only be retrieved for the authenticated user.
  */
 export const getUserCurrency = endpoint({

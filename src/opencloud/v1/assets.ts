@@ -50,7 +50,6 @@ const AssetVersion = z.object({
 
 /**
  * @api POST https://apis.roblox.com/cloud/v1/assets
- * @summary Creates an asset with provided content and metadata.
  * @param body 
  * @description Creates an asset with provided content and metadata.
 
@@ -86,9 +85,8 @@ export const postAssets = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v1/assets/:assetId
- * @summary Retrieve specific asset metadata. Include the `readMask` parameter for additional asset metadata.
- * @param assetId The unique identifier of the asset.
- * @param readMask Asset metadata fields to retrieve, including the description, display name, icon, social links, and previews. Examples: `description%2CdisplayName`, `previews%2CtwitchSocialLink`.
+ * @param assetId
+ * @param readMask
  * @description Retrieve specific asset metadata.
  */
 export const getAssetsAssetId = endpoint({
@@ -130,10 +128,9 @@ export const getAssetsAssetId = endpoint({
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/v1/assets/:assetId
- * @summary Updates an asset with provided content and metadata.
  * @param body 
- * @param assetId The unique identifier of the asset.
- * @param updateMask Asset metadata fields to update, including the description, display name, icon, and previews. Examples: `description%2CdisplayName`, `previews%2CtwitchSocialLink`.
+ * @param assetId 
+ * @param updateMask 
  * @description Updates an asset with provided content and metadata, including the description, display name, icon, social links, and previews. Currently can only update the content body for **Models**. Icons and Previews must be **Image** assets. Icons must have square dimensions.
 
 Provide the [Asset](#Asset), binary asset file path, and [content type](/cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
@@ -171,8 +168,7 @@ export const patchAssetsAssetId = endpoint({
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v1/assets/:assetId:archive
- * @summary Archives the asset.
- * @param assetId The unique identifier of the asset.
+ * @param assetId
  * @description Archives the asset. Archived assets disappear from the website and are no longer usable or visible in Roblox experiences, but you can [restore](#POST-v1-assets-{assetId}:restore) them.
  */
 export const postAssetsAssetIdArchive = endpoint({
@@ -204,8 +200,7 @@ export const postAssetsAssetIdArchive = endpoint({
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v1/assets/:assetId:restore
- * @summary Restores an archived asset.
- * @param assetId The unique identifier of the asset.
+ * @param assetId
  * @description Restores an archived asset.
  */
 export const postAssetsAssetIdRestore = endpoint({
@@ -237,10 +232,9 @@ export const postAssetsAssetIdRestore = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v1/assets/:assetId/versions
- * @summary List Asset Versions of an Asset
- * @param assetId The unique identifier of the asset.
- * @param maxPageSize Specifies the number of asset versions to include in the response. Valid values range from 1 to 50 (inclusive). Defaults to 8 when not provided.
- * @param pageToken A token for pagination. The value is obtained from a previous request and allows for retrieving the next page of asset versions.
+ * @param assetId
+ * @param maxPageSize
+ * @param pageToken
  * @description List all versions of a specific asset, with optional pagination.
  */
 export const getAssetsAssetIdVersions = endpoint({
@@ -276,9 +270,8 @@ export const getAssetsAssetIdVersions = endpoint({
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v1/assets/:assetId/versions:rollback
- * @summary Rollback an asset to a previous version.
  * @param body 
- * @param assetId The unique identifier of the asset.
+ * @param assetId 
  * @description Rollback an asset to a specific previous version.
 
  Provide the asset version path in the form data.
@@ -314,9 +307,8 @@ export const postAssetsAssetIdVersionsRollback = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v1/assets/:assetId/versions/:versionNumber
- * @summary Get Asset Version
- * @param assetId The unique identifier of the asset.
- * @param versionNumber The version number.
+ * @param assetId
+ * @param versionNumber
  * @description Retrieve a specific asset version by the asset ID and the version number.
  */
 export const getAssetsAssetIdVersionsVersionNumber = endpoint({
@@ -346,8 +338,7 @@ export const getAssetsAssetIdVersionsVersionNumber = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v1/operations/:operationId
- * @summary Get the result of an asset creation or update.
- * @param operationId The unique identifier of the operation.
+ * @param operationId
  * @description Get the result of an asset creation or update using the returned Operation ID. Requires **Read** for the API key permission and **asset:read** for OAuth 2.0 apps.
  */
 export const getOperationsOperationId = endpoint({

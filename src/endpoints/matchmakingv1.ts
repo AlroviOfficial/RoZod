@@ -3,7 +3,6 @@ import { endpoint } from '..';
 
 /**
  * @api GET https://matchmaking.roblox.com/v1/client-status
- * @summary Get the client-status
  */
 export const getClientStatus = endpoint({
   method: 'GET',
@@ -15,7 +14,6 @@ export const getClientStatus = endpoint({
 });
 /**
  * @api POST https://matchmaking.roblox.com/v1/client-status
- * @summary Set the client-status
  */
 export const postClientStatus = endpoint({
   method: 'POST',
@@ -27,7 +25,6 @@ export const postClientStatus = endpoint({
 });
 /**
  * @api POST https://matchmaking.roblox.com/v1/game-instances/shutdown
- * @summary Shutdown game instances.
  */
 export const postGameInstancesShutdown = endpoint({
   method: 'POST',
@@ -39,7 +36,6 @@ export const postGameInstancesShutdown = endpoint({
 });
 /**
  * @api POST https://matchmaking.roblox.com/v1/game-instances/shutdown-all
- * @summary Shutdown all game instances.
  */
 export const postGameInstancesShutdownAll = endpoint({
   method: 'POST',
@@ -51,7 +47,6 @@ export const postGameInstancesShutdownAll = endpoint({
 });
 /**
  * @api POST https://matchmaking.roblox.com/v1/matchmaking/player-attribute
- * @summary Create a PlayerAttributeDefinition.
  */
 export const postMatchmakingPlayerAttribute = endpoint({
   method: 'POST',
@@ -63,7 +58,6 @@ export const postMatchmakingPlayerAttribute = endpoint({
 });
 /**
  * @api DELETE https://matchmaking.roblox.com/v1/matchmaking/player-attribute/:attributeId
- * @summary Delete the PlayerAttributeDefinition specified by attributeId.
  * @param attributeId
  */
 export const deleteMatchmakingPlayerAttributeAttributeid = endpoint({
@@ -72,9 +66,7 @@ export const deleteMatchmakingPlayerAttributeAttributeid = endpoint({
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    attributeId: {
-      style: 'simple',
-    },
+    attributeId: {},
   },
   parameters: {
     attributeId: z.unknown(),
@@ -84,7 +76,6 @@ export const deleteMatchmakingPlayerAttributeAttributeid = endpoint({
 });
 /**
  * @api PATCH https://matchmaking.roblox.com/v1/matchmaking/player-attribute/:attributeId
- * @summary Update the PlayerAttributeDefinition specified by attributeId.
  * @param attributeId
  */
 export const patchMatchmakingPlayerAttributeAttributeid = endpoint({
@@ -93,9 +84,7 @@ export const patchMatchmakingPlayerAttributeAttributeid = endpoint({
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    attributeId: {
-      style: 'simple',
-    },
+    attributeId: {},
   },
   parameters: {
     attributeId: z.unknown(),
@@ -105,7 +94,6 @@ export const patchMatchmakingPlayerAttributeAttributeid = endpoint({
 });
 /**
  * @api GET https://matchmaking.roblox.com/v1/matchmaking/player-attributes/:universeId
- * @summary List all PlayerAttributeDefinitions of a universe.
  * @param universeId
  */
 export const getMatchmakingPlayerAttributesUniverseid = endpoint({
@@ -114,9 +102,7 @@ export const getMatchmakingPlayerAttributesUniverseid = endpoint({
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.unknown(),
@@ -126,7 +112,6 @@ export const getMatchmakingPlayerAttributesUniverseid = endpoint({
 });
 /**
  * @api POST https://matchmaking.roblox.com/v1/matchmaking/scoring-configuration
- * @summary Creates a matchmaking scoring configuration.
  */
 export const postMatchmakingScoringConfiguration = endpoint({
   method: 'POST',
@@ -138,7 +123,6 @@ export const postMatchmakingScoringConfiguration = endpoint({
 });
 /**
  * @api GET https://matchmaking.roblox.com/v1/matchmaking/scoring-configuration/:scoringConfigurationId
- * @summary Updates a matchmaking scoring configuration.
  * @param scoringConfigurationId
  */
 export const getMatchmakingScoringConfigurationScoringconfigurationid = endpoint({
@@ -147,9 +131,7 @@ export const getMatchmakingScoringConfigurationScoringconfigurationid = endpoint
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    scoringConfigurationId: {
-      style: 'simple',
-    },
+    scoringConfigurationId: {},
   },
   parameters: {
     scoringConfigurationId: z.unknown(),
@@ -159,7 +141,6 @@ export const getMatchmakingScoringConfigurationScoringconfigurationid = endpoint
 });
 /**
  * @api DELETE https://matchmaking.roblox.com/v1/matchmaking/scoring-configuration/:scoringConfigurationId
- * @summary Deletes a matchmaking scoring configuration.
  * @param scoringConfigurationId
  */
 export const deleteMatchmakingScoringConfigurationScoringconfigurationid = endpoint({
@@ -168,9 +149,7 @@ export const deleteMatchmakingScoringConfigurationScoringconfigurationid = endpo
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    scoringConfigurationId: {
-      style: 'simple',
-    },
+    scoringConfigurationId: {},
   },
   parameters: {
     scoringConfigurationId: z.unknown(),
@@ -180,7 +159,6 @@ export const deleteMatchmakingScoringConfigurationScoringconfigurationid = endpo
 });
 /**
  * @api PATCH https://matchmaking.roblox.com/v1/matchmaking/scoring-configuration/:scoringConfigurationId
- * @summary Updates a matchmaking scoring configuration.
  * @param scoringConfigurationId
  */
 export const patchMatchmakingScoringConfigurationScoringconfigurationid = endpoint({
@@ -189,9 +167,7 @@ export const patchMatchmakingScoringConfigurationScoringconfigurationid = endpoi
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    scoringConfigurationId: {
-      style: 'simple',
-    },
+    scoringConfigurationId: {},
   },
   parameters: {
     scoringConfigurationId: z.unknown(),
@@ -201,7 +177,6 @@ export const patchMatchmakingScoringConfigurationScoringconfigurationid = endpoi
 });
 /**
  * @api POST https://matchmaking.roblox.com/v1/matchmaking/scoring-configuration/:scoringConfigurationId/signals
- * @summary Creates a matchmaking scoring configuration signal.
  * @param scoringConfigurationId
  */
 export const postMatchmakingScoringConfigurationScoringconfigurationidSignals = endpoint({
@@ -210,9 +185,7 @@ export const postMatchmakingScoringConfigurationScoringconfigurationidSignals = 
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    scoringConfigurationId: {
-      style: 'simple',
-    },
+    scoringConfigurationId: {},
   },
   parameters: {
     scoringConfigurationId: z.unknown(),
@@ -222,7 +195,6 @@ export const postMatchmakingScoringConfigurationScoringconfigurationidSignals = 
 });
 /**
  * @api DELETE https://matchmaking.roblox.com/v1/matchmaking/scoring-configuration/:scoringConfigurationId/signals/:signalName
- * @summary Deletes a matchmaking scoring configuration custom signal.
  * @param scoringConfigurationId
  * @param signalName
  */
@@ -232,12 +204,8 @@ export const deleteMatchmakingScoringConfigurationScoringconfigurationidSignalsS
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    scoringConfigurationId: {
-      style: 'simple',
-    },
-    signalName: {
-      style: 'simple',
-    },
+    scoringConfigurationId: {},
+    signalName: {},
   },
   parameters: {
     scoringConfigurationId: z.unknown(),
@@ -248,7 +216,6 @@ export const deleteMatchmakingScoringConfigurationScoringconfigurationidSignalsS
 });
 /**
  * @api PATCH https://matchmaking.roblox.com/v1/matchmaking/scoring-configuration/:scoringConfigurationId/signals/:signalName
- * @summary Updates a matchmaking scoring configuration signal.
  * @param scoringConfigurationId
  * @param signalName
  */
@@ -258,12 +225,8 @@ export const patchMatchmakingScoringConfigurationScoringconfigurationidSignalsSi
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    scoringConfigurationId: {
-      style: 'simple',
-    },
-    signalName: {
-      style: 'simple',
-    },
+    scoringConfigurationId: {},
+    signalName: {},
   },
   parameters: {
     scoringConfigurationId: z.unknown(),
@@ -285,7 +248,6 @@ export const getMatchmakingScoringConfigurationDefaultWeights = endpoint({
 });
 /**
  * @api POST https://matchmaking.roblox.com/v1/matchmaking/scoring-configuration/place
- * @summary Sets a matchmaking scoring configuration for a place.
  */
 export const postMatchmakingScoringConfigurationPlace = endpoint({
   method: 'POST',
@@ -297,7 +259,6 @@ export const postMatchmakingScoringConfigurationPlace = endpoint({
 });
 /**
  * @api DELETE https://matchmaking.roblox.com/v1/matchmaking/scoring-configuration/place/:placeId
- * @summary Removes the matchmaking scoring configuration for a place.
  * @param placeId
  */
 export const deleteMatchmakingScoringConfigurationPlacePlaceid = endpoint({
@@ -306,9 +267,7 @@ export const deleteMatchmakingScoringConfigurationPlacePlaceid = endpoint({
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
+    placeId: {},
   },
   parameters: {
     placeId: z.unknown(),
@@ -318,7 +277,6 @@ export const deleteMatchmakingScoringConfigurationPlacePlaceid = endpoint({
 });
 /**
  * @api GET https://matchmaking.roblox.com/v1/matchmaking/scoring-configurations/:universeId
- * @summary List all matchmaking scoring configurations for a universe.
  * @param universeId
  */
 export const getMatchmakingScoringConfigurationsUniverseid = endpoint({
@@ -327,9 +285,7 @@ export const getMatchmakingScoringConfigurationsUniverseid = endpoint({
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.unknown(),
@@ -339,7 +295,6 @@ export const getMatchmakingScoringConfigurationsUniverseid = endpoint({
 });
 /**
  * @api GET https://matchmaking.roblox.com/v1/matchmaking/scoring-configurations/:universeId/places
- * @summary List all places with a matchmaking scoring configuration for a universe.
  * @param universeId
  */
 export const getMatchmakingScoringConfigurationsUniverseidPlaces = endpoint({
@@ -348,9 +303,7 @@ export const getMatchmakingScoringConfigurationsUniverseidPlaces = endpoint({
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.unknown(),
@@ -360,7 +313,6 @@ export const getMatchmakingScoringConfigurationsUniverseidPlaces = endpoint({
 });
 /**
  * @api POST https://matchmaking.roblox.com/v1/matchmaking/server-attribute
- * @summary Create a ServerAttributeDefinition.
  */
 export const postMatchmakingServerAttribute = endpoint({
   method: 'POST',
@@ -372,7 +324,6 @@ export const postMatchmakingServerAttribute = endpoint({
 });
 /**
  * @api DELETE https://matchmaking.roblox.com/v1/matchmaking/server-attribute/:attributeId
- * @summary Delete the ServerAttributeDefinition specified by attributeId.
  * @param attributeId
  */
 export const deleteMatchmakingServerAttributeAttributeid = endpoint({
@@ -381,9 +332,7 @@ export const deleteMatchmakingServerAttributeAttributeid = endpoint({
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    attributeId: {
-      style: 'simple',
-    },
+    attributeId: {},
   },
   parameters: {
     attributeId: z.unknown(),
@@ -393,7 +342,6 @@ export const deleteMatchmakingServerAttributeAttributeid = endpoint({
 });
 /**
  * @api PATCH https://matchmaking.roblox.com/v1/matchmaking/server-attribute/:attributeId
- * @summary Update the ServerAttributeDefinition specified by attributeId.
  * @param attributeId
  */
 export const patchMatchmakingServerAttributeAttributeid = endpoint({
@@ -402,9 +350,7 @@ export const patchMatchmakingServerAttributeAttributeid = endpoint({
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    attributeId: {
-      style: 'simple',
-    },
+    attributeId: {},
   },
   parameters: {
     attributeId: z.unknown(),
@@ -414,7 +360,6 @@ export const patchMatchmakingServerAttributeAttributeid = endpoint({
 });
 /**
  * @api GET https://matchmaking.roblox.com/v1/matchmaking/server-attributes/:universeId
- * @summary List all ServerAttributeDefinitions of a universe.
  * @param universeId
  */
 export const getMatchmakingServerAttributesUniverseid = endpoint({
@@ -423,9 +368,7 @@ export const getMatchmakingServerAttributesUniverseid = endpoint({
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.unknown(),
@@ -435,7 +378,6 @@ export const getMatchmakingServerAttributesUniverseid = endpoint({
 });
 /**
  * @api GET https://matchmaking.roblox.com/v1/matchmaking/universe/:universeId/feature-flags
- * @summary Gets feature flags for a customized matchmaking for a given universe.
  * @param universeId
  */
 export const getMatchmakingUniverseUniverseidFeatureFlags = endpoint({
@@ -444,9 +386,7 @@ export const getMatchmakingUniverseUniverseidFeatureFlags = endpoint({
   baseUrl: 'https://matchmaking.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.unknown(),

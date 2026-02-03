@@ -193,8 +193,7 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershi
 
 /**
  * @api GET https://groups.roblox.com/v2/groups
- * @summary Multi-get groups information by Ids.
- * @param groupIds The group Ids.
+ * @param groupIds
  * @description If a group comes back as null, it will not be returned in the response.
  */
 export const getGroups = endpoint({
@@ -203,12 +202,10 @@ export const getGroups = endpoint({
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    groupIds: {
-      style: 'form',
-    },
+    groupIds: {},
   },
   parameters: {
-    groupIds: z.array(z.number()),
+    groupIds: z.array(z.number().int()),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_,
   errors: [
@@ -221,12 +218,11 @@ export const getGroups = endpoint({
 });
 /**
  * @api GET https://groups.roblox.com/v2/groups/:groupId/experiences
- * @summary Gets experiences created by the specified group id.
- * @param groupId The group Id
- * @param accessFilter The access type of the experiences.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param groupId
+ * @param accessFilter
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getGroupsGroupidExperiences = endpoint({
   method: 'GET',
@@ -234,25 +230,11 @@ export const getGroupsGroupidExperiences = endpoint({
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    groupId: {
-      style: 'simple',
-    },
-    accessFilter: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    groupId: {},
+    accessFilter: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     groupId: z.number().int(),
@@ -277,11 +259,10 @@ export const getGroupsGroupidExperiences = endpoint({
 });
 /**
  * @api GET https://groups.roblox.com/v2/groups/:groupId/wall/posts
- * @summary Gets a list of group wall posts.
- * @param groupId The group id.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder Sorted by group wall post Id
+ * @param groupId
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getGroupsGroupidWallPosts = endpoint({
   method: 'GET',
@@ -289,21 +270,10 @@ export const getGroupsGroupidWallPosts = endpoint({
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    groupId: {
-      style: 'simple',
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    groupId: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     groupId: z.number().int(),
@@ -328,9 +298,8 @@ export const getGroupsGroupidWallPosts = endpoint({
 });
 /**
  * @api POST https://groups.roblox.com/v2/groups/:groupId/wall/posts
- * @summary Creates a post on a group wall
  * @param body The Roblox.Groups.Api.CreateWallPostRequest.
- * @param groupId The group id.
+ * @param groupId
  */
 export const postGroupsGroupidWallPosts = endpoint({
   method: 'POST',
@@ -339,9 +308,7 @@ export const postGroupsGroupidWallPosts = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    groupId: {
-      style: 'simple',
-    },
+    groupId: {},
   },
   parameters: {
     groupId: z.number().int(),
@@ -372,8 +339,7 @@ export const postGroupsGroupidWallPosts = endpoint({
 });
 /**
  * @api GET https://groups.roblox.com/v2/users/:userId/groups/roles
- * @summary Gets a list of all group roles for groups the specified user is in.
- * @param userId The user id.
+ * @param userId
  * @param includeLocked
  * @param includeNotificationPreferences
  * @param discoveryType
@@ -384,21 +350,10 @@ export const getUsersUseridGroupsRoles = endpoint({
   baseUrl: 'https://groups.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    includeLocked: {
-      style: 'form',
-      explode: true,
-    },
-    includeNotificationPreferences: {
-      style: 'form',
-      explode: true,
-    },
-    discoveryType: {
-      style: 'form',
-      explode: true,
-    },
+    userId: {},
+    includeLocked: {},
+    includeNotificationPreferences: {},
+    discoveryType: {},
   },
   parameters: {
     userId: z.number().int(),

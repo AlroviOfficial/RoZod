@@ -42,7 +42,6 @@ const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z.ob
 
 /**
  * @api POST https://auth.roblox.com/v3/logout
- * @summary Destroys the current authentication session while reporting metrics like url and reason for logout.
  * @param body The logout request with postBody which includes reason, url, and userIdString.
  */
 export const postLogout = endpoint({
@@ -65,9 +64,8 @@ export const postLogout = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v3/users/:userId/two-step-verification/login
- * @summary Authenticates as a user given a two step verification verification token.
  * @param body The Roblox.Authentication.Api.TwoStepVerificationLoginRequest.
- * @param userId The user ID to authenticate as.
+ * @param userId
  */
 export const postUsersUseridTwoStepVerificationLogin = endpoint({
   method: 'POST',
@@ -76,9 +74,7 @@ export const postUsersUseridTwoStepVerificationLogin = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),

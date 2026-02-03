@@ -424,7 +424,7 @@ const PublishUniverseMessageRequest = z.object({
   message: z.string(),
 });
 const RestartUniverseServersRequest = z.object({
-  placeIds: z.array(z.number()),
+  placeIds: z.array(z.number().int()),
   closeAllVersions: z.boolean(),
   bleedOffServers: z.boolean(),
   bleedOffDurationMinutes: z.number().int(),
@@ -656,7 +656,6 @@ const UserNotification = z.object({
 
 /**
  * @api POST https://apis.roblox.com/cloud/v2/creator-store-products
- * @summary Create Creator Store Product
  * @param body 
  * @description Add a Creator Store product. Only use this method if your product has never
 been distributed on the Creator Store; otherwise, use the `PATCH` method to
@@ -677,8 +676,7 @@ export const postCloudV2CreatorStoreProducts = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/creator-store-products/:creator_store_product_id
- * @summary Get Creator Store Product
- * @param creator_store_product_id The creator-store-product ID.
+ * @param creator_store_product_id
  * @description Get a Creator Store product.
  */
 export const getCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
@@ -697,12 +695,10 @@ export const getCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/v2/creator-store-products/:creator_store_product_id
- * @summary Update Creator Store Product
- * @param body 
- * @param creator_store_product_id The creator-store-product ID.
- * @param updateMask The list of fields to update.
- * @param allowMissing If set to true, and the creator store product is not found, a creator store
-product is created. In this situation, `update_mask` is ignored.
+ * @param body
+ * @param creator_store_product_id
+ * @param updateMask
+ * @param allowMissing
  * @description Update a Creator Store product.
  */
 export const patchCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
@@ -727,8 +723,7 @@ export const patchCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id
- * @summary Get Group
- * @param group_id The group ID.
+ * @param group_id
  * @description Gets the specified group.
  */
 export const getCloudV2GroupsGroupId = endpoint({
@@ -747,23 +742,10 @@ export const getCloudV2GroupsGroupId = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/join-requests
- * @summary List Group Join Requests
- * @param group_id The group ID.
- * @param maxPageSize The maximum number of group join requests to return. The service might
-return fewer than this value. If unspecified, at most 10 group join
-requests are returned. The maximum value is 20 and higher values are set
-to 20.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
- * @param filter This field may be set in order to filter the resources returned.
-
-Filtering conforms to Common Expression Language (CEL). Only the `user`
-field and `==` operator are supported.
-
-
-Example: `"user == 'users/156'"`
+ * @param group_id
+ * @param maxPageSize
+ * @param pageToken
+ * @param filter
  * @description List join requests under a group.
  */
 export const getCloudV2GroupsGroupIdJoinRequests = endpoint({
@@ -788,10 +770,9 @@ export const getCloudV2GroupsGroupIdJoinRequests = endpoint({
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/groups/:group_id/join-requests/:join_request_id:accept
- * @summary Accept Group Join Request
  * @param body
- * @param group_id The group ID.
- * @param join_request_id The join-request ID.
+ * @param group_id
+ * @param join_request_id
  * @description Accepts a join request.
  */
 export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdAccept = endpoint({
@@ -814,10 +795,9 @@ export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdAccept = endpoint(
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/groups/:group_id/join-requests/:join_request_id:decline
- * @summary Decline Group Join Request
  * @param body
- * @param group_id The group ID.
- * @param join_request_id The join-request ID.
+ * @param group_id
+ * @param join_request_id
  * @description Declines a join request.
  */
 export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdDecline = endpoint({
@@ -840,20 +820,10 @@ export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdDecline = endpoint
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/memberships
- * @summary List Group Memberships
- * @param group_id The group ID.
- * @param maxPageSize The maximum number of group memberships to return. The service might return
-fewer than this value. If unspecified, at most 10 group memberships are
-returned. The maximum value is 100 and higher values are set to 100.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
- * @param filter This field may be set in order to filter the resources returned.
-
-See the
-[filtering](/cloud/reference/patterns#list-group-memberships)
-documentation for more information.
+ * @param group_id
+ * @param maxPageSize
+ * @param pageToken
+ * @param filter
  * @description List group members in a group.
  */
 export const getCloudV2GroupsGroupIdMemberships = endpoint({
@@ -878,10 +848,9 @@ export const getCloudV2GroupsGroupIdMemberships = endpoint({
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/v2/groups/:group_id/memberships/:membership_id
- * @summary Update Group Membership
  * @param body 
- * @param group_id The group ID.
- * @param membership_id The membership ID.
+ * @param group_id 
+ * @param membership_id 
  * @description Updates the group membership for a particular group member. This action
 requires the requester to be able to manage lower ranked members. Guest or
 Owner ranks cannot be assigned, and a requester cannot change their own
@@ -907,15 +876,9 @@ export const patchCloudV2GroupsGroupIdMembershipsMembershipId = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/roles
- * @summary List Group Roles
- * @param group_id The group ID.
- * @param maxPageSize The maximum number of group roles to return. The service might return fewer
-than this value. If unspecified, at most 10 group roles are returned. The
-maximum value is 20 and higher values are set to 20.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
+ * @param group_id 
+ * @param maxPageSize 
+ * @param pageToken 
  * @description List roles in a group.
 
 The permissions field for roles is viewable based on the requester's access
@@ -949,9 +912,8 @@ export const getCloudV2GroupsGroupIdRoles = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/roles/:role_id
- * @summary Get Group Role
- * @param group_id The group ID.
- * @param role_id The role ID.
+ * @param group_id
+ * @param role_id
  * @description Get the group role
  */
 export const getCloudV2GroupsGroupIdRolesRoleId = endpoint({
@@ -972,8 +934,7 @@ export const getCloudV2GroupsGroupIdRolesRoleId = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/shout
- * @summary Get Group Shout
- * @param group_id The group ID.
+ * @param group_id 
  * @description Gets the group shout.
 
 If a guest can view the group shout, this is always retrievable.
@@ -998,8 +959,7 @@ export const getCloudV2GroupsGroupIdShout = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id
- * @summary Get Universe
- * @param universe_id The universe ID.
+ * @param universe_id
  * @description Gets the specified universe.
  */
 export const getCloudV2UniversesUniverseId = endpoint({
@@ -1018,10 +978,9 @@ export const getCloudV2UniversesUniverseId = endpoint({
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id
- * @summary Update Universe
  * @param body 
- * @param universe_id The universe ID.
- * @param updateMask The list of fields to update.
+ * @param universe_id 
+ * @param updateMask 
  * @description Updates the specified universe.
 
 This method is guaranteed to return all updated fields.
@@ -1047,9 +1006,8 @@ export const patchCloudV2UniversesUniverseId = endpoint({
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id:generateSpeechAsset
- * @summary Generate Speech Asset
  * @param body 
- * @param universe_id The universe ID.
+ * @param universe_id 
  * @description Generates an English speech audio asset from the specified text.
 
 This endpoint requires the `asset:read` and `asset:write` scopes in
@@ -1078,9 +1036,8 @@ export const postCloudV2UniversesUniverseIdGenerateSpeechAsset = endpoint({
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id:publishMessage
- * @summary Publish Universe Message
  * @param body 
- * @param universe_id The universe ID.
+ * @param universe_id 
  * @description Publishes a message to the universe's live servers.
 
 Servers can consume messages via
@@ -1104,12 +1061,11 @@ export const postCloudV2UniversesUniverseIdPublishMessage = endpoint({
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id:restartServers
- * @summary Restart Universe Servers
  * @param body 
- * @param universe_id The universe ID.
- * @description Restarts all active servers for a specific universe if and only if a new
-version of the experience has been published. Used for releasing experience
-updates.
+ * @param universe_id 
+ * @description Restarts active servers for a specific universe. Defaults to only
+restarting servers running older versions, but can be configured to restart
+all servers regardless of version. Used for releasing experience updates.
  */
 export const postCloudV2UniversesUniverseIdRestartServers = endpoint({
   method: 'POST',
@@ -1129,9 +1085,8 @@ export const postCloudV2UniversesUniverseIdRestartServers = endpoint({
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id:translateText
- * @summary Translate Text
  * @param body
- * @param universe_id The universe ID.
+ * @param universe_id
  * @description Translates the provided text from one language to another.
  */
 export const postCloudV2UniversesUniverseIdTranslateText = endpoint({
@@ -1152,26 +1107,11 @@ export const postCloudV2UniversesUniverseIdTranslateText = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores
- * @summary List Data Stores
- * @param universe_id The universe ID.
- * @param maxPageSize The maximum number of data stores to return. The service might return fewer
-than this value. If unspecified, at most 10 data stores are returned. The
-maximum value is 100 and higher values are set to 100.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
- * @param filter This field may be set in order to filter the resources returned.
-
-The `filter` field supports a very small subset of CEL:
-
-* Only the `id` field is supported.
-* Only the `startsWith` function is available; no other operators nor
-  built-ins are supported.
-
-Example filter: `id.startsWith("foo")`
- * @param showDeleted If true, resources marked for pending deletion will be included in the
-results.
+ * @param universe_id 
+ * @param maxPageSize 
+ * @param pageToken 
+ * @param filter 
+ * @param showDeleted 
  * @description Returns a list of data stores.
 
 Data stores scheduled for permanent deletion are omitted from the results
@@ -1204,9 +1144,8 @@ export const getCloudV2UniversesUniverseIdDataStores = endpoint({
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores:snapshot
- * @summary Snapshot Data Stores
  * @param body 
- * @param universe_id The universe ID.
+ * @param universe_id 
  * @description Takes a new snapshot of the data stores in an experience.
 
 After a snapshot, the next write to every key in the experience will
@@ -1242,9 +1181,8 @@ export const postCloudV2UniversesUniverseIdDataStoresSnapshot = endpoint({
 });
 /**
  * @api DELETE https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id
- * @summary Delete Data Store
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
+ * @param universe_id 
+ * @param data_store_id 
  * @description Schedules the specified data store for permanent deletion.
 
 This operation assigns the data store an expiry time 30 days in the future,
@@ -1295,10 +1233,9 @@ export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreId = endpoint({
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id:undelete
- * @summary Undelete Data Store
  * @param body
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
+ * @param universe_id
+ * @param data_store_id
  * @description Restore the data store
  */
 export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdUndelete = endpoint({
@@ -1321,27 +1258,12 @@ export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdUndelete = endpo
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries
- * @summary List Data Store Entries
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param maxPageSize The maximum number of data store entries to return. The service might
-return fewer than this value. If unspecified, at most 10 data store entries
-are returned. The maximum value is 256 and higher values are set to 256.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
- * @param filter This field may be set in order to filter the resources returned.
-
-The `filter` field supports a very small subset of CEL:
-
-* Only the `id` field is supported.
-* Only the `startsWith` function is available; no other operators nor
-  built-ins are supported.
-
-Example filter: `id.startsWith("foo")`
- * @param showDeleted If true, resources marked for pending deletion will be included in the
-results.
+ * @param universe_id 
+ * @param data_store_id 
+ * @param maxPageSize 
+ * @param pageToken 
+ * @param filter 
+ * @param showDeleted 
  * @description Returns a list of entries from a data store.
 
 Only the `path` and `id` fields are populated; use `GetDataStoreEntry`
@@ -1375,15 +1297,10 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries = endpoin
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries
- * @summary Create Data Store Entry
  * @param body 
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param id The ID to use for the data store entry, which will become the final
-component of the data store entry's resource path.
-
-This value should be a 1-50 character string. We strongly recommend using
-only lowercase letters, numeric digits, and hyphens.
+ * @param universe_id 
+ * @param data_store_id 
+ * @param id 
  * @description Creates an entry with the provided ID and value.
 
 Returns a 400 Bad Request if the entry exists.
@@ -1410,10 +1327,9 @@ export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries = endpoi
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id
- * @summary Get Data Store Entry
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param entry_id The entry ID.
+ * @param universe_id 
+ * @param data_store_id 
+ * @param entry_id 
  * @description Gets the specified entry.
 
 To get the entry at a specific revision, add `@<revisionId>` to the end of
@@ -1460,10 +1376,9 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId = 
 });
 /**
  * @api DELETE https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id
- * @summary Delete Data Store Entry
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param entry_id The entry ID.
+ * @param universe_id 
+ * @param data_store_id 
+ * @param entry_id 
  * @description Marks the specified entry for deletion.
 
 Entries are not be deleted immediately; instead, the `state` field will
@@ -1492,13 +1407,11 @@ export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id
- * @summary Update Data Store Entry
  * @param body 
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param entry_id The entry ID.
- * @param allowMissing If set to true, and the data store entry is not found, a data store entry
-is created.
+ * @param universe_id 
+ * @param data_store_id 
+ * @param entry_id 
+ * @param allowMissing 
  * @description Updates the value, attributes, and users of an entry.
 
 Updating specific revisions of the entry is **unsupported**. If you specify
@@ -1534,11 +1447,10 @@ export const patchCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId 
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:increment
- * @summary Increment Data Store Entry
  * @param body 
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param entry_id The entry ID.
+ * @param universe_id 
+ * @param data_store_id 
+ * @param entry_id 
  * @description Increments the value of the specified entry. Both the existing value and
 the increment amount must be integers.
 
@@ -1576,28 +1488,12 @@ export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryIdIn
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:listRevisions
- * @summary List Data Store Entry Revisions
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param entry_id The entry ID.
- * @param maxPageSize The maximum number of revisions to return per page.
-
-The service might return fewer than the maximum number of revisions.
-If unspecified, at most 10 revisions are returned.
-The maximum value is 100 values and higher values are set to 100.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call
-must match the call that provided the page token.
- * @param filter Supports the following subset of CEL:
-
-* Only the `&&`, `<=`, and `>=` operators are supported.
-* Only the `revision_create_time` field is supported.
-
-For example:
-
-  `"revision_create_time >= 2000-01-01T00:00:00Z && revision_create_time <=
-  2001-01-01T00:00:00Z"`
+ * @param universe_id 
+ * @param data_store_id 
+ * @param entry_id 
+ * @param maxPageSize 
+ * @param pageToken 
+ * @param filter 
  * @description List revisions of the data store entry.
 
 This method returns partial data store entries.
@@ -1636,28 +1532,13 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryIdLis
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries
- * @summary List Data Store Entries
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param scope_id The scope ID.
- * @param maxPageSize The maximum number of data store entries to return. The service might
-return fewer than this value. If unspecified, at most 10 data store entries
-are returned. The maximum value is 256 and higher values are set to 256.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
- * @param filter This field may be set in order to filter the resources returned.
-
-The `filter` field supports a very small subset of CEL:
-
-* Only the `id` field is supported.
-* Only the `startsWith` function is available; no other operators nor
-  built-ins are supported.
-
-Example filter: `id.startsWith("foo")`
- * @param showDeleted If true, resources marked for pending deletion will be included in the
-results.
+ * @param universe_id 
+ * @param data_store_id 
+ * @param scope_id 
+ * @param maxPageSize 
+ * @param pageToken 
+ * @param filter 
+ * @param showDeleted 
  * @description Returns a list of entries from a data store.
 
 Only the `path` and `id` fields are populated; use `GetDataStoreEntry`
@@ -1693,16 +1574,11 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntr
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries
- * @summary Create Data Store Entry
  * @param body 
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param scope_id The scope ID.
- * @param id The ID to use for the data store entry, which will become the final
-component of the data store entry's resource path.
-
-This value should be a 1-50 character string. We strongly recommend using
-only lowercase letters, numeric digits, and hyphens.
+ * @param universe_id 
+ * @param data_store_id 
+ * @param scope_id 
+ * @param id 
  * @description Creates an entry with the provided ID and value.
 
 Returns a 400 Bad Request if the entry exists.
@@ -1731,11 +1607,10 @@ export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEnt
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id
- * @summary Get Data Store Entry
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param scope_id The scope ID.
- * @param entry_id The entry ID.
+ * @param universe_id 
+ * @param data_store_id 
+ * @param scope_id 
+ * @param entry_id 
  * @description Gets the specified entry.
 
 To get the entry at a specific revision, add `@<revisionId>` to the end of
@@ -1784,11 +1659,10 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntr
 });
 /**
  * @api DELETE https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id
- * @summary Delete Data Store Entry
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param scope_id The scope ID.
- * @param entry_id The entry ID.
+ * @param universe_id 
+ * @param data_store_id 
+ * @param scope_id 
+ * @param entry_id 
  * @description Marks the specified entry for deletion.
 
 Entries are not be deleted immediately; instead, the `state` field will
@@ -1819,14 +1693,12 @@ export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdE
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id
- * @summary Update Data Store Entry
  * @param body 
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param scope_id The scope ID.
- * @param entry_id The entry ID.
- * @param allowMissing If set to true, and the data store entry is not found, a data store entry
-is created.
+ * @param universe_id 
+ * @param data_store_id 
+ * @param scope_id 
+ * @param entry_id 
+ * @param allowMissing 
  * @description Updates the value, attributes, and users of an entry.
 
 Updating specific revisions of the entry is **unsupported**. If you specify
@@ -1864,12 +1736,11 @@ export const patchCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEn
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:increment
- * @summary Increment Data Store Entry
  * @param body 
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param scope_id The scope ID.
- * @param entry_id The entry ID.
+ * @param universe_id 
+ * @param data_store_id 
+ * @param scope_id 
+ * @param entry_id 
  * @description Increments the value of the specified entry. Both the existing value and
 the increment amount must be integers.
 
@@ -1909,29 +1780,13 @@ export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEnt
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:listRevisions
- * @summary List Data Store Entry Revisions
- * @param universe_id The universe ID.
- * @param data_store_id The data-store ID.
- * @param scope_id The scope ID.
- * @param entry_id The entry ID.
- * @param maxPageSize The maximum number of revisions to return per page.
-
-The service might return fewer than the maximum number of revisions.
-If unspecified, at most 10 revisions are returned.
-The maximum value is 100 values and higher values are set to 100.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call
-must match the call that provided the page token.
- * @param filter Supports the following subset of CEL:
-
-* Only the `&&`, `<=`, and `>=` operators are supported.
-* Only the `revision_create_time` field is supported.
-
-For example:
-
-  `"revision_create_time >= 2000-01-01T00:00:00Z && revision_create_time <=
-  2001-01-01T00:00:00Z"`
+ * @param universe_id 
+ * @param data_store_id 
+ * @param scope_id 
+ * @param entry_id 
+ * @param maxPageSize 
+ * @param pageToken 
+ * @param filter 
  * @description List revisions of the data store entry.
 
 This method returns partial data store entries.
@@ -1972,9 +1827,8 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntr
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/luau-execution-session-task-binary-inputs
- * @summary Create Luau Execution Session Task Binary Input
  * @param body
- * @param universe_id The universe ID.
+ * @param universe_id
  * @description Create a new `LuauExecutionSessionTaskBinaryInput`.
  */
 export const postCloudV2UniversesUniverseIdLuauExecutionSessionTaskBinaryInputs = endpoint({
@@ -1995,9 +1849,8 @@ export const postCloudV2UniversesUniverseIdLuauExecutionSessionTaskBinaryInputs 
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store:flush
- * @summary Flush Memory Store
  * @param body
- * @param universe_id The universe ID.
+ * @param universe_id
  * @description Asynchronously flush all data structures in the universe.
  */
 export const postCloudV2UniversesUniverseIdMemoryStoreFlush = endpoint({
@@ -2018,10 +1871,9 @@ export const postCloudV2UniversesUniverseIdMemoryStoreFlush = endpoint({
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items
- * @summary Create Memory Store Queue Item
  * @param body 
- * @param universe_id The universe ID.
- * @param queue_id The queue ID.
+ * @param universe_id 
+ * @param queue_id 
  * @description Creates a new queue item.
 
 If `ttl` is set, the item will automatically be removed from the queue
@@ -2052,10 +1904,9 @@ export const postCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItems = endpo
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items:discard
- * @summary Discard Memory Store Queue Items
  * @param body 
- * @param universe_id The universe ID.
- * @param queue_id The queue ID.
+ * @param universe_id 
+ * @param queue_id 
  * @description Discards read items from the front of the queue.
 
 Takes a `readId` from a previous `Read` operation.
@@ -2080,25 +1931,11 @@ export const postCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItemsDiscard 
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items:read
- * @summary Read Memory Store Queue Items
- * @param universe_id The universe ID.
- * @param queue_id The queue ID.
- * @param count The number of items to read from the queue
-If unspecified, 1 item will be returned.
-The maximum value is 200; values above 200 will be coerced to 200.
- * @param allOrNothing If `all_or_nothing` is true and the requested number of objects is not
-available, will return a 404 Error.
-
-Otherwise, will return the path and read_id of the read operation and a
-list of the MemoryStoreQueue items.
- * @param invisibilityWindow Invisibility window for items read, in seconds.
-
-Items read are invisible in subsequent reads during the invisibility
-window duration.
-
-It must be written in seconds greater than 0 and end with `s`.
-
-Defaults to `30s`.
+ * @param universe_id 
+ * @param queue_id 
+ * @param count 
+ * @param allOrNothing 
+ * @param invisibilityWindow 
  * @description Returns the specified number of items at the front of the queue.
 
 
@@ -2127,34 +1964,12 @@ export const getCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItemsRead = en
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items
- * @summary List Memory Store Sorted Map Items
- * @param universe_id The universe ID.
- * @param sorted_map_id The sorted-map ID.
- * @param maxPageSize The maximum number of memory store sorted map items to return. The service
-might return fewer than this value. If unspecified, at most 1 memory store
-sorted map items are returned. The maximum value is 100 and higher values
-are set to 100.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
- * @param orderBy If specified, results are ordered according to the specified fields.
-
-Values must be a comma-separated list of fields, with an optional,
-per-field " desc" suffix to sort by descending rather than ascending
-values. You can access subfields with a `.` operator.
-
-Results may be ordered by the following fields: id.
-
-Example: "id desc"
-
- * @param filter This field may be set in order to filter the resources returned.
-
-Filtering conforms to Common Expression Language (CEL). Only the `id`
-and `sortKey` fields are supported. In terms of operators, only `<`, `>`
-and `&&` are allowed'
-
-Example: `id > "key-001" && id < "key-100"`
+ * @param universe_id
+ * @param sorted_map_id
+ * @param maxPageSize
+ * @param pageToken
+ * @param orderBy
+ * @param filter
  * @description Gets and returns items in the map with a given order and filter.
  */
 export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems = endpoint({
@@ -2183,16 +1998,10 @@ export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems 
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items
- * @summary Create Memory Store Sorted Map Item
- * @param body 
- * @param universe_id The universe ID.
- * @param sorted_map_id The sorted-map ID.
- * @param id The ID to use for the memory store sorted map item, which will become the
-final component of the memory store sorted map item's resource path.
-
-This value should be a 1-127 character string that supports alphanumeric
-and special characters. This id is case sensitive. The id must be url
-encoded if it contains any url breaking special characters.
+ * @param body
+ * @param universe_id
+ * @param sorted_map_id
+ * @param id
  * @description Creates the specified map item if it doesn't exist.
  */
 export const postCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems = endpoint({
@@ -2217,10 +2026,9 @@ export const postCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id
- * @summary Get Memory Store Sorted Map Item
- * @param universe_id The universe ID.
- * @param sorted_map_id The sorted-map ID.
- * @param item_id The item ID.
+ * @param universe_id
+ * @param sorted_map_id
+ * @param item_id
  * @description Gets and returns the value of the given key in the map.
  */
 export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsItemId = endpoint({
@@ -2243,10 +2051,9 @@ export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsI
 });
 /**
  * @api DELETE https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id
- * @summary Delete Memory Store Sorted Map Item
- * @param universe_id The universe ID.
- * @param sorted_map_id The sorted-map ID.
- * @param item_id The item ID.
+ * @param universe_id
+ * @param sorted_map_id
+ * @param item_id
  * @description Deletes the specified item from the map.
  */
 export const deleteCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsItemId = endpoint({
@@ -2269,13 +2076,11 @@ export const deleteCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdIte
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id
- * @summary Update Memory Store Sorted Map Item
- * @param body 
- * @param universe_id The universe ID.
- * @param sorted_map_id The sorted-map ID.
- * @param item_id The item ID.
- * @param allowMissing If set to true, and the memory store sorted map item is not found, a memory
-store sorted map item is created.
+ * @param body
+ * @param universe_id
+ * @param sorted_map_id
+ * @param item_id
+ * @param allowMissing
  * @description Updates the specified map item.
  */
 export const patchCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsItemId = endpoint({
@@ -2302,37 +2107,13 @@ export const patchCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItem
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries
- * @summary List Ordered Data Store Entries
- * @param universe_id The universe ID.
- * @param ordered_data_store_id The ordered-data-store ID.
- * @param scope_id The scope ID.
- * @param maxPageSize The maximum number of ordered data store entries to return. The service
-might return fewer than this value. If unspecified, at most 10 ordered data
-store entries are returned. The maximum value is 100 and higher values are
-set to 100.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
- * @param orderBy If specified, results are ordered according to the specified fields.
-
-Values must be a comma-separated list of fields, with an optional,
-per-field " desc" suffix to sort by descending rather than ascending
-values. You can access subfields with a `.` operator.
-
-Results may be ordered by the following fields: value.
-
-Example: "value desc"
-
- * @param filter This field may be set in order to filter the resources returned.
-
-We support two comparison operators for this operation: `<=` and `>=`.These
-comparison operators act as a minValue and maxValue for the values
-returned. If filtering is needed for a value between a minValue and
-maxValue the user can use the logical operator `&&`. All tokens in the
-filter expression must be separated by a single space.
-
-Example filters: `entry <= 10`; `entry >= 10 && entry <= 30`
+ * @param universe_id
+ * @param ordered_data_store_id
+ * @param scope_id
+ * @param maxPageSize
+ * @param pageToken
+ * @param orderBy
+ * @param filter
  * @description Returns a list of entries from an ordered data store.
  */
 export const getCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntries = endpoint({
@@ -2363,16 +2144,11 @@ export const getCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdSco
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries
- * @summary Create Ordered Data Store Entry
  * @param body 
- * @param universe_id The universe ID.
- * @param ordered_data_store_id The ordered-data-store ID.
- * @param scope_id The scope ID.
- * @param id The ID to use for the ordered data store entry, which will become the final
-component of the ordered data store entry's resource path.
-
-This value should be A 1-63 character string. We strongly recommend using
-only lowercase letters, numeric digits, and hyphens.
+ * @param universe_id 
+ * @param ordered_data_store_id 
+ * @param scope_id 
+ * @param id 
  * @description Creates an entry with the provided ID and value.
 
 Returns a 400 Bad Request if the entry exists.
@@ -2401,11 +2177,10 @@ export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdSc
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id
- * @summary Get Ordered Data Store Entry
- * @param universe_id The universe ID.
- * @param ordered_data_store_id The ordered-data-store ID.
- * @param scope_id The scope ID.
- * @param entry_id The entry ID.
+ * @param universe_id
+ * @param ordered_data_store_id
+ * @param scope_id
+ * @param entry_id
  * @description Gets the specified entry.
  */
 export const getCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
@@ -2430,11 +2205,10 @@ export const getCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdSco
 });
 /**
  * @api DELETE https://apis.roblox.com/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id
- * @summary Delete Ordered Data Store Entry
- * @param universe_id The universe ID.
- * @param ordered_data_store_id The ordered-data-store ID.
- * @param scope_id The scope ID.
- * @param entry_id The entry ID.
+ * @param universe_id 
+ * @param ordered_data_store_id 
+ * @param scope_id 
+ * @param entry_id 
  * @description Deletes the specified entry.
 
 On success, returns 200 OK. If the entry doesn't exist, returns
@@ -2462,14 +2236,12 @@ export const deleteCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreId
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id
- * @summary Update Ordered Data Store Entry
- * @param body 
- * @param universe_id The universe ID.
- * @param ordered_data_store_id The ordered-data-store ID.
- * @param scope_id The scope ID.
- * @param entry_id The entry ID.
- * @param allowMissing If set to true, and the ordered data store entry is not found, a ordered
-data store entry is created.
+ * @param body
+ * @param universe_id
+ * @param ordered_data_store_id
+ * @param scope_id
+ * @param entry_id
+ * @param allowMissing
  * @description Updates the value of an entry.
  */
 export const patchCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
@@ -2498,12 +2270,11 @@ export const patchCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdS
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id:increment
- * @summary Increment Ordered Data Store Entry
  * @param body 
- * @param universe_id The universe ID.
- * @param ordered_data_store_id The ordered-data-store ID.
- * @param scope_id The scope ID.
- * @param entry_id The entry ID.
+ * @param universe_id 
+ * @param ordered_data_store_id 
+ * @param scope_id 
+ * @param entry_id 
  * @description Increments the value of the specified entry. Both the existing value and
 the increment amount must be integers.
 
@@ -2540,9 +2311,8 @@ export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdSc
   });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id
- * @summary Get Place
- * @param universe_id The universe ID.
- * @param place_id The place ID.
+ * @param universe_id
+ * @param place_id
  * @description Gets the specified place.
  */
 export const getCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
@@ -2563,11 +2333,10 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id
- * @summary Update Place
  * @param body
- * @param universe_id The universe ID.
- * @param place_id The place ID.
- * @param updateMask The list of fields to update.
+ * @param universe_id
+ * @param place_id
+ * @param updateMask
  * @description Updates the specified place.
  */
 export const patchCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
@@ -2592,10 +2361,9 @@ export const patchCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id
- * @summary Get Instance
- * @param universe_id The universe ID.
- * @param place_id The place ID.
- * @param instance_id The instance ID.
+ * @param universe_id 
+ * @param place_id 
+ * @param instance_id 
  * @description Gets an instance and its property data.
 
 The maximum supported response data size is 500,000 bytes. If this limit is
@@ -2623,12 +2391,11 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId = end
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id
- * @summary Update Instance
  * @param body 
- * @param universe_id The universe ID.
- * @param place_id The place ID.
- * @param instance_id The instance ID.
- * @param updateMask The list of fields to update.
+ * @param universe_id 
+ * @param place_id 
+ * @param instance_id 
+ * @param updateMask 
  * @description Updates an instance's property data.
 
 When updating a `Script` instance's source property, the maximum supported
@@ -2658,20 +2425,11 @@ export const patchCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId = e
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id:listChildren
- * @summary List Instance Children
- * @param universe_id The universe ID.
- * @param place_id The place ID.
- * @param instance_id The instance ID.
- * @param maxPageSize The maximum number of child instance to return. The service may return
-fewer than this value. If unspecified, at most 200 children will be
-returned. The maximum value is 200; values above 200 will be coerced to
-200.
- * @param pageToken A page token, received from a previous `ListInstanceChildrenRequest` call.
-Provide this to retrieve the subsequent page.
-
-When paginating, all other parameters provided to
-`ListInstanceChildrenRequest` must match the call that provided the page
-token.
+ * @param universe_id 
+ * @param place_id 
+ * @param instance_id 
+ * @param maxPageSize 
+ * @param pageToken 
  * @description Lists an instance's children.
 
 The maximum supported response data size is 500,000 bytes. If this limit is
@@ -2704,10 +2462,9 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceIdListCh
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/luau-execution-session-tasks
- * @summary Create Luau Execution Session Task
  * @param body 
- * @param universe_id The universe ID.
- * @param place_id The place ID.
+ * @param universe_id 
+ * @param place_id 
  * @description Creates a task but does not wait for the task to complete.
 
 To check whether a task has
@@ -2738,16 +2495,10 @@ export const postCloudV2UniversesUniverseIdPlacesPlaceIdLuauExecutionSessionTask
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions
- * @summary List User Restrictions
- * @param universe_id The universe ID.
- * @param place_id The place ID.
- * @param maxPageSize The maximum number of user restrictions to return. The service might return
-fewer than this value. If unspecified, at most 10 user restrictions are
-returned. The maximum value is 100 and higher values are set to 100.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
+ * @param universe_id 
+ * @param place_id 
+ * @param maxPageSize 
+ * @param pageToken 
  * @description List user restrictions for users that have ever been banned in either a
 universe or a specific place.
  */
@@ -2773,10 +2524,9 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictions = endpoi
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id
- * @summary Get User Restriction
- * @param universe_id The universe ID.
- * @param place_id The place ID.
- * @param user_restriction_id The user-restriction ID.
+ * @param universe_id
+ * @param place_id
+ * @param user_restriction_id
  * @description Get the user restriction.
  */
 export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRestrictionId = endpoint({
@@ -2799,22 +2549,13 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRestr
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id
- * @summary Update User Restriction
- * @param body 
- * @param universe_id The universe ID.
- * @param place_id The place ID.
- * @param user_restriction_id The user-restriction ID.
- * @param updateMask The list of fields to update.
-
-The `game_join_restriction` field must be updated atomically; field masks
-that index into `game_join_restriction` (such as
-`"game_join_restriction.active"`) are not supported.
- * @param idempotencyKey.key The unique key to use for idempotency.
- * @param idempotencyKey.firstSent The timestamp at which the first request was sent.
-
-If this is further in the past than the lifetime of the idempotency key
-(which *may* exceed the annotated minimum lifetime), the server *must*
-return an error.
+ * @param body
+ * @param universe_id
+ * @param place_id
+ * @param user_restriction_id
+ * @param updateMask
+ * @param idempotencyKey.key
+ * @param idempotencyKey.firstSent
  * @description Update the user restriction.
  */
 export const patchCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRestrictionId = endpoint({
@@ -2845,11 +2586,10 @@ export const patchCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRes
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-session-tasks
- * @summary Create Luau Execution Session Task
  * @param body 
- * @param universe_id The universe ID.
- * @param place_id The place ID.
- * @param version_id The version ID.
+ * @param universe_id 
+ * @param place_id 
+ * @param version_id 
  * @description Creates a task but does not wait for the task to complete.
 
 To check whether a task has
@@ -2882,25 +2622,12 @@ export const postCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExe
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id
- * @summary Get Luau Execution Session Task
- * @param universe_id The universe ID.
- * @param place_id The place ID.
- * @param version_id The version ID.
- * @param luau_execution_session_id The luau-execution-session ID.
- * @param task_id The task ID.
- * @param view The view in which to retrieve the luau execution session task.
-
-Supports BASIC and FULL.
-
-Defaults to BASIC.
-
-Possible values:
-
-  | Value | Description |
-  | --- | --- |
-  | VIEW_UNSPECIFIED | The luau execution session task view is not specified; the default will be used. |
-  | BASIC | Excludes the `script` field. |
-  | FULL | Includes all fields. |
+ * @param universe_id 
+ * @param place_id 
+ * @param version_id 
+ * @param luau_execution_session_id 
+ * @param task_id 
+ * @param view 
  * @description Gets information about a task.
 
 Quotas:
@@ -2933,33 +2660,14 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExec
   });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id/logs
- * @summary List Luau Execution Session Task Logs
- * @param universe_id The universe ID.
- * @param place_id The place ID.
- * @param version_id The version ID.
- * @param luau_execution_session_id The luau-execution-session ID.
- * @param task_id The task ID.
- * @param maxPageSize The maximum number of luau execution session task logs to return. The
-service might return fewer than this value. If unspecified, at most 10000
-luau execution session task logs are returned. The maximum value is 10000
-and higher values are set to 10000.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
- * @param view The view in which to retrieve the luau execution session task log.
-
-Supports FLAT and STRUCTURED.
-
-Defaults to FLAT.
-
-Possible values:
-
-  | Value | Description |
-  | --- | --- |
-  | VIEW_UNSPECIFIED | The luau execution session task log view is not specified; the default will be used. |
-  | FLAT | If this view is selected, the `messages` field will be populated (and the `structuredMessages` field will not). Each entry of the `messages` array contains only the log message, without additional medata. This is the default. |
-  | STRUCTURED | If this view is selected, the `structuredMessages` field will be populated (and the `messages` field will not). Each entry of the `structuredMessages` array contains the log message plus additional metadata (see `LogMessage` for details). |
+ * @param universe_id 
+ * @param place_id 
+ * @param version_id 
+ * @param luau_execution_session_id 
+ * @param task_id 
+ * @param maxPageSize 
+ * @param pageToken 
+ * @param view 
  * @description Lists log chunks generated by a `LuauExecutionSessionTask`.
 
 Quotas:
@@ -2996,23 +2704,10 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExec
   });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/subscription-products/:subscription_product_id/subscriptions/:subscription_id
- * @summary Get Subscription
- * @param universe_id The universe ID.
- * @param subscription_product_id The subscription-product ID.
- * @param subscription_id The subscription ID.
- * @param view The view in which to retrieve the subscription.
-
-Supports BASIC and FULL.
-
-Defaults to BASIC.
-
-Possible values:
-
-  | Value | Description |
-  | --- | --- |
-  | VIEW_UNSPECIFIED | The subscription view is not specified; the default will be used. |
-  | BASIC | Includes only the `active` and `renewing` fields. |
-  | FULL | Includes all fields. |
+ * @param universe_id 
+ * @param subscription_product_id 
+ * @param subscription_id 
+ * @param view 
  * @description Get the subscription.
 
 The `universe.subscription-product.subscription:read` scope only allows
@@ -3046,15 +2741,9 @@ export const getCloudV2UniversesUniverseIdSubscriptionProductsSubscriptionProduc
   });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/user-restrictions
- * @summary List User Restrictions
- * @param universe_id The universe ID.
- * @param maxPageSize The maximum number of user restrictions to return. The service might return
-fewer than this value. If unspecified, at most 10 user restrictions are
-returned. The maximum value is 100 and higher values are set to 100.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
+ * @param universe_id 
+ * @param maxPageSize 
+ * @param pageToken 
  * @description List user restrictions for users that have ever been banned in either a
 universe or a specific place.
  */
@@ -3078,26 +2767,10 @@ export const getCloudV2UniversesUniverseIdUserRestrictions = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/user-restrictions:listLogs
- * @summary List User Restriction Logs
- * @param universe_id The universe ID.
- * @param maxPageSize The maximum number of UserRestrictionLogs to return. The service may return
-fewer than this value. If unspecified, at most 10 UserRestrictionLogs are
-returned. The maximum value is 100 and higher values are set to 100.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
- * @param filter This field may be set to filter the logs returned.
-
-The `filter` field supports a very small number of CEL:
-
-* `user`
-* `place`
-* The `==` comparison operator is available.
-* The `&&` logical operator is also supported.
-
-As an example, filtering for a user and a place takes the form
-`filter="user == 'users/123'" && "place == 'places/456'"`
+ * @param universe_id 
+ * @param maxPageSize 
+ * @param pageToken 
+ * @param filter 
  * @description List changes to UserRestriction resources within a given universe.
 This includes both universe-level and place-level restrictions.
 
@@ -3125,9 +2798,8 @@ export const getCloudV2UniversesUniverseIdUserRestrictionsListLogs = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/universes/:universe_id/user-restrictions/:user_restriction_id
- * @summary Get User Restriction
- * @param universe_id The universe ID.
- * @param user_restriction_id The user-restriction ID.
+ * @param universe_id
+ * @param user_restriction_id
  * @description Get the user restriction.
  */
 export const getCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId = endpoint({
@@ -3148,21 +2820,12 @@ export const getCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId = en
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universe_id/user-restrictions/:user_restriction_id
- * @summary Update User Restriction
- * @param body 
- * @param universe_id The universe ID.
- * @param user_restriction_id The user-restriction ID.
- * @param updateMask The list of fields to update.
-
-The `game_join_restriction` field must be updated atomically; field masks
-that index into `game_join_restriction` (such as
-`"game_join_restriction.active"`) are not supported.
- * @param idempotencyKey.key The unique key to use for idempotency.
- * @param idempotencyKey.firstSent The timestamp at which the first request was sent.
-
-If this is further in the past than the lifetime of the idempotency key
-(which *may* exceed the annotated minimum lifetime), the server *must*
-return an error.
+ * @param body
+ * @param universe_id
+ * @param user_restriction_id
+ * @param updateMask
+ * @param idempotencyKey.key
+ * @param idempotencyKey.firstSent
  * @description Update the user restriction.
  */
 export const patchCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId = endpoint({
@@ -3191,8 +2854,7 @@ export const patchCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId = 
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/users/:user_id
- * @summary Get User
- * @param user_id The user ID.
+ * @param user_id 
  * @description Gets a user's basic and advanced information.
 
 To access a user's public information, no additional scopes are required.
@@ -3220,32 +2882,10 @@ export const getCloudV2UsersUserId = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/users/:user_id:generateThumbnail
- * @summary Generate User Thumbnail
- * @param user_id The user ID.
- * @param size Size of the generated thumbnail. The generated thumbnail will have `size *
-size` dimension.
-
-Currently supported values:
-48, 50, 60, 75, 100, 110, 150, 180, 352, 420, 720
-Default is 420.
- * @param format Specify the format of the generated thumbnail. Default is `PNG`.
-
-Possible values:
-
-  | Value | Description |
-  | --- | --- |
-  | FORMAT_UNSPECIFIED | Default UserThumbnail Format -- set to png |
-  | PNG | Generate thumbnail in `.png` format |
-  | JPEG | Generate thumbnail in `.jpg` format |
- * @param shape Specify the shape of the thumbnail. Default is `ROUND` (circular).
-
-Possible values:
-
-  | Value | Description |
-  | --- | --- |
-  | SHAPE_UNSPECIFIED | Default UserThumbnail Shape -- set to round |
-  | ROUND | Generate thumbnail as a circle. |
-  | SQUARE | Generate thumbnail as a rectangle. |
+ * @param user_id
+ * @param size
+ * @param format
+ * @param shape
  * @description Generates and returns the URL for the user's avatar thumbnail.
  */
 export const getCloudV2UsersUserIdGenerateThumbnail = endpoint({
@@ -3270,23 +2910,10 @@ export const getCloudV2UsersUserIdGenerateThumbnail = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/users/:user_id/asset-quotas
- * @summary List Asset Quotas
- * @param user_id The user ID.
- * @param maxPageSize The maximum number of asset quotas to return. The service might return
-fewer than this value. If unspecified, at most 10 asset quotas are
-returned. The maximum value is 100 and higher values are set to 100.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
- * @param filter This field may be set in order to filter the resources returned.
-
-Supports the following subset of CEL:
-* Only the `quotaType` and `assetType` fields are supported.
-* Only the `==` and `&&` operator are supported.
-
-For example:
-  `quotaType == RateLimitUpload && assetType == Audio`
+ * @param user_id
+ * @param maxPageSize
+ * @param pageToken
+ * @param filter
  * @description Returns a list of asset quotas.
  */
 export const getCloudV2UsersUserIdAssetQuotas = endpoint({
@@ -3311,20 +2938,10 @@ export const getCloudV2UsersUserIdAssetQuotas = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/v2/users/:user_id/inventory-items
- * @summary List Inventory Items
- * @param user_id The user ID.
- * @param maxPageSize The maximum number of inventory items to return. The service might return
-fewer than this value. If unspecified, at most 10 inventory items are
-returned. The maximum value is 100 and higher values are set to 100.
- * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
-
-When paginating, all other parameters provided to the subsequent call must
-match the call that provided the page token.
- * @param filter This field may be set in order to filter the resources returned.
-
-See the
-[filtering](/cloud/reference/patterns#list-inventory-items)
-documentation for more information.
+ * @param user_id 
+ * @param maxPageSize 
+ * @param pageToken 
+ * @param filter 
  * @description List the inventory items in a user's inventory.
 
 The inventory items returned depend on the target user’s choice under
@@ -3366,9 +2983,8 @@ export const getCloudV2UsersUserIdInventoryItems = endpoint({
 });
 /**
  * @api POST https://apis.roblox.com/cloud/v2/users/:user_id/notifications
- * @summary Create User Notification
  * @param body
- * @param user_id The user ID.
+ * @param user_id
  * @description Sends a notification to a user.
  */
 export const postCloudV2UsersUserIdNotifications = endpoint({

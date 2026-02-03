@@ -46,10 +46,9 @@ const pluginId_icon_body = z.object({ Files: z.instanceof(File) });
 
 /**
  * @api GET https://publish.roblox.com/v1/asset-quotas
- * @summary List asset quotas of the given resource type and asset type.
- * @param resourceType Resource type of the asset quota
- * @param assetType Asset type of the asset quota
- * @param useDummyData Use dummy data for testing. This is for internal use only
+ * @param resourceType
+ * @param assetType
+ * @param useDummyData
  */
 export const getAssetQuotas = endpoint({
   method: 'GET',
@@ -57,23 +56,14 @@ export const getAssetQuotas = endpoint({
   baseUrl: 'https://publish.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    resourceType: {
-      style: 'form',
-      explode: true,
-    },
-    assetType: {
-      style: 'form',
-      explode: true,
-    },
-    useDummyData: {
-      style: 'form',
-      explode: true,
-    },
+    resourceType: {},
+    assetType: {},
+    useDummyData: {},
   },
   parameters: {
     resourceType: z.string(),
     assetType: z.string(),
-    useDummyData: z.boolean().optional(),
+    useDummyData: z.boolean().optional().default(false),
   },
   response: Roblox_Publish_Api_AssetQuotasResponse,
   errors: [
@@ -94,7 +84,6 @@ export const getAssetQuotas = endpoint({
 });
 /**
  * @api POST https://publish.roblox.com/v1/audio
- * @summary Published an audio file and returns the new asset info.
  * @param body The file upload request body. Roblox.Publish.Api.UploadAudioRequest
  */
 export const postAudio = endpoint({
@@ -145,7 +134,6 @@ export const postAudio = endpoint({
 });
 /**
  * @api POST https://publish.roblox.com/v1/audio/verify
- * @summary Verifies an audio file and returns a product that you can purchase to publish the audio file.
  * @param body The verify audio request body. Roblox.Publish.Api.VerifyAudioRequest
  */
 export const postAudioVerify = endpoint({
@@ -186,9 +174,8 @@ export const postAudioVerify = endpoint({
 });
 /**
  * @api POST https://publish.roblox.com/v1/badges/:badgeId/icon
- * @summary Overwrites a badge icon with a new one.
  * @param body
- * @param badgeId The badge Id.
+ * @param badgeId
  */
 export const postBadgesBadgeidIcon = endpoint({
   method: 'POST',
@@ -197,9 +184,7 @@ export const postBadgesBadgeidIcon = endpoint({
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
-    badgeId: {
-      style: 'simple',
-    },
+    badgeId: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -233,9 +218,8 @@ export const postBadgesBadgeidIcon = endpoint({
 });
 /**
  * @api POST https://publish.roblox.com/v1/games/:gameId/thumbnail/image
- * @summary Uploads a game thumbnail.
  * @param body
- * @param gameId The universe Id.
+ * @param gameId
  */
 export const postGamesGameidThumbnailImage = endpoint({
   method: 'POST',
@@ -244,9 +228,7 @@ export const postGamesGameidThumbnailImage = endpoint({
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -280,9 +262,8 @@ export const postGamesGameidThumbnailImage = endpoint({
 });
 /**
  * @api POST https://publish.roblox.com/v1/plugins/:pluginId/icon
- * @summary Overwrites a plugin icon with a new one.
  * @param body
- * @param pluginId The plugin Id.
+ * @param pluginId
  */
 export const postPluginsPluginidIcon = endpoint({
   method: 'POST',
@@ -291,9 +272,7 @@ export const postPluginsPluginidIcon = endpoint({
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
-    pluginId: {
-      style: 'simple',
-    },
+    pluginId: {},
   },
   parameters: {
     pluginId: z.number().int(),

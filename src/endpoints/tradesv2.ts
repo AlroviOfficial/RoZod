@@ -98,8 +98,7 @@ const Roblox_Trades_Api_Models_V2_NewTradeResponse = z.object({
 
 /**
  * @api GET https://trades.roblox.com/v2/trades/:tradeId
- * @summary Gets the details of a trade.
- * @param tradeId The id of the trade.
+ * @param tradeId
  */
 export const getTradesTradeid = endpoint({
   method: 'GET',
@@ -107,9 +106,7 @@ export const getTradesTradeid = endpoint({
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    tradeId: {
-      style: 'simple',
-    },
+    tradeId: {},
   },
   parameters: {
     tradeId: z.number().int(),
@@ -137,7 +134,6 @@ export const getTradesTradeid = endpoint({
 });
 /**
  * @api POST https://trades.roblox.com/v2/trades/:tradeId/counter
- * @summary Counters an existing trade.
  * @param body
  * @param tradeId
  */
@@ -148,9 +144,7 @@ export const postTradesTradeidCounter = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    tradeId: {
-      style: 'simple',
-    },
+    tradeId: {},
   },
   parameters: {
     tradeId: z.number().int(),
@@ -175,7 +169,6 @@ export const postTradesTradeidCounter = endpoint({
 });
 /**
  * @api POST https://trades.roblox.com/v2/trades/send
- * @summary Sends a new trade.
  * @param body
  */
 export const postTradesSend = endpoint({
@@ -207,7 +200,6 @@ export const postTradesSend = endpoint({
 });
 /**
  * @api GET https://trades.roblox.com/v2/users/:userId/can-trade-with
- * @summary Checks if the user can trade with a specific user.
  * @param userId
  */
 export const getUsersUseridCanTradeWith = endpoint({
@@ -216,9 +208,7 @@ export const getUsersUseridCanTradeWith = endpoint({
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -234,14 +224,13 @@ export const getUsersUseridCanTradeWith = endpoint({
 });
 /**
  * @api GET https://trades.roblox.com/v2/users/:userId/tradableItems
- * @summary Gets tradable items for a user.
- * @param userId The id of the user.
- * @param search Optional search query to filter items by.
- * @param itemTargetTypes Optional list of item target types to filter by.
- * @param sortBy The key to sort tradable items by.
- * @param sortOrder The sort order for the tradable items.
- * @param limit The maximum number of items to return.
- * @param cursor The pagination cursor.
+ * @param userId
+ * @param search
+ * @param itemTargetTypes
+ * @param sortBy
+ * @param sortOrder
+ * @param limit
+ * @param cursor
  */
 export const getUsersUseridTradableitems = endpoint({
   method: 'GET',
@@ -249,33 +238,13 @@ export const getUsersUseridTradableitems = endpoint({
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    search: {
-      style: 'form',
-      explode: true,
-    },
-    itemTargetTypes: {
-      style: 'form',
-      explode: true,
-    },
-    sortBy: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
+    userId: {},
+    search: {},
+    itemTargetTypes: {},
+    sortBy: {},
+    sortOrder: {},
+    limit: {},
+    cursor: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -335,7 +304,6 @@ export const getUsersUseridTradableitems = endpoint({
 });
 /**
  * @api GET https://trades.roblox.com/v2/users/me/can-trade
- * @summary Checks if the calling user can trade with others.
  */
 export const getUsersMeCanTrade = endpoint({
   method: 'GET',

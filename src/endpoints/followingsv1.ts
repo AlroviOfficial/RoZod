@@ -16,7 +16,6 @@ const Roblox_Followings_Api_Models_UserFollowingUniverseStatusResponse = z.objec
 
 /**
  * @api GET https://followings.roblox.com/v1/users/:userId/universes
- * @summary Gets all the followings between a user with userId and universes
  * @param userId
  */
 export const getUsersUseridUniverses = endpoint({
@@ -25,9 +24,7 @@ export const getUsersUseridUniverses = endpoint({
   baseUrl: 'https://followings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -46,7 +43,6 @@ export const getUsersUseridUniverses = endpoint({
 });
 /**
  * @api POST https://followings.roblox.com/v1/users/:userId/universes/:universeId
- * @summary Creates the following between a user with userId and universe with universeId
  * @param userId
  * @param universeId
  */
@@ -56,12 +52,8 @@ export const postUsersUseridUniversesUniverseid = endpoint({
   baseUrl: 'https://followings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    universeId: {
-      style: 'simple',
-    },
+    userId: {},
+    universeId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -86,7 +78,6 @@ export const postUsersUseridUniversesUniverseid = endpoint({
 });
 /**
  * @api DELETE https://followings.roblox.com/v1/users/:userId/universes/:universeId
- * @summary Deletes the following between a user with userId and universe with universeId
  * @param userId
  * @param universeId
  */
@@ -96,12 +87,8 @@ export const deleteUsersUseridUniversesUniverseid = endpoint({
   baseUrl: 'https://followings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    universeId: {
-      style: 'simple',
-    },
+    userId: {},
+    universeId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -122,7 +109,6 @@ export const deleteUsersUseridUniversesUniverseid = endpoint({
 });
 /**
  * @api GET https://followings.roblox.com/v1/users/:userId/universes/:universeId/status
- * @summary Gets the status of a following relationship between a user and a universe.
  * @param userId
  * @param universeId
  */
@@ -132,12 +118,8 @@ export const getUsersUseridUniversesUniverseidStatus = endpoint({
   baseUrl: 'https://followings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    universeId: {
-      style: 'simple',
-    },
+    userId: {},
+    universeId: {},
   },
   parameters: {
     userId: z.number().int(),

@@ -44,7 +44,7 @@ const Roblox_PrivateMessages_Api_Models_UnreadMessagesCountResponse = z.object({
   count: z.number().int(),
 });
 const Roblox_PrivateMessages_Api_Models_BatchMessagesRequest = z.object({
-  messageIds: z.array(z.number()),
+  messageIds: z.array(z.number().int()),
 });
 const Roblox_PrivateMessages_Api_Models_FailedMessageResponse = z.object({
   messageId: z.number().int(),
@@ -56,7 +56,6 @@ const Roblox_PrivateMessages_Api_Models_BatchMessagesResponse = z.object({
 
 /**
  * @api GET https://privatemessages.roblox.com/v1/announcements
- * @summary Migrate from RobloxWebsite project, return news notification for Private Message page
  */
 export const getAnnouncements = endpoint({
   method: 'GET',
@@ -93,7 +92,6 @@ export const getAnnouncementsMetadata = endpoint({
 });
 /**
  * @api GET https://privatemessages.roblox.com/v1/messages
- * @summary Gets a user's messages.
  * @param pageNumber
  * @param pageSize
  * @param messageTab
@@ -104,21 +102,12 @@ export const getMessages = endpoint({
   baseUrl: 'https://privatemessages.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    pageNumber: {
-      style: 'form',
-      explode: true,
-    },
-    pageSize: {
-      style: 'form',
-      explode: true,
-    },
-    messageTab: {
-      style: 'form',
-      explode: true,
-    },
+    pageNumber: {},
+    pageSize: {},
+    messageTab: {},
   },
   parameters: {
-    pageNumber: z.number().int().optional(),
+    pageNumber: z.number().int().optional().default(0),
     pageSize: z.number().int().optional().default(20),
     messageTab: z.enum(['Inbox', 'Sent', 'Archive']).optional().default('Inbox'),
   },
@@ -132,7 +121,6 @@ export const getMessages = endpoint({
 });
 /**
  * @api GET https://privatemessages.roblox.com/v1/messages/:messageId
- * @summary Gets a message's details.
  * @param messageId
  */
 export const getMessagesMessageid = endpoint({
@@ -141,9 +129,7 @@ export const getMessagesMessageid = endpoint({
   baseUrl: 'https://privatemessages.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    messageId: {
-      style: 'simple',
-    },
+    messageId: {},
   },
   parameters: {
     messageId: z.number().int(),
@@ -162,7 +148,6 @@ export const getMessagesMessageid = endpoint({
 });
 /**
  * @api POST https://privatemessages.roblox.com/v1/messages/archive
- * @summary Archives a batch of messages.
  * @param body
  */
 export const postMessagesArchive = endpoint({
@@ -193,7 +178,6 @@ export const postMessagesArchive = endpoint({
 });
 /**
  * @api POST https://privatemessages.roblox.com/v1/messages/mark-read
- * @summary Marks a batch of messages as read.
  * @param body
  */
 export const postMessagesMarkRead = endpoint({
@@ -224,7 +208,6 @@ export const postMessagesMarkRead = endpoint({
 });
 /**
  * @api POST https://privatemessages.roblox.com/v1/messages/mark-unread
- * @summary Marks a batch of messages as unread.
  * @param body
  */
 export const postMessagesMarkUnread = endpoint({
@@ -255,7 +238,6 @@ export const postMessagesMarkUnread = endpoint({
 });
 /**
  * @api POST https://privatemessages.roblox.com/v1/messages/unarchive
- * @summary Unarchives a batch of messages.
  * @param body
  */
 export const postMessagesUnarchive = endpoint({
@@ -286,7 +268,6 @@ export const postMessagesUnarchive = endpoint({
 });
 /**
  * @api GET https://privatemessages.roblox.com/v1/messages/unread/count
- * @summary Gets unread messages for the authenticated user.
  */
 export const getMessagesUnreadCount = endpoint({
   method: 'GET',

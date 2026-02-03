@@ -10,8 +10,7 @@ const Roblox_Followings_Api_Models_FollowsByTypeResponse = z.object({
 
 /**
  * @api GET https://followings.roblox.com/v2/users/:userId/universes
- * @summary Gets all universes followed by a user.
- * @param userId The user ID.
+ * @param userId
  */
 export const getUsersUseridUniverses = endpoint({
   method: 'GET',
@@ -19,9 +18,7 @@ export const getUsersUseridUniverses = endpoint({
   baseUrl: 'https://followings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),

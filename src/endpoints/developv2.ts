@@ -174,13 +174,11 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
  * @api GET https://develop.roblox.com/v2/assets/:id/versions
- * @summary Retrieves asset information for the specified asset ID. The authenticated user must be able to manage the asset
-or granted by package permission.
- * @param id The ID of the asset.Roblox.Platform.Assets.IAsset
- * @param Roblox-Place-Id The ID of the place.Roblox.Platform.Assets.IPlace
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder Sort by version number, default is desc.
+ * @param id
+ * @param Roblox-Place-Id
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getAssetsIdVersions = endpoint({
   method: 'GET',
@@ -188,24 +186,11 @@ export const getAssetsIdVersions = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    id: {
-      style: 'simple',
-    },
-    'Roblox-Place-Id': {
-      style: 'simple',
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    id: {},
+    'Roblox-Place-Id': {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     id: z.number().int(),
@@ -222,8 +207,7 @@ export const getAssetsIdVersions = endpoint({
 });
 /**
  * @api GET https://develop.roblox.com/v2/places/:placeId
- * @summary Gets the place configuration for the place with the id placeId
- * @param placeId The place id for the place to be updated.
+ * @param placeId
  */
 export const getPlacesPlaceid = endpoint({
   method: 'GET',
@@ -231,9 +215,7 @@ export const getPlacesPlaceid = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
+    placeId: {},
   },
   parameters: {
     placeId: z.number().int(),
@@ -256,9 +238,8 @@ export const getPlacesPlaceid = endpoint({
 });
 /**
  * @api PATCH https://develop.roblox.com/v2/places/:placeId
- * @summary Updates the place configuration for the place with the id placeId
  * @param body
- * @param placeId The place id for the place to be updated.
+ * @param placeId
  */
 export const patchPlacesPlaceid = endpoint({
   method: 'PATCH',
@@ -267,9 +248,7 @@ export const patchPlacesPlaceid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    placeId: {
-      style: 'simple',
-    },
+    placeId: {},
   },
   parameters: {
     placeId: z.number().int(),
@@ -294,9 +273,8 @@ export const patchPlacesPlaceid = endpoint({
 });
 /**
  * @api DELETE https://develop.roblox.com/v2/teamtest/:placeId
- * @summary Close a game instance that is being used for team testing
- * @param placeId The Id of the place we are setting the metadata for.
- * @param gameId the Guid of the game instance System.Guid
+ * @param placeId
+ * @param gameId
  */
 export const deleteTeamtestPlaceid = endpoint({
   method: 'DELETE',
@@ -304,13 +282,8 @@ export const deleteTeamtestPlaceid = endpoint({
   baseUrl: 'https://develop.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
-    gameId: {
-      style: 'form',
-      explode: true,
-    },
+    placeId: {},
+    gameId: {},
   },
   parameters: {
     placeId: z.number().int(),
@@ -330,10 +303,8 @@ export const deleteTeamtestPlaceid = endpoint({
 });
 /**
  * @api PATCH https://develop.roblox.com/v2/universes/:universeId/configuration
- * @summary Update universe settings for an owned universe.
-V2 Contains data for avatar scale and asset override.
  * @param body The Roblox.Api.Develop.Models.UniverseSettingsRequest model.
- * @param universeId The universeId.
+ * @param universeId
  */
 export const patchUniversesUniverseidConfiguration = endpoint({
   method: 'PATCH',
@@ -342,9 +313,7 @@ export const patchUniversesUniverseidConfiguration = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),

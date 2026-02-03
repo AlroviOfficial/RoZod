@@ -83,8 +83,7 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_GameInternationalization_
 
 /**
  * @api GET https://gameinternationalization.roblox.com/v2/supported-languages/games/:gameId
- * @summary Get the supported languages for a game.
- * @param gameId The id of the game.
+ * @param gameId
  */
 export const getSupportedLanguagesGamesGameid = endpoint({
   method: 'GET',
@@ -92,9 +91,7 @@ export const getSupportedLanguagesGamesGameid = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),

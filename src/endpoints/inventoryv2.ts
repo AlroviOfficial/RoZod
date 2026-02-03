@@ -140,11 +140,10 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
  * @api GET https://inventory.roblox.com/v2/assets/:assetId/owners
- * @summary Gets a list of owners of an asset.
- * @param assetId The asset id.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder Sorted by userAssetId
+ * @param assetId
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getAssetsAssetidOwners = endpoint({
   method: 'GET',
@@ -152,21 +151,10 @@ export const getAssetsAssetidOwners = endpoint({
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    assetId: {
-      style: 'simple',
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    assetId: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     assetId: z.number().int(),
@@ -191,10 +179,7 @@ export const getAssetsAssetidOwners = endpoint({
 });
 /**
  * @api DELETE https://inventory.roblox.com/v2/inventory/asset/:assetId
- * @summary Give up an asset owned by the authenticated user.
-Assets that are created by Roblox user or are limited edition are not eligible for deletion
-and will return NotEligibleForDelete.
- * @param assetId ID of the asset to delete.
+ * @param assetId
  */
 export const deleteInventoryAssetAssetid = endpoint({
   method: 'DELETE',
@@ -202,9 +187,7 @@ export const deleteInventoryAssetAssetid = endpoint({
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    assetId: {
-      style: 'simple',
-    },
+    assetId: {},
   },
   parameters: {
     assetId: z.number().int(),
@@ -234,14 +217,13 @@ export const deleteInventoryAssetAssetid = endpoint({
 });
 /**
  * @api GET https://inventory.roblox.com/v2/users/:userId/inventory
- * @summary Get user's inventory by multiple Roblox.Platform.Assets.AssetType.
- * @param userId The inventory owner's userId.
- * @param assetTypes The asset types to query.
- * @param filterDisapprovedAssets Filters moderated assets when enabled.
- * @param showApprovedOnly Filters moderated assets and assets pending review when enabled.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param userId
+ * @param assetTypes
+ * @param filterDisapprovedAssets
+ * @param showApprovedOnly
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  * @description GamePass and Badges not allowed.
  */
 export const getUsersUseridInventory = endpoint({
@@ -250,38 +232,19 @@ export const getUsersUseridInventory = endpoint({
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    assetTypes: {
-      style: 'form',
-    },
-    filterDisapprovedAssets: {
-      style: 'form',
-      explode: true,
-    },
-    showApprovedOnly: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    userId: {},
+    assetTypes: {},
+    filterDisapprovedAssets: {},
+    showApprovedOnly: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     userId: z.number().int(),
     assetTypes: z.array(z.object({})),
-    filterDisapprovedAssets: z.boolean().optional(),
-    showApprovedOnly: z.boolean().optional(),
+    filterDisapprovedAssets: z.boolean().optional().default(false),
+    showApprovedOnly: z.boolean().optional().default(false),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
@@ -305,12 +268,11 @@ export const getUsersUseridInventory = endpoint({
 });
 /**
  * @api GET https://inventory.roblox.com/v2/users/:userId/inventory/:assetTypeId
- * @summary Gets user's inventory based on specific asset type
- * @param userId The user Id of the inventory owner
- * @param assetTypeId The asset type Id of the items to get
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param userId
+ * @param assetTypeId
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getUsersUseridInventoryAssettypeid = endpoint({
   method: 'GET',
@@ -318,24 +280,11 @@ export const getUsersUseridInventoryAssettypeid = endpoint({
   baseUrl: 'https://inventory.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    assetTypeId: {
-      style: 'simple',
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    userId: {},
+    assetTypeId: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     userId: z.number().int(),

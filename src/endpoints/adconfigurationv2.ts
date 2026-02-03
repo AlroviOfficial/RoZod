@@ -140,12 +140,11 @@ const Roblox_AdConfiguration_Api_Models_StopSponsoredGameV2Request = z.object({
 
 /**
  * @api GET https://adconfiguration.roblox.com/v2/sponsored-campaigns
- * @summary Gets a page of Roblox.AdConfiguration.Api.SponsoredCampaignModel with specified input parameters.
- * @param campaignTargetType The campaign target type enum value
- * @param campaignTargetId The id of the campaign target
- * @param includeReportingStats Indicates whether to include reporting stats in the response
- * @param isArchived Indicates whether to retrieve archived ads
- * @param pageCursor The cursor of the page to retrieve. If empty, fetches the first page
+ * @param campaignTargetType
+ * @param campaignTargetId
+ * @param includeReportingStats
+ * @param isArchived
+ * @param pageCursor
  */
 export const getSponsoredCampaigns = endpoint({
   method: 'GET',
@@ -153,32 +152,17 @@ export const getSponsoredCampaigns = endpoint({
   baseUrl: 'https://adconfiguration.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    campaignTargetType: {
-      style: 'form',
-      explode: true,
-    },
-    campaignTargetId: {
-      style: 'form',
-      explode: true,
-    },
-    includeReportingStats: {
-      style: 'form',
-      explode: true,
-    },
-    isArchived: {
-      style: 'form',
-      explode: true,
-    },
-    pageCursor: {
-      style: 'form',
-      explode: true,
-    },
+    campaignTargetType: {},
+    campaignTargetId: {},
+    includeReportingStats: {},
+    isArchived: {},
+    pageCursor: {},
   },
   parameters: {
     campaignTargetType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     campaignTargetId: z.number().int(),
-    includeReportingStats: z.boolean().optional(),
-    isArchived: z.boolean().optional(),
+    includeReportingStats: z.boolean().optional().default(false),
+    isArchived: z.boolean().optional().default(false),
     pageCursor: z.string().optional(),
   },
   response: Roblox_AdConfiguration_Api_GetSponsoredCampaignsResponse,
@@ -200,8 +184,6 @@ export const getSponsoredCampaigns = endpoint({
 });
 /**
  * @api POST https://adconfiguration.roblox.com/v2/sponsored-campaigns/create
- * @summary Creates a complete ad. Including ad campaign, ad set, escrow, and the ad.
-Currently intended for creation of sponsorships only.
  * @param body Roblox.AdConfiguration.Api.Models.CreateSponsoredCampaignRequest
  */
 export const postSponsoredCampaignsCreate = endpoint({
@@ -267,14 +249,13 @@ export const postSponsoredCampaignsCreate = endpoint({
 });
 /**
  * @api GET https://adconfiguration.roblox.com/v2/sponsored-campaigns/eligible-asset-type-ids
- * @summary Get all asset type IDs that are eligible to be sponsored.
  */
 export const getSponsoredCampaignsEligibleAssetTypeIds = endpoint({
   method: 'GET',
   path: '/v2/sponsored-campaigns/eligible-asset-type-ids',
   baseUrl: 'https://adconfiguration.roblox.com',
   requestFormat: 'json',
-  response: z.array(z.number()),
+  response: z.array(z.number().int()),
   errors: [
     {
       status: 401,
@@ -288,7 +269,6 @@ export const getSponsoredCampaignsEligibleAssetTypeIds = endpoint({
 });
 /**
  * @api POST https://adconfiguration.roblox.com/v2/sponsored-campaigns/eligible-campaign-targets
- * @summary Returns a collection of Roblox.AdConfiguration.Api.Models.CampaignTargetModel that the user is authorized to sponsor, ordered by most recently advertised
  * @param body Roblox.AdConfiguration.Api.Models.GetEligibleCampaignTargetsRequest
  */
 export const postSponsoredCampaignsEligibleCampaignTargets = endpoint({
@@ -320,10 +300,8 @@ export const postSponsoredCampaignsEligibleCampaignTargets = endpoint({
 });
 /**
  * @api GET https://adconfiguration.roblox.com/v2/sponsored-campaigns/multi-get-can-user-sponsor
- * @summary Checks whether the targets are eligible for sponsorship, and
-if the user is authorized to sponsor the targets.
- * @param campaignTargetType Ads.Management.Service.CampaignTargetType.
- * @param campaignTargetIds The IDs of the campaign targets.
+ * @param campaignTargetType
+ * @param campaignTargetIds
  */
 export const getSponsoredCampaignsMultiGetCanUserSponsor = endpoint({
   method: 'GET',
@@ -331,18 +309,12 @@ export const getSponsoredCampaignsMultiGetCanUserSponsor = endpoint({
   baseUrl: 'https://adconfiguration.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    campaignTargetType: {
-      style: 'form',
-      explode: true,
-    },
-    campaignTargetIds: {
-      style: 'form',
-      explode: true,
-    },
+    campaignTargetType: {},
+    campaignTargetIds: {},
   },
   parameters: {
     campaignTargetType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-    campaignTargetIds: z.array(z.number()),
+    campaignTargetIds: z.array(z.number().int()),
   },
   response: z.boolean(),
   errors: [
@@ -366,7 +338,6 @@ export const getSponsoredCampaignsMultiGetCanUserSponsor = endpoint({
 });
 /**
  * @api POST https://adconfiguration.roblox.com/v2/sponsored-campaigns/stop
- * @summary Stops a sponsored campaign / ad (ad set) from running. Initiated by a user.
  * @param body Roblox.AdConfiguration.Api.Models.StopSponsoredCampaignRequest
  */
 export const postSponsoredCampaignsStop = endpoint({
@@ -403,11 +374,10 @@ export const postSponsoredCampaignsStop = endpoint({
 });
 /**
  * @api GET https://adconfiguration.roblox.com/v2/sponsored-games
- * @summary Gets a page of Roblox.AdConfiguration.Api.SponsoredGameV2Model with specified input parameters.
- * @param universeId The universe id of the ad campaign.
- * @param includeReportingStats Indicates whether to include reporting stats in the response.
- * @param isArchived Indicates whether to retrieve archived ads.
- * @param pageCursor The cursor of the page to retrieve.
+ * @param universeId
+ * @param includeReportingStats
+ * @param isArchived
+ * @param pageCursor
  */
 export const getSponsoredGames = endpoint({
   method: 'GET',
@@ -415,27 +385,15 @@ export const getSponsoredGames = endpoint({
   baseUrl: 'https://adconfiguration.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'form',
-      explode: true,
-    },
-    includeReportingStats: {
-      style: 'form',
-      explode: true,
-    },
-    isArchived: {
-      style: 'form',
-      explode: true,
-    },
-    pageCursor: {
-      style: 'form',
-      explode: true,
-    },
+    universeId: {},
+    includeReportingStats: {},
+    isArchived: {},
+    pageCursor: {},
   },
   parameters: {
     universeId: z.number().int(),
-    includeReportingStats: z.boolean().optional(),
-    isArchived: z.boolean().optional(),
+    includeReportingStats: z.boolean().optional().default(false),
+    isArchived: z.boolean().optional().default(false),
     pageCursor: z.string().optional(),
   },
   response: Roblox_AdConfiguration_Api_GetSponsoredGamesResponse,
@@ -457,7 +415,6 @@ export const getSponsoredGames = endpoint({
 });
 /**
  * @api POST https://adconfiguration.roblox.com/v2/sponsored-games/create
- * @summary Creates a new sponsored game ad with specified input parameters.
  * @param body Roblox.AdConfiguration.Api.CreateSponsoredGameV2Request
  */
 export const postSponsoredGamesCreate = endpoint({
@@ -523,7 +480,6 @@ export const postSponsoredGamesCreate = endpoint({
 });
 /**
  * @api POST https://adconfiguration.roblox.com/v2/sponsored-games/stop
- * @summary To stop a sponsored-game ad (ad set) from running, initiated by a user.
  * @param body Roblox.AdConfiguration.Api.Models.StopSponsoredGameV2Request
  */
 export const postSponsoredGamesStop = endpoint({
@@ -559,8 +515,7 @@ export const postSponsoredGamesStop = endpoint({
 });
 /**
  * @api GET https://adconfiguration.roblox.com/v2/sponsored-games/universes
- * @summary Gets a list of universes for the authenticated user, or the given group, ordered by most recently created sponsored game ads.
- * @param groupId The group id, if applicable.
+ * @param groupId
  */
 export const getSponsoredGamesUniverses = endpoint({
   method: 'GET',
@@ -568,10 +523,7 @@ export const getSponsoredGamesUniverses = endpoint({
   baseUrl: 'https://adconfiguration.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    groupId: {
-      style: 'form',
-      explode: true,
-    },
+    groupId: {},
   },
   parameters: {
     groupId: z.number().int().optional(),

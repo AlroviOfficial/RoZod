@@ -301,8 +301,8 @@ const Roblox_Games_Api_VipServerUpdatePermissionsRequest = z.object({
   clanAllowed: z.boolean(),
   enemyClanId: z.number().int(),
   friendsAllowed: z.boolean(),
-  usersToAdd: z.array(z.number()),
-  usersToRemove: z.array(z.number()),
+  usersToAdd: z.array(z.number().int()),
+  usersToRemove: z.array(z.number().int()),
 });
 const Roblox_Games_Api_VipServerUpdateSubscriptionRequest = z.object({
   active: z.boolean(),
@@ -311,9 +311,8 @@ const Roblox_Games_Api_VipServerUpdateSubscriptionRequest = z.object({
 
 /**
  * @api GET https://games.roblox.com/v1/games
- * @summary Gets a list of games' detail
- * @param universeIds A list of universe Ids. Cannot exceed a maximum of 50 IDs.
- * @param languageCode The HTML language code [optional].
+ * @param universeIds
+ * @param languageCode
  */
 export const getGames = endpoint({
   method: 'GET',
@@ -321,16 +320,11 @@ export const getGames = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeIds: {
-      style: 'form',
-    },
-    languageCode: {
-      style: 'form',
-      explode: true,
-    },
+    universeIds: {},
+    languageCode: {},
   },
   parameters: {
-    universeIds: z.array(z.number()),
+    universeIds: z.array(z.number().int()),
     languageCode: z.string().optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_,
@@ -344,12 +338,11 @@ export const getGames = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/:placeId/private-servers
- * @summary Get list of private servers user can access for given game id.
- * @param placeId The Id of the place we are geting the private server list for.
+ * @param placeId
  * @param excludeFriendServers
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getGamesPlaceidPrivateServers = endpoint({
   method: 'GET',
@@ -357,29 +350,15 @@ export const getGamesPlaceidPrivateServers = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
-    excludeFriendServers: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    placeId: {},
+    excludeFriendServers: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     placeId: z.number().int(),
-    excludeFriendServers: z.boolean().optional(),
+    excludeFriendServers: z.boolean().optional().default(false),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
@@ -402,13 +381,12 @@ export const getGamesPlaceidPrivateServers = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/:placeId/servers/:serverType
- * @summary Get the game server list
- * @param placeId The Id of the place we are geting the server list for.
- * @param serverType The type of the server we geting the server list for.
- * @param sortOrder The sort order of the servers.
- * @param excludeFullGames Exclude full servers.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
+ * @param placeId
+ * @param serverType
+ * @param sortOrder
+ * @param excludeFullGames
+ * @param limit
+ * @param cursor
  */
 export const getGamesPlaceidServersServertype = endpoint({
   method: 'GET',
@@ -416,28 +394,12 @@ export const getGamesPlaceidServersServertype = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
-    serverType: {
-      style: 'simple',
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
-    excludeFullGames: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
+    placeId: {},
+    serverType: {},
+    sortOrder: {},
+    excludeFullGames: {},
+    limit: {},
+    cursor: {},
   },
   parameters: {
     placeId: z.number().int(),
@@ -446,7 +408,7 @@ export const getGamesPlaceidServersServertype = endpoint({
       .union([z.literal(1), z.literal(2)])
       .optional()
       .default(2),
-    excludeFullGames: z.boolean().optional(),
+    excludeFullGames: z.boolean().optional().default(false),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
@@ -469,8 +431,7 @@ export const getGamesPlaceidServersServertype = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/:universeId/favorites
- * @summary Returns if a game was marked as favorite for the authenticated user
- * @param universeId The Id of the universe.
+ * @param universeId
  */
 export const getGamesUniverseidFavorites = endpoint({
   method: 'GET',
@@ -478,9 +439,7 @@ export const getGamesUniverseidFavorites = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -503,9 +462,8 @@ export const getGamesUniverseidFavorites = endpoint({
 });
 /**
  * @api POST https://games.roblox.com/v1/games/:universeId/favorites
- * @summary Favors (or unfavors) a game for the authenticated user
  * @param body Request data.
- * @param universeId The Id of the universe.
+ * @param universeId
  */
 export const postGamesUniverseidFavorites = endpoint({
   method: 'POST',
@@ -514,9 +472,7 @@ export const postGamesUniverseidFavorites = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -549,8 +505,7 @@ export const postGamesUniverseidFavorites = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/:universeId/favorites/count
- * @summary Get the favorites count of a specific game.
- * @param universeId The Id of the universe.
+ * @param universeId
  */
 export const getGamesUniverseidFavoritesCount = endpoint({
   method: 'GET',
@@ -558,9 +513,7 @@ export const getGamesUniverseidFavoritesCount = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -579,8 +532,7 @@ export const getGamesUniverseidFavoritesCount = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/:universeId/media
- * @summary Get the game media data
- * @param universeId The id of the universe we get media data from.
+ * @param universeId
  */
 export const getGamesUniverseidMedia = endpoint({
   method: 'GET',
@@ -588,9 +540,7 @@ export const getGamesUniverseidMedia = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -609,9 +559,8 @@ export const getGamesUniverseidMedia = endpoint({
 });
 /**
  * @api PATCH https://games.roblox.com/v1/games/:universeId/user-votes
- * @summary Set the user's vote for a game
  * @param body The request body.
- * @param universeId The id of the universe.
+ * @param universeId
  */
 export const patchGamesUniverseidUserVotes = endpoint({
   method: 'PATCH',
@@ -620,9 +569,7 @@ export const patchGamesUniverseidUserVotes = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -663,8 +610,7 @@ export const patchGamesUniverseidUserVotes = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/:universeId/votes
- * @summary Get the game vote status
- * @param universeId The id of the universe we get vote status from.
+ * @param universeId
  */
 export const getGamesUniverseidVotes = endpoint({
   method: 'GET',
@@ -672,9 +618,7 @@ export const getGamesUniverseidVotes = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -702,8 +646,7 @@ export const getGamesUniverseidVotes = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/:universeId/votes/user
- * @summary Get the user's vote status for a game
- * @param universeId The id of the universe we get user vote status from.
+ * @param universeId
  */
 export const getGamesUniverseidVotesUser = endpoint({
   method: 'GET',
@@ -711,9 +654,7 @@ export const getGamesUniverseidVotesUser = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -745,8 +686,7 @@ export const getGamesUniverseidVotesUser = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/games-product-info
- * @summary Gets a list of games' product info, used to purchase a game
- * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
+ * @param universeIds
  */
 export const getGamesGamesProductInfo = endpoint({
   method: 'GET',
@@ -754,12 +694,10 @@ export const getGamesGamesProductInfo = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeIds: {
-      style: 'form',
-    },
+    universeIds: {},
   },
   parameters: {
-    universeIds: z.array(z.number()),
+    universeIds: z.array(z.number().int()),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameProductResponse_,
   errors: [
@@ -772,8 +710,7 @@ export const getGamesGamesProductInfo = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/multiget-place-details
- * @summary Get place details
- * @param placeIds List of placeId to uniquely Identify a place
+ * @param placeIds
  */
 export const getGamesMultigetPlaceDetails = endpoint({
   method: 'GET',
@@ -781,13 +718,10 @@ export const getGamesMultigetPlaceDetails = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    placeIds: {
-      style: 'form',
-      explode: true,
-    },
+    placeIds: {},
   },
   parameters: {
-    placeIds: z.array(z.number()),
+    placeIds: z.array(z.number().int()),
   },
   response: z.array(Roblox_Games_Api_Models_Response_PlaceDetails),
   errors: [
@@ -799,8 +733,7 @@ export const getGamesMultigetPlaceDetails = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/multiget-playability-status
- * @summary Gets a list of universe playability statuses for the authenticated user
- * @param universeIds A list of universe Ids. Cannot exceed a maximum of 50 IDs.
+ * @param universeIds
  */
 export const getGamesMultigetPlayabilityStatus = endpoint({
   method: 'GET',
@@ -808,12 +741,10 @@ export const getGamesMultigetPlayabilityStatus = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeIds: {
-      style: 'form',
-    },
+    universeIds: {},
   },
   parameters: {
-    universeIds: z.array(z.number()),
+    universeIds: z.array(z.number().int()),
   },
   response: z.array(Roblox_Games_Api_Models_Response_PlayabilityStatusResponse),
   errors: [
@@ -826,12 +757,10 @@ export const getGamesMultigetPlayabilityStatus = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/recommendations/game/:universeId
- * @summary Get games recommendations based on a given universe
- * @param universeId The universe to base recommendations on
- * @param PaginationKey The key of a page, which includes the start row index and all other necessary information to query the data.
-This parameter is usually not needed for the first page.
- * @param MaxRows The requested number of rows.
- * @param IsTruncatedResultsEnabled Truncated Results
+ * @param universeId
+ * @param PaginationKey
+ * @param MaxRows
+ * @param IsTruncatedResultsEnabled
  */
 export const getGamesRecommendationsGameUniverseid = endpoint({
   method: 'GET',
@@ -839,21 +768,10 @@ export const getGamesRecommendationsGameUniverseid = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
-    PaginationKey: {
-      style: 'form',
-      explode: true,
-    },
-    MaxRows: {
-      style: 'form',
-      explode: true,
-    },
-    IsTruncatedResultsEnabled: {
-      style: 'form',
-      explode: true,
-    },
+    universeId: {},
+    PaginationKey: {},
+    MaxRows: {},
+    IsTruncatedResultsEnabled: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -875,9 +793,8 @@ export const getGamesRecommendationsGameUniverseid = endpoint({
 });
 /**
  * @api POST https://games.roblox.com/v1/games/vip-servers/:universeId
- * @summary Create VIP server for a game
  * @param body The request body.
- * @param universeId The id of the universe.
+ * @param universeId
  */
 export const postGamesVipServersUniverseid = endpoint({
   method: 'POST',
@@ -886,9 +803,7 @@ export const postGamesVipServersUniverseid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -920,8 +835,7 @@ export const postGamesVipServersUniverseid = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/games/votes
- * @summary Gets a list of universe vote status
- * @param universeIds A list of universe Ids. Cannot exceed a maximum of 50 IDs.
+ * @param universeIds
  */
 export const getGamesVotes = endpoint({
   method: 'GET',
@@ -929,12 +843,10 @@ export const getGamesVotes = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeIds: {
-      style: 'form',
-    },
+    universeIds: {},
   },
   parameters: {
-    universeIds: z.array(z.number()),
+    universeIds: z.array(z.number().int()),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameVoteResponse_,
   errors: [
@@ -956,7 +868,6 @@ export const getGamesVotes = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/private-servers/enabled-in-universe/:universeId
- * @summary Checks if the private servers are enabled in the specified universe.
  * @param universeId
  */
 export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
@@ -965,9 +876,7 @@ export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -982,10 +891,9 @@ export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/private-servers/my-private-servers
- * @summary Get private servers for the authenticated user
- * @param privateServersTab Type of private server to fetch
- * @param itemsPerPage Number of items per page
- * @param cursor Current cursor
+ * @param privateServersTab
+ * @param itemsPerPage
+ * @param cursor
  */
 export const getPrivateServersMyPrivateServers = endpoint({
   method: 'GET',
@@ -993,21 +901,15 @@ export const getPrivateServersMyPrivateServers = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    privateServersTab: {
-      style: 'form',
-      explode: true,
-    },
-    itemsPerPage: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
+    privateServersTab: {},
+    itemsPerPage: {},
+    cursor: {},
   },
   parameters: {
-    privateServersTab: z.union([z.literal(0), z.literal(1)]).optional(),
+    privateServersTab: z
+      .union([z.literal(0), z.literal(1)])
+      .optional()
+      .default(0),
     itemsPerPage: z.number().int().optional().default(25),
     cursor: z.string().optional(),
   },
@@ -1025,8 +927,7 @@ export const getPrivateServersMyPrivateServers = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/vip-server/can-invite/:userId
- * @summary Determines if a user by id is allowed to receive a VIP Server invite from the authenticated user.
- * @param userId The user id.
+ * @param userId
  */
 export const getVipServerCanInviteUserid = endpoint({
   method: 'GET',
@@ -1034,9 +935,7 @@ export const getVipServerCanInviteUserid = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -1055,8 +954,7 @@ export const getVipServerCanInviteUserid = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v1/vip-servers/:id
- * @summary Get necessary data to generate webpage
- * @param id The VIP Server ID
+ * @param id
  */
 export const getVipServersId = endpoint({
   method: 'GET',
@@ -1064,9 +962,7 @@ export const getVipServersId = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    id: {
-      style: 'simple',
-    },
+    id: {},
   },
   parameters: {
     id: z.number().int(),
@@ -1094,9 +990,8 @@ export const getVipServersId = endpoint({
 });
 /**
  * @api PATCH https://games.roblox.com/v1/vip-servers/:id
- * @summary Updates vip server
  * @param body The Roblox.Games.Api.VipServerUpdateRequest
- * @param id The VIP Server ID
+ * @param id
  */
 export const patchVipServersId = endpoint({
   method: 'PATCH',
@@ -1105,9 +1000,7 @@ export const patchVipServersId = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    id: {
-      style: 'simple',
-    },
+    id: {},
   },
   parameters: {
     id: z.number().int(),
@@ -1145,9 +1038,8 @@ export const patchVipServersId = endpoint({
 });
 /**
  * @api PATCH https://games.roblox.com/v1/vip-servers/:id/permissions
- * @summary Update friend/clan access and allowed friends/clan list
  * @param body The Roblox.Games.Api.VipServerUpdatePermissionsRequest
- * @param id The VIP Server ID
+ * @param id
  */
 export const patchVipServersIdPermissions = endpoint({
   method: 'PATCH',
@@ -1156,9 +1048,7 @@ export const patchVipServersIdPermissions = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    id: {
-      style: 'simple',
-    },
+    id: {},
   },
   parameters: {
     id: z.number().int(),
@@ -1192,9 +1082,8 @@ export const patchVipServersIdPermissions = endpoint({
 });
 /**
  * @api PATCH https://games.roblox.com/v1/vip-servers/:id/subscription
- * @summary Updates subscription status of a vip server
  * @param body The Roblox.Games.Api.VipServerUpdateSubscriptionRequest
- * @param id The VIP Server ID
+ * @param id
  */
 export const patchVipServersIdSubscription = endpoint({
   method: 'PATCH',
@@ -1203,9 +1092,7 @@ export const patchVipServersIdSubscription = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    id: {
-      style: 'simple',
-    },
+    id: {},
   },
   parameters: {
     id: z.number().int(),

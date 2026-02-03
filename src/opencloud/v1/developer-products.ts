@@ -83,9 +83,8 @@ const ListDeveloperProductConfigsV2Response = z.object({
 
 /**
  * @api POST https://apis.roblox.com/cloud/developer-products/v2/universes/:universeId/developer-products
- * @summary Create developer product
  * @param body
- * @param universeId The universe ID.
+ * @param universeId
  * @description Creates a new developer product with the provided configuration details.
  */
 export const postDeveloperProductsV2UniversesUniverseIdDeveloperProducts = endpoint({
@@ -123,10 +122,9 @@ export const postDeveloperProductsV2UniversesUniverseIdDeveloperProducts = endpo
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/developer-products/v2/universes/:universeId/developer-products/:productId
- * @summary Update developer product
  * @param body 
- * @param universeId The universe ID.
- * @param productId The product ID of the developer product.
+ * @param universeId 
+ * @param productId 
  * @description Updates a developer product with the provided configuration details. 
 Note that only fields provided in the request will be updated.
  */
@@ -171,9 +169,8 @@ export const patchDeveloperProductsV2UniversesUniverseIdDeveloperProductsProduct
 });
 /**
  * @api GET https://apis.roblox.com/cloud/developer-products/v2/universes/:universeId/developer-products/:productId/creator
- * @summary Get developer product with configuration details
- * @param universeId The universe ID.
- * @param productId The product ID of the developer product.
+ * @param universeId
+ * @param productId
  */
 export const getDeveloperProductsV2UniversesUniverseIdDeveloperProductsProductIdCreator = endpoint({
   method: 'GET',
@@ -206,10 +203,9 @@ export const getDeveloperProductsV2UniversesUniverseIdDeveloperProductsProductId
 });
 /**
  * @api GET https://apis.roblox.com/cloud/developer-products/v2/universes/:universeId/developer-products/creator
- * @summary List developer products by universe with configuration details
- * @param universeId The universe ID.
- * @param pageSize The number of results to return. Defaults to 50.
- * @param pageToken The cursor token for pagination.
+ * @param universeId
+ * @param pageSize
+ * @param pageToken
  */
 export const getDeveloperProductsV2UniversesUniverseIdDeveloperProductsCreator = endpoint({
   method: 'GET',

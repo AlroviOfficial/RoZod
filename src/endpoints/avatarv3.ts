@@ -121,9 +121,9 @@ const Roblox_Api_Avatar_Models_OutfitModel = z.object({
 
 /**
  * @api PATCH https://avatar.roblox.com/v3/outfits/:userOutfitId
- * @summary Updates the contents of an outfit.
  * @param body The updated outfit.
- * @param userOutfitId The user outfit id.
+ * @param userOutfitId 
+ * @param Roblox-Place-Id 
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
 Accepts partial updates.
  */
@@ -134,12 +134,12 @@ export const patchOutfitsUseroutfitid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userOutfitId: {
-      style: 'simple',
-    },
+    userOutfitId: {},
+    'Roblox-Place-Id': {},
   },
   parameters: {
     userOutfitId: z.number().int(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
   response: Roblox_Api_Avatar_Models_OutfitModel,
@@ -172,8 +172,9 @@ export const patchOutfitsUseroutfitid = endpoint({
 });
 /**
  * @api GET https://avatar.roblox.com/v3/outfits/:userOutfitId/details
- * @summary Gets details about the contents of an outfit.
- * @param userOutfitId The user outfit id.
+ * @param userOutfitId
+ * @param Roblox-Place-Id
+ * @param checkAssetAvailability
  */
 export const getOutfitsUseroutfitidDetails = endpoint({
   method: 'GET',
@@ -181,12 +182,14 @@ export const getOutfitsUseroutfitidDetails = endpoint({
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userOutfitId: {
-      style: 'simple',
-    },
+    userOutfitId: {},
+    'Roblox-Place-Id': {},
+    checkAssetAvailability: {},
   },
   parameters: {
     userOutfitId: z.number().int(),
+    'Roblox-Place-Id': z.number().int().optional(),
+    checkAssetAvailability: z.boolean().optional().default(false),
   },
   response: Roblox_Api_Avatar_Models_OutfitDetailsModelV2,
   errors: [
@@ -203,8 +206,8 @@ export const getOutfitsUseroutfitidDetails = endpoint({
 });
 /**
  * @api POST https://avatar.roblox.com/v3/outfits/create
- * @summary Creates a new outfit.
  * @param body The new outfit.
+ * @param Roblox-Place-Id 
  * @description Fails if any of the assetIds are not owned by the user, or not wearable types.
 The name property of the request is optional as one will be auto-generated when the request has a null name.
  */
@@ -215,8 +218,11 @@ export const postOutfitsCreate = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
+    'Roblox-Place-Id': {},
   },
-  parameters: {},
+  parameters: {
+    'Roblox-Place-Id': z.number().int().optional(),
+  },
   body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
   response: Roblox_Api_Avatar_Models_OutfitModel,
   errors: [

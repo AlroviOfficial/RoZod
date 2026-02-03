@@ -379,7 +379,7 @@ const Roblox_Authentication_Api_Models_SignupRequest = z.object({
   isTosAgreementBoxChecked: z.boolean(),
   email: z.string(),
   locale: z.string(),
-  assetIds: z.array(z.number()),
+  assetIds: z.array(z.number().int()),
   bodyColorId: z.number().int(),
   bodyTypeScale: z.number(),
   headScale: z.number(),
@@ -439,7 +439,6 @@ const Roblox_Authentication_Api_Models_XboxCollectionsOfUserResponse = z.object(
 
 /**
  * @api GET https://auth.roblox.com/v1/account/pin
- * @summary Gets the account pin status.
  */
 export const getAccountPin = endpoint({
   method: 'GET',
@@ -456,7 +455,6 @@ export const getAccountPin = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/account/pin
- * @summary Request to create the account pin.
  * @param body The Roblox.Authentication.Api.Models.AccountPinRequest.
  */
 export const postAccountPin = endpoint({
@@ -483,7 +481,6 @@ export const postAccountPin = endpoint({
 });
 /**
  * @api DELETE https://auth.roblox.com/v1/account/pin
- * @summary Request for deletes the account pin from the account.
  * @param body
  */
 export const deleteAccountPin = endpoint({
@@ -510,7 +507,6 @@ export const deleteAccountPin = endpoint({
 });
 /**
  * @api PATCH https://auth.roblox.com/v1/account/pin
- * @summary Request made to update the account pin on the account.
  * @param body The request body.
  */
 export const patchAccountPin = endpoint({
@@ -537,7 +533,6 @@ export const patchAccountPin = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/account/pin/lock
- * @summary Request to locks the account which has an account pin enabled.
  */
 export const postAccountPinLock = endpoint({
   method: 'POST',
@@ -558,7 +553,6 @@ export const postAccountPinLock = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/account/pin/unlock
- * @summary Requests to unlock the account pin.
  * @param body The Roblox.Authentication.Api.Models.AccountPinRequest containing the entered pin.
  */
 export const postAccountPinUnlock = endpoint({
@@ -585,7 +579,6 @@ export const postAccountPinUnlock = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/auth/metadata
- * @summary Gets Auth meta data
  */
 export const getAuthMetadata = endpoint({
   method: 'GET',
@@ -597,7 +590,6 @@ export const getAuthMetadata = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/client-assertion
- * @summary Creates a client assertion to be used when generating an auth ticket.
  */
 export const getClientAssertion = endpoint({
   method: 'GET',
@@ -614,7 +606,6 @@ export const getClientAssertion = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/external/:identityProviderId/sso/oauth/callback
- * @summary Callback function that external identity provider calls post user authentication.
  * @param identityProviderId
  * @param code
  * @param state
@@ -625,17 +616,9 @@ export const getExternalIdentityprovideridSsoOauthCallback = endpoint({
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    identityProviderId: {
-      style: 'simple',
-    },
-    code: {
-      style: 'form',
-      explode: true,
-    },
-    state: {
-      style: 'form',
-      explode: true,
-    },
+    identityProviderId: {},
+    code: {},
+    state: {},
   },
   parameters: {
     identityProviderId: z.number().int(),
@@ -652,7 +635,6 @@ export const getExternalIdentityprovideridSsoOauthCallback = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/external/:identityProviderId/sso/oauth/init
- * @summary Signs a user up for Roblox and links the account to the authenticated external provider ID.
  * @param identityProviderId
  */
 export const getExternalIdentityprovideridSsoOauthInit = endpoint({
@@ -661,9 +643,7 @@ export const getExternalIdentityprovideridSsoOauthInit = endpoint({
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    identityProviderId: {
-      style: 'simple',
-    },
+    identityProviderId: {},
   },
   parameters: {
     identityProviderId: z.number().int(),
@@ -678,7 +658,6 @@ export const getExternalIdentityprovideridSsoOauthInit = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/external/access
- * @summary Signs a user up for Roblox and links the account to the authenticated external provider ID.
  * @param body
  */
 export const postExternalAccess = endpoint({
@@ -696,7 +675,6 @@ export const postExternalAccess = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/external/login
- * @summary Logs in a user to Roblox based on the user's authenticated external provider session
  * @param body
  */
 export const postExternalLogin = endpoint({
@@ -735,9 +713,7 @@ export const postExternalLogin = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/external/loginAndLink
- * @summary Deprecated endpoint
-Logins in a user to Roblox, then links the Roblox account to the external provider ID
- * @param body 
+ * @param body
  */
 export const postExternalLoginandlink = endpoint({
   method: 'POST',
@@ -759,7 +735,6 @@ export const postExternalLoginandlink = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/external/signup
- * @summary Signs a user up for Roblox and links the account to the authenticated external provider ID
  * @param body
  */
 export const postExternalSignup = endpoint({
@@ -782,7 +757,6 @@ export const postExternalSignup = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/external/unlink
- * @summary Unlink the logged in Roblox account from the current external provider ID
  * @param body
  */
 export const postExternalUnlink = endpoint({
@@ -805,7 +779,6 @@ export const postExternalUnlink = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/identity-verification/login
- * @summary Endpoint for login with identity verification
  * @param body
  */
 export const postIdentityVerificationLogin = endpoint({
@@ -832,7 +805,6 @@ export const postIdentityVerificationLogin = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/identity/initialize-login
- * @summary Initiates identifier-first login flow by returning a list of login methods for user(s).
  * @param body
  */
 export const postIdentityInitializeLogin = endpoint({
@@ -868,7 +840,6 @@ export const postIdentityInitializeLogin = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/login
- * @summary Authenticates a user.
  * @param body Roblox.Authentication.Api.Models.LoginRequest.
  */
 export const postLogin = endpoint({
@@ -916,8 +887,6 @@ export const postLogin = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/login/linked
- * @summary Endpoint for logging in a user, specifically for linked
-authentication on PCGDK
  * @param body Roblox.Authentication.Api.Models.LoginRequest
  */
 export const postLoginLinked = endpoint({
@@ -965,7 +934,6 @@ export const postLoginLinked = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/logout
- * @summary Destroys the current authentication session.
  */
 export const postLogout = endpoint({
   method: 'POST',
@@ -986,7 +954,6 @@ export const postLogout = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/logoutfromallsessionsandreauthenticate
- * @summary Logs out user from all other sessions.
  * @param body
  */
 export const postLogoutfromallsessionsandreauthenticate = endpoint({
@@ -1013,7 +980,6 @@ export const postLogoutfromallsessionsandreauthenticate = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/metadata
- * @summary Get the metadata
  */
 export const getMetadata = endpoint({
   method: 'GET',
@@ -1025,7 +991,6 @@ export const getMetadata = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/passkey/DeleteCredentialBatch
- * @summary Disables a batch of credentials for the specified user.
  * @param body The request body!:DisableTwoStepVerificationRequest.
  */
 export const postPasskeyDeletecredentialbatch = endpoint({
@@ -1097,7 +1062,6 @@ export const postPasskeyFinishPreauthRegistration = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/passkey/FinishRegistration
- * @summary Complete Passkey registration by providing credential creation options.
  * @param body The request body.Roblox.Authentication.Api.Models.Request.FinishPasskeyRegistrationRequest.
  */
 export const postPasskeyFinishregistration = endpoint({
@@ -1135,7 +1099,6 @@ export const postPasskeyFinishregistration = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/passkey/ListCredentials
- * @summary List a user's registered passkeys.
  * @param body
  */
 export const postPasskeyListcredentials = endpoint({
@@ -1167,7 +1130,6 @@ export const postPasskeyListcredentials = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/passkey/start-authentication-by-user
- * @summary Initializes passkey authentication for the user(s) corresponding to the identifier provided.
  * @param body
  */
 export const postPasskeyStartAuthenticationByUser = endpoint({
@@ -1200,7 +1162,6 @@ export const postPasskeyStartAuthenticationByUser = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/passkey/start-preauth-registration
- * @summary Initiates  Passkey preauthenticated registration by providing credential creation options.
  * @param body
  */
 export const postPasskeyStartPreauthRegistration = endpoint({
@@ -1227,7 +1188,6 @@ export const postPasskeyStartPreauthRegistration = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/passkey/StartAuthentication
- * @summary Provides a challenge for the Passkey to authenticate.
  */
 export const postPasskeyStartauthentication = endpoint({
   method: 'POST',
@@ -1248,7 +1208,6 @@ export const postPasskeyStartauthentication = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/passkey/StartRegistration
- * @summary Initiates Passkey registration by providing credential creation options.
  * @param body
  * @param flow
  */
@@ -1259,10 +1218,7 @@ export const postPasskeyStartregistration = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    flow: {
-      style: 'form',
-      explode: true,
-    },
+    flow: {},
   },
   parameters: {
     flow: z.string().optional(),
@@ -1288,7 +1244,6 @@ export const postPasskeyStartregistration = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/passwords/validate
- * @summary Endpoint for checking if a password is valid.
  * @param Username
  * @param Password
  */
@@ -1298,14 +1253,8 @@ export const getPasswordsValidate = endpoint({
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    Username: {
-      style: 'form',
-      explode: true,
-    },
-    Password: {
-      style: 'form',
-      explode: true,
-    },
+    Username: {},
+    Password: {},
   },
   parameters: {
     Username: z.string(),
@@ -1321,7 +1270,6 @@ export const getPasswordsValidate = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/passwords/validate
- * @summary Endpoint for checking if a password is valid.
  * @param body The Roblox.Authentication.Api.Models.PasswordValidationModel.
  */
 export const postPasswordsValidate = endpoint({
@@ -1348,7 +1296,6 @@ export const postPasswordsValidate = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/recovery/metadata
- * @summary Get metadata for forgot endpoints
  */
 export const getRecoveryMetadata = endpoint({
   method: 'GET',
@@ -1365,8 +1312,7 @@ export const getRecoveryMetadata = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/revert/account
- * @summary Get Revert Account ticket info
- * @param ticket Ticket Guid to revert account.
+ * @param ticket
  */
 export const getRevertAccount = endpoint({
   method: 'GET',
@@ -1374,10 +1320,7 @@ export const getRevertAccount = endpoint({
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    ticket: {
-      style: 'form',
-      explode: true,
-    },
+    ticket: {},
   },
   parameters: {
     ticket: z.string(),
@@ -1389,6 +1332,10 @@ export const getRevertAccount = endpoint({
       description: `2: The account revert ticket is not valid`,
     },
     {
+      status: 403,
+      description: `13: Revert links are disabled for users in the Enhanced Protection Program.`,
+    },
+    {
       status: 503,
       description: `1: This feature is disabled`,
     },
@@ -1396,7 +1343,6 @@ export const getRevertAccount = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/revert/account
- * @summary Submit Revert Account Request
  * @param body The Roblox.Authentication.Api.Models.RevertAccountSubmitRequest containing the necessary information to revert account.
  */
 export const postRevertAccount = endpoint({
@@ -1432,8 +1378,6 @@ export const postRevertAccount = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/revert/invalidate-tickets
- * @summary Invalidates all account security tickets for the authenticated user.
-This endpoint should be called before enrolling in EPP to ensure old revert links cannot be used.
  */
 export const postRevertInvalidateTickets = endpoint({
   method: 'POST',
@@ -1458,7 +1402,6 @@ export const postRevertInvalidateTickets = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/session/refresh
- * @summary Logs out user from the current session and create a new one.
  */
 export const postSessionRefresh = endpoint({
   method: 'POST',
@@ -1479,7 +1422,6 @@ export const postSessionRefresh = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/signup
- * @summary Endpoint for signing up a new user
  * @param body Roblox.Authentication.Api.Models.SignupRequest
  */
 export const postSignup = endpoint({
@@ -1534,8 +1476,6 @@ export const postSignup = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/signup/linked
- * @summary Endpoint for signing up a new user, specifically for linked
-authentication on PCGDK
  * @param body Roblox.Authentication.Api.Models.SignupRequest
  */
 export const postSignupLinked = endpoint({
@@ -1586,9 +1526,8 @@ export const postSignupLinked = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/social/:provider/disconnect
- * @summary Removes the given social authentication method from current Roblox user if it is connected.
  * @param body The request body for additional parameters that may be required for disconnect
- * @param provider The social authentication provider, e.g. Facebook
+ * @param provider
  */
 export const postSocialProviderDisconnect = endpoint({
   method: 'POST',
@@ -1597,9 +1536,7 @@ export const postSocialProviderDisconnect = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    provider: {
-      style: 'simple',
-    },
+    provider: {},
   },
   parameters: {
     provider: z.string(),
@@ -1631,7 +1568,6 @@ export const postSocialProviderDisconnect = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/social/connected-providers
- * @summary Get social network user information if the given social auth method is connected to current user.
  */
 export const getSocialConnectedProviders = endpoint({
   method: 'GET',
@@ -1648,7 +1584,6 @@ export const getSocialConnectedProviders = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/user/passwords/change
- * @summary Changes the password for the authenticated user.
  * @param body The request model including the current password, and the new password.
  * @description The current password is needed for verification that the password can be changed.
  */
@@ -1687,7 +1622,6 @@ export const postUserPasswordsChange = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/username
- * @summary Change the user's username
  * @param body The Roblox.Authentication.Api.Models.UsernameChangeRequest
  */
 export const postUsername = endpoint({
@@ -1740,8 +1674,7 @@ export const postUsername = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/usernames
- * @summary Gets a list of existing usernames on Roblox based on the query parameters
- * @param username The username
+ * @param username
  * @description This endpoint can be expanded in the future to include other query parameters such as "startsWith"
  */
 export const getUsernames = endpoint({
@@ -1750,10 +1683,7 @@ export const getUsernames = endpoint({
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    username: {
-      style: 'form',
-      explode: true,
-    },
+    username: {},
   },
   parameters: {
     username: z.string().optional(),
@@ -1763,7 +1693,6 @@ export const getUsernames = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/usernames/recover
- * @summary Sends an email of all accounts belonging to an email
  * @param body
  */
 export const postUsernamesRecover = endpoint({
@@ -1797,7 +1726,6 @@ export const postUsernamesRecover = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/usernames/validate
- * @summary Checks if a username is valid.
  * @param Username
  * @param Birthday
  * @param Context
@@ -1808,18 +1736,9 @@ export const getUsernamesValidate = endpoint({
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    Username: {
-      style: 'form',
-      explode: true,
-    },
-    Birthday: {
-      style: 'form',
-      explode: true,
-    },
-    Context: {
-      style: 'form',
-      explode: true,
-    },
+    Username: {},
+    Birthday: {},
+    Context: {},
   },
   parameters: {
     Username: z.string(),
@@ -1837,7 +1756,6 @@ export const getUsernamesValidate = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/usernames/validate
- * @summary Checks if a username is valid.
  * @param body The Roblox.Authentication.Api.Models.UsernameValidationRequest.
  */
 export const postUsernamesValidate = endpoint({
@@ -1865,7 +1783,6 @@ export const postUsernamesValidate = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/validators/email
- * @summary Tries to check if an email is valid
  * @param Email
  */
 export const getValidatorsEmail = endpoint({
@@ -1874,10 +1791,7 @@ export const getValidatorsEmail = endpoint({
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    Email: {
-      style: 'form',
-      explode: true,
-    },
+    Email: {},
   },
   parameters: {
     Email: z.string(),
@@ -1887,7 +1801,6 @@ export const getValidatorsEmail = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/validators/recommendedUsernameFromDisplayName
- * @summary Validates the given display name, and if valid, will convert it to a valid username and return suggested username(s) if available.
  * @param DisplayName
  * @param BirthDay
  */
@@ -1897,14 +1810,8 @@ export const getValidatorsRecommendedusernamefromdisplayname = endpoint({
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    DisplayName: {
-      style: 'form',
-      explode: true,
-    },
-    BirthDay: {
-      style: 'form',
-      explode: true,
-    },
+    DisplayName: {},
+    BirthDay: {},
   },
   parameters: {
     DisplayName: z.string(),
@@ -1915,10 +1822,7 @@ export const getValidatorsRecommendedusernamefromdisplayname = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/validators/recommendedUsernameFromDisplayName
- * @summary Validates the given display name, and if valid, will convert it to a valid username and return suggested username(s) if available.
-            
-This is a POST request and explicitly does not receive the parameter values from the query
- * @param body 
+ * @param body
  */
 export const postValidatorsRecommendedusernamefromdisplayname = endpoint({
   method: 'POST',
@@ -1940,7 +1844,6 @@ export const postValidatorsRecommendedusernamefromdisplayname = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/validators/username
- * @summary Tries to get a valid username if the current username is taken
  * @param Username
  * @param BirthDay
  */
@@ -1950,14 +1853,8 @@ export const getValidatorsUsername = endpoint({
   baseUrl: 'https://auth.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    Username: {
-      style: 'form',
-      explode: true,
-    },
-    BirthDay: {
-      style: 'form',
-      explode: true,
-    },
+    Username: {},
+    BirthDay: {},
   },
   parameters: {
     Username: z.string(),
@@ -1968,9 +1865,7 @@ export const getValidatorsUsername = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/validators/username
- * @summary Tries to get a valid username if the current username is taken
-This is a POST request and explicitly does not receive the parameter values from the query
- * @param body 
+ * @param body
  */
 export const postValidatorsUsername = endpoint({
   method: 'POST',
@@ -1992,8 +1887,6 @@ export const postValidatorsUsername = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/xbox/connection
- * @summary Check if the current user has an Xbox connected.
-Also returns the gamertag of the Xbox account if connected.
  */
 export const getXboxConnection = endpoint({
   method: 'GET',
@@ -2013,7 +1906,6 @@ export const getXboxConnection = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/xbox/disconnect
- * @summary Unlink the current ROBLOX account from the Xbox live account.
  */
 export const postXboxDisconnect = endpoint({
   method: 'POST',
@@ -2035,7 +1927,6 @@ export const postXboxDisconnect = endpoint({
 });
 /**
  * @api GET https://auth.roblox.com/v1/xbox/get-login-consecutive-days
- * @summary Get the consecutive days the xbox user has been logged in.
  */
 export const getXboxGetLoginConsecutiveDays = endpoint({
   method: 'GET',
@@ -2059,7 +1950,6 @@ export const getXboxGetLoginConsecutiveDays = endpoint({
 });
 /**
  * @api POST https://auth.roblox.com/v1/xbox/translate
- * @summary Translate the xbox user to roblox user.
  * @param body
  */
 export const postXboxTranslate = endpoint({

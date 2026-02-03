@@ -20,8 +20,7 @@ const Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponse = z.
 
 /**
  * @api GET https://clientsettings.roblox.com/v1/client-version/:binaryType
- * @summary Get client version information for specific binary type
- * @param binaryType Platform(WindowsPlayer, WindowsStudio, MacPlayer or MacStudio) for which we want the latest version
+ * @param binaryType
  */
 export const getClientVersionBinarytype = endpoint({
   method: 'GET',
@@ -29,9 +28,7 @@ export const getClientVersionBinarytype = endpoint({
   baseUrl: 'https://clientsettings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    binaryType: {
-      style: 'simple',
-    },
+    binaryType: {},
   },
   parameters: {
     binaryType: z.string(),
@@ -41,7 +38,6 @@ export const getClientVersionBinarytype = endpoint({
 });
 /**
  * @api GET https://clientsettings.roblox.com/v1/installer-cdns
- * @summary Get information about which CDNs to use for installation.
  */
 export const getInstallerCdns = endpoint({
   method: 'GET',
@@ -53,8 +49,7 @@ export const getInstallerCdns = endpoint({
 });
 /**
  * @api GET https://clientsettings.roblox.com/v1/mobile-client-version
- * @summary Get mobile client version information based on app version parameter
- * @param appVersion AppiOSV2.13, AppVersioniOS2.0.1, etc
+ * @param appVersion
  */
 export const getMobileClientVersion = endpoint({
   method: 'GET',
@@ -62,10 +57,7 @@ export const getMobileClientVersion = endpoint({
   baseUrl: 'https://clientsettings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    appVersion: {
-      style: 'form',
-      explode: true,
-    },
+    appVersion: {},
   },
   parameters: {
     appVersion: z.string(),

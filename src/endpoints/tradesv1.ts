@@ -92,7 +92,7 @@ const Roblox_Trades_Api_CanTradeResponse = z.object({
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Trades_Api_TradeOfferRequest = z.object({
   userId: z.number().int(),
-  userAssetIds: z.array(z.number()),
+  userAssetIds: z.array(z.number().int()),
   robux: z.number().int(),
 });
 const Roblox_Trades_Api_TradeRequest = z.object({
@@ -102,8 +102,7 @@ const Roblox_Trades_Api_NewTradeResponse = z.object({ id: z.number().int() });
 
 /**
  * @api GET https://trades.roblox.com/v1/trades/:tradeId
- * @summary Gets detailed information about a trade.
- * @param tradeId The trade id.
+ * @param tradeId
  */
 export const getTradesTradeid = endpoint({
   method: 'GET',
@@ -111,9 +110,7 @@ export const getTradesTradeid = endpoint({
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    tradeId: {
-      style: 'simple',
-    },
+    tradeId: {},
   },
   parameters: {
     tradeId: z.number().int(),
@@ -141,8 +138,7 @@ export const getTradesTradeid = endpoint({
 });
 /**
  * @api POST https://trades.roblox.com/v1/trades/:tradeId/accept
- * @summary Accepts a trade.
- * @param tradeId The trade id.
+ * @param tradeId
  */
 export const postTradesTradeidAccept = endpoint({
   method: 'POST',
@@ -150,9 +146,7 @@ export const postTradesTradeidAccept = endpoint({
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    tradeId: {
-      style: 'simple',
-    },
+    tradeId: {},
   },
   parameters: {
     tradeId: z.number().int(),
@@ -185,9 +179,8 @@ export const postTradesTradeidAccept = endpoint({
 });
 /**
  * @api POST https://trades.roblox.com/v1/trades/:tradeId/counter
- * @summary Counters a trade.
  * @param body The trade request.
- * @param tradeId The trade id.
+ * @param tradeId
  */
 export const postTradesTradeidCounter = endpoint({
   method: 'POST',
@@ -196,9 +189,7 @@ export const postTradesTradeidCounter = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    tradeId: {
-      style: 'simple',
-    },
+    tradeId: {},
   },
   parameters: {
     tradeId: z.number().int(),
@@ -249,8 +240,7 @@ export const postTradesTradeidCounter = endpoint({
 });
 /**
  * @api POST https://trades.roblox.com/v1/trades/:tradeId/decline
- * @summary Declines a trade.
- * @param tradeId The trade id.
+ * @param tradeId
  */
 export const postTradesTradeidDecline = endpoint({
   method: 'POST',
@@ -258,9 +248,7 @@ export const postTradesTradeidDecline = endpoint({
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    tradeId: {
-      style: 'simple',
-    },
+    tradeId: {},
   },
   parameters: {
     tradeId: z.number().int(),
@@ -290,11 +278,10 @@ export const postTradesTradeidDecline = endpoint({
 });
 /**
  * @api GET https://trades.roblox.com/v1/trades/:tradeStatusType
- * @summary Fetches a list of the authenticated user's trades.
- * @param tradeStatusType The trade status type.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder Sorted by trade creation date
+ * @param tradeStatusType
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getTradesTradestatustype = endpoint({
   method: 'GET',
@@ -302,21 +289,10 @@ export const getTradesTradestatustype = endpoint({
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    tradeStatusType: {
-      style: 'simple',
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    tradeStatusType: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     tradeStatusType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
@@ -341,9 +317,7 @@ export const getTradesTradestatustype = endpoint({
 });
 /**
  * @api GET https://trades.roblox.com/v1/trades/:tradeStatusType/count
- * @summary Gets the total number of pending trades for the authenticated user.
-Inbound is the only accepted tradeStatusType.
- * @param tradeStatusType The trade status type to fetch a total count for.
+ * @param tradeStatusType
  */
 export const getTradesTradestatustypeCount = endpoint({
   method: 'GET',
@@ -351,9 +325,7 @@ export const getTradesTradestatustypeCount = endpoint({
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    tradeStatusType: {
-      style: 'simple',
-    },
+    tradeStatusType: {},
   },
   parameters: {
     tradeStatusType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
@@ -372,8 +344,6 @@ export const getTradesTradestatustypeCount = endpoint({
 });
 /**
  * @api POST https://trades.roblox.com/v1/trades/expire-outdated
- * @summary Deprecated. TradeSession are automatically set to expire while the inbound/outbound trades are fetched.
-Expires Outdated Inbound Trades for User
  */
 export const postTradesExpireOutdated = endpoint({
   method: 'POST',
@@ -394,7 +364,6 @@ export const postTradesExpireOutdated = endpoint({
 });
 /**
  * @api GET https://trades.roblox.com/v1/trades/metadata
- * @summary Gets metadata about the trade system.
  */
 export const getTradesMetadata = endpoint({
   method: 'GET',
@@ -411,7 +380,6 @@ export const getTradesMetadata = endpoint({
 });
 /**
  * @api POST https://trades.roblox.com/v1/trades/send
- * @summary Sends a trade.
  * @param body The trade request.
  */
 export const postTradesSend = endpoint({
@@ -468,8 +436,7 @@ export const postTradesSend = endpoint({
 });
 /**
  * @api GET https://trades.roblox.com/v1/users/:userId/can-trade-with
- * @summary Returns whether you can trade with another user.
- * @param userId The other user's id.
+ * @param userId
  */
 export const getUsersUseridCanTradeWith = endpoint({
   method: 'GET',
@@ -477,9 +444,7 @@ export const getUsersUseridCanTradeWith = endpoint({
   baseUrl: 'https://trades.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),

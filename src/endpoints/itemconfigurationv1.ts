@@ -36,11 +36,8 @@ const Roblox_ItemConfiguration_Api_ItemTagsMetadataResponse = z.object({
   enabledAssetTypes: z.array(z.string()),
   maximumItemTagsPerItem: z.number().int(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_TagDetails_ = z.object({
-  data: z.array(Roblox_ItemConfiguration_Api_TagDetails),
-});
 const Roblox_ItemConfiguration_Api_AssetCreationsDetailsRequest = z.object({
-  AssetIds: z.array(z.number()),
+  AssetIds: z.array(z.number().int()),
 });
 const Roblox_ItemConfiguration_Api_PriceConfigurationModel = z.object({
   priceInRobux: z.number().int(),
@@ -81,7 +78,6 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
  * @api POST https://itemconfiguration.roblox.com/v1/creations/get-asset-details
- * @summary Gets the asset status and other configuration details for the given assetIds list.
  * @param body
  */
 export const postCreationsGetAssetDetails = endpoint({
@@ -125,12 +121,11 @@ export const postCreationsGetAssetDetails = endpoint({
 });
 /**
  * @api GET https://itemconfiguration.roblox.com/v1/creations/get-assets
- * @summary Gets the user created asset information filtered by the given asset type.
  * @param assetType
  * @param isArchived
  * @param groupId
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
+ * @param limit
+ * @param cursor
  */
 export const getCreationsGetAssets = endpoint({
   method: 'GET',
@@ -138,26 +133,11 @@ export const getCreationsGetAssets = endpoint({
   baseUrl: 'https://itemconfiguration.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    assetType: {
-      style: 'form',
-      explode: true,
-    },
-    isArchived: {
-      style: 'form',
-      explode: true,
-    },
-    groupId: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
+    assetType: {},
+    isArchived: {},
+    groupId: {},
+    limit: {},
+    cursor: {},
   },
   parameters: {
     assetType: z.string(),
@@ -197,7 +177,6 @@ export const getCreationsGetAssets = endpoint({
 });
 /**
  * @api GET https://itemconfiguration.roblox.com/v1/item-tags
- * @summary Gets all related item tags for each item id listed.
  * @param itemIds
  */
 export const getItemTags = endpoint({
@@ -206,9 +185,7 @@ export const getItemTags = endpoint({
   baseUrl: 'https://itemconfiguration.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    itemIds: {
-      style: 'form',
-    },
+    itemIds: {},
   },
   parameters: {
     itemIds: z.array(z.string()),
@@ -234,7 +211,6 @@ export const getItemTags = endpoint({
 });
 /**
  * @api POST https://itemconfiguration.roblox.com/v1/item-tags
- * @summary Creates a new item tag.
  * @param body
  */
 export const postItemTags = endpoint({
@@ -278,7 +254,6 @@ export const postItemTags = endpoint({
 });
 /**
  * @api DELETE https://itemconfiguration.roblox.com/v1/item-tags/:itemTagId
- * @summary Deletes an item tag from an item.
  * @param itemTagId
  */
 export const deleteItemTagsItemtagid = endpoint({
@@ -287,9 +262,7 @@ export const deleteItemTagsItemtagid = endpoint({
   baseUrl: 'https://itemconfiguration.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    itemTagId: {
-      style: 'simple',
-    },
+    itemTagId: {},
   },
   parameters: {
     itemTagId: z.string(),
@@ -317,7 +290,6 @@ export const deleteItemTagsItemtagid = endpoint({
 });
 /**
  * @api GET https://itemconfiguration.roblox.com/v1/item-tags/metadata
- * @summary Gets the metadata related to item tags.
  */
 export const getItemTagsMetadata = endpoint({
   method: 'GET',
@@ -329,91 +301,6 @@ export const getItemTagsMetadata = endpoint({
     {
       status: 404,
       description: `10: The endpoint was not found`,
-    },
-  ],
-});
-/**
- * @api GET https://itemconfiguration.roblox.com/v1/tags
- * @summary Gets the information for a list of tag Ids.
- * @param tagIds
- */
-export const getTags = endpoint({
-  method: 'GET',
-  path: '/v1/tags',
-  baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    tagIds: {
-      style: 'form',
-    },
-  },
-  parameters: {
-    tagIds: z.array(z.string()),
-  },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_TagDetails_,
-  errors: [
-    {
-      status: 400,
-      description: `1: No tag Ids requested
-2: Too many tag Ids requested`,
-    },
-    {
-      status: 404,
-      description: `7: The endpoint was not found`,
-    },
-    {
-      status: 429,
-      description: `3: Too many requests`,
-    },
-  ],
-});
-/**
- * @api GET https://itemconfiguration.roblox.com/v1/tags/prefix-search
- * @summary Searches for up to numberOfResults tags based on the given prefix.
- * @param prefix
- * @param numberOfResults Must be 1, 5, 10, or 25.
- */
-export const getTagsPrefixSearch = endpoint({
-  method: 'GET',
-  path: '/v1/tags/prefix-search',
-  baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    prefix: {
-      style: 'form',
-      explode: true,
-    },
-    numberOfResults: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    prefix: z.string(),
-    numberOfResults: z.number().int(),
-  },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_TagDetails_,
-  errors: [
-    {
-      status: 400,
-      description: `5: The given prefix is invalid
-6: The number of results requested is invalid`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `4: This endpoint is not yet enabled for the current user`,
-    },
-    {
-      status: 404,
-      description: `7: The endpoint was not found`,
-    },
-    {
-      status: 429,
-      description: `3: Too many requests`,
     },
   ],
 });

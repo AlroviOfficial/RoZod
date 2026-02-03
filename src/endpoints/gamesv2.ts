@@ -142,9 +142,8 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameFa
 
 /**
  * @api GET https://games.roblox.com/v2/games/:universeId/media
- * @summary Get the game media data
- * @param universeId The id of the universe we get media data from.
- * @param fetchAllExperienceRelatedMedia to tell if the API query is to fetch all related media for this experience
+ * @param universeId
+ * @param fetchAllExperienceRelatedMedia
  */
 export const getGamesUniverseidMedia = endpoint({
   method: 'GET',
@@ -152,17 +151,12 @@ export const getGamesUniverseidMedia = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
-    fetchAllExperienceRelatedMedia: {
-      style: 'form',
-      explode: true,
-    },
+    universeId: {},
+    fetchAllExperienceRelatedMedia: {},
   },
   parameters: {
     universeId: z.number().int(),
-    fetchAllExperienceRelatedMedia: z.boolean().optional(),
+    fetchAllExperienceRelatedMedia: z.boolean().optional().default(false),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Games_GameMediaItemResponseV2_,
   errors: [
@@ -178,12 +172,11 @@ export const getGamesUniverseidMedia = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v2/groups/:groupId/games
- * @summary Gets games created by the specified group.
- * @param groupId The group Id.
- * @param accessFilter Filtering option via access level.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param groupId
+ * @param accessFilter
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getGroupsGroupidGames = endpoint({
   method: 'GET',
@@ -191,25 +184,11 @@ export const getGroupsGroupidGames = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    groupId: {
-      style: 'simple',
-    },
-    accessFilter: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    groupId: {},
+    accessFilter: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     groupId: z.number().int(),
@@ -238,12 +217,11 @@ export const getGroupsGroupidGames = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v2/groups/:groupId/gamesV2
- * @summary Gets games created by the specified group. This will replace V1 after validation. Note that this can only used for public/all universes.
- * @param groupId The group Id.
- * @param accessFilter Filtering option via access level.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param groupId
+ * @param accessFilter
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getGroupsGroupidGamesv2 = endpoint({
   method: 'GET',
@@ -251,25 +229,11 @@ export const getGroupsGroupidGamesv2 = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    groupId: {
-      style: 'simple',
-    },
-    accessFilter: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    groupId: {},
+    accessFilter: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     groupId: z.number().int(),
@@ -298,12 +262,11 @@ export const getGroupsGroupidGamesv2 = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v2/users/:userId/favorite/games
- * @summary Gets users favorite games.
- * @param userId The user Id.
- * @param accessFilter Filtering option via access level.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param userId
+ * @param accessFilter
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getUsersUseridFavoriteGames = endpoint({
   method: 'GET',
@@ -311,25 +274,11 @@ export const getUsersUseridFavoriteGames = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    accessFilter: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    userId: {},
+    accessFilter: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -349,12 +298,11 @@ export const getUsersUseridFavoriteGames = endpoint({
 });
 /**
  * @api GET https://games.roblox.com/v2/users/:userId/games
- * @summary Gets games created by the specified user.
- * @param userId The user Id.
- * @param accessFilter Filtering option via access level.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param userId
+ * @param accessFilter
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getUsersUseridGames = endpoint({
   method: 'GET',
@@ -362,25 +310,11 @@ export const getUsersUseridGames = endpoint({
   baseUrl: 'https://games.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    accessFilter: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    userId: {},
+    accessFilter: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     userId: z.number().int(),

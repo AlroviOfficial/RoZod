@@ -107,8 +107,7 @@ const Roblox_Badges_Api_IconUploadResponse = z.object({
 
 /**
  * @api GET https://badges.roblox.com/v1/badges/:badgeId
- * @summary Gets badge information by the badge Id.
- * @param badgeId The badge Id.
+ * @param badgeId
  */
 export const getBadgesBadgeid = endpoint({
   method: 'GET',
@@ -116,9 +115,7 @@ export const getBadgesBadgeid = endpoint({
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    badgeId: {
-      style: 'simple',
-    },
+    badgeId: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -134,9 +131,8 @@ export const getBadgesBadgeid = endpoint({
 });
 /**
  * @api PATCH https://badges.roblox.com/v1/badges/:badgeId
- * @summary Updates badge configuration.
  * @param body The request body.
- * @param badgeId The badge Id.
+ * @param badgeId
  */
 export const patchBadgesBadgeid = endpoint({
   method: 'PATCH',
@@ -145,9 +141,7 @@ export const patchBadgesBadgeid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    badgeId: {
-      style: 'simple',
-    },
+    badgeId: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -179,9 +173,8 @@ export const patchBadgesBadgeid = endpoint({
 });
 /**
  * @api POST https://badges.roblox.com/v1/badges/:badgeId/icon
- * @summary Overwrites a badge icon with a new one.
  * @param body
- * @param badgeId The badge Id.
+ * @param badgeId
  */
 export const postBadgesBadgeidIcon = endpoint({
   method: 'POST',
@@ -190,9 +183,7 @@ export const postBadgesBadgeidIcon = endpoint({
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
-    badgeId: {
-      style: 'simple',
-    },
+    badgeId: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -226,7 +217,6 @@ export const postBadgesBadgeidIcon = endpoint({
 });
 /**
  * @api GET https://badges.roblox.com/v1/badges/metadata
- * @summary Gets metadata about the badges system.
  */
 export const getBadgesMetadata = endpoint({
   method: 'GET',
@@ -238,12 +228,11 @@ export const getBadgesMetadata = endpoint({
 });
 /**
  * @api GET https://badges.roblox.com/v1/universes/:universeId/badges
- * @summary Gets badges by their awarding game.
- * @param universeId The universe Id.
- * @param sortBy The key to sort badges by.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param universeId
+ * @param sortBy
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getUniversesUniverseidBadges = endpoint({
   method: 'GET',
@@ -251,25 +240,11 @@ export const getUniversesUniverseidBadges = endpoint({
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
-    sortBy: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    universeId: {},
+    sortBy: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -291,9 +266,8 @@ export const getUniversesUniverseidBadges = endpoint({
 });
 /**
  * @api POST https://badges.roblox.com/v1/universes/:universeId/badges
- * @summary Creates a new badge.
  * @param body
- * @param universeId The ID of the universe to create the badge for.
+ * @param universeId
  */
 export const postUniversesUniverseidBadges = endpoint({
   method: 'POST',
@@ -302,9 +276,7 @@ export const postUniversesUniverseidBadges = endpoint({
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -343,8 +315,7 @@ export const postUniversesUniverseidBadges = endpoint({
 });
 /**
  * @api GET https://badges.roblox.com/v1/universes/:universeId/free-badges-quota
- * @summary Gets the number of free badges left for the current UTC day by their awarding game.
- * @param universeId The universe Id.
+ * @param universeId
  */
 export const getUniversesUniverseidFreeBadgesQuota = endpoint({
   method: 'GET',
@@ -352,9 +323,7 @@ export const getUniversesUniverseidFreeBadgesQuota = endpoint({
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -369,8 +338,7 @@ export const getUniversesUniverseidFreeBadgesQuota = endpoint({
 });
 /**
  * @api DELETE https://badges.roblox.com/v1/user/badges/:badgeId
- * @summary Removes a badge from the authenticated user.
- * @param badgeId The badge Id.
+ * @param badgeId
  */
 export const deleteUserBadgesBadgeid = endpoint({
   method: 'DELETE',
@@ -378,9 +346,7 @@ export const deleteUserBadgesBadgeid = endpoint({
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    badgeId: {
-      style: 'simple',
-    },
+    badgeId: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -403,11 +369,10 @@ export const deleteUserBadgesBadgeid = endpoint({
 });
 /**
  * @api GET https://badges.roblox.com/v1/users/:userId/badges
- * @summary Gets a list of badges a user has been awarded.
- * @param userId The user Id.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param userId
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  */
 export const getUsersUseridBadges = endpoint({
   method: 'GET',
@@ -415,21 +380,10 @@ export const getUsersUseridBadges = endpoint({
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    userId: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -450,11 +404,10 @@ export const getUsersUseridBadges = endpoint({
 });
 /**
  * @api GET https://badges.roblox.com/v1/users/:userId/badges/:badgeId/awarded-date
- * @summary Gets timestamp for when a single badge was awarded to a user.
- * @param userId User id.
- * @param badgeId Badge id.
- * @param RequestUserIdIsInGameServer Whether the user with the request userId is present in the game server.
- * @param Roblox-Place-Id Place identifier of the requesting place.
+ * @param userId
+ * @param badgeId
+ * @param RequestUserIdIsInGameServer
+ * @param Roblox-Place-Id
  */
 export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
   method: 'GET',
@@ -462,18 +415,10 @@ export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    badgeId: {
-      style: 'simple',
-    },
-    RequestUserIdIsInGameServer: {
-      style: 'simple',
-    },
-    'Roblox-Place-Id': {
-      style: 'simple',
-    },
+    userId: {},
+    badgeId: {},
+    RequestUserIdIsInGameServer: {},
+    'Roblox-Place-Id': {},
   },
   parameters: {
     userId: z.number().int(),
@@ -491,11 +436,10 @@ export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
 });
 /**
  * @api GET https://badges.roblox.com/v1/users/:userId/badges/awarded-dates
- * @summary Gets timestamps for when badges were awarded to a user.
- * @param userId The user Id.
- * @param badgeIds The CSV of badge Ids.
- * @param RequestUserIdIsInGameServer Whether the user with the request userId is present in the game server.
- * @param Roblox-Place-Id Place identifier of the requesting place.
+ * @param userId
+ * @param badgeIds
+ * @param RequestUserIdIsInGameServer
+ * @param Roblox-Place-Id
  */
 export const getUsersUseridBadgesAwardedDates = endpoint({
   method: 'GET',
@@ -503,22 +447,14 @@ export const getUsersUseridBadgesAwardedDates = endpoint({
   baseUrl: 'https://badges.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    badgeIds: {
-      style: 'form',
-    },
-    RequestUserIdIsInGameServer: {
-      style: 'simple',
-    },
-    'Roblox-Place-Id': {
-      style: 'simple',
-    },
+    userId: {},
+    badgeIds: {},
+    RequestUserIdIsInGameServer: {},
+    'Roblox-Place-Id': {},
   },
   parameters: {
     userId: z.number().int(),
-    badgeIds: z.array(z.number()),
+    badgeIds: z.array(z.number().int()),
     RequestUserIdIsInGameServer: z.boolean(),
     'Roblox-Place-Id': z.number().int(),
   },

@@ -3,13 +3,12 @@ import { endpoint } from '..';
 
 /**
  * @api GET https://thumbnailsresizer.roblox.com/v1/resize/:hash/:width/:height/:type/:format/:filterType
- * @summary Resizes larger thumbnails to specified size and format
- * @param hash Hash of larger thumbnail
- * @param width Desired width of thumbnail
- * @param height Desired height of thumbnail
- * @param type Thumbnail Type
- * @param format Desired image format of the thumbnail
- * @param filterType E.g. is output circular
+ * @param hash
+ * @param width
+ * @param height
+ * @param type
+ * @param format
+ * @param filterType
  * @param shouldModify
  */
 export const getResizeHashWidthHeightTypeFormatFiltertype = endpoint({
@@ -18,29 +17,13 @@ export const getResizeHashWidthHeightTypeFormatFiltertype = endpoint({
   baseUrl: 'https://thumbnailsresizer.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    hash: {
-      style: 'simple',
-    },
-    width: {
-      style: 'simple',
-    },
-    height: {
-      style: 'simple',
-    },
-    type: {
-      style: 'simple',
-    },
-    format: {
-      style: 'simple',
-    },
-    filterType: {
-      style: 'form',
-      explode: true,
-    },
-    shouldModify: {
-      style: 'form',
-      explode: true,
-    },
+    hash: {},
+    width: {},
+    height: {},
+    type: {},
+    format: {},
+    filterType: {},
+    shouldModify: {},
   },
   parameters: {
     hash: z.string(),
@@ -49,21 +32,20 @@ export const getResizeHashWidthHeightTypeFormatFiltertype = endpoint({
     type: z.string(),
     format: z.string(),
     filterType: z.string(),
-    shouldModify: z.boolean().optional(),
+    shouldModify: z.boolean().optional().default(false),
   },
   response: z.void(),
   errors: [],
 });
 /**
  * @api GET https://thumbnailsresizer.roblox.com/v1/secureresize/:thumbPrint/:hash/:width/:height/:type/:format/:filterType
- * @summary Decrypts and Resizes larger thumbnails to specified size and format
- * @param thumbPrint The thumbPrint that represents the key version
- * @param hash Hash of larger thumbnail
- * @param width Desired width of thumbnail
- * @param height Desired height of thumbnail
- * @param type Thumbnail Type
- * @param format Desired image format of the thumbnail
- * @param filterType E.g. is output circular
+ * @param thumbPrint
+ * @param hash
+ * @param width
+ * @param height
+ * @param type
+ * @param format
+ * @param filterType
  */
 export const getSecureresizeThumbprintHashWidthHeightTypeFormatFiltertype = endpoint({
   method: 'GET',
@@ -71,28 +53,13 @@ export const getSecureresizeThumbprintHashWidthHeightTypeFormatFiltertype = endp
   baseUrl: 'https://thumbnailsresizer.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    thumbPrint: {
-      style: 'simple',
-    },
-    hash: {
-      style: 'simple',
-    },
-    width: {
-      style: 'simple',
-    },
-    height: {
-      style: 'simple',
-    },
-    type: {
-      style: 'simple',
-    },
-    format: {
-      style: 'simple',
-    },
-    filterType: {
-      style: 'form',
-      explode: true,
-    },
+    thumbPrint: {},
+    hash: {},
+    width: {},
+    height: {},
+    type: {},
+    format: {},
+    filterType: {},
   },
   parameters: {
     thumbPrint: z.string(),

@@ -13,7 +13,7 @@ const BatchGrantPermissionsRequest = z.object({
   subjectId: z.string().nullable(),
   action: AssetAction,
   requests: z.array(AssetGrantRequest).nullable(),
-  assetIds: z.array(z.number()).nullable(),
+  assetIds: z.array(z.number().int()).nullable(),
   enableDeepAccessCheck: z.boolean(),
 });
 const ErrorCode = z.enum([
@@ -33,7 +33,7 @@ const GrantPermissionError = z.object({
   code: ErrorCode,
 });
 const BatchGrantPermissionsResponse = z.object({
-  successAssetIds: z.array(z.number()).nullable(),
+  successAssetIds: z.array(z.number().int()).nullable(),
   errors: z.array(GrantPermissionError).nullable(),
 });
 const Error = z.object({ code: ErrorCode, message: z.string().nullable() });
@@ -41,10 +41,7 @@ const ErrorResponse = z.object({ error: Error });
 
 /**
  * @api PATCH https://apis.roblox.com/cloud/asset-permissions-api/v1/assets/permissions
- * @summary Grant a subject permission to multiple assets.
-            
-Authorization is required to grant permissions to the subject and asset IDs in the request.
- * @param body 
+ * @param body
  */
 export const patchAssetPermissionsApiV1AssetsPermissions = endpoint({
   method: 'PATCH',

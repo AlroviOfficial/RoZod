@@ -315,7 +315,7 @@ const Roblox_GameInternationalization_Api_Models_Response_UploadImageForGameThum
   mediaAssetId: z.string(),
 });
 const Roblox_GameInternationalization_Api_SortImageIdsRequest = z.object({
-  mediaAssetIds: z.array(z.number()),
+  mediaAssetIds: z.array(z.number().int()),
 });
 const Roblox_GameInternationalization_Api_GetNameDescriptionHistoryV2Request = z.object({
   contentId: z.number().int(),
@@ -442,9 +442,7 @@ export const postAutolocalizationGamesGameidAutolocalizationtable = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -473,9 +471,7 @@ export const patchAutolocalizationGamesGameidAutolocalizationtable = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -495,9 +491,8 @@ export const patchAutolocalizationGamesGameidAutolocalizationtable = endpoint({
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/autolocalization/games/:gameId/settings
- * @summary Sets a game's auto-localization related settings
  * @param body The request body.
- * @param gameId The id of the game.
+ * @param gameId
  */
 export const patchAutolocalizationGamesGameidSettings = endpoint({
   method: 'PATCH',
@@ -506,9 +501,7 @@ export const patchAutolocalizationGamesGameidSettings = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -537,7 +530,6 @@ export const patchAutolocalizationGamesGameidSettings = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/autolocalization/metadata
- * @summary Metadata for AutoLocalization Configuration
  */
 export const getAutolocalizationMetadata = endpoint({
   method: 'GET',
@@ -554,9 +546,7 @@ export const getAutolocalizationMetadata = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/automatic-translation/games/:gameId/feature-status
- * @summary Checks if automatic translation can be enabled for a game.
-The user must still have proper permissions for the game to get this info.
- * @param gameId The game id.
+ * @param gameId
  */
 export const getAutomaticTranslationGamesGameidFeatureStatus = endpoint({
   method: 'GET',
@@ -564,9 +554,7 @@ export const getAutomaticTranslationGamesGameidFeatureStatus = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -589,9 +577,7 @@ export const getAutomaticTranslationGamesGameidFeatureStatus = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/automatic-translation/games/:gameId/quota
- * @summary Returns the automatic translation quota info for a game.
-The user must still have proper permissions for the game to get this info.
- * @param gameId The game id.
+ * @param gameId
  */
 export const getAutomaticTranslationGamesGameidQuota = endpoint({
   method: 'GET',
@@ -599,9 +585,7 @@ export const getAutomaticTranslationGamesGameidQuota = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -628,11 +612,9 @@ export const getAutomaticTranslationGamesGameidQuota = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/automatic-translation/languages/:languageCode/target-languages
- * @summary Checks if the requested target languages are allowed for automatic translation based on the source language.
-If there are no requested target languages, then all allowed target languages for the source language will be returned.
- * @param languageCode The source language.
- * @param targetLanguages Optional target languages. If not passed in, all allowed target languages for the source language will be returned.
- * @param gameId Optional gameId. If not passed in, we'll return the default list of languages allowed.
+ * @param languageCode
+ * @param targetLanguages
+ * @param gameId
  */
 export const getAutomaticTranslationLanguagesLanguagecodeTargetLanguages = endpoint({
   method: 'GET',
@@ -640,17 +622,9 @@ export const getAutomaticTranslationLanguagesLanguagecodeTargetLanguages = endpo
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    languageCode: {
-      style: 'simple',
-    },
-    targetLanguages: {
-      style: 'form',
-      explode: true,
-    },
-    gameId: {
-      style: 'form',
-      explode: true,
-    },
+    languageCode: {},
+    targetLanguages: {},
+    gameId: {},
   },
   parameters: {
     languageCode: z.string(),
@@ -672,10 +646,9 @@ export const getAutomaticTranslationLanguagesLanguagecodeTargetLanguages = endpo
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/badges/:badgeId/description/language-codes/:languageCode
- * @summary Update localized description of a badge
  * @param body The request
- * @param badgeId The badge id
- * @param languageCode The language code of the description to update
+ * @param badgeId
+ * @param languageCode
  */
 export const patchBadgesBadgeidDescriptionLanguageCodesLanguagecode = endpoint({
   method: 'PATCH',
@@ -684,12 +657,8 @@ export const patchBadgesBadgeidDescriptionLanguageCodesLanguagecode = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    badgeId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    badgeId: {},
+    languageCode: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -729,10 +698,9 @@ export const patchBadgesBadgeidDescriptionLanguageCodesLanguagecode = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/badges/:badgeId/icons
- * @summary Get all icons for a badge
- * @param badgeId The id of the badge
- * @param width The width of the icon to request
- * @param height The height of the icon to request
+ * @param badgeId
+ * @param width
+ * @param height
  */
 export const getBadgesBadgeidIcons = endpoint({
   method: 'GET',
@@ -740,17 +708,9 @@ export const getBadgesBadgeidIcons = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    badgeId: {
-      style: 'simple',
-    },
-    width: {
-      style: 'form',
-      explode: true,
-    },
-    height: {
-      style: 'form',
-      explode: true,
-    },
+    badgeId: {},
+    width: {},
+    height: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -780,10 +740,9 @@ export const getBadgesBadgeidIcons = endpoint({
 });
 /**
  * @api POST https://gameinternationalization.roblox.com/v1/badges/:badgeId/icons/language-codes/:languageCode
- * @summary Update a badge's icon
  * @param body
- * @param badgeId The id of the badge
- * @param languageCode The language code of this icon to update
+ * @param badgeId
+ * @param languageCode
  */
 export const postBadgesBadgeidIconsLanguageCodesLanguagecode = endpoint({
   method: 'POST',
@@ -792,12 +751,8 @@ export const postBadgesBadgeidIconsLanguageCodesLanguagecode = endpoint({
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
-    badgeId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    badgeId: {},
+    languageCode: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -840,9 +795,8 @@ export const postBadgesBadgeidIconsLanguageCodesLanguagecode = endpoint({
 });
 /**
  * @api DELETE https://gameinternationalization.roblox.com/v1/badges/:badgeId/icons/language-codes/:languageCode
- * @summary Delete a localized icon from a badge
- * @param badgeId The id of the badge
- * @param languageCode The language code of the localized icon to delete
+ * @param badgeId
+ * @param languageCode
  */
 export const deleteBadgesBadgeidIconsLanguageCodesLanguagecode = endpoint({
   method: 'DELETE',
@@ -850,12 +804,8 @@ export const deleteBadgesBadgeidIconsLanguageCodesLanguagecode = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    badgeId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    badgeId: {},
+    languageCode: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -899,9 +849,7 @@ export const getBadgesBadgeidNameDescription = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    badgeId: {
-      style: 'simple',
-    },
+    badgeId: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -924,9 +872,8 @@ export const getBadgesBadgeidNameDescription = endpoint({
 });
 /**
  * @api DELETE https://gameinternationalization.roblox.com/v1/badges/:badgeId/name-description/language-codes/:languageCode
- * @summary Delete localized name and description of a badge
- * @param badgeId The badge id
- * @param languageCode The language code of the name and description to delete
+ * @param badgeId
+ * @param languageCode
  */
 export const deleteBadgesBadgeidNameDescriptionLanguageCodesLanguagecode = endpoint({
   method: 'DELETE',
@@ -934,12 +881,8 @@ export const deleteBadgesBadgeidNameDescriptionLanguageCodesLanguagecode = endpo
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    badgeId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    badgeId: {},
+    languageCode: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -975,10 +918,9 @@ export const deleteBadgesBadgeidNameDescriptionLanguageCodesLanguagecode = endpo
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/badges/:badgeId/name-description/language-codes/:languageCode
- * @summary Update localized name and description of a badge
  * @param body The request
- * @param badgeId The badge id
- * @param languageCode The language code of the name and description to Update
+ * @param badgeId
+ * @param languageCode
  */
 export const patchBadgesBadgeidNameDescriptionLanguageCodesLanguagecode = endpoint({
   method: 'PATCH',
@@ -987,12 +929,8 @@ export const patchBadgesBadgeidNameDescriptionLanguageCodesLanguagecode = endpoi
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    badgeId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    badgeId: {},
+    languageCode: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -1032,10 +970,9 @@ export const patchBadgesBadgeidNameDescriptionLanguageCodesLanguagecode = endpoi
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/badges/:badgeId/name/language-codes/:languageCode
- * @summary Update localized name of a badge
  * @param body The request
- * @param badgeId The badge id
- * @param languageCode The language code of the name to update
+ * @param badgeId
+ * @param languageCode
  */
 export const patchBadgesBadgeidNameLanguageCodesLanguagecode = endpoint({
   method: 'PATCH',
@@ -1044,12 +981,8 @@ export const patchBadgesBadgeidNameLanguageCodesLanguagecode = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    badgeId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    badgeId: {},
+    languageCode: {},
   },
   parameters: {
     badgeId: z.number().int(),
@@ -1089,10 +1022,9 @@ export const patchBadgesBadgeidNameLanguageCodesLanguagecode = endpoint({
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/developer-products/:developerProductId/description/language-codes/:languageCode
- * @summary Update localized description of a developer product
  * @param body The request
- * @param developerProductId The developer product id
- * @param languageCode The language code of the description to update
+ * @param developerProductId
+ * @param languageCode
  */
 export const patchDeveloperProductsDeveloperproductidDescriptionLanguageCodesLanguagecode = endpoint({
   method: 'PATCH',
@@ -1101,12 +1033,8 @@ export const patchDeveloperProductsDeveloperproductidDescriptionLanguageCodesLan
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    developerProductId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    developerProductId: {},
+    languageCode: {},
   },
   parameters: {
     developerProductId: z.number().int(),
@@ -1146,10 +1074,9 @@ export const patchDeveloperProductsDeveloperproductidDescriptionLanguageCodesLan
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/developer-products/:developerProductId/icons
- * @summary Get all icons for a developer product
- * @param developerProductId The id of the developer product
- * @param width The width of the icon to request
- * @param height The height of the icon to request
+ * @param developerProductId
+ * @param width
+ * @param height
  */
 export const getDeveloperProductsDeveloperproductidIcons = endpoint({
   method: 'GET',
@@ -1157,17 +1084,9 @@ export const getDeveloperProductsDeveloperproductidIcons = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    developerProductId: {
-      style: 'simple',
-    },
-    width: {
-      style: 'form',
-      explode: true,
-    },
-    height: {
-      style: 'form',
-      explode: true,
-    },
+    developerProductId: {},
+    width: {},
+    height: {},
   },
   parameters: {
     developerProductId: z.number().int(),
@@ -1198,10 +1117,9 @@ export const getDeveloperProductsDeveloperproductidIcons = endpoint({
 });
 /**
  * @api POST https://gameinternationalization.roblox.com/v1/developer-products/:developerProductId/icons/language-codes/:languageCode
- * @summary Update a developer product's icon
  * @param body
- * @param developerProductId The id of the developer product
- * @param languageCode The language code of this icon to update
+ * @param developerProductId
+ * @param languageCode
  */
 export const postDeveloperProductsDeveloperproductidIconsLanguageCodesLanguagecode = endpoint({
   method: 'POST',
@@ -1210,12 +1128,8 @@ export const postDeveloperProductsDeveloperproductidIconsLanguageCodesLanguageco
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
-    developerProductId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    developerProductId: {},
+    languageCode: {},
   },
   parameters: {
     developerProductId: z.number().int(),
@@ -1258,9 +1172,8 @@ export const postDeveloperProductsDeveloperproductidIconsLanguageCodesLanguageco
 });
 /**
  * @api DELETE https://gameinternationalization.roblox.com/v1/developer-products/:developerProductId/icons/language-codes/:languageCode
- * @summary Delete a localized icon from a developer product
- * @param developerProductId The id of the developer product
- * @param languageCode The language code of the localized icon to delete
+ * @param developerProductId
+ * @param languageCode
  */
 export const deleteDeveloperProductsDeveloperproductidIconsLanguageCodesLanguagecode = endpoint({
   method: 'DELETE',
@@ -1268,12 +1181,8 @@ export const deleteDeveloperProductsDeveloperproductidIconsLanguageCodesLanguage
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    developerProductId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    developerProductId: {},
+    languageCode: {},
   },
   parameters: {
     developerProductId: z.number().int(),
@@ -1309,8 +1218,7 @@ export const deleteDeveloperProductsDeveloperproductidIconsLanguageCodesLanguage
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/developer-products/:developerProductId/name-description
- * @summary Get all names and descriptions of a developer product
- * @param developerProductId The developer product Id
+ * @param developerProductId
  */
 export const getDeveloperProductsDeveloperproductidNameDescription = endpoint({
   method: 'GET',
@@ -1318,9 +1226,7 @@ export const getDeveloperProductsDeveloperproductidNameDescription = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    developerProductId: {
-      style: 'simple',
-    },
+    developerProductId: {},
   },
   parameters: {
     developerProductId: z.number().int(),
@@ -1343,9 +1249,8 @@ export const getDeveloperProductsDeveloperproductidNameDescription = endpoint({
 });
 /**
  * @api DELETE https://gameinternationalization.roblox.com/v1/developer-products/:developerProductId/name-description/language-codes/:languageCode
- * @summary Delete localized name and description of a developer product
- * @param developerProductId The developer product id
- * @param languageCode The language code of the name and description to delete
+ * @param developerProductId
+ * @param languageCode
  */
 export const deleteDeveloperProductsDeveloperproductidNameDescriptionLanguageCodesLanguagecode = endpoint({
   method: 'DELETE',
@@ -1353,12 +1258,8 @@ export const deleteDeveloperProductsDeveloperproductidNameDescriptionLanguageCod
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    developerProductId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    developerProductId: {},
+    languageCode: {},
   },
   parameters: {
     developerProductId: z.number().int(),
@@ -1394,10 +1295,9 @@ export const deleteDeveloperProductsDeveloperproductidNameDescriptionLanguageCod
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/developer-products/:developerProductId/name-description/language-codes/:languageCode
- * @summary Update localized name and description of a developer product
  * @param body The request
- * @param developerProductId The developer product id
- * @param languageCode The language code of the name and description to Update
+ * @param developerProductId
+ * @param languageCode
  */
 export const patchDeveloperProductsDeveloperproductidNameDescriptionLanguageCodesLanguagecode = endpoint({
   method: 'PATCH',
@@ -1406,12 +1306,8 @@ export const patchDeveloperProductsDeveloperproductidNameDescriptionLanguageCode
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    developerProductId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    developerProductId: {},
+    languageCode: {},
   },
   parameters: {
     developerProductId: z.number().int(),
@@ -1451,10 +1347,9 @@ export const patchDeveloperProductsDeveloperproductidNameDescriptionLanguageCode
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/developer-products/:developerProductId/name/language-codes/:languageCode
- * @summary Update localized name of a developer product
  * @param body The request
- * @param developerProductId The developer product id
- * @param languageCode The language code of the name to update
+ * @param developerProductId
+ * @param languageCode
  */
 export const patchDeveloperProductsDeveloperproductidNameLanguageCodesLanguagecode = endpoint({
   method: 'PATCH',
@@ -1463,12 +1358,8 @@ export const patchDeveloperProductsDeveloperproductidNameLanguageCodesLanguageco
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    developerProductId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    developerProductId: {},
+    languageCode: {},
   },
   parameters: {
     developerProductId: z.number().int(),
@@ -1508,10 +1399,9 @@ export const patchDeveloperProductsDeveloperproductidNameLanguageCodesLanguageco
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/game-icon/games/:gameId
- * @summary Get all icons for a game
- * @param gameId The id of the game
- * @param width The width of the icon to request
- * @param height The height of the icon to request
+ * @param gameId
+ * @param width
+ * @param height
  */
 export const getGameIconGamesGameid = endpoint({
   method: 'GET',
@@ -1519,17 +1409,9 @@ export const getGameIconGamesGameid = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
-    width: {
-      style: 'form',
-      explode: true,
-    },
-    height: {
-      style: 'form',
-      explode: true,
-    },
+    gameId: {},
+    width: {},
+    height: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -1559,10 +1441,9 @@ export const getGameIconGamesGameid = endpoint({
 });
 /**
  * @api POST https://gameinternationalization.roblox.com/v1/game-icon/games/:gameId/language-codes/:languageCode
- * @summary Update a game's icon
  * @param body
- * @param gameId The id of the game
- * @param languageCode The language code of this icon to update
+ * @param gameId
+ * @param languageCode
  */
 export const postGameIconGamesGameidLanguageCodesLanguagecode = endpoint({
   method: 'POST',
@@ -1571,12 +1452,8 @@ export const postGameIconGamesGameidLanguageCodesLanguagecode = endpoint({
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    gameId: {},
+    languageCode: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -1619,9 +1496,8 @@ export const postGameIconGamesGameidLanguageCodesLanguagecode = endpoint({
 });
 /**
  * @api DELETE https://gameinternationalization.roblox.com/v1/game-icon/games/:gameId/language-codes/:languageCode
- * @summary Delete a localized icon from a game
- * @param gameId The id of the game
- * @param languageCode The language code of the localized icon to delete
+ * @param gameId
+ * @param languageCode
  */
 export const deleteGameIconGamesGameidLanguageCodesLanguagecode = endpoint({
   method: 'DELETE',
@@ -1629,12 +1505,8 @@ export const deleteGameIconGamesGameidLanguageCodesLanguagecode = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    gameId: {},
+    languageCode: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -1670,8 +1542,7 @@ export const deleteGameIconGamesGameidLanguageCodesLanguagecode = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/game-localization-status/:gameId/translation-counts
- * @summary Gets the language translation counts for all languages of a game
- * @param gameId GameID of the game to get translation counts for
+ * @param gameId
  */
 export const getGameLocalizationStatusGameidTranslationCounts = endpoint({
   method: 'GET',
@@ -1679,9 +1550,7 @@ export const getGameLocalizationStatusGameidTranslationCounts = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -1705,11 +1574,9 @@ export const getGameLocalizationStatusGameidTranslationCounts = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/game-localization-status/translation-counts-for-language-or-locale
- * @summary Gets the language translation counts for the specified table.
-The languages to retrieve must be provided.
- * @param gameIds List of game ids to retrieve translation counts for.
- * @param languageOrLocaleCode The code for the language or locale.
- * @param languageOrLocaleType Indicates whether the languageOrLocaleCode represents a language or locale.
+ * @param gameIds
+ * @param languageOrLocaleCode
+ * @param languageOrLocaleType
  */
 export const getGameLocalizationStatusTranslationCountsForLanguageOrLocale = endpoint({
   method: 'GET',
@@ -1717,21 +1584,12 @@ export const getGameLocalizationStatusTranslationCountsForLanguageOrLocale = end
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameIds: {
-      style: 'form',
-      explode: true,
-    },
-    languageOrLocaleCode: {
-      style: 'form',
-      explode: true,
-    },
-    languageOrLocaleType: {
-      style: 'form',
-      explode: true,
-    },
+    gameIds: {},
+    languageOrLocaleCode: {},
+    languageOrLocaleType: {},
   },
   parameters: {
-    gameIds: z.array(z.number()),
+    gameIds: z.array(z.number().int()),
     languageOrLocaleCode: z.string(),
     languageOrLocaleType: z.enum(['Language', 'Locale']),
   },
@@ -1751,10 +1609,9 @@ export const getGameLocalizationStatusTranslationCountsForLanguageOrLocale = end
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/game-passes/:gamePassId/description/language-codes/:languageCode
- * @summary Update localized description of a game pass
  * @param body The request
- * @param gamePassId The game pass id
- * @param languageCode The language code of description to update
+ * @param gamePassId
+ * @param languageCode
  */
 export const patchGamePassesGamepassidDescriptionLanguageCodesLanguagecode = endpoint({
   method: 'PATCH',
@@ -1763,12 +1620,8 @@ export const patchGamePassesGamepassidDescriptionLanguageCodesLanguagecode = end
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gamePassId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    gamePassId: {},
+    languageCode: {},
   },
   parameters: {
     gamePassId: z.number().int(),
@@ -1804,10 +1657,9 @@ export const patchGamePassesGamepassidDescriptionLanguageCodesLanguagecode = end
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/game-passes/:gamePassId/icons
- * @summary Get all icons for a game pass
- * @param gamePassId The game pass id
- * @param width The width of the icon to request
- * @param height The height of the icon to request
+ * @param gamePassId
+ * @param width
+ * @param height
  */
 export const getGamePassesGamepassidIcons = endpoint({
   method: 'GET',
@@ -1815,17 +1667,9 @@ export const getGamePassesGamepassidIcons = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gamePassId: {
-      style: 'simple',
-    },
-    width: {
-      style: 'form',
-      explode: true,
-    },
-    height: {
-      style: 'form',
-      explode: true,
-    },
+    gamePassId: {},
+    width: {},
+    height: {},
   },
   parameters: {
     gamePassId: z.number().int(),
@@ -1855,10 +1699,9 @@ export const getGamePassesGamepassidIcons = endpoint({
 });
 /**
  * @api POST https://gameinternationalization.roblox.com/v1/game-passes/:gamePassId/icons/language-codes/:languageCode
- * @summary Update a game pass's icon
  * @param body
- * @param gamePassId The game pass id
- * @param languageCode The language code of this icon to update
+ * @param gamePassId
+ * @param languageCode
  */
 export const postGamePassesGamepassidIconsLanguageCodesLanguagecode = endpoint({
   method: 'POST',
@@ -1867,12 +1710,8 @@ export const postGamePassesGamepassidIconsLanguageCodesLanguagecode = endpoint({
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
-    gamePassId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    gamePassId: {},
+    languageCode: {},
   },
   parameters: {
     gamePassId: z.number().int(),
@@ -1915,9 +1754,8 @@ export const postGamePassesGamepassidIconsLanguageCodesLanguagecode = endpoint({
 });
 /**
  * @api DELETE https://gameinternationalization.roblox.com/v1/game-passes/:gamePassId/icons/language-codes/:languageCode
- * @summary Delete a localized icon from a game pass
- * @param gamePassId The game pass id
- * @param languageCode The language code of the localized icon to delete
+ * @param gamePassId
+ * @param languageCode
  */
 export const deleteGamePassesGamepassidIconsLanguageCodesLanguagecode = endpoint({
   method: 'DELETE',
@@ -1925,12 +1763,8 @@ export const deleteGamePassesGamepassidIconsLanguageCodesLanguagecode = endpoint
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gamePassId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    gamePassId: {},
+    languageCode: {},
   },
   parameters: {
     gamePassId: z.number().int(),
@@ -1966,8 +1800,7 @@ export const deleteGamePassesGamepassidIconsLanguageCodesLanguagecode = endpoint
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/game-passes/:gamePassId/name-description
- * @summary Get all names and descriptions of a game pass
- * @param gamePassId The game pass Id
+ * @param gamePassId
  */
 export const getGamePassesGamepassidNameDescription = endpoint({
   method: 'GET',
@@ -1975,9 +1808,7 @@ export const getGamePassesGamepassidNameDescription = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gamePassId: {
-      style: 'simple',
-    },
+    gamePassId: {},
   },
   parameters: {
     gamePassId: z.number().int(),
@@ -2000,9 +1831,8 @@ export const getGamePassesGamepassidNameDescription = endpoint({
 });
 /**
  * @api DELETE https://gameinternationalization.roblox.com/v1/game-passes/:gamePassId/name-description/language-codes/:languageCode
- * @summary Delete localized name and description of a game pass
- * @param gamePassId The game pass id
- * @param languageCode The language code of the name and description to delete
+ * @param gamePassId
+ * @param languageCode
  */
 export const deleteGamePassesGamepassidNameDescriptionLanguageCodesLanguagecode = endpoint({
   method: 'DELETE',
@@ -2010,12 +1840,8 @@ export const deleteGamePassesGamepassidNameDescriptionLanguageCodesLanguagecode 
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gamePassId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    gamePassId: {},
+    languageCode: {},
   },
   parameters: {
     gamePassId: z.number().int(),
@@ -2047,10 +1873,9 @@ export const deleteGamePassesGamepassidNameDescriptionLanguageCodesLanguagecode 
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/game-passes/:gamePassId/name-description/language-codes/:languageCode
- * @summary Update localized name and description of a game pass
  * @param body The request
- * @param gamePassId The game pass id
- * @param languageCode The language code of the name/description to update
+ * @param gamePassId
+ * @param languageCode
  */
 export const patchGamePassesGamepassidNameDescriptionLanguageCodesLanguagecode = endpoint({
   method: 'PATCH',
@@ -2059,12 +1884,8 @@ export const patchGamePassesGamepassidNameDescriptionLanguageCodesLanguagecode =
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gamePassId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    gamePassId: {},
+    languageCode: {},
   },
   parameters: {
     gamePassId: z.number().int(),
@@ -2100,10 +1921,9 @@ export const patchGamePassesGamepassidNameDescriptionLanguageCodesLanguagecode =
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/game-passes/:gamePassId/name/language-codes/:languageCode
- * @summary Update localized name of a game pass
  * @param body The request
- * @param gamePassId The game pass id
- * @param languageCode The language code of the name to update
+ * @param gamePassId
+ * @param languageCode
  */
 export const patchGamePassesGamepassidNameLanguageCodesLanguagecode = endpoint({
   method: 'PATCH',
@@ -2112,12 +1932,8 @@ export const patchGamePassesGamepassidNameLanguageCodesLanguagecode = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gamePassId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    gamePassId: {},
+    languageCode: {},
   },
   parameters: {
     gamePassId: z.number().int(),
@@ -2153,10 +1969,9 @@ export const patchGamePassesGamepassidNameLanguageCodesLanguagecode = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/game-thumbnails/games/:gameId/images
- * @summary Get the localized image ids in all languages for a game.
- * @param gameId The game identifier.
- * @param width The width.
- * @param height The height.
+ * @param gameId
+ * @param width
+ * @param height
  */
 export const getGameThumbnailsGamesGameidImages = endpoint({
   method: 'GET',
@@ -2164,17 +1979,9 @@ export const getGameThumbnailsGamesGameidImages = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
-    width: {
-      style: 'form',
-      explode: true,
-    },
-    height: {
-      style: 'form',
-      explode: true,
-    },
+    gameId: {},
+    width: {},
+    height: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2200,10 +2007,9 @@ export const getGameThumbnailsGamesGameidImages = endpoint({
 });
 /**
  * @api POST https://gameinternationalization.roblox.com/v1/game-thumbnails/games/:gameId/language-codes/:languageCode/alt-text
- * @summary Updates the game thumbnail alt text.
  * @param body The game thumbnail alt text update request.
- * @param gameId The game identifier.
- * @param languageCode The language code.
+ * @param gameId
+ * @param languageCode
  */
 export const postGameThumbnailsGamesGameidLanguageCodesLanguagecodeAltText = endpoint({
   method: 'POST',
@@ -2212,12 +2018,8 @@ export const postGameThumbnailsGamesGameidLanguageCodesLanguagecodeAltText = end
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    gameId: {},
+    languageCode: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2262,10 +2064,9 @@ export const postGameThumbnailsGamesGameidLanguageCodesLanguagecodeAltText = end
 });
 /**
  * @api POST https://gameinternationalization.roblox.com/v1/game-thumbnails/games/:gameId/language-codes/:languageCode/image
- * @summary Uploads the game thumbnail.
  * @param body
- * @param gameId The game identifier.
- * @param languageCode The language code.
+ * @param gameId
+ * @param languageCode
  */
 export const postGameThumbnailsGamesGameidLanguageCodesLanguagecodeImage = endpoint({
   method: 'POST',
@@ -2274,12 +2075,8 @@ export const postGameThumbnailsGamesGameidLanguageCodesLanguagecodeImage = endpo
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    gameId: {},
+    languageCode: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2320,10 +2117,9 @@ export const postGameThumbnailsGamesGameidLanguageCodesLanguagecodeImage = endpo
 });
 /**
  * @api DELETE https://gameinternationalization.roblox.com/v1/game-thumbnails/games/:gameId/language-codes/:languageCode/images/:imageId
- * @summary Deletes the game thumbnail.
- * @param gameId The game identifier.
- * @param languageCode The language code.
- * @param imageId The image identifier.
+ * @param gameId
+ * @param languageCode
+ * @param imageId
  */
 export const deleteGameThumbnailsGamesGameidLanguageCodesLanguagecodeImagesImageid = endpoint({
   method: 'DELETE',
@@ -2331,15 +2127,9 @@ export const deleteGameThumbnailsGamesGameidLanguageCodesLanguagecodeImagesImage
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
-    imageId: {
-      style: 'simple',
-    },
+    gameId: {},
+    languageCode: {},
+    imageId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2372,10 +2162,9 @@ export const deleteGameThumbnailsGamesGameidLanguageCodesLanguagecodeImagesImage
 });
 /**
  * @api POST https://gameinternationalization.roblox.com/v1/game-thumbnails/games/:gameId/language-codes/:languageCode/images/order
- * @summary Orders the specified image Ids for the game thumbnails.
  * @param body The request.
- * @param gameId The game identifier.
- * @param languageCode The language code.
+ * @param gameId
+ * @param languageCode
  */
 export const postGameThumbnailsGamesGameidLanguageCodesLanguagecodeImagesOrder = endpoint({
   method: 'POST',
@@ -2384,12 +2173,8 @@ export const postGameThumbnailsGamesGameidLanguageCodesLanguagecodeImagesOrder =
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    gameId: {},
+    languageCode: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2432,9 +2217,7 @@ export const patchLocalizationtableGametablesGameid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2454,8 +2237,7 @@ export const patchLocalizationtableGametablesGameid = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/name-description/games/:gameId
- * @summary Gets a game's name and description in all supported languages
- * @param gameId The id of the game
+ * @param gameId
  */
 export const getNameDescriptionGamesGameid = endpoint({
   method: 'GET',
@@ -2463,9 +2245,7 @@ export const getNameDescriptionGamesGameid = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2484,9 +2264,8 @@ export const getNameDescriptionGamesGameid = endpoint({
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/name-description/games/:gameId
- * @summary Updates a game's name and/or description in multiple languages.
  * @param body The request body.
- * @param gameId The id of the game.
+ * @param gameId
  */
 export const patchNameDescriptionGamesGameid = endpoint({
   method: 'PATCH',
@@ -2495,9 +2274,7 @@ export const patchNameDescriptionGamesGameid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2532,7 +2309,6 @@ export const patchNameDescriptionGamesGameid = endpoint({
 });
 /**
  * @api POST https://gameinternationalization.roblox.com/v1/name-description/games/translation-history
- * @summary Gets the history for name or description in a provided language.
  * @param body The request.
  */
 export const postNameDescriptionGamesTranslationHistory = endpoint({
@@ -2578,7 +2354,6 @@ export const postNameDescriptionGamesTranslationHistory = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/name-description/metadata
- * @summary Rollout settings for name/description migration to new page
  */
 export const getNameDescriptionMetadata = endpoint({
   method: 'GET',
@@ -2595,7 +2370,6 @@ export const getNameDescriptionMetadata = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/source-language/games/:gameId
- * @summary Gets the source language of a game
  * @param gameId
  */
 export const getSourceLanguageGamesGameid = endpoint({
@@ -2604,9 +2378,7 @@ export const getSourceLanguageGamesGameid = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2625,7 +2397,6 @@ export const getSourceLanguageGamesGameid = endpoint({
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/source-language/games/:gameId
- * @summary Sets the source language of a game
  * @param gameId
  * @param languageCode
  */
@@ -2635,13 +2406,8 @@ export const patchSourceLanguageGamesGameid = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'form',
-      explode: true,
-    },
+    gameId: {},
+    languageCode: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2675,7 +2441,6 @@ export const patchSourceLanguageGamesGameid = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/source-language/games/:gameId/language-with-locales
- * @summary Gets the source language of a game
  * @param gameId
  */
 export const getSourceLanguageGamesGameidLanguageWithLocales = endpoint({
@@ -2684,9 +2449,7 @@ export const getSourceLanguageGamesGameidLanguageWithLocales = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2705,8 +2468,7 @@ export const getSourceLanguageGamesGameidLanguageWithLocales = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/supported-languages/games/:gameId
- * @summary Get the supported languages for a game.
- * @param gameId The id of the game.
+ * @param gameId
  */
 export const getSupportedLanguagesGamesGameid = endpoint({
   method: 'GET',
@@ -2714,9 +2476,7 @@ export const getSupportedLanguagesGamesGameid = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2735,9 +2495,8 @@ export const getSupportedLanguagesGamesGameid = endpoint({
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/supported-languages/games/:gameId
- * @summary Add or remove supported languages for a game.
  * @param body The languages to add or remove. LanguageCodeType can be "Language" or "Locale".
- * @param gameId The id of the game.
+ * @param gameId
  */
 export const patchSupportedLanguagesGamesGameid = endpoint({
   method: 'PATCH',
@@ -2746,9 +2505,7 @@ export const patchSupportedLanguagesGamesGameid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2779,8 +2536,7 @@ export const patchSupportedLanguagesGamesGameid = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/supported-languages/games/:gameId/automatic-translation-status
- * @summary Get the automatic translation status of supported languages for a game.
- * @param gameId The id of the game.
+ * @param gameId
  */
 export const getSupportedLanguagesGamesGameidAutomaticTranslationStatus = endpoint({
   method: 'GET',
@@ -2788,9 +2544,7 @@ export const getSupportedLanguagesGamesGameidAutomaticTranslationStatus = endpoi
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2817,8 +2571,7 @@ export const getSupportedLanguagesGamesGameidAutomaticTranslationStatus = endpoi
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/supported-languages/games/:gameId/in-experience-language-selection
- * @summary Get the user's in-experience language selector languages for a game.
- * @param gameId The id of the game.
+ * @param gameId
  */
 export const getSupportedLanguagesGamesGameidInExperienceLanguageSelection = endpoint({
   method: 'GET',
@@ -2826,9 +2579,7 @@ export const getSupportedLanguagesGamesGameidInExperienceLanguageSelection = end
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2847,10 +2598,9 @@ export const getSupportedLanguagesGamesGameidInExperienceLanguageSelection = end
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/supported-languages/games/:gameId/languages/:languageCode/automatic-translation-status
- * @summary Enable or disable automatic translation for a game and language.
  * @param body Flag to indicate if automatic translation should be enabled or disabled.
- * @param gameId The id of the game.
- * @param languageCode The language to enable or disable for automatic translation.
+ * @param gameId
+ * @param languageCode
  */
 export const patchSupportedLanguagesGamesGameidLanguagesLanguagecodeAutomaticTranslationStatus = endpoint({
   method: 'PATCH',
@@ -2859,12 +2609,8 @@ export const patchSupportedLanguagesGamesGameidLanguagesLanguagecodeAutomaticTra
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
-    languageCode: {
-      style: 'simple',
-    },
+    gameId: {},
+    languageCode: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2898,10 +2644,9 @@ export const patchSupportedLanguagesGamesGameidLanguagesLanguagecodeAutomaticTra
 });
 /**
  * @api PATCH https://gameinternationalization.roblox.com/v1/supported-languages/games/:gameId/languages/:languageCode/universe-display-info-automatic-translation-settings
- * @summary Update the switch which controls if the UniverseDisplayInformation should be automatically translated.
  * @param body Whether to enable automatic translation for universe display info.
- * @param gameId The game id.
- * @param languageCode The language code.
+ * @param gameId
+ * @param languageCode
  */
 export const patchSupportedLanguagesGamesGameidLanguagesLanguagecodeUniverseDisplayInfoAutomaticTranslationSettings =
   endpoint({
@@ -2911,12 +2656,8 @@ export const patchSupportedLanguagesGamesGameidLanguagesLanguagecodeUniverseDisp
     requestFormat: 'json',
     serializationMethod: {
       body: {},
-      gameId: {
-        style: 'simple',
-      },
-      languageCode: {
-        style: 'simple',
-      },
+      gameId: {},
+      languageCode: {},
     },
     parameters: {
       gameId: z.number().int(),
@@ -2951,8 +2692,7 @@ export const patchSupportedLanguagesGamesGameidLanguagesLanguagecodeUniverseDisp
   });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/supported-languages/games/:gameId/universe-display-info-automatic-translation-settings
- * @summary Get UniverseDisplayInfo automatic translation settings.
- * @param gameId The game id.
+ * @param gameId
  */
 export const getSupportedLanguagesGamesGameidUniverseDisplayInfoAutomaticTranslationSettings = endpoint({
   method: 'GET',
@@ -2960,9 +2700,7 @@ export const getSupportedLanguagesGamesGameidUniverseDisplayInfoAutomaticTransla
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -2993,7 +2731,6 @@ export const getSupportedLanguagesGamesGameidUniverseDisplayInfoAutomaticTransla
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/supported-languages/metadata
- * @summary Rollout settings for supported languages of a game
  */
 export const getSupportedLanguagesMetadata = endpoint({
   method: 'GET',
@@ -3010,12 +2747,11 @@ export const getSupportedLanguagesMetadata = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/translation-analytics/games/:gameId/download-translation-analytics-report
- * @summary Download translation analytics report after the report is ready
- * @param gameId The game's id
- * @param startDateTime The inclusive start dateTime of report in UTC
- * @param endDateTime The exclusive end dateTime of report in UTC
- * @param reportType The report type
- * @param reportSubjectTargetId The translator group id
+ * @param gameId
+ * @param startDateTime
+ * @param endDateTime
+ * @param reportType
+ * @param reportSubjectTargetId
  */
 export const getTranslationAnalyticsGamesGameidDownloadTranslationAnalyticsReport = endpoint({
   method: 'GET',
@@ -3023,25 +2759,11 @@ export const getTranslationAnalyticsGamesGameidDownloadTranslationAnalyticsRepor
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
-    startDateTime: {
-      style: 'form',
-      explode: true,
-    },
-    endDateTime: {
-      style: 'form',
-      explode: true,
-    },
-    reportType: {
-      style: 'form',
-      explode: true,
-    },
-    reportSubjectTargetId: {
-      style: 'form',
-      explode: true,
-    },
+    gameId: {},
+    startDateTime: {},
+    endDateTime: {},
+    reportType: {},
+    reportSubjectTargetId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -3076,9 +2798,8 @@ export const getTranslationAnalyticsGamesGameidDownloadTranslationAnalyticsRepor
 });
 /**
  * @api POST https://gameinternationalization.roblox.com/v1/translation-analytics/games/:gameId/request-translation-analytics-report
- * @summary Request translation analytics report to be generated
  * @param body The request body
- * @param gameId The game's id
+ * @param gameId
  */
 export const postTranslationAnalyticsGamesGameidRequestTranslationAnalyticsReport = endpoint({
   method: 'POST',
@@ -3087,9 +2808,7 @@ export const postTranslationAnalyticsGamesGameidRequestTranslationAnalyticsRepor
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -3117,7 +2836,6 @@ export const postTranslationAnalyticsGamesGameidRequestTranslationAnalyticsRepor
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/translation-analytics/metadata
- * @summary Get metadata related to UI and rollout settings
  */
 export const getTranslationAnalyticsMetadata = endpoint({
   method: 'GET',
@@ -3134,7 +2852,6 @@ export const getTranslationAnalyticsMetadata = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/ui-configurations
- * @summary Get ui configurations for frontend to use.
  */
 export const getUiConfigurations = endpoint({
   method: 'GET',
@@ -3151,8 +2868,7 @@ export const getUiConfigurations = endpoint({
 });
 /**
  * @api GET https://gameinternationalization.roblox.com/v1/user-localization-settings/universe/:universeId
- * @summary Get user localization settings for universe.
- * @param universeId The universe's ID.
+ * @param universeId
  */
 export const getUserLocalizationSettingsUniverseUniverseid = endpoint({
   method: 'GET',
@@ -3160,9 +2876,7 @@ export const getUserLocalizationSettingsUniverseUniverseid = endpoint({
   baseUrl: 'https://gameinternationalization.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -3187,9 +2901,8 @@ export const getUserLocalizationSettingsUniverseUniverseid = endpoint({
 });
 /**
  * @api POST https://gameinternationalization.roblox.com/v1/user-localization-settings/universe/:universeId
- * @summary Set user localization settings for universe.
  * @param body The request body
- * @param universeId The universe's ID.
+ * @param universeId
  */
 export const postUserLocalizationSettingsUniverseUniverseid = endpoint({
   method: 'POST',
@@ -3198,9 +2911,7 @@ export const postUserLocalizationSettingsUniverseUniverseid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    universeId: {
-      style: 'simple',
-    },
+    universeId: {},
   },
   parameters: {
     universeId: z.number().int(),

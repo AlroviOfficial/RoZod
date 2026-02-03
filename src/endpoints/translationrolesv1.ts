@@ -35,9 +35,8 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
  * @api PATCH https://translationroles.roblox.com/v1/game-localization-roles/games/:gameId
- * @summary Assigns or revokes a role
  * @param body The request body
- * @param gameId The id of the game
+ * @param gameId
  */
 export const patchGameLocalizationRolesGamesGameid = endpoint({
   method: 'PATCH',
@@ -46,9 +45,7 @@ export const patchGameLocalizationRolesGamesGameid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -84,8 +81,7 @@ export const patchGameLocalizationRolesGamesGameid = endpoint({
 });
 /**
  * @api GET https://translationroles.roblox.com/v1/game-localization-roles/games/:gameId/current-user/roles
- * @summary Retrieves the list of roles granted to current logged-in user
- * @param gameId The id of the game
+ * @param gameId
  */
 export const getGameLocalizationRolesGamesGameidCurrentUserRoles = endpoint({
   method: 'GET',
@@ -93,9 +89,7 @@ export const getGameLocalizationRolesGamesGameidCurrentUserRoles = endpoint({
   baseUrl: 'https://translationroles.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -118,9 +112,8 @@ export const getGameLocalizationRolesGamesGameidCurrentUserRoles = endpoint({
 });
 /**
  * @api GET https://translationroles.roblox.com/v1/game-localization-roles/games/:gameId/roles/:role/assignees
- * @summary Gets list of users assigned a specific role in a game.
- * @param gameId The id of the game
- * @param role The Roblox.GameLocalization.Client.GameLocalizationRoles.GameLocalizationRoleType
+ * @param gameId
+ * @param role
  */
 export const getGameLocalizationRolesGamesGameidRolesRoleAssignees = endpoint({
   method: 'GET',
@@ -128,12 +121,8 @@ export const getGameLocalizationRolesGamesGameidRolesRoleAssignees = endpoint({
   baseUrl: 'https://translationroles.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
-    role: {
-      style: 'simple',
-    },
+    gameId: {},
+    role: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -161,11 +150,10 @@ export const getGameLocalizationRolesGamesGameidRolesRoleAssignees = endpoint({
 });
 /**
  * @api GET https://translationroles.roblox.com/v1/game-localization-roles/roles/:role/current-user
- * @summary Gets the list of games and associated role assignment info for the requested user and role.
- * @param role The Roblox.GameLocalization.Client.GameLocalizationRoles.GameLocalizationRoleType
- * @param exclusiveStartKey Part of pagination. Last primary key of returned items in previous operation.
- * @param pageSize Part of pagination. Maximum number of items that might be returned in the page.
- * @param groupId Optional seleted groupId of resources requested for the user and role.
+ * @param role
+ * @param exclusiveStartKey
+ * @param pageSize
+ * @param groupId
  */
 export const getGameLocalizationRolesRolesRoleCurrentUser = endpoint({
   method: 'GET',
@@ -173,21 +161,10 @@ export const getGameLocalizationRolesRolesRoleCurrentUser = endpoint({
   baseUrl: 'https://translationroles.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    role: {
-      style: 'simple',
-    },
-    exclusiveStartKey: {
-      style: 'form',
-      explode: true,
-    },
-    pageSize: {
-      style: 'form',
-      explode: true,
-    },
-    groupId: {
-      style: 'form',
-      explode: true,
-    },
+    role: {},
+    exclusiveStartKey: {},
+    pageSize: {},
+    groupId: {},
   },
   parameters: {
     role: z.literal('translator'),

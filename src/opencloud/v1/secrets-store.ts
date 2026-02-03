@@ -24,9 +24,8 @@ const SecretPaginatedList = z.object({
 
 /**
  * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universeId/secrets
- * @summary Create Secret
  * @param body The secret to create with encrypted content
- * @param universeId The universe ID
+ * @param universeId 
  * @description Creates a new secret. A maximum of 500 secrets per universe is allowed.
             
 Only the owner of the universe can create secrets. For group-owned universes, only the group owner or authorized
@@ -72,10 +71,9 @@ export const postCloudV2UniversesUniverseIdSecrets = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universeId/secrets
- * @summary List Secrets
- * @param universeId The universe ID
- * @param limit Number of secrets to return per page (1-500, default 10)
- * @param cursor Pagination cursor from previous response
+ * @param universeId 
+ * @param limit 
+ * @param cursor 
  * @description Lists all secrets defined for a universe.
 Secret content is not returned for security reasons - only metadata such as ID, domain, creation and update timestamps are included.
 
@@ -111,10 +109,9 @@ export const getCloudV2UniversesUniverseIdSecrets = endpoint({
 });
 /**
  * @api PATCH https://apis.roblox.com/cloud/cloud/v2/universes/:universeId/secrets/:secretId
- * @summary Update Secret
  * @param body The updated secret data with encrypted content
- * @param universeId The universe ID
- * @param secretId The ID of the secret to update
+ * @param universeId 
+ * @param secretId 
  * @description Updates an existing secret.
 
 Only the owner of the universe can update secrets. For group-owned universes, only the group owner or authorized
@@ -164,9 +161,8 @@ export const patchCloudV2UniversesUniverseIdSecretsSecretId = endpoint({
 });
 /**
  * @api DELETE https://apis.roblox.com/cloud/cloud/v2/universes/:universeId/secrets/:secretId
- * @summary Delete Secret
- * @param universeId The universe ID
- * @param secretId The ID of the secret to delete
+ * @param universeId 
+ * @param secretId 
  * @description Permanently deletes a secret from a universe.
 
 Only the owner of the universe can delete secrets. For group-owned universes, only the group owner or authorized
@@ -205,8 +201,7 @@ export const deleteCloudV2UniversesUniverseIdSecretsSecretId = endpoint({
 });
 /**
  * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universeId/secrets/public-key
- * @summary Get Public Key
- * @param universeId The universe ID
+ * @param universeId 
  * @description Retrieves the public key for a universe. You need this key to encrypt secret content 
 before sending it to Roblox.
 

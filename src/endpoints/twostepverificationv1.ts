@@ -31,6 +31,7 @@ const Roblox_TwoStepVerification_Api_MetadataResponse = z.object({
   isEppUIEnabled: z.boolean(),
   maskedUserEmail: z.string(),
   isUserU13: z.boolean(),
+  isDelayedUiEnabled: z.boolean(),
 });
 const Roblox_TwoStepVerification_Api_UserConfigurationMethod = z.object({
   mediaType: z.union([
@@ -207,10 +208,9 @@ const Roblox_TwoStepVerification_Api_RegenerateRecoveryCodesResponse = z.object(
 
 /**
  * @api GET https://twostepverification.roblox.com/v1/metadata
- * @summary Gets two step verification system metadata.
- * @param userId The user ID.
- * @param challengeId The active two step verification challenge ID if there is one.
- * @param actionType The Roblox.TwoStepVerification.Client.TwoStepVerificationActionType associated with the challenge.
+ * @param userId 
+ * @param challengeId 
+ * @param actionType 
  * @description The metadata endpoint takes in optional request parameters to output additional context
 for when the user is unauthenticated but attempting to login with two step verification.
 
@@ -222,18 +222,9 @@ export const getMetadata = endpoint({
   baseUrl: 'https://twostepverification.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'form',
-      explode: true,
-    },
-    challengeId: {
-      style: 'form',
-      explode: true,
-    },
-    actionType: {
-      style: 'form',
-      explode: true,
-    },
+    userId: {},
+    challengeId: {},
+    actionType: {},
   },
   parameters: {
     userId: z.number().int().optional(),
@@ -257,9 +248,8 @@ export const getMetadata = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/authenticator/verify
- * @summary Verifies a two step verification challenge code via authenticator app.
  * @param body The Roblox.TwoStepVerification.Api.VerifyCodeRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesAuthenticatorVerify = endpoint({
   method: 'POST',
@@ -268,9 +258,7 @@ export const postUsersUseridChallengesAuthenticatorVerify = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -300,9 +288,8 @@ export const postUsersUseridChallengesAuthenticatorVerify = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/cross-device/retract
- * @summary Reverts a user's dialog state from ACTIVE to PENDING.
  * @param body The Roblox.TwoStepVerification.Api.RetractDialogRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesCrossDeviceRetract = endpoint({
   method: 'POST',
@@ -311,9 +298,7 @@ export const postUsersUseridChallengesCrossDeviceRetract = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -339,9 +324,8 @@ export const postUsersUseridChallengesCrossDeviceRetract = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/cross-device/retry
- * @summary Retry a Cross Device two step verification approval.
  * @param body The Roblox.TwoStepVerification.Api.RetryApprovalRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesCrossDeviceRetry = endpoint({
   method: 'POST',
@@ -350,9 +334,7 @@ export const postUsersUseridChallengesCrossDeviceRetry = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -378,9 +360,8 @@ export const postUsersUseridChallengesCrossDeviceRetry = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/cross-device/verify
- * @summary Verifies a two step verification approval via Cross Device. Cross Device approval does not use a verification code.
  * @param body The Roblox.TwoStepVerification.Api.VerifyApprovalRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesCrossDeviceVerify = endpoint({
   method: 'POST',
@@ -389,9 +370,7 @@ export const postUsersUseridChallengesCrossDeviceVerify = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -418,9 +397,8 @@ export const postUsersUseridChallengesCrossDeviceVerify = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/email/send-code
- * @summary Sends a two step verification challenge code via email.
  * @param body The request body.Roblox.TwoStepVerification.Api.SendCodeRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesEmailSendCode = endpoint({
   method: 'POST',
@@ -429,9 +407,7 @@ export const postUsersUseridChallengesEmailSendCode = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -460,9 +436,8 @@ export const postUsersUseridChallengesEmailSendCode = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/email/verify
- * @summary Verifies a two step verification challenge with a code sent via email.
  * @param body The request body.Roblox.TwoStepVerification.Api.VerifyCodeRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesEmailVerify = endpoint({
   method: 'POST',
@@ -471,9 +446,7 @@ export const postUsersUseridChallengesEmailVerify = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -503,9 +476,8 @@ export const postUsersUseridChallengesEmailVerify = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/passkey/verify-finish
- * @summary Validates the assertion data returned by the passkey.
  * @param body The request bodyRoblox.TwoStepVerification.Api.VerifyCodeRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesPasskeyVerifyFinish = endpoint({
   method: 'POST',
@@ -514,9 +486,7 @@ export const postUsersUseridChallengesPasskeyVerifyFinish = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -542,9 +512,8 @@ export const postUsersUseridChallengesPasskeyVerifyFinish = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/passkey/verify-start
- * @summary Provides a challenge for the passkey to authenticate.
  * @param body The request bodyRoblox.TwoStepVerification.Api.SendCodeRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesPasskeyVerifyStart = endpoint({
   method: 'POST',
@@ -553,9 +522,7 @@ export const postUsersUseridChallengesPasskeyVerifyStart = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -581,9 +548,8 @@ export const postUsersUseridChallengesPasskeyVerifyStart = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/password/verify
- * @summary Verifies a two step verification challenge with a password (code).
  * @param body The request body.Roblox.TwoStepVerification.Api.VerifyCodeRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesPasswordVerify = endpoint({
   method: 'POST',
@@ -592,9 +558,7 @@ export const postUsersUseridChallengesPasswordVerify = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -624,9 +588,8 @@ export const postUsersUseridChallengesPasswordVerify = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/recovery-codes/verify
- * @summary Verifies a two step verification challenge via a recovery code.
  * @param body The Roblox.TwoStepVerification.Api.VerifyCodeRequest.
- * @param userId The user ID.
+ * @param userId
  * @description Once a recovery code has been used to verify a challenge it cannot be used again.
  */
 export const postUsersUseridChallengesRecoveryCodesVerify = endpoint({
@@ -636,9 +599,7 @@ export const postUsersUseridChallengesRecoveryCodesVerify = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -668,9 +629,8 @@ export const postUsersUseridChallengesRecoveryCodesVerify = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/security-key/verify-finish
- * @summary Validates the assertion data returned by the security key.
  * @param body The request bodyRoblox.TwoStepVerification.Api.VerifyCodeRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesSecurityKeyVerifyFinish = endpoint({
   method: 'POST',
@@ -679,9 +639,7 @@ export const postUsersUseridChallengesSecurityKeyVerifyFinish = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -707,9 +665,8 @@ export const postUsersUseridChallengesSecurityKeyVerifyFinish = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/security-key/verify-start
- * @summary Provides a challenge for the security key to authenticate.
  * @param body The request bodyRoblox.TwoStepVerification.Api.SendCodeRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesSecurityKeyVerifyStart = endpoint({
   method: 'POST',
@@ -718,9 +675,7 @@ export const postUsersUseridChallengesSecurityKeyVerifyStart = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -746,9 +701,8 @@ export const postUsersUseridChallengesSecurityKeyVerifyStart = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/sms/send-code
- * @summary Sends a two step verification code via SMS for the specified user.
  * @param body The request body.Roblox.TwoStepVerification.Api.SendCodeRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesSmsSendCode = endpoint({
   method: 'POST',
@@ -757,9 +711,7 @@ export const postUsersUseridChallengesSmsSendCode = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -788,9 +740,8 @@ export const postUsersUseridChallengesSmsSendCode = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/challenges/sms/verify
- * @summary Verifies a two step verification challenge with a code sent via SMS.
  * @param body The request body.Roblox.TwoStepVerification.Api.VerifyCodeRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridChallengesSmsVerify = endpoint({
   method: 'POST',
@@ -799,9 +750,7 @@ export const postUsersUseridChallengesSmsVerify = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -831,10 +780,9 @@ export const postUsersUseridChallengesSmsVerify = endpoint({
 });
 /**
  * @api GET https://twostepverification.roblox.com/v1/users/:userId/configuration
- * @summary Gets two step verification configuration for the specified user.
- * @param userId The Id of the user to get the configuration for.
- * @param challengeId The active challenge for the user (as an alternative when the user is unauthenticated).
- * @param actionType The action type the challengeId is associated with.
+ * @param userId
+ * @param challengeId
+ * @param actionType
  */
 export const getUsersUseridConfiguration = endpoint({
   method: 'GET',
@@ -842,17 +790,9 @@ export const getUsersUseridConfiguration = endpoint({
   baseUrl: 'https://twostepverification.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    challengeId: {
-      style: 'form',
-      explode: true,
-    },
-    actionType: {
-      style: 'form',
-      explode: true,
-    },
+    userId: {},
+    challengeId: {},
+    actionType: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -885,9 +825,8 @@ export const getUsersUseridConfiguration = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/configuration/authenticator/disable
- * @summary Disables two step verification via authenticator for the specified user.
  * @param body The Roblox.TwoStepVerification.Api.DisableTwoStepVerificationRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridConfigurationAuthenticatorDisable = endpoint({
   method: 'POST',
@@ -896,9 +835,7 @@ export const postUsersUseridConfigurationAuthenticatorDisable = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -932,9 +869,8 @@ export const postUsersUseridConfigurationAuthenticatorDisable = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/configuration/authenticator/enable
- * @summary Initiates enabling authenticator-based two step verification for the specified user.
  * @param body The Roblox.TwoStepVerification.Api.EnableTwoStepVerificationRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridConfigurationAuthenticatorEnable = endpoint({
   method: 'POST',
@@ -943,9 +879,7 @@ export const postUsersUseridConfigurationAuthenticatorEnable = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -976,9 +910,8 @@ export const postUsersUseridConfigurationAuthenticatorEnable = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/configuration/authenticator/enable-verify
- * @summary Finishes enabling authenticator-based two step verification for the specified user.
  * @param body The Roblox.TwoStepVerification.Api.EnableVerifyAuthenticatorRequest.
- * @param userId The user ID.
+ * @param userId 
  * @description Enabling authenticator-based two step verification requires two parts to help ensure
 the user has properly stored the authenticator key in their authenticator app.
  */
@@ -989,9 +922,7 @@ export const postUsersUseridConfigurationAuthenticatorEnableVerify = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -1023,9 +954,8 @@ export const postUsersUseridConfigurationAuthenticatorEnableVerify = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/configuration/email/disable
- * @summary Disables two step verification via email for the specified user.
  * @param body The Roblox.TwoStepVerification.Api.DisableTwoStepVerificationRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridConfigurationEmailDisable = endpoint({
   method: 'POST',
@@ -1034,9 +964,7 @@ export const postUsersUseridConfigurationEmailDisable = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -1070,9 +998,8 @@ export const postUsersUseridConfigurationEmailDisable = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/configuration/email/enable
- * @summary Enables two step verification via email for the specified user.
  * @param body The request body.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridConfigurationEmailEnable = endpoint({
   method: 'POST',
@@ -1081,9 +1008,7 @@ export const postUsersUseridConfigurationEmailEnable = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -1113,9 +1038,8 @@ export const postUsersUseridConfigurationEmailEnable = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/configuration/security-key/disable
- * @summary Disables a batch of credentials for the specified user.
  * @param body The request bodyRoblox.TwoStepVerification.Api.DisableTwoStepVerificationRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridConfigurationSecurityKeyDisable = endpoint({
   method: 'POST',
@@ -1124,9 +1048,7 @@ export const postUsersUseridConfigurationSecurityKeyDisable = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -1155,9 +1077,8 @@ export const postUsersUseridConfigurationSecurityKeyDisable = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/configuration/security-key/enable
- * @summary Initiates security key registration by providing credential creation options.
  * @param body The request body.Roblox.TwoStepVerification.Api.EnableTwoStepVerificationRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridConfigurationSecurityKeyEnable = endpoint({
   method: 'POST',
@@ -1166,9 +1087,7 @@ export const postUsersUseridConfigurationSecurityKeyEnable = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -1199,9 +1118,8 @@ export const postUsersUseridConfigurationSecurityKeyEnable = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/configuration/security-key/enable-verify
- * @summary Finishes security key registration and stores credential. Enables security key as a 2sv media type if it is a user's first key.
  * @param body The request body.Roblox.TwoStepVerification.Api.EnableVerifySecurityKeyRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridConfigurationSecurityKeyEnableVerify = endpoint({
   method: 'POST',
@@ -1210,9 +1128,7 @@ export const postUsersUseridConfigurationSecurityKeyEnableVerify = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -1242,8 +1158,7 @@ export const postUsersUseridConfigurationSecurityKeyEnableVerify = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/configuration/security-key/list
- * @summary List a user's registered security keys.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridConfigurationSecurityKeyList = endpoint({
   method: 'POST',
@@ -1251,9 +1166,7 @@ export const postUsersUseridConfigurationSecurityKeyList = endpoint({
   baseUrl: 'https://twostepverification.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -1280,9 +1193,8 @@ export const postUsersUseridConfigurationSecurityKeyList = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/configuration/sms/disable
- * @summary Disables two step verification via SMS for the specified user.
  * @param body The request body.Roblox.TwoStepVerification.Api.DisableTwoStepVerificationRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridConfigurationSmsDisable = endpoint({
   method: 'POST',
@@ -1291,9 +1203,7 @@ export const postUsersUseridConfigurationSmsDisable = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -1327,9 +1237,8 @@ export const postUsersUseridConfigurationSmsDisable = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/configuration/sms/enable
- * @summary Enables two step verification via SMS for the specified user.
  * @param body The request body.Roblox.TwoStepVerification.Api.EnableTwoStepVerificationRequest.
- * @param userId The user ID.
+ * @param userId
  */
 export const postUsersUseridConfigurationSmsEnable = endpoint({
   method: 'POST',
@@ -1338,9 +1247,7 @@ export const postUsersUseridConfigurationSmsEnable = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -1371,8 +1278,7 @@ export const postUsersUseridConfigurationSmsEnable = endpoint({
 });
 /**
  * @api GET https://twostepverification.roblox.com/v1/users/:userId/recovery-codes
- * @summary Gets the current status of recovery codes for a user.
- * @param userId The user ID.
+ * @param userId
  */
 export const getUsersUseridRecoveryCodes = endpoint({
   method: 'GET',
@@ -1380,9 +1286,7 @@ export const getUsersUseridRecoveryCodes = endpoint({
   baseUrl: 'https://twostepverification.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -1405,9 +1309,8 @@ export const getUsersUseridRecoveryCodes = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/recovery-codes/clear
- * @summary Clears any existing recovery codes for the user.
  * @param body The Roblox.TwoStepVerification.Api.ClearRecoveryCodesRequest.
- * @param userId The user ID.
+ * @param userId 
  * @description Clearing recovery codes voids any recovery codes previously generated for the user.
 New recovery codes will have to be generated to pass two step verification via recovery code.
  */
@@ -1418,9 +1321,7 @@ export const postUsersUseridRecoveryCodesClear = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -1453,9 +1354,8 @@ export const postUsersUseridRecoveryCodesClear = endpoint({
 });
 /**
  * @api POST https://twostepverification.roblox.com/v1/users/:userId/recovery-codes/regenerate
- * @summary Clears any existing recovery codes and generates a new batch of recovery codes.
  * @param body The Roblox.TwoStepVerification.Api.RegenerateRecoveryCodesRequest.
- * @param userId The user ID to generate recovery codes for.
+ * @param userId 
  * @description Two step verification recovery codes do not enforce that two step verification must be passed when logging in.
 At least one two step verification media type must be enabled to trigger the two step verification flow.
 Recovery codes are intended to be used to pass two step verification when the enabled media type is unavailable.
@@ -1471,9 +1371,7 @@ export const postUsersUseridRecoveryCodesRegenerate = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),

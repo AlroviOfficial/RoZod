@@ -9,7 +9,7 @@ const Roblox_Contacts_Api_Response_ValidateUserTagResponseModel = z.object({
   status: z.enum(['Success', 'Moderated', 'TooLong']),
 });
 const Roblox_Contacts_Api_Request_GetUserTagsRequestModel = z.object({
-  targetUserIds: z.array(z.number()),
+  targetUserIds: z.array(z.number().int()),
 });
 const Roblox_Contacts_Api_Response_GetUserTagsResponseModel = z.object({
   targetUserId: z.number().int(),
@@ -25,7 +25,6 @@ const Roblox_Contacts_Api_Response_SetUserTagResponseModel = z.object({
 
 /**
  * @api GET https://contacts.roblox.com/v1/contacts/metadata
- * @summary Gets contextual information for contacts and usertags
  */
 export const getContactsMetadata = endpoint({
   method: 'GET',
@@ -42,7 +41,6 @@ export const getContactsMetadata = endpoint({
 });
 /**
  * @api POST https://contacts.roblox.com/v1/user/get-tags
- * @summary Gets the tags for multiple users
  * @param body
  */
 export const postUserGetTags = endpoint({
@@ -74,7 +72,6 @@ export const postUserGetTags = endpoint({
 });
 /**
  * @api POST https://contacts.roblox.com/v1/user/tag
- * @summary Sets the tag for a user
  * @param body The tag receiving userId and the tag itself
  */
 export const postUserTag = endpoint({
@@ -112,8 +109,7 @@ export const postUserTag = endpoint({
 });
 /**
  * @api GET https://contacts.roblox.com/v1/user/tag/validate
- * @summary Validates the tag for a user
- * @param alias The tag to validate
+ * @param alias
  */
 export const getUserTagValidate = endpoint({
   method: 'GET',
@@ -121,10 +117,7 @@ export const getUserTagValidate = endpoint({
   baseUrl: 'https://contacts.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    alias: {
-      style: 'form',
-      explode: true,
-    },
+    alias: {},
   },
   parameters: {
     alias: z.string().optional(),

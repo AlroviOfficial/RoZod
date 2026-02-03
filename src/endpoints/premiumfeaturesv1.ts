@@ -3,8 +3,7 @@ import { endpoint } from '..';
 
 /**
  * @api GET https://premiumfeatures.roblox.com/v1/users/:userId/premium-upsell-precheck
- * @summary Premium upsell precheck
- * @param userId User ID
+ * @param userId
  * @param universeId
  * @param placeId
  */
@@ -14,17 +13,9 @@ export const getUsersUseridPremiumUpsellPrecheck = endpoint({
   baseUrl: 'https://premiumfeatures.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    universeId: {
-      style: 'form',
-      explode: true,
-    },
-    placeId: {
-      style: 'form',
-      explode: true,
-    },
+    userId: {},
+    universeId: {},
+    placeId: {},
   },
   parameters: {
     userId: z.number().int(),
@@ -41,8 +32,7 @@ export const getUsersUseridPremiumUpsellPrecheck = endpoint({
 });
 /**
  * @api GET https://premiumfeatures.roblox.com/v1/users/:userId/validate-membership
- * @summary Get if a user has a Premium membership
- * @param userId User ID
+ * @param userId
  */
 export const getUsersUseridValidateMembership = endpoint({
   method: 'GET',
@@ -50,9 +40,7 @@ export const getUsersUseridValidateMembership = endpoint({
   baseUrl: 'https://premiumfeatures.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),

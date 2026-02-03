@@ -8,8 +8,7 @@ const Roblox_EconomyCreatorStats_Api_Models_StatisticsResponse = z.object({
 
 /**
  * @api GET https://economycreatorstats.roblox.com/v1/universes/:universeId/stats
- * @summary Get statistics data for a universe.
- * @param universeId The universe id.
+ * @param universeId
  * @param Type
  * @param StartTime
  * @param EndTime
@@ -20,21 +19,10 @@ export const getUniversesUniverseidStats = endpoint({
   baseUrl: 'https://economycreatorstats.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
-    Type: {
-      style: 'form',
-      explode: true,
-    },
-    StartTime: {
-      style: 'form',
-      explode: true,
-    },
-    EndTime: {
-      style: 'form',
-      explode: true,
-    },
+    universeId: {},
+    Type: {},
+    StartTime: {},
+    EndTime: {},
   },
   parameters: {
     universeId: z.number().int(),

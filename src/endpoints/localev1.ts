@@ -55,7 +55,6 @@ const Roblox_Locale_Api_SetSupportedLocaleForUserRequest = z.object({
 
 /**
  * @api GET https://locale.roblox.com/v1/country-regions
- * @summary Get list of country regions sorted by localized name
  * @param locale
  */
 export const getCountryRegions = endpoint({
@@ -64,10 +63,7 @@ export const getCountryRegions = endpoint({
   baseUrl: 'https://locale.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    locale: {
-      style: 'form',
-      explode: true,
-    },
+    locale: {},
   },
   parameters: {
     locale: z.string().optional(),
@@ -86,7 +82,6 @@ export const getCountryRegions = endpoint({
 });
 /**
  * @api GET https://locale.roblox.com/v1/locales
- * @summary Get list of Supported locales with user locus information.
  * @param displayValueLocale
  */
 export const getLocales = endpoint({
@@ -95,10 +90,7 @@ export const getLocales = endpoint({
   baseUrl: 'https://locale.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    displayValueLocale: {
-      style: 'form',
-      explode: true,
-    },
+    displayValueLocale: {},
   },
   parameters: {
     displayValueLocale: z.string().optional(),
@@ -117,7 +109,6 @@ export const getLocales = endpoint({
 });
 /**
  * @api POST https://locale.roblox.com/v1/locales/set-show-roblox-translations
- * @summary Sets whether translations suggested by Roblox will be shown to the user.
  * @param body Whether to show Roblox-suggested translations
  */
 export const postLocalesSetShowRobloxTranslations = endpoint({
@@ -154,8 +145,6 @@ export const postLocalesSetShowRobloxTranslations = endpoint({
 });
 /**
  * @api POST https://locale.roblox.com/v1/locales/set-user-supported-locale
- * @summary Sets user's supported locale.
-Null supported locale will clear out user's supported locale (set users' supported locale to null)
  * @param body Supported locale code that needs to be set for user
  */
 export const postLocalesSetUserSupportedLocale = endpoint({
@@ -192,7 +181,6 @@ export const postLocalesSetUserSupportedLocale = endpoint({
 });
 /**
  * @api GET https://locale.roblox.com/v1/locales/supported-locales
- * @summary Get list of supported locales sorted by the Native Name property.
  */
 export const getLocalesSupportedLocales = endpoint({
   method: 'GET',
@@ -221,10 +209,7 @@ export const getLocalesSupportedLocalesForCreators = endpoint({
   baseUrl: 'https://locale.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    displayValueLocale: {
-      style: 'form',
-      explode: true,
-    },
+    displayValueLocale: {},
   },
   parameters: {
     displayValueLocale: z.string().optional(),
@@ -234,7 +219,6 @@ export const getLocalesSupportedLocalesForCreators = endpoint({
 });
 /**
  * @api GET https://locale.roblox.com/v1/locales/user-locale
- * @summary Gets user locale. If user is absent returns, locale from http request object.
  */
 export const getLocalesUserLocale = endpoint({
   method: 'GET',
@@ -251,9 +235,6 @@ export const getLocalesUserLocale = endpoint({
 });
 /**
  * @api GET https://locale.roblox.com/v1/locales/user-localization-locus-supported-locales
- * @summary Gets each of a user's localization locus supported locales. A localization locus supported locale is a page (or group of pages) that
-have been defined by the International team which need independent locale support.
-If the user is null we will attempt to return the locales appropriate for the user's device language.
  */
 export const getLocalesUserLocalizationLocusSupportedLocales = endpoint({
   method: 'GET',

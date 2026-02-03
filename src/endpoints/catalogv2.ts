@@ -19,6 +19,10 @@ const Roblox_Catalog_Api_BundleItemDetailModelV2 = z.object({
   supportsHeadShapes: z.boolean(),
   assetType: z.number().int(),
 });
+const Roblox_Catalog_Api_TaxonomyModel = z.object({
+  taxonomyId: z.string(),
+  taxonomyName: z.string(),
+});
 const Roblox_Catalog_Api_TimedOption = z.object({
   days: z.number().int(),
   price: z.number().int(),
@@ -26,7 +30,7 @@ const Roblox_Catalog_Api_TimedOption = z.object({
 });
 const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModelV2),
-  timedOptions: z.array(Roblox_Catalog_Api_TimedOption),
+  taxonomy: z.array(Roblox_Catalog_Api_TaxonomyModel),
   id: z.number().int(),
   itemType: z.union([z.literal(1), z.literal(2)]),
   assetType: z.union([
@@ -160,6 +164,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   isOffSale: z.boolean(),
   quantityLimitPerUser: z.number().int(),
   supportsHeadShapes: z.boolean(),
+  timedOptions: z.array(Roblox_Catalog_Api_TimedOption),
 });
 const Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2_ = z.object({
   keyword: z.string(),
@@ -171,7 +176,6 @@ const Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSea
 
 /**
  * @api GET https://catalog.roblox.com/v2/search/items/details
- * @summary Search for catalog items.
  * @param Taxonomy
  * @param AssetTypeIds
  * @param BundleTypeIds
@@ -187,10 +191,10 @@ const Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSea
  * @param IncludeNotForSale
  * @param TriggeredByTopicDiscovery
  * @param SalesTypeFilter
- * @param Topics The input topics format is split by ",". E.g "topics=cat,hat,red".
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
+ * @param Topics
+ * @param limit
+ * @param cursor
+ * @param sortOrder
  * @description This endpoint is for search by item type ids.
  */
 export const getSearchItemsDetails = endpoint({
@@ -199,87 +203,30 @@ export const getSearchItemsDetails = endpoint({
   baseUrl: 'https://catalog.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    Taxonomy: {
-      style: 'form',
-      explode: true,
-    },
-    AssetTypeIds: {
-      style: 'form',
-      explode: true,
-    },
-    BundleTypeIds: {
-      style: 'form',
-      explode: true,
-    },
-    CategoryFilter: {
-      style: 'form',
-      explode: true,
-    },
-    SortAggregation: {
-      style: 'form',
-      explode: true,
-    },
-    SortType: {
-      style: 'form',
-      explode: true,
-    },
-    CreatorType: {
-      style: 'form',
-      explode: true,
-    },
-    CreatorTargetId: {
-      style: 'form',
-      explode: true,
-    },
-    CreatorName: {
-      style: 'form',
-      explode: true,
-    },
-    MaxPrice: {
-      style: 'form',
-      explode: true,
-    },
-    MinPrice: {
-      style: 'form',
-      explode: true,
-    },
-    Keyword: {
-      style: 'form',
-      explode: true,
-    },
-    IncludeNotForSale: {
-      style: 'form',
-      explode: true,
-    },
-    TriggeredByTopicDiscovery: {
-      style: 'form',
-      explode: true,
-    },
-    SalesTypeFilter: {
-      style: 'form',
-      explode: true,
-    },
-    Topics: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
+    Taxonomy: {},
+    AssetTypeIds: {},
+    BundleTypeIds: {},
+    CategoryFilter: {},
+    SortAggregation: {},
+    SortType: {},
+    CreatorType: {},
+    CreatorTargetId: {},
+    CreatorName: {},
+    MaxPrice: {},
+    MinPrice: {},
+    Keyword: {},
+    IncludeNotForSale: {},
+    TriggeredByTopicDiscovery: {},
+    SalesTypeFilter: {},
+    Topics: {},
+    limit: {},
+    cursor: {},
+    sortOrder: {},
   },
   parameters: {
     Taxonomy: z.string(),
-    AssetTypeIds: z.array(z.number()),
-    BundleTypeIds: z.array(z.number()),
+    AssetTypeIds: z.array(z.number().int()),
+    BundleTypeIds: z.array(z.number().int()),
     CategoryFilter: z.union([
       z.literal(0),
       z.literal(1),

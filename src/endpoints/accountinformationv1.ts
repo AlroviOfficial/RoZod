@@ -55,14 +55,12 @@ const Roblox_AccountInformation_Api_Models_PromotionChannelsResponse = z.object(
   twitter: z.string(),
   youtube: z.string(),
   twitch: z.string(),
-  guilded: z.string(),
 });
 const Roblox_AccountInformation_Api_Models_PromotionChannelsRequest = z.object({
   facebook: z.string(),
   twitter: z.string(),
   youtube: z.string(),
   twitch: z.string(),
-  guilded: z.string(),
   promotionChannelsVisibilityPrivacy: z.string(),
 });
 const Roblox_AccountInformation_Api_Models_StarCodeAffiliateResponse = z.object({
@@ -78,7 +76,6 @@ const Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse = z
   twitter: z.string(),
   youtube: z.string(),
   twitch: z.string(),
-  guilded: z.string(),
 });
 const Roblox_AccountInformation_Api_RobloxBadgeResponse = z.object({
   id: z.number().int(),
@@ -99,7 +96,6 @@ const Roblox_AccountInformation_Api_Models_VerifyPhoneRequest = z.object({
 
 /**
  * @api GET https://accountinformation.roblox.com/v1/birthdate
- * @summary Get the user's birthdate
  */
 export const getBirthdate = endpoint({
   method: 'GET',
@@ -120,7 +116,6 @@ export const getBirthdate = endpoint({
 });
 /**
  * @api GET https://accountinformation.roblox.com/v1/description
- * @summary Get the user's description
  */
 export const getDescription = endpoint({
   method: 'GET',
@@ -141,7 +136,6 @@ export const getDescription = endpoint({
 });
 /**
  * @api POST https://accountinformation.roblox.com/v1/description
- * @summary Update the user's description
  * @param body The Roblox.AccountInformation.Api.Models.DescriptionRequest
  */
 export const postDescription = endpoint({
@@ -180,7 +174,6 @@ export const postDescription = endpoint({
 });
 /**
  * @api POST https://accountinformation.roblox.com/v1/email/verify
- * @summary Verify the user's email address from token
  * @param body Roblox.AccountInformation.Api.Models.VerifyEmailRequest
  */
 export const postEmailVerify = endpoint({
@@ -203,7 +196,6 @@ export const postEmailVerify = endpoint({
 });
 /**
  * @api GET https://accountinformation.roblox.com/v1/gender
- * @summary Get the user's gender
  */
 export const getGender = endpoint({
   method: 'GET',
@@ -224,7 +216,6 @@ export const getGender = endpoint({
 });
 /**
  * @api POST https://accountinformation.roblox.com/v1/gender
- * @summary Update the user's gender
  * @param body The Roblox.AccountInformation.Api.Models.GenderRequest
  */
 export const postGender = endpoint({
@@ -260,7 +251,6 @@ export const postGender = endpoint({
 });
 /**
  * @api GET https://accountinformation.roblox.com/v1/metadata
- * @summary Get the metadata
  */
 export const getMetadata = endpoint({
   method: 'GET',
@@ -272,7 +262,6 @@ export const getMetadata = endpoint({
 });
 /**
  * @api GET https://accountinformation.roblox.com/v1/phone
- * @summary Get Verified Phone Number
  */
 export const getPhone = endpoint({
   method: 'GET',
@@ -293,7 +282,6 @@ export const getPhone = endpoint({
 });
 /**
  * @api POST https://accountinformation.roblox.com/v1/phone
- * @summary Set Phone Number
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhone = endpoint({
@@ -340,7 +328,6 @@ export const postPhone = endpoint({
 });
 /**
  * @api POST https://accountinformation.roblox.com/v1/phone/delete
- * @summary Delete Phone
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhoneDelete = endpoint({
@@ -380,7 +367,6 @@ export const postPhoneDelete = endpoint({
 });
 /**
  * @api POST https://accountinformation.roblox.com/v1/phone/resend
- * @summary Resend Phone code
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhoneResend = endpoint({
@@ -419,7 +405,6 @@ export const postPhoneResend = endpoint({
 });
 /**
  * @api POST https://accountinformation.roblox.com/v1/phone/verify
- * @summary Verify Phone
  * @param body Roblox.AccountInformation.Api.Models.VerifyPhoneRequest
  */
 export const postPhoneVerify = endpoint({
@@ -464,10 +449,9 @@ export const postPhoneVerify = endpoint({
 });
 /**
  * @api GET https://accountinformation.roblox.com/v1/promotion-channels
- * @summary Get the user's promotion channels
- * @param alwaysReturnUrls Whether all promotion channel links should be returned as full URLs.
- * @param filterLink Whether all promotion channel links should be filtered.
- * @param onlyShortenTwitter Whether all promotion channels links except for Twitter should be returned as full URLs. If false, all promotion channels will be shortened.
+ * @param alwaysReturnUrls
+ * @param filterLink
+ * @param onlyShortenTwitter
  */
 export const getPromotionChannels = endpoint({
   method: 'GET',
@@ -475,22 +459,13 @@ export const getPromotionChannels = endpoint({
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    alwaysReturnUrls: {
-      style: 'form',
-      explode: true,
-    },
-    filterLink: {
-      style: 'form',
-      explode: true,
-    },
-    onlyShortenTwitter: {
-      style: 'form',
-      explode: true,
-    },
+    alwaysReturnUrls: {},
+    filterLink: {},
+    onlyShortenTwitter: {},
   },
   parameters: {
-    alwaysReturnUrls: z.boolean().optional(),
-    filterLink: z.boolean().optional(),
+    alwaysReturnUrls: z.boolean().optional().default(false),
+    filterLink: z.boolean().optional().default(false),
     onlyShortenTwitter: z.boolean().optional().default(true),
   },
   response: Roblox_AccountInformation_Api_Models_PromotionChannelsResponse,
@@ -507,7 +482,6 @@ export const getPromotionChannels = endpoint({
 });
 /**
  * @api POST https://accountinformation.roblox.com/v1/promotion-channels
- * @summary Update the user's promotion channels
  * @param body The Roblox.AccountInformation.Api.Models.PromotionChannelsRequest
  */
 export const postPromotionChannels = endpoint({
@@ -528,8 +502,7 @@ export const postPromotionChannels = endpoint({
 11: The Facebook profile url is invalid.
 12: The Twitter handle is invalid.
 13: The YouTube url is invalid.
-14: The Twitch profile url is invalid.
-15: The Guilded profile url is invalid.`,
+14: The Twitch profile url is invalid.`,
     },
     {
       status: 401,
@@ -544,7 +517,6 @@ export const postPromotionChannels = endpoint({
 });
 /**
  * @api GET https://accountinformation.roblox.com/v1/star-code-affiliates
- * @summary Gets a star code affiliate supporter for the authenticated user
  */
 export const getStarCodeAffiliates = endpoint({
   method: 'GET',
@@ -565,7 +537,6 @@ export const getStarCodeAffiliates = endpoint({
 });
 /**
  * @api POST https://accountinformation.roblox.com/v1/star-code-affiliates
- * @summary Adds a star code affiliate supporter for the authenticated user
  * @param body Roblox.AccountInformation.Api.Models.StarCodeAffiliateRequest
  */
 export const postStarCodeAffiliates = endpoint({
@@ -600,7 +571,6 @@ export const postStarCodeAffiliates = endpoint({
 });
 /**
  * @api DELETE https://accountinformation.roblox.com/v1/star-code-affiliates
- * @summary Removes the star code affiliate supporter for the authenticated user
  */
 export const deleteStarCodeAffiliates = endpoint({
   method: 'DELETE',
@@ -625,10 +595,9 @@ export const deleteStarCodeAffiliates = endpoint({
 });
 /**
  * @api GET https://accountinformation.roblox.com/v1/users/:userId/promotion-channels
- * @summary Get promotion channels for a given user ID
- * @param userId The ID of the user to fetch the promotion channels for.
- * @param alwaysReturnUrls Whether all promotion channel links should be returned as full URLs.
- * @param filterLink Whether all promotion channel links should be filtered.
+ * @param userId
+ * @param alwaysReturnUrls
+ * @param filterLink
  */
 export const getUsersUseridPromotionChannels = endpoint({
   method: 'GET',
@@ -636,22 +605,14 @@ export const getUsersUseridPromotionChannels = endpoint({
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    alwaysReturnUrls: {
-      style: 'form',
-      explode: true,
-    },
-    filterLink: {
-      style: 'form',
-      explode: true,
-    },
+    userId: {},
+    alwaysReturnUrls: {},
+    filterLink: {},
   },
   parameters: {
     userId: z.number().int(),
-    alwaysReturnUrls: z.boolean().optional(),
-    filterLink: z.boolean().optional(),
+    alwaysReturnUrls: z.boolean().optional().default(false),
+    filterLink: z.boolean().optional().default(false),
   },
   response: Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse,
   errors: [
@@ -663,7 +624,6 @@ export const getUsersUseridPromotionChannels = endpoint({
 });
 /**
  * @api GET https://accountinformation.roblox.com/v1/users/:userId/roblox-badges
- * @summary Returns a list of Roblox badges belonging to a user.
  * @param userId
  */
 export const getUsersUseridRobloxBadges = endpoint({
@@ -672,9 +632,7 @@ export const getUsersUseridRobloxBadges = endpoint({
   baseUrl: 'https://accountinformation.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
+    userId: {},
   },
   parameters: {
     userId: z.number().int(),

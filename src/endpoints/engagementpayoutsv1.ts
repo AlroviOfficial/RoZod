@@ -10,10 +10,9 @@ const Roblox_EngagementPayouts_Api_PayoutResponseModel = z.object({
 
 /**
  * @api GET https://engagementpayouts.roblox.com/v1/universe-payout-history
- * @summary Gets the engagement payout history for a specific universe and a given date range, specified by start and end dates.
- * @param universeId The ID of the universe in question.
- * @param startDate The first date in the range, specified as yyyy-MM-dd.
- * @param endDate The last date in the range, specified as yyyy-MM-dd.
+ * @param universeId
+ * @param startDate
+ * @param endDate
  */
 export const getUniversePayoutHistory = endpoint({
   method: 'GET',
@@ -21,18 +20,9 @@ export const getUniversePayoutHistory = endpoint({
   baseUrl: 'https://engagementpayouts.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    universeId: {
-      style: 'form',
-      explode: true,
-    },
-    startDate: {
-      style: 'form',
-      explode: true,
-    },
-    endDate: {
-      style: 'form',
-      explode: true,
-    },
+    universeId: {},
+    startDate: {},
+    endDate: {},
   },
   parameters: {
     universeId: z.number().int(),

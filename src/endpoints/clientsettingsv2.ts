@@ -37,9 +37,8 @@ const Roblox_ClientSettings_Api_Models_Response_UserChannelResponse = z.object({
 
 /**
  * @api GET https://clientsettings.roblox.com/v2/android-binaries/:version/channels/:channelName
- * @summary Retrieve the Android binary information for a given version and channel name.
- * @param version The version string of the application. i.e. 2.660.392
- * @param channelName The name of the channel. E.g. ZFlag, ZIntegration
+ * @param version
+ * @param channelName
  */
 export const getAndroidBinariesVersionChannelsChannelname = endpoint({
   method: 'GET',
@@ -47,12 +46,8 @@ export const getAndroidBinariesVersionChannelsChannelname = endpoint({
   baseUrl: 'https://clientsettings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    version: {
-      style: 'simple',
-    },
-    channelName: {
-      style: 'simple',
-    },
+    version: {},
+    channelName: {},
   },
   parameters: {
     version: z.string(),
@@ -63,8 +58,7 @@ export const getAndroidBinariesVersionChannelsChannelname = endpoint({
 });
 /**
  * @api GET https://clientsettings.roblox.com/v2/client-version/:binaryType
- * @summary Get client version information for specific binary type
- * @param binaryType Platform(WindowsPlayer, WindowsStudio, MacPlayer or MacStudio) for which we want the latest version
+ * @param binaryType
  */
 export const getClientVersionBinarytype = endpoint({
   method: 'GET',
@@ -72,9 +66,7 @@ export const getClientVersionBinarytype = endpoint({
   baseUrl: 'https://clientsettings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    binaryType: {
-      style: 'simple',
-    },
+    binaryType: {},
   },
   parameters: {
     binaryType: z.string(),
@@ -84,9 +76,8 @@ export const getClientVersionBinarytype = endpoint({
 });
 /**
  * @api GET https://clientsettings.roblox.com/v2/client-version/:binaryType/channel/:channelName
- * @summary Get client version information for specific binary type
- * @param binaryType Platform(WindowsPlayer, WindowsStudio, MacPlayer or MacStudio) for which we want the latest version
- * @param channelName Channel Name
+ * @param binaryType
+ * @param channelName
  */
 export const getClientVersionBinarytypeChannelChannelname = endpoint({
   method: 'GET',
@@ -94,12 +85,8 @@ export const getClientVersionBinarytypeChannelChannelname = endpoint({
   baseUrl: 'https://clientsettings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    binaryType: {
-      style: 'simple',
-    },
-    channelName: {
-      style: 'simple',
-    },
+    binaryType: {},
+    channelName: {},
   },
   parameters: {
     binaryType: z.string(),
@@ -115,8 +102,6 @@ export const getClientVersionBinarytypeChannelChannelname = endpoint({
 });
 /**
  * @api GET https://clientsettings.roblox.com/v2/compression-dictionaries
- * @summary Returns a listing of all known compression dictionaries, including their SHA256 and creation date.
-This will be sorted by creation date, with the most recent dictionaries first.
  */
 export const getCompressionDictionaries = endpoint({
   method: 'GET',
@@ -128,8 +113,7 @@ export const getCompressionDictionaries = endpoint({
 });
 /**
  * @api GET https://clientsettings.roblox.com/v2/compression-dictionaries/:dictionarySha256
- * @summary Returns the specified compression dictionary as a file download.
- * @param dictionarySha256 The SHA256 of the dictionary we wish to download.
+ * @param dictionarySha256
  */
 export const getCompressionDictionariesDictionarysha256 = endpoint({
   method: 'GET',
@@ -137,9 +121,7 @@ export const getCompressionDictionariesDictionarysha256 = endpoint({
   baseUrl: 'https://clientsettings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    dictionarySha256: {
-      style: 'simple',
-    },
+    dictionarySha256: {},
   },
   parameters: {
     dictionarySha256: z.string(),
@@ -149,13 +131,11 @@ export const getCompressionDictionariesDictionarysha256 = endpoint({
 });
 /**
  * @api GET https://clientsettings.roblox.com/v2/ota-version/:binaryType
- * @summary Get OTA information for a specific binary type with a given version on some channel.
-Returns empty list if no updates are found or channel/application with the given version does not exist in CVS.
- * @param binaryType Binary type of the application to get info for
- * @param channel Channel name. If not provided, production is assumed.
- * @param version Application version
- * @param tag Tag to filter results by. Only applicable to non-studio application types.
- * @param name Name to filter results by. Only applicable to non-studio application types.
+ * @param binaryType
+ * @param channel
+ * @param version
+ * @param tag
+ * @param name
  */
 export const getOtaVersionBinarytype = endpoint({
   method: 'GET',
@@ -163,25 +143,11 @@ export const getOtaVersionBinarytype = endpoint({
   baseUrl: 'https://clientsettings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    binaryType: {
-      style: 'simple',
-    },
-    channel: {
-      style: 'form',
-      explode: true,
-    },
-    version: {
-      style: 'form',
-      explode: true,
-    },
-    tag: {
-      style: 'form',
-      explode: true,
-    },
-    name: {
-      style: 'form',
-      explode: true,
-    },
+    binaryType: {},
+    channel: {},
+    version: {},
+    tag: {},
+    name: {},
   },
   parameters: {
     binaryType: z.string(),
@@ -207,7 +173,6 @@ export const getOtaVersionBinarytype = endpoint({
 });
 /**
  * @api GET https://clientsettings.roblox.com/v2/user-channel
- * @summary Get channel name for currently logged in user
  * @param binaryType
  */
 export const getUserChannel = endpoint({
@@ -216,10 +181,7 @@ export const getUserChannel = endpoint({
   baseUrl: 'https://clientsettings.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    binaryType: {
-      style: 'form',
-      explode: true,
-    },
+    binaryType: {},
   },
   parameters: {
     binaryType: z.string().optional(),

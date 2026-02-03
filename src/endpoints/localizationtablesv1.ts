@@ -238,8 +238,7 @@ const Roblox_LocalizationTables_Api_SetAutolocalizationSettingsForGameRequest = 
 
 /**
  * @api POST https://localizationtables.roblox.com/v1/auto-localization-table/games/:gameId/assets-generation-request
- * @summary Generates localization asset of a game.
- * @param gameId The game id.
+ * @param gameId
  */
 export const postAutoLocalizationTableGamesGameidAssetsGenerationRequest = endpoint({
   method: 'POST',
@@ -247,9 +246,7 @@ export const postAutoLocalizationTableGamesGameidAssetsGenerationRequest = endpo
   baseUrl: 'https://localizationtables.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -280,9 +277,8 @@ export const postAutoLocalizationTableGamesGameidAssetsGenerationRequest = endpo
 });
 /**
  * @api POST https://localizationtables.roblox.com/v1/auto-localization-table/games/:gameId/auto-scrape-cleanup-request
- * @summary Enqueues an event to flush the auto scraped entries which doesn't have translations.
  * @param body
- * @param gameId The id of the game.
+ * @param gameId
  */
 export const postAutoLocalizationTableGamesGameidAutoScrapeCleanupRequest = endpoint({
   method: 'POST',
@@ -291,9 +287,7 @@ export const postAutoLocalizationTableGamesGameidAutoScrapeCleanupRequest = endp
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -324,9 +318,8 @@ export const postAutoLocalizationTableGamesGameidAutoScrapeCleanupRequest = endp
 });
 /**
  * @api PATCH https://localizationtables.roblox.com/v1/auto-localization-table/games/:gameId/ingestion
- * @summary Ingests entries for auto localization. Needs to be an authorized user.
  * @param body The request body.
- * @param gameId The game id.
+ * @param gameId
  */
 export const patchAutoLocalizationTableGamesGameidIngestion = endpoint({
   method: 'PATCH',
@@ -335,9 +328,7 @@ export const patchAutoLocalizationTableGamesGameidIngestion = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -376,9 +367,7 @@ export const postAutolocalizationGamesGameidAutolocalizationtable = endpoint({
   baseUrl: 'https://localizationtables.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -407,9 +396,7 @@ export const patchAutolocalizationGamesGameidAutolocalizationtable = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -429,9 +416,8 @@ export const patchAutolocalizationGamesGameidAutolocalizationtable = endpoint({
 });
 /**
  * @api PATCH https://localizationtables.roblox.com/v1/autolocalization/games/:gameId/settings
- * @summary Sets a game's auto-localization related settings
  * @param body The request body.
- * @param gameId The id of the game.
+ * @param gameId
  */
 export const patchAutolocalizationGamesGameidSettings = endpoint({
   method: 'PATCH',
@@ -440,9 +426,7 @@ export const patchAutolocalizationGamesGameidSettings = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    gameId: {
-      style: 'simple',
-    },
+    gameId: {},
   },
   parameters: {
     gameId: z.number().int(),
@@ -472,7 +456,6 @@ export const patchAutolocalizationGamesGameidSettings = endpoint({
 });
 /**
  * @api GET https://localizationtables.roblox.com/v1/autolocalization/metadata
- * @summary Metadata for AutoLocalization Configuration
  */
 export const getAutolocalizationMetadata = endpoint({
   method: 'GET',
@@ -489,7 +472,6 @@ export const getAutolocalizationMetadata = endpoint({
 });
 /**
  * @api GET https://localizationtables.roblox.com/v1/localization-table/available-languages
- * @summary Gets the supported language codes that can be used by localization tables.
  */
 export const getLocalizationTableAvailableLanguages = endpoint({
   method: 'GET',
@@ -501,7 +483,6 @@ export const getLocalizationTableAvailableLanguages = endpoint({
 });
 /**
  * @api GET https://localizationtables.roblox.com/v1/localization-table/limits
- * @summary Get limits for translation table entries operations
  */
 export const getLocalizationTableLimits = endpoint({
   method: 'GET',
@@ -518,7 +499,6 @@ export const getLocalizationTableLimits = endpoint({
 });
 /**
  * @api GET https://localizationtables.roblox.com/v1/localization-table/metadata
- * @summary Get metadata for localization UI
  */
 export const getLocalizationTableMetadata = endpoint({
   method: 'GET',
@@ -530,9 +510,7 @@ export const getLocalizationTableMetadata = endpoint({
 });
 /**
  * @api POST https://localizationtables.roblox.com/v1/localization-table/tables
- * @summary Creates a Localization Table with the given data.
-Note that this endpoint simply creates a table and does not associate it with any universe, so if intending to use this to create tables usable in experience more setup will be needed to grant those experiences access.
- * @param body 
+ * @param body
  */
 export const postLocalizationTableTables = endpoint({
   method: 'POST',
@@ -559,8 +537,7 @@ export const postLocalizationTableTables = endpoint({
 });
 /**
  * @api GET https://localizationtables.roblox.com/v1/localization-table/tables/:assetId
- * @summary Get table information by the assetId of the table.
- * @param assetId The asset id associated with the table.
+ * @param assetId
  */
 export const getLocalizationTableTablesAssetid = endpoint({
   method: 'GET',
@@ -568,9 +545,7 @@ export const getLocalizationTableTablesAssetid = endpoint({
   baseUrl: 'https://localizationtables.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    assetId: {
-      style: 'simple',
-    },
+    assetId: {},
   },
   parameters: {
     assetId: z.number().int(),
@@ -593,7 +568,6 @@ export const getLocalizationTableTablesAssetid = endpoint({
 });
 /**
  * @api GET https://localizationtables.roblox.com/v1/localization-table/tables/:tableId
- * @summary Get table information by the id of the table.
  * @param tableId
  */
 export const getLocalizationTableTablesTableid = endpoint({
@@ -602,9 +576,7 @@ export const getLocalizationTableTablesTableid = endpoint({
   baseUrl: 'https://localizationtables.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    tableId: {
-      style: 'simple',
-    },
+    tableId: {},
   },
   parameters: {
     tableId: z.string().uuid(),
@@ -627,10 +599,9 @@ export const getLocalizationTableTablesTableid = endpoint({
 });
 /**
  * @api PATCH https://localizationtables.roblox.com/v1/localization-table/tables/:tableId
- * @summary Updates the tables contents based on what is provided.
  * @param body The metadata object is optional.
- * @param tableId The table guid for the table to update.
- * @param gameId The game id.
+ * @param tableId
+ * @param gameId
  */
 export const patchLocalizationTableTablesTableid = endpoint({
   method: 'PATCH',
@@ -639,13 +610,8 @@ export const patchLocalizationTableTablesTableid = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    tableId: {
-      style: 'simple',
-    },
-    gameId: {
-      style: 'form',
-      explode: true,
-    },
+    tableId: {},
+    gameId: {},
   },
   parameters: {
     tableId: z.string().uuid(),
@@ -679,9 +645,8 @@ export const patchLocalizationTableTablesTableid = endpoint({
 });
 /**
  * @api GET https://localizationtables.roblox.com/v1/localization-table/tables/:tableId/entries
- * @summary Gets a batch of entries for a table.
  * @param tableId
- * @param cursor If null, there are no more entries in the table and you've reached the last page.
+ * @param cursor
  * @param gameId
  * @param entryFormat
  */
@@ -691,21 +656,10 @@ export const getLocalizationTableTablesTableidEntries = endpoint({
   baseUrl: 'https://localizationtables.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    tableId: {
-      style: 'simple',
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    gameId: {
-      style: 'form',
-      explode: true,
-    },
-    entryFormat: {
-      style: 'form',
-      explode: true,
-    },
+    tableId: {},
+    cursor: {},
+    gameId: {},
+    entryFormat: {},
   },
   parameters: {
     tableId: z.string().uuid(),
@@ -732,10 +686,9 @@ export const getLocalizationTableTablesTableidEntries = endpoint({
 });
 /**
  * @api POST https://localizationtables.roblox.com/v1/localization-table/tables/:tableId/entries/translation-feedback
- * @summary Gets the translation feedback for each entry passed in.
  * @param body A request body containing all relevant data for entry translation feedback lookup.
- * @param tableId The entries' tableId.
- * @param gameId The game id.
+ * @param tableId
+ * @param gameId
  */
 export const postLocalizationTableTablesTableidEntriesTranslationFeedback = endpoint({
   method: 'POST',
@@ -744,13 +697,8 @@ export const postLocalizationTableTablesTableidEntriesTranslationFeedback = endp
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    tableId: {
-      style: 'simple',
-    },
-    gameId: {
-      style: 'form',
-      explode: true,
-    },
+    tableId: {},
+    gameId: {},
   },
   parameters: {
     tableId: z.string().uuid(),
@@ -790,10 +738,9 @@ export const postLocalizationTableTablesTableidEntriesTranslationFeedback = endp
 });
 /**
  * @api POST https://localizationtables.roblox.com/v1/localization-table/tables/:tableId/entries/translation-history
- * @summary Gets the translation history for each entry passed in.
  * @param body A request body containing all relevant data for entry history lookup.
- * @param tableId The entries' tableId.
- * @param gameId The game id.
+ * @param tableId
+ * @param gameId
  */
 export const postLocalizationTableTablesTableidEntriesTranslationHistory = endpoint({
   method: 'POST',
@@ -802,13 +749,8 @@ export const postLocalizationTableTablesTableidEntriesTranslationHistory = endpo
   requestFormat: 'json',
   serializationMethod: {
     body: {},
-    tableId: {
-      style: 'simple',
-    },
-    gameId: {
-      style: 'form',
-      explode: true,
-    },
+    tableId: {},
+    gameId: {},
   },
   parameters: {
     tableId: z.string().uuid(),
@@ -850,9 +792,8 @@ export const postLocalizationTableTablesTableidEntriesTranslationHistory = endpo
 });
 /**
  * @api GET https://localizationtables.roblox.com/v1/localization-table/tables/:tableId/entry-count
- * @summary Gets the number of entries in the specified table
- * @param tableId The table id
- * @param gameId The game id
+ * @param tableId
+ * @param gameId
  * @param entryFormat
  */
 export const getLocalizationTableTablesTableidEntryCount = endpoint({
@@ -861,22 +802,14 @@ export const getLocalizationTableTablesTableidEntryCount = endpoint({
   baseUrl: 'https://localizationtables.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
-    tableId: {
-      style: 'simple',
-    },
-    gameId: {
-      style: 'form',
-      explode: true,
-    },
-    entryFormat: {
-      style: 'form',
-      explode: true,
-    },
+    tableId: {},
+    gameId: {},
+    entryFormat: {},
   },
   parameters: {
     tableId: z.string().uuid(),
     gameId: z.number().int().optional(),
-    entryFormat: z.enum(['Invalid', 'Legacy', 'Icu']).optional().default('Legacy'),
+    entryFormat: z.enum(['Invalid', 'Legacy', 'Icu']).optional().default('1'),
   },
   response: Roblox_LocalizationTables_Api_GetTableEntryCountResponse,
   errors: [
