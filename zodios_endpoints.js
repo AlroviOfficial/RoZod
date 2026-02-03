@@ -4,7 +4,7 @@ import { promisify } from 'util';
 import { exec as execOld } from 'child_process';
 const exec = promisify(execOld);
 import pLimit from 'p-limit';
-import { generateZodClientFromOpenAPI } from 'openapi-zod-client';
+import { generateZodClientFromOpenAPI } from '@alexop/openapi-zod-client';
 import parser from '@apidevtools/swagger-parser';
 
 const limit = pLimit(2);
