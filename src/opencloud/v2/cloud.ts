@@ -1107,9 +1107,9 @@ export const postCloudV2UniversesUniverseIdPublishMessage = endpoint({
  * @summary Restart Universe Servers
  * @param body 
  * @param universe_id The universe ID.
- * @description Restarts all active servers for a specific universe if and only if a new
-version of the experience has been published. Used for releasing experience
-updates.
+ * @description Restarts active servers for a specific universe. Defaults to only
+restarting servers running older versions, but can be configured to restart
+all servers regardless of version. Used for releasing experience updates.
  */
 export const postCloudV2UniversesUniverseIdRestartServers = endpoint({
   method: 'POST',

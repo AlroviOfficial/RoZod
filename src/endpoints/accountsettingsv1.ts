@@ -34,6 +34,10 @@ const Roblox_AccountSettings_Api_UpdateEmailRequest = z.object({
   isAdsAccount: z.boolean(),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_AccountSettings_Api_CurrentEmailsResponse = z.object({
+  verifiedEmail: z.string(),
+  pendingEmail: z.string(),
+});
 const Roblox_AccountSettings_Api_ThemeConfigurationResponse = z.object({
   themeType: z.string(),
 });
@@ -312,6 +316,23 @@ export const postEmailVerify = endpoint({
     {
       status: 503,
       description: `2: This feature is currently disabled. Please try again later.`,
+    },
+  ],
+});
+/**
+ * @api GET https://accountsettings.roblox.com/v1/emails
+ * @summary Gets the authenticated user's verified email and pending (unverified) email if one exists
+ */
+export const getEmails = endpoint({
+  method: 'GET',
+  path: '/v1/emails',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
+  response: Roblox_AccountSettings_Api_CurrentEmailsResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
     },
   ],
 });

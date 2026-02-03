@@ -227,12 +227,21 @@ const Roblox_Api_Avatar_Models_PlayerAvatarTypeModel = z.object({
 /**
  * @api GET https://avatar.roblox.com/v1/avatar
  * @summary Returns details about the authenticated user's avatar.
+ * @param Roblox-Place-Id
  */
 export const getAvatar = endpoint({
   method: 'GET',
   path: '/v1/avatar',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
+  serializationMethod: {
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    'Roblox-Place-Id': z.number().int().optional(),
+  },
   response: Roblox_Api_Avatar_Models_AvatarModelV2,
   errors: [
     {
@@ -244,6 +253,7 @@ export const getAvatar = endpoint({
 /**
  * @api GET https://avatar.roblox.com/v1/avatar-rules
  * @summary Returns the business rules related to avatars.
+ * @param Roblox-Place-Id 
  * @description BodyColorsPalette is a list of valid brickColors you can choose for your avatar.
 WearableAssetTypes contains a list of asset types with names, ids, and the maximum number that you can wear at a time.
 Does not include packages because they cannot be worn on your avatar directly.
@@ -254,6 +264,14 @@ export const getAvatarRules = endpoint({
   path: '/v1/avatar-rules',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
+  serializationMethod: {
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    'Roblox-Place-Id': z.number().int().optional(),
+  },
   response: Roblox_Api_Avatar_Models_AvatarRulesModel,
   errors: [],
 });
@@ -272,12 +290,21 @@ export const getAvatarMetadata = endpoint({
 /**
  * @api POST https://avatar.roblox.com/v1/avatar/redraw-thumbnail
  * @summary Requests the authenticated user's thumbnail be redrawn.
+ * @param Roblox-Place-Id
  */
 export const postAvatarRedrawThumbnail = endpoint({
   method: 'POST',
   path: '/v1/avatar/redraw-thumbnail',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
+  serializationMethod: {
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    'Roblox-Place-Id': z.number().int().optional(),
+  },
   response: z.object({}),
   errors: [
     {
@@ -299,6 +326,7 @@ export const postAvatarRedrawThumbnail = endpoint({
  * @api POST https://avatar.roblox.com/v1/avatar/set-body-colors
  * @summary Sets the authenticated user's body colors.
  * @param body
+ * @param Roblox-Place-Id
  */
 export const postAvatarSetBodyColors = endpoint({
   method: 'POST',
@@ -307,8 +335,13 @@ export const postAvatarSetBodyColors = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
-  parameters: {},
+  parameters: {
+    'Roblox-Place-Id': z.number().int().optional(),
+  },
   body: Roblox_Api_Avatar_Models_BodyColorsModel,
   response: z.object({ success: z.boolean() }),
   errors: [
@@ -326,6 +359,7 @@ export const postAvatarSetBodyColors = endpoint({
  * @api POST https://avatar.roblox.com/v1/avatar/set-player-avatar-type
  * @summary Sets the authenticated user's player avatar type (e.g. R6 or R15).
  * @param body R6 or R15.
+ * @param Roblox-Place-Id
  * @description This is the avatar type chosen on the Avatar page. Some games can override this and force your character to be R6 or R15.
  */
 export const postAvatarSetPlayerAvatarType = endpoint({
@@ -335,8 +369,13 @@ export const postAvatarSetPlayerAvatarType = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
-  parameters: {},
+  parameters: {
+    'Roblox-Place-Id': z.number().int().optional(),
+  },
   body: Roblox_Api_Avatar_Models_PlayerAvatarTypeModel,
   response: z.object({ success: z.boolean() }),
   errors: [
@@ -359,6 +398,7 @@ export const postAvatarSetPlayerAvatarType = endpoint({
  * @api POST https://avatar.roblox.com/v1/avatar/set-scales
  * @summary Sets the authenticated user's scales.
  * @param body
+ * @param Roblox-Place-Id
  */
 export const postAvatarSetScales = endpoint({
   method: 'POST',
@@ -367,8 +407,13 @@ export const postAvatarSetScales = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
-  parameters: {},
+  parameters: {
+    'Roblox-Place-Id': z.number().int().optional(),
+  },
   body: Roblox_Web_Responses_Avatar_ScaleModel,
   response: z.object({ success: z.boolean() }),
   errors: [
@@ -393,6 +438,7 @@ export const postAvatarSetScales = endpoint({
 This is version 1.1, which returns an entry from the UniverseAvatarType enum.
 During mixed mode this may return unreliable results.
  * @param universeId 
+ * @param Roblox-Place-Id 
  */
 export const getGameStartInfo = endpoint({
   method: 'GET',
@@ -404,9 +450,13 @@ export const getGameStartInfo = endpoint({
       style: 'form',
       explode: true,
     },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
   parameters: {
     universeId: z.number().int(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   response: Roblox_Api_Avatar_Models_GameStartInfoResponse,
   errors: [],
@@ -415,6 +465,7 @@ export const getGameStartInfo = endpoint({
  * @api POST https://avatar.roblox.com/v1/outfits/:userOutfitId/delete
  * @summary Deletes the outfit.
  * @param userOutfitId The user outfit id.
+ * @param Roblox-Place-Id
  * @description You are only allowed to delete outfits you created.
  */
 export const postOutfitsUseroutfitidDelete = endpoint({
@@ -426,9 +477,13 @@ export const postOutfitsUseroutfitidDelete = endpoint({
     userOutfitId: {
       style: 'simple',
     },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
   parameters: {
     userOutfitId: z.number().int(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   response: z.object({ success: z.boolean() }),
   errors: [
@@ -455,6 +510,7 @@ export const postOutfitsUseroutfitidDelete = endpoint({
  * @api GET https://avatar.roblox.com/v1/outfits/:userOutfitId/details
  * @summary Gets details about the contents of an outfit.
  * @param userOutfitId The user outfit id.
+ * @param Roblox-Place-Id
  */
 export const getOutfitsUseroutfitidDetails = endpoint({
   method: 'GET',
@@ -465,9 +521,13 @@ export const getOutfitsUseroutfitidDetails = endpoint({
     userOutfitId: {
       style: 'simple',
     },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
   parameters: {
     userOutfitId: z.number().int(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   response: Roblox_Api_Avatar_Models_OutfitDetailsModel,
   errors: [
@@ -486,6 +546,7 @@ export const getOutfitsUseroutfitidDetails = endpoint({
  * @api GET https://avatar.roblox.com/v1/users/:userId/avatar
  * @summary Returns details about a specified user's avatar.
  * @param userId
+ * @param Roblox-Place-Id
  * @description Includes assets, bodycolors, and playerAvatarType.
  */
 export const getUsersUseridAvatar = endpoint({
@@ -497,9 +558,13 @@ export const getUsersUseridAvatar = endpoint({
     userId: {
       style: 'simple',
     },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
   parameters: {
     userId: z.number().int(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   response: Roblox_Api_Avatar_Models_AvatarModelV2,
   errors: [
@@ -514,6 +579,7 @@ export const getUsersUseridAvatar = endpoint({
  * @api GET https://avatar.roblox.com/v1/users/:userId/currently-wearing
  * @summary Gets a list of asset ids that the user is currently wearing.
  * @param userId The user id.
+ * @param Roblox-Place-Id
  */
 export const getUsersUseridCurrentlyWearing = endpoint({
   method: 'GET',
@@ -524,9 +590,13 @@ export const getUsersUseridCurrentlyWearing = endpoint({
     userId: {
       style: 'simple',
     },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
   parameters: {
     userId: z.number().int(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   response: Roblox_Api_Avatar_Models_AssetIdListModel,
   errors: [
@@ -546,6 +616,7 @@ Gets a list of outfits for the specified user.
  * @param page The page number of the current page of requests, default is 1.
  * @param itemsPerPage The max number of outfits that can be returned.
  * @param isEditable Whether the outfits are editable. A null value will lead to no filtering.
+ * @param Roblox-Place-Id The placeId of the caller, not required to be passed in.
  */
 export const getUsersUseridOutfits = endpoint({
   method: 'GET',
@@ -572,6 +643,9 @@ export const getUsersUseridOutfits = endpoint({
       style: 'form',
       explode: true,
     },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
   parameters: {
     userId: z.number().int(),
@@ -579,6 +653,7 @@ export const getUsersUseridOutfits = endpoint({
     page: z.number().int().optional().default(1),
     itemsPerPage: z.number().int().optional().default(25),
     isEditable: z.boolean().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   response: Roblox_Api_Avatar_Models_AvatarFilteredPageResponse_Roblox_Api_Avatar_Models_OutfitModel_,
   errors: [

@@ -551,6 +551,7 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
  * @param body
  * @param Roblox-Place-Id
  * @param Accept
+ * @param Roblox-Browser-Asset-Request
  */
 export const postAssetsBatch = endpoint({
   method: 'POST',
@@ -565,10 +566,14 @@ export const postAssetsBatch = endpoint({
     Accept: {
       style: 'simple',
     },
+    'Roblox-Browser-Asset-Request': {
+      style: 'simple',
+    },
   },
   parameters: {
     'Roblox-Place-Id': z.number().int(),
     Accept: z.string(),
+    'Roblox-Browser-Asset-Request': z.string(),
   },
   body: z.array(Roblox_Web_Assets_BatchAssetRequestItem),
   response: z.array(Roblox_Web_Assets_AssetResponseItemV1),

@@ -31,6 +31,7 @@ const Roblox_TwoStepVerification_Api_MetadataResponse = z.object({
   isEppUIEnabled: z.boolean(),
   maskedUserEmail: z.string(),
   isUserU13: z.boolean(),
+  isDelayedUiEnabled: z.boolean(),
 });
 const Roblox_TwoStepVerification_Api_UserConfigurationMethod = z.object({
   mediaType: z.union([
