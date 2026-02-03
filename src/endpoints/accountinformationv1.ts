@@ -55,14 +55,12 @@ const Roblox_AccountInformation_Api_Models_PromotionChannelsResponse = z.object(
   twitter: z.string(),
   youtube: z.string(),
   twitch: z.string(),
-  guilded: z.string(),
 });
 const Roblox_AccountInformation_Api_Models_PromotionChannelsRequest = z.object({
   facebook: z.string(),
   twitter: z.string(),
   youtube: z.string(),
   twitch: z.string(),
-  guilded: z.string(),
   promotionChannelsVisibilityPrivacy: z.string(),
 });
 const Roblox_AccountInformation_Api_Models_StarCodeAffiliateResponse = z.object({
@@ -78,7 +76,6 @@ const Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse = z
   twitter: z.string(),
   youtube: z.string(),
   twitch: z.string(),
-  guilded: z.string(),
 });
 const Roblox_AccountInformation_Api_RobloxBadgeResponse = z.object({
   id: z.number().int(),
@@ -528,8 +525,7 @@ export const postPromotionChannels = endpoint({
 11: The Facebook profile url is invalid.
 12: The Twitter handle is invalid.
 13: The YouTube url is invalid.
-14: The Twitch profile url is invalid.
-15: The Guilded profile url is invalid.`,
+14: The Twitch profile url is invalid.`,
     },
     {
       status: 401,

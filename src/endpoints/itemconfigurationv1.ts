@@ -36,9 +36,6 @@ const Roblox_ItemConfiguration_Api_ItemTagsMetadataResponse = z.object({
   enabledAssetTypes: z.array(z.string()),
   maximumItemTagsPerItem: z.number().int(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_TagDetails_ = z.object({
-  data: z.array(Roblox_ItemConfiguration_Api_TagDetails),
-});
 const Roblox_ItemConfiguration_Api_AssetCreationsDetailsRequest = z.object({
   AssetIds: z.array(z.number()),
 });
@@ -329,91 +326,6 @@ export const getItemTagsMetadata = endpoint({
     {
       status: 404,
       description: `10: The endpoint was not found`,
-    },
-  ],
-});
-/**
- * @api GET https://itemconfiguration.roblox.com/v1/tags
- * @summary Gets the information for a list of tag Ids.
- * @param tagIds
- */
-export const getTags = endpoint({
-  method: 'GET',
-  path: '/v1/tags',
-  baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    tagIds: {
-      style: 'form',
-    },
-  },
-  parameters: {
-    tagIds: z.array(z.string()),
-  },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_TagDetails_,
-  errors: [
-    {
-      status: 400,
-      description: `1: No tag Ids requested
-2: Too many tag Ids requested`,
-    },
-    {
-      status: 404,
-      description: `7: The endpoint was not found`,
-    },
-    {
-      status: 429,
-      description: `3: Too many requests`,
-    },
-  ],
-});
-/**
- * @api GET https://itemconfiguration.roblox.com/v1/tags/prefix-search
- * @summary Searches for up to numberOfResults tags based on the given prefix.
- * @param prefix
- * @param numberOfResults Must be 1, 5, 10, or 25.
- */
-export const getTagsPrefixSearch = endpoint({
-  method: 'GET',
-  path: '/v1/tags/prefix-search',
-  baseUrl: 'https://itemconfiguration.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    prefix: {
-      style: 'form',
-      explode: true,
-    },
-    numberOfResults: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    prefix: z.string(),
-    numberOfResults: z.number().int(),
-  },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_ItemConfiguration_Api_TagDetails_,
-  errors: [
-    {
-      status: 400,
-      description: `5: The given prefix is invalid
-6: The number of results requested is invalid`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `4: This endpoint is not yet enabled for the current user`,
-    },
-    {
-      status: 404,
-      description: `7: The endpoint was not found`,
-    },
-    {
-      status: 429,
-      description: `3: Too many requests`,
     },
   ],
 });

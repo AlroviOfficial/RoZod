@@ -19,6 +19,10 @@ const Roblox_Catalog_Api_BundleItemDetailModelV2 = z.object({
   supportsHeadShapes: z.boolean(),
   assetType: z.number().int(),
 });
+const Roblox_Catalog_Api_TaxonomyModel = z.object({
+  taxonomyId: z.string(),
+  taxonomyName: z.string(),
+});
 const Roblox_Catalog_Api_TimedOption = z.object({
   days: z.number().int(),
   price: z.number().int(),
@@ -26,7 +30,7 @@ const Roblox_Catalog_Api_TimedOption = z.object({
 });
 const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModelV2),
-  timedOptions: z.array(Roblox_Catalog_Api_TimedOption),
+  taxonomy: z.array(Roblox_Catalog_Api_TaxonomyModel),
   id: z.number().int(),
   itemType: z.union([z.literal(1), z.literal(2)]),
   assetType: z.union([
@@ -160,6 +164,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   isOffSale: z.boolean(),
   quantityLimitPerUser: z.number().int(),
   supportsHeadShapes: z.boolean(),
+  timedOptions: z.array(Roblox_Catalog_Api_TimedOption),
 });
 const Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2_ = z.object({
   keyword: z.string(),

@@ -64,6 +64,9 @@ const Roblox_Api_Develop_Models_ActivationEligibilityResponse = z.object({
   isEligible: z.boolean(),
   maturityRated: z.boolean(),
   isUserEligibleForPublicPublish: z.boolean(),
+  remainingPublicPublishCount: z.number().int(),
+  isPublicPublish: z.boolean(),
+  isPublishToExistingUniverse: z.boolean(),
 });
 const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   allowPrivateServers: z.boolean(),

@@ -154,12 +154,27 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 /**
  * @api GET https://avatar.roblox.com/v2/avatar/avatar
  * @summary Returns details about the authenticated user's avatar.
+ * @param Roblox-Place-Id
+ * @param checkAssetAvailability Whether to return assets with availability status.
  */
 export const getAvatarAvatar = endpoint({
   method: 'GET',
   path: '/v2/avatar/avatar',
   baseUrl: 'https://avatar.roblox.com',
   requestFormat: 'json',
+  serializationMethod: {
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
+    checkAssetAvailability: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    'Roblox-Place-Id': z.number().int().optional(),
+    checkAssetAvailability: z.boolean().optional(),
+  },
   response: Roblox_Api_Avatar_Models_AvatarModelV3,
   errors: [
     {
@@ -172,6 +187,7 @@ export const getAvatarAvatar = endpoint({
  * @api POST https://avatar.roblox.com/v2/avatar/set-body-colors
  * @summary Sets the authenticated user's body colors.
  * @param body
+ * @param Roblox-Place-Id
  */
 export const postAvatarSetBodyColors = endpoint({
   method: 'POST',
@@ -180,8 +196,13 @@ export const postAvatarSetBodyColors = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
-  parameters: {},
+  parameters: {
+    'Roblox-Place-Id': z.number().int().optional(),
+  },
   body: Roblox_Platform_Avatar_BodyColorsModelV2,
   response: z.object({ success: z.boolean() }),
   errors: [
@@ -199,6 +220,7 @@ export const postAvatarSetBodyColors = endpoint({
  * @api POST https://avatar.roblox.com/v2/avatar/set-wearing-assets
  * @summary Sets the avatar's current assets to the list.
  * @param body Model of assets to be worn.
+ * @param Roblox-Place-Id 
  * @description Only allows items that you own, are not expired, and are wearable asset types.
 Any assets being worn before this method is called are automatically removed.
  */
@@ -209,8 +231,13 @@ export const postAvatarSetWearingAssets = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
-  parameters: {},
+  parameters: {
+    'Roblox-Place-Id': z.number().int().optional(),
+  },
   body: Roblox_Api_Avatar_Models_WearRequestModel,
   response: Roblox_Api_Avatar_Models_WearResponseModel,
   errors: [
@@ -238,6 +265,8 @@ export const postAvatarSetWearingAssets = endpoint({
  * @api GET https://avatar.roblox.com/v2/avatar/users/:userId/avatar
  * @summary Returns details about a specified user's avatar.
  * @param userId
+ * @param Roblox-Place-Id
+ * @param checkAssetAvailability Whether to return assets with availability status.
  * @description Includes assets, bodycolors, and playerAvatarType.
  */
 export const getAvatarUsersUseridAvatar = endpoint({
@@ -249,9 +278,18 @@ export const getAvatarUsersUseridAvatar = endpoint({
     userId: {
       style: 'simple',
     },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
+    checkAssetAvailability: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userId: z.number().int(),
+    'Roblox-Place-Id': z.number().int().optional(),
+    checkAssetAvailability: z.boolean().optional(),
   },
   response: Roblox_Api_Avatar_Models_AvatarModelV3,
   errors: [
@@ -271,6 +309,7 @@ export const getAvatarUsersUseridAvatar = endpoint({
  * @param page The page number of the current page of requests, default is 1.
  * @param itemsPerPage The max number of outfits that can be returned.
  * @param isEditable Whether the outfits are editable. A null value will lead to no filtering.
+ * @param Roblox-Place-Id The placeId of the caller, not required to be passed in.
  */
 export const getAvatarUsersUseridOutfits = endpoint({
   method: 'GET',
@@ -301,6 +340,9 @@ export const getAvatarUsersUseridOutfits = endpoint({
       style: 'form',
       explode: true,
     },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
   parameters: {
     userId: z.number().int(),
@@ -309,6 +351,7 @@ export const getAvatarUsersUseridOutfits = endpoint({
     page: z.number().int().optional().default(1),
     itemsPerPage: z.number().int().optional().default(25),
     isEditable: z.boolean().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   response: Roblox_Api_Avatar_Models_AvatarPageResponse_Roblox_Api_Avatar_Models_OutfitModel_,
   errors: [
@@ -324,6 +367,7 @@ export const getAvatarUsersUseridOutfits = endpoint({
  * @summary Updates the contents of an outfit.
  * @param body The updated outfit.
  * @param userOutfitId The user outfit id.
+ * @param Roblox-Place-Id 
  * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
 Accepts partial updates.
  */
@@ -337,9 +381,13 @@ export const patchOutfitsUseroutfitid = endpoint({
     userOutfitId: {
       style: 'simple',
     },
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
   parameters: {
     userOutfitId: z.number().int(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   body: Roblox_Api_Avatar_Models_OutfitUpdateModelV2,
   response: Roblox_Api_Avatar_Models_OutfitModel,
@@ -374,6 +422,7 @@ export const patchOutfitsUseroutfitid = endpoint({
  * @api POST https://avatar.roblox.com/v2/outfits/create
  * @summary Creates a new outfit.
  * @param body The new outfit.
+ * @param Roblox-Place-Id 
  * @description Fails if any of the assetIds are not owned by the user, or not wearable types.
 The name property of the request is optional as one will be auto-generated when the request has a null name.
  */
@@ -384,8 +433,13 @@ export const postOutfitsCreate = endpoint({
   requestFormat: 'json',
   serializationMethod: {
     body: {},
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
   },
-  parameters: {},
+  parameters: {
+    'Roblox-Place-Id': z.number().int().optional(),
+  },
   body: Roblox_Api_Avatar_Models_OutfitUpdateModelV2,
   response: z.object({}),
   errors: [

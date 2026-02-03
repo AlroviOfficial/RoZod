@@ -778,6 +778,10 @@ export const getRevertAccount = endpoint({
       description: `2: The account revert ticket is not valid`,
     },
     {
+      status: 403,
+      description: `13: Revert links are disabled for users in the Enhanced Protection Program.`,
+    },
+    {
       status: 503,
       description: `1: This feature is disabled`,
     },
