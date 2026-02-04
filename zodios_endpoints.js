@@ -134,14 +134,31 @@ function fixUnescapedRegexSlashes(content) {
 }
 
 /**
- * Fix invalid enum defaults where the default is a numeric string like '1' 
- * instead of an actual enum value.
+ * Fix invalid enum defaults where the default is not one of the valid enum values.
+ * This handles cases like z.enum(['Invalid', 'Legacy', 'Icu']).optional().default('1')
+ * or z.enum(["Invalid", "Legacy", "Icu"]).optional().default("1")
+ * where '1' is not a valid enum value.
  */
 function fixInvalidEnumDefaults(content) {
-  // Fix: z.enum(['Invalid', 'Legacy', 'Icu']).optional().default('1') -> .default('Legacy')
+  // Match z.enum([...]).optional().default('...') or z.enum([...]).optional().default("...")
+  // Captures: enum values array, quote char, and the default value
   return content.replace(
-    /z\.enum\(\['Invalid', 'Legacy', 'Icu'\]\)\.optional\(\)\.default\('1'\)/g,
-    "z.enum(['Invalid', 'Legacy', 'Icu']).optional().default('Legacy')"
+    /z\.enum\(\[([^\]]+)\]\)\.optional\(\)\.default\((['"])([^'"]+)\2\)/g,
+    (match, enumValuesStr, quoteChar, defaultValue) => {
+      // Parse the enum values from the captured group (handles both ' and " quotes)
+      const enumValues = enumValuesStr
+        .split(',')
+        .map(v => v.trim().replace(/^['"]|['"]$/g, ''));
+
+      // Check if the default value is valid
+      if (enumValues.includes(defaultValue)) {
+        return match; // Default is valid, no change needed
+      }
+
+      // Default is invalid, use the first enum value instead
+      const firstValue = enumValues[0];
+      return `z.enum([${enumValuesStr}]).optional().default(${quoteChar}${firstValue}${quoteChar})`;
+    }
   );
 }
 
@@ -258,7 +275,7 @@ function applyZodRecordFixToFile(filePath) {
       fixed = fixUnescapedRegexSlashes(fixed);
     }
 
-    if (fixed.includes(".default('1')")) {
+    if (fixed.includes('z.enum(') && fixed.includes('.optional().default(')) {
       fixed = fixInvalidEnumDefaults(fixed);
     }
 
@@ -464,7 +481,7 @@ Promise.all(
     return folderContents.some((file) => file.endsWith('.yaml'));
   });
 
-  openApiFiles.map(async (folder) => {
+  await Promise.all(openApiFiles.map(async (folder) => {
     console.log(`Generating Zodios for ${folder}`);
 
     const fileName = basename(folder, '.yaml');
@@ -511,7 +528,7 @@ Promise.all(
       }
     }
     return folder;
-  });
+  }));
 
   // Take all the endpoint files and move them to ./lib/endpoints but renamed to their name plus .d.ts
   const endpointFiles = readdirSync(FOLDER_ZODIOS).filter((file) => file.endsWith('.ts'));

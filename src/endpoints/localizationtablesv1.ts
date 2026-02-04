@@ -876,7 +876,7 @@ export const getLocalizationTableTablesTableidEntryCount = endpoint({
   parameters: {
     tableId: z.string().uuid(),
     gameId: z.number().int().optional(),
-    entryFormat: z.enum(['Invalid', 'Legacy', 'Icu']).optional().default('1'),
+    entryFormat: z.enum(['Invalid', 'Legacy', 'Icu']).optional().default('Invalid'),
   },
   response: Roblox_LocalizationTables_Api_GetTableEntryCountResponse,
   errors: [
