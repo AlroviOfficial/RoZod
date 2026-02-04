@@ -241,7 +241,7 @@ export type CookieRefreshEvent = {
   oldCookie: string;
   /** The new cookie value received from Roblox */
   newCookie: string;
-  /** The index in the cookie pool that was updated (-1 if not using a pool) */
+  /** The index in the cookie pool that was updated (0 for single cookie, should not be -1 in normal operation) */
   poolIndex: number;
 };
 
@@ -326,10 +326,6 @@ type ServerConfigInternal = ServerConfig & {
   _userAgentIndex: number;
   _sessionUserAgent?: string;
   _sessionCookie?: string;
-  /** Tracks the cookie used in the most recent request for rotation detection */
-  _lastUsedCookie?: string;
-  /** Tracks the index of the cookie used in the most recent request */
-  _lastUsedCookieIndex?: number;
 };
 
 const serverConfig: ServerConfigInternal = {
@@ -385,8 +381,6 @@ export function configureServer(config: ServerConfig): void {
   serverConfig._userAgentIndex = 0;
   serverConfig._sessionUserAgent = undefined;
   serverConfig._sessionCookie = undefined;
-  serverConfig._lastUsedCookie = undefined;
-  serverConfig._lastUsedCookieIndex = undefined;
 }
 
 /**
@@ -403,8 +397,6 @@ export function clearServerConfig(): void {
   serverConfig._userAgentIndex = 0;
   serverConfig._sessionUserAgent = undefined;
   serverConfig._sessionCookie = undefined;
-  serverConfig._lastUsedCookie = undefined;
-  serverConfig._lastUsedCookieIndex = undefined;
 }
 
 /**
@@ -452,7 +444,13 @@ function selectFromPool<T>(
   }
 }
 
-function getServerCookie(): string | undefined {
+type CookieSelection = { cookie: string; index: number } | undefined;
+
+/**
+ * Selects a cookie from the pool and returns both the cookie value and its index.
+ * This allows proper tracking for concurrent request scenarios.
+ */
+function getServerCookieWithIndex(): CookieSelection {
   const cookies = serverConfig.cookies;
   if (!cookies) return undefined;
 
@@ -463,10 +461,6 @@ function getServerCookie(): string | undefined {
   const defaultRotation: PoolRotation = cookiePool.length > 1 ? 'round-robin' : 'none';
   const rotation = serverConfig.cookieRotation ?? defaultRotation;
 
-  // Select cookie and track the index used for rotation detection
-  // Note: With concurrent requests, _lastUsedCookie tracking may be imprecise since
-  // a later request could overwrite the tracking before an earlier response arrives.
-  // This is acceptable as cookie rotation is rare and the cookie value itself is still correct.
   let cookie: string | undefined;
   let indexUsed: number;
 
@@ -503,13 +497,11 @@ function getServerCookie(): string | undefined {
     }
   }
 
-  // Track which cookie was used for rotation detection
-  if (cookie) {
-    serverConfig._lastUsedCookie = cookie;
-    serverConfig._lastUsedCookieIndex = indexUsed;
-  }
+  return cookie ? { cookie, index: indexUsed } : undefined;
+}
 
-  return cookie;
+function getServerCookie(): string | undefined {
+  return getServerCookieWithIndex()?.cookie;
 }
 
 function getServerUserAgent(): string | undefined {
@@ -568,24 +560,23 @@ async function invokeRefreshCallback(oldCookie: string, newCookie: string, poolI
 
   try {
     await serverConfig.onCookieRefresh({ oldCookie, newCookie, poolIndex });
-  } catch (error) {
+  } catch {
     // Don't let callback errors break the request flow
-    // Sanitize error output to avoid potentially logging sensitive data
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    console.error('RoZod: Error in onCookieRefresh callback:', errorMessage);
+    // Log a generic message to avoid leaking potentially sensitive data from user errors
+    console.error('RoZod: Error in onCookieRefresh callback');
   }
 }
 
 /**
  * Handles cookie rotation by checking response headers for a new .ROBLOSECURITY cookie.
  * If a new cookie is detected, updates the internal pool and invokes the callback.
+ *
+ * @param response - The fetch response to check for Set-Cookie headers
+ * @param usedCookie - The cookie that was used for this specific request (for concurrent request safety)
  */
-async function handleCookieRotation(response: Response): Promise<void> {
-  // Only process if we're tracking a used cookie
-  const lastUsedCookie = serverConfig._lastUsedCookie;
-  const lastUsedIndex = serverConfig._lastUsedCookieIndex;
-
-  if (lastUsedCookie === undefined) return;
+async function handleCookieRotation(response: Response, usedCookie?: CookieSelection): Promise<void> {
+  // Only process if we know which cookie was used for this request
+  if (!usedCookie) return;
 
   // Check for Set-Cookie header with new .ROBLOSECURITY
   const setCookieHeaders = response.headers.get('set-cookie');
@@ -595,12 +586,11 @@ async function handleCookieRotation(response: Response): Promise<void> {
   if (!newCookie) return;
 
   // Check if cookie actually changed (rotation occurred)
-  if (newCookie === lastUsedCookie) return;
+  if (newCookie === usedCookie.cookie) return;
 
   // Update the internal cookie pool and invoke callback
-  const poolIndex = lastUsedIndex ?? -1;
-  updateCookieInPool(lastUsedCookie, newCookie, poolIndex);
-  await invokeRefreshCallback(lastUsedCookie, newCookie, poolIndex);
+  updateCookieInPool(usedCookie.cookie, newCookie, usedCookie.index);
+  await invokeRefreshCallback(usedCookie.cookie, newCookie, usedCookie.index);
 }
 
 /**
@@ -626,13 +616,23 @@ export function updateCookie(index: number, newCookie: string): boolean {
 
   if (Array.isArray(cookies)) {
     if (index >= 0 && index < cookies.length) {
+      const oldCookie = cookies[index];
       cookies[index] = newCookie;
+      // Update session cookie if it matches the old value (for 'none' rotation mode)
+      if (serverConfig._sessionCookie === oldCookie) {
+        serverConfig._sessionCookie = newCookie;
+      }
       return true;
     }
     return false;
   } else {
     if (index === 0) {
+      const oldCookie = serverConfig.cookies;
       serverConfig.cookies = newCookie;
+      // Update session cookie if it matches the old value (for 'none' rotation mode)
+      if (serverConfig._sessionCookie === oldCookie) {
+        serverConfig._sessionCookie = newCookie;
+      }
       return true;
     }
     return false;
@@ -670,6 +670,11 @@ export type RefreshCookieResult = {
  *
  * Use this to manually trigger cookie rotation before the automatic rotation kicks in,
  * or to refresh cookies on a schedule to ensure they don't expire.
+ *
+ * This function uses the library's internal fetch mechanism, which includes:
+ * - Automatic CSRF token handling
+ * - Hardware-backed authentication (HBA) signatures
+ * - Generic challenge handling (if configured)
  *
  * @param cookieIndex - Index in the cookie pool to refresh (default: 0). Ignored if using single cookie.
  * @returns Result object with success status and new cookie value if successful
@@ -711,34 +716,22 @@ export async function refreshCookie(cookieIndex: number = 0): Promise<RefreshCoo
   const cookieToRefresh = cookiePool[cookieIndex];
 
   try {
-    // Create headers with the specific cookie we want to refresh
-    const headers = new Headers();
-    headers.set('cookie', `.ROBLOSECURITY=${cookieToRefresh}`);
-
-    // Apply user agent
-    const userAgent = getServerUserAgent();
-    if (userAgent) {
-      headers.set('user-agent', userAgent);
-    }
-
-    // First, get a CSRF token
-    const csrfResponse = await globalThis.fetch('https://auth.roblox.com/v1/authentication-ticket', {
-      method: 'POST',
-      headers,
-      credentials: 'include',
-    });
-
-    const csrfToken = csrfResponse.headers.get('x-csrf-token');
-    if (csrfToken) {
-      headers.set('x-csrf-token', csrfToken);
-    }
-
-    // Call the session refresh endpoint
-    const response = await globalThis.fetch('https://auth.roblox.com/v1/session/refresh', {
-      method: 'POST',
-      headers,
-      credentials: 'include',
-    });
+    // Use the internal fetch which handles CSRF, HBA, and challenges automatically
+    // We manually set the cookie header to bypass automatic cookie selection from the pool
+    const response = await fetch(
+      'https://auth.roblox.com/v1/session/refresh',
+      {
+        method: 'POST',
+        headers: {
+          cookie: `.ROBLOSECURITY=${cookieToRefresh}`,
+        },
+        credentials: 'include',
+      },
+      undefined, // challengeData
+      0, // csrfRetries
+      0, // challengeRetries
+      { cookie: cookieToRefresh, index: cookieIndex }, // pass specific cookie for rotation tracking
+    );
 
     if (!response.ok) {
       const errorText = await response.text().catch(() => 'Unknown error');
@@ -762,6 +755,9 @@ export async function refreshCookie(cookieIndex: number = 0): Promise<RefreshCoo
     }
 
     // Update internal pool and invoke callback using shared helpers
+    // Note: handleCookieRotation in fetch() may have already done this if the cookie changed,
+    // but we call it again to ensure consistency in case the response was cached or the cookie
+    // in the response matches the old cookie exactly (rare edge case)
     updateCookieInPool(cookieToRefresh, newCookie, cookieIndex);
     await invokeRefreshCallback(cookieToRefresh, newCookie, cookieIndex);
 
@@ -775,9 +771,38 @@ export async function refreshCookie(cookieIndex: number = 0): Promise<RefreshCoo
   }
 }
 
-function applyServerDefaults(headers: Headers, url: string): void {
+/**
+ * Applies server defaults (user-agent, API key) to request headers WITHOUT touching cookies.
+ * Used when a specific cookie is being used (e.g., refreshCookie or retry with specific cookie).
+ */
+function applyServerDefaultsWithoutCookie(headers: Headers, url: string): void {
   // Only apply in non-browser environments
   if (onRobloxSite) return;
+
+  // OpenCloud endpoints are on apis.roblox.com AND contain /cloud/ in the path
+  const isOpenCloud = url.includes('apis.roblox.com') && (url.includes('/cloud/') || url.includes('/cloud?'));
+
+  // Apply OpenCloud API key for /cloud/ endpoints
+  if (isOpenCloud && serverConfig.cloudKey && !headers.has('x-api-key')) {
+    headers.set('x-api-key', serverConfig.cloudKey);
+  }
+
+  // Apply user agent if not already set
+  if (!headers.has('user-agent')) {
+    const userAgent = getServerUserAgent();
+    if (userAgent) {
+      headers.set('user-agent', userAgent);
+    }
+  }
+}
+
+/**
+ * Applies server defaults (cookie, user-agent, API key) to request headers.
+ * Returns the cookie selection used for this request (for concurrent request tracking).
+ */
+function applyServerDefaults(headers: Headers, url: string): CookieSelection {
+  // Only apply in non-browser environments
+  if (onRobloxSite) return undefined;
 
   // OpenCloud endpoints are on apis.roblox.com AND contain /cloud/ in the path
   // (apis.roblox.com/cloud/... for v1, apis.roblox.com/cloud/v2/... for v2)
@@ -790,10 +815,11 @@ function applyServerDefaults(headers: Headers, url: string): void {
   }
 
   // Apply cookie if configured and not already set (for non-OpenCloud requests)
+  let cookieSelection: CookieSelection;
   if (!isOpenCloud && !headers.has('cookie')) {
-    const cookie = getServerCookie();
-    if (cookie) {
-      headers.set('cookie', `.ROBLOSECURITY=${cookie}`);
+    cookieSelection = getServerCookieWithIndex();
+    if (cookieSelection) {
+      headers.set('cookie', `.ROBLOSECURITY=${cookieSelection.cookie}`);
     }
   }
 
@@ -804,6 +830,8 @@ function applyServerDefaults(headers: Headers, url: string): void {
       headers.set('user-agent', userAgent);
     }
   }
+
+  return cookieSelection;
 }
 
 // ============================================================================
@@ -840,11 +868,21 @@ async function fetch(
   challengeData?: ParsedChallenge,
   csrfRetries: number = 0,
   challengeRetries: number = 0,
+  cookieUsed?: CookieSelection,
 ): Promise<Response> {
   const headers = new Headers(info?.headers);
 
   // Apply server defaults (cookie, user-agent, API key) for Node.js environments
-  applyServerDefaults(headers, url);
+  // If cookieUsed is provided, we use that specific cookie instead of selecting from pool
+  let cookieSelection: CookieSelection;
+  if (cookieUsed) {
+    // Use the provided cookie, but still apply other defaults (user agent, API key)
+    cookieSelection = cookieUsed;
+    applyServerDefaultsWithoutCookie(headers, url);
+  } else {
+    // Normal flow: apply all defaults including cookie selection
+    cookieSelection = applyServerDefaults(headers, url);
+  }
 
   if (!onRobloxSite) {
     hbaClient.isAuthenticated = headers.get('cookie')?.includes('.ROBLOSECURITY');
@@ -888,21 +926,21 @@ async function fetch(
     headers,
   });
 
-  // Handle cookie rotation from response headers
-  await handleCookieRotation(res);
+  // Handle cookie rotation from response headers (pass the specific cookie used for this request)
+  await handleCookieRotation(res, cookieSelection);
 
   if (res.headers.has('x-csrf-token')) {
     csrfTokenMap[csrfKey] = res.headers.get('x-csrf-token')!;
 
     if (csrfRetries < MAX_CSRF_RETRIES) {
-      return fetch(url, info, challengeData, csrfRetries + 1, challengeRetries);
+      return fetch(url, info, challengeData, csrfRetries + 1, challengeRetries, cookieSelection);
     }
   } else if (handleGenericChallengeFn) {
     const challenge = parseChallengeHeaders(res.headers);
     if (challenge && challengeRetries < MAX_CHALLENGE_RETRIES) {
       const data = await handleGenericChallengeFn(challenge);
       if (data) {
-        return fetch(url, info, data, csrfRetries, challengeRetries + 1);
+        return fetch(url, info, data, csrfRetries, challengeRetries + 1, cookieSelection);
       }
     }
   }

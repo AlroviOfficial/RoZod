@@ -4,6 +4,7 @@ import {
   getServerConfig,
   getCookies,
   updateCookie,
+  refreshCookie,
   CookieRefreshEvent,
 } from '../index';
 
@@ -698,5 +699,214 @@ describe('Cookie Rotation Handling', () => {
 
     // Cookie should still be updated
     expect(getCookies()).toEqual(['rotated']);
+  });
+});
+
+describe('refreshCookie', () => {
+  test('should return error when no cookies configured', async () => {
+    clearServerConfig();
+    const result = await refreshCookie();
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBe('No cookies configured');
+    expect(result.poolIndex).toBe(0);
+  });
+
+  test('should return error for invalid cookie index', async () => {
+    configureServer({ cookies: ['cookie1', 'cookie2'] });
+
+    const result = await refreshCookie(5);
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBe('Invalid cookie index: 5');
+    expect(result.poolIndex).toBe(5);
+  });
+
+  test('should return error for negative cookie index', async () => {
+    configureServer({ cookies: ['cookie1'] });
+
+    const result = await refreshCookie(-1);
+
+    expect(result.success).toBe(false);
+    expect(result.error).toContain('Invalid cookie index');
+    expect(result.poolIndex).toBe(-1);
+  });
+
+  test('should successfully refresh cookie and update pool', async () => {
+    const refreshEvents: CookieRefreshEvent[] = [];
+    const callback = jest.fn((event: CookieRefreshEvent) => {
+      refreshEvents.push(event);
+    });
+
+    configureServer({
+      cookies: 'old-cookie-value',
+      onCookieRefresh: callback,
+    });
+
+    // Mock successful refresh response with new cookie
+    globalThis.fetch = jest.fn(async () => {
+      return new Response(JSON.stringify({}), {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'set-cookie': '.ROBLOSECURITY=new-refreshed-cookie; Path=/; HttpOnly',
+        },
+      });
+    });
+
+    const result = await refreshCookie();
+
+    expect(result.success).toBe(true);
+    expect(result.newCookie).toBe('new-refreshed-cookie');
+    expect(result.poolIndex).toBe(0);
+
+    // Verify cookie pool was updated
+    expect(getCookies()).toEqual(['new-refreshed-cookie']);
+
+    // Verify callback was invoked
+    expect(callback).toHaveBeenCalled();
+    expect(refreshEvents.length).toBeGreaterThan(0);
+  });
+
+  test('should refresh specific cookie in pool by index', async () => {
+    configureServer({
+      cookies: ['cookie-a', 'cookie-b', 'cookie-c'],
+    });
+
+    // Mock successful refresh response
+    globalThis.fetch = jest.fn(async () => {
+      return new Response(JSON.stringify({}), {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'set-cookie': '.ROBLOSECURITY=cookie-b-refreshed; Path=/',
+        },
+      });
+    });
+
+    const result = await refreshCookie(1);
+
+    expect(result.success).toBe(true);
+    expect(result.newCookie).toBe('cookie-b-refreshed');
+    expect(result.poolIndex).toBe(1);
+
+    // Verify only the correct cookie was updated
+    expect(getCookies()).toEqual(['cookie-a', 'cookie-b-refreshed', 'cookie-c']);
+  });
+
+  test('should handle failed refresh response', async () => {
+    configureServer({ cookies: 'my-cookie' });
+
+    // Mock failed response
+    globalThis.fetch = jest.fn(async () => {
+      return new Response('Unauthorized', {
+        status: 401,
+        headers: { 'content-type': 'text/plain' },
+      });
+    });
+
+    const result = await refreshCookie();
+
+    expect(result.success).toBe(false);
+    expect(result.error).toContain('Session refresh failed');
+    expect(result.error).toContain('401');
+  });
+
+  test('should handle missing Set-Cookie in response', async () => {
+    configureServer({ cookies: 'my-cookie' });
+
+    // Mock response without Set-Cookie header
+    globalThis.fetch = jest.fn(async () => {
+      return new Response(JSON.stringify({}), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      });
+    });
+
+    const result = await refreshCookie();
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBe('No new cookie received from session refresh');
+  });
+
+  test('should handle network errors gracefully', async () => {
+    configureServer({ cookies: 'my-cookie' });
+
+    // Mock network error
+    globalThis.fetch = jest.fn(async () => {
+      throw new Error('Network failure');
+    });
+
+    const result = await refreshCookie();
+
+    expect(result.success).toBe(false);
+    expect(result.error).toContain('Network error');
+    expect(result.error).toContain('Network failure');
+  });
+
+  test('should handle cookie with _| prefix in refresh response', async () => {
+    configureServer({ cookies: '_|WARNING:-DO-NOT-SHARE|_oldvalue' });
+
+    globalThis.fetch = jest.fn(async () => {
+      return new Response(JSON.stringify({}), {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'set-cookie': '.ROBLOSECURITY=_|WARNING:-DO-NOT-SHARE|_newvalue; Path=/',
+        },
+      });
+    });
+
+    const result = await refreshCookie();
+
+    expect(result.success).toBe(true);
+    expect(result.newCookie).toBe('_|WARNING:-DO-NOT-SHARE|_newvalue');
+  });
+
+  test('should use the specific cookie for refresh, not pool rotation', async () => {
+    configureServer({
+      cookies: ['cookie-0', 'cookie-1', 'cookie-2'],
+      cookieRotation: 'round-robin',
+    });
+
+    let requestedCookie: string | null = null;
+    globalThis.fetch = jest.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      requestedCookie = new Headers(init?.headers).get('cookie');
+      return new Response(JSON.stringify({}), {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'set-cookie': '.ROBLOSECURITY=refreshed; Path=/',
+        },
+      });
+    });
+
+    // Refresh cookie at index 2 (should use cookie-2, not rotation)
+    await refreshCookie(2);
+
+    expect(requestedCookie).toBe('.ROBLOSECURITY=cookie-2');
+  });
+
+  test('should apply user agent to refresh requests', async () => {
+    configureServer({
+      cookies: 'my-cookie',
+      userAgents: ['TestBot/1.0'],
+    });
+
+    let requestedUserAgent: string | null = null;
+    globalThis.fetch = jest.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      requestedUserAgent = new Headers(init?.headers).get('user-agent');
+      return new Response(JSON.stringify({}), {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'set-cookie': '.ROBLOSECURITY=refreshed; Path=/',
+        },
+      });
+    });
+
+    await refreshCookie();
+
+    expect(requestedUserAgent).toBe('TestBot/1.0');
   });
 });
