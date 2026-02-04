@@ -8,7 +8,6 @@
     "test": "jest --config jestconfig.json",
     "build": "tsc && tsc --project tsconfig.declarations.json",
     "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "eslint -p tsconfig.json",
     "prepare": "npm run build",
     "prepublishOnly": "npm test",
     "version": "npm run format && git add -A src",

@@ -119,12 +119,6 @@ type CacheOptions = {
 
 type RequestOptions<R = boolean> = RequestInit & RetryOptions & ErrorOptions & CacheOptions & { returnRaw?: R };
 
-// A helper function to replace path parameters in the URL
-function replacePathParam(path: string, key: string, value: any) {
-  const pathParamPattern = new RegExp(`:${key}`);
-  return pathParamPattern.test(path) ? path.replace(pathParamPattern, String(value)) : path;
-}
-
 // A helper function to serialize a value into a query parameter
 function serializeQueryParam(key: string, value: any, serializationMethod?: SerializationMethod) {
   const mapStr = (v: any, joiner: string) => v.map(String).join(joiner);
@@ -498,10 +492,6 @@ function getServerCookieWithIndex(): CookieSelection {
   }
 
   return cookie ? { cookie, index: indexUsed } : undefined;
-}
-
-function getServerCookie(): string | undefined {
-  return getServerCookieWithIndex()?.cookie;
 }
 
 function getServerUserAgent(): string | undefined {
