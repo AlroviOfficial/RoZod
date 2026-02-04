@@ -233,6 +233,39 @@ const DEFAULT_USER_AGENTS = [
 
 export type PoolRotation = 'none' | 'random' | 'round-robin';
 
+/**
+ * Event data passed to the cookie refresh callback when Roblox rotates a cookie.
+ */
+export type CookieRefreshEvent = {
+  /** The old cookie value that was used in the request */
+  oldCookie: string;
+  /** The new cookie value received from Roblox */
+  newCookie: string;
+  /** The index in the cookie pool that was updated (0 for single cookie, should not be -1 in normal operation) */
+  poolIndex: number;
+};
+
+/**
+ * Callback function invoked when Roblox rotates a .ROBLOSECURITY cookie.
+ * Use this to persist the new cookie value to your storage (env vars, database, etc.).
+ *
+ * @param event - Contains the old cookie, new cookie, and pool index
+ * @returns void or Promise<void>
+ *
+ * @example
+ * ```ts
+ * configureServer({
+ *   cookies: process.env.ROBLOX_COOKIE,
+ *   onCookieRefresh: async (event) => {
+ *     // Update your environment variable or database
+ *     await updateDatabaseCookie(event.newCookie);
+ *     console.log('Cookie rotated! Old cookie index:', event.poolIndex);
+ *   }
+ * });
+ * ```
+ */
+export type CookieRefreshCallback = (event: CookieRefreshEvent) => void | Promise<void>;
+
 export type ServerConfig = {
   /**
    * Pool of .ROBLOSECURITY cookie values (without the cookie name prefix).
@@ -266,6 +299,26 @@ export type ServerConfig = {
    * Default: 'none'
    */
   userAgentRotation?: PoolRotation;
+  /**
+   * Callback invoked when Roblox rotates a .ROBLOSECURITY cookie.
+   * Roblox is gradually implementing cookie rotation for security.
+   * Use this callback to persist the new cookie value to your storage.
+   *
+   * The internal cookie pool is automatically updated, so you only need
+   * this callback if you want to persist the new cookie across restarts.
+   *
+   * @example
+   * ```ts
+   * configureServer({
+   *   cookies: process.env.ROBLOX_COOKIE,
+   *   onCookieRefresh: async ({ oldCookie, newCookie, poolIndex }) => {
+   *     await db.updateCookie(poolIndex, newCookie);
+   *     console.log('Cookie rotated for account', poolIndex);
+   *   }
+   * });
+   * ```
+   */
+  onCookieRefresh?: CookieRefreshCallback;
 };
 
 type ServerConfigInternal = ServerConfig & {
@@ -322,6 +375,7 @@ export function configureServer(config: ServerConfig): void {
   serverConfig.cloudKey = config.cloudKey;
   serverConfig.userAgents = config.userAgents;
   serverConfig.userAgentRotation = config.userAgentRotation;
+  serverConfig.onCookieRefresh = config.onCookieRefresh;
   // Reset indices and session values when config changes
   serverConfig._cookieIndex = 0;
   serverConfig._userAgentIndex = 0;
@@ -338,6 +392,7 @@ export function clearServerConfig(): void {
   serverConfig.cloudKey = undefined;
   serverConfig.userAgents = undefined;
   serverConfig.userAgentRotation = undefined;
+  serverConfig.onCookieRefresh = undefined;
   serverConfig._cookieIndex = 0;
   serverConfig._userAgentIndex = 0;
   serverConfig._sessionUserAgent = undefined;
@@ -354,6 +409,7 @@ export function getServerConfig(): Readonly<ServerConfig> {
     cloudKey: serverConfig.cloudKey,
     userAgents: serverConfig.userAgents,
     userAgentRotation: serverConfig.userAgentRotation,
+    onCookieRefresh: serverConfig.onCookieRefresh,
   };
 }
 
@@ -388,7 +444,13 @@ function selectFromPool<T>(
   }
 }
 
-function getServerCookie(): string | undefined {
+type CookieSelection = { cookie: string; index: number } | undefined;
+
+/**
+ * Selects a cookie from the pool and returns both the cookie value and its index.
+ * This allows proper tracking for concurrent request scenarios.
+ */
+function getServerCookieWithIndex(): CookieSelection {
   const cookies = serverConfig.cookies;
   if (!cookies) return undefined;
 
@@ -399,7 +461,47 @@ function getServerCookie(): string | undefined {
   const defaultRotation: PoolRotation = cookiePool.length > 1 ? 'round-robin' : 'none';
   const rotation = serverConfig.cookieRotation ?? defaultRotation;
 
-  return selectFromPool(cookiePool, rotation, '_cookieIndex', '_sessionCookie');
+  let cookie: string | undefined;
+  let indexUsed: number;
+
+  if (cookiePool.length === 1) {
+    cookie = cookiePool[0];
+    indexUsed = 0;
+  } else {
+    switch (rotation) {
+      case 'random': {
+        indexUsed = Math.floor(Math.random() * cookiePool.length);
+        cookie = cookiePool[indexUsed];
+        break;
+      }
+      case 'round-robin': {
+        indexUsed = serverConfig._cookieIndex;
+        serverConfig._cookieIndex = (indexUsed + 1) % cookiePool.length;
+        cookie = cookiePool[indexUsed];
+        break;
+      }
+      case 'none':
+      default: {
+        // Use consistent value for the session
+        if (serverConfig._sessionCookie !== undefined) {
+          cookie = serverConfig._sessionCookie;
+          indexUsed = cookiePool.indexOf(cookie);
+          if (indexUsed === -1) indexUsed = 0;
+        } else {
+          cookie = cookiePool[0];
+          indexUsed = 0;
+          serverConfig._sessionCookie = cookie;
+        }
+        break;
+      }
+    }
+  }
+
+  return cookie ? { cookie, index: indexUsed } : undefined;
+}
+
+function getServerCookie(): string | undefined {
+  return getServerCookieWithIndex()?.cookie;
 }
 
 function getServerUserAgent(): string | undefined {
@@ -410,9 +512,297 @@ function getServerUserAgent(): string | undefined {
   return selectFromPool(userAgents, rotation, '_userAgentIndex', '_sessionUserAgent');
 }
 
-function applyServerDefaults(headers: Headers, url: string): void {
+/**
+ * Extracts the .ROBLOSECURITY cookie value from a Set-Cookie header.
+ * Returns undefined if no .ROBLOSECURITY cookie is found.
+ */
+function extractRoblosecurityFromSetCookie(setCookieHeader: string | null): string | undefined {
+  if (!setCookieHeader) return undefined;
+
+  // Match .ROBLOSECURITY cookie value - handles both with and without _| prefix
+  const match = setCookieHeader.match(/\.ROBLOSECURITY=(_\|[^|]+\|_)?([^;]+)/);
+  if (match) {
+    // Return the full cookie value (prefix + actual value if prefix exists, or just the value)
+    return match[1] ? match[1] + match[2] : match[2];
+  }
+  return undefined;
+}
+
+/**
+ * Updates a cookie in the internal pool and session cache.
+ * @internal
+ */
+function updateCookieInPool(oldCookie: string, newCookie: string, poolIndex: number): void {
+  const cookies = serverConfig.cookies;
+  if (!cookies) return;
+
+  if (Array.isArray(cookies)) {
+    if (poolIndex >= 0 && poolIndex < cookies.length) {
+      cookies[poolIndex] = newCookie;
+    }
+  } else {
+    serverConfig.cookies = newCookie;
+  }
+
+  // Also update session cookie if using 'none' rotation
+  if (serverConfig._sessionCookie === oldCookie) {
+    serverConfig._sessionCookie = newCookie;
+  }
+}
+
+/**
+ * Invokes the onCookieRefresh callback if configured.
+ * Errors are caught and logged to prevent breaking the request flow.
+ * @internal
+ */
+async function invokeRefreshCallback(oldCookie: string, newCookie: string, poolIndex: number): Promise<void> {
+  if (!serverConfig.onCookieRefresh) return;
+
+  try {
+    await serverConfig.onCookieRefresh({ oldCookie, newCookie, poolIndex });
+  } catch {
+    // Don't let callback errors break the request flow
+    // Log a generic message to avoid leaking potentially sensitive data from user errors
+    console.error('RoZod: Error in onCookieRefresh callback');
+  }
+}
+
+/**
+ * Handles cookie rotation by checking response headers for a new .ROBLOSECURITY cookie.
+ * If a new cookie is detected, updates the internal pool and invokes the callback.
+ *
+ * @param response - The fetch response to check for Set-Cookie headers
+ * @param usedCookie - The cookie that was used for this specific request (for concurrent request safety)
+ */
+async function handleCookieRotation(response: Response, usedCookie?: CookieSelection): Promise<void> {
+  // Only process if we know which cookie was used for this request
+  if (!usedCookie) return;
+
+  // Check for Set-Cookie header with new .ROBLOSECURITY
+  const setCookieHeaders = response.headers.get('set-cookie');
+  if (!setCookieHeaders) return;
+
+  const newCookie = extractRoblosecurityFromSetCookie(setCookieHeaders);
+  if (!newCookie) return;
+
+  // Check if cookie actually changed (rotation occurred)
+  if (newCookie === usedCookie.cookie) return;
+
+  // Update the internal cookie pool and invoke callback
+  updateCookieInPool(usedCookie.cookie, newCookie, usedCookie.index);
+  await invokeRefreshCallback(usedCookie.cookie, newCookie, usedCookie.index);
+}
+
+/**
+ * Updates a specific cookie in the cookie pool by index.
+ * Useful for manually updating cookies when you receive rotation events through other means.
+ *
+ * @param index - The index in the cookie pool to update (0 for single cookie)
+ * @param newCookie - The new cookie value
+ * @returns true if the cookie was updated, false if the index was invalid
+ *
+ * @example
+ * ```ts
+ * // Update the first (or only) cookie
+ * updateCookie(0, 'new_cookie_value');
+ *
+ * // Update a specific account in a pool
+ * updateCookie(2, 'new_cookie_for_account_3');
+ * ```
+ */
+export function updateCookie(index: number, newCookie: string): boolean {
+  const cookies = serverConfig.cookies;
+  if (!cookies) return false;
+
+  if (Array.isArray(cookies)) {
+    if (index >= 0 && index < cookies.length) {
+      const oldCookie = cookies[index];
+      cookies[index] = newCookie;
+      // Update session cookie if it matches the old value (for 'none' rotation mode)
+      if (serverConfig._sessionCookie === oldCookie) {
+        serverConfig._sessionCookie = newCookie;
+      }
+      return true;
+    }
+    return false;
+  } else {
+    if (index === 0) {
+      const oldCookie = serverConfig.cookies;
+      serverConfig.cookies = newCookie;
+      // Update session cookie if it matches the old value (for 'none' rotation mode)
+      if (serverConfig._sessionCookie === oldCookie) {
+        serverConfig._sessionCookie = newCookie;
+      }
+      return true;
+    }
+    return false;
+  }
+}
+
+/**
+ * Gets the current cookie values from the pool.
+ * Useful for debugging or persisting all current cookie values.
+ *
+ * @returns Array of current cookie values, or empty array if none configured
+ */
+export function getCookies(): string[] {
+  const cookies = serverConfig.cookies;
+  if (!cookies) return [];
+  return Array.isArray(cookies) ? [...cookies] : [cookies];
+}
+
+/**
+ * Result of a manual cookie refresh operation.
+ */
+export type RefreshCookieResult = {
+  success: boolean;
+  /** The new cookie value if refresh was successful */
+  newCookie?: string;
+  /** Error message if refresh failed */
+  error?: string;
+  /** The index in the cookie pool that was refreshed */
+  poolIndex: number;
+};
+
+/**
+ * Proactively refreshes a cookie session using Roblox's session refresh endpoint.
+ * This creates a new session and invalidates the old one, returning the new cookie.
+ *
+ * Use this to manually trigger cookie rotation before the automatic rotation kicks in,
+ * or to refresh cookies on a schedule to ensure they don't expire.
+ *
+ * This function uses the library's internal fetch mechanism, which includes:
+ * - Automatic CSRF token handling
+ * - Hardware-backed authentication (HBA) signatures
+ * - Generic challenge handling (if configured)
+ *
+ * @param cookieIndex - Index in the cookie pool to refresh (default: 0). Ignored if using single cookie.
+ * @returns Result object with success status and new cookie value if successful
+ *
+ * @example
+ * ```ts
+ * // Refresh the default/first cookie
+ * const result = await refreshCookie();
+ * if (result.success) {
+ *   console.log('New cookie:', result.newCookie);
+ *   // Persist the new cookie to your storage
+ *   await db.updateCookie(result.poolIndex, result.newCookie);
+ * }
+ *
+ * // Refresh a specific cookie in the pool
+ * const result = await refreshCookie(2); // Refresh third account
+ *
+ * // Refresh all cookies in a pool
+ * const cookies = getCookies();
+ * for (let i = 0; i < cookies.length; i++) {
+ *   const result = await refreshCookie(i);
+ *   if (result.success) {
+ *     await db.updateCookie(i, result.newCookie);
+ *   }
+ * }
+ * ```
+ */
+export async function refreshCookie(cookieIndex: number = 0): Promise<RefreshCookieResult> {
+  const cookies = serverConfig.cookies;
+  if (!cookies) {
+    return { success: false, error: 'No cookies configured', poolIndex: cookieIndex };
+  }
+
+  const cookiePool = Array.isArray(cookies) ? cookies : [cookies];
+  if (cookieIndex < 0 || cookieIndex >= cookiePool.length) {
+    return { success: false, error: `Invalid cookie index: ${cookieIndex}`, poolIndex: cookieIndex };
+  }
+
+  const cookieToRefresh = cookiePool[cookieIndex];
+
+  try {
+    // Use the internal fetch which handles CSRF, HBA, and challenges automatically
+    // We manually set the cookie header to bypass automatic cookie selection from the pool
+    const response = await fetch(
+      'https://auth.roblox.com/v1/session/refresh',
+      {
+        method: 'POST',
+        headers: {
+          cookie: `.ROBLOSECURITY=${cookieToRefresh}`,
+        },
+        credentials: 'include',
+      },
+      undefined, // challengeData
+      0, // csrfRetries
+      0, // challengeRetries
+      { cookie: cookieToRefresh, index: cookieIndex }, // pass specific cookie for rotation tracking
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text().catch(() => 'Unknown error');
+      return {
+        success: false,
+        error: `Session refresh failed: ${response.status} ${errorText}`,
+        poolIndex: cookieIndex,
+      };
+    }
+
+    // Extract the new cookie from Set-Cookie header
+    const setCookieHeader = response.headers.get('set-cookie');
+    const newCookie = extractRoblosecurityFromSetCookie(setCookieHeader);
+
+    if (!newCookie) {
+      return {
+        success: false,
+        error: 'No new cookie received from session refresh',
+        poolIndex: cookieIndex,
+      };
+    }
+
+    // Update internal pool and invoke callback using shared helpers
+    // Note: handleCookieRotation in fetch() may have already done this if the cookie changed,
+    // but we call it again to ensure consistency in case the response was cached or the cookie
+    // in the response matches the old cookie exactly (rare edge case)
+    updateCookieInPool(cookieToRefresh, newCookie, cookieIndex);
+    await invokeRefreshCallback(cookieToRefresh, newCookie, cookieIndex);
+
+    return { success: true, newCookie, poolIndex: cookieIndex };
+  } catch (error) {
+    return {
+      success: false,
+      error: `Network error during refresh: ${error instanceof Error ? error.message : String(error)}`,
+      poolIndex: cookieIndex,
+    };
+  }
+}
+
+/**
+ * Applies server defaults (user-agent, API key) to request headers WITHOUT touching cookies.
+ * Used when a specific cookie is being used (e.g., refreshCookie or retry with specific cookie).
+ */
+function applyServerDefaultsWithoutCookie(headers: Headers, url: string): void {
   // Only apply in non-browser environments
   if (onRobloxSite) return;
+
+  // OpenCloud endpoints are on apis.roblox.com AND contain /cloud/ in the path
+  const isOpenCloud = url.includes('apis.roblox.com') && (url.includes('/cloud/') || url.includes('/cloud?'));
+
+  // Apply OpenCloud API key for /cloud/ endpoints
+  if (isOpenCloud && serverConfig.cloudKey && !headers.has('x-api-key')) {
+    headers.set('x-api-key', serverConfig.cloudKey);
+  }
+
+  // Apply user agent if not already set
+  if (!headers.has('user-agent')) {
+    const userAgent = getServerUserAgent();
+    if (userAgent) {
+      headers.set('user-agent', userAgent);
+    }
+  }
+}
+
+/**
+ * Applies server defaults (cookie, user-agent, API key) to request headers.
+ * Returns the cookie selection used for this request (for concurrent request tracking).
+ */
+function applyServerDefaults(headers: Headers, url: string): CookieSelection {
+  // Only apply in non-browser environments
+  if (onRobloxSite) return undefined;
 
   // OpenCloud endpoints are on apis.roblox.com AND contain /cloud/ in the path
   // (apis.roblox.com/cloud/... for v1, apis.roblox.com/cloud/v2/... for v2)
@@ -425,10 +815,11 @@ function applyServerDefaults(headers: Headers, url: string): void {
   }
 
   // Apply cookie if configured and not already set (for non-OpenCloud requests)
+  let cookieSelection: CookieSelection;
   if (!isOpenCloud && !headers.has('cookie')) {
-    const cookie = getServerCookie();
-    if (cookie) {
-      headers.set('cookie', `.ROBLOSECURITY=${cookie}`);
+    cookieSelection = getServerCookieWithIndex();
+    if (cookieSelection) {
+      headers.set('cookie', `.ROBLOSECURITY=${cookieSelection.cookie}`);
     }
   }
 
@@ -439,6 +830,8 @@ function applyServerDefaults(headers: Headers, url: string): void {
       headers.set('user-agent', userAgent);
     }
   }
+
+  return cookieSelection;
 }
 
 // ============================================================================
@@ -475,11 +868,21 @@ async function fetch(
   challengeData?: ParsedChallenge,
   csrfRetries: number = 0,
   challengeRetries: number = 0,
+  cookieUsed?: CookieSelection,
 ): Promise<Response> {
   const headers = new Headers(info?.headers);
 
   // Apply server defaults (cookie, user-agent, API key) for Node.js environments
-  applyServerDefaults(headers, url);
+  // If cookieUsed is provided, we use that specific cookie instead of selecting from pool
+  let cookieSelection: CookieSelection;
+  if (cookieUsed) {
+    // Use the provided cookie, but still apply other defaults (user agent, API key)
+    cookieSelection = cookieUsed;
+    applyServerDefaultsWithoutCookie(headers, url);
+  } else {
+    // Normal flow: apply all defaults including cookie selection
+    cookieSelection = applyServerDefaults(headers, url);
+  }
 
   if (!onRobloxSite) {
     hbaClient.isAuthenticated = headers.get('cookie')?.includes('.ROBLOSECURITY');
@@ -522,18 +925,22 @@ async function fetch(
     ...info,
     headers,
   });
+
+  // Handle cookie rotation from response headers (pass the specific cookie used for this request)
+  await handleCookieRotation(res, cookieSelection);
+
   if (res.headers.has('x-csrf-token')) {
     csrfTokenMap[csrfKey] = res.headers.get('x-csrf-token')!;
 
     if (csrfRetries < MAX_CSRF_RETRIES) {
-      return fetch(url, info, challengeData, csrfRetries + 1, challengeRetries);
+      return fetch(url, info, challengeData, csrfRetries + 1, challengeRetries, cookieSelection);
     }
   } else if (handleGenericChallengeFn) {
     const challenge = parseChallengeHeaders(res.headers);
     if (challenge && challengeRetries < MAX_CHALLENGE_RETRIES) {
       const data = await handleGenericChallengeFn(challenge);
       if (data) {
-        return fetch(url, info, data, csrfRetries, challengeRetries + 1);
+        return fetch(url, info, data, csrfRetries, challengeRetries + 1, cookieSelection);
       }
     }
   }
