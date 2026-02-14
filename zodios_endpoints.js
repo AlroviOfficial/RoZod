@@ -60,6 +60,8 @@ handlebars.registerHelper('regexReplace', (str, regex, replace) => {
   return str.replace(new RegExp(regex), replace);
 });
 
+handlebars.registerHelper('json', (value) => JSON.stringify(value));
+
 handlebars.registerHelper('normalizePathForJS', (method, path) => {
   // Special case handling for endpoints with colons as action indicators like "asset:archive"
   if (path.includes('/:')) {
@@ -454,6 +456,41 @@ async function processOpenCloudApi(apiDef) {
         withDeprecatedEndpoints: true,
         withImplicitRequiredProps: true,
         withDefaultValues: true,
+        endpointDefinitionRefiner: (defaultDefinition, operation) => {
+          const refined = { ...defaultDefinition };
+
+          const scopes = operation['x-roblox-scopes'];
+          if (scopes?.length) {
+            refined.scopes = scopes.map(s => s.name);
+          }
+
+          const stability = operation['x-roblox-stability'] || operation['x-visibility'];
+          if (stability) {
+            refined.stability = stability;
+          }
+
+          const opName = operation['x-roblox-cloud-api-operation-name'];
+          if (opName) {
+            refined.operationName = opName;
+          }
+
+          const luaEq = operation['x-roblox-lua-equivalent'];
+          if (luaEq) {
+            refined.luaEquivalent = luaEq;
+          }
+
+          const engineUsability = operation['x-roblox-engine-usability'];
+          if (engineUsability) {
+            refined.engineUsability = engineUsability;
+          }
+
+          const alternatives = operation['x-roblox-recommended-alternatives'];
+          if (alternatives?.length) {
+            refined.recommendedAlternatives = alternatives;
+          }
+
+          return refined;
+        },
       },
     });
 

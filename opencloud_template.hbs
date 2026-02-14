@@ -19,20 +19,37 @@ const {{@key}}{{#if (lookup ../circularTypeByName @key)}}: z.ZodType<{{@key}}>{{
 
 {{#each endpoints}}
 /**
- * @api {{toUpperCase method}} {{#if @root.options.baseUrl}}{{@root.options.baseUrl}}{{/if}}{{path}}
+ * {{#if operationName}}**{{{operationName}}}**{{#if stability}} · `{{{stability}}}`{{/if}}{{else}}{{#if stability}}`{{{stability}}}`{{/if}}{{/if}}
+ *
+ {{#if description}}
+ * {{{description}}}
+ *
+ {{else}}
  {{#if summary}}
- * @summary {{{summary}}}
+ * {{{summary}}}
+ *
+ {{/if}}
+ {{/if}}
+ {{#if luaEquivalent}}
+ * **Lua equivalent:** `{{{luaEquivalent}}}`
+ {{/if}}
+ {{#if scopes}}
+ * **Scopes:** {{#each scopes}}`{{{this}}}`{{#unless @last}}, {{/unless}}{{/each}}
+ {{/if}}
+ {{#if engineUsability}}
+ * **Engine:** {{#if engineUsability.apiKeyWithHttpService}}Usable with HttpService{{else}}Not available in-engine{{/if}}
  {{/if}}
  {{#if parameters}}
+ *
  {{#each parameters}}
  * @param {{{name}}} {{{description}}}
  {{/each}}
  {{/if}}
- {{#if tags}}
- * @tags {{{tags}}}
- {{/if}}
- {{#if description}}
- * @description {{{description}}}
+ {{#if recommendedAlternatives}}
+ {{#each recommendedAlternatives}}
+ * @see {{{httpMethod}}} {{{url}}}
+ {{/each}}
+ * @deprecated Prefer the v2 alternative(s) listed above.
  {{/if}}
  */
 export const {{normalizePathForJS method path}} = endpoint({
@@ -41,6 +58,9 @@ export const {{normalizePathForJS method path}} = endpoint({
 	{{#if @root.options.baseUrl}}
 	baseUrl: "{{@root.options.baseUrl}}",
 	{{/if}}
+	{{#if scopes}}
+	scopes: {{{json scopes}}},
+	{{/if}}
 	{{#if style}}
 	style: `{{style}}`,
 	{{/if}}
@@ -48,7 +68,7 @@ export const {{normalizePathForJS method path}} = endpoint({
 	requestFormat: "{{requestFormat}}",
 	{{/if}}
 	{{#if parameters}}
-	serializationMethod: { 
+	serializationMethod: {
 	  {{#each parameters}}
 	    "{{name}}": {
 	      {{#if style}}

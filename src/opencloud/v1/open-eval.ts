@@ -52,14 +52,20 @@ const EvalRecord = z.object({
 });
 
 /**
- * @api POST https://apis.roblox.com/open-eval-api/v1/eval
- * @summary Performs the evaluation of the Lua script.
+ * `BETA`
+ *
+ * Performs the evaluation of the Lua script.
+ *
+ * **Scopes:** `studio-evaluations:create`
+ * **Engine:** Not available in-engine
+ *
  * @param body
  */
 export const postOpenEvalApiV1Eval = endpoint({
   method: 'POST',
   path: '/open-eval-api/v1/eval',
   baseUrl: 'https://apis.roblox.com',
+  scopes: ['studio-evaluations:create'],
   requestFormat: 'json',
   serializationMethod: {
     body: {},
@@ -70,14 +76,20 @@ export const postOpenEvalApiV1Eval = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/open-eval-api/v1/eval-records/:jobId
- * @summary Gets the evaluation record by job ID.
+ * `BETA`
+ *
+ * Gets the evaluation record by job ID.
+ *
+ * **Scopes:** `studio-evaluations:create`
+ * **Engine:** Not available in-engine
+ *
  * @param jobId The job ID of the evaluation record.
  */
 export const getOpenEvalApiV1EvalRecordsJobId = endpoint({
   method: 'GET',
   path: '/open-eval-api/v1/eval-records/:jobId',
   baseUrl: 'https://apis.roblox.com',
+  scopes: ['studio-evaluations:create'],
   requestFormat: 'json',
   serializationMethod: {
     jobId: {},

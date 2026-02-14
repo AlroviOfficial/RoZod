@@ -2,18 +2,23 @@ import { z } from 'zod';
 import { endpoint } from '../..';
 
 /**
- * @api POST https://apis.roblox.com/universes/v1/:universeId/places/:placeId/versions
+ * **Publish a Place** · `BETA`
+ *
+ * Publish a new place or update an existing place with a new version. Provide a RBXL or RBXLX file in the data-binary.
+ *
+ * **Scopes:** `universe-places:write`
+ *
  * @param universeId The identifier of the experience in which you want to publish your place to. You can [copy your experience's Universe ID](/cloud/guides/usage-place-publishing.md#publishing-a-place) on **Creator Dashboard**.
  * @param placeId The identifier of your place. See [Publishing places with API keys](/cloud/guides/usage-place-publishing.md) on obtaining a Place ID.
  * @param versionType Can only be either: 
 - `Saved`: the place file should be saved, but not published. 
  - `Published`: the place file should be saved and published.
- * @description Publish a new place or update an existing place with a new version. Provide a RBXL or RBXLX file in the data-binary.
  */
 export const postUniverseIdPlacesPlaceIdVersions = endpoint({
   method: 'POST',
   path: '/v1/:universeId/places/:placeId/versions',
   baseUrl: 'https://apis.roblox.com/universes',
+  scopes: ['universe-places:write'],
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},

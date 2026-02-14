@@ -49,19 +49,23 @@ const AssetVersion = z.object({
 });
 
 /**
- * @api POST https://apis.roblox.com/assets/v1/assets
- * @summary Creates an asset with provided content and metadata.
- * @param body 
- * @description Creates an asset with provided content and metadata.
+ * **Create Asset** · `BETA`
+ *
+ * Creates an asset with provided content and metadata.
 
 You can't add [SocialLink](#SocialLink) objects when you create an asset. Instead, use [Update Asset](#PATCH-v1-assets-_assetId_).
 
 Provide the [Asset](#Asset), binary asset file path, and [content type](/cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
+ *
+ * **Scopes:** `asset:read`, `asset:write`
+ *
+ * @param body 
  */
 export const postAssets = endpoint({
   method: 'POST',
   path: '/v1/assets',
   baseUrl: 'https://apis.roblox.com/assets',
+  scopes: ['asset:read', 'asset:write'],
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
@@ -85,16 +89,20 @@ export const postAssets = endpoint({
   ],
 });
 /**
- * @api GET https://apis.roblox.com/assets/v1/assets/:assetId
- * @summary Retrieve specific asset metadata. Include the `readMask` parameter for additional asset metadata.
+ * **Get Asset** · `BETA`
+ *
+ * Retrieve specific asset metadata.
+ *
+ * **Scopes:** `asset:read`
+ *
  * @param assetId The unique identifier of the asset.
  * @param readMask Asset metadata fields to retrieve, including the description, display name, icon, social links, and previews. Examples: `description%2CdisplayName`, `previews%2CtwitchSocialLink`.
- * @description Retrieve specific asset metadata.
  */
 export const getAssetsAssetId = endpoint({
   method: 'GET',
   path: '/v1/assets/:assetId',
   baseUrl: 'https://apis.roblox.com/assets',
+  scopes: ['asset:read'],
   requestFormat: 'json',
   serializationMethod: {
     assetId: {},
@@ -129,19 +137,23 @@ export const getAssetsAssetId = endpoint({
   ],
 });
 /**
- * @api PATCH https://apis.roblox.com/assets/v1/assets/:assetId
- * @summary Updates an asset with provided content and metadata.
+ * **Update Asset** · `BETA`
+ *
+ * Updates an asset with provided content and metadata, including the description, display name, icon, social links, and previews. Currently can only update the content body for **Models**. Icons and Previews must be **Image** assets. Icons must have square dimensions.
+
+Provide the [Asset](#Asset), binary asset file path, and [content type](/cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
+ *
+ * **Scopes:** `asset:read`, `asset:write`
+ *
  * @param body 
  * @param assetId The unique identifier of the asset.
  * @param updateMask Asset metadata fields to update, including the description, display name, icon, and previews. Examples: `description%2CdisplayName`, `previews%2CtwitchSocialLink`.
- * @description Updates an asset with provided content and metadata, including the description, display name, icon, social links, and previews. Currently can only update the content body for **Models**. Icons and Previews must be **Image** assets. Icons must have square dimensions.
-
-Provide the [Asset](#Asset), binary asset file path, and [content type](/cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
  */
 export const patchAssetsAssetId = endpoint({
   method: 'PATCH',
   path: '/v1/assets/:assetId',
   baseUrl: 'https://apis.roblox.com/assets',
+  scopes: ['asset:read', 'asset:write'],
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
@@ -170,15 +182,19 @@ export const patchAssetsAssetId = endpoint({
   ],
 });
 /**
- * @api POST https://apis.roblox.com/assets/v1/assets/:assetId:archive
- * @summary Archives the asset.
+ * **Archive Asset** · `BETA`
+ *
+ * Archives the asset. Archived assets disappear from the website and are no longer usable or visible in Roblox experiences, but you can [restore](#POST-v1-assets-{assetId}:restore) them.
+ *
+ * **Scopes:** `asset:read`, `asset:write`
+ *
  * @param assetId The unique identifier of the asset.
- * @description Archives the asset. Archived assets disappear from the website and are no longer usable or visible in Roblox experiences, but you can [restore](#POST-v1-assets-{assetId}:restore) them.
  */
 export const postAssetsAssetIdArchive = endpoint({
   method: 'POST',
   path: '/v1/assets/:assetId:archive',
   baseUrl: 'https://apis.roblox.com/assets',
+  scopes: ['asset:read', 'asset:write'],
   requestFormat: 'json',
   serializationMethod: {
     assetId: {},
@@ -203,15 +219,19 @@ export const postAssetsAssetIdArchive = endpoint({
   ],
 });
 /**
- * @api POST https://apis.roblox.com/assets/v1/assets/:assetId:restore
- * @summary Restores an archived asset.
+ * **Restore Asset** · `BETA`
+ *
+ * Restores an archived asset.
+ *
+ * **Scopes:** `asset:read`, `asset:write`
+ *
  * @param assetId The unique identifier of the asset.
- * @description Restores an archived asset.
  */
 export const postAssetsAssetIdRestore = endpoint({
   method: 'POST',
   path: '/v1/assets/:assetId:restore',
   baseUrl: 'https://apis.roblox.com/assets',
+  scopes: ['asset:read', 'asset:write'],
   requestFormat: 'json',
   serializationMethod: {
     assetId: {},
@@ -236,17 +256,21 @@ export const postAssetsAssetIdRestore = endpoint({
   ],
 });
 /**
- * @api GET https://apis.roblox.com/assets/v1/assets/:assetId/versions
- * @summary List Asset Versions of an Asset
+ * **List Asset Versions** · `BETA`
+ *
+ * List all versions of a specific asset, with optional pagination.
+ *
+ * **Scopes:** `asset:read`
+ *
  * @param assetId The unique identifier of the asset.
  * @param maxPageSize Specifies the number of asset versions to include in the response. Valid values range from 1 to 50 (inclusive). Defaults to 8 when not provided.
  * @param pageToken A token for pagination. The value is obtained from a previous request and allows for retrieving the next page of asset versions.
- * @description List all versions of a specific asset, with optional pagination.
  */
 export const getAssetsAssetIdVersions = endpoint({
   method: 'GET',
   path: '/v1/assets/:assetId/versions',
   baseUrl: 'https://apis.roblox.com/assets',
+  scopes: ['asset:read'],
   requestFormat: 'json',
   serializationMethod: {
     assetId: {},
@@ -275,18 +299,22 @@ export const getAssetsAssetIdVersions = endpoint({
   ],
 });
 /**
- * @api POST https://apis.roblox.com/assets/v1/assets/:assetId/versions:rollback
- * @summary Rollback an asset to a previous version.
- * @param body 
- * @param assetId The unique identifier of the asset.
- * @description Rollback an asset to a specific previous version.
+ * **Rollback Asset Version** · `BETA`
+ *
+ * Rollback an asset to a specific previous version.
 
  Provide the asset version path in the form data.
+ *
+ * **Scopes:** `asset:read`, `asset:write`
+ *
+ * @param body 
+ * @param assetId The unique identifier of the asset.
  */
 export const postAssetsAssetIdVersionsRollback = endpoint({
   method: 'POST',
   path: '/v1/assets/:assetId/versions:rollback',
   baseUrl: 'https://apis.roblox.com/assets',
+  scopes: ['asset:read', 'asset:write'],
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
@@ -313,16 +341,20 @@ export const postAssetsAssetIdVersionsRollback = endpoint({
   ],
 });
 /**
- * @api GET https://apis.roblox.com/assets/v1/assets/:assetId/versions/:versionNumber
- * @summary Get Asset Version
+ * **Get Asset Version** · `BETA`
+ *
+ * Retrieve a specific asset version by the asset ID and the version number.
+ *
+ * **Scopes:** `asset:read`
+ *
  * @param assetId The unique identifier of the asset.
  * @param versionNumber The version number.
- * @description Retrieve a specific asset version by the asset ID and the version number.
  */
 export const getAssetsAssetIdVersionsVersionNumber = endpoint({
   method: 'GET',
   path: '/v1/assets/:assetId/versions/:versionNumber',
   baseUrl: 'https://apis.roblox.com/assets',
+  scopes: ['asset:read'],
   requestFormat: 'json',
   serializationMethod: {
     assetId: {},
@@ -345,15 +377,19 @@ export const getAssetsAssetIdVersionsVersionNumber = endpoint({
   ],
 });
 /**
- * @api GET https://apis.roblox.com/assets/v1/operations/:operationId
- * @summary Get the result of an asset creation or update.
+ * **Get Operation** · `BETA`
+ *
+ * Get the result of an asset creation or update using the returned Operation ID. Requires **Read** for the API key permission and **asset:read** for OAuth 2.0 apps.
+ *
+ * **Scopes:** `asset:read`
+ *
  * @param operationId The unique identifier of the operation.
- * @description Get the result of an asset creation or update using the returned Operation ID. Requires **Read** for the API key permission and **asset:read** for OAuth 2.0 apps.
  */
 export const getOperationsOperationId = endpoint({
   method: 'GET',
   path: '/v1/operations/:operationId',
   baseUrl: 'https://apis.roblox.com/assets',
+  scopes: ['asset:read'],
   requestFormat: 'json',
   serializationMethod: {
     operationId: {},

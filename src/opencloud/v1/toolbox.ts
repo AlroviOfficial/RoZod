@@ -127,8 +127,13 @@ const ProblemDetails = z.unknown().nullable();
 const HttpValidationProblemDetails = ProblemDetails;
 
 /**
- * @api GET https://apis.roblox.com/toolbox-service/v2/assets:search
- * @summary Search Creator Store Assets
+ * `BETA`
+ *
+ * Search Creator Store for assets.
+ *
+ * **Scopes:** `creator-store-product:read`
+ * **Engine:** Usable with HttpService
+ *
  * @param searchCategoryType The asset type to search within.
  * @param query The search terms used to filter the results.
  * @param modelSubTypes When searching for models, the subtypes associated with the search results.
@@ -155,12 +160,12 @@ const HttpValidationProblemDetails = ProblemDetails;
  * @param categoryPath
  * @param searchView Indicates which fields will be populated in the response.
  * @param musicChartType Indicates which music charts to filter from.
- * @description Search Creator Store for assets.
  */
 export const getToolboxServiceV2AssetsSearch = endpoint({
   method: 'GET',
   path: '/toolbox-service/v2/assets:search',
   baseUrl: 'https://apis.roblox.com',
+  scopes: ['creator-store-product:read'],
   requestFormat: 'json',
   serializationMethod: {
     searchCategoryType: {},
@@ -238,15 +243,20 @@ export const getToolboxServiceV2AssetsSearch = endpoint({
   ],
 });
 /**
- * @api GET https://apis.roblox.com/toolbox-service/v2/assets/:id
- * @summary Get Creator Store Asset Details
+ * `BETA`
+ *
+ * Get details for a single Creator Store asset.
+ *
+ * **Scopes:** `creator-store-product:read`
+ * **Engine:** Usable with HttpService
+ *
  * @param id The asset ID to retrieve details for.
- * @description Get details for a single Creator Store asset.
  */
 export const getToolboxServiceV2AssetsId = endpoint({
   method: 'GET',
   path: '/toolbox-service/v2/assets/:id',
   baseUrl: 'https://apis.roblox.com',
+  scopes: ['creator-store-product:read'],
   requestFormat: 'json',
   serializationMethod: {
     id: {},

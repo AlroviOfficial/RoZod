@@ -7,18 +7,25 @@ const DataStore = z.object({
 });
 
 /**
- * @api GET https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores
- * @summary List data stores in an experience
+ * **List Data Stores** · `BETA`
+ *
+ * Returns a list of an experience's data stores.
+ *
+ * **Lua equivalent:** `DataStoreService:ListDataStoresAsync`
+ * **Scopes:** `universe-datastores.control:list`
+ *
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param cursor Provide to request the next set of data.
  * @param limit The maximum number of items to return. Each call only reads one partition, so it can return fewer than the given value when running out of objectives on one partition.
  * @param prefix Provide to return only data stores with this prefix.
- * @description Returns a list of an experience's data stores.
+ * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores
+ * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const getUniversesUniverseIdDatastores = endpoint({
   method: 'GET',
   path: '/v1/universes/:universeId/standard-datastores',
   baseUrl: 'https://apis.roblox.com/datastores',
+  scopes: ['universe-datastores.control:list'],
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -39,8 +46,15 @@ export const getUniversesUniverseIdDatastores = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries
- * @summary List entries
+ * **List Entries** · `BETA`
+ *
+ * Returns a list of entry keys within a data store.
+
+ Entries marked deleted with a tombstone version are still included in the response if they have yet to be permanently deleted.
+ *
+ * **Lua equivalent:** `DataStore:ListKeysAsync`
+ * **Scopes:** `universe-datastores.objects:list`
+ *
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
@@ -48,14 +62,15 @@ export const getUniversesUniverseIdDatastores = endpoint({
  * @param prefix Provide to return only keys with this prefix.
  * @param cursor Provide to request the next set of data.
  * @param limit The maximum number of items to return. Each call only reads one partition, so it can return fewer than the given value when running out of objectives on one partition.
- * @description Returns a list of entry keys within a data store.
-
- Entries marked deleted with a tombstone version are still included in the response if they have yet to be permanently deleted.
+ * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/entries
+ * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/scopes/{scope_id}/entries
+ * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const getUniversesUniverseIdDatastoresDatastoreEntries = endpoint({
   method: 'GET',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries',
   baseUrl: 'https://apis.roblox.com/datastores',
+  scopes: ['universe-datastores.objects:list'],
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -82,13 +97,9 @@ export const getUniversesUniverseIdDatastoresDatastoreEntries = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries/entry
- * @summary Get entry.
- * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
- * @param datastoreName The name of the data store.
- * @param entryKey The key identifying the entry.
- * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
- * @description Returns the value and metadata associated with an entry.
+ * **Get Entry** · `BETA`
+ *
+ * Returns the value and metadata associated with an entry.
 
 Entries marked deleted with a tombstone version will return 404 Not Found.
 
@@ -111,11 +122,23 @@ roblox-entry-userids: [1, 2, 3]
 | `roblox-entry-attributes` | Attributes tagged with the entry. Serialized JSON map object. |
 | `roblox-entry-userids` | Comma-separated list of Roblox user IDs tagged with the entry. |
 
+ *
+ * **Lua equivalent:** `GlobalDataStore:GetAsync`
+ * **Scopes:** `universe-datastores.objects:read`
+ *
+ * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
+ * @param datastoreName The name of the data store.
+ * @param entryKey The key identifying the entry.
+ * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
+ * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/entries/{entry_id}
+ * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/scopes/{scope_id}/entries/{entry_id}
+ * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const getUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
   method: 'GET',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry',
   baseUrl: 'https://apis.roblox.com/datastores',
+  scopes: ['universe-datastores.objects:read'],
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -133,8 +156,13 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries/entry
- * @summary Set entry.
+ * **Set Entry** · `BETA`
+ *
+ * Sets the value, metadata and user IDs associated with an entry.
+ *
+ * **Lua equivalent:** `GlobalDataStore:SetAsync`
+ * **Scopes:** `universe-datastores.objects:update`, `universe-datastores.objects:create`, `universe-datastores.control:create`
+ *
  * @param body
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
@@ -145,12 +173,21 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
  * @param roblox-entry-attributes Attributes to be associated with new version of the entry. Serialized by JSON map objects. If not provided, existing attributes are cleared.
  * @param roblox-entry-userids Comma-separated list of Roblox user IDs tagged with the entry. If not provided, existing user IDs are cleared.
  * @param content-md5 The base64-encoded MD5 checksum of the content. See [Content-MD5](/cloud/guides/data-stores/request-handling.md#content-md5).
- * @description Sets the value, metadata and user IDs associated with an entry.
+ * @see PATCH https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/entries/{entry_id}
+ * @see PATCH https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/scopes/{scope_id}/entries/{entry_id}
+ * @see POST https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/entries
+ * @see POST https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/scopes/{scope_id}/entries
+ * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
   method: 'POST',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry',
   baseUrl: 'https://apis.roblox.com/datastores',
+  scopes: [
+    'universe-datastores.objects:update',
+    'universe-datastores.objects:create',
+    'universe-datastores.control:create',
+  ],
   requestFormat: 'json',
   serializationMethod: {
     body: {},
@@ -180,18 +217,26 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
   errors: [],
 });
 /**
- * @api DELETE https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries/entry
- * @summary Delete entry.
+ * **Delete Entry** · `BETA`
+ *
+ * Marks the entry as deleted by creating a tombstone version. Entries are deleted permanently after 30 days.
+ *
+ * **Lua equivalent:** `GlobalDataStore:RemoveAsync`
+ * **Scopes:** `universe-datastores.objects:delete`
+ *
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
  * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
- * @description Marks the entry as deleted by creating a tombstone version. Entries are deleted permanently after 30 days.
+ * @see DELETE https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/entries/{entry_id}
+ * @see DELETE https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/scopes/{scope_id}/entries/{entry_id}
+ * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const deleteUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
   method: 'DELETE',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry',
   baseUrl: 'https://apis.roblox.com/datastores',
+  scopes: ['universe-datastores.objects:delete'],
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -209,16 +254,9 @@ export const deleteUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment
- * @summary Increment entry
- * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
- * @param datastoreName The name of the data store.
- * @param entryKey The key identifying the entry.
- * @param incrementBy The amount by which the entry should be incremented, or the starting value if it doesn't exist.
- * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
- * @param roblox-entry-attributes Attributes to be associated with new version of the entry. Serialized by JSON map objects. If not provided, existing attributes are cleared.
- * @param roblox-entry-userids A comma-separated list of Roblox user IDs that the entry is tagged with. If not provided, existing user IDs are cleared.
- * @description Increments the value for an entry by a given amount, or create a new entry with that amount. Returns the entry and metadata.
+ * **Increment Entry** · `BETA`
+ *
+ * Increments the value for an entry by a given amount, or create a new entry with that amount. Returns the entry and metadata.
 
 Metadata can be found in the response headers like the following:
 ```text
@@ -239,11 +277,30 @@ roblox-entry-userids: [1, 2, 3]
 | `roblox-entry-attributes` | Attributes tagged with the entry. Serialized JSON map object. |
 | `roblox-entry-userids` | Comma-separated list of Roblox user IDs tagged with the entry. |
 
+ *
+ * **Lua equivalent:** `GlobalDataStore:IncrementAsync`
+ * **Scopes:** `universe-datastores.objects:update`, `universe-datastores.objects:create`, `universe-datastores.control:create`
+ *
+ * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
+ * @param datastoreName The name of the data store.
+ * @param entryKey The key identifying the entry.
+ * @param incrementBy The amount by which the entry should be incremented, or the starting value if it doesn't exist.
+ * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
+ * @param roblox-entry-attributes Attributes to be associated with new version of the entry. Serialized by JSON map objects. If not provided, existing attributes are cleared.
+ * @param roblox-entry-userids A comma-separated list of Roblox user IDs that the entry is tagged with. If not provided, existing user IDs are cleared.
+ * @see POST https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/entries/{entry_id}:increment
+ * @see POST https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/scopes/{scope_id}/entries/{entry_id}:increment
+ * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const postUniversesUniverseIdDatastoresDatastoreEntriesEntryIncrement = endpoint({
   method: 'POST',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment',
   baseUrl: 'https://apis.roblox.com/datastores',
+  scopes: [
+    'universe-datastores.objects:update',
+    'universe-datastores.objects:create',
+    'universe-datastores.control:create',
+  ],
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -267,8 +324,13 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntryIncrement = e
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions
- * @summary List entry versions
+ * **List Entry Versions** · `BETA`
+ *
+ * Returns a list of versions for an entry.
+ *
+ * **Lua equivalent:** `DataStore:ListVersionsAsync`
+ * **Scopes:** `universe-datastores.versions:list`
+ *
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
@@ -278,12 +340,15 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntryIncrement = e
  * @param endTime Provide to not include versions later than this timestamp.
  * @param sortOrder Either `Ascending` (earlier versions first) or `Descending` (later versions first).
  * @param limit The maximum number of items to return. Each call only reads one partition, so it can return fewer than the given value when running out of objectives on one partition.
- * @description Returns a list of versions for an entry.
+ * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/entries/{entry_id}:listRevisions
+ * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/scopes/{scope_id}/entries/{entry_id}:listRevisions
+ * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const getUniversesUniverseIdDatastoresDatastoreEntriesEntryVersions = endpoint({
   method: 'GET',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions',
   baseUrl: 'https://apis.roblox.com/datastores',
+  scopes: ['universe-datastores.versions:list'],
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -328,14 +393,9 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntryVersions = end
   ],
 });
 /**
- * @api GET https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version
- * @summary Get entry version.
- * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
- * @param datastoreName The name of the data store.
- * @param entryKey The key identifying the entry.
- * @param versionId The version to inspect.
- * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
- * @description Returns the value and metadata of a specific version of an entry.
+ * **Get Entry Version** · `BETA`
+ *
+ * Returns the value and metadata of a specific version of an entry.
 
 Metadata can be found in the response headers like the following:
 ```text
@@ -356,11 +416,24 @@ roblox-entry-userids: [1, 2, 3]
 | `roblox-entry-attributes` | Attributes tagged with the entry. Serialized JSON map object. |
 | `roblox-entry-userids` | Comma-separated list of Roblox user IDs tagged with the entry. |
 
+ *
+ * **Lua equivalent:** `DataStore:GetVersionAsync`
+ * **Scopes:** `universe-datastores.versions:read`
+ *
+ * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
+ * @param datastoreName The name of the data store.
+ * @param entryKey The key identifying the entry.
+ * @param versionId The version to inspect.
+ * @param scope The value is `global` by default. See [Scopes](/cloud-services/data-stores/index.md#scopes).
+ * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/entries/{entry_id}
+ * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/scopes/{scope_id}/entries/{entry_id}
+ * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const getUniversesUniverseIdDatastoresDatastoreEntriesEntryVersionsVersion = endpoint({
   method: 'GET',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version',
   baseUrl: 'https://apis.roblox.com/datastores',
+  scopes: ['universe-datastores.versions:read'],
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},

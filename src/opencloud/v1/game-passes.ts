@@ -69,16 +69,21 @@ const ListGamePassConfigsByUniverseResponse = z.object({
 });
 
 /**
- * @api POST https://apis.roblox.com/game-passes/v1/universes/:universeId/game-passes
- * @summary Create game pass
+ * `BETA`
+ *
+ * Creates a new game pass with the provided configuration details.
+ *
+ * **Scopes:** `game-pass:write`
+ * **Engine:** Not available in-engine
+ *
  * @param body
  * @param universeId The universe ID.
- * @description Creates a new game pass with the provided configuration details.
  */
 export const postGamePassesV1UniversesUniverseIdGamePasses = endpoint({
   method: 'POST',
   path: '/game-passes/v1/universes/:universeId/game-passes',
   baseUrl: 'https://apis.roblox.com',
+  scopes: ['game-pass:write'],
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
@@ -109,18 +114,23 @@ export const postGamePassesV1UniversesUniverseIdGamePasses = endpoint({
   ],
 });
 /**
- * @api PATCH https://apis.roblox.com/game-passes/v1/universes/:universeId/game-passes/:gamePassId
- * @summary Update game pass
+ * `BETA`
+ *
+ * Updates a game pass with the provided configuration details.
+Note that only fields provided in the request will be updated.
+ *
+ * **Scopes:** `game-pass:write`
+ * **Engine:** Not available in-engine
+ *
  * @param body 
  * @param universeId The universe ID.
  * @param gamePassId The game pass ID.
- * @description Updates a game pass with the provided configuration details.
-Note that only fields provided in the request will be updated.
  */
 export const patchGamePassesV1UniversesUniverseIdGamePassesGamePassId = endpoint({
   method: 'PATCH',
   path: '/game-passes/v1/universes/:universeId/game-passes/:gamePassId',
   baseUrl: 'https://apis.roblox.com',
+  scopes: ['game-pass:write'],
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
@@ -157,8 +167,13 @@ export const patchGamePassesV1UniversesUniverseIdGamePassesGamePassId = endpoint
   ],
 });
 /**
- * @api GET https://apis.roblox.com/game-passes/v1/universes/:universeId/game-passes/:gamePassId/creator
- * @summary Get game pass with configuration details
+ * `BETA`
+ *
+ * Get game pass with configuration details
+ *
+ * **Scopes:** `game-pass:read`
+ * **Engine:** Not available in-engine
+ *
  * @param universeId The universe ID.
  * @param gamePassId The game pass ID.
  */
@@ -166,6 +181,7 @@ export const getGamePassesV1UniversesUniverseIdGamePassesGamePassIdCreator = end
   method: 'GET',
   path: '/game-passes/v1/universes/:universeId/game-passes/:gamePassId/creator',
   baseUrl: 'https://apis.roblox.com',
+  scopes: ['game-pass:read'],
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -192,8 +208,13 @@ export const getGamePassesV1UniversesUniverseIdGamePassesGamePassIdCreator = end
   ],
 });
 /**
- * @api GET https://apis.roblox.com/game-passes/v1/universes/:universeId/game-passes/creator
- * @summary List game passes by universe with configuration details
+ * `BETA`
+ *
+ * List game passes by universe with configuration details
+ *
+ * **Scopes:** `game-pass:read`
+ * **Engine:** Not available in-engine
+ *
  * @param universeId The universe ID.
  * @param pageSize The number of results to return. Defaults to 50 if not provided.
  * @param pageToken The cursor token for pagination.
@@ -202,6 +223,7 @@ export const getGamePassesV1UniversesUniverseIdGamePassesCreator = endpoint({
   method: 'GET',
   path: '/game-passes/v1/universes/:universeId/game-passes/creator',
   baseUrl: 'https://apis.roblox.com',
+  scopes: ['game-pass:read'],
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},

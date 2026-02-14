@@ -28,6 +28,8 @@ type EndpointBase = {
     status: number;
     description?: string;
   }[];
+  // OpenCloud API metadata (extracted from Roblox OpenAPI extensions)
+  scopes?: string[];
 };
 
 export type EndpointSchema = EndpointBase & {

@@ -22,17 +22,21 @@
       "@param",
       "@returns",
       "@yields",
-      "@example"
+      "@example",
+      "@see",
+      "@deprecated"
     ],
     "modifierTags": [
       "@api",
-      "@description", 
+      "@description",
       "@tags",
       "@summary",
       "@param",
       "@returns",
       "@yields",
-      "@example"
+      "@example",
+      "@see",
+      "@deprecated"
     ]
   }
 }
