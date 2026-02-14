@@ -340,6 +340,10 @@ export const getGames = endpoint({
       description: `8: The universe IDs specified are invalid.
 9: Too many universe IDs were requested.`,
     },
+    {
+      status: 429,
+      description: `4: Too many requests have been made.`,
+    },
   ],
 });
 /**

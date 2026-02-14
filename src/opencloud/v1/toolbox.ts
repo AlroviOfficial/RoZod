@@ -127,7 +127,7 @@ const ProblemDetails = z.unknown().nullable();
 const HttpValidationProblemDetails = ProblemDetails;
 
 /**
- * @api GET https://apis.roblox.com/cloud/toolbox-service/v2/assets:search
+ * @api GET https://apis.roblox.com/toolbox-service/v2/assets:search
  * @summary Search Creator Store Assets
  * @param searchCategoryType The asset type to search within.
  * @param query The search terms used to filter the results.
@@ -160,7 +160,7 @@ const HttpValidationProblemDetails = ProblemDetails;
 export const getToolboxServiceV2AssetsSearch = endpoint({
   method: 'GET',
   path: '/toolbox-service/v2/assets:search',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     searchCategoryType: {},
@@ -238,7 +238,7 @@ export const getToolboxServiceV2AssetsSearch = endpoint({
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/toolbox-service/v2/assets/:id
+ * @api GET https://apis.roblox.com/toolbox-service/v2/assets/:id
  * @summary Get Creator Store Asset Details
  * @param id The asset ID to retrieve details for.
  * @description Get details for a single Creator Store asset.
@@ -246,7 +246,7 @@ export const getToolboxServiceV2AssetsSearch = endpoint({
 export const getToolboxServiceV2AssetsId = endpoint({
   method: 'GET',
   path: '/toolbox-service/v2/assets/:id',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     id: {},

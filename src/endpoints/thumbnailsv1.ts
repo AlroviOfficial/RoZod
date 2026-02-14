@@ -55,6 +55,7 @@ const Roblox_Thumbnails_Apis_Models_ThumbnailBatchRequest = z.object({
   format: z.string(),
   isCircular: z.boolean(),
   accessContext: z.string(),
+  headShape: z.string(),
 });
 const Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse = z.object({
   requestId: z.string(),

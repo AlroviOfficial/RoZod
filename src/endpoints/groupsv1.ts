@@ -313,8 +313,9 @@ const Roblox_Groups_Api_SocialLinkResponse = z.object({
   url: z.string(),
   title: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_SocialLinkResponse_ = z.object({
+const Roblox_Groups_Api_GetSocialLinkResponse = z.object({
   data: z.array(Roblox_Groups_Api_SocialLinkResponse),
+  socialLinksVerificationStatus: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
 });
 const Roblox_Groups_Api_SocialLinkRequest = z.object({
   type: z.union([
@@ -2847,7 +2848,7 @@ export const getGroupsGroupidSocialLinks = endpoint({
   parameters: {
     groupId: z.number().int(),
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_SocialLinkResponse_,
+  response: Roblox_Groups_Api_GetSocialLinkResponse,
   errors: [
     {
       status: 400,

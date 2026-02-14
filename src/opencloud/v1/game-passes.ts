@@ -69,7 +69,7 @@ const ListGamePassConfigsByUniverseResponse = z.object({
 });
 
 /**
- * @api POST https://apis.roblox.com/cloud/game-passes/v1/universes/:universeId/game-passes
+ * @api POST https://apis.roblox.com/game-passes/v1/universes/:universeId/game-passes
  * @summary Create game pass
  * @param body
  * @param universeId The universe ID.
@@ -78,7 +78,7 @@ const ListGamePassConfigsByUniverseResponse = z.object({
 export const postGamePassesV1UniversesUniverseIdGamePasses = endpoint({
   method: 'POST',
   path: '/game-passes/v1/universes/:universeId/game-passes',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
@@ -109,7 +109,7 @@ export const postGamePassesV1UniversesUniverseIdGamePasses = endpoint({
   ],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/game-passes/v1/universes/:universeId/game-passes/:gamePassId
+ * @api PATCH https://apis.roblox.com/game-passes/v1/universes/:universeId/game-passes/:gamePassId
  * @summary Update game pass
  * @param body 
  * @param universeId The universe ID.
@@ -120,7 +120,7 @@ Note that only fields provided in the request will be updated.
 export const patchGamePassesV1UniversesUniverseIdGamePassesGamePassId = endpoint({
   method: 'PATCH',
   path: '/game-passes/v1/universes/:universeId/game-passes/:gamePassId',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
@@ -157,7 +157,7 @@ export const patchGamePassesV1UniversesUniverseIdGamePassesGamePassId = endpoint
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/game-passes/v1/universes/:universeId/game-passes/:gamePassId/creator
+ * @api GET https://apis.roblox.com/game-passes/v1/universes/:universeId/game-passes/:gamePassId/creator
  * @summary Get game pass with configuration details
  * @param universeId The universe ID.
  * @param gamePassId The game pass ID.
@@ -165,7 +165,7 @@ export const patchGamePassesV1UniversesUniverseIdGamePassesGamePassId = endpoint
 export const getGamePassesV1UniversesUniverseIdGamePassesGamePassIdCreator = endpoint({
   method: 'GET',
   path: '/game-passes/v1/universes/:universeId/game-passes/:gamePassId/creator',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -192,7 +192,7 @@ export const getGamePassesV1UniversesUniverseIdGamePassesGamePassIdCreator = end
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/game-passes/v1/universes/:universeId/game-passes/creator
+ * @api GET https://apis.roblox.com/game-passes/v1/universes/:universeId/game-passes/creator
  * @summary List game passes by universe with configuration details
  * @param universeId The universe ID.
  * @param pageSize The number of results to return. Defaults to 50 if not provided.
@@ -201,7 +201,7 @@ export const getGamePassesV1UniversesUniverseIdGamePassesGamePassIdCreator = end
 export const getGamePassesV1UniversesUniverseIdGamePassesCreator = endpoint({
   method: 'GET',
   path: '/game-passes/v1/universes/:universeId/game-passes/creator',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},

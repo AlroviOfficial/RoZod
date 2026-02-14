@@ -74,6 +74,7 @@ const Roblox_Api_Avatar_Models_AssetMetaModelV1 = z.object({
     z.literal(28),
     z.literal(29),
   ]),
+  staticFacialAnimation: z.boolean(),
   version: z.number().int(),
 });
 const Roblox_Api_Avatar_Models_AssetModelV2 = z.object({

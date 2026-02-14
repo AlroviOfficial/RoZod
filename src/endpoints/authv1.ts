@@ -288,6 +288,12 @@ const Roblox_Authentication_Api_Models_Request_LogoutFromAllSessionsAndReauthent
 const Roblox_Authentication_Api_Models_Request_DeletePasskeysRequest = z.object({
   credentialNicknames: z.array(z.string()),
 });
+const Roblox_Authentication_Api_Models_Request_FinishARPreAuthPasskeyRegistrationRequest = z.object({
+  recoverySession: z.string(),
+  passkeySessionId: z.string(),
+  passkeyRegistrationResponse: z.string(),
+  userId: z.number().int(),
+});
 const Roblox_Authentication_Api_Models_Request_FinishPasskeyPreauthRegistrationRequest = z.object({
   sessionId: z.string(),
   registrationResponse: z.string(),
@@ -1048,6 +1054,47 @@ export const postPasskeyDeletecredentialbatch = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed`,
+    },
+    {
+      status: 503,
+      description: `2: Feature disabled.`,
+    },
+  ],
+});
+/**
+ * @api POST https://auth.roblox.com/v1/passkey/finish-ar-preauth-registration
+ * @summary Finishes account recovery pre-auth passkey registration by validating the recovery session,
+deactivating the user's password, and completing passkey registration.
+ * @param body The request body containing recovery session and passkey details.
+ */
+export const postPasskeyFinishArPreauthRegistration = endpoint({
+  method: 'POST',
+  path: '/v1/passkey/finish-ar-preauth-registration',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_Request_FinishARPreAuthPasskeyRegistrationRequest,
+  response: z.object({}),
+  errors: [
+    {
+      status: 400,
+      description: `0: An unknown error occurred with the request.`,
+    },
+    {
+      status: 401,
+      description: `0: An unknown error occurred with the request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+1: Reached limit of pass keys registered.`,
+    },
+    {
+      status: 500,
+      description: `0: An unknown error occurred with the request.`,
     },
     {
       status: 503,

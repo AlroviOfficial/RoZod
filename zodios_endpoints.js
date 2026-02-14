@@ -339,67 +339,56 @@ const openCloudV1Apis = [
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/universes-api/v1.json',
     name: 'universes',
     version: 'v1',
-    baseUrl: 'https://apis.roblox.com/cloud'
   },
   {
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/messaging-service/v1.json',
     name: 'messaging',
     version: 'v1',
-    baseUrl: 'https://apis.roblox.com/cloud'
   },
   {
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/datastores-api/v1.json',
     name: 'datastores',
     version: 'v1',
-    baseUrl: 'https://apis.roblox.com/cloud'
   },
   {
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/datastores-api/ordered-v1.json',
     name: 'datastores-ordered',
     version: 'v1',
-    baseUrl: 'https://apis.roblox.com/cloud'
   },
   {
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/assets/v1.json',
     name: 'assets',
     version: 'v1',
-    baseUrl: 'https://apis.roblox.com/cloud'
   },
   {
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/asset-permissions-api/v1.json',
     name: 'asset-permissions',
     version: 'v1',
-    baseUrl: 'https://apis.roblox.com/cloud'
   },
   {
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/developer-products-api/v1.json',
     name: 'developer-products',
     version: 'v1',
-    baseUrl: 'https://apis.roblox.com/cloud'
   },
   {
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/game-passes-http-service/v1.json',
     name: 'game-passes',
     version: 'v1',
-    baseUrl: 'https://apis.roblox.com/cloud'
   },
   {
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/open-eval-api/v1.json',
     name: 'open-eval',
     version: 'v1',
-    baseUrl: 'https://apis.roblox.com/cloud'
   },
   {
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/secrets-store-service/v1.json',
     name: 'secrets-store',
     version: 'v1',
-    baseUrl: 'https://apis.roblox.com/cloud'
   },
   {
     url: 'https://github.com/Roblox/creator-docs/blob/main/content/en-us/reference/cloud/toolbox-service/v1.json',
     name: 'toolbox',
     version: 'v1',
-    baseUrl: 'https://apis.roblox.com/cloud'
   }
 ];
 
@@ -452,13 +441,16 @@ async function processOpenCloudApi(apiDef) {
       }
     }
 
+    // Extract base URL from the OpenAPI spec's servers array, falling back to apiDef.baseUrl
+    const baseUrl = openApiDoc.servers?.[0]?.url?.replace(/\/+$/, '') || apiDef.baseUrl;
+
     await generateZodClientFromOpenAPI({
       openApiDoc,
       templatePath: './opencloud_template.hbs',
       distPath: `${outputFolder}/${apiDef.name}.ts`,
       handlebars,
       options: {
-        baseUrl: apiDef.baseUrl,
+        baseUrl,
         withDeprecatedEndpoints: true,
         withImplicitRequiredProps: true,
         withDefaultValues: true,

@@ -49,7 +49,7 @@ const AssetVersion = z.object({
 });
 
 /**
- * @api POST https://apis.roblox.com/cloud/v1/assets
+ * @api POST https://apis.roblox.com/assets/v1/assets
  * @summary Creates an asset with provided content and metadata.
  * @param body 
  * @description Creates an asset with provided content and metadata.
@@ -61,7 +61,7 @@ Provide the [Asset](#Asset), binary asset file path, and [content type](/cloud/g
 export const postAssets = endpoint({
   method: 'POST',
   path: '/v1/assets',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/assets',
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
@@ -85,7 +85,7 @@ export const postAssets = endpoint({
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/v1/assets/:assetId
+ * @api GET https://apis.roblox.com/assets/v1/assets/:assetId
  * @summary Retrieve specific asset metadata. Include the `readMask` parameter for additional asset metadata.
  * @param assetId The unique identifier of the asset.
  * @param readMask Asset metadata fields to retrieve, including the description, display name, icon, social links, and previews. Examples: `description%2CdisplayName`, `previews%2CtwitchSocialLink`.
@@ -94,7 +94,7 @@ export const postAssets = endpoint({
 export const getAssetsAssetId = endpoint({
   method: 'GET',
   path: '/v1/assets/:assetId',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/assets',
   requestFormat: 'json',
   serializationMethod: {
     assetId: {},
@@ -129,7 +129,7 @@ export const getAssetsAssetId = endpoint({
   ],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/v1/assets/:assetId
+ * @api PATCH https://apis.roblox.com/assets/v1/assets/:assetId
  * @summary Updates an asset with provided content and metadata.
  * @param body 
  * @param assetId The unique identifier of the asset.
@@ -141,7 +141,7 @@ Provide the [Asset](#Asset), binary asset file path, and [content type](/cloud/g
 export const patchAssetsAssetId = endpoint({
   method: 'PATCH',
   path: '/v1/assets/:assetId',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/assets',
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
@@ -170,7 +170,7 @@ export const patchAssetsAssetId = endpoint({
   ],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/v1/assets/:assetId:archive
+ * @api POST https://apis.roblox.com/assets/v1/assets/:assetId:archive
  * @summary Archives the asset.
  * @param assetId The unique identifier of the asset.
  * @description Archives the asset. Archived assets disappear from the website and are no longer usable or visible in Roblox experiences, but you can [restore](#POST-v1-assets-{assetId}:restore) them.
@@ -178,7 +178,7 @@ export const patchAssetsAssetId = endpoint({
 export const postAssetsAssetIdArchive = endpoint({
   method: 'POST',
   path: '/v1/assets/:assetId:archive',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/assets',
   requestFormat: 'json',
   serializationMethod: {
     assetId: {},
@@ -203,7 +203,7 @@ export const postAssetsAssetIdArchive = endpoint({
   ],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/v1/assets/:assetId:restore
+ * @api POST https://apis.roblox.com/assets/v1/assets/:assetId:restore
  * @summary Restores an archived asset.
  * @param assetId The unique identifier of the asset.
  * @description Restores an archived asset.
@@ -211,7 +211,7 @@ export const postAssetsAssetIdArchive = endpoint({
 export const postAssetsAssetIdRestore = endpoint({
   method: 'POST',
   path: '/v1/assets/:assetId:restore',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/assets',
   requestFormat: 'json',
   serializationMethod: {
     assetId: {},
@@ -236,7 +236,7 @@ export const postAssetsAssetIdRestore = endpoint({
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/v1/assets/:assetId/versions
+ * @api GET https://apis.roblox.com/assets/v1/assets/:assetId/versions
  * @summary List Asset Versions of an Asset
  * @param assetId The unique identifier of the asset.
  * @param maxPageSize Specifies the number of asset versions to include in the response. Valid values range from 1 to 50 (inclusive). Defaults to 8 when not provided.
@@ -246,7 +246,7 @@ export const postAssetsAssetIdRestore = endpoint({
 export const getAssetsAssetIdVersions = endpoint({
   method: 'GET',
   path: '/v1/assets/:assetId/versions',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/assets',
   requestFormat: 'json',
   serializationMethod: {
     assetId: {},
@@ -275,7 +275,7 @@ export const getAssetsAssetIdVersions = endpoint({
   ],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/v1/assets/:assetId/versions:rollback
+ * @api POST https://apis.roblox.com/assets/v1/assets/:assetId/versions:rollback
  * @summary Rollback an asset to a previous version.
  * @param body 
  * @param assetId The unique identifier of the asset.
@@ -286,7 +286,7 @@ export const getAssetsAssetIdVersions = endpoint({
 export const postAssetsAssetIdVersionsRollback = endpoint({
   method: 'POST',
   path: '/v1/assets/:assetId/versions:rollback',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/assets',
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
@@ -313,7 +313,7 @@ export const postAssetsAssetIdVersionsRollback = endpoint({
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/v1/assets/:assetId/versions/:versionNumber
+ * @api GET https://apis.roblox.com/assets/v1/assets/:assetId/versions/:versionNumber
  * @summary Get Asset Version
  * @param assetId The unique identifier of the asset.
  * @param versionNumber The version number.
@@ -322,7 +322,7 @@ export const postAssetsAssetIdVersionsRollback = endpoint({
 export const getAssetsAssetIdVersionsVersionNumber = endpoint({
   method: 'GET',
   path: '/v1/assets/:assetId/versions/:versionNumber',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/assets',
   requestFormat: 'json',
   serializationMethod: {
     assetId: {},
@@ -345,7 +345,7 @@ export const getAssetsAssetIdVersionsVersionNumber = endpoint({
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/v1/operations/:operationId
+ * @api GET https://apis.roblox.com/assets/v1/operations/:operationId
  * @summary Get the result of an asset creation or update.
  * @param operationId The unique identifier of the operation.
  * @description Get the result of an asset creation or update using the returned Operation ID. Requires **Read** for the API key permission and **asset:read** for OAuth 2.0 apps.
@@ -353,7 +353,7 @@ export const getAssetsAssetIdVersionsVersionNumber = endpoint({
 export const getOperationsOperationId = endpoint({
   method: 'GET',
   path: '/v1/operations/:operationId',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/assets',
   requestFormat: 'json',
   serializationMethod: {
     operationId: {},

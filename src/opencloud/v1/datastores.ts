@@ -7,7 +7,7 @@ const DataStore = z.object({
 });
 
 /**
- * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores
+ * @api GET https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores
  * @summary List data stores in an experience
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param cursor Provide to request the next set of data.
@@ -18,7 +18,7 @@ const DataStore = z.object({
 export const getUniversesUniverseIdDatastores = endpoint({
   method: 'GET',
   path: '/v1/universes/:universeId/standard-datastores',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/datastores',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -39,7 +39,7 @@ export const getUniversesUniverseIdDatastores = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries
+ * @api GET https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries
  * @summary List entries
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
@@ -55,7 +55,7 @@ export const getUniversesUniverseIdDatastores = endpoint({
 export const getUniversesUniverseIdDatastoresDatastoreEntries = endpoint({
   method: 'GET',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/datastores',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -82,7 +82,7 @@ export const getUniversesUniverseIdDatastoresDatastoreEntries = endpoint({
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries/entry
+ * @api GET https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries/entry
  * @summary Get entry.
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
@@ -115,7 +115,7 @@ roblox-entry-userids: [1, 2, 3]
 export const getUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
   method: 'GET',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/datastores',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -133,7 +133,7 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries/entry
+ * @api POST https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries/entry
  * @summary Set entry.
  * @param body
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
@@ -150,7 +150,7 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
 export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
   method: 'POST',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/datastores',
   requestFormat: 'json',
   serializationMethod: {
     body: {},
@@ -180,7 +180,7 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
   errors: [],
 });
 /**
- * @api DELETE https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries/entry
+ * @api DELETE https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries/entry
  * @summary Delete entry.
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
@@ -191,7 +191,7 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
 export const deleteUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
   method: 'DELETE',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/datastores',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -209,7 +209,7 @@ export const deleteUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint
   errors: [],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment
+ * @api POST https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment
  * @summary Increment entry
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
@@ -243,7 +243,7 @@ roblox-entry-userids: [1, 2, 3]
 export const postUniversesUniverseIdDatastoresDatastoreEntriesEntryIncrement = endpoint({
   method: 'POST',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/datastores',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -267,7 +267,7 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntryIncrement = e
   errors: [],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions
+ * @api GET https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions
  * @summary List entry versions
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
@@ -283,7 +283,7 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntryIncrement = e
 export const getUniversesUniverseIdDatastoresDatastoreEntriesEntryVersions = endpoint({
   method: 'GET',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/datastores',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -328,7 +328,7 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntryVersions = end
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version
+ * @api GET https://apis.roblox.com/datastores/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version
  * @summary Get entry version.
  * @param universeId The identifier of the experience with data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param datastoreName The name of the data store.
@@ -360,7 +360,7 @@ roblox-entry-userids: [1, 2, 3]
 export const getUniversesUniverseIdDatastoresDatastoreEntriesEntryVersionsVersion = endpoint({
   method: 'GET',
   path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/datastores',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},

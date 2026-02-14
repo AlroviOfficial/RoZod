@@ -4,7 +4,8 @@ import { endpoint } from '../..';
 const PublishRequest = z.object({ message: z.string().nullable() });
 
 /**
- * @api POST https://apis.roblox.com/cloud/v1/universes/:universeId/topics/:topic
+ * @api POST https://apis.roblox.com/messaging-service/v1/universes/:universeId/topics/:topic
+ * @summary Publish a cross-server message to a universe
  * @param body
  * @param universeId The identifier of the experience in which you want to send your messages to. You can [copy your experience's Universe ID](/cloud/guides/usage-messaging.md#publishing-messages-to-live-servers) on **Creator Dashboard**.
  * @param topic The topic that you want to publish your message to, with up to 80 characters.
@@ -13,7 +14,7 @@ const PublishRequest = z.object({ message: z.string().nullable() });
 export const postUniversesUniverseIdTopicsTopic = endpoint({
   method: 'POST',
   path: '/v1/universes/:universeId/topics/:topic',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/messaging-service',
   requestFormat: 'json',
   serializationMethod: {
     body: {},

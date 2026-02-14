@@ -82,7 +82,7 @@ const ListDeveloperProductConfigsV2Response = z.object({
 });
 
 /**
- * @api POST https://apis.roblox.com/cloud/developer-products/v2/universes/:universeId/developer-products
+ * @api POST https://apis.roblox.com/developer-products/v2/universes/:universeId/developer-products
  * @summary Create developer product
  * @param body
  * @param universeId The universe ID.
@@ -91,7 +91,7 @@ const ListDeveloperProductConfigsV2Response = z.object({
 export const postDeveloperProductsV2UniversesUniverseIdDeveloperProducts = endpoint({
   method: 'POST',
   path: '/developer-products/v2/universes/:universeId/developer-products',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
@@ -122,7 +122,7 @@ export const postDeveloperProductsV2UniversesUniverseIdDeveloperProducts = endpo
   ],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/developer-products/v2/universes/:universeId/developer-products/:productId
+ * @api PATCH https://apis.roblox.com/developer-products/v2/universes/:universeId/developer-products/:productId
  * @summary Update developer product
  * @param body 
  * @param universeId The universe ID.
@@ -133,7 +133,7 @@ Note that only fields provided in the request will be updated.
 export const patchDeveloperProductsV2UniversesUniverseIdDeveloperProductsProductId = endpoint({
   method: 'PATCH',
   path: '/developer-products/v2/universes/:universeId/developer-products/:productId',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'form-data',
   serializationMethod: {
     body: {},
@@ -170,7 +170,7 @@ export const patchDeveloperProductsV2UniversesUniverseIdDeveloperProductsProduct
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/developer-products/v2/universes/:universeId/developer-products/:productId/creator
+ * @api GET https://apis.roblox.com/developer-products/v2/universes/:universeId/developer-products/:productId/creator
  * @summary Get developer product with configuration details
  * @param universeId The universe ID.
  * @param productId The product ID of the developer product.
@@ -178,7 +178,7 @@ export const patchDeveloperProductsV2UniversesUniverseIdDeveloperProductsProduct
 export const getDeveloperProductsV2UniversesUniverseIdDeveloperProductsProductIdCreator = endpoint({
   method: 'GET',
   path: '/developer-products/v2/universes/:universeId/developer-products/:productId/creator',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -205,7 +205,7 @@ export const getDeveloperProductsV2UniversesUniverseIdDeveloperProductsProductId
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/developer-products/v2/universes/:universeId/developer-products/creator
+ * @api GET https://apis.roblox.com/developer-products/v2/universes/:universeId/developer-products/creator
  * @summary List developer products by universe with configuration details
  * @param universeId The universe ID.
  * @param pageSize The number of results to return. Defaults to 50.
@@ -214,7 +214,7 @@ export const getDeveloperProductsV2UniversesUniverseIdDeveloperProductsProductId
 export const getDeveloperProductsV2UniversesUniverseIdDeveloperProductsCreator = endpoint({
   method: 'GET',
   path: '/developer-products/v2/universes/:universeId/developer-products/creator',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},

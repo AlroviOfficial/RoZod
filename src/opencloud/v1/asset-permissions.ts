@@ -40,7 +40,7 @@ const Error = z.object({ code: ErrorCode, message: z.string().nullable() });
 const ErrorResponse = z.object({ error: Error });
 
 /**
- * @api PATCH https://apis.roblox.com/cloud/asset-permissions-api/v1/assets/permissions
+ * @api PATCH https://apis.roblox.com/asset-permissions-api/v1/assets/permissions
  * @summary Grant a subject permission to multiple assets.
             
 Authorization is required to grant permissions to the subject and asset IDs in the request.
@@ -49,7 +49,7 @@ Authorization is required to grant permissions to the subject and asset IDs in t
 export const patchAssetPermissionsApiV1AssetsPermissions = endpoint({
   method: 'PATCH',
   path: '/asset-permissions-api/v1/assets/permissions',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     body: {},

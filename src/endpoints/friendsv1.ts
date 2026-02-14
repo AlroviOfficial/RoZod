@@ -49,12 +49,6 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestR
   data: z.array(Roblox_Friends_Api_FriendRequestResponse),
 });
 const Roblox_Friends_Api_Models_Response_NewFriendRequestsCountResponse = z.object({ count: z.number().int() });
-const Roblox_Friends_Api_TrustedFriendStatusResponse = z.object({
-  status: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
-});
-const Roblox_Friends_Api_MultigetAreTrustedFriendsResponse = z.object({
-  trustedFriendsId: z.array(z.number()),
-});
 const Roblox_Friends_Api_PendingFriendRequestCountModel = z.object({
   count: z.number().int(),
 });
@@ -394,36 +388,6 @@ export const getMyNewFriendRequestsCount = endpoint({
   ],
 });
 /**
- * @api GET https://friends.roblox.com/v1/my/trusted-friends/:userId/status
- * @summary Gets trusted friend status of a specified user against the requesting user.
- * @param userId The user to check the trusted friend status for.
- */
-export const getMyTrustedFriendsUseridStatus = endpoint({
-  method: 'GET',
-  path: '/v1/my/trusted-friends/:userId/status',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    userId: z.number().int(),
-  },
-  response: Roblox_Friends_Api_TrustedFriendStatusResponse,
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
  * @api POST https://friends.roblox.com/v1/user/:userId/multiget-are-friends
  * @summary Check if the requesting user is friends with the specified users.
  * @param body The user ids to check against with the requesting user.
@@ -453,37 +417,6 @@ export const postUserUseridMultigetAreFriends = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api GET https://friends.roblox.com/v1/user/:userId/multiget-are-trusted-friends
- * @summary Check if the requesting user is trusted friends with the specified users.
- * @param userId The requesting userId.
- * @param userIds The user ids to check against with the requesting user.
- */
-export const getUserUseridMultigetAreTrustedFriends = endpoint({
-  method: 'GET',
-  path: '/v1/user/:userId/multiget-are-trusted-friends',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-    userIds: {
-      style: 'form',
-    },
-  },
-  parameters: {
-    userId: z.number().int(),
-    userIds: z.array(z.number()),
-  },
-  response: Roblox_Friends_Api_MultigetAreTrustedFriendsResponse,
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.`,
     },
   ],
 });

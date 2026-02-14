@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { endpoint } from '../..';
 
 /**
- * @api POST https://apis.roblox.com/cloud/v1/:universeId/places/:placeId/versions
+ * @api POST https://apis.roblox.com/universes/v1/:universeId/places/:placeId/versions
  * @param universeId The identifier of the experience in which you want to publish your place to. You can [copy your experience's Universe ID](/cloud/guides/usage-place-publishing.md#publishing-a-place) on **Creator Dashboard**.
  * @param placeId The identifier of your place. See [Publishing places with API keys](/cloud/guides/usage-place-publishing.md) on obtaining a Place ID.
  * @param versionType Can only be either: 
@@ -13,7 +13,7 @@ import { endpoint } from '../..';
 export const postUniverseIdPlacesPlaceIdVersions = endpoint({
   method: 'POST',
   path: '/v1/:universeId/places/:placeId/versions',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/universes',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},

@@ -23,7 +23,7 @@ const SecretPaginatedList = z.object({
 });
 
 /**
- * @api POST https://apis.roblox.com/cloud/cloud/v2/universes/:universeId/secrets
+ * @api POST https://apis.roblox.com/cloud/v2/universes/:universeId/secrets
  * @summary Create Secret
  * @param body The secret to create with encrypted content
  * @param universeId The universe ID
@@ -44,7 +44,7 @@ For an example, see the [Secrets store guide](https://create.roblox.com/docs/clo
 export const postCloudV2UniversesUniverseIdSecrets = endpoint({
   method: 'POST',
   path: '/cloud/v2/universes/:universeId/secrets',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     body: {},
@@ -71,7 +71,7 @@ export const postCloudV2UniversesUniverseIdSecrets = endpoint({
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universeId/secrets
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universeId/secrets
  * @summary List Secrets
  * @param universeId The universe ID
  * @param limit Number of secrets to return per page (1-500, default 10)
@@ -85,7 +85,7 @@ members can list secrets.
 export const getCloudV2UniversesUniverseIdSecrets = endpoint({
   method: 'GET',
   path: '/cloud/v2/universes/:universeId/secrets',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -110,7 +110,7 @@ export const getCloudV2UniversesUniverseIdSecrets = endpoint({
   ],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/cloud/v2/universes/:universeId/secrets/:secretId
+ * @api PATCH https://apis.roblox.com/cloud/v2/universes/:universeId/secrets/:secretId
  * @summary Update Secret
  * @param body The updated secret data with encrypted content
  * @param universeId The universe ID
@@ -134,7 +134,7 @@ For an example, see the [Secrets store guide](https://create.roblox.com/docs/clo
 export const patchCloudV2UniversesUniverseIdSecretsSecretId = endpoint({
   method: 'PATCH',
   path: '/cloud/v2/universes/:universeId/secrets/:secretId',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     body: {},
@@ -163,7 +163,7 @@ export const patchCloudV2UniversesUniverseIdSecretsSecretId = endpoint({
   ],
 });
 /**
- * @api DELETE https://apis.roblox.com/cloud/cloud/v2/universes/:universeId/secrets/:secretId
+ * @api DELETE https://apis.roblox.com/cloud/v2/universes/:universeId/secrets/:secretId
  * @summary Delete Secret
  * @param universeId The universe ID
  * @param secretId The ID of the secret to delete
@@ -177,7 +177,7 @@ This operation is irreversible. Make sure you no longer need the secret before d
 export const deleteCloudV2UniversesUniverseIdSecretsSecretId = endpoint({
   method: 'DELETE',
   path: '/cloud/v2/universes/:universeId/secrets/:secretId',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -204,7 +204,7 @@ export const deleteCloudV2UniversesUniverseIdSecretsSecretId = endpoint({
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/cloud/v2/universes/:universeId/secrets/public-key
+ * @api GET https://apis.roblox.com/cloud/v2/universes/:universeId/secrets/public-key
  * @summary Get Public Key
  * @param universeId The universe ID
  * @description Retrieves the public key for a universe. You need this key to encrypt secret content 
@@ -224,7 +224,7 @@ Include the key_id from the public key response in the request to create or upda
 export const getCloudV2UniversesUniverseIdSecretsPublicKey = endpoint({
   method: 'GET',
   path: '/cloud/v2/universes/:universeId/secrets/public-key',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},

@@ -28,6 +28,7 @@ const Roblox_ClientSettings_Api_Models_Response_OtaVersionResponse = z.object({
   appStorageResetId: z.string(),
   isDevelopmentConfig: z.boolean(),
   assetsManifest: z.string(),
+  versionV2: z.number().int(),
 });
 const Roblox_ClientSettings_Api_Models_Response_UserChannelResponse = z.object({
   channelName: z.string(),

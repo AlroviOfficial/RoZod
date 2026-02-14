@@ -44,6 +44,58 @@ const Group = z.object({
   locked: z.boolean(),
   verified: z.boolean(),
 });
+const GroupForumCategory = z.object({
+  path: z.string(),
+  createTime: z.string().datetime({ offset: true }),
+  updateTime: z.string().datetime({ offset: true }),
+  groupForumCategoryId: z.string(),
+  displayName: z.string(),
+  creator: z.string(),
+  archiveTime: z.string().datetime({ offset: true }),
+  archiver: z.string(),
+});
+const ListGroupForumCategoriesResponse = z.object({
+  groupForumCategories: z.array(GroupForumCategory),
+  nextPageToken: z.string(),
+});
+const MessageReaction = z.object({
+  emoteId: z.string(),
+  count: z.number().int(),
+});
+const ContentMessage = z.object({
+  createTime: z.string().datetime({ offset: true }),
+  updateTime: z.string().datetime({ offset: true }),
+  plainText: z.string(),
+  author: z.string(),
+  messageReaction: z.array(MessageReaction),
+});
+const GroupForumComment = z.object({
+  path: z.string(),
+  groupForumCommentId: z.string(),
+  message: ContentMessage,
+});
+const GroupForumPost = z.object({
+  path: z.string(),
+  createTime: z.string().datetime({ offset: true }),
+  updateTime: z.string().datetime({ offset: true }),
+  pinned: z.boolean(),
+  locked: z.boolean(),
+  groupForumPostId: z.string(),
+  title: z.string(),
+  firstComment: GroupForumComment,
+  author: z.string(),
+  archiveTime: z.string().datetime({ offset: true }),
+  archiver: z.string(),
+  commentCount: z.number().int(),
+});
+const ListGroupForumPostsResponse = z.object({
+  groupForumPosts: z.array(GroupForumPost),
+  nextPageToken: z.string(),
+});
+const ListGroupForumCommentsResponse = z.object({
+  groupForumComments: z.array(GroupForumComment),
+  nextPageToken: z.string(),
+});
 const GroupJoinRequest = z.object({
   path: z.string(),
   createTime: z.string().datetime({ offset: true }),
@@ -743,6 +795,151 @@ export const getCloudV2GroupsGroupId = endpoint({
     group_id: z.string(),
   },
   response: Group,
+  errors: [],
+});
+/**
+ * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/forum-categories
+ * @summary List Group Forum Categories
+ * @param group_id The group ID.
+ * @param maxPageSize The maximum number of group forum categories to return. The service might
+return fewer than this value. If unspecified, at most 10 group forum
+categories are returned. The maximum value is 10 and higher values are set
+to 10.
+ * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
+
+When paginating, all other parameters provided to the subsequent call must
+match the call that provided the page token.
+ * @param filter This field may be set in order to filter the resources returned.
+
+Filtering conforms to Common Expression Language (CEL). Only the boolean
+field `archived` and `==` operator are supported. If `archived=false`,
+archived categories are not returned. The default value is `false`.
+Example: `"filter=archived==true"`
+ * @description Lists forum categories in the group.
+ */
+export const getCloudV2GroupsGroupIdForumCategories = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/groups/:group_id/forum-categories',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    group_id: {},
+    maxPageSize: {},
+    pageToken: {},
+    filter: {},
+  },
+  parameters: {
+    group_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+    filter: z.string().optional(),
+  },
+  response: ListGroupForumCategoriesResponse,
+  errors: [],
+});
+/**
+ * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/forum-categories/:forum_category_id/posts
+ * @summary List Group Forum Posts
+ * @param group_id The group ID.
+ * @param forum_category_id The forum-category ID.
+ * @param maxPageSize The maximum number of group forum posts to return. The service might return
+fewer than this value. If unspecified, at most 10 group forum posts are
+returned. The maximum value is 100 and higher values are set to 100.
+ * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
+
+When paginating, all other parameters provided to the subsequent call must
+match the call that provided the page token.
+ * @param filter This field may be set in order to filter the resources returned.
+
+Filtering conforms to Common Expression Language (CEL). Only the query
+`filter=pinned==true` is supported, where only pinned posts are returned.
+`filter=pinned==false`is not supported.
+ * @param view The view in which to retrieve the group forum post.
+
+Supports FULL and FULL_WITH_FIRST_COMMENT.
+
+Defaults to FULL.
+
+Possible values:
+
+  | Value | Description |
+  | --- | --- |
+  | VIEW_UNSPECIFIED | The group forum post view is not specified; the default will be used. |
+  | FULL | Includes all fields but does not dereference `first_comment`. Only the `path` field is populated. |
+  | FULL_WITH_FIRST_COMMENT | Includes all fields and also fully populates `first_comment`. The default view. |
+ * @description Lists forum posts in the group's forum category.
+ */
+export const getCloudV2GroupsGroupIdForumCategoriesForumCategoryIdPosts = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/groups/:group_id/forum-categories/:forum_category_id/posts',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    group_id: {},
+    forum_category_id: {},
+    maxPageSize: {},
+    pageToken: {},
+    filter: {},
+    view: {},
+  },
+  parameters: {
+    group_id: z.string(),
+    forum_category_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+    filter: z.string().optional(),
+    view: z.enum(['VIEW_UNSPECIFIED', 'FULL', 'FULL_WITH_FIRST_COMMENT']).optional(),
+  },
+  response: ListGroupForumPostsResponse,
+  errors: [],
+});
+/**
+ * @api GET https://apis.roblox.com/cloud/v2/groups/:group_id/forum-categories/:forum_category_id/posts/:post_id/comments
+ * @summary List Group Forum Comments
+ * @param group_id The group ID.
+ * @param forum_category_id The forum-category ID.
+ * @param post_id The post ID.
+ * @param maxPageSize The maximum number of group forum comments to return. The service might
+return fewer than this value. If unspecified, at most 10 group forum
+comments are returned. The maximum value is 100 and higher values are set
+to 100.
+ * @param pageToken A page token, received from a previous call, to retrieve a subsequent page.
+
+When paginating, all other parameters provided to the subsequent call must
+match the call that provided the page token.
+ * @param filter This field may be set in order to filter the resources returned.
+
+Filtering conforms to Common Expression Language (CEL). Only the string
+field `repliesToCommentId` and the `==` operator are supported.
+If `repliesToCommentId` is specified, only comments that respond to the
+comment are returned. The default value is `''`. If
+`repliesToCommentId=''`, only comments responding directly to the post are
+returned. Example:
+`"filter=repliesToCommentId==01234567-89ab-cdef-0123-456789abcdef"`
+ * @description Lists forum comments on a group's forum post.
+ */
+export const getCloudV2GroupsGroupIdForumCategoriesForumCategoryIdPostsPostIdComments = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/groups/:group_id/forum-categories/:forum_category_id/posts/:post_id/comments',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    group_id: {},
+    forum_category_id: {},
+    post_id: {},
+    maxPageSize: {},
+    pageToken: {},
+    filter: {},
+  },
+  parameters: {
+    group_id: z.string(),
+    forum_category_id: z.string(),
+    post_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+    filter: z.string().optional(),
+  },
+  response: ListGroupForumCommentsResponse,
   errors: [],
 });
 /**

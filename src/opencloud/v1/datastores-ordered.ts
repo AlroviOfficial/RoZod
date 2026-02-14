@@ -15,7 +15,7 @@ const UpdateEntryRequest = z.object({ value: z.number().int() });
 const IncrementEntryRequest = z.object({ amount: z.number().int() });
 
 /**
- * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries
+ * @api GET https://apis.roblox.com/ordered-data-stores/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries
  * @param universeId The identifier of the experience with ordered data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param orderedDataStore The name of the target ordered data store.
  * @param scope The name of the data store scope. See [Scopes](/cloud/guides/data-stores/request-handling.md#scopes).
@@ -28,7 +28,7 @@ const IncrementEntryRequest = z.object({ amount: z.number().int() });
 export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntries = endpoint({
   method: 'GET',
   path: '/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/ordered-data-stores',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -65,7 +65,7 @@ export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeE
   ],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries
+ * @api POST https://apis.roblox.com/ordered-data-stores/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries
  * @param body
  * @param universeId The identifier of the experience with ordered data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param orderedDataStore The name of the ordered data store.
@@ -76,7 +76,7 @@ export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeE
 export const postUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntries = endpoint({
   method: 'POST',
   path: '/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/ordered-data-stores',
   requestFormat: 'json',
   serializationMethod: {
     body: {},
@@ -113,7 +113,7 @@ export const postUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScope
   ],
 });
 /**
- * @api GET https://apis.roblox.com/cloud/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry
+ * @api GET https://apis.roblox.com/ordered-data-stores/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry
  * @param universeId The identifier of the experience with ordered data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param orderedDataStore The name of the ordered data store.
  * @param scope The name of the data store scope. See [Scopes](/cloud/guides/data-stores/request-handling.md#scopes).
@@ -123,7 +123,7 @@ export const postUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScope
 export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntry = endpoint({
   method: 'GET',
   path: '/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/ordered-data-stores',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -158,7 +158,7 @@ export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeE
   ],
 });
 /**
- * @api DELETE https://apis.roblox.com/cloud/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry
+ * @api DELETE https://apis.roblox.com/ordered-data-stores/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry
  * @param universeId The identifier of the experience with ordered data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param orderedDataStore The name of the ordered data store.
  * @param scope The name of the data store scope. See [Scopes](/cloud/guides/data-stores/request-handling.md#scopes).
@@ -168,7 +168,7 @@ export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeE
 export const deleteUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntry = endpoint({
   method: 'DELETE',
   path: '/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/ordered-data-stores',
   requestFormat: 'json',
   serializationMethod: {
     universeId: {},
@@ -203,7 +203,7 @@ export const deleteUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesSco
   ],
 });
 /**
- * @api PATCH https://apis.roblox.com/cloud/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry
+ * @api PATCH https://apis.roblox.com/ordered-data-stores/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry
  * @param body
  * @param universeId The identifier of the experience with ordered data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param orderedDataStore The name of the ordered data store.
@@ -215,7 +215,7 @@ export const deleteUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesSco
 export const patchUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntry = endpoint({
   method: 'PATCH',
   path: '/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/ordered-data-stores',
   requestFormat: 'json',
   serializationMethod: {
     body: {},
@@ -258,7 +258,7 @@ export const patchUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScop
   ],
 });
 /**
- * @api POST https://apis.roblox.com/cloud/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry:increment
+ * @api POST https://apis.roblox.com/ordered-data-stores/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry:increment
  * @param body 
  * @param universeId The identifier of the experience with ordered data stores that you want to access. You can find your experience's universe ID on Creator Hub.
  * @param orderedDataStore The name of the ordered data store.
@@ -271,7 +271,7 @@ Known issue: Entry values can increment past the valid range and this may persis
 export const postUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntryIncrement = endpoint({
   method: 'POST',
   path: '/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry:increment',
-  baseUrl: 'https://apis.roblox.com/cloud',
+  baseUrl: 'https://apis.roblox.com/ordered-data-stores',
   requestFormat: 'json',
   serializationMethod: {
     body: {},
