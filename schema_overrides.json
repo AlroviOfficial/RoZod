@@ -1,0 +1,10 @@
+{
+  "catalogv1": {
+    "Roblox.Catalog.Api.CategoryModel": {
+      "category": { "type": "string", "description": "Category type." }
+    },
+    "Roblox.Catalog.Api.SubcategoryModel": {
+      "subcategory": { "type": "string", "description": "Subcategory type." }
+    }
+  }
+}

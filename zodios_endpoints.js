@@ -9,6 +9,8 @@ import parser from '@apidevtools/swagger-parser';
 
 const limit = pLimit(2);
 
+const schemaOverrides = JSON.parse(readFileSync('schema_overrides.json', 'utf-8'));
+
 const FOLDER_OPENAPI = 'openapi';
 const FOLDER_ZODIOS = 'src/endpoints';
 const FOLDER_OPENCLOUD = 'src/opencloud';
@@ -248,6 +250,36 @@ function fixZodRecordSingleArg(content) {
   }
 
   return output;
+}
+
+/**
+ * Apply schema overrides from schema_overrides.json to fix incorrect types in the OpenAPI spec.
+ * Mutates the openApiDoc in-place before it's passed to the Zod code generator.
+ */
+function applySchemaOverrides(openApiDoc, endpointName) {
+  const overrides = schemaOverrides[endpointName];
+  if (!overrides) return;
+
+  const schemas = openApiDoc.components?.schemas || openApiDoc.definitions;
+  if (!schemas) return;
+
+  for (const [schemaName, propertyOverrides] of Object.entries(overrides)) {
+    const schema = schemas[schemaName];
+    if (!schema?.properties) {
+      console.warn(`Schema override: "${schemaName}" not found in ${endpointName}`);
+      continue;
+    }
+
+    for (const [propName, propOverride] of Object.entries(propertyOverrides)) {
+      if (!(propName in schema.properties)) {
+        console.warn(`Schema override: "${schemaName}.${propName}" not found in ${endpointName}`);
+        continue;
+      }
+
+      schema.properties[propName] = propOverride;
+      console.log(`Schema override: ${endpointName} ${schemaName}.${propName}`);
+    }
+  }
 }
 
 function listFilesRecursive(dirPath) {
@@ -496,6 +528,7 @@ Promise.all(
       const domain = 'roblox.com';
       try {
         const openApiDoc = await parser.parse(`${FOLDER_OPENAPI}/${folder}/openapi.yaml`);
+        applySchemaOverrides(openApiDoc, fileName);
         await generateZodClientFromOpenAPI({
           openApiDoc: openApiDoc,
           templatePath: './template.hbs',
