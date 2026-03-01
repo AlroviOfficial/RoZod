@@ -13,6 +13,8 @@ import {
 } from 'parse-roblox-errors';
 export type { AnyError } from 'parse-roblox-errors';
 
+const ROZOD_ERROR = Symbol.for('rozod.error');
+
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 type RequestFormat = 'json' | 'text' | 'form-data';
 
@@ -1151,8 +1153,17 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
         const contentType = response.headers.get('content-type') ?? '';
         if (contentType.includes('application/json')) {
           const json: any = await response.json();
-          const jsonMessage = typeof json?.message === 'string' ? json.message : JSON.stringify(json);
-          parsedError = { message: jsonMessage };
+          if (typeof json?.message === 'string') {
+            parsedError = { message: json.message };
+          } else if (typeof json?.error === 'string') {
+            parsedError = { message: json.error };
+          } else if (typeof json?.error_message === 'string') {
+            parsedError = { message: json.error_message };
+          } else if (typeof json?.detail === 'string') {
+            parsedError = { message: json.detail };
+          } else {
+            parsedError = { message: JSON.stringify(json) };
+          }
         } else {
           const text = await response.text();
           parsedError = { message: text?.slice(0, 1000) || response.statusText || `HTTP ${response.status}` };
@@ -1161,6 +1172,8 @@ async function fetchApi<S extends EndpointSchema, R extends boolean = false>(
         parsedError = { message: response.statusText || `HTTP ${response.status}` };
       }
     }
+
+    (parsedError as any)[ROZOD_ERROR] = true;
 
     if (mergedRequestOptions.throwOnError === true) {
       throw new Error(parsedError.userFacingMessage ?? parsedError.message);
@@ -1196,8 +1209,7 @@ export function isAnyErrorResponse<T>(value: T | AnyError): value is AnyError;
 export function isAnyErrorResponse<T>(value: T[] | AnyError): value is AnyError;
 export function isAnyErrorResponse(value: unknown): value is AnyError {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
-  const candidate = value as Record<string, unknown>;
-  return typeof candidate['message'] === 'string';
+  return (value as any)[ROZOD_ERROR] === true;
 }
 
 /**
