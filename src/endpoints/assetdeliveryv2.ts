@@ -42,6 +42,7 @@ const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z.object({
   format: z.string(),
   majorVersion: z.string(),
   fidelity: z.string(),
+  skipGenerationIfNotExist: z.boolean(),
 });
 const Roblox_Web_Assets_AssetResponseItemV2 = z.object({
   locations: z.array(Roblox_Web_Assets_AssetFormatLocation),

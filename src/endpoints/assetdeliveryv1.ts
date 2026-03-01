@@ -33,6 +33,7 @@ const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z.object({
   format: z.string(),
   majorVersion: z.string(),
   fidelity: z.string(),
+  skipGenerationIfNotExist: z.boolean(),
 });
 const Roblox_AssetDelivery_Api_AssetMetadata = z.object({
   metadataType: z.literal(1),

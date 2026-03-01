@@ -101,6 +101,7 @@ const Roblox_Friends_Api_Models_Response_UserPresenceResponseModel = z.object({
 const Roblox_Friends_Api_Models_Response_UserPresenceResponse = z.object({
   userPresence: Roblox_Friends_Api_Models_Response_UserPresenceResponseModel,
   sortScore: z.number(),
+  loggingJoinKey: z.string(),
   id: z.number().int(),
   name: z.string(),
   displayName: z.string(),
