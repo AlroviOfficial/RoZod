@@ -32,18 +32,17 @@ const Roblox_TwoStepVerification_Api_MetadataResponse = z.object({
   maskedUserEmail: z.string(),
   isUserU13: z.boolean(),
   isDelayedUiEnabled: z.boolean(),
-  is2svRecoveryEnabled: z.boolean(),
 });
 const Roblox_TwoStepVerification_Api_UserConfigurationMethod = z.object({
-  mediaType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
+  mediaType: z.enum([
+    'Email',
+    'SMS',
+    'Authenticator',
+    'RecoveryCode',
+    'SecurityKey',
+    'CrossDevice',
+    'Password',
+    'Passkey',
   ]),
   enabled: z.boolean(),
   updated: z.string().datetime({ offset: true }),
@@ -67,16 +66,16 @@ const Roblox_TwoStepVerification_Api_RecoveryCodesStatusResponse = z.object({
 });
 const Roblox_TwoStepVerification_Api_VerifyCodeRequest = z.object({
   challengeId: z.string(),
-  actionType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
+  actionType: z.enum([
+    'Unknown',
+    'Login',
+    'RobuxSpend',
+    'ItemTrade',
+    'Resale',
+    'PasswordReset',
+    'RevertAccount',
+    'Generic',
+    'GenericWithRecoveryCodes',
   ]),
   code: z.string(),
 });
@@ -85,46 +84,46 @@ const Roblox_TwoStepVerification_Api_VerifyCodeResponse = z.object({
 });
 const Roblox_TwoStepVerification_Api_RetractDialogRequest = z.object({
   challengeId: z.string(),
-  actionType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
+  actionType: z.enum([
+    'Unknown',
+    'Login',
+    'RobuxSpend',
+    'ItemTrade',
+    'Resale',
+    'PasswordReset',
+    'RevertAccount',
+    'Generic',
+    'GenericWithRecoveryCodes',
   ]),
 });
 const Roblox_TwoStepVerification_Api_RetractDialogResponse = z.object({});
 const Roblox_TwoStepVerification_Api_RetryApprovalRequest = z.object({
   challengeId: z.string(),
-  actionType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
+  actionType: z.enum([
+    'Unknown',
+    'Login',
+    'RobuxSpend',
+    'ItemTrade',
+    'Resale',
+    'PasswordReset',
+    'RevertAccount',
+    'Generic',
+    'GenericWithRecoveryCodes',
   ]),
 });
 const Roblox_TwoStepVerification_Api_RetryApprovalResponse = z.object({});
 const Roblox_TwoStepVerification_Api_VerifyApprovalRequest = z.object({
   challengeId: z.string(),
-  actionType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
+  actionType: z.enum([
+    'Unknown',
+    'Login',
+    'RobuxSpend',
+    'ItemTrade',
+    'Resale',
+    'PasswordReset',
+    'RevertAccount',
+    'Generic',
+    'GenericWithRecoveryCodes',
   ]),
 });
 const Roblox_TwoStepVerification_Api_VerifyApprovalResponse = z.object({
@@ -132,16 +131,16 @@ const Roblox_TwoStepVerification_Api_VerifyApprovalResponse = z.object({
 });
 const Roblox_TwoStepVerification_Api_SendCodeRequest = z.object({
   challengeId: z.string(),
-  actionType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
+  actionType: z.enum([
+    'Unknown',
+    'Login',
+    'RobuxSpend',
+    'ItemTrade',
+    'Resale',
+    'PasswordReset',
+    'RevertAccount',
+    'Generic',
+    'GenericWithRecoveryCodes',
   ]),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});

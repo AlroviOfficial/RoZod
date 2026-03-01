@@ -62,7 +62,7 @@ const Roblox_ItemConfiguration_Api_AssetCreationsDetailsResponse = z.object({
     'Free',
   ]),
   description: z.string(),
-  creatorType: z.enum(['Unknown', 'User', 'Group']),
+  creatorType: z.string(),
   creatorTargetId: z.number().int(),
   price: z.number().int(),
   priceConfiguration: Roblox_ItemConfiguration_Api_PriceConfigurationModel,

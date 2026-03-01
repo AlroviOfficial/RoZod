@@ -14,7 +14,7 @@ const Roblox_Trades_Api_UserAssetResponse = z.object({
   recentAveragePrice: z.number().int(),
   originalPrice: z.number().int(),
   assetStock: z.number().int(),
-  membershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  membershipType: z.enum(['None', 'BC', 'TBC', 'OBC', 'RobloxPremium']),
 });
 const Roblox_Trades_Api_TradeOfferResponse = z.object({
   user: Roblox_Web_Responses_Users_SkinnyUserResponse,
@@ -78,15 +78,15 @@ const Roblox_Trades_Api_TradeMetadata = z.object({
 });
 const Roblox_Trades_Api_CanTradeResponse = z.object({
   canTrade: z.boolean(),
-  status: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
+  status: z.enum([
+    'Unknown',
+    'CanTrade',
+    'CannotTradeWithSelf',
+    'SenderCannotTrade',
+    'ReceiverCannotTrade',
+    'SenderPrivacyTooStrict',
+    'UsersCannotTrade',
+    'TradeAccepterNeedsFriction',
   ]),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});

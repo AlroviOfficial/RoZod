@@ -179,7 +179,13 @@ const Roblox_Groups_Api_GroupChannelPermissionsModel = z.object({
   groupForumsPermissions: Roblox_Groups_Api_GroupForumsPermissionsModel,
 });
 const Roblox_Groups_Api_GroupNotificationPreferenceData = z.object({
-  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  type: z.enum([
+    'AnnouncementCreatedNotification',
+    'ForumPostCreatedNotification',
+    'ForumCommentCreatedNotification',
+    'ForumCommentReplyCreatedNotification',
+    'ForumSubscriberNotification',
+  ]),
   enabled: z.boolean(),
   name: z.string(),
   description: z.string(),
@@ -223,17 +229,17 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupPayoutRes
 });
 const Roblox_Groups_Api_PayoutRecipientRequest = z.object({
   recipientId: z.number().int(),
-  recipientType: z.union([z.literal(0), z.literal(1)]),
+  recipientType: z.enum(['User', 'Group']),
   amount: z.number().int(),
 });
 const Roblox_Groups_Api_PayoutRequest = z.object({
-  PayoutType: z.union([z.literal(1), z.literal(2)]),
+  PayoutType: z.enum(['FixedAmount', 'Percentage']),
   Recipients: z.array(Roblox_Groups_Api_PayoutRecipientRequest),
   IdempotencyKey: z.string(),
 });
 const Roblox_Groups_Api_GroupRelationshipsResponse = z.object({
   groupId: z.number().int(),
-  relationshipType: z.union([z.literal(1), z.literal(2)]),
+  relationshipType: z.enum(['Allies', 'Enemies']),
   totalGroupCount: z.number().int(),
   relatedGroups: z.array(Roblox_Groups_Api_GroupDetailResponse),
   nextRowIndex: z.number().int(),
@@ -299,16 +305,16 @@ const Roblox_Groups_Api_UpdateGroupSettingsRequest = z.object({
 });
 const Roblox_Groups_Api_SocialLinkResponse = z.object({
   id: z.number().int(),
-  type: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
+  type: z.enum([
+    'Facebook',
+    'Twitter',
+    'YouTube',
+    'Twitch',
+    'GooglePlus',
+    'Discord',
+    'RobloxGroup',
+    'Amazon',
+    'Guilded',
   ]),
   url: z.string(),
   title: z.string(),
@@ -489,7 +495,7 @@ const groups_create_body = z.object({
 });
 const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_ = z.object({
   id: z.number().int(),
-  type: z.literal(0),
+  type: z.literal('User'),
   name: z.string(),
 });
 const Roblox_Web_Responses_Groups_GroupResponseV2 = z.object({
@@ -530,7 +536,13 @@ const Roblox_Groups_Api_UpdateGroupNameResponse = z.object({
 });
 const Roblox_Groups_Api_UpdateGroupNotificationPreferenceRequest = z.object({
   notificationsEnabled: z.boolean(),
-  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  type: z.enum([
+    'AnnouncementCreatedNotification',
+    'ForumPostCreatedNotification',
+    'ForumCommentCreatedNotification',
+    'ForumCommentReplyCreatedNotification',
+    'ForumSubscriberNotification',
+  ]),
 });
 const Roblox_Groups_Api_Models_Request_UpdateRoleSetRequest = z.object({
   name: z.string(),

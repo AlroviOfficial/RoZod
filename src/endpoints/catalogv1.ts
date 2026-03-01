@@ -30,15 +30,15 @@ const Roblox_Catalog_Api_BundleProductModel = z.object({
   premiumPricing: Roblox_Catalog_Api_PremiumPricingModel,
 });
 const Roblox_Catalog_Api_SaleLocation = z.object({
-  saleLocationType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
+  saleLocationType: z.enum([
+    'NotApplicable',
+    'ShopOnly',
+    'MyExperiencesOnly',
+    'ShopAndMyExperiences',
+    'ExperiencesById',
+    'ShopAndAllExperiences',
+    'ExperiencesDevApiOnly',
+    'ShopAndExperiencesById',
   ]),
   saleLocationTypeId: z.number().int(),
   universeIds: z.array(z.number()),
@@ -54,13 +54,13 @@ const Roblox_Catalog_Api_CollectibleItemDetail = z.object({
   unitsAvailable: z.number().int(),
   saleLocation: Roblox_Catalog_Api_SaleLocation,
   hasResellers: z.boolean(),
-  saleStatus: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  saleStatus: z.enum(['Invalid', 'Draft', 'OffSale', 'OnSale', 'PendingSale']),
   quantityLimitPerUser: z.number().int(),
   offSaleDeadline: z.string().datetime({ offset: true }),
-  collectibleItemType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  collectibleItemType: z.enum(['Invalid', 'Limited', 'NonLimited']),
   lowestAvailableResaleProductId: z.string(),
   lowestAvailableResaleItemInstanceId: z.string(),
-  resaleRestriction: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  resaleRestriction: z.enum(['Invalid', 'None', 'Disabled']),
 });
 const Roblox_Catalog_Api_BundleDetailsModel = z.object({
   id: z.number().int(),
@@ -132,7 +132,7 @@ const Roblox_Catalog_Api_TimedOption = z.object({
 });
 const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
   id: z.number().int(),
-  itemType: z.union([z.literal(1), z.literal(2)]),
+  itemType: z.enum(['Asset', 'Bundle']),
   assetType: z.union([
     z.literal(1),
     z.literal(2),
@@ -239,7 +239,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
     ]),
   ),
   creatorHasVerifiedBadge: z.boolean(),
-  creatorType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  creatorType: z.string(),
   creatorTargetId: z.number().int(),
   creatorName: z.string(),
   price: z.number().int(),
@@ -251,15 +251,15 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
   offSaleDeadline: z.string().datetime({ offset: true }),
   collectibleItemId: z.string(),
   totalQuantity: z.number().int(),
-  saleLocationType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
+  saleLocationType: z.enum([
+    'NotApplicable',
+    'ShopOnly',
+    'MyExperiencesOnly',
+    'ShopAndMyExperiences',
+    'ExperiencesById',
+    'ShopAndAllExperiences',
+    'ExperiencesDevApiOnly',
+    'ShopAndExperiencesById',
   ]),
   hasResellers: z.boolean(),
   isOffSale: z.boolean(),
@@ -290,7 +290,7 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_OwnedBundleMod
   data: z.array(Roblox_Catalog_Api_OwnedBundleModel),
 });
 const Roblox_Catalog_Api_MultigetItemDetailsRequestItem = z.object({
-  itemType: z.union([z.literal(1), z.literal(2)]),
+  itemType: z.enum(['Asset', 'Bundle']),
   id: z.number().int(),
 });
 const Roblox_Catalog_Api_MultigetItemDetailsRequestModel = z.object({
@@ -312,7 +312,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModelV2),
   taxonomy: z.array(Roblox_Catalog_Api_TaxonomyModel),
   id: z.number().int(),
-  itemType: z.union([z.literal(1), z.literal(2)]),
+  itemType: z.enum(['Asset', 'Bundle']),
   assetType: z.union([
     z.literal(1),
     z.literal(2),
@@ -418,7 +418,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
     ]),
   ),
   creatorHasVerifiedBadge: z.boolean(),
-  creatorType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  creatorType: z.string(),
   creatorTargetId: z.number().int(),
   creatorName: z.string(),
   price: z.number().int(),
@@ -430,15 +430,15 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   offSaleDeadline: z.string().datetime({ offset: true }),
   collectibleItemId: z.string(),
   totalQuantity: z.number().int(),
-  saleLocationType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
+  saleLocationType: z.enum([
+    'NotApplicable',
+    'ShopOnly',
+    'MyExperiencesOnly',
+    'ShopAndMyExperiences',
+    'ExperiencesById',
+    'ShopAndAllExperiences',
+    'ExperiencesDevApiOnly',
+    'ShopAndExperiencesById',
   ]),
   hasResellers: z.boolean(),
   isOffSale: z.boolean(),
@@ -451,14 +451,14 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Catalog_Api_CatalogSearch
 });
 const Roblox_MarketplaceTopicDiscovery_TopicDiscoveryService_V1Beta1_AvatarItem = z.object({
   TargetId: z.number().int(),
-  ItemType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  ItemType: z.enum(['Invalid', 'Asset', 'Bundle']),
 });
 const Roblox_Catalog_Api_TopicRequestModel = z.object({
   items: z.array(Roblox_MarketplaceTopicDiscovery_TopicDiscoveryService_V1Beta1_AvatarItem),
   selectTopics: z.array(z.string()),
   inputQuery: z.string(),
   maxResult: z.number().int(),
-  genderType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  genderType: z.enum(['Unknown', 'Male', 'Female']),
 });
 const Roblox_Catalog_Api_TopicModel = z.object({
   displayName: z.string(),

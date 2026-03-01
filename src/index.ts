@@ -193,13 +193,37 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
 
 function prepareRequestBody<S extends EndpointSchema>(
   method: string,
-  requestFormat: string,
+  requestFormat: RequestFormat,
   body: S['body'],
   headers: Headers,
-): string {
-  if (method !== 'GET' && requestFormat === 'json') {
-    body = JSON.stringify(body);
-    headers.set('content-type', 'application/json');
+): string | FormData {
+  if (method !== 'GET') {
+    switch (requestFormat) {
+      case 'json':
+        body = JSON.stringify(body);
+        headers.set('content-type', 'application/json');
+        break;
+      case 'form-data': {
+        const formData = new FormData();
+        for (const [key, value] of Object.entries(body as Record<string, unknown>)) {
+          if (value instanceof Blob) {
+            formData.append(key, value);
+          } else if (typeof value === 'string') {
+            formData.append(key, value);
+          } else {
+            formData.append(key, JSON.stringify(value));
+          }
+        }
+        body = formData;
+        break;
+      }
+      case 'text':
+        headers.set('content-type', 'text/plain');
+        break;
+      default:
+        requestFormat satisfies never;
+        throw new Error(`Unsupported request format: ${requestFormat}`);
+    }
   }
 
   return body;
@@ -953,7 +977,7 @@ async function handleRetryFetch(
   requestOptions: RequestOptions,
   retries: number,
   retryDelay: number,
-  body?: string,
+  body?: string | FormData,
   method?: string,
 ) {
   let response: Response | undefined = undefined;

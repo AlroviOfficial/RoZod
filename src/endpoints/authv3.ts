@@ -14,17 +14,17 @@ const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel =
   serverNonce: z.string(),
 });
 const Roblox_Authentication_Api_Models_AccountLinkParameters = z.object({
-  LinkingPlatform: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
-    z.literal(999),
+  LinkingPlatform: z.enum([
+    'Invalid',
+    'Xbox',
+    'Qq',
+    'WeChat',
+    'Facebook',
+    'RobloxDeveloper',
+    'RobloxGroupCreator',
+    'Playstation',
+    'ExternalProvider',
+    'Example',
   ]),
 });
 const Roblox_Authentication_Api_TwoStepVerificationLoginRequest = z.object({

@@ -44,14 +44,14 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Badges_Api_BadgeResponse_ 
 const universeId_badges_body = z.object({
   name: z.string(),
   description: z.string(),
-  paymentSourceType: z.union([z.literal(1), z.literal(2)]),
+  paymentSourceType: z.enum(['User', 'Group']),
   files: z.instanceof(File),
   expectedCost: z.number().int(),
   isActive: z.boolean(),
 });
 const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Badges_BadgeAwarderType_ = z.object({
   id: z.number().int(),
-  type: z.literal(1),
+  type: z.literal('Place'),
   name: z.string(),
 });
 const Roblox_Web_Responses_Badges_BadgeResponseV2 = z.object({

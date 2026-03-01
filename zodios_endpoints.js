@@ -255,17 +255,66 @@ function fixZodRecordSingleArg(content) {
 }
 
 /**
- * Apply schema overrides from schema_overrides.json to fix incorrect types in the OpenAPI spec.
- * Mutates the openApiDoc in-place before it's passed to the Zod code generator.
+ * Auto-detect integer enums whose descriptions contain string name mappings
+ * (e.g. "['Asset' = 1, 'Bundle' = 2]") and convert them to string enums.
+ * Mutates the openApiDoc in-place.
  */
-function applySchemaOverrides(openApiDoc, endpointName) {
-  const overrides = schemaOverrides[endpointName];
-  if (!overrides) return;
-
+function autoFixDescriptionEnums(openApiDoc) {
   const schemas = openApiDoc.components?.schemas || openApiDoc.definitions;
   if (!schemas) return;
 
-  for (const [schemaName, propertyOverrides] of Object.entries(overrides)) {
+  const namePattern = /'(\w+)'\s*=\s*\d+/g;
+
+  for (const [schemaName, schema] of Object.entries(schemas)) {
+    const props = schema.properties;
+    if (!props) continue;
+
+    for (const [propName, propDef] of Object.entries(props)) {
+      if (propDef.type !== 'integer' || !Array.isArray(propDef.enum)) continue;
+
+      const desc = propDef.description || '';
+      const matches = [...desc.matchAll(namePattern)];
+      if (matches.length === 0) continue;
+
+      const enumNames = matches.map(m => m[1]);
+      if (enumNames.length !== propDef.enum.length) continue;
+
+      props[propName] = {
+        type: 'string',
+        enum: enumNames,
+        description: propDef.description,
+      };
+      console.log(`Auto-fix enum: ${schemaName}.${propName} -> [${enumNames.join(', ')}]`);
+    }
+  }
+}
+
+/**
+ * Apply schema overrides from schema_overrides.json to fix incorrect types in the OpenAPI spec.
+ * Supports both per-endpoint overrides and "_global" overrides that apply to all endpoints.
+ * Mutates the openApiDoc in-place before it's passed to the Zod code generator.
+ */
+function applySchemaOverrides(openApiDoc, endpointName) {
+  const schemas = openApiDoc.components?.schemas || openApiDoc.definitions;
+  if (!schemas) return;
+
+  const globalOverrides = schemaOverrides['_global'];
+  if (globalOverrides) {
+    for (const [schemaName, schema] of Object.entries(schemas)) {
+      if (!schema.properties) continue;
+      for (const [propName, propOverride] of Object.entries(globalOverrides)) {
+        if (propName in schema.properties) {
+          schema.properties[propName] = { ...propOverride };
+          console.log(`Global override: ${schemaName}.${propName}`);
+        }
+      }
+    }
+  }
+
+  const endpointOverrides = schemaOverrides[endpointName];
+  if (!endpointOverrides) return;
+
+  for (const [schemaName, propertyOverrides] of Object.entries(endpointOverrides)) {
     const schema = schemas[schemaName];
     if (!schema?.properties) {
       console.warn(`Schema override: "${schemaName}" not found in ${endpointName}`);
@@ -443,6 +492,8 @@ async function processOpenCloudApi(apiDef) {
       }
     }
 
+    autoFixDescriptionEnums(openApiDoc);
+
     // Extract base URL from the OpenAPI spec's servers array, falling back to apiDef.baseUrl
     const baseUrl = openApiDoc.servers?.[0]?.url?.replace(/\/+$/, '') || apiDef.baseUrl;
 
@@ -557,6 +608,7 @@ Promise.all(
       const domain = 'roblox.com';
       try {
         const openApiDoc = await parser.parse(`${FOLDER_OPENAPI}/${folder}/openapi.yaml`);
+        autoFixDescriptionEnums(openApiDoc);
         applySchemaOverrides(openApiDoc, fileName);
         await generateZodClientFromOpenAPI({
           openApiDoc: openApiDoc,

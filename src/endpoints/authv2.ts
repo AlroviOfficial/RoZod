@@ -35,7 +35,7 @@ const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel =
   serverNonce: z.string(),
 });
 const Roblox_Authentication_Api_Models_PasswordResetModel = z.object({
-  targetType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  targetType: z.enum(['Email', 'PhoneNumber', 'RecoverySessionID']),
   ticket: z.string(),
   userId: z.number().int(),
   password: z.string(),
@@ -54,15 +54,15 @@ const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
   displayName: z.string(),
 });
 const Roblox_Authentication_Api_Models_TwoStepVerificationSentResponse = z.object({
-  mediaType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
+  mediaType: z.enum([
+    'Email',
+    'SMS',
+    'Authenticator',
+    'RecoveryCode',
+    'SecurityKey',
+    'CrossDevice',
+    'Password',
+    'Passkey',
   ]),
   ticket: z.string(),
 });
@@ -78,7 +78,14 @@ const Roblox_Authentication_Api_Models_LoginResponse = z.object({
   shouldAutoLoginFromRecovery: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_PasswordValidationResponse = z.object({
-  code: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+  code: z.enum([
+    'ValidPassword',
+    'WeakPasswordError',
+    'PasswordLengthError',
+    'PasswordSameAsUsernameError',
+    'ForbiddenPasswordError',
+    'DumbStringsError',
+  ]),
   message: z.string(),
 });
 const Roblox_Authentication_Api_Models_PasswordValidationModel = z.object({
@@ -114,17 +121,17 @@ const Roblox_Authentication_Api_Models_UsernamesResponse = z.object({
   usernames: z.array(z.string()),
 });
 const Roblox_Authentication_Api_Models_UsernameValidationResponse = z.object({
-  code: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(10),
-    z.literal(12),
+  code: z.enum([
+    'ValidUsername',
+    'AlreadyInUseError',
+    'ModerationError',
+    'InvalidLengthError',
+    'StartsOrEndsWithUnderscoreError',
+    'TooManyUnderscoresError',
+    'ContainsSpacesError',
+    'InvalidCharactersError',
+    'ContainsPiiError',
+    'ContainsReservedUsernameError',
   ]),
   message: z.string(),
 });
@@ -139,31 +146,31 @@ const Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest 
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Authentication_Api_Models_AccountLinkParameters = z.object({
-  LinkingPlatform: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
-    z.literal(999),
+  LinkingPlatform: z.enum([
+    'Invalid',
+    'Xbox',
+    'Qq',
+    'WeChat',
+    'Facebook',
+    'RobloxDeveloper',
+    'RobloxGroupCreator',
+    'Playstation',
+    'ExternalProvider',
+    'Example',
   ]),
 });
 const Roblox_Authentication_Api_Models_LoginRequest = z.object({
-  ctype: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
-    z.literal(9),
+  ctype: z.enum([
+    'Email',
+    'Username',
+    'PhoneNumber',
+    'EmailOtpSessionToken',
+    'AuthToken',
+    'Passkey',
+    'AsUser',
+    'TwoStepVerification',
+    'XboxLive',
+    'PlatformLive',
   ]),
   cvalue: z.string(),
   password: z.string(),
@@ -182,7 +189,7 @@ const Roblox_Authentication_Api_Models_Request_LogoutFromAllSessionsAndReauthent
   SecureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
 });
 const Roblox_Authentication_Api_Models_SendResetPasswordRequest = z.object({
-  targetType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  targetType: z.enum(['Email', 'PhoneNumber', 'RecoverySessionID']),
   target: z.string(),
   captchaId: z.string(),
   captchaToken: z.string(),
@@ -191,10 +198,10 @@ const Roblox_Authentication_Api_Models_SendResetPasswordRequest = z.object({
 });
 const Roblox_Authentication_Api_Models_SendResetPasswordResponse = z.object({
   nonce: z.string(),
-  transmissionType: z.union([z.literal(0), z.literal(1)]),
+  transmissionType: z.enum(['Sms', 'Email']),
 });
 const Roblox_Authentication_Api_Models_PasswordResetVerificationRequest = z.object({
-  targetType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  targetType: z.enum(['Email', 'PhoneNumber', 'RecoverySessionID']),
   nonce: z.string(),
   code: z.string(),
 });
@@ -220,7 +227,7 @@ const Roblox_Authentication_Api_Models_ReferralDataModel = z.object({
 });
 const Roblox_Authentication_Api_Models_Request_OtpSessionModel = z.object({
   otpSessionToken: z.string(),
-  otpContactType: z.union([z.literal(1), z.literal(2)]),
+  otpContactType: z.enum(['Unset', 'Email']),
 });
 const Roblox_Authentication_Api_Models_Request_AuditContentValue = z.object({
   translationKey: z.string(),
@@ -235,7 +242,7 @@ const Roblox_Authentication_Api_Models_Request_AuditSystemContent = z.object({
 const Roblox_Authentication_Api_Models_SignupRequest = z.object({
   username: z.string(),
   password: z.string(),
-  gender: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  gender: z.enum(['Unknown', 'Male', 'Female']),
   birthday: z.string().datetime({ offset: true }),
   displayName: z.string(),
   isTosAgreementBoxChecked: z.boolean(),
@@ -280,7 +287,7 @@ const Roblox_Authentication_Api_Models_UsernameChangeRequest = z.object({
   password: z.string(),
 });
 const Roblox_Authentication_Api_Models_RecoverUsernameRequest = z.object({
-  targetType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  targetType: z.enum(['Email', 'PhoneNumber', 'RecoverySessionID']),
   target: z.string(),
 });
 const Roblox_Authentication_Api_Models_RecoverUsernameResponse = z.object({

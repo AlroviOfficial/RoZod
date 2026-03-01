@@ -109,16 +109,6 @@ const Roblox_Games_Api_Models_Response_GameMediaItem = z.object({
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameMediaItem_ = z.object({
   data: z.array(Roblox_Games_Api_Models_Response_GameMediaItem),
 });
-const Roblox_Games_Api_Models_Response_GameVoteResponse = z.object({
-  id: z.number().int(),
-  upVotes: z.number().int(),
-  downVotes: z.number().int(),
-});
-const Roblox_Games_Api_Models_Response_UserGameVoteResponse = z.object({
-  canVote: z.boolean(),
-  userVote: z.boolean(),
-  reasonForNotVoteable: z.string(),
-});
 const Roblox_Games_Api_Models_Response_PurchaseData = z.object({
   localizedFiatPrice: z.string(),
   basePriceId: z.string(),
@@ -153,33 +143,33 @@ const Roblox_Games_Api_Models_Response_PlaceDetails = z.object({
   fiatPurchaseData: Roblox_Games_Api_Models_Response_PurchaseData,
 });
 const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z.object({
-  playabilityStatus: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
-    z.literal(9),
-    z.literal(10),
-    z.literal(11),
-    z.literal(12),
-    z.literal(13),
-    z.literal(14),
-    z.literal(15),
-    z.literal(16),
-    z.literal(17),
-    z.literal(18),
-    z.literal(19),
-    z.literal(20),
-    z.literal(21),
-    z.literal(22),
-    z.literal(23),
-    z.literal(24),
-    z.literal(25),
+  playabilityStatus: z.enum([
+    'UnplayableOtherReason',
+    'Playable',
+    'GuestProhibited',
+    'GameUnapproved',
+    'IncorrectConfiguration',
+    'UniverseRootPlaceIsPrivate',
+    'InsufficientPermissionFriendsOnly',
+    'InsufficientPermissionGroupOnly',
+    'DeviceRestricted',
+    'UnderReview',
+    'PurchaseRequired',
+    'AccountRestricted',
+    'TemporarilyUnavailable',
+    'PlaceHasNoPublishedVersion',
+    'ComplianceBlocked',
+    'ContextualPlayabilityRegionalAvailability',
+    'ContextualPlayabilityRegionalCompliance',
+    'ContextualPlayabilityAgeRecommendationParentalControls',
+    'ContextualPlayabilityExperienceBlockedParentalControls',
+    'ContextualPlayabilityAgeGated',
+    'ContextualPlayabilityUnverifiedSeventeenPlusUser',
+    'FiatPurchaseRequired',
+    'FiatPurchaseDeviceRestricted',
+    'ContextualPlayabilityUnrated',
+    'ContextualPlayabilityAgeGatedByDescriptor',
+    'ContextualPlayabilityGeneral',
   ]),
   isPlayable: z.boolean(),
   universeId: z.number().int(),
@@ -211,102 +201,8 @@ const Roblox_Games_Api_Models_Response_GameRecommendationsResponse = z.object({
   games: z.array(Roblox_Games_Api_Models_Response_GameResponseModel),
   nextPaginationKey: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameVoteResponse_ = z.object({
-  data: z.array(Roblox_Games_Api_Models_Response_GameVoteResponse),
-});
 const Roblox_Games_Api_Models_Response_PrivateServersEnabledInUniverseResponse = z.object({
   privateServersEnabled: z.boolean(),
-});
-const Roblox_Games_Api_Models_Response_MyPrivateServersData = z.object({
-  active: z.boolean(),
-  universeId: z.number().int(),
-  placeId: z.number().int(),
-  name: z.string(),
-  ownerId: z.number().int(),
-  ownerName: z.string(),
-  priceInRobux: z.number().int(),
-  privateServerId: z.number().int(),
-  expirationDate: z.string().datetime({ offset: true }),
-  willRenew: z.boolean(),
-  universeName: z.string(),
-});
-const Roblox_Games_Api_Models_Response_MyPrivateServersResponse = z.object({
-  nextPageCursor: z.string(),
-  previousPageCursor: z.string(),
-  data: z.array(Roblox_Games_Api_Models_Response_MyPrivateServersData),
-});
-const Roblox_Games_Api_VipServerCanInviteResponse = z.object({
-  canInvite: z.boolean(),
-  doesOwnerPrivacyRestrictJoins: z.boolean(),
-  inviteResponseType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
-});
-const Roblox_Games_Api_PlaceResponse = z.object({
-  id: z.number().int(),
-  name: z.string(),
-});
-const Roblox_Games_Api_GameResponse = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  rootPlace: Roblox_Games_Api_PlaceResponse,
-});
-const Roblox_Games_Api_VipServerSubscriptionResponse = z.object({
-  active: z.boolean(),
-  expired: z.boolean(),
-  expirationDate: z.string().datetime({ offset: true }),
-  price: z.number().int(),
-  canRenew: z.boolean(),
-  hasInsufficientFunds: z.boolean(),
-  hasRecurringProfile: z.boolean(),
-  hasPriceChanged: z.boolean(),
-});
-const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  displayName: z.string(),
-});
-const Roblox_Games_Api_VipServerPermissionsResponse = z.object({
-  clanAllowed: z.boolean(),
-  enemyClanId: z.number().int(),
-  friendsAllowed: z.boolean(),
-  users: z.array(Roblox_Web_Responses_Users_SkinnyUserResponse),
-});
-const Roblox_Games_Api_VipServerVoiceSettingsResponse = z.object({
-  enabled: z.boolean(),
-});
-const Roblox_Games_Api_VipServerResponse = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  game: Roblox_Games_Api_GameResponse,
-  joinCode: z.string(),
-  active: z.boolean(),
-  subscription: Roblox_Games_Api_VipServerSubscriptionResponse,
-  permissions: Roblox_Games_Api_VipServerPermissionsResponse,
-  voiceSettings: Roblox_Games_Api_VipServerVoiceSettingsResponse,
-  link: z.string(),
-});
-const Roblox_Games_Api_VipServerUpdateRequest = z.object({
-  name: z.string(),
-  newJoinCode: z.boolean(),
-  active: z.boolean(),
-});
-const Roblox_Games_Api_CreateVipServersRequest = z.object({
-  name: z.string(),
-  expectedPrice: z.number().int(),
-  isPurchaseConfirmed: z.boolean(),
-});
-const Roblox_Games_Api_Models_Request_SetUserGameVoteRequest = z.object({
-  vote: z.boolean(),
-});
-const Roblox_Games_Api_VipServerUpdatePermissionsRequest = z.object({
-  clanAllowed: z.boolean(),
-  enemyClanId: z.number().int(),
-  friendsAllowed: z.boolean(),
-  usersToAdd: z.array(z.number()),
-  usersToRemove: z.array(z.number()),
-});
-const Roblox_Games_Api_VipServerUpdateSubscriptionRequest = z.object({
-  active: z.boolean(),
-  price: z.number().int(),
 });
 
 /**
@@ -612,142 +508,6 @@ export const getGamesUniverseidMedia = endpoint({
   ],
 });
 /**
- * @api PATCH https://games.roblox.com/v1/games/:universeId/user-votes
- * @summary Set the user's vote for a game
- * @param body The request body.
- * @param universeId The id of the universe.
- */
-export const patchGamesUniverseidUserVotes = endpoint({
-  method: 'PATCH',
-  path: '/v1/games/:universeId/user-votes',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    universeId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    universeId: z.number().int(),
-  },
-  body: z.object({ vote: z.boolean() }),
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `2: The universe&#x27;s root place is invalid.
-3: The asset is not voteable.
-4: The requested vote is invalid.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-6: The user needs to play the game before vote.
-7: The user needs additional permission to vote.`,
-    },
-    {
-      status: 404,
-      description: `1: The requested universe does not exist.`,
-    },
-    {
-      status: 429,
-      description: `5: Too many attempts to vote. Please try again later.
-10: Internal service busy. Please try again later.`,
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occurred.`,
-    },
-  ],
-});
-/**
- * @api GET https://games.roblox.com/v1/games/:universeId/votes
- * @summary Get the game vote status
- * @param universeId The id of the universe we get vote status from.
- */
-export const getGamesUniverseidVotes = endpoint({
-  method: 'GET',
-  path: '/v1/games/:universeId/votes',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    universeId: z.number().int(),
-  },
-  response: Roblox_Games_Api_Models_Response_GameVoteResponse,
-  errors: [
-    {
-      status: 400,
-      description: `2: The universe&#x27;s root place is invalid.
-3: The asset is not voteable.`,
-    },
-    {
-      status: 404,
-      description: `1: The requested universe does not exist.`,
-    },
-    {
-      status: 429,
-      description: `10: Internal service busy. Please try again later.`,
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occurred.`,
-    },
-  ],
-});
-/**
- * @api GET https://games.roblox.com/v1/games/:universeId/votes/user
- * @summary Get the user's vote status for a game
- * @param universeId The id of the universe we get user vote status from.
- */
-export const getGamesUniverseidVotesUser = endpoint({
-  method: 'GET',
-  path: '/v1/games/:universeId/votes/user',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    universeId: z.number().int(),
-  },
-  response: Roblox_Games_Api_Models_Response_UserGameVoteResponse,
-  errors: [
-    {
-      status: 400,
-      description: `2: The universe&#x27;s root place is invalid.
-3: The asset is not voteable.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 404,
-      description: `1: The requested universe does not exist.`,
-    },
-    {
-      status: 429,
-      description: `10: Internal service busy. Please try again later.`,
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occurred.`,
-    },
-  ],
-});
-/**
  * @api GET https://games.roblox.com/v1/games/games-product-info
  * @summary Gets a list of games' product info, used to purchase a game
  * @param universeIds A list of universe Ids. Cannot exceed a maximum of 100 IDs.
@@ -878,87 +638,6 @@ export const getGamesRecommendationsGameUniverseid = endpoint({
   ],
 });
 /**
- * @api POST https://games.roblox.com/v1/games/vip-servers/:universeId
- * @summary Create VIP server for a game
- * @param body The request body.
- * @param universeId The id of the universe.
- */
-export const postGamesVipServersUniverseid = endpoint({
-  method: 'POST',
-  path: '/v1/games/vip-servers/:universeId',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    universeId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    universeId: z.number().int(),
-  },
-  body: Roblox_Games_Api_CreateVipServersRequest,
-  response: Roblox_Web_Responses_Games_GameServerResponse,
-  errors: [
-    {
-      status: 400,
-      description: `15: The price for purchasing this private server has changed. Please refresh the page and try again.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 404,
-      description: `4: The universe does not exist.`,
-    },
-    {
-      status: 500,
-      description: `16: We are having a problem completing your purchase. Please try again in a few minutes.`,
-    },
-  ],
-});
-/**
- * @api GET https://games.roblox.com/v1/games/votes
- * @summary Gets a list of universe vote status
- * @param universeIds A list of universe Ids. Cannot exceed a maximum of 50 IDs.
- */
-export const getGamesVotes = endpoint({
-  method: 'GET',
-  path: '/v1/games/votes',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    universeIds: {
-      style: 'form',
-    },
-  },
-  parameters: {
-    universeIds: z.array(z.number()),
-  },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameVoteResponse_,
-  errors: [
-    {
-      status: 400,
-      description: `3: The asset is not voteable.
-8: No universe IDs were specified.
-9: Too many universe IDs were requested.`,
-    },
-    {
-      status: 429,
-      description: `10: Internal service busy. Please try again later.`,
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occurred.`,
-    },
-  ],
-});
-/**
  * @api GET https://games.roblox.com/v1/private-servers/enabled-in-universe/:universeId
  * @summary Checks if the private servers are enabled in the specified universe.
  * @param universeId
@@ -981,265 +660,6 @@ export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
     {
       status: 400,
       description: `8: The universe IDs specified are invalid.`,
-    },
-  ],
-});
-/**
- * @api GET https://games.roblox.com/v1/private-servers/my-private-servers
- * @summary Get private servers for the authenticated user
- * @param privateServersTab Type of private server to fetch
- * @param itemsPerPage Number of items per page
- * @param cursor Current cursor
- */
-export const getPrivateServersMyPrivateServers = endpoint({
-  method: 'GET',
-  path: '/v1/private-servers/my-private-servers',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    privateServersTab: {
-      style: 'form',
-      explode: true,
-    },
-    itemsPerPage: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    privateServersTab: z.union([z.literal(0), z.literal(1)]).optional(),
-    itemsPerPage: z.number().int().optional().default(25),
-    cursor: z.string().optional(),
-  },
-  response: Roblox_Games_Api_Models_Response_MyPrivateServersResponse,
-  errors: [
-    {
-      status: 400,
-      description: `39: Invalid cursor provided in the request.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api GET https://games.roblox.com/v1/vip-server/can-invite/:userId
- * @summary Determines if a user by id is allowed to receive a VIP Server invite from the authenticated user.
- * @param userId The user id.
- */
-export const getVipServerCanInviteUserid = endpoint({
-  method: 'GET',
-  path: '/v1/vip-server/can-invite/:userId',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    userId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    userId: z.number().int(),
-  },
-  response: Roblox_Games_Api_VipServerCanInviteResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 404,
-      description: `19: The user is does not exist.`,
-    },
-  ],
-});
-/**
- * @api GET https://games.roblox.com/v1/vip-servers/:id
- * @summary Get necessary data to generate webpage
- * @param id The VIP Server ID
- */
-export const getVipServersId = endpoint({
-  method: 'GET',
-  path: '/v1/vip-servers/:id',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    id: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    id: z.number().int(),
-  },
-  response: Roblox_Games_Api_VipServerResponse,
-  errors: [
-    {
-      status: 400,
-      description: `8: The creator of this game has disabled private servers for this game.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `2: You are not the owner of this private server.`,
-    },
-    {
-      status: 404,
-      description: `1: The private server is invalid or does not exist.
-4: The universe does not exist.`,
-    },
-  ],
-});
-/**
- * @api PATCH https://games.roblox.com/v1/vip-servers/:id
- * @summary Updates vip server
- * @param body The Roblox.Games.Api.VipServerUpdateRequest
- * @param id The VIP Server ID
- */
-export const patchVipServersId = endpoint({
-  method: 'PATCH',
-  path: '/v1/vip-servers/:id',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    id: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    id: z.number().int(),
-  },
-  body: Roblox_Games_Api_VipServerUpdateRequest,
-  response: Roblox_Games_Api_VipServerResponse,
-  errors: [
-    {
-      status: 400,
-      description: `8: The creator of this game has disabled private servers for this game.
-10: The name of the private server is either empty or too long.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-2: You are not the owner of this private server.
-11: You cannot activate a cancelled private server.
-12: The game must not be Friends Only to allow private servers.
-13: Join Link can be generated only for active private servers.`,
-    },
-    {
-      status: 404,
-      description: `1: The private server is invalid or does not exist.
-4: The universe does not exist.`,
-    },
-    {
-      status: 429,
-      description: `3: Please wait a few minutes before configuring your private server again.`,
-    },
-  ],
-});
-/**
- * @api PATCH https://games.roblox.com/v1/vip-servers/:id/permissions
- * @summary Update friend/clan access and allowed friends/clan list
- * @param body The Roblox.Games.Api.VipServerUpdatePermissionsRequest
- * @param id The VIP Server ID
- */
-export const patchVipServersIdPermissions = endpoint({
-  method: 'PATCH',
-  path: '/v1/vip-servers/:id/permissions',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    id: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    id: z.number().int(),
-  },
-  body: Roblox_Games_Api_VipServerUpdatePermissionsRequest,
-  response: Roblox_Games_Api_VipServerPermissionsResponse,
-  errors: [
-    {
-      status: 400,
-      description: `6: You cannot add so many players to the private server&#x27;s invite list.
-8: The creator of this game has disabled private servers for this game.
-12: The game must not be Friends Only to allow private servers.
-28: You may only add or remove valid players to your private server&#x27;s invite list.
-29: You may only add or remove players when your private server is active.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-2: You are not the owner of this private server.`,
-    },
-    {
-      status: 404,
-      description: `1: The private server is invalid or does not exist.
-4: The universe does not exist.`,
-    },
-  ],
-});
-/**
- * @api PATCH https://games.roblox.com/v1/vip-servers/:id/subscription
- * @summary Updates subscription status of a vip server
- * @param body The Roblox.Games.Api.VipServerUpdateSubscriptionRequest
- * @param id The VIP Server ID
- */
-export const patchVipServersIdSubscription = endpoint({
-  method: 'PATCH',
-  path: '/v1/vip-servers/:id/subscription',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    id: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    id: z.number().int(),
-  },
-  body: Roblox_Games_Api_VipServerUpdateSubscriptionRequest,
-  response: Roblox_Games_Api_VipServerSubscriptionResponse,
-  errors: [
-    {
-      status: 400,
-      description: `8: The creator of this game has disabled private servers for this game.
-32: You do not have enough funds available to renew the subscription for this private server.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-2: You are not the owner of this private server.
-21: You may not configure a cancelled private server. Please renew your subscription before configuring.`,
-    },
-    {
-      status: 404,
-      description: `1: The private server is invalid or does not exist.
-4: The universe does not exist.`,
-    },
-    {
-      status: 429,
-      description: `3: Please wait a few minutes before configuring your private server again.`,
     },
   ],
 });

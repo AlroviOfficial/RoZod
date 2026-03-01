@@ -21,7 +21,7 @@ const Roblox_Users_Api_DescriptionRequest = z.object({
 });
 const Roblox_Users_Api_GenderResponse = z.object({ gender: z.number().int() });
 const Roblox_Users_Api_GenderRequest = z.object({
-  gender: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  gender: z.enum(['Unknown', 'Male', 'Female']),
 });
 const Roblox_Users_Api_GetUserResponse = z.object({
   description: z.string(),

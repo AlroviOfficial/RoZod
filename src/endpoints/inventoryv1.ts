@@ -12,7 +12,7 @@ const Roblox_Inventory_Api_Models_CollectibleUserAssetModel = z.object({
   recentAveragePrice: z.number().int(),
   originalPrice: z.number().int(),
   assetStock: z.number().int(),
-  buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  buildersClubMembershipType: z.enum(['None', 'BC', 'TBC', 'OBC', 'RobloxPremium']),
   isOnHold: z.boolean(),
 });
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_ = z.object({
@@ -28,7 +28,7 @@ const Roblox_Inventory_Api_Models_AssetsExplorerCategoryItemModel = z.object({
   displayName: z.string(),
   filter: z.string(),
   id: z.number().int(),
-  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  type: z.enum(['AssetType', 'Bundle', 'Outfit', 'Set', 'Avatar']),
   categoryType: z.string(),
 });
 const Roblox_Inventory_Api_Models_AssetsExplorerCategoryModel = z.object({
@@ -43,7 +43,7 @@ const Roblox_Inventory_Api_Models_CategoriesModel = z.object({
 const Roblox_Inventory_Api_Models_IItemModel = z.object({
   id: z.number().int(),
   name: z.string(),
-  type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  type: z.enum(['Asset', 'GamePass', 'Badge', 'Bundle', 'Avatar']),
   instanceId: z.number().int(),
 });
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ = z.object({
@@ -54,7 +54,7 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItem
 const Roblox_Inventory_Api_Models_CreatorModel = z.object({
   id: z.number().int(),
   name: z.string(),
-  type: z.union([z.literal(1), z.literal(2)]),
+  type: z.enum(['User', 'Group']),
 });
 const Roblox_Inventory_Api_Models_PlaceModel = z.object({
   universeId: z.number().int(),

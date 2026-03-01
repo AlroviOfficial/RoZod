@@ -51,36 +51,25 @@ const Roblox_AccountSettings_Api_TradePrivacyResponse = z.object({
   tradePrivacy: z.string(),
 });
 const Roblox_AccountSettings_Api_UpdateTradePrivacyRequest = z.object({
-  tradePrivacy: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-  ]),
+  tradePrivacy: z.enum(['Undefined', 'Disabled', 'NoOne', 'Friends', 'TopFriends', 'Following', 'Followers', 'All']),
 });
 const Roblox_AccountSettings_Api_TradePrivacyUpdateResponse = z.object({
-  tradePrivacy: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
+  tradePrivacy: z.enum(['Undefined', 'Disabled', 'NoOne', 'Friends', 'TopFriends', 'Following', 'Followers', 'All']),
+  inventoryPrivacy: z.enum([
+    'NoOne',
+    'Friends',
+    'FriendsAndFollowing',
+    'FriendsFollowingAndFollowers',
+    'AllAuthenticatedUsers',
+    'AllUsers',
   ]),
-  inventoryPrivacy: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
-  privacySettingResponse: z.union([z.literal(0), z.literal(1)]),
+  privacySettingResponse: z.enum(['Success', 'Conflict']),
 });
 const Roblox_AccountSettings_Api_TradeValueResponse = z.object({
   tradeValue: z.string(),
 });
 const Roblox_AccountSettings_Api_TradeValueRequest = z.object({
-  tradeValue: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  tradeValue: z.enum(['Undefined', 'None', 'Low', 'Medium', 'High']),
 });
 const Roblox_AccountSettings_Api_SendVerifyEmailRequest = z.object({
   freeItem: z.boolean(),

@@ -1,4 +1,7 @@
 {
+  "_global": {
+    "creatorType": { "type": "string", "description": "The creator type." }
+  },
   "catalogv1": {
     "Roblox.Catalog.Api.CategoryModel": {
       "category": { "type": "string", "description": "Category type." }

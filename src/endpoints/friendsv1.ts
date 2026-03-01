@@ -16,17 +16,17 @@ const Roblox_Friends_Api_FriendRequest = z.object({
   sentAt: z.string().datetime({ offset: true }),
   senderId: z.number().int(),
   sourceUniverseId: z.number().int(),
-  originSourceType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
-    z.literal(9),
+  originSourceType: z.enum([
+    'Unknown',
+    'PlayerSearch',
+    'QrCode',
+    'InGame',
+    'UserProfile',
+    'QqContactImporter',
+    'WeChatContactImporter',
+    'ProfileShare',
+    'PhoneContactImporter',
+    'FriendRecommendations',
   ]),
   contactName: z.string(),
   senderNickname: z.string(),
@@ -101,6 +101,7 @@ const Roblox_Friends_Api_Models_Response_UserPresenceResponseModel = z.object({
 const Roblox_Friends_Api_Models_Response_UserPresenceResponse = z.object({
   userPresence: Roblox_Friends_Api_Models_Response_UserPresenceResponseModel,
   sortScore: z.number(),
+  loggingJoinKey: z.string(),
   id: z.number().int(),
   name: z.string(),
   displayName: z.string(),
@@ -110,7 +111,7 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Respon
 });
 const Roblox_Friends_Api_FriendStatusResponse = z.object({
   id: z.number().int(),
-  status: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  status: z.enum(['NotFriends', 'Friends', 'RequestSent', 'RequestReceived']),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_FriendStatusResponse_ = z.object({
   data: z.array(Roblox_Friends_Api_FriendStatusResponse),
@@ -151,17 +152,17 @@ const Roblox_Web_Captcha_Models_Request_CaptchaTokenRequest = z.object({
   challengeId: z.string(),
 });
 const Roblox_Friends_Api_FriendshipRequestModel = z.object({
-  friendshipOriginSourceType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-    z.literal(6),
-    z.literal(7),
-    z.literal(8),
-    z.literal(9),
+  friendshipOriginSourceType: z.enum([
+    'Unknown',
+    'PlayerSearch',
+    'QrCode',
+    'InGame',
+    'UserProfile',
+    'QqContactImporter',
+    'WeChatContactImporter',
+    'ProfileShare',
+    'PhoneContactImporter',
+    'FriendRecommendations',
   ]),
   senderNickname: z.string(),
 });
