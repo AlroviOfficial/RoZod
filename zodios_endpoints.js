@@ -561,6 +561,20 @@ async function processOpenCloudApi(apiDef) {
   }
 }
 
+/**
+ * Appends contents of patches/<fileName>.ts to the generated endpoint file, if it exists.
+ * Use this to preserve endpoints that Roblox has removed from their public API docs
+ * but which still work in practice.
+ */
+function applyEndpointPatch(outputPath, fileName) {
+  const patchPath = `patches/${fileName}.ts`;
+  if (!existsSync(patchPath)) return;
+  const patch = readFileSync(patchPath, 'utf-8');
+  const existing = readFileSync(outputPath, 'utf-8');
+  writeFileSync(outputPath, existing.trimEnd() + '\n\n' + patch, 'utf-8');
+  console.log(`Applied patch: ${patchPath}`);
+}
+
 console.log('Generating OpenAPI files from Swagger files...');
 const urls = readFileSync('urls.txt', 'utf-8')
   .split('\n')
@@ -637,6 +651,8 @@ Promise.all(
         });
         // Apply Zod v4 record fix to the generated endpoint file
         applyZodRecordFixToFile(`${FOLDER_ZODIOS}/${fileName}.ts`);
+        // Append any manual patches for endpoints removed from Roblox's docs
+        applyEndpointPatch(`${FOLDER_ZODIOS}/${fileName}.ts`, fileName);
       } catch (error) {
         console.error(`Error generating Zodios for ${folder}: ${error}`);
       }
