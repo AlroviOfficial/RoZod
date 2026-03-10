@@ -100,6 +100,47 @@ describe('Path parameters in URL construction', () => {
     expect(lastFetchUrl).toBe('https://apis.roblox.com/users/1234?otherUserId=5678');
   });
 
+  test('path parameters with special characters are URL-encoded', async () => {
+    const testEndpoint = endpoint({
+      method: 'GET',
+      baseUrl: 'https://apis.roblox.com',
+      path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries',
+      response: z.object({
+        success: z.boolean(),
+      }),
+      parameters: {
+        universe_id: z.string(),
+        data_store_id: z.string(),
+        scope_id: z.string(),
+      },
+    });
+
+    await fetchApi(testEndpoint, { universe_id: '123', data_store_id: 'DataKey/10000000251', scope_id: 'global' });
+    expect(lastFetchUrl).toBe(
+      'https://apis.roblox.com/cloud/v2/universes/123/data-stores/DataKey%2F10000000251/scopes/global/entries',
+    );
+  });
+
+  test('path parameters with spaces and other special chars are encoded', async () => {
+    const testEndpoint = endpoint({
+      method: 'GET',
+      baseUrl: 'https://apis.roblox.com',
+      path: '/data/:store_name/entries/:entry_id',
+      response: z.object({
+        success: z.boolean(),
+      }),
+      parameters: {
+        store_name: z.string(),
+        entry_id: z.string(),
+      },
+    });
+
+    await fetchApi(testEndpoint, { store_name: 'Player Data', entry_id: 'key@special#chars' });
+    expect(lastFetchUrl).toBe(
+      'https://apis.roblox.com/data/Player%20Data/entries/key%40special%23chars',
+    );
+  });
+
   // Test with real Roblox endpoints
   test('real endpoint with path parameter', async () => {
     // Import a real endpoint from the project that uses path parameters

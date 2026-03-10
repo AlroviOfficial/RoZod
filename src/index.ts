@@ -162,7 +162,7 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
 
     // Check if this is a path parameter
     if (pathParamPattern.test(processedPath)) {
-      processedPath = processedPath.replace(pathParamPattern, String(value));
+      processedPath = processedPath.replace(pathParamPattern, encodeURIComponent(String(value)));
       usedPathParams.add(key);
     }
   }
