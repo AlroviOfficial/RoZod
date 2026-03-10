@@ -29,9 +29,11 @@ const Roblox_TwoStepVerification_Api_MetadataResponse = z.object({
   isSettingsTabRedesignEnabled: z.boolean(),
   twoStepCopyTextEnrollmentStatus: z.number().int(),
   isEppUIEnabled: z.boolean(),
+  isEppRecoveryCodesEnabled: z.boolean(),
   maskedUserEmail: z.string(),
   isUserU13: z.boolean(),
   isDelayedUiEnabled: z.boolean(),
+  is2svRecoveryEnabled: z.boolean(),
 });
 const Roblox_TwoStepVerification_Api_UserConfigurationMethod = z.object({
   mediaType: z.enum([

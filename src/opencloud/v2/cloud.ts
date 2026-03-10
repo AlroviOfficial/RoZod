@@ -3887,11 +3887,6 @@ scopes it has or who created it.
   * Their inventory can still be viewed with an OAuth2 token if the target
   user authorizes an app requesting permissions for the
   `user.inventory-item:read` scope.
-
-Rate Limits:
-* API Keys - 100 requests/minute per API key owner (can be user or group).
-Rate limits are enforced across all of an owner's API keys.
-* OAuth2 Tokens - 20 requests/minute per OAuth2 access token
  *
  * **Scopes:** `user.inventory-item:read`
  * **Engine:** Usable with HttpService

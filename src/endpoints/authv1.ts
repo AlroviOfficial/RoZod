@@ -97,6 +97,8 @@ const Roblox_Authentication_Api_Models_LoginResponse = z.object({
   recoveryEmail: z.string(),
   passkeyRegistrationSucceeded: z.boolean(),
   shouldAutoLoginFromRecovery: z.boolean(),
+  shouldPrompt2svRemoval: z.boolean(),
+  shouldPromptPasskeyAddition: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_ProviderInfoModel = z.object({
   provider: z.string(),
@@ -300,6 +302,7 @@ const Roblox_Authentication_Api_Models_Request_FinishARPreAuthPasskeyRegistratio
   passkeySessionId: z.string(),
   passkeyRegistrationResponse: z.string(),
   userId: z.number().int(),
+  isPostRecovery: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_Request_FinishPasskeyPreauthRegistrationRequest = z.object({
   sessionId: z.string(),

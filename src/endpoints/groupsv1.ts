@@ -787,6 +787,8 @@ export const getGroupsGroupidAuditLog = endpoint({
         'LeaveGroup',
         'UpdateGroupIcon',
         'UpdateGroupCoverPhoto',
+        'AssignRole',
+        'UnassignRole',
       ])
       .optional(),
     userId: z.number().int().optional(),

@@ -134,6 +134,35 @@ const Roblox_Groups_Api_Models_Response_UserModel = z.object({
   username: z.string(),
   displayName: z.string(),
 });
+const Roblox_Groups_Api_ShoutResponse = z.object({
+  body: z.string(),
+  poster: Roblox_Groups_Api_Models_Response_UserModel,
+  created: z.string().datetime({ offset: true }),
+  updated: z.string().datetime({ offset: true }),
+});
+const Roblox_Groups_Api_GroupDetailResponse = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string(),
+  owner: Roblox_Groups_Api_Models_Response_UserModel,
+  shout: Roblox_Groups_Api_ShoutResponse,
+  memberCount: z.number().int(),
+  isBuildersClubOnly: z.boolean(),
+  publicEntryAllowed: z.boolean(),
+  isLocked: z.boolean(),
+  hasVerifiedBadge: z.boolean(),
+  hasSocialModules: z.boolean(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupDetailResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Groups_Api_GroupDetailResponse),
+});
+const Roblox_Groups_Api_Models_Response_GroupRelationshipsV2Response = z.object({
+  groupId: z.number().int(),
+  relationshipType: z.enum(['Allies', 'Enemies']),
+  groupResponses: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupDetailResponse_,
+});
 const Roblox_Groups_Api_GroupRoleResponse = z.object({
   id: z.number().int(),
   name: z.string(),
@@ -278,6 +307,122 @@ export const getGroupsGroupidExperiences = endpoint({
     {
       status: 501,
       description: `47: Code path is not implemented.`,
+    },
+  ],
+});
+/**
+ * @api GET https://groups.roblox.com/v2/groups/:groupId/relationships/:groupRelationshipType
+ * @summary Gets a group's relationships with cursor-based pagination.
+ * @param groupId The group Id.
+ * @param groupRelationshipType The group relationship type, enemies or allies.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
+ */
+export const getGroupsGroupidRelationshipsGrouprelationshiptype = endpoint({
+  method: 'GET',
+  path: '/v2/groups/:groupId/relationships/:groupRelationshipType',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    groupRelationshipType: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    groupRelationshipType: z.string(),
+    limit: z
+      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
+      .optional()
+      .default(10),
+    cursor: z.string().optional(),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+  },
+  response: Roblox_Groups_Api_Models_Response_GroupRelationshipsV2Response,
+  errors: [
+    {
+      status: 400,
+      description: `1: Group is invalid or does not exist.
+4: Group relationship type or request type is invalid.
+8: Invalid or missing pagination parameters`,
+    },
+  ],
+});
+/**
+ * @api GET https://groups.roblox.com/v2/groups/:groupId/relationships/:groupRelationshipType/requests
+ * @summary Gets a group's relationship requests with cursor-based pagination.
+ * @param groupId The group Id.
+ * @param groupRelationshipType The group relationship type of the request, only allies are supported.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
+ */
+export const getGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoint({
+  method: 'GET',
+  path: '/v2/groups/:groupId/relationships/:groupRelationshipType/requests',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+    groupRelationshipType: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+    groupRelationshipType: z.string(),
+    limit: z
+      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
+      .optional()
+      .default(10),
+    cursor: z.string().optional(),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+  },
+  response: Roblox_Groups_Api_Models_Response_GroupRelationshipsV2Response,
+  errors: [
+    {
+      status: 400,
+      description: `1: Group is invalid or does not exist.
+4: Group relationship type or request type is invalid.
+8: Invalid or missing pagination parameters`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `5: You don&#x27;t have permission to manage this group&#x27;s relationships.`,
     },
   ],
 });

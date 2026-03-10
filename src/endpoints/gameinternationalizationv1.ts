@@ -276,6 +276,9 @@ const Roblox_GameInternationalization_Api_GetUiConfigurationsResponse = z.object
   isGamePassEnabled: z.boolean(),
   isDeveloperProductEnabled: z.boolean(),
 });
+const Roblox_GameInternationalization_Api_Models_Response_GetPlayerChoiceUniverseSettingsResponse = z.object({
+  IsPlayerChoiceEnabled: z.boolean(),
+});
 const Roblox_GameLocalization_Client_UserUniverseLocalizationSettingValue = z.object({
   settingType: z.enum(['LanguageFamily', 'SupportedLocale', 'SourceOrTranslation']),
   settingTargetId: z.number().int(),
@@ -3146,6 +3149,44 @@ export const getUiConfigurations = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
+ * @api GET https://gameinternationalization.roblox.com/v1/user-localization-settings/player-choice/:universeId
+ * @summary Get user player choice settings for universe.
+ * @param universeId The universe's ID.
+ */
+export const getUserLocalizationSettingsPlayerChoiceUniverseid = endpoint({
+  method: 'GET',
+  path: '/v1/user-localization-settings/player-choice/:universeId',
+  baseUrl: 'https://gameinternationalization.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    universeId: z.number().int(),
+  },
+  response: z.object({ IsPlayerChoiceEnabled: z.boolean() }),
+  errors: [
+    {
+      status: 400,
+      description: `14: Invalid game id`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 500,
+      description: `0: An unknown error occurred.`,
+    },
+    {
+      status: 503,
+      description: `17: Feature is disabled`,
     },
   ],
 });

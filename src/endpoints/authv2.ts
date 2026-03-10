@@ -76,6 +76,8 @@ const Roblox_Authentication_Api_Models_LoginResponse = z.object({
   recoveryEmail: z.string(),
   passkeyRegistrationSucceeded: z.boolean(),
   shouldAutoLoginFromRecovery: z.boolean(),
+  shouldPrompt2svRemoval: z.boolean(),
+  shouldPromptPasskeyAddition: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_PasswordValidationResponse = z.object({
   code: z.enum([

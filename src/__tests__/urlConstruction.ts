@@ -136,9 +136,7 @@ describe('Path parameters in URL construction', () => {
     });
 
     await fetchApi(testEndpoint, { store_name: 'Player Data', entry_id: 'key@special#chars' });
-    expect(lastFetchUrl).toBe(
-      'https://apis.roblox.com/data/Player%20Data/entries/key%40special%23chars',
-    );
+    expect(lastFetchUrl).toBe('https://apis.roblox.com/data/Player%20Data/entries/key%40special%23chars');
   });
 
   // Test with real Roblox endpoints

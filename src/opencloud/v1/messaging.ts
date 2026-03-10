@@ -13,6 +13,8 @@ const PublishRequest = z.object({ message: z.string().nullable() });
  * @param body
  * @param universeId The identifier of the experience in which you want to send your messages to. You can [copy your experience's Universe ID](/cloud/guides/usage-messaging.md#publishing-messages-to-live-servers) on **Creator Dashboard**.
  * @param topic The topic that you want to publish your message to, with up to 80 characters.
+ * @see POST https://apis.roblox.com/cloud/v2/universes/{universe_id}:publishMessage
+ * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const postUniversesUniverseIdTopicsTopic = endpoint({
   method: 'POST',

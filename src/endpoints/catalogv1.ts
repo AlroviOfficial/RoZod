@@ -311,6 +311,7 @@ const Roblox_Catalog_Api_TaxonomyModel = z.object({
 const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModelV2),
   taxonomy: z.array(Roblox_Catalog_Api_TaxonomyModel),
+  itemCreatedUtc: z.string().datetime({ offset: true }),
   id: z.number().int(),
   itemType: z.enum(['Asset', 'Bundle']),
   assetType: z.union([

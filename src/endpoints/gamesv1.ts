@@ -142,6 +142,16 @@ const Roblox_Games_Api_Models_Response_PlaceDetails = z.object({
   imageToken: z.string(),
   fiatPurchaseData: Roblox_Games_Api_Models_Response_PurchaseData,
 });
+const Roblox_Games_Api_Models_Response_PlayableUxTreatmentData = z.object({
+  titleText: z.string(),
+  bodyText: z.string(),
+  primaryActionText: z.string(),
+  secondaryActionText: z.string(),
+});
+const Roblox_Games_Api_Models_Response_PlayableUxTreatment = z.object({
+  treatment: z.string(),
+  data: Roblox_Games_Api_Models_Response_PlayableUxTreatmentData,
+});
 const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z.object({
   playabilityStatus: z.enum([
     'UnplayableOtherReason',
@@ -174,6 +184,7 @@ const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z.object({
   isPlayable: z.boolean(),
   universeId: z.number().int(),
   unplayableDisplayText: z.string(),
+  playableUxTreatment: Roblox_Games_Api_Models_Response_PlayableUxTreatment,
 });
 const Roblox_Games_Api_Models_Response_GameResponseModel = z.object({
   creatorId: z.number().int(),
@@ -196,6 +207,7 @@ const Roblox_Games_Api_Models_Response_GameResponseModel = z.object({
   genre: z.string(),
   minimumAge: z.number().int(),
   ageRecommendationDisplayName: z.string(),
+  canonicalUrlPath: z.string(),
 });
 const Roblox_Games_Api_Models_Response_GameRecommendationsResponse = z.object({
   games: z.array(Roblox_Games_Api_Models_Response_GameResponseModel),
