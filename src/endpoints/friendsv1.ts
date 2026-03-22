@@ -101,7 +101,6 @@ const Roblox_Friends_Api_Models_Response_UserPresenceResponseModel = z.object({
 const Roblox_Friends_Api_Models_Response_UserPresenceResponse = z.object({
   userPresence: Roblox_Friends_Api_Models_Response_UserPresenceResponseModel,
   sortScore: z.number(),
-  loggingJoinKey: z.string(),
   id: z.number().int(),
   name: z.string(),
   displayName: z.string(),
@@ -301,6 +300,7 @@ export const postMyFriendsRefreshQrSession = endpoint({
  * @summary Get all users that friend requests with targetUserId using exclusive start paging
  * @param limit The number of results per request.
  * @param cursor The paging cursor for the previous or next page.
+ * @param sessionId Optional session identifier.
  * @param friendRequestSort
  */
 export const getMyFriendsRequests = endpoint({
@@ -317,6 +317,10 @@ export const getMyFriendsRequests = endpoint({
       style: 'form',
       explode: true,
     },
+    sessionId: {
+      style: 'form',
+      explode: true,
+    },
     friendRequestSort: {
       style: 'form',
       explode: true,
@@ -325,6 +329,7 @@ export const getMyFriendsRequests = endpoint({
   parameters: {
     limit: z.number().int().optional().default(10),
     cursor: z.string().optional(),
+    sessionId: z.string().optional(),
     friendRequestSort: z
       .union([z.literal(0), z.literal(1), z.literal(2)])
       .optional()

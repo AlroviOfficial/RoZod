@@ -229,7 +229,7 @@ const Roblox_Authentication_Api_Models_ReferralDataModel = z.object({
 });
 const Roblox_Authentication_Api_Models_Request_OtpSessionModel = z.object({
   otpSessionToken: z.string(),
-  otpContactType: z.enum(['Unset', 'Email']),
+  otpContactType: z.enum(['Unset', 'Email', 'Phone']),
 });
 const Roblox_Authentication_Api_Models_Request_AuditContentValue = z.object({
   translationKey: z.string(),
