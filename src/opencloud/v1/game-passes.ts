@@ -141,7 +141,7 @@ export const patchGamePassesV1UniversesUniverseIdGamePassesGamePassId = endpoint
     universeId: z.number().int(),
     gamePassId: z.number().int(),
   },
-  body: GamePasses_UpdateGamePass_Body,
+  body: GamePasses_UpdateGamePass_Body.partial(),
   response: z.void(),
   errors: [
     {

@@ -267,7 +267,7 @@ export const patchUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScop
     entry: z.string(),
     allow_missing: z.boolean().optional(),
   },
-  body: z.object({ value: z.number().int() }),
+  body: z.object({ value: z.number().int() }).partial(),
   response: Entry,
   errors: [
     {

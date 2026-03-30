@@ -1,5 +1,11 @@
 // Patched endpoints removed from Roblox API docs (v6.1.0 compat)
 
+const Roblox_ItemConfiguration_Api_TagDetails = z.object({
+  tagId: z.string(),
+  name: z.string(),
+  localizedDisplayName: z.string(),
+  status: z.enum(['Success', 'MissingItem']),
+});
 const Patch_ApiArrayResponse_TagDetails = z.object({
   data: z.array(Roblox_ItemConfiguration_Api_TagDetails),
 });

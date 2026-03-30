@@ -38,6 +38,7 @@ const Roblox_Groups_Api_GroupRoleResponse = z.object({
   description: z.string(),
   rank: z.number().int(),
   memberCount: z.number().int(),
+  isBase: z.boolean(),
 });
 const Roblox_Groups_Api_UserGroupRoleResponse = z.object({
   user: Roblox_Groups_Api_Models_Response_UserModel,
@@ -236,6 +237,9 @@ const Roblox_Groups_Api_PayoutRequest = z.object({
   PayoutType: z.enum(['FixedAmount', 'Percentage']),
   Recipients: z.array(Roblox_Groups_Api_PayoutRecipientRequest),
   IdempotencyKey: z.string(),
+});
+const Roblox_Groups_Api_OneTimePayoutResponse = z.object({
+  status: z.enum(['NotHeld', 'Held']),
 });
 const Roblox_Groups_Api_GroupRelationshipsResponse = z.object({
   groupId: z.number().int(),
@@ -453,6 +457,7 @@ const Roblox_Groups_Api_GroupRoleDetailResponse = z.object({
   description: z.string(),
   rank: z.number().int(),
   memberCount: z.number().int(),
+  isBase: z.boolean(),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupRoleDetailResponse_ = z.object({
   data: z.array(Roblox_Groups_Api_GroupRoleDetailResponse),
@@ -1959,7 +1964,7 @@ export const postGroupsGroupidPayouts = endpoint({
     groupId: z.number().int(),
   },
   body: Roblox_Groups_Api_PayoutRequest,
-  response: z.object({}),
+  response: Roblox_Groups_Api_OneTimePayoutResponse,
   errors: [
     {
       status: 400,

@@ -788,7 +788,7 @@ export const patchCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
     updateMask: z.string().optional(),
     allowMissing: z.boolean().optional(),
   },
-  body: CreatorStoreProduct,
+  body: CreatorStoreProduct.partial(),
   response: CreatorStoreProduct,
   errors: [],
 });
@@ -1154,7 +1154,7 @@ export const patchCloudV2GroupsGroupIdMembershipsMembershipId = endpoint({
     group_id: z.string(),
     membership_id: z.string(),
   },
-  body: GroupMembership,
+  body: GroupMembership.partial(),
   response: GroupMembership,
   errors: [],
 });
@@ -1317,7 +1317,7 @@ export const patchCloudV2UniversesUniverseId = endpoint({
     universe_id: z.string(),
     updateMask: z.string().optional(),
   },
-  body: Universe,
+  body: Universe.partial(),
   response: Universe,
   errors: [],
 });
@@ -1869,7 +1869,7 @@ export const patchCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId 
     entry_id: z.string(),
     allowMissing: z.boolean().optional(),
   },
-  body: DataStoreEntry,
+  body: DataStoreEntry.partial(),
   response: DataStoreEntry,
   errors: [],
 });
@@ -2234,7 +2234,7 @@ export const patchCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEn
     entry_id: z.string(),
     allowMissing: z.boolean().optional(),
   },
-  body: DataStoreEntry,
+  body: DataStoreEntry.partial(),
   response: DataStoreEntry,
   errors: [],
 });
@@ -2732,7 +2732,7 @@ export const patchCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItem
     item_id: z.string(),
     allowMissing: z.boolean().optional(),
   },
-  body: MemoryStoreSortedMapItem,
+  body: MemoryStoreSortedMapItem.partial(),
   response: MemoryStoreSortedMapItem,
   errors: [],
 });
@@ -2953,7 +2953,7 @@ export const patchCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdS
     entry_id: z.string(),
     allowMissing: z.boolean().optional(),
   },
-  body: OrderedDataStoreEntry,
+  body: OrderedDataStoreEntry.partial(),
   response: OrderedDataStoreEntry,
   errors: [],
 });
@@ -3060,7 +3060,7 @@ export const patchCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
     place_id: z.string(),
     updateMask: z.string().optional(),
   },
-  body: Place,
+  body: Place.partial(),
   response: Place,
   errors: [],
 });
@@ -3136,7 +3136,7 @@ export const patchCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId = e
     instance_id: z.string(),
     updateMask: z.string().optional(),
   },
-  body: Instance,
+  body: Instance.partial(),
   response: Operation,
   errors: [],
 });
@@ -3348,7 +3348,7 @@ export const patchCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRes
     'idempotencyKey.key': z.string().optional(),
     'idempotencyKey.firstSent': z.string().datetime({ offset: true }).optional(),
   },
-  body: UserRestriction,
+  body: UserRestriction.partial(),
   response: UserRestriction,
   errors: [],
 });
@@ -3734,7 +3734,7 @@ export const patchCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId = 
     'idempotencyKey.key': z.string().optional(),
     'idempotencyKey.firstSent': z.string().datetime({ offset: true }).optional(),
   },
-  body: UserRestriction,
+  body: UserRestriction.partial(),
   response: UserRestriction,
   errors: [],
 });

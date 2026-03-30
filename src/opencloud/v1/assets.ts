@@ -164,7 +164,7 @@ export const patchAssetsAssetId = endpoint({
     assetId: z.string(),
     updateMask: z.string().optional(),
   },
-  body: Assets_CreateAsset_Body,
+  body: Assets_CreateAsset_Body.partial(),
   response: Operation,
   errors: [
     {

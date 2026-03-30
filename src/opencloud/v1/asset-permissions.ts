@@ -61,7 +61,7 @@ export const patchAssetPermissionsApiV1AssetsPermissions = endpoint({
     body: {},
   },
   parameters: {},
-  body: BatchGrantPermissionsRequest,
+  body: BatchGrantPermissionsRequest.partial(),
   response: BatchGrantPermissionsResponse,
   errors: [
     {

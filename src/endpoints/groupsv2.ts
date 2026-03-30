@@ -169,6 +169,7 @@ const Roblox_Groups_Api_GroupRoleResponse = z.object({
   description: z.string(),
   rank: z.number().int(),
   memberCount: z.number().int(),
+  isBase: z.boolean(),
 });
 const Roblox_Groups_Api_UserGroupRoleResponse = z.object({
   user: Roblox_Groups_Api_Models_Response_UserModel,

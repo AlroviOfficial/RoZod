@@ -92,7 +92,11 @@ export const {{normalizePathForJS method path}} = endpoint({
 	{{!-- If name is "body" inside a parameter, add that here --}}
 	{{#each parameters}}
 	{{#ifeq name "body"}}
+	{{#ifeq ../method "patch"}}
+	body: {{{regexReplace schema "\.passthrough\(\)" ""}}}.partial(),
+	{{else}}
 	body: {{{regexReplace schema "\.passthrough\(\)" ""}}},
+	{{/ifeq}}
 	{{/ifeq}}
 	{{/each}}
 	{{/if}}

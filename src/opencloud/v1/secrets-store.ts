@@ -160,7 +160,7 @@ export const patchCloudV2UniversesUniverseIdSecretsSecretId = endpoint({
     universeId: z.number().int(),
     secretId: z.string(),
   },
-  body: Secret,
+  body: Secret.partial(),
   response: Secret,
   errors: [
     {

@@ -154,7 +154,7 @@ export const patchDeveloperProductsV2UniversesUniverseIdDeveloperProductsProduct
     universeId: z.number().int(),
     productId: z.number().int(),
   },
-  body: DeveloperProducts_UpdateDeveloperProductV2_Body,
+  body: DeveloperProducts_UpdateDeveloperProductV2_Body.partial(),
   response: z.void(),
   errors: [
     {
