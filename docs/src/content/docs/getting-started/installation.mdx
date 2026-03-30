@@ -1,0 +1,65 @@
+---
+title: Installation
+description: How to install RoZod in your project
+---
+
+## Install
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Tabs>
+  <TabItem label="npm">
+    ```bash
+    npm install rozod
+    ```
+  </TabItem>
+  <TabItem label="bun">
+    ```bash
+    bun add rozod
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add rozod
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```bash
+    yarn add rozod
+    ```
+  </TabItem>
+</Tabs>
+
+## Requirements
+
+- **TypeScript 5.0+** — RoZod relies on modern TypeScript features for type inference
+- **Node.js 18+**, **Bun**, or **Deno** — any runtime with a global `fetch` implementation
+- Also works in **browsers** and **browser extensions** (Chrome, Firefox, etc.)
+
+## What's Included
+
+RoZod has three runtime dependencies:
+
+- **[zod](https://zod.dev)** — Schema definitions that power type inference (not used for runtime validation)
+- **[roblox-bat](https://github.com/RoSeal-Extension/Roblox-BAT)** — Hardware-backed authentication (HBA) header generation
+- **[parse-roblox-errors](https://github.com/RoSeal-Extension/Parse-Roblox-Errors)** — Structured error parsing for Roblox API responses
+
+All endpoint type definitions are included in the package at zero runtime cost.
+
+## Project Structure
+
+After installing, you import endpoints from their respective modules:
+
+```ts
+// Core functions
+import { fetchApi, configureServer } from 'rozod';
+
+// Classic API endpoints (one file per Roblox service)
+import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
+import { getGroupsGroupid } from 'rozod/lib/endpoints/groupsv1';
+
+// OpenCloud endpoints
+import { v1, v2 } from 'rozod/lib/opencloud';
+```
+
+Each endpoint file maps to a Roblox API service (e.g., `usersv1`, `groupsv1`, `catalogv1`). See the [API Reference](/reference/classic/account-information-v1/) for a full list.

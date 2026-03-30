@@ -12,7 +12,9 @@
     "prepublishOnly": "npm test",
     "version": "npm run format && git add -A src",
     "generate": "node ./zodios_endpoints.js",
-    "docs": "typedoc"
+    "docs": "cd docs && node scripts/generate-reference.mjs && bunx astro build",
+    "docs:dev": "cd docs && node scripts/generate-reference.mjs && bunx astro dev",
+    "docs:preview": "cd docs && bunx astro preview"
   },
   "author": "AlroviOfficial",
   "license": "ISC",
@@ -46,7 +48,6 @@
     "prettier": "^3.3.3",
     "swagger2openapi": "^7.0.8",
     "ts-jest": "^29.2.5",
-    "typedoc": "^0.28.9",
     "typescript": "^5.6.2"
   },
   "keywords": [

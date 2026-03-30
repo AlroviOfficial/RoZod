@@ -1,0 +1,50 @@
+---
+title: RoZod
+description: Type-safe Roblox API and OpenCloud client for TypeScript
+template: splash
+hero:
+  tagline: Type-safe Roblox API and OpenCloud client for TypeScript. 810+ endpoints, all code-generated from official Roblox docs.
+  actions:
+    - text: Get Started
+      link: /getting-started/installation/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/AlroviOfficial/RoZod
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Why RoZod?
+
+<CardGrid stagger>
+  <Card title="Type Safety" icon="approve-check">
+    Every endpoint has full TypeScript types for parameters and responses, powered by Zod schemas. Catch errors at compile time, not runtime.
+  </Card>
+  <Card title="810+ Endpoints" icon="list-format">
+    695+ classic Roblox web API endpoints and 115+ OpenCloud endpoints, all auto-generated from official documentation. Always up-to-date.
+  </Card>
+  <Card title="Production Ready" icon="rocket">
+    Battle-tested in [RoGold](https://rogold.live), a browser extension with 800,000+ active users handling millions of API requests daily.
+  </Card>
+  <Card title="Simple Interface" icon="pencil">
+    One function — `fetchApi` — handles authentication, CSRF tokens, error parsing, cookie rotation, and more. Just pass an endpoint and parameters.
+  </Card>
+</CardGrid>
+
+## Quick Example
+
+```ts
+import { fetchApi, isAnyErrorResponse } from 'rozod';
+import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
+
+const user = await fetchApi(getUsersUserid, { userId: 1 });
+
+if (isAnyErrorResponse(user)) {
+  console.error(user.message);
+} else {
+  console.log(user.name); // fully typed!
+}
+```
