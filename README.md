@@ -25,7 +25,7 @@
 
 ## About
 
-`RoZod` makes working with Roblox APIs simple and type-safe in TypeScript. With **650+ classic Roblox web API endpoints** and **95+ OpenCloud endpoints** (all code-generated from official Roblox documentation), you get comprehensive coverage of virtually every available Roblox API with full type safety.
+`RoZod` makes working with Roblox APIs simple and type-safe in TypeScript. With **695+ classic Roblox web API endpoints** and **115+ OpenCloud endpoints** (all code-generated from official Roblox documentation), you get comprehensive coverage of virtually every available Roblox API with full type safety.
 
 Perfect for everything from small one-time NodeJS/Bun/Deno scripts to large-scale production applications. RoZod powers [RoGold](https://rogold.live), a browser extension with **800,000+ active users**, handling millions of API requests daily across both frontend extensions and backend workflows.
 
@@ -33,7 +33,7 @@ Perfect for everything from small one-time NodeJS/Bun/Deno scripts to large-scal
 
 - ✨ **Simple Interface** - Easy to understand API with minimal boilerplate
 - 🔒 **Type Safety** - Complete TypeScript type safety for requests and responses
-- 📚 **750+ Total Endpoints** - 650+ classic web APIs + 95+ OpenCloud APIs, all code-generated from official docs
+- 📚 **810+ Total Endpoints** - 695+ classic web APIs + 115+ OpenCloud APIs, all code-generated from official docs
 - 🚀 **Production Ready** - Battle-tested in applications serving 800,000+ users
 - 🔄 **Pagination Helpers** - Easy tools for handling paginated responses
 - 🔁 **Batch Processing** - Split large requests automatically to avoid API limits
@@ -46,6 +46,8 @@ Perfect for everything from small one-time NodeJS/Bun/Deno scripts to large-scal
 ```bash
 npm install rozod
 # or
+bun add rozod
+# or
 yarn add rozod
 # or
 pnpm add rozod
@@ -54,15 +56,15 @@ pnpm add rozod
 ## Quick Start
 
 ```ts
-import { fetchApi } from 'rozod';
-import { getUsersUserdetails } from 'rozod/lib/endpoints/usersv1';
+import { fetchApi, isAnyErrorResponse } from 'rozod';
+import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
 
 // Fetch user details with full type safety
-const userInfo = await fetchApi(getUsersUserdetails, { userIds: [1, 123456] });
+const userInfo = await fetchApi(getUsersUserid, { userId: 1 });
 if (isAnyErrorResponse(userInfo)) {
   return;
 }
-console.log(userInfo.data[0].displayName); // Properly typed!
+console.log(userInfo.displayName); // Properly typed!
 ```
 
 ## Usage
@@ -70,33 +72,38 @@ console.log(userInfo.data[0].displayName); // Properly typed!
 ### Fetch a Single Request
 
 ```ts
-import { fetchApi } from 'rozod';
-import { getGamesIcons } from 'rozod/lib/endpoints/gamesv1';
+import { fetchApi, isAnyErrorResponse } from 'rozod';
+import { getGamesIcons } from 'rozod/lib/endpoints/thumbnailsv1';
 
 const response = await fetchApi(getGamesIcons, { universeIds: [1534453623, 65241] });
-console.log(response.data);
+if (!isAnyErrorResponse(response)) {
+  console.log(response.data);
+}
 ```
 
 ### Handle Paginated Responses
 
 ```ts
-import { fetchApiPages } from 'rozod';
+import { fetchApiPages, isAnyErrorResponse } from 'rozod';
 import { getGroupsGroupidWallPosts } from 'rozod/lib/endpoints/groupsv2';
 
 // Automatically fetches all pages
-const allPosts = await fetchApiPages(getGroupsGroupidWallPosts, { groupId: 11479637 });
-console.log(`Found ${allPosts.length} wall posts`);
+const pages = await fetchApiPages(getGroupsGroupidWallPosts, { groupId: 11479637 });
+if (!isAnyErrorResponse(pages)) {
+  console.log(`Fetched ${pages.length} pages of wall posts`);
+}
 ```
 
 ### Process Pages One at a Time
 
 ```ts
-import { fetchApiPagesGenerator } from 'rozod';
+import { fetchApiPagesGenerator, isAnyErrorResponse } from 'rozod';
 import { getGroupsGroupidWallPosts } from 'rozod/lib/endpoints/groupsv2';
 
 // Process pages as they arrive
 const pages = fetchApiPagesGenerator(getGroupsGroupidWallPosts, { groupId: 11479637 });
 for await (const page of pages) {
+  if (isAnyErrorResponse(page)) break;
   console.log(`Processing page with ${page.data.length} posts`);
   // Do something with this page
 }
@@ -106,7 +113,7 @@ for await (const page of pages) {
 
 ```ts
 import { fetchApiSplit } from 'rozod';
-import { getGamesIcons } from 'rozod/lib/endpoints/gamesv1';
+import { getGamesIcons } from 'rozod/lib/endpoints/thumbnailsv1';
 
 // Will automatically split into smaller batches of 100 universeIds per request
 const data = await fetchApiSplit(
@@ -123,7 +130,7 @@ By default, requests return either the success type or a simple `AnyError`. Use 
 
 ```ts
 import { fetchApi, isAnyErrorResponse } from 'rozod';
-import { getGamesIcons } from 'rozod/lib/endpoints/gamesv1';
+import { getGamesIcons } from 'rozod/lib/endpoints/thumbnailsv1';
 
 const res = await fetchApi(getGamesIcons, { universeIds: [1534453623] });
 if (isAnyErrorResponse(res)) {
@@ -156,7 +163,7 @@ const json = await resp.json();
 RoZod supports Roblox's newer OpenCloud APIs with the same easy interface:
 
 ```ts
-import { fetchApi } from 'rozod';
+import { fetchApi, isAnyErrorResponse } from 'rozod';
 import { v2 } from 'rozod/lib/opencloud';
 
 // Get universe details through OpenCloud
@@ -164,9 +171,11 @@ const universeInfo = await fetchApi(v2.getCloudV2UniversesUniverseId, {
   universe_id: '123456789',
 });
 
-// Access typed properties
-console.log(universeInfo.displayName);
-console.log(universeInfo.description);
+if (!isAnyErrorResponse(universeInfo)) {
+  // Access typed properties
+  console.log(universeInfo.displayName);
+  console.log(universeInfo.description);
+}
 ```
 
 ### Access DataStores via OpenCloud
@@ -192,10 +201,10 @@ In browsers, authentication works automatically when users are logged into Roblo
 
 ```ts
 import { fetchApi } from 'rozod';
-import { getUsersUserdetails } from 'rozod/lib/endpoints/usersv1';
+import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
 
 // Cookies are sent automatically - no setup required!
-const userInfo = await fetchApi(getUsersUserdetails, { userIds: [123456] });
+const userInfo = await fetchApi(getUsersUserid, { userId: 123456 });
 ```
 
 ### Server Environments (Node.js/Bun/Deno)
@@ -204,13 +213,13 @@ For server environments, use `configureServer()` to set up authentication once:
 
 ```ts
 import { configureServer, fetchApi } from 'rozod';
-import { getUsersUserdetails } from 'rozod/lib/endpoints/usersv1';
+import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
 
 // Configure once at startup
 configureServer({ cookies: 'your_roblosecurity_cookie_here' });
 
 // All subsequent requests automatically include the cookie
-const userInfo = await fetchApi(getUsersUserdetails, { userIds: [123456] });
+const userInfo = await fetchApi(getUsersUserid, { userId: 123456 });
 ```
 
 #### Multiple Accounts (Cookie Pool)
@@ -273,7 +282,7 @@ configureServer({ cookies: '...', userAgents: [] });
 For OpenCloud endpoints (`apis.roblox.com`), set your API key once:
 
 ```ts
-import { configureServer } from 'rozod';
+import { configureServer, fetchApi } from 'rozod';
 import { v2 } from 'rozod/lib/opencloud';
 
 // Configure OpenCloud API key
@@ -315,8 +324,8 @@ You can still pass headers manually per-request if needed:
 
 ```ts
 const userInfo = await fetchApi(
-  getUsersUserdetails, 
-  { userIds: [123456] },
+  getUsersUserid, 
+  { userId: 123456 },
   {
     headers: {
       'Cookie': '.ROBLOSECURITY=your_cookie_here'
@@ -406,37 +415,6 @@ const keyPair = await crypto.subtle.generateKey(
 );
 
 changeHBAKeys(keyPair);
-```
-
-### OpenCloud Authentication
-
-OpenCloud APIs require API keys. Use `configureServer()` for automatic injection:
-
-```ts
-import { configureServer, fetchApi } from 'rozod';
-import { v2 } from 'rozod/lib/opencloud';
-
-// Configure once at startup
-configureServer({ cloudKey: 'your_opencloud_api_key_here' });
-
-// All OpenCloud requests automatically include x-api-key
-const universeInfo = await fetchApi(v2.getCloudV2UniversesUniverseId, {
-  universe_id: '123456789',
-});
-```
-
-Or pass headers manually per-request:
-
-```ts
-const universeInfo = await fetchApi(
-  v2.getCloudV2UniversesUniverseId,
-  { universe_id: '123456789' },
-  {
-    headers: {
-      'x-api-key': 'your_opencloud_api_key_here'
-    }
-  }
-);
 ```
 
 ## Custom Endpoints
