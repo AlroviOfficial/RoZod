@@ -109,6 +109,7 @@ const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_Asse
     'FaceMakeup',
     'LipMakeup',
     'EyeMakeup',
+    'VoxelFragment',
   ]),
   name: z.string(),
 });
@@ -170,6 +171,25 @@ const Roblox_Groups_Api_GroupRoleResponse = z.object({
   rank: z.number().int(),
   memberCount: z.number().int(),
   isBase: z.boolean(),
+  color: z.enum([
+    'Invalid',
+    'Blue',
+    'Green',
+    'Purple',
+    'Yellow',
+    'Orange',
+    'Red',
+    'Magenta',
+    'Teal',
+    'Turquoise',
+    'Rust',
+    'Pistachio',
+    'Midnight',
+    'Lavender',
+    'Pink',
+    'Crimson',
+    'Plum',
+  ]),
 });
 const Roblox_Groups_Api_UserGroupRoleResponse = z.object({
   user: Roblox_Groups_Api_Models_Response_UserModel,

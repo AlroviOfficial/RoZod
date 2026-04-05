@@ -394,6 +394,23 @@ export const getMyNewFriendRequestsCount = endpoint({
   ],
 });
 /**
+ * @api GET https://friends.roblox.com/v1/my/trusted-friends/count
+ * @summary Get the number of trusted friends a user has
+ */
+export const getMyTrustedFriendsCount = endpoint({
+  method: 'GET',
+  path: '/v1/my/trusted-friends/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
+  response: z.object({ count: z.number().int() }),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
  * @api POST https://friends.roblox.com/v1/user/:userId/multiget-are-friends
  * @summary Check if the requesting user is friends with the specified users.
  * @param body The user ids to check against with the requesting user.
@@ -1214,6 +1231,32 @@ export const getUsersUseridFriendsStatuses = endpoint({
       description: `1: The target user is invalid or does not exist.
 15: Too many ids.
 16: Invalid ids.`,
+    },
+  ],
+});
+/**
+ * @api GET https://friends.roblox.com/v1/users/:userId/trusted-friends/count
+ * @summary Get the number of trusted friends a user has
+ * @param userId
+ */
+export const getUsersUseridTrustedFriendsCount = endpoint({
+  method: 'GET',
+  path: '/v1/users/:userId/trusted-friends/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+  },
+  response: z.object({ count: z.number().int() }),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
     },
   ],
 });

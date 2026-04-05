@@ -113,11 +113,14 @@ const GroupMembership = z.object({
   updateTime: z.string().datetime({ offset: true }),
   user: z.string(),
   role: z.string(),
+  roles: z.array(z.string()),
 });
 const ListGroupMembershipsResponse = z.object({
   groupMemberships: z.array(GroupMembership),
   nextPageToken: z.string(),
 });
+const AssignRoleGroupMembershipRequest = z.object({ role: z.string() });
+const UnassignRoleGroupMembershipRequest = z.object({ role: z.string() });
 const GroupRole_RolePermissions = z.object({
   viewWallPosts: z.boolean(),
   createWallPosts: z.boolean(),
@@ -1127,7 +1130,8 @@ export const getCloudV2GroupsGroupIdMemberships = endpoint({
 /**
  * `BETA`
  *
- * Updates the group membership for a particular group member. This action
+ * **Deprecated.** Use AssignGroupRole and UnassignGroupRole instead.
+Updates the group membership for a particular group member. This action
 requires the requester to be able to manage lower ranked members. Guest or
 Owner ranks cannot be assigned, and a requester cannot change their own
 rank.
@@ -1155,6 +1159,70 @@ export const patchCloudV2GroupsGroupIdMembershipsMembershipId = endpoint({
     membership_id: z.string(),
   },
   body: GroupMembership.partial(),
+  response: GroupMembership,
+  errors: [],
+});
+/**
+ * `BETA`
+ *
+ * Assigns a specific role to a user within a group. If the user already
+holds the specified role, no action is taken.
+ *
+ * **Scopes:** `group:write`
+ * **Engine:** Usable with HttpService
+ *
+ * @param body 
+ * @param group_id The group ID.
+ * @param membership_id The membership ID.
+ */
+export const postCloudV2GroupsGroupIdMembershipsMembershipIdAssignRole = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/groups/:group_id/memberships/:membership_id:assignRole',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    group_id: {},
+    membership_id: {},
+  },
+  parameters: {
+    group_id: z.string(),
+    membership_id: z.string(),
+  },
+  body: z.object({ role: z.string() }),
+  response: GroupMembership,
+  errors: [],
+});
+/**
+ * `BETA`
+ *
+ * Unassigns a specific role from a user within a group. If the user does
+not hold the specified role, no action is taken.
+ *
+ * **Scopes:** `group:write`
+ * **Engine:** Usable with HttpService
+ *
+ * @param body 
+ * @param group_id The group ID.
+ * @param membership_id The membership ID.
+ */
+export const postCloudV2GroupsGroupIdMembershipsMembershipIdUnassignRole = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/groups/:group_id/memberships/:membership_id:unassignRole',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    group_id: {},
+    membership_id: {},
+  },
+  parameters: {
+    group_id: z.string(),
+    membership_id: z.string(),
+  },
+  body: z.object({ role: z.string() }),
   response: GroupMembership,
   errors: [],
 });
