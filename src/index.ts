@@ -1000,8 +1000,8 @@ async function handleRetryFetch(
         response.status === 504;
       if (retryable && retries > 0) {
         retries--;
-        const retryAfter = response.headers.get('retry-after');
-        const delay = retryAfter ? Number(retryAfter) * 1000 : retryDelay;
+        const retryAfterSecs = Number(response.headers.get('retry-after'));
+        const delay = Number.isFinite(retryAfterSecs) && retryAfterSecs > 0 ? retryAfterSecs * 1000 : retryDelay;
         await new Promise((resolve) => setTimeout(resolve, delay));
         continue;
       }
