@@ -984,14 +984,40 @@ async function handleRetryFetch(
 ) {
   let response: Response | undefined = undefined;
 
-  while (response === undefined) {
+  while (true) {
     try {
       response = await fetch(url, {
         method,
         body,
         ...requestOptions,
       });
-      break;
+
+      const retryable =
+        response.status === 429 ||
+        response.status === 500 ||
+        response.status === 502 ||
+        response.status === 503 ||
+        response.status === 504;
+      if (retryable && retries > 0) {
+        retries--;
+        const retryAfterHeader = response.headers.get('retry-after');
+        let delay = retryDelay;
+        if (retryAfterHeader) {
+          const secs = Number(retryAfterHeader);
+          if (Number.isFinite(secs) && secs > 0) {
+            delay = secs * 1000;
+          } else {
+            const dateMs = Date.parse(retryAfterHeader);
+            if (Number.isFinite(dateMs)) {
+              delay = Math.max(0, dateMs - Date.now());
+            }
+          }
+        }
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        continue;
+      }
+
+      return response;
     } catch (error) {
       if (retries <= 0) {
         throw error;
@@ -1000,8 +1026,6 @@ async function handleRetryFetch(
       await new Promise((resolve) => setTimeout(resolve, retryDelay));
     }
   }
-
-  return response;
 }
 
 const localStorageCache = new Cache(new LocalStorageStore());
