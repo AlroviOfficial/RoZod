@@ -105,6 +105,22 @@ test('respects Retry-After header', async () => {
   expect(elapsed).toBeGreaterThanOrEqual(900);
 });
 
+test('respects Retry-After header with HTTP-date', async () => {
+  const futureDate = new Date(Date.now() + 1000).toUTCString();
+  const spy = jest
+    .spyOn(globalThis, 'fetch')
+    .mockResolvedValueOnce(new Response('', { status: 429, headers: { 'retry-after': futureDate } }))
+    .mockResolvedValueOnce(new Response(successBody, { status: 200, headers: { 'content-type': 'application/json' } }));
+
+  const start = Date.now();
+  await fetchApi(testEndpoint, {} as any, { retries: 1, retryDelay: 10 });
+  const elapsed = Date.now() - start;
+
+  expect(spy).toHaveBeenCalledTimes(2);
+  // Should wait ~1s based on the date, not 10ms
+  expect(elapsed).toBeGreaterThanOrEqual(800);
+});
+
 test('does not retry on 404', async () => {
   const spy = jest.spyOn(globalThis, 'fetch').mockResolvedValueOnce(
     new Response(JSON.stringify({ message: 'Not found' }), {
