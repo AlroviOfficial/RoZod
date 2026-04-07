@@ -282,6 +282,7 @@ const Roblox_GameInternationalization_Api_Models_Response_GetPlayerChoiceUnivers
 const Roblox_GameLocalization_Client_UserUniverseLocalizationSettingValue = z.object({
   settingType: z.enum(['LanguageFamily', 'SupportedLocale', 'SourceOrTranslation']),
   settingTargetId: z.number().int(),
+  settingTargetCode: z.string(),
 });
 const Roblox_GameInternationalization_Api_Models_Response_GetUserLocalizationSettingsForUniverseResponse = z.object({
   userUniverseLocalizationSettingValue: Roblox_GameLocalization_Client_UserUniverseLocalizationSettingValue,

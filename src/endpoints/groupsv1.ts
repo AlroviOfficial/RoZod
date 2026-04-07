@@ -39,6 +39,25 @@ const Roblox_Groups_Api_GroupRoleResponse = z.object({
   rank: z.number().int(),
   memberCount: z.number().int(),
   isBase: z.boolean(),
+  color: z.enum([
+    'Invalid',
+    'Blue',
+    'Green',
+    'Purple',
+    'Yellow',
+    'Orange',
+    'Red',
+    'Magenta',
+    'Teal',
+    'Turquoise',
+    'Rust',
+    'Pistachio',
+    'Midnight',
+    'Lavender',
+    'Pink',
+    'Crimson',
+    'Plum',
+  ]),
 });
 const Roblox_Groups_Api_UserGroupRoleResponse = z.object({
   user: Roblox_Groups_Api_Models_Response_UserModel,
@@ -107,6 +126,24 @@ const Roblox_Groups_Client_EmoteSetModel = z.object({
 const Roblox_Groups_Client_GetGroupEmoteSetsResponse = z.object({
   emoteSets: z.array(Roblox_Groups_Client_EmoteSetModel),
 });
+const Roblox_Groups_Api_GroupFeatureResponse = z.object({
+  feature: z.enum(['Payouts', 'ContentUpload', 'GroupOwnershipTransfer', 'GameOwnershipTransfer']),
+  isFeatureBlocked: z.boolean(),
+  expiration: z.string().datetime({ offset: true }),
+});
+const Roblox_Groups_Api_GetGroupFeaturesResponse = z.object({
+  isLocked: z.boolean(),
+  features: z.array(Roblox_Groups_Api_GroupFeatureResponse),
+});
+const Roblox_Groups_Api_SetFeaturesRequestModel = z.object({
+  Features: z.object({}),
+});
+const Roblox_Groups_Api_SetFeaturesResponseModel = z.object({
+  Updated: z.boolean(),
+});
+const Roblox_Groups_Api_HasGroupFeaturesBlockedResponse = z.object({
+  hasFeaturesBlocked: z.boolean(),
+});
 const Roblox_Groups_Api_GroupJoinRequestResponse = z.object({
   requester: Roblox_Groups_Api_Models_Response_UserModel,
   created: z.string().datetime({ offset: true }),
@@ -151,6 +188,7 @@ const Roblox_Groups_Api_GroupManagementPermissionsModel = z.object({
   manageClan: z.boolean(),
   viewAuditLogs: z.boolean(),
   bypassSlowmode: z.boolean(),
+  viewCommunityAnalytics: z.boolean(),
 });
 const Roblox_Groups_Api_GroupEconomyPermissionsModel = z.object({
   spendGroupFunds: z.boolean(),
@@ -458,6 +496,25 @@ const Roblox_Groups_Api_GroupRoleDetailResponse = z.object({
   rank: z.number().int(),
   memberCount: z.number().int(),
   isBase: z.boolean(),
+  color: z.enum([
+    'Invalid',
+    'Blue',
+    'Green',
+    'Purple',
+    'Yellow',
+    'Orange',
+    'Red',
+    'Magenta',
+    'Teal',
+    'Turquoise',
+    'Rust',
+    'Pistachio',
+    'Midnight',
+    'Lavender',
+    'Pink',
+    'Crimson',
+    'Plum',
+  ]),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupRoleDetailResponse_ = z.object({
   data: z.array(Roblox_Groups_Api_GroupRoleDetailResponse),
@@ -553,6 +610,7 @@ const Roblox_Groups_Api_Models_Request_UpdateRoleSetRequest = z.object({
   name: z.string(),
   description: z.string(),
   rank: z.number().int(),
+  color: z.number().int(),
 });
 const Roblox_Groups_Api_PostGroupStatusRequest = z.object({
   message: z.string(),
@@ -1426,6 +1484,117 @@ export const getGroupsGroupidEmotes = endpoint({
   },
   response: Roblox_Groups_Client_GetGroupEmoteSetsResponse,
   errors: [],
+});
+/**
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/features
+ * @summary Gets the freeze status of all features and the lock status for a group.
+ * @param groupId
+ */
+export const getGroupsGroupidFeatures = endpoint({
+  method: 'GET',
+  path: '/v1/groups/:groupId/features',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+  },
+  response: Roblox_Groups_Api_GetGroupFeaturesResponse,
+  errors: [
+    {
+      status: 400,
+      description: `1: Group is invalid or does not exist.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `23: Insufficient permissions to complete the request.
+49: User is invalid or does not exist`,
+    },
+  ],
+});
+/**
+ * @api PATCH https://groups.roblox.com/v1/groups/:groupId/features
+ * @summary Sets the desired status of group features.
+Currently only removes active freezes for features set to Roblox.Groups.Api.FeatureStatus.On.
+ * @param body 
+ * @param groupId 
+ */
+export const patchGroupsGroupidFeatures = endpoint({
+  method: 'PATCH',
+  path: '/v1/groups/:groupId/features',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    groupId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+  },
+  body: z.object({ Features: z.object({}) }),
+  response: z.object({ Updated: z.boolean() }),
+  errors: [
+    {
+      status: 400,
+      description: `1: Group is invalid or does not exist.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+23: Insufficient permissions to complete the request.
+49: User is invalid or does not exist`,
+    },
+  ],
+});
+/**
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/features/status
+ * @summary Checks whether a group has ANY feature disabled (includes feature freezes and group lock).
+Used to display a banner on Creator Hub/Studio to inform group members that some features may not be available.
+ * @param groupId 
+ */
+export const getGroupsGroupidFeaturesStatus = endpoint({
+  method: 'GET',
+  path: '/v1/groups/:groupId/features/status',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+  },
+  response: z.object({ hasFeaturesBlocked: z.boolean() }),
+  errors: [
+    {
+      status: 400,
+      description: `1: Group is invalid or does not exist.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `23: Insufficient permissions to complete the request.
+49: User is invalid or does not exist`,
+    },
+  ],
 });
 /**
  * @api GET https://groups.roblox.com/v1/groups/:groupId/join-requests

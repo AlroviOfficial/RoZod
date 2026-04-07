@@ -27,6 +27,7 @@ const Roblox_Friends_Api_FriendRequest = z.object({
     'ProfileShare',
     'PhoneContactImporter',
     'FriendRecommendations',
+    'UserCommunities',
   ]),
   contactName: z.string(),
   senderNickname: z.string(),
@@ -162,6 +163,7 @@ const Roblox_Friends_Api_FriendshipRequestModel = z.object({
     'ProfileShare',
     'PhoneContactImporter',
     'FriendRecommendations',
+    'UserCommunities',
   ]),
   senderNickname: z.string(),
 });
@@ -383,6 +385,23 @@ export const deleteMyNewFriendRequests = endpoint({
 export const getMyNewFriendRequestsCount = endpoint({
   method: 'GET',
   path: '/v1/my/new-friend-requests/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
+  response: z.object({ count: z.number().int() }),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
+ * @api GET https://friends.roblox.com/v1/my/trusted-friends/count
+ * @summary Get the number of trusted friends a user has
+ */
+export const getMyTrustedFriendsCount = endpoint({
+  method: 'GET',
+  path: '/v1/my/trusted-friends/count',
   baseUrl: 'https://friends.roblox.com',
   requestFormat: 'json',
   response: z.object({ count: z.number().int() }),
@@ -1214,6 +1233,32 @@ export const getUsersUseridFriendsStatuses = endpoint({
       description: `1: The target user is invalid or does not exist.
 15: Too many ids.
 16: Invalid ids.`,
+    },
+  ],
+});
+/**
+ * @api GET https://friends.roblox.com/v1/users/:userId/trusted-friends/count
+ * @summary Get the number of trusted friends a user has
+ * @param userId
+ */
+export const getUsersUseridTrustedFriendsCount = endpoint({
+  method: 'GET',
+  path: '/v1/users/:userId/trusted-friends/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    userId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+  },
+  response: z.object({ count: z.number().int() }),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
     },
   ],
 });
