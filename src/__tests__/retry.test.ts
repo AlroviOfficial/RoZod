@@ -15,7 +15,8 @@ beforeEach(() => {
 });
 
 test('retries on 429 and succeeds', async () => {
-  const spy = jest.spyOn(globalThis, 'fetch')
+  const spy = jest
+    .spyOn(globalThis, 'fetch')
     .mockResolvedValueOnce(new Response('', { status: 429 }))
     .mockResolvedValueOnce(new Response(successBody, { status: 200, headers: { 'content-type': 'application/json' } }));
 
@@ -27,7 +28,8 @@ test('retries on 429 and succeeds', async () => {
 });
 
 test('retries on 500 and succeeds', async () => {
-  const spy = jest.spyOn(globalThis, 'fetch')
+  const spy = jest
+    .spyOn(globalThis, 'fetch')
     .mockResolvedValueOnce(new Response('', { status: 500 }))
     .mockResolvedValueOnce(new Response(successBody, { status: 200, headers: { 'content-type': 'application/json' } }));
 
@@ -38,7 +40,8 @@ test('retries on 500 and succeeds', async () => {
 });
 
 test('retries on 502 and succeeds', async () => {
-  const spy = jest.spyOn(globalThis, 'fetch')
+  const spy = jest
+    .spyOn(globalThis, 'fetch')
     .mockResolvedValueOnce(new Response('', { status: 502 }))
     .mockResolvedValueOnce(new Response(successBody, { status: 200, headers: { 'content-type': 'application/json' } }));
 
@@ -49,7 +52,8 @@ test('retries on 502 and succeeds', async () => {
 });
 
 test('retries on 503 and succeeds', async () => {
-  const spy = jest.spyOn(globalThis, 'fetch')
+  const spy = jest
+    .spyOn(globalThis, 'fetch')
     .mockResolvedValueOnce(new Response('', { status: 503 }))
     .mockResolvedValueOnce(new Response(successBody, { status: 200, headers: { 'content-type': 'application/json' } }));
 
@@ -60,7 +64,8 @@ test('retries on 503 and succeeds', async () => {
 });
 
 test('retries on 504 and succeeds', async () => {
-  const spy = jest.spyOn(globalThis, 'fetch')
+  const spy = jest
+    .spyOn(globalThis, 'fetch')
     .mockResolvedValueOnce(new Response('', { status: 504 }))
     .mockResolvedValueOnce(new Response(successBody, { status: 200, headers: { 'content-type': 'application/json' } }));
 
@@ -71,11 +76,12 @@ test('retries on 504 and succeeds', async () => {
 });
 
 test('returns error after exhausting retries on 429', async () => {
-  const spy = jest.spyOn(globalThis, 'fetch')
-    .mockResolvedValue(new Response(JSON.stringify({ message: 'Too many requests' }), {
+  const spy = jest.spyOn(globalThis, 'fetch').mockResolvedValue(
+    new Response(JSON.stringify({ message: 'Too many requests' }), {
       status: 429,
       headers: { 'content-type': 'application/json' },
-    }));
+    }),
+  );
 
   const result = await fetchApi(testEndpoint, {} as any, { retries: 2, retryDelay: 10 });
 
@@ -85,7 +91,8 @@ test('returns error after exhausting retries on 429', async () => {
 });
 
 test('respects Retry-After header', async () => {
-  const spy = jest.spyOn(globalThis, 'fetch')
+  const spy = jest
+    .spyOn(globalThis, 'fetch')
     .mockResolvedValueOnce(new Response('', { status: 429, headers: { 'retry-after': '1' } }))
     .mockResolvedValueOnce(new Response(successBody, { status: 200, headers: { 'content-type': 'application/json' } }));
 
@@ -99,11 +106,12 @@ test('respects Retry-After header', async () => {
 });
 
 test('does not retry on 404', async () => {
-  const spy = jest.spyOn(globalThis, 'fetch')
-    .mockResolvedValueOnce(new Response(JSON.stringify({ message: 'Not found' }), {
+  const spy = jest.spyOn(globalThis, 'fetch').mockResolvedValueOnce(
+    new Response(JSON.stringify({ message: 'Not found' }), {
       status: 404,
       headers: { 'content-type': 'application/json' },
-    }));
+    }),
+  );
 
   const result = await fetchApi(testEndpoint, {} as any, { retries: 3, retryDelay: 10 });
 
@@ -112,7 +120,8 @@ test('does not retry on 404', async () => {
 });
 
 test('retries on network error and succeeds', async () => {
-  const spy = jest.spyOn(globalThis, 'fetch')
+  const spy = jest
+    .spyOn(globalThis, 'fetch')
     .mockRejectedValueOnce(new Error('network error'))
     .mockResolvedValueOnce(new Response(successBody, { status: 200, headers: { 'content-type': 'application/json' } }));
 
@@ -123,7 +132,8 @@ test('retries on network error and succeeds', async () => {
 });
 
 test('retries multiple times across different failure types', async () => {
-  const spy = jest.spyOn(globalThis, 'fetch')
+  const spy = jest
+    .spyOn(globalThis, 'fetch')
     .mockRejectedValueOnce(new Error('network error'))
     .mockResolvedValueOnce(new Response('', { status: 503 }))
     .mockResolvedValueOnce(new Response('', { status: 429 }))

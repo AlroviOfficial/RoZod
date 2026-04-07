@@ -992,7 +992,12 @@ async function handleRetryFetch(
         ...requestOptions,
       });
 
-      const retryable = response.status === 429 || response.status === 500 || response.status === 502 || response.status === 503 || response.status === 504;
+      const retryable =
+        response.status === 429 ||
+        response.status === 500 ||
+        response.status === 502 ||
+        response.status === 503 ||
+        response.status === 504;
       if (retryable && retries > 0) {
         retries--;
         const retryAfter = response.headers.get('retry-after');
