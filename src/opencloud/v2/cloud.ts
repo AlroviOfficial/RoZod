@@ -436,7 +436,7 @@ const Subscription = z.object({
   ]),
   expirationDetails: Subscription_ExpirationDetails,
   purchasePlatform: z.enum(['PURCHASE_PLATFORM_UNSPECIFIED', 'DESKTOP', 'MOBILE']),
-  paymentProvider: z.enum(['PAYMENT_PROVIDER_UNSPECIFIED', 'STRIPE', 'APPLE', 'GOOGLE', 'ROBLOX_CREDIT']),
+  paymentProvider: z.enum(['PAYMENT_PROVIDER_UNSPECIFIED', 'STRIPE', 'APPLE', 'GOOGLE', 'ROBLOX_CREDIT', 'ROBUX']),
   user: z.string(),
 });
 const UserRestrictionLog_Moderator_GameServerScript = z.object({});
