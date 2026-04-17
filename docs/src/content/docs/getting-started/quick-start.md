@@ -13,7 +13,7 @@ Every API call in RoZod follows the same pattern:
 
 ```ts
 import { fetchApi, isAnyErrorResponse } from 'rozod';
-import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
+import { getUsersUserid } from 'rozod/endpoints/usersv1';
 
 const user = await fetchApi(getUsersUserid, { userId: 1 });
 
@@ -31,7 +31,7 @@ When running in Node.js, Bun, or Deno, configure authentication before making re
 
 ```ts
 import { configureServer, fetchApi, isAnyErrorResponse } from 'rozod';
-import { getUsersAuthenticated } from 'rozod/lib/endpoints/usersv1';
+import { getUsersAuthenticated } from 'rozod/endpoints/usersv1';
 
 // Configure with your .ROBLOSECURITY cookie
 configureServer({
@@ -51,7 +51,7 @@ For OpenCloud APIs, use an API key instead:
 
 ```ts
 import { configureServer, fetchApi, isAnyErrorResponse } from 'rozod';
-import { v1 } from 'rozod/lib/opencloud';
+import { v1 } from 'rozod/opencloud';
 
 configureServer({
   cloudKey: process.env.ROBLOX_CLOUD_KEY,
@@ -74,7 +74,7 @@ Endpoints that require parameters are fully typed — TypeScript will tell you e
 
 ```ts
 import { fetchApi } from 'rozod';
-import { postUsernamesUsers } from 'rozod/lib/endpoints/usersv1';
+import { postUsernamesUsers } from 'rozod/endpoints/usersv1';
 
 // Look up users by username
 const result = await fetchApi(postUsernamesUsers, {

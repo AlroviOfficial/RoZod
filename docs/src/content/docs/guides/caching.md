@@ -11,7 +11,7 @@ Pass `cacheKey` and `cacheTime` in request options:
 
 ```ts
 import { fetchApi } from 'rozod';
-import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
+import { getUsersUserid } from 'rozod/endpoints/usersv1';
 
 const user = await fetchApi(
   getUsersUserid,

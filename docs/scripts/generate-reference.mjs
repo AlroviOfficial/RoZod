@@ -842,7 +842,7 @@ function main() {
     if (endpoints.length === 0) continue;
     const title = fileNameToTitle(file);
     const slug = fileNameToSlug(file);
-    const importPath = `rozod/lib/endpoints/${file.replace(/\.ts$/, '')}`;
+    const importPath = `rozod/endpoints/${file.replace(/\.ts$/, '')}`;
     const content = generatePage(title, `Reference for the ${title} endpoints on Roblox.`, endpoints, importPath, classicOrder++);
     writeFileSync(join(classicOutDir, `${slug}.md`), content, 'utf-8');
     totalClassicEndpoints += endpoints.length;
@@ -863,7 +863,7 @@ function main() {
     if (endpoints.length === 0) continue;
     const title = `${ocFileNameToTitle(file)} (v1)`;
     const slug = file.replace(/\.ts$/, '');
-    const importPath = `rozod/lib/opencloud/v1/${slug}`;
+    const importPath = `rozod/opencloud/v1/${slug}`;
     const content = generatePage(title, `OpenCloud v1 reference for ${ocFileNameToTitle(file)}.`, endpoints, importPath, ocOrder++);
     writeFileSync(join(ocOutDir, `${slug}.md`), content, 'utf-8');
     totalOCEndpoints += endpoints.length;
@@ -878,7 +878,7 @@ function main() {
         'Cloud v2',
         'OpenCloud v2 reference — the newer unified Cloud API covering a broad range of Roblox resources.',
         v2Endpoints,
-        'rozod/lib/opencloud/v2/cloud',
+        'rozod/opencloud/v2/cloud',
         ocOrder++,
       );
       writeFileSync(join(ocOutDir, 'cloud-v2.md'), content, 'utf-8');

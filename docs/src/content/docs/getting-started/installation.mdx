@@ -55,11 +55,11 @@ After installing, you import endpoints from their respective modules:
 import { fetchApi, configureServer } from 'rozod';
 
 // Classic API endpoints (one file per Roblox service)
-import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
-import { getGroupsGroupid } from 'rozod/lib/endpoints/groupsv1';
+import { getUsersUserid } from 'rozod/endpoints/usersv1';
+import { getGroupsGroupid } from 'rozod/endpoints/groupsv1';
 
 // OpenCloud endpoints
-import { v1, v2 } from 'rozod/lib/opencloud';
+import { v1, v2 } from 'rozod/opencloud';
 ```
 
 Each endpoint file maps to a Roblox API service (e.g., `usersv1`, `groupsv1`, `catalogv1`). See the [API Reference](/reference/classic/account-information-v1/) for a full list.
