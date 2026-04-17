@@ -49,6 +49,7 @@
   },
   "scripts": {
     "test": "jest --config jestconfig.json",
+    "test:exports": "npm run build && node scripts/smoke-test-exports.mjs",
     "build": "tsc && tsc --project tsconfig.declarations.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "prepare": "npm run build",
