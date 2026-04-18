@@ -63,8 +63,8 @@
   "author": "AlroviOfficial",
   "license": "ISC",
   "dependencies": {
-    "parse-roblox-errors": "^1.1.13",
-    "roblox-bat": "^0.6.3",
+    "parse-roblox-errors": "^1.2.2",
+    "roblox-bat": "^0.6.5",
     "zod": "^4.3.6"
   },
   "repository": {
