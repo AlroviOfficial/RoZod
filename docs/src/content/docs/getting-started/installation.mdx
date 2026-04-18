@@ -63,3 +63,18 @@ import { v1, v2 } from 'rozod/opencloud';
 ```
 
 Each endpoint file maps to a Roblox API service (e.g., `usersv1`, `groupsv1`, `catalogv1`). See the [API Reference](/reference/classic/account-information-v1/) for a full list.
+
+## TypeScript Module Resolution
+
+The `rozod/endpoints/*` and `rozod/opencloud` subpaths are declared via `package.json#exports`. TypeScript only reads `exports` when `moduleResolution` is set to `node16`, `nodenext`, or `bundler`:
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "moduleResolution": "bundler" // or "node16" / "nodenext"
+  }
+}
+```
+
+If you're on the classic `"node"` resolution (the default on older configs), the new subpaths won't resolve. You can either switch `moduleResolution` to one of the above, or keep using the `rozod/lib/endpoints/...` and `rozod/lib/opencloud` paths, which remain supported.

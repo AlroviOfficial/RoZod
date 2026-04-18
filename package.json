@@ -1,6 +1,6 @@
 {
   "name": "rozod",
-  "version": "6.6.0",
+  "version": "6.7.0",
   "description": "A TypeScript wrapper for the Roblox API",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -53,7 +53,7 @@
     "build": "tsc && tsc --project tsconfig.declarations.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test",
+    "prepublishOnly": "npm test && npm run test:exports",
     "version": "npm run format && git add -A src",
     "generate": "node ./zodios_endpoints.js",
     "docs": "cd docs && node scripts/generate-reference.mjs && bunx astro build",
