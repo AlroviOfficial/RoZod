@@ -11,7 +11,7 @@ By default, `fetchApi` returns `ExtractResponse<S> | AnyError`. You use `isAnyEr
 
 ```ts
 import { fetchApi, isAnyErrorResponse } from 'rozod';
-import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
+import { getUsersUserid } from 'rozod/endpoints/usersv1';
 
 const result = await fetchApi(getUsersUserid, { userId: 1 });
 
@@ -78,7 +78,7 @@ type AnyError = {
 Each endpoint definition includes its known error responses. These are available on the endpoint object's `errors` property:
 
 ```ts
-import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
+import { getUsersUserid } from 'rozod/endpoints/usersv1';
 
 console.log(getUsersUserid.errors);
 // [

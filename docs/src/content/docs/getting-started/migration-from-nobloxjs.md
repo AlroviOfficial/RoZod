@@ -44,7 +44,7 @@ console.log(user.username);
 
 // RoZod
 import { fetchApi, isAnyErrorResponse } from 'rozod';
-import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
+import { getUsersUserid } from 'rozod/endpoints/usersv1';
 
 const user = await fetchApi(getUsersUserid, { userId: 1 });
 if (!isAnyErrorResponse(user)) {
@@ -59,7 +59,7 @@ if (!isAnyErrorResponse(user)) {
 const group = await noblox.getGroup(1);
 
 // RoZod
-import { getGroupsGroupid } from 'rozod/lib/endpoints/groupsv1';
+import { getGroupsGroupid } from 'rozod/endpoints/groupsv1';
 
 const group = await fetchApi(getGroupsGroupid, { groupId: 1 });
 ```
@@ -72,7 +72,7 @@ const members = await noblox.getPlayers(groupId);
 
 // RoZod — with pagination
 import { fetchApiPages } from 'rozod';
-import { getGroupsGroupidUsers } from 'rozod/lib/endpoints/groupsv1';
+import { getGroupsGroupidUsers } from 'rozod/endpoints/groupsv1';
 
 const pages = await fetchApiPages(
   getGroupsGroupidUsers,
@@ -87,7 +87,7 @@ const pages = await fetchApiPages(
 await noblox.setRank(groupId, userId, roleId);
 
 // RoZod
-import { patchGroupsGroupidUsersUserid } from 'rozod/lib/endpoints/groupsv1';
+import { patchGroupsGroupidUsersUserid } from 'rozod/endpoints/groupsv1';
 
 await fetchApi(patchGroupsGroupidUsersUserid, {
   groupId: 1,

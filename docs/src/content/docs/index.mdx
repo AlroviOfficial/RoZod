@@ -38,7 +38,7 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 ```ts
 import { fetchApi, isAnyErrorResponse } from 'rozod';
-import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
+import { getUsersUserid } from 'rozod/endpoints/usersv1';
 
 const user = await fetchApi(getUsersUserid, { userId: 1 });
 

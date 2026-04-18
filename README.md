@@ -57,7 +57,7 @@ pnpm add rozod
 
 ```ts
 import { fetchApi, isAnyErrorResponse } from 'rozod';
-import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
+import { getUsersUserid } from 'rozod/endpoints/usersv1';
 
 // Fetch user details with full type safety
 const userInfo = await fetchApi(getUsersUserid, { userId: 1 });
@@ -73,7 +73,7 @@ console.log(userInfo.displayName); // Properly typed!
 
 ```ts
 import { fetchApi, isAnyErrorResponse } from 'rozod';
-import { getGamesIcons } from 'rozod/lib/endpoints/thumbnailsv1';
+import { getGamesIcons } from 'rozod/endpoints/thumbnailsv1';
 
 const response = await fetchApi(getGamesIcons, { universeIds: [1534453623, 65241] });
 if (!isAnyErrorResponse(response)) {
@@ -85,7 +85,7 @@ if (!isAnyErrorResponse(response)) {
 
 ```ts
 import { fetchApiPages, isAnyErrorResponse } from 'rozod';
-import { getGroupsGroupidWallPosts } from 'rozod/lib/endpoints/groupsv2';
+import { getGroupsGroupidWallPosts } from 'rozod/endpoints/groupsv2';
 
 // Automatically fetches all pages
 const pages = await fetchApiPages(getGroupsGroupidWallPosts, { groupId: 11479637 });
@@ -98,7 +98,7 @@ if (!isAnyErrorResponse(pages)) {
 
 ```ts
 import { fetchApiPagesGenerator, isAnyErrorResponse } from 'rozod';
-import { getGroupsGroupidWallPosts } from 'rozod/lib/endpoints/groupsv2';
+import { getGroupsGroupidWallPosts } from 'rozod/endpoints/groupsv2';
 
 // Process pages as they arrive
 const pages = fetchApiPagesGenerator(getGroupsGroupidWallPosts, { groupId: 11479637 });
@@ -113,7 +113,7 @@ for await (const page of pages) {
 
 ```ts
 import { fetchApiSplit } from 'rozod';
-import { getGamesIcons } from 'rozod/lib/endpoints/thumbnailsv1';
+import { getGamesIcons } from 'rozod/endpoints/thumbnailsv1';
 
 // Will automatically split into smaller batches of 100 universeIds per request
 const data = await fetchApiSplit(
@@ -130,7 +130,7 @@ By default, requests return either the success type or a simple `AnyError`. Use 
 
 ```ts
 import { fetchApi, isAnyErrorResponse } from 'rozod';
-import { getGamesIcons } from 'rozod/lib/endpoints/thumbnailsv1';
+import { getGamesIcons } from 'rozod/endpoints/thumbnailsv1';
 
 const res = await fetchApi(getGamesIcons, { universeIds: [1534453623] });
 if (isAnyErrorResponse(res)) {
@@ -164,7 +164,7 @@ RoZod supports Roblox's newer OpenCloud APIs with the same easy interface:
 
 ```ts
 import { fetchApi, isAnyErrorResponse } from 'rozod';
-import { v2 } from 'rozod/lib/opencloud';
+import { v2 } from 'rozod/opencloud';
 
 // Get universe details through OpenCloud
 const universeInfo = await fetchApi(v2.getCloudV2UniversesUniverseId, {
@@ -182,7 +182,7 @@ if (!isAnyErrorResponse(universeInfo)) {
 
 ```ts
 import { fetchApi } from 'rozod';
-import { getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries } from 'rozod/lib/opencloud/v2/cloud';
+import { getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries } from 'rozod/opencloud/v2/cloud';
 
 // Get DataStore entries with type safety
 const dataStoreEntries = await fetchApi(getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries, {
@@ -201,7 +201,7 @@ In browsers, authentication works automatically when users are logged into Roblo
 
 ```ts
 import { fetchApi } from 'rozod';
-import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
+import { getUsersUserid } from 'rozod/endpoints/usersv1';
 
 // Cookies are sent automatically - no setup required!
 const userInfo = await fetchApi(getUsersUserid, { userId: 123456 });
@@ -213,7 +213,7 @@ For server environments, use `configureServer()` to set up authentication once:
 
 ```ts
 import { configureServer, fetchApi } from 'rozod';
-import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
+import { getUsersUserid } from 'rozod/endpoints/usersv1';
 
 // Configure once at startup
 configureServer({ cookies: 'your_roblosecurity_cookie_here' });
@@ -283,7 +283,7 @@ For OpenCloud endpoints (`apis.roblox.com`), set your API key once:
 
 ```ts
 import { configureServer, fetchApi } from 'rozod';
-import { v2 } from 'rozod/lib/opencloud';
+import { v2 } from 'rozod/opencloud';
 
 // Configure OpenCloud API key
 configureServer({ cloudKey: 'your_opencloud_api_key_here' });

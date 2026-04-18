@@ -11,7 +11,7 @@ Fetches all pages and returns them as an array:
 
 ```ts
 import { fetchApiPages, isAnyErrorResponse } from 'rozod';
-import { getGroupsGroupidUsers } from 'rozod/lib/endpoints/groupsv1';
+import { getGroupsGroupidUsers } from 'rozod/endpoints/groupsv1';
 
 const pages = await fetchApiPages(
   getGroupsGroupidUsers,
@@ -49,7 +49,7 @@ For large datasets where you don't want to hold everything in memory, use the as
 
 ```ts
 import { fetchApiPagesGenerator, isAnyErrorResponse } from 'rozod';
-import { getGroupsGroupidUsers } from 'rozod/lib/endpoints/groupsv1';
+import { getGroupsGroupidUsers } from 'rozod/endpoints/groupsv1';
 
 const pages = fetchApiPagesGenerator(
   getGroupsGroupidUsers,

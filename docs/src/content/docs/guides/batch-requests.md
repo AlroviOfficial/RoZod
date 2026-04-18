@@ -9,7 +9,7 @@ Some Roblox API endpoints accept arrays of IDs but impose limits on how many you
 
 ```ts
 import { fetchApiSplit, isAnyErrorResponse } from 'rozod';
-import { getGamesIcons } from 'rozod/lib/endpoints/thumbnailsv1';
+import { getGamesIcons } from 'rozod/endpoints/thumbnailsv1';
 
 const results = await fetchApiSplit(
   getGamesIcons,
@@ -54,7 +54,7 @@ fetchApiSplit(
 
 ```ts
 import { fetchApiSplit, isAnyErrorResponse } from 'rozod';
-import { getGamesMultigetThumbnails } from 'rozod/lib/endpoints/thumbnailsv1';
+import { getGamesMultigetThumbnails } from 'rozod/endpoints/thumbnailsv1';
 
 const universeIds = [1, 2, 3, /* ...hundreds of IDs */ ];
 

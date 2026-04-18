@@ -111,7 +111,7 @@ You can override the configured cookie or API key on individual requests:
 
 ```ts
 import { fetchApi } from 'rozod';
-import { getUsersUserid } from 'rozod/lib/endpoints/usersv1';
+import { getUsersUserid } from 'rozod/endpoints/usersv1';
 
 const user = await fetchApi(
   getUsersUserid,

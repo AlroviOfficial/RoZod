@@ -23,7 +23,7 @@ configureServer({
 v1 endpoints are organized by resource:
 
 ```ts
-import { v1 } from 'rozod/lib/opencloud';
+import { v1 } from 'rozod/opencloud';
 
 // Available resources:
 // v1.universes  — Universe/place management
@@ -37,7 +37,7 @@ import { v1 } from 'rozod/lib/opencloud';
 
 ```ts
 import { fetchApi, isAnyErrorResponse } from 'rozod';
-import { v1 } from 'rozod/lib/opencloud';
+import { v1 } from 'rozod/opencloud';
 
 // List data stores
 const stores = await fetchApi(
@@ -60,7 +60,7 @@ const entry = await fetchApi(
 
 ```ts
 import { fetchApi } from 'rozod';
-import { v1 } from 'rozod/lib/opencloud';
+import { v1 } from 'rozod/opencloud';
 
 await fetchApi(
   v1.messaging.postUniversesUniverseIdTopicsTopic,
@@ -77,14 +77,14 @@ await fetchApi(
 v2 is the newer OpenCloud API with broader coverage:
 
 ```ts
-import { v2 } from 'rozod/lib/opencloud';
+import { v2 } from 'rozod/opencloud';
 ```
 
 v2 endpoints follow the naming pattern `{method}CloudV2{PathSegments}`:
 
 ```ts
 import { fetchApi } from 'rozod';
-import { v2 } from 'rozod/lib/opencloud';
+import { v2 } from 'rozod/opencloud';
 
 // Get universe info
 const universe = await fetchApi(
@@ -104,7 +104,7 @@ const entries = await fetchApi(
 Each OpenCloud endpoint declares its required permission scopes. You can inspect these on the endpoint object:
 
 ```ts
-import { v1 } from 'rozod/lib/opencloud';
+import { v1 } from 'rozod/opencloud';
 
 console.log(v1.datastores.getUniversesUniverseIdDatastores.scopes);
 // ['universe-datastores.control:list']

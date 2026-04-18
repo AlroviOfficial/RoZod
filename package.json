@@ -1,15 +1,59 @@
 {
   "name": "rozod",
-  "version": "6.6.0",
+  "version": "6.7.0",
   "description": "A TypeScript wrapper for the Roblox API",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./endpoints/*": {
+      "types": "./lib/endpoints/*.d.ts",
+      "default": "./lib/endpoints/*.js"
+    },
+    "./endpoints/*.js": {
+      "types": "./lib/endpoints/*.d.ts",
+      "default": "./lib/endpoints/*.js"
+    },
+    "./opencloud": {
+      "types": "./lib/opencloud/index.d.ts",
+      "default": "./lib/opencloud/index.js"
+    },
+    "./opencloud/*": {
+      "types": "./lib/opencloud/*.d.ts",
+      "default": "./lib/opencloud/*.js"
+    },
+    "./opencloud/*.js": {
+      "types": "./lib/opencloud/*.d.ts",
+      "default": "./lib/opencloud/*.js"
+    },
+    "./cache": {
+      "types": "./lib/cache.d.ts",
+      "default": "./lib/cache.js"
+    },
+    "./lib/opencloud": {
+      "types": "./lib/opencloud/index.d.ts",
+      "default": "./lib/opencloud/index.js"
+    },
+    "./lib/*": {
+      "types": "./lib/*.d.ts",
+      "default": "./lib/*.js"
+    },
+    "./lib/*.js": {
+      "types": "./lib/*.d.ts",
+      "default": "./lib/*.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "test": "jest --config jestconfig.json",
+    "test:exports": "npm run build && node scripts/smoke-test-exports.mjs",
     "build": "tsc && tsc --project tsconfig.declarations.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test",
+    "prepublishOnly": "npm test && npm run test:exports",
     "version": "npm run format && git add -A src",
     "generate": "node ./zodios_endpoints.js",
     "docs": "cd docs && node scripts/generate-reference.mjs && bunx astro build",
@@ -19,8 +63,8 @@
   "author": "AlroviOfficial",
   "license": "ISC",
   "dependencies": {
-    "parse-roblox-errors": "^1.1.13",
-    "roblox-bat": "^0.6.3",
+    "parse-roblox-errors": "^1.2.2",
+    "roblox-bat": "^0.6.5",
     "zod": "^4.3.6"
   },
   "repository": {

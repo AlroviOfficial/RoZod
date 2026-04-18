@@ -168,13 +168,6 @@ const ListGroupRolesResponse = z.object({
   groupRoles: z.array(GroupRole),
   nextPageToken: z.string(),
 });
-const GroupShout = z.object({
-  path: z.string(),
-  createTime: z.string().datetime({ offset: true }),
-  updateTime: z.string().datetime({ offset: true }),
-  content: z.string(),
-  poster: z.string(),
-});
 const Universe_SocialLink = z.object({ title: z.string(), uri: z.string() });
 const Universe = z.object({
   path: z.string().optional(),
@@ -436,7 +429,7 @@ const Subscription = z.object({
   ]),
   expirationDetails: Subscription_ExpirationDetails,
   purchasePlatform: z.enum(['PURCHASE_PLATFORM_UNSPECIFIED', 'DESKTOP', 'MOBILE']),
-  paymentProvider: z.enum(['PAYMENT_PROVIDER_UNSPECIFIED', 'STRIPE', 'APPLE', 'GOOGLE', 'ROBLOX_CREDIT']),
+  paymentProvider: z.enum(['PAYMENT_PROVIDER_UNSPECIFIED', 'STRIPE', 'APPLE', 'GOOGLE', 'ROBLOX_CREDIT', 'ROBUX']),
   user: z.string(),
 });
 const UserRestrictionLog_Moderator_GameServerScript = z.object({});
@@ -1299,37 +1292,6 @@ export const getCloudV2GroupsGroupIdRolesRoleId = endpoint({
     role_id: z.string(),
   },
   response: GroupRole,
-  errors: [],
-});
-/**
- * `BETA`
- *
- * Gets the group shout.
-
-If a guest can view the group shout, this is always retrievable.
-
-If a guest cannot, a member who has the permissions to view the group
-shout, along with the `group:read` scope, will be able to read the group
-shout.
- *
- * **Scopes:** `group:read`
- * **Engine:** Usable with HttpService
- *
- * @param group_id The group ID.
- */
-export const getCloudV2GroupsGroupIdShout = endpoint({
-  method: 'GET',
-  path: '/cloud/v2/groups/:group_id/shout',
-  baseUrl: 'https://apis.roblox.com',
-  scopes: ['group:read'],
-  requestFormat: 'json',
-  serializationMethod: {
-    group_id: {},
-  },
-  parameters: {
-    group_id: z.string(),
-  },
-  response: GroupShout,
   errors: [],
 });
 /**
