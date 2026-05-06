@@ -16,6 +16,7 @@ If you're coming from noblox.js, this guide will help you understand how RoZod d
 | **Error handling** | Throws errors | Returns `AnyError` union (or throws with `throwOnError`) |
 | **OpenCloud** | Not supported | 115+ OpenCloud endpoints built-in |
 | **Endpoint coverage** | Subset of Roblox APIs | 810+ endpoints, auto-generated from official docs |
+| **Maintained** | Deprecated | Actively Maintained |
 
 ## Authentication
 
