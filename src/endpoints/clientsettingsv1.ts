@@ -1,23 +1,22 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
-const Roblox_ClientSettings_Api_Models_Response_ClientVersionResponse =
-  z.object({
-    version: z.string(),
-    clientVersionUpload: z.string(),
-    bootstrapperVersion: z.string(),
-    nextClientVersionUpload: z.string(),
-    nextClientVersion: z.string(),
-  });
-const Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponseData =
-  z.object({ UpgradeAction: z.string() });
-const Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponse =
-  z.object({
-    activeVersion: z.string(),
-    upgradeSource: z.string(),
-    MD5Sum: z.string(),
-    data: Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponseData,
-  });
+const Roblox_ClientSettings_Api_Models_Response_ClientVersionResponse = z.object({
+  version: z.string(),
+  clientVersionUpload: z.string(),
+  bootstrapperVersion: z.string(),
+  nextClientVersionUpload: z.string(),
+  nextClientVersion: z.string(),
+});
+const Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponseData = z.object({
+  UpgradeAction: z.string(),
+});
+const Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponse = z.object({
+  activeVersion: z.string(),
+  upgradeSource: z.string(),
+  MD5Sum: z.string(),
+  data: Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponseData,
+});
 
 /**
  * @api GET https://clientsettings.roblox.com/v1/client-version/:binaryType
@@ -25,13 +24,13 @@ const Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponse =
  * @param binaryType Platform(WindowsPlayer, WindowsStudio, MacPlayer or MacStudio) for which we want the latest version
  */
 export const getClientVersionBinarytype = endpoint({
-  method: "GET",
-  path: "/v1/client-version/:binaryType",
-  baseUrl: "https://clientsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/client-version/:binaryType',
+  baseUrl: 'https://clientsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     binaryType: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -45,10 +44,10 @@ export const getClientVersionBinarytype = endpoint({
  * @summary Get information about which CDNs to use for installation.
  */
 export const getInstallerCdns = endpoint({
-  method: "GET",
-  path: "/v1/installer-cdns",
-  baseUrl: "https://clientsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/installer-cdns',
+  baseUrl: 'https://clientsettings.roblox.com',
+  requestFormat: 'json',
   response: z.void(),
   errors: [],
 });
@@ -58,21 +57,20 @@ export const getInstallerCdns = endpoint({
  * @param appVersion AppiOSV2.13, AppVersioniOS2.0.1, etc
  */
 export const getMobileClientVersion = endpoint({
-  method: "GET",
-  path: "/v1/mobile-client-version",
-  baseUrl: "https://clientsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/mobile-client-version',
+  baseUrl: 'https://clientsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     appVersion: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     appVersion: z.string(),
   },
-  response:
-    Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponse,
+  response: Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponse,
   errors: [
     {
       status: 400,

@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Api_Notifications_Models_ChromeManifestModel = z.object({
   name: z.string(),
@@ -17,34 +17,30 @@ const Roblox_Api_Notifications_Models_UserPushDestination = z.object({
   userPushNotificationDestinationId: z.number().int(),
   application: z.string(),
   platform: z.enum([
-    "ChromeOnDesktop",
-    "AndroidNative",
-    "FirefoxOnDesktop",
-    "IOSNative",
-    "AndroidAmazon",
-    "IOSTencent",
-    "AndroidTencentService",
-    "IOSPushKit",
+    'ChromeOnDesktop',
+    'AndroidNative',
+    'FirefoxOnDesktop',
+    'IOSNative',
+    'AndroidAmazon',
+    'IOSTencent',
+    'AndroidTencentService',
+    'IOSPushKit',
   ]),
 });
-const Roblox_Api_Notifications_Models_GetCurrentPushDestinationResponseModel =
-  z.object({
-    destination: Roblox_Api_Notifications_Models_UserPushDestination,
-    statusMessage: z.string(),
-  });
-const Roblox_Api_Notifications_Models_GetPushDestinationsResponseModel =
-  z.object({
-    destinations: z.array(Roblox_Api_Notifications_Models_UserPushDestination),
-    statusMessage: z.string(),
-  });
-const Roblox_Api_Notifications_Models_PushNotificationClientMetadata = z.object(
-  {
-    notificationId: z.string().uuid(),
-    type: z.string(),
-    detail: z.object({}),
-    fallbackDelivered: z.boolean(),
-  }
-);
+const Roblox_Api_Notifications_Models_GetCurrentPushDestinationResponseModel = z.object({
+  destination: Roblox_Api_Notifications_Models_UserPushDestination,
+  statusMessage: z.string(),
+});
+const Roblox_Api_Notifications_Models_GetPushDestinationsResponseModel = z.object({
+  destinations: z.array(Roblox_Api_Notifications_Models_UserPushDestination),
+  statusMessage: z.string(),
+});
+const Roblox_Api_Notifications_Models_PushNotificationClientMetadata = z.object({
+  notificationId: z.string().uuid(),
+  type: z.string(),
+  detail: z.object({}),
+  fallbackDelivered: z.boolean(),
+});
 const Roblox_Api_Notifications_Models_GetMetadataResponseModel = z.object({
   metadata: Roblox_Api_Notifications_Models_PushNotificationClientMetadata,
   statusMessage: z.string(),
@@ -57,43 +53,41 @@ const Roblox_Api_Notifications_Models_GameUpdateNotificationModel = z.object({
   content: z.string(),
   universeName: z.string(),
 });
-const Roblox_Api_Notifications_Models_NotificationStreamEntriesModel = z.object(
-  {
-    id: z.string().uuid(),
-    notificationSourceType: z.enum([
-      "Test",
-      "FriendRequestReceived",
-      "FriendRequestAccepted",
-      "PartyInviteReceived",
-      "PartyMemberJoined",
-      "ChatNewMessage",
-      "PrivateMessageReceived",
-      "UserAddedToPrivateServerWhiteList",
-      "ConversationUniverseChanged",
-      "TeamCreateInvite",
-      "GameUpdate",
-      "DeveloperMetricsAvailable",
-      "GroupJoinRequestAccepted",
-      "Sendr",
-      "ExperienceInvitation",
-    ]),
-    eventDate: z.string().datetime({ offset: true }),
-    timestamp: z.string(),
-    isInteracted: z.boolean(),
-    metadataCollection: z.array(z.object({})),
-    eventCount: z.number().int(),
-    content: z.object({}).passthrough(),
-  }
-);
-const Roblox_Api_Notifications_Models_ResponseModels_NotificationStreamMetadataResponse =
-  z.object({
-    bannerDismissTimeSpan: z.number().int(),
-    signalRDisconnectionResponseInMilliseconds: z.number().int(),
-    canLaunchGameFromGameUpdate: z.boolean(),
-  });
-const Roblox_Api_Notifications_Models_UnreadStreamNotificationsModel = z.object(
-  { unreadNotifications: z.number().int(), statusMessage: z.string() }
-);
+const Roblox_Api_Notifications_Models_NotificationStreamEntriesModel = z.object({
+  id: z.string().uuid(),
+  notificationSourceType: z.enum([
+    'Test',
+    'FriendRequestReceived',
+    'FriendRequestAccepted',
+    'PartyInviteReceived',
+    'PartyMemberJoined',
+    'ChatNewMessage',
+    'PrivateMessageReceived',
+    'UserAddedToPrivateServerWhiteList',
+    'ConversationUniverseChanged',
+    'TeamCreateInvite',
+    'GameUpdate',
+    'DeveloperMetricsAvailable',
+    'GroupJoinRequestAccepted',
+    'Sendr',
+    'ExperienceInvitation',
+  ]),
+  eventDate: z.string().datetime({ offset: true }),
+  timestamp: z.string(),
+  isInteracted: z.boolean(),
+  metadataCollection: z.array(z.object({})),
+  eventCount: z.number().int(),
+  content: z.object({}).passthrough(),
+});
+const Roblox_Api_Notifications_Models_ResponseModels_NotificationStreamMetadataResponse = z.object({
+  bannerDismissTimeSpan: z.number().int(),
+  signalRDisconnectionResponseInMilliseconds: z.number().int(),
+  canLaunchGameFromGameUpdate: z.boolean(),
+});
+const Roblox_Api_Notifications_Models_UnreadStreamNotificationsModel = z.object({
+  unreadNotifications: z.number().int(),
+  statusMessage: z.string(),
+});
 const Roblox_Api_Notifications_Models_SuccessResponseModel = z.object({
   statusMessage: z.string(),
 });
@@ -109,14 +103,14 @@ const Roblox_Api_Notifications_Models_PushNotificationRegistration = z.object({
   notificationToken: z.string(),
   application: z.string(),
   platform: z.enum([
-    "ChromeOnDesktop",
-    "AndroidNative",
-    "FirefoxOnDesktop",
-    "IOSNative",
-    "AndroidAmazon",
-    "IOSTencent",
-    "AndroidTencentService",
-    "IOSPushKit",
+    'ChromeOnDesktop',
+    'AndroidNative',
+    'FirefoxOnDesktop',
+    'IOSNative',
+    'AndroidAmazon',
+    'IOSTencent',
+    'AndroidTencentService',
+    'IOSPushKit',
   ]),
 });
 const Roblox_Api_Notifications_Models_RegistrationResponseModel = z.object({
@@ -130,25 +124,23 @@ const Roblox_Api_Notifications_Models_RegisterIOSNativeRequestModel = z.object({
   oldNotificationToken: z.string(),
   deviceName: z.string(),
 });
-const Roblox_Api_Notifications_Models_RegisterIOSPushKitRequestModel = z.object(
-  {
-    notificationToken: z.string(),
-    destinationIdentifier: z.string(),
-    authorizeForUser: z.boolean(),
-    oldNotificationToken: z.string(),
-    deviceName: z.string(),
-  }
-);
+const Roblox_Api_Notifications_Models_RegisterIOSPushKitRequestModel = z.object({
+  notificationToken: z.string(),
+  destinationIdentifier: z.string(),
+  authorizeForUser: z.boolean(),
+  oldNotificationToken: z.string(),
+  deviceName: z.string(),
+});
 
 /**
  * @api GET https://notifications.roblox.com/v2/push-notifications/chrome-manifest
  * @summary Get Chrome Manifest to link GCM project to Chrome Browser
  */
 export const getPushNotificationsChromeManifest = endpoint({
-  method: "GET",
-  path: "/v2/push-notifications/chrome-manifest",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/push-notifications/chrome-manifest',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   response: Roblox_Api_Notifications_Models_ChromeManifestModel,
   errors: [
     {
@@ -162,10 +154,10 @@ export const getPushNotificationsChromeManifest = endpoint({
  * @summary De-register all devices to disable push notifications
  */
 export const postPushNotificationsDeregisterAllDevices = endpoint({
-  method: "POST",
-  path: "/v2/push-notifications/deregister-all-devices",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/push-notifications/deregister-all-devices',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   response: z.object({ statusMessage: z.string() }),
   errors: [
     {
@@ -183,10 +175,10 @@ export const postPushNotificationsDeregisterAllDevices = endpoint({
  * @summary De-register current device to disable push notifications
  */
 export const postPushNotificationsDeregisterCurrentDevice = endpoint({
-  method: "POST",
-  path: "/v2/push-notifications/deregister-current-device",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/push-notifications/deregister-current-device',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   response: z.object({ statusMessage: z.string() }),
   errors: [
     {
@@ -204,10 +196,10 @@ export const postPushNotificationsDeregisterCurrentDevice = endpoint({
  * @summary De-register current device to disable pushkit notifications
  */
 export const postPushNotificationsDeregisterCurrentDeviceIosPushkit = endpoint({
-  method: "POST",
-  path: "/v2/push-notifications/deregister-current-device-ios-pushkit",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/push-notifications/deregister-current-device-ios-pushkit',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   response: z.object({ statusMessage: z.string() }),
   errors: [
     {
@@ -225,12 +217,11 @@ export const postPushNotificationsDeregisterCurrentDeviceIosPushkit = endpoint({
  * @summary Gets the current device destination
  */
 export const getPushNotificationsGetCurrentDeviceDestination = endpoint({
-  method: "GET",
-  path: "/v2/push-notifications/get-current-device-destination",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
-  response:
-    Roblox_Api_Notifications_Models_GetCurrentPushDestinationResponseModel,
+  method: 'GET',
+  path: '/v2/push-notifications/get-current-device-destination',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
+  response: Roblox_Api_Notifications_Models_GetCurrentPushDestinationResponseModel,
   errors: [
     {
       status: 401,
@@ -243,10 +234,10 @@ export const getPushNotificationsGetCurrentDeviceDestination = endpoint({
  * @summary Gets valid destinations associated with the signed user
  */
 export const getPushNotificationsGetDestinations = endpoint({
-  method: "GET",
-  path: "/v2/push-notifications/get-destinations",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/push-notifications/get-destinations',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   response: Roblox_Api_Notifications_Models_GetPushDestinationsResponseModel,
   errors: [
     {
@@ -262,17 +253,17 @@ export const getPushNotificationsGetDestinations = endpoint({
  * @param notificationId Id of the specified notification
  */
 export const getPushNotificationsMetadata = endpoint({
-  method: "GET",
-  path: "/v2/push-notifications/metadata",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/push-notifications/metadata',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     notificationToken: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     notificationId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -294,10 +285,10 @@ export const getPushNotificationsMetadata = endpoint({
  * @param body
  */
 export const postPushNotificationsRegisterAndroidNative = endpoint({
-  method: "POST",
-  path: "/v2/push-notifications/register-android-native",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/push-notifications/register-android-native',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -321,10 +312,10 @@ export const postPushNotificationsRegisterAndroidNative = endpoint({
  * @param body
  */
 export const postPushNotificationsRegisterIosNative = endpoint({
-  method: "POST",
-  path: "/v2/push-notifications/register-ios-native",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/push-notifications/register-ios-native',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -348,10 +339,10 @@ export const postPushNotificationsRegisterIosNative = endpoint({
  * @param body
  */
 export const postPushNotificationsRegisterIosPushkit = endpoint({
-  method: "POST",
-  path: "/v2/push-notifications/register-ios-pushkit",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/push-notifications/register-ios-pushkit',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -374,10 +365,10 @@ export const postPushNotificationsRegisterIosPushkit = endpoint({
  * @summary Clears the unread Notification stream count
  */
 export const postStreamNotificationsClearUnread = endpoint({
-  method: "POST",
-  path: "/v2/stream-notifications/clear-unread",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/stream-notifications/clear-unread',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   response: z.object({ statusMessage: z.string() }),
   errors: [
     {
@@ -397,17 +388,17 @@ export const postStreamNotificationsClearUnread = endpoint({
  * @param sinceDateTime For retrieving only updates that created after a time point.
  */
 export const getStreamNotificationsGetLatestGameUpdates = endpoint({
-  method: "GET",
-  path: "/v2/stream-notifications/get-latest-game-updates",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/stream-notifications/get-latest-game-updates',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universeIds: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sinceDateTime: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -415,9 +406,7 @@ export const getStreamNotificationsGetLatestGameUpdates = endpoint({
     universeIds: z.array(z.number()),
     sinceDateTime: z.string().datetime({ offset: true }).optional(),
   },
-  response: z.array(
-    Roblox_Api_Notifications_Models_GameUpdateNotificationModel
-  ),
+  response: z.array(Roblox_Api_Notifications_Models_GameUpdateNotificationModel),
   errors: [
     {
       status: 401,
@@ -432,17 +421,17 @@ export const getStreamNotificationsGetLatestGameUpdates = endpoint({
  * @param maxRows Number of entries to be returned. (Optional : Defaults to 10 entries)
  */
 export const getStreamNotificationsGetRecent = endpoint({
-  method: "GET",
-  path: "/v2/stream-notifications/get-recent",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/stream-notifications/get-recent',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     startIndex: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     maxRows: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -450,9 +439,7 @@ export const getStreamNotificationsGetRecent = endpoint({
     startIndex: z.number().int().optional(),
     maxRows: z.number().int().optional().default(10),
   },
-  response: z.array(
-    Roblox_Api_Notifications_Models_NotificationStreamEntriesModel
-  ),
+  response: z.array(Roblox_Api_Notifications_Models_NotificationStreamEntriesModel),
   errors: [
     {
       status: 401,
@@ -465,12 +452,11 @@ export const getStreamNotificationsGetRecent = endpoint({
  * @summary Get Notification Stream metadata.
  */
 export const getStreamNotificationsMetadata = endpoint({
-  method: "GET",
-  path: "/v2/stream-notifications/metadata",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
-  response:
-    Roblox_Api_Notifications_Models_ResponseModels_NotificationStreamMetadataResponse,
+  method: 'GET',
+  path: '/v2/stream-notifications/metadata',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
+  response: Roblox_Api_Notifications_Models_ResponseModels_NotificationStreamMetadataResponse,
   errors: [
     {
       status: 401,
@@ -483,10 +469,10 @@ export const getStreamNotificationsMetadata = endpoint({
  * @summary Gets the count of unread Notification stream entries
  */
 export const getStreamNotificationsUnreadCount = endpoint({
-  method: "GET",
-  path: "/v2/stream-notifications/unread-count",
-  baseUrl: "https://notifications.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/stream-notifications/unread-count',
+  baseUrl: 'https://notifications.roblox.com',
+  requestFormat: 'json',
   response: Roblox_Api_Notifications_Models_UnreadStreamNotificationsModel,
   errors: [
     {

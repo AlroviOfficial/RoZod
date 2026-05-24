@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Publish_Api_AssetQuota = z.object({
   duration: z.string(),
@@ -52,21 +52,21 @@ const pluginId_icon_body = z.object({ Files: z.instanceof(File) });
  * @param useDummyData Use dummy data for testing. This is for internal use only
  */
 export const getAssetQuotas = endpoint({
-  method: "GET",
-  path: "/v1/asset-quotas",
-  baseUrl: "https://publish.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/asset-quotas',
+  baseUrl: 'https://publish.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     resourceType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     assetType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     useDummyData: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -98,10 +98,10 @@ export const getAssetQuotas = endpoint({
  * @param body The file upload request body. Roblox.Publish.Api.UploadAudioRequest
  */
 export const postAudio = endpoint({
-  method: "POST",
-  path: "/v1/audio",
-  baseUrl: "https://publish.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/audio',
+  baseUrl: 'https://publish.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -149,10 +149,10 @@ export const postAudio = endpoint({
  * @param body The verify audio request body. Roblox.Publish.Api.VerifyAudioRequest
  */
 export const postAudioVerify = endpoint({
-  method: "POST",
-  path: "/v1/audio/verify",
-  baseUrl: "https://publish.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/audio/verify',
+  baseUrl: 'https://publish.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -188,14 +188,14 @@ export const postAudioVerify = endpoint({
  * @param badgeId The badge Id.
  */
 export const postBadgesBadgeidIcon = endpoint({
-  method: "POST",
-  path: "/v1/badges/:badgeId/icon",
-  baseUrl: "https://publish.roblox.com",
-  requestFormat: "form-data",
+  method: 'POST',
+  path: '/v1/badges/:badgeId/icon',
+  baseUrl: 'https://publish.roblox.com',
+  requestFormat: 'form-data',
   serializationMethod: {
     body: {},
     badgeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -235,14 +235,14 @@ export const postBadgesBadgeidIcon = endpoint({
  * @param gameId The universe Id.
  */
 export const postGamesGameidThumbnailImage = endpoint({
-  method: "POST",
-  path: "/v1/games/:gameId/thumbnail/image",
-  baseUrl: "https://publish.roblox.com",
-  requestFormat: "form-data",
+  method: 'POST',
+  path: '/v1/games/:gameId/thumbnail/image',
+  baseUrl: 'https://publish.roblox.com',
+  requestFormat: 'form-data',
   serializationMethod: {
     body: {},
     gameId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -282,14 +282,14 @@ export const postGamesGameidThumbnailImage = endpoint({
  * @param pluginId The plugin Id.
  */
 export const postPluginsPluginidIcon = endpoint({
-  method: "POST",
-  path: "/v1/plugins/:pluginId/icon",
-  baseUrl: "https://publish.roblox.com",
-  requestFormat: "form-data",
+  method: 'POST',
+  path: '/v1/plugins/:pluginId/icon',
+  baseUrl: 'https://publish.roblox.com',
+  requestFormat: 'form-data',
   serializationMethod: {
     body: {},
     pluginId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {

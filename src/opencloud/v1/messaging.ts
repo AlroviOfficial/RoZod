@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "../..";
+import { z } from 'zod';
+import { endpoint } from '../..';
 
 const PublishRequest = z.object({ message: z.string().nullable() });
 
@@ -17,11 +17,11 @@ const PublishRequest = z.object({ message: z.string().nullable() });
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const postUniversesUniverseIdTopicsTopic = endpoint({
-  method: "POST",
-  path: "/v1/universes/:universeId/topics/:topic",
-  baseUrl: "https://apis.roblox.com/messaging-service",
-  scopes: ["universe-messaging-service:publish"],
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/universes/:universeId/topics/:topic',
+  baseUrl: 'https://apis.roblox.com/messaging-service',
+  scopes: ['universe-messaging-service:publish'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universeId: {},

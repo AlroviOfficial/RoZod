@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({
   id: z.number().int(),
@@ -111,13 +111,7 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV3 = z.object({
   assets: z.array(Roblox_Api_Avatar_Models_AssetWearModel),
   scale: Roblox_Web_Responses_Avatar_ScaleModel,
   playerAvatarType: z.string(),
-  outfitType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(4),
-    z.literal(5),
-  ]),
+  outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(4), z.literal(5)]),
 });
 const Roblox_Api_Avatar_Models_OutfitModel = z.object({
   id: z.number().int(),
@@ -136,22 +130,22 @@ const Roblox_Api_Avatar_Models_OutfitModel = z.object({
 Accepts partial updates.
  */
 export const patchOutfitsUseroutfitid = endpoint({
-  method: "PATCH",
-  path: "/v3/outfits/:userOutfitId",
-  baseUrl: "https://avatar.roblox.com",
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/v3/outfits/:userOutfitId',
+  baseUrl: 'https://avatar.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     userOutfitId: {
-      style: "simple",
+      style: 'simple',
     },
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
   },
   parameters: {
     userOutfitId: z.number().int(),
-    "Roblox-Place-Id": z.number().int().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
   response: Roblox_Api_Avatar_Models_OutfitModel,
@@ -194,25 +188,25 @@ export const patchOutfitsUseroutfitid = endpoint({
  * @param checkAssetAvailability Whether to return assets with availability status.
  */
 export const getOutfitsUseroutfitidDetails = endpoint({
-  method: "GET",
-  path: "/v3/outfits/:userOutfitId/details",
-  baseUrl: "https://avatar.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v3/outfits/:userOutfitId/details',
+  baseUrl: 'https://avatar.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userOutfitId: {
-      style: "simple",
+      style: 'simple',
     },
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
     checkAssetAvailability: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     userOutfitId: z.number().int(),
-    "Roblox-Place-Id": z.number().int().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
     checkAssetAvailability: z.boolean().optional(),
   },
   response: Roblox_Api_Avatar_Models_OutfitDetailsModelV2,
@@ -240,18 +234,18 @@ export const getOutfitsUseroutfitidDetails = endpoint({
 The name property of the request is optional as one will be auto-generated when the request has a null name.
  */
 export const postOutfitsCreate = endpoint({
-  method: "POST",
-  path: "/v3/outfits/create",
-  baseUrl: "https://avatar.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v3/outfits/create',
+  baseUrl: 'https://avatar.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
   },
   parameters: {
-    "Roblox-Place-Id": z.number().int().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
   response: Roblox_Api_Avatar_Models_OutfitModel,

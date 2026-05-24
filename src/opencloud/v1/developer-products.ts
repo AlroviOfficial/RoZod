@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "../..";
+import { z } from 'zod';
+import { endpoint } from '../..';
 
 const DeveloperProducts_CreateDeveloperProductV2_Body = z.object({
   name: z.string(),
@@ -9,12 +9,7 @@ const DeveloperProducts_CreateDeveloperProductV2_Body = z.object({
   imageFile: z.instanceof(File).nullish(),
   isRegionalPricingEnabled: z.boolean().nullish(),
 });
-const PricingFeature = z.enum([
-  "Invalid",
-  "PriceOptimization",
-  "UserFixedPrice",
-  "RegionalPricing",
-]);
+const PricingFeature = z.enum(['Invalid', 'PriceOptimization', 'UserFixedPrice', 'RegionalPricing']);
 const PriceInformationStruct = z.object({
   defaultPriceInRobux: z.number().int().nullable(),
   enabledFeatures: z.array(PricingFeature),
@@ -33,38 +28,38 @@ const DeveloperProductConfigV2 = z.object({
   updatedTimestamp: z.string().datetime({ offset: true }),
 });
 const ErrorCode = z.enum([
-  "InvalidImageFile",
-  "UnauthorizedAccess",
-  "NotAuthenticated",
-  "NotFound",
-  "Internal",
-  "BadRequest",
-  "InvalidProductId",
-  "UnauthorizedProductAccess",
-  "InvalidDeveloperProductId",
-  "DuplicateProductName",
-  "InvalidUniverseId",
-  "UnauthorizedUniverseAccess",
-  "InvalidShopId",
-  "UnknownError",
-  "InvalidPriceInRobux",
-  "InvalidPostBody",
-  "InvalidPageNumber",
-  "InvalidPageSize",
-  "UnsupportedDeveloperProductUpdate",
-  "PendingProductsLimitExceeded",
-  "InvalidCursor",
-  "InvalidRegionalPricing",
-  "ProductRetrievalLimitExceeded",
-  "InvalidProductIds",
-  "InvalidName",
-  "InvalidDescription",
-  "InvalidIsForSale",
-  "InvalidStorePageEnabled",
-  "Unavailable",
-  "InvalidPrice",
-  "Blocked",
-  "Conflict",
+  'InvalidImageFile',
+  'UnauthorizedAccess',
+  'NotAuthenticated',
+  'NotFound',
+  'Internal',
+  'BadRequest',
+  'InvalidProductId',
+  'UnauthorizedProductAccess',
+  'InvalidDeveloperProductId',
+  'DuplicateProductName',
+  'InvalidUniverseId',
+  'UnauthorizedUniverseAccess',
+  'InvalidShopId',
+  'UnknownError',
+  'InvalidPriceInRobux',
+  'InvalidPostBody',
+  'InvalidPageNumber',
+  'InvalidPageSize',
+  'UnsupportedDeveloperProductUpdate',
+  'PendingProductsLimitExceeded',
+  'InvalidCursor',
+  'InvalidRegionalPricing',
+  'ProductRetrievalLimitExceeded',
+  'InvalidProductIds',
+  'InvalidName',
+  'InvalidDescription',
+  'InvalidIsForSale',
+  'InvalidStorePageEnabled',
+  'Unavailable',
+  'InvalidPrice',
+  'Blocked',
+  'Conflict',
 ]);
 const ErrorResponse = z.object({
   errorCode: ErrorCode,
@@ -97,41 +92,40 @@ const ListDeveloperProductConfigsV2Response = z.object({
  * @param body
  * @param universeId The universe ID.
  */
-export const postDeveloperProductsV2UniversesUniverseIdDeveloperProducts =
-  endpoint({
-    method: "POST",
-    path: "/developer-products/v2/universes/:universeId/developer-products",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["developer-product:write"],
-    requestFormat: "form-data",
-    serializationMethod: {
-      body: {},
-      universeId: {},
+export const postDeveloperProductsV2UniversesUniverseIdDeveloperProducts = endpoint({
+  method: 'POST',
+  path: '/developer-products/v2/universes/:universeId/developer-products',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['developer-product:write'],
+  requestFormat: 'form-data',
+  serializationMethod: {
+    body: {},
+    universeId: {},
+  },
+  parameters: {
+    universeId: z.number().int(),
+  },
+  body: DeveloperProducts_CreateDeveloperProductV2_Body,
+  response: DeveloperProductConfigV2,
+  errors: [
+    {
+      status: 400,
+      description: `Bad Request`,
     },
-    parameters: {
-      universeId: z.number().int(),
+    {
+      status: 401,
+      description: `Unauthorized`,
     },
-    body: DeveloperProducts_CreateDeveloperProductV2_Body,
-    response: DeveloperProductConfigV2,
-    errors: [
-      {
-        status: 400,
-        description: `Bad Request`,
-      },
-      {
-        status: 401,
-        description: `Unauthorized`,
-      },
-      {
-        status: 403,
-        description: `Forbidden`,
-      },
-      {
-        status: 404,
-        description: `Not Found`,
-      },
-    ],
-  });
+    {
+      status: 403,
+      description: `Forbidden`,
+    },
+    {
+      status: 404,
+      description: `Not Found`,
+    },
+  ],
+});
 /**
  * `BETA`
  *
@@ -145,47 +139,46 @@ Note that only fields provided in the request will be updated.
  * @param universeId The universe ID.
  * @param productId The product ID of the developer product.
  */
-export const patchDeveloperProductsV2UniversesUniverseIdDeveloperProductsProductId =
-  endpoint({
-    method: "PATCH",
-    path: "/developer-products/v2/universes/:universeId/developer-products/:productId",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["developer-product:write"],
-    requestFormat: "form-data",
-    serializationMethod: {
-      body: {},
-      universeId: {},
-      productId: {},
+export const patchDeveloperProductsV2UniversesUniverseIdDeveloperProductsProductId = endpoint({
+  method: 'PATCH',
+  path: '/developer-products/v2/universes/:universeId/developer-products/:productId',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['developer-product:write'],
+  requestFormat: 'form-data',
+  serializationMethod: {
+    body: {},
+    universeId: {},
+    productId: {},
+  },
+  parameters: {
+    universeId: z.number().int(),
+    productId: z.number().int(),
+  },
+  body: DeveloperProducts_UpdateDeveloperProductV2_Body.partial(),
+  response: z.void(),
+  errors: [
+    {
+      status: 400,
+      description: `Bad Request`,
     },
-    parameters: {
-      universeId: z.number().int(),
-      productId: z.number().int(),
+    {
+      status: 401,
+      description: `Unauthorized`,
     },
-    body: DeveloperProducts_UpdateDeveloperProductV2_Body.partial(),
-    response: z.void(),
-    errors: [
-      {
-        status: 400,
-        description: `Bad Request`,
-      },
-      {
-        status: 401,
-        description: `Unauthorized`,
-      },
-      {
-        status: 403,
-        description: `Forbidden`,
-      },
-      {
-        status: 404,
-        description: `Not Found`,
-      },
-      {
-        status: 409,
-        description: `Conflict`,
-      },
-    ],
-  });
+    {
+      status: 403,
+      description: `Forbidden`,
+    },
+    {
+      status: 404,
+      description: `Not Found`,
+    },
+    {
+      status: 409,
+      description: `Conflict`,
+    },
+  ],
+});
 /**
  * `BETA`
  *
@@ -197,37 +190,36 @@ export const patchDeveloperProductsV2UniversesUniverseIdDeveloperProductsProduct
  * @param universeId The universe ID.
  * @param productId The product ID of the developer product.
  */
-export const getDeveloperProductsV2UniversesUniverseIdDeveloperProductsProductIdCreator =
-  endpoint({
-    method: "GET",
-    path: "/developer-products/v2/universes/:universeId/developer-products/:productId/creator",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["developer-product:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universeId: {},
-      productId: {},
+export const getDeveloperProductsV2UniversesUniverseIdDeveloperProductsProductIdCreator = endpoint({
+  method: 'GET',
+  path: '/developer-products/v2/universes/:universeId/developer-products/:productId/creator',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['developer-product:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universeId: {},
+    productId: {},
+  },
+  parameters: {
+    universeId: z.number().int(),
+    productId: z.number().int(),
+  },
+  response: DeveloperProductConfigV2,
+  errors: [
+    {
+      status: 401,
+      description: `Unauthorized`,
     },
-    parameters: {
-      universeId: z.number().int(),
-      productId: z.number().int(),
+    {
+      status: 403,
+      description: `Forbidden`,
     },
-    response: DeveloperProductConfigV2,
-    errors: [
-      {
-        status: 401,
-        description: `Unauthorized`,
-      },
-      {
-        status: 403,
-        description: `Forbidden`,
-      },
-      {
-        status: 404,
-        description: `Not Found`,
-      },
-    ],
-  });
+    {
+      status: 404,
+      description: `Not Found`,
+    },
+  ],
+});
 /**
  * `BETA`
  *
@@ -240,40 +232,39 @@ export const getDeveloperProductsV2UniversesUniverseIdDeveloperProductsProductId
  * @param pageSize The number of results to return. Defaults to 50.
  * @param pageToken The cursor token for pagination.
  */
-export const getDeveloperProductsV2UniversesUniverseIdDeveloperProductsCreator =
-  endpoint({
-    method: "GET",
-    path: "/developer-products/v2/universes/:universeId/developer-products/creator",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["developer-product:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universeId: {},
-      pageSize: {},
-      pageToken: {},
+export const getDeveloperProductsV2UniversesUniverseIdDeveloperProductsCreator = endpoint({
+  method: 'GET',
+  path: '/developer-products/v2/universes/:universeId/developer-products/creator',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['developer-product:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universeId: {},
+    pageSize: {},
+    pageToken: {},
+  },
+  parameters: {
+    universeId: z.number().int(),
+    pageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+  },
+  response: ListDeveloperProductConfigsV2Response,
+  errors: [
+    {
+      status: 400,
+      description: `Bad Request`,
     },
-    parameters: {
-      universeId: z.number().int(),
-      pageSize: z.number().int().optional(),
-      pageToken: z.string().optional(),
+    {
+      status: 401,
+      description: `Unauthorized`,
     },
-    response: ListDeveloperProductConfigsV2Response,
-    errors: [
-      {
-        status: 400,
-        description: `Bad Request`,
-      },
-      {
-        status: 401,
-        description: `Unauthorized`,
-      },
-      {
-        status: 403,
-        description: `Forbidden`,
-      },
-      {
-        status: 404,
-        description: `Not Found`,
-      },
-    ],
-  });
+    {
+      status: 403,
+      description: `Forbidden`,
+    },
+    {
+      status: 404,
+      description: `Not Found`,
+    },
+  ],
+});

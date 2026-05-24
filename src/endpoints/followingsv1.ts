@@ -1,19 +1,18 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Followings_Api_Models_UserFollowingUniverseResponse = z.object({
   universeId: z.number().int(),
   userId: z.number().int(),
 });
-const Roblox_Followings_Api_Models_UserFollowingUniverseStatusResponse =
-  z.object({
-    UniverseId: z.number().int(),
-    UserId: z.number().int(),
-    CanFollow: z.boolean(),
-    IsFollowing: z.boolean(),
-    FollowingCountByType: z.number().int(),
-    FollowingLimitByType: z.number().int(),
-  });
+const Roblox_Followings_Api_Models_UserFollowingUniverseStatusResponse = z.object({
+  UniverseId: z.number().int(),
+  UserId: z.number().int(),
+  CanFollow: z.boolean(),
+  IsFollowing: z.boolean(),
+  FollowingCountByType: z.number().int(),
+  FollowingLimitByType: z.number().int(),
+});
 
 /**
  * @api GET https://followings.roblox.com/v1/users/:userId/universes
@@ -21,13 +20,13 @@ const Roblox_Followings_Api_Models_UserFollowingUniverseStatusResponse =
  * @param userId
  */
 export const getUsersUseridUniverses = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId/universes",
-  baseUrl: "https://followings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId/universes',
+  baseUrl: 'https://followings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -52,16 +51,16 @@ export const getUsersUseridUniverses = endpoint({
  * @param universeId
  */
 export const postUsersUseridUniversesUniverseid = endpoint({
-  method: "POST",
-  path: "/v1/users/:userId/universes/:universeId",
-  baseUrl: "https://followings.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/users/:userId/universes/:universeId',
+  baseUrl: 'https://followings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -92,16 +91,16 @@ export const postUsersUseridUniversesUniverseid = endpoint({
  * @param universeId
  */
 export const deleteUsersUseridUniversesUniverseid = endpoint({
-  method: "DELETE",
-  path: "/v1/users/:userId/universes/:universeId",
-  baseUrl: "https://followings.roblox.com",
-  requestFormat: "json",
+  method: 'DELETE',
+  path: '/v1/users/:userId/universes/:universeId',
+  baseUrl: 'https://followings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -128,16 +127,16 @@ export const deleteUsersUseridUniversesUniverseid = endpoint({
  * @param universeId
  */
 export const getUsersUseridUniversesUniverseidStatus = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId/universes/:universeId/status",
-  baseUrl: "https://followings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId/universes/:universeId/status',
+  baseUrl: 'https://followings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {

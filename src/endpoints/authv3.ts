@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Authentication_Api_Models_Request_LogoutV3Request = z.object({
   logoutReason: z.string(),
@@ -7,41 +7,38 @@ const Roblox_Authentication_Api_Models_Request_LogoutV3Request = z.object({
   userId: z.string(),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
-const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel =
-  z.object({
-    clientPublicKey: z.string(),
-    clientEpochTimestamp: z.number().int(),
-    saiSignature: z.string(),
-    serverNonce: z.string(),
-  });
+const Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel = z.object({
+  clientPublicKey: z.string(),
+  clientEpochTimestamp: z.number().int(),
+  saiSignature: z.string(),
+  serverNonce: z.string(),
+});
 const Roblox_Authentication_Api_Models_AccountLinkParameters = z.object({
   LinkingPlatform: z.enum([
-    "Invalid",
-    "Xbox",
-    "Qq",
-    "WeChat",
-    "Facebook",
-    "RobloxDeveloper",
-    "RobloxGroupCreator",
-    "Playstation",
-    "ExternalProvider",
-    "Example",
+    'Invalid',
+    'Xbox',
+    'Qq',
+    'WeChat',
+    'Facebook',
+    'RobloxDeveloper',
+    'RobloxGroupCreator',
+    'Playstation',
+    'ExternalProvider',
+    'Example',
   ]),
 });
 const Roblox_Authentication_Api_TwoStepVerificationLoginRequest = z.object({
   challengeId: z.string(),
   verificationToken: z.string(),
   rememberDevice: z.boolean(),
-  secureAuthenticationIntent:
-    Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
+  secureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
   accountBlob: z.string(),
   accountLinkParameters: Roblox_Authentication_Api_Models_AccountLinkParameters,
 });
-const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse =
-  z.object({
-    identityVerificationLoginTicket: z.string(),
-    accountBlob: z.string(),
-  });
+const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse = z.object({
+  identityVerificationLoginTicket: z.string(),
+  accountBlob: z.string(),
+});
 
 /**
  * @api POST https://auth.roblox.com/v3/logout
@@ -49,10 +46,10 @@ const Roblox_Authentication_Api_Models_TwoStepVerificationV3LoginResponse =
  * @param body The logout request with postBody which includes reason, url, and userIdString.
  */
 export const postLogout = endpoint({
-  method: "POST",
-  path: "/v3/logout",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v3/logout',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -73,14 +70,14 @@ export const postLogout = endpoint({
  * @param userId The user ID to authenticate as.
  */
 export const postUsersUseridTwoStepVerificationLogin = endpoint({
-  method: "POST",
-  path: "/v3/users/:userId/two-step-verification/login",
-  baseUrl: "https://auth.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v3/users/:userId/two-step-verification/login',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {

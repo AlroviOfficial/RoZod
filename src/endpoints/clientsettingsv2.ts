@@ -1,23 +1,19 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
-const Roblox_ClientSettings_Api_Models_Response_AndroidBinaryLibraryNames =
-  z.object({ engine: z.string() });
-const Roblox_ClientSettings_Api_Models_Response_AndroidBinaryResponse =
-  z.object({
-    moduleName: z.string(),
-    libraryNames:
-      Roblox_ClientSettings_Api_Models_Response_AndroidBinaryLibraryNames,
-    supportsAndroidBinaries: z.boolean(),
-  });
-const Roblox_ClientSettings_Api_Models_Response_ClientVersionResponse =
-  z.object({
-    version: z.string(),
-    clientVersionUpload: z.string(),
-    bootstrapperVersion: z.string(),
-    nextClientVersionUpload: z.string(),
-    nextClientVersion: z.string(),
-  });
+const Roblox_ClientSettings_Api_Models_Response_AndroidBinaryLibraryNames = z.object({ engine: z.string() });
+const Roblox_ClientSettings_Api_Models_Response_AndroidBinaryResponse = z.object({
+  moduleName: z.string(),
+  libraryNames: Roblox_ClientSettings_Api_Models_Response_AndroidBinaryLibraryNames,
+  supportsAndroidBinaries: z.boolean(),
+});
+const Roblox_ClientSettings_Api_Models_Response_ClientVersionResponse = z.object({
+  version: z.string(),
+  clientVersionUpload: z.string(),
+  bootstrapperVersion: z.string(),
+  nextClientVersionUpload: z.string(),
+  nextClientVersion: z.string(),
+});
 const Roblox_ClientSettings_Api_Models_Response_OtaVersionResponse = z.object({
   name: z.string(),
   version: z.string(),
@@ -41,12 +37,12 @@ const Roblox_ClientSettings_Api_Models_Response_BetaProgramInfo = z.object({
 const Roblox_ClientSettings_Api_Models_Response_UserChannelResponse = z.object({
   channelName: z.string(),
   channelAssignmentType: z.enum([
-    "None",
-    "PerMille",
-    "BoundToPrivateChannel",
-    "BoundToPublicChannel",
-    "OptedInToBetaProgramWithPrivateChannel",
-    "OptedInToBetaProgramWithPublicChannel",
+    'None',
+    'PerMille',
+    'BoundToPrivateChannel',
+    'BoundToPublicChannel',
+    'OptedInToBetaProgramWithPrivateChannel',
+    'OptedInToBetaProgramWithPublicChannel',
   ]),
   token: z.string(),
   program: Roblox_ClientSettings_Api_Models_Response_BetaProgramInfo,
@@ -60,16 +56,16 @@ const Roblox_ClientSettings_Api_Models_Response_UserChannelResponse = z.object({
  * @param channelName The name of the channel. E.g. ZFlag, ZIntegration
  */
 export const getAndroidBinariesVersionChannelsChannelname = endpoint({
-  method: "GET",
-  path: "/v2/android-binaries/:version/channels/:channelName",
-  baseUrl: "https://clientsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/android-binaries/:version/channels/:channelName',
+  baseUrl: 'https://clientsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     version: {
-      style: "simple",
+      style: 'simple',
     },
     channelName: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -85,13 +81,13 @@ export const getAndroidBinariesVersionChannelsChannelname = endpoint({
  * @param binaryType Platform(WindowsPlayer, WindowsStudio, MacPlayer or MacStudio) for which we want the latest version
  */
 export const getClientVersionBinarytype = endpoint({
-  method: "GET",
-  path: "/v2/client-version/:binaryType",
-  baseUrl: "https://clientsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/client-version/:binaryType',
+  baseUrl: 'https://clientsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     binaryType: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -107,16 +103,16 @@ export const getClientVersionBinarytype = endpoint({
  * @param channelName Channel Name
  */
 export const getClientVersionBinarytypeChannelChannelname = endpoint({
-  method: "GET",
-  path: "/v2/client-version/:binaryType/channel/:channelName",
-  baseUrl: "https://clientsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/client-version/:binaryType/channel/:channelName',
+  baseUrl: 'https://clientsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     binaryType: {
-      style: "simple",
+      style: 'simple',
     },
     channelName: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -137,10 +133,10 @@ export const getClientVersionBinarytypeChannelChannelname = endpoint({
 This will be sorted by creation date, with the most recent dictionaries first.
  */
 export const getCompressionDictionaries = endpoint({
-  method: "GET",
-  path: "/v2/compression-dictionaries",
-  baseUrl: "https://clientsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/compression-dictionaries',
+  baseUrl: 'https://clientsettings.roblox.com',
+  requestFormat: 'json',
   response: z.void(),
   errors: [],
 });
@@ -150,13 +146,13 @@ export const getCompressionDictionaries = endpoint({
  * @param dictionarySha256 The SHA256 of the dictionary we wish to download.
  */
 export const getCompressionDictionariesDictionarysha256 = endpoint({
-  method: "GET",
-  path: "/v2/compression-dictionaries/:dictionarySha256",
-  baseUrl: "https://clientsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/compression-dictionaries/:dictionarySha256',
+  baseUrl: 'https://clientsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     dictionarySha256: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -176,28 +172,28 @@ Returns empty list if no updates are found or channel/application with the given
  * @param name Name to filter results by. Only applicable to non-studio application types.
  */
 export const getOtaVersionBinarytype = endpoint({
-  method: "GET",
-  path: "/v2/ota-version/:binaryType",
-  baseUrl: "https://clientsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/ota-version/:binaryType',
+  baseUrl: 'https://clientsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     binaryType: {
-      style: "simple",
+      style: 'simple',
     },
     channel: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     version: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     tag: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     name: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -208,9 +204,7 @@ export const getOtaVersionBinarytype = endpoint({
     tag: z.string().optional(),
     name: z.string().optional(),
   },
-  response: z.array(
-    Roblox_ClientSettings_Api_Models_Response_OtaVersionResponse
-  ),
+  response: z.array(Roblox_ClientSettings_Api_Models_Response_OtaVersionResponse),
   errors: [
     {
       status: 400,
@@ -231,13 +225,13 @@ export const getOtaVersionBinarytype = endpoint({
  * @param binaryType
  */
 export const getUserChannel = endpoint({
-  method: "GET",
-  path: "/v2/user-channel",
-  baseUrl: "https://clientsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/user-channel',
+  baseUrl: 'https://clientsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     binaryType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },

@@ -1,10 +1,10 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Followings_Api_Models_FollowsByTypeResponse = z.object({
-  followerType: z.enum(["Invalid", "User"]),
+  followerType: z.enum(['Invalid', 'User']),
   followerId: z.number().int(),
-  sourceType: z.enum(["Invalid", "Universe"]),
+  sourceType: z.enum(['Invalid', 'Universe']),
   followedSources: z.string().datetime({ offset: true }),
 });
 
@@ -14,13 +14,13 @@ const Roblox_Followings_Api_Models_FollowsByTypeResponse = z.object({
  * @param userId The user ID.
  */
 export const getUsersUseridUniverses = endpoint({
-  method: "GET",
-  path: "/v2/users/:userId/universes",
-  baseUrl: "https://followings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/users/:userId/universes',
+  baseUrl: 'https://followings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {

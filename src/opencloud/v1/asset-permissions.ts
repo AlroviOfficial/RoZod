@@ -1,22 +1,8 @@
-import { z } from "zod";
-import { endpoint } from "../..";
+import { z } from 'zod';
+import { endpoint } from '../..';
 
-const SubjectType = z.enum([
-  "Invalid",
-  "User",
-  "Group",
-  "GroupRoleset",
-  "All",
-  "Universe",
-]);
-const AssetAction = z.enum([
-  "Invalid",
-  "Edit",
-  "Use",
-  "Download",
-  "CopyFromRcc",
-  "UpdateFromRcc",
-]);
+const SubjectType = z.enum(['Invalid', 'User', 'Group', 'GroupRoleset', 'All', 'Universe']);
+const AssetAction = z.enum(['Invalid', 'Edit', 'Use', 'Download', 'CopyFromRcc', 'UpdateFromRcc']);
 const AssetGrantRequest = z.object({
   assetId: z.number().int(),
   grantToDependencies: z.boolean(),
@@ -31,16 +17,16 @@ const BatchGrantPermissionsRequest = z.object({
   enableDeepAccessCheck: z.boolean(),
 });
 const ErrorCode = z.enum([
-  "UnknownError",
-  "InvalidRequest",
-  "AssetNotFound",
-  "CannotManageAsset",
-  "PublicAssetCannotBeGrantedTo",
-  "CannotManageSubject",
-  "SubjectNotFound",
-  "AssetTypeNotEnabled",
-  "PermissionLimitReached",
-  "DependenciesLimitReached",
+  'UnknownError',
+  'InvalidRequest',
+  'AssetNotFound',
+  'CannotManageAsset',
+  'PublicAssetCannotBeGrantedTo',
+  'CannotManageSubject',
+  'SubjectNotFound',
+  'AssetTypeNotEnabled',
+  'PermissionLimitReached',
+  'DependenciesLimitReached',
 ]);
 const GrantPermissionError = z.object({
   assetId: z.number().int(),
@@ -66,11 +52,11 @@ Authorization is required to grant permissions to the subject and asset IDs in t
  * @param body 
  */
 export const patchAssetPermissionsApiV1AssetsPermissions = endpoint({
-  method: "PATCH",
-  path: "/asset-permissions-api/v1/assets/permissions",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["asset-permissions:write"],
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/asset-permissions-api/v1/assets/permissions',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['asset-permissions:write'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },

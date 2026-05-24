@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Api_Develop_Models_Response_AssetVotingModel = z.object({
   assetId: z.number().int(),
@@ -10,10 +10,9 @@ const Roblox_Api_Develop_Models_Response_AssetVotingModel = z.object({
   downVotes: z.number().int(),
   reasonForNotAbleToVote: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_Response_AssetVotingModel_ =
-  z.object({
-    data: z.array(Roblox_Api_Develop_Models_Response_AssetVotingModel),
-  });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_Response_AssetVotingModel_ = z.object({
+  data: z.array(Roblox_Api_Develop_Models_Response_AssetVotingModel),
+});
 const Roblox_Api_Develop_Models_UniverseModel = z.object({
   id: z.number().int(),
   name: z.string(),
@@ -27,36 +26,29 @@ const Roblox_Api_Develop_Models_UniverseModel = z.object({
   creatorName: z.string(),
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
-  audiences: z.array(
-    z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-    ])
-  ),
+  audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
 });
 const Roblox_Api_Develop_Models_GameTemplateModel = z.object({
   gameTemplateType: z.string(),
   hasTutorials: z.boolean(),
   universe: Roblox_Api_Develop_Models_UniverseModel,
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GameTemplateModel_ =
-  z.object({ data: z.array(Roblox_Api_Develop_Models_GameTemplateModel) });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UniverseModel_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Api_Develop_Models_UniverseModel),
-  });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GameTemplateModel_ = z.object({
+  data: z.array(Roblox_Api_Develop_Models_GameTemplateModel),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UniverseModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Api_Develop_Models_UniverseModel),
+});
 const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
   id: z.number().int(),
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Users_SkinnyUserResponse_ =
-  z.object({ data: z.array(Roblox_Web_Responses_Users_SkinnyUserResponse) });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Users_SkinnyUserResponse_ = z.object({
+  data: z.array(Roblox_Web_Responses_Users_SkinnyUserResponse),
+});
 const Roblox_Web_Responses_Plugins_PluginResponse = z.object({
   id: z.number().int(),
   name: z.string(),
@@ -66,8 +58,9 @@ const Roblox_Web_Responses_Plugins_PluginResponse = z.object({
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Plugins_PluginResponse_ =
-  z.object({ data: z.array(Roblox_Web_Responses_Plugins_PluginResponse) });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Plugins_PluginResponse_ = z.object({
+  data: z.array(Roblox_Web_Responses_Plugins_PluginResponse),
+});
 const Roblox_Api_Develop_Models_ActivationEligibilityResponse = z.object({
   isEligible: z.boolean(),
   maturityRated: z.boolean(),
@@ -76,16 +69,8 @@ const Roblox_Api_Develop_Models_ActivationEligibilityResponse = z.object({
   isPublicPublish: z.boolean(),
   isPublishToExistingUniverse: z.boolean(),
   isUniverseSelect: z.boolean(),
-  creatorTier: z.enum(["Invalid", "Blocked", "Private", "Trusted", "Everyone"]),
-  allowedAudiences: z.array(
-    z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-    ])
-  ),
+  creatorTier: z.enum(['Invalid', 'Blocked', 'Private', 'Trusted', 'Everyone']),
+  allowedAudiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
 });
 const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   allowPrivateServers: z.boolean(),
@@ -94,40 +79,33 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   isRewardedOnDemandAdsAllowed: z.boolean(),
   id: z.number().int(),
   name: z.string(),
-  universeAvatarType: z.enum(["MorphToR6", "PlayerChoice", "MorphToR15"]),
-  universeScaleType: z.enum(["NoScales", "AllScales"]),
-  universeAnimationType: z.enum(["Standard", "PlayerChoice"]),
-  universeCollisionType: z.enum(["InnerBox", "OuterBox"]),
-  universeBodyType: z.enum(["Standard", "PlayerChoice"]),
-  universeJointPositioningType: z.enum(["Standard", "ArtistIntent"]),
+  universeAvatarType: z.enum(['MorphToR6', 'PlayerChoice', 'MorphToR15']),
+  universeScaleType: z.enum(['NoScales', 'AllScales']),
+  universeAnimationType: z.enum(['Standard', 'PlayerChoice']),
+  universeCollisionType: z.enum(['InnerBox', 'OuterBox']),
+  universeBodyType: z.enum(['Standard', 'PlayerChoice']),
+  universeJointPositioningType: z.enum(['Standard', 'ArtistIntent']),
   isArchived: z.boolean(),
   isFriendsOnly: z.boolean(),
   genre: z.enum([
-    "All",
-    "Tutorial",
-    "Scary",
-    "TownAndCity",
-    "War",
-    "Funny",
-    "Fantasy",
-    "Adventure",
-    "SciFi",
-    "Pirate",
-    "FPS",
-    "RPG",
-    "Sports",
-    "Ninja",
-    "WildWest",
+    'All',
+    'Tutorial',
+    'Scary',
+    'TownAndCity',
+    'War',
+    'Funny',
+    'Fantasy',
+    'Adventure',
+    'SciFi',
+    'Pirate',
+    'FPS',
+    'RPG',
+    'Sports',
+    'Ninja',
+    'WildWest',
   ]),
   playableDevices: z.array(
-    z.union([
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-    ])
+    z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
   ),
   isForSale: z.boolean(),
   price: z.number().int(),
@@ -135,22 +113,8 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   privacyType: z.string(),
   isForSaleInFiat: z.boolean(),
   fiatBasePriceId: z.string(),
-  fiatModerationStatus: z.enum([
-    "Invalid",
-    "NotModerated",
-    "Pending",
-    "Approved",
-    "Rejected",
-  ]),
-  audiences: z.array(
-    z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-    ])
-  ),
+  fiatModerationStatus: z.enum(['Invalid', 'NotModerated', 'Pending', 'Approved', 'Rejected']),
+  audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
 });
 const Roblox_Api_Develop_Models_UniverseSettingsRequest = z.object({
   name: z.string(),
@@ -180,26 +144,14 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequest = z.object({
     z.literal(14),
   ]),
   playableDevices: z.array(
-    z.union([
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-    ])
+    z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
   ),
   isForSale: z.boolean(),
   price: z.number().int(),
   isMeshTextureApiAccessAllowed: z.boolean(),
   isRewardedOnDemandAdsAllowed: z.boolean(),
   fiatBasePriceId: z.string(),
-  fiatProductChangeType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-  ]),
+  fiatProductChangeType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
 });
 const Roblox_Api_Develop_Models_PrivateServerDetailsResponse = z.object({
   isEnabled: z.boolean(),
@@ -212,12 +164,11 @@ const Roblox_Api_Develop_Models_UniversePermissionsModel = z.object({
   canCloudEdit: z.boolean(),
 });
 const Roblox_Api_Develop_Models_IPlaceModel = z.object({});
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_IPlaceModel_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Api_Develop_Models_IPlaceModel),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_IPlaceModel_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Api_Develop_Models_IPlaceModel),
+});
 const Roblox_Api_Develop_Models_Response_TeamCreateSettingsResponse = z.object({
   isEnabled: z.boolean(),
 });
@@ -225,39 +176,37 @@ const Roblox_Api_Develop_Models_UpdateTeamCreateSettingsRequest = z.object({
   isEnabled: z.boolean(),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseModel_ =
-  z.object({ data: z.array(Roblox_Api_Develop_Models_UniverseModel) });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseModel_ = z.object({
+  data: z.array(Roblox_Api_Develop_Models_UniverseModel),
+});
 const Roblox_Api_Develop_Models_UniverseIdPermissionsModel = z.object({
   universeId: z.number().int(),
   canManage: z.boolean(),
   canCloudEdit: z.boolean(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseIdPermissionsModel_ =
-  z.object({
-    data: z.array(Roblox_Api_Develop_Models_UniverseIdPermissionsModel),
-  });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseIdPermissionsModel_ = z.object({
+  data: z.array(Roblox_Api_Develop_Models_UniverseIdPermissionsModel),
+});
 const Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel = z.object({
   id: z.number().int(),
   isEnabled: z.boolean(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel_ =
-  z.object({
-    data: z.array(Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel),
-  });
-const Roblox_Api_Develop_Models_UserPublicPublishEligibilityResponse = z.object(
-  {
-    isEligible: z.boolean(),
-    hasTransactions: z.enum(["Incomplete", "NotRequired", "Completed"]),
-    idVerified: z.enum(["Incomplete", "NotRequired", "Completed"]),
-    hasDevex: z.enum(["Incomplete", "NotRequired", "Completed"]),
-  }
-);
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel_ = z.object({
+  data: z.array(Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel),
+});
+const Roblox_Api_Develop_Models_UserPublicPublishEligibilityResponse = z.object({
+  isEligible: z.boolean(),
+  hasTransactions: z.enum(['Incomplete', 'NotRequired', 'Completed']),
+  idVerified: z.enum(['Incomplete', 'NotRequired', 'Completed']),
+  hasDevex: z.enum(['Incomplete', 'NotRequired', 'Completed']),
+});
 const Roblox_Api_Develop_Models_GroupModel = z.object({
   id: z.number().int(),
   name: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GroupModel_ =
-  z.object({ data: z.array(Roblox_Api_Develop_Models_GroupModel) });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GroupModel_ = z.object({
+  data: z.array(Roblox_Api_Develop_Models_GroupModel),
+});
 const Roblox_Api_Develop_Models_PlaceConfigurationModel = z.object({
   name: z.string(),
   description: z.string(),
@@ -283,20 +232,19 @@ const Roblox_Api_Develop_Models_TeamCreateMembershipRequest = z.object({
  * @param assetIds The ids of the Roblox.Platform.Assets.IAsset.
  */
 export const getAssetsVoting = endpoint({
-  method: "GET",
-  path: "/v1/assets/voting",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/assets/voting',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     assetIds: {
-      style: "form",
+      style: 'form',
     },
   },
   parameters: {
     assetIds: z.array(z.number()),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_Response_AssetVotingModel_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_Response_AssetVotingModel_,
   errors: [],
 });
 /**
@@ -306,12 +254,11 @@ export const getAssetsVoting = endpoint({
 Sort order of templates specified by Roblox.
  */
 export const getGametemplates = endpoint({
-  method: "GET",
-  path: "/v1/gametemplates",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GameTemplateModel_,
+  method: 'GET',
+  path: '/v1/gametemplates',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GameTemplateModel_,
   errors: [],
 });
 /**
@@ -324,28 +271,28 @@ export const getGametemplates = endpoint({
  * @param sortOrder Sorted by universeId
  */
 export const getGroupsGroupidUniverses = endpoint({
-  method: "GET",
-  path: "/v1/groups/:groupId/universes",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/groups/:groupId/universes',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
-      style: "simple",
+      style: 'simple',
     },
     isArchived: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -357,10 +304,9 @@ export const getGroupsGroupidUniverses = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UniverseModel_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UniverseModel_,
   errors: [
     {
       status: 400,
@@ -376,14 +322,14 @@ export const getGroupsGroupidUniverses = endpoint({
  * @description Currently the only supported functionality for updating the configuration is around Name, and Description.
  */
 export const postPlacesPlaceid = endpoint({
-  method: "POST",
-  path: "/v1/places/:placeId",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/places/:placeId',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     placeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -415,14 +361,14 @@ export const postPlacesPlaceid = endpoint({
  * @description Currently the only supported functionality for updating the configuration is around Name, and Description.
  */
 export const patchPlacesPlaceid = endpoint({
-  method: "PATCH",
-  path: "/v1/places/:placeId",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/v1/places/:placeId',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     placeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -454,20 +400,20 @@ export const patchPlacesPlaceid = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  */
 export const getPlacesPlaceidTeamcreateActive_sessionMembers = endpoint({
-  method: "GET",
-  path: "/v1/places/:placeId/teamcreate/active_session/members",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/places/:placeId/teamcreate/active_session/members',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     placeId: {
-      style: "simple",
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -479,8 +425,7 @@ export const getPlacesPlaceidTeamcreateActive_sessionMembers = endpoint({
       .default(10),
     cursor: z.string().optional(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Users_SkinnyUserResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Users_SkinnyUserResponse_,
   errors: [
     {
       status: 400,
@@ -512,20 +457,19 @@ export const getPlacesPlaceidTeamcreateActive_sessionMembers = endpoint({
  * @param pluginIds The plugin ids.
  */
 export const getPlugins = endpoint({
-  method: "GET",
-  path: "/v1/plugins",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/plugins',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     pluginIds: {
-      style: "form",
+      style: 'form',
     },
   },
   parameters: {
     pluginIds: z.array(z.number()),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Plugins_PluginResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Plugins_PluginResponse_,
   errors: [
     {
       status: 400,
@@ -541,14 +485,14 @@ export const getPlugins = endpoint({
  * @param pluginId The id of the plugin.
  */
 export const patchPluginsPluginid = endpoint({
-  method: "PATCH",
-  path: "/v1/plugins/:pluginId",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/v1/plugins/:pluginId',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     pluginId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -585,13 +529,13 @@ export const patchPluginsPluginid = endpoint({
  * @param universeId The Universe id.
  */
 export const getUniversesUniverseid = endpoint({
-  method: "GET",
-  path: "/v1/universes/:universeId",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/universes/:universeId',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -611,13 +555,13 @@ export const getUniversesUniverseid = endpoint({
  * @param universeId The universe id.
  */
 export const postUniversesUniverseidActivate = endpoint({
-  method: "POST",
-  path: "/v1/universes/:universeId/activate",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/universes/:universeId/activate',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -649,13 +593,13 @@ export const postUniversesUniverseidActivate = endpoint({
  * @param universeId The universe id.
  */
 export const getUniversesUniverseidActivationEligibility = endpoint({
-  method: "GET",
-  path: "/v1/universes/:universeId/activation-eligibility",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/universes/:universeId/activation-eligibility',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -670,13 +614,13 @@ export const getUniversesUniverseidActivationEligibility = endpoint({
  * @param universeId The universe Id.
  */
 export const getUniversesUniverseidConfiguration = endpoint({
-  method: "GET",
-  path: "/v1/universes/:universeId/configuration",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/universes/:universeId/configuration',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -705,14 +649,14 @@ export const getUniversesUniverseidConfiguration = endpoint({
  * @param universeId The universeId.
  */
 export const patchUniversesUniverseidConfiguration = endpoint({
-  method: "PATCH",
-  path: "/v1/universes/:universeId/configuration",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/v1/universes/:universeId/configuration',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -767,13 +711,13 @@ export const patchUniversesUniverseidConfiguration = endpoint({
  * @param universeId The universe Id.
  */
 export const getUniversesUniverseidConfigurationVipServers = endpoint({
-  method: "GET",
-  path: "/v1/universes/:universeId/configuration/vip-servers",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/universes/:universeId/configuration/vip-servers',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -801,13 +745,13 @@ export const getUniversesUniverseidConfigurationVipServers = endpoint({
  * @param universeId The universe id.
  */
 export const postUniversesUniverseidDeactivate = endpoint({
-  method: "POST",
-  path: "/v1/universes/:universeId/deactivate",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/universes/:universeId/deactivate',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -837,13 +781,13 @@ export const postUniversesUniverseidDeactivate = endpoint({
  * @param universeId The universe id.
  */
 export const getUniversesUniverseidPermissions = endpoint({
-  method: "GET",
-  path: "/v1/universes/:universeId/permissions",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/universes/:universeId/permissions',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -871,28 +815,28 @@ export const getUniversesUniverseidPermissions = endpoint({
  * @param sortOrder Sorted by placeId
  */
 export const getUniversesUniverseidPlaces = endpoint({
-  method: "GET",
-  path: "/v1/universes/:universeId/places",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/universes/:universeId/places',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
     isUniverseCreation: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -904,10 +848,9 @@ export const getUniversesUniverseidPlaces = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_IPlaceModel_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_IPlaceModel_,
   errors: [],
 });
 /**
@@ -916,13 +859,13 @@ export const getUniversesUniverseidPlaces = endpoint({
  * @param universeId The universe Id.
  */
 export const getUniversesUniverseidTeamcreate = endpoint({
-  method: "GET",
-  path: "/v1/universes/:universeId/teamcreate",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/universes/:universeId/teamcreate',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -952,14 +895,14 @@ export const getUniversesUniverseidTeamcreate = endpoint({
  * @description Enables, or disables team create for a universe.
  */
 export const patchUniversesUniverseidTeamcreate = endpoint({
-  method: "PATCH",
-  path: "/v1/universes/:universeId/teamcreate",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/v1/universes/:universeId/teamcreate',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -990,14 +933,14 @@ export const patchUniversesUniverseidTeamcreate = endpoint({
  * @param universeId The universe Id.
  */
 export const deleteUniversesUniverseidTeamcreateMemberships = endpoint({
-  method: "DELETE",
-  path: "/v1/universes/:universeId/teamcreate/memberships",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'DELETE',
+  path: '/v1/universes/:universeId/teamcreate/memberships',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -1028,21 +971,20 @@ export const deleteUniversesUniverseidTeamcreateMemberships = endpoint({
  * @description If a universe can not be found for a given ID (such as -1) it will be skipped.
  */
 export const getUniversesMultiget = endpoint({
-  method: "GET",
-  path: "/v1/universes/multiget",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/universes/multiget',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     ids: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     ids: z.array(z.number()),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseModel_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseModel_,
   errors: [
     {
       status: 400,
@@ -1058,21 +1000,20 @@ export const getUniversesMultiget = endpoint({
  * @description If a universe can not be found for a given ID (such as -1) it will be skipped.
  */
 export const getUniversesMultigetPermissions = endpoint({
-  method: "GET",
-  path: "/v1/universes/multiget/permissions",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/universes/multiget/permissions',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     ids: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     ids: z.array(z.number()),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseIdPermissionsModel_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseIdPermissionsModel_,
   errors: [
     {
       status: 400,
@@ -1091,21 +1032,20 @@ export const getUniversesMultigetPermissions = endpoint({
  * @param ids The universe Ids.
  */
 export const getUniversesMultigetTeamcreate = endpoint({
-  method: "GET",
-  path: "/v1/universes/multiget/teamcreate",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/universes/multiget/teamcreate',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     ids: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     ids: z.array(z.number()),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_UniverseTeamCreateSettingsModel_,
   errors: [
     {
       status: 400,
@@ -1122,10 +1062,10 @@ export const getUniversesMultigetTeamcreate = endpoint({
  * @summary Returns the result of various checks for a user's eligibility to publish a public universe
  */
 export const getUniversesUserPublicPublishEligibility = endpoint({
-  method: "GET",
-  path: "/v1/universes/user-public-publish-eligibility",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/universes/user-public-publish-eligibility',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   response: Roblox_Api_Develop_Models_UserPublicPublishEligibilityResponse,
   errors: [],
 });
@@ -1134,12 +1074,11 @@ export const getUniversesUserPublicPublishEligibility = endpoint({
  * @summary Gets a list of Groups that a user can manage.
  */
 export const getUserGroupsCanmanage = endpoint({
-  method: "GET",
-  path: "/v1/user/groups/canmanage",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GroupModel_,
+  method: 'GET',
+  path: '/v1/user/groups/canmanage',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GroupModel_,
   errors: [
     {
       status: 401,
@@ -1152,12 +1091,11 @@ export const getUserGroupsCanmanage = endpoint({
  * @summary Gets a list of groups a user can manage games or items for.
  */
 export const getUserGroupsCanmanagegamesoritems = endpoint({
-  method: "GET",
-  path: "/v1/user/groups/canmanagegamesoritems",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GroupModel_,
+  method: 'GET',
+  path: '/v1/user/groups/canmanagegamesoritems',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Api_Develop_Models_GroupModel_,
   errors: [
     {
       status: 401,
@@ -1174,25 +1112,25 @@ export const getUserGroupsCanmanagegamesoritems = endpoint({
  * @param sortOrder Sorted by universeId
  */
 export const getUserUniverses = endpoint({
-  method: "GET",
-  path: "/v1/user/universes",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/user/universes',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     isArchived: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -1203,10 +1141,9 @@ export const getUserUniverses = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UniverseModel_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_Models_UniverseModel_,
   errors: [
     {
       status: 400,

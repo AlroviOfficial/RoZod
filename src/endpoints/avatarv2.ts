@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Web_Responses_Avatar_ScaleModel = z.object({
   height: z.number(),
@@ -107,11 +107,10 @@ const Roblox_Api_Avatar_Models_OutfitModel = z.object({
   isEditable: z.boolean(),
   outfitType: z.string(),
 });
-const Roblox_Api_Avatar_Models_AvatarPageResponse_Roblox_Api_Avatar_Models_OutfitModel_ =
-  z.object({
-    data: z.array(Roblox_Api_Avatar_Models_OutfitModel),
-    paginationToken: z.string(),
-  });
+const Roblox_Api_Avatar_Models_AvatarPageResponse_Roblox_Api_Avatar_Models_OutfitModel_ = z.object({
+  data: z.array(Roblox_Api_Avatar_Models_OutfitModel),
+  paginationToken: z.string(),
+});
 const Roblox_Platform_Avatar_BodyColorsModelV2 = z.object({
   headColor3: z.string(),
   torsoColor3: z.string(),
@@ -149,13 +148,7 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV2 = z.object({
   assets: z.array(Roblox_Api_Avatar_Models_AssetWearModel),
   scale: Roblox_Web_Responses_Avatar_ScaleModel,
   playerAvatarType: z.string(),
-  outfitType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(4),
-    z.literal(5),
-  ]),
+  outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(4), z.literal(5)]),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
@@ -166,21 +159,21 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
  * @param checkAssetAvailability Whether to return assets with availability status.
  */
 export const getAvatarAvatar = endpoint({
-  method: "GET",
-  path: "/v2/avatar/avatar",
-  baseUrl: "https://avatar.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/avatar/avatar',
+  baseUrl: 'https://avatar.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
     checkAssetAvailability: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
-    "Roblox-Place-Id": z.number().int().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
     checkAssetAvailability: z.boolean().optional(),
   },
   response: Roblox_Api_Avatar_Models_AvatarModelV3,
@@ -198,18 +191,18 @@ export const getAvatarAvatar = endpoint({
  * @param Roblox-Place-Id
  */
 export const postAvatarSetBodyColors = endpoint({
-  method: "POST",
-  path: "/v2/avatar/set-body-colors",
-  baseUrl: "https://avatar.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/avatar/set-body-colors',
+  baseUrl: 'https://avatar.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
   },
   parameters: {
-    "Roblox-Place-Id": z.number().int().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   body: Roblox_Platform_Avatar_BodyColorsModelV2,
   response: z.object({ success: z.boolean() }),
@@ -233,18 +226,18 @@ export const postAvatarSetBodyColors = endpoint({
 Any assets being worn before this method is called are automatically removed.
  */
 export const postAvatarSetWearingAssets = endpoint({
-  method: "POST",
-  path: "/v2/avatar/set-wearing-assets",
-  baseUrl: "https://avatar.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/avatar/set-wearing-assets',
+  baseUrl: 'https://avatar.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
   },
   parameters: {
-    "Roblox-Place-Id": z.number().int().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   body: Roblox_Api_Avatar_Models_WearRequestModel,
   response: Roblox_Api_Avatar_Models_WearResponseModel,
@@ -278,25 +271,25 @@ export const postAvatarSetWearingAssets = endpoint({
  * @description Includes assets, bodycolors, and playerAvatarType.
  */
 export const getAvatarUsersUseridAvatar = endpoint({
-  method: "GET",
-  path: "/v2/avatar/users/:userId/avatar",
-  baseUrl: "https://avatar.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/avatar/users/:userId/avatar',
+  baseUrl: 'https://avatar.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
     checkAssetAvailability: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     userId: z.number().int(),
-    "Roblox-Place-Id": z.number().int().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
     checkAssetAvailability: z.boolean().optional(),
   },
   response: Roblox_Api_Avatar_Models_AvatarModelV3,
@@ -320,36 +313,36 @@ export const getAvatarUsersUseridAvatar = endpoint({
  * @param Roblox-Place-Id The placeId of the caller, not required to be passed in.
  */
 export const getAvatarUsersUseridOutfits = endpoint({
-  method: "GET",
-  path: "/v2/avatar/users/:userId/outfits",
-  baseUrl: "https://avatar.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/avatar/users/:userId/outfits',
+  baseUrl: 'https://avatar.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     paginationToken: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     outfitType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     page: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     itemsPerPage: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     isEditable: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
   },
   parameters: {
@@ -359,10 +352,9 @@ export const getAvatarUsersUseridOutfits = endpoint({
     page: z.number().int().optional().default(1),
     itemsPerPage: z.number().int().optional().default(25),
     isEditable: z.boolean().optional(),
-    "Roblox-Place-Id": z.number().int().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
-  response:
-    Roblox_Api_Avatar_Models_AvatarPageResponse_Roblox_Api_Avatar_Models_OutfitModel_,
+  response: Roblox_Api_Avatar_Models_AvatarPageResponse_Roblox_Api_Avatar_Models_OutfitModel_,
   errors: [
     {
       status: 400,
@@ -381,22 +373,22 @@ export const getAvatarUsersUseridOutfits = endpoint({
 Accepts partial updates.
  */
 export const patchOutfitsUseroutfitid = endpoint({
-  method: "PATCH",
-  path: "/v2/outfits/:userOutfitId",
-  baseUrl: "https://avatar.roblox.com",
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/v2/outfits/:userOutfitId',
+  baseUrl: 'https://avatar.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     userOutfitId: {
-      style: "simple",
+      style: 'simple',
     },
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
   },
   parameters: {
     userOutfitId: z.number().int(),
-    "Roblox-Place-Id": z.number().int().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   body: Roblox_Api_Avatar_Models_OutfitUpdateModelV2,
   response: Roblox_Api_Avatar_Models_OutfitModel,
@@ -440,18 +432,18 @@ export const patchOutfitsUseroutfitid = endpoint({
 The name property of the request is optional as one will be auto-generated when the request has a null name.
  */
 export const postOutfitsCreate = endpoint({
-  method: "POST",
-  path: "/v2/outfits/create",
-  baseUrl: "https://avatar.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/outfits/create',
+  baseUrl: 'https://avatar.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
   },
   parameters: {
-    "Roblox-Place-Id": z.number().int().optional(),
+    'Roblox-Place-Id': z.number().int().optional(),
   },
   body: Roblox_Api_Avatar_Models_OutfitUpdateModelV2,
   response: z.object({}),
@@ -499,7 +491,10 @@ export const postOutfitsUseroutfitidUpdate = endpoint({
   body: Roblox_Api_Avatar_Models_OutfitUpdateModelV2,
   response: z.object({}),
   errors: [
-    { status: 400, description: `1: The specified userOutfit does not exist!\n3: Body colors must be valid BrickColor IDs\n4: Invalid outfit name\n5: Asset is not wearable by you\n7: Invalid assetIds\n8: Invalid Player Avatar Type. Valid types are R6 and R15` },
+    {
+      status: 400,
+      description: `1: The specified userOutfit does not exist!\n3: Body colors must be valid BrickColor IDs\n4: Invalid outfit name\n5: Asset is not wearable by you\n7: Invalid assetIds\n8: Invalid Player Avatar Type. Valid types are R6 and R15`,
+    },
     { status: 401, description: `0: Authorization has been denied for this request.` },
     { status: 403, description: `0: Token Validation Failed\n2: You don't have permission to update this outfit.` },
     { status: 500, description: `6: An error occurred while trying to update the outfit` },

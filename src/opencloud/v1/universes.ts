@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "../..";
+import { z } from 'zod';
+import { endpoint } from '../..';
 
 /**
  * **Publish a Place** · `BETA`
@@ -15,11 +15,11 @@ import { endpoint } from "../..";
  - `Published`: the place file should be saved and published.
  */
 export const postUniverseIdPlacesPlaceIdVersions = endpoint({
-  method: "POST",
-  path: "/v1/:universeId/places/:placeId/versions",
-  baseUrl: "https://apis.roblox.com/universes",
-  scopes: ["universe-places:write"],
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/:universeId/places/:placeId/versions',
+  baseUrl: 'https://apis.roblox.com/universes',
+  scopes: ['universe-places:write'],
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {},
     placeId: {},

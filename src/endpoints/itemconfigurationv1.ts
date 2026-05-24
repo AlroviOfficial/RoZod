@@ -1,16 +1,15 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_ItemConfiguration_Api_AssetCreationsResponse = z.object({
   assetId: z.number().int(),
   name: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_ItemConfiguration_Api_AssetCreationsResponse_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_ItemConfiguration_Api_AssetCreationsResponse),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_ItemConfiguration_Api_AssetCreationsResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_ItemConfiguration_Api_AssetCreationsResponse),
+});
 const Roblox_ItemConfiguration_Api_AssetCreationsDetailsRequest = z.object({
   AssetIds: z.array(z.number()),
 });
@@ -20,25 +19,21 @@ const Roblox_ItemConfiguration_Api_PriceConfigurationModel = z.object({
   premiumPriceInRobux: z.number().int(),
   priceOffset: z.number().int(),
 });
-const Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel = z.object(
-  {
-    saleAvailabilityLocations: z.array(
-      z.enum(["Undefined", "Catalog", "AllUniverses", "MyUniverses"])
-    ),
-  }
-);
+const Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel = z.object({
+  saleAvailabilityLocations: z.array(z.enum(['Undefined', 'Catalog', 'AllUniverses', 'MyUniverses'])),
+});
 const Roblox_ItemConfiguration_Api_AssetCreationsDetailsResponse = z.object({
   assetId: z.number().int(),
   name: z.string(),
   status: z.enum([
-    "Unknown",
-    "ReviewPending",
-    "Moderated",
-    "ReviewApproved",
-    "OnSale",
-    "OffSale",
-    "DelayedRelease",
-    "Free",
+    'Unknown',
+    'ReviewPending',
+    'Moderated',
+    'ReviewApproved',
+    'OnSale',
+    'OffSale',
+    'DelayedRelease',
+    'Free',
   ]),
   description: z.string(),
   creatorType: z.string(),
@@ -47,8 +42,7 @@ const Roblox_ItemConfiguration_Api_AssetCreationsDetailsResponse = z.object({
   priceConfiguration: Roblox_ItemConfiguration_Api_PriceConfigurationModel,
   isArchived: z.boolean(),
   assetType: z.string(),
-  releaseConfiguration:
-    Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel,
+  releaseConfiguration: Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel,
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
   isDelisted: z.boolean(),
@@ -61,10 +55,10 @@ const Roblox_ItemConfiguration_Api_AssetCreationsDetailsResponse = z.object({
  * @param body
  */
 export const postCreationsGetAssetDetails = endpoint({
-  method: "POST",
-  path: "/v1/creations/get-asset-details",
-  baseUrl: "https://itemconfiguration.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/creations/get-asset-details',
+  baseUrl: 'https://itemconfiguration.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -109,29 +103,29 @@ export const postCreationsGetAssetDetails = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  */
 export const getCreationsGetAssets = endpoint({
-  method: "GET",
-  path: "/v1/creations/get-assets",
-  baseUrl: "https://itemconfiguration.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/creations/get-assets',
+  baseUrl: 'https://itemconfiguration.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     assetType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     isArchived: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     groupId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -145,8 +139,7 @@ export const getCreationsGetAssets = endpoint({
       .default(10),
     cursor: z.string().optional(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_ItemConfiguration_Api_AssetCreationsResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_ItemConfiguration_Api_AssetCreationsResponse_,
   errors: [
     {
       status: 400,

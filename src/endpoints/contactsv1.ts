@@ -1,8 +1,8 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Contacts_Api_Response_ValidateUserTagResponseModel = z.object({
-  status: z.enum(["Success", "Moderated", "TooLong"]),
+  status: z.enum(['Success', 'Moderated', 'TooLong']),
 });
 const Roblox_Contacts_Api_Request_GetUserTagsRequestModel = z.object({
   targetUserIds: z.array(z.number()),
@@ -16,7 +16,7 @@ const Roblox_Contacts_Api_Request_SetUserTagRequestModel = z.object({
   userTag: z.string(),
 });
 const Roblox_Contacts_Api_Response_SetUserTagResponseModel = z.object({
-  status: z.enum(["Success", "Moderated"]),
+  status: z.enum(['Success', 'Moderated']),
 });
 
 /**
@@ -25,10 +25,10 @@ const Roblox_Contacts_Api_Response_SetUserTagResponseModel = z.object({
  * @param body
  */
 export const postUserGetTags = endpoint({
-  method: "POST",
-  path: "/v1/user/get-tags",
-  baseUrl: "https://contacts.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/user/get-tags',
+  baseUrl: 'https://contacts.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -57,10 +57,10 @@ export const postUserGetTags = endpoint({
  * @param body The tag receiving userId and the tag itself
  */
 export const postUserTag = endpoint({
-  method: "POST",
-  path: "/v1/user/tag",
-  baseUrl: "https://contacts.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/user/tag',
+  baseUrl: 'https://contacts.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -95,13 +95,13 @@ export const postUserTag = endpoint({
  * @param alias The tag to validate
  */
 export const getUserTagValidate = endpoint({
-  method: "GET",
-  path: "/v1/user/tag/validate",
-  baseUrl: "https://contacts.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/user/tag/validate',
+  baseUrl: 'https://contacts.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     alias: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -138,7 +138,5 @@ export const getContactsMetadata = endpoint({
   baseUrl: 'https://contacts.roblox.com',
   requestFormat: 'json',
   response: Patch_ContactsMetadataResponseModel,
-  errors: [
-    { status: 401, description: `0: Authorization has been denied for this request.` },
-  ],
+  errors: [{ status: 401, description: `0: Authorization has been denied for this request.` }],
 });

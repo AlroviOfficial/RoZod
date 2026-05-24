@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Locale_Api_CountryRegion = z.object({
   code: z.string(),
@@ -29,8 +29,9 @@ const Roblox_Locale_Api_SupportedLocaleLocus = z.object({
   isEnabledForSignupAndLogin: z.boolean(),
   isEnabledForInGameUgc: z.boolean(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Locale_Api_SupportedLocaleLocus_ =
-  z.object({ data: z.array(Roblox_Locale_Api_SupportedLocaleLocus) });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Locale_Api_SupportedLocaleLocus_ = z.object({
+  data: z.array(Roblox_Locale_Api_SupportedLocaleLocus),
+});
 const Roblox_Locale_Api_SupportedLocalesResponse = z.object({
   supportedLocales: z.array(Roblox_Locale_Api_SupportedLocale),
 });
@@ -58,13 +59,13 @@ const Roblox_Locale_Api_SetSupportedLocaleForUserRequest = z.object({
  * @param locale
  */
 export const getCountryRegions = endpoint({
-  method: "GET",
-  path: "/v1/country-regions",
-  baseUrl: "https://locale.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/country-regions',
+  baseUrl: 'https://locale.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     locale: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -89,21 +90,20 @@ export const getCountryRegions = endpoint({
  * @param displayValueLocale
  */
 export const getLocales = endpoint({
-  method: "GET",
-  path: "/v1/locales",
-  baseUrl: "https://locale.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/locales',
+  baseUrl: 'https://locale.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     displayValueLocale: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     displayValueLocale: z.string().optional(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Locale_Api_SupportedLocaleLocus_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Locale_Api_SupportedLocaleLocus_,
   errors: [
     {
       status: 403,
@@ -121,10 +121,10 @@ export const getLocales = endpoint({
  * @param body Whether to show Roblox-suggested translations
  */
 export const postLocalesSetShowRobloxTranslations = endpoint({
-  method: "POST",
-  path: "/v1/locales/set-show-roblox-translations",
-  baseUrl: "https://locale.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/locales/set-show-roblox-translations',
+  baseUrl: 'https://locale.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -159,10 +159,10 @@ Null supported locale will clear out user's supported locale (set users' support
  * @param body Supported locale code that needs to be set for user
  */
 export const postLocalesSetUserSupportedLocale = endpoint({
-  method: "POST",
-  path: "/v1/locales/set-user-supported-locale",
-  baseUrl: "https://locale.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/locales/set-user-supported-locale',
+  baseUrl: 'https://locale.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -195,10 +195,10 @@ export const postLocalesSetUserSupportedLocale = endpoint({
  * @summary Get list of supported locales sorted by the Native Name property.
  */
 export const getLocalesSupportedLocales = endpoint({
-  method: "GET",
-  path: "/v1/locales/supported-locales",
-  baseUrl: "https://locale.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/locales/supported-locales',
+  baseUrl: 'https://locale.roblox.com',
+  requestFormat: 'json',
   response: Roblox_Locale_Api_SupportedLocalesResponse,
   errors: [
     {
@@ -216,21 +216,20 @@ export const getLocalesSupportedLocales = endpoint({
  * @param displayValueLocale
  */
 export const getLocalesSupportedLocalesForCreators = endpoint({
-  method: "GET",
-  path: "/v1/locales/supported-locales-for-creators",
-  baseUrl: "https://locale.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/locales/supported-locales-for-creators',
+  baseUrl: 'https://locale.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     displayValueLocale: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     displayValueLocale: z.string().optional(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Locale_Api_SupportedLocaleLocus_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Locale_Api_SupportedLocaleLocus_,
   errors: [],
 });
 /**
@@ -239,13 +238,13 @@ export const getLocalesSupportedLocalesForCreators = endpoint({
  * @param featureName
  */
 export const getLocalesSupportedLocalesForFeature = endpoint({
-  method: "GET",
-  path: "/v1/locales/supported-locales-for-feature",
-  baseUrl: "https://locale.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/locales/supported-locales-for-feature',
+  baseUrl: 'https://locale.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     featureName: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -265,10 +264,10 @@ export const getLocalesSupportedLocalesForFeature = endpoint({
  * @summary Gets user locale. If user is absent returns, locale from http request object.
  */
 export const getLocalesUserLocale = endpoint({
-  method: "GET",
-  path: "/v1/locales/user-locale",
-  baseUrl: "https://locale.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/locales/user-locale',
+  baseUrl: 'https://locale.roblox.com',
+  requestFormat: 'json',
   response: Roblox_Locale_Api_UserLocaleResponse,
   errors: [
     {
@@ -284,10 +283,10 @@ have been defined by the International team which need independent locale suppor
 If the user is null we will attempt to return the locales appropriate for the user's device language.
  */
 export const getLocalesUserLocalizationLocusSupportedLocales = endpoint({
-  method: "GET",
-  path: "/v1/locales/user-localization-locus-supported-locales",
-  baseUrl: "https://locale.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/locales/user-localization-locus-supported-locales',
+  baseUrl: 'https://locale.roblox.com',
+  requestFormat: 'json',
   response: Roblox_Locale_Api_UserLocalizationLocusLocalesResponse,
   errors: [
     {

@@ -1,49 +1,22 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_AdConfiguration_Api_SponsoredCampaignModel = z.object({
   adId: z.number().int(),
   adSetId: z.number().int(),
   adName: z.string(),
-  adStatus: z.enum([
-    "Undefined",
-    "Draft",
-    "PendingApproval",
-    "Approved",
-    "Moderated",
-  ]),
-  creativeType: z.enum(["Undefined", "Image", "Video"]),
+  adStatus: z.enum(['Undefined', 'Draft', 'PendingApproval', 'Approved', 'Moderated']),
+  creativeType: z.enum(['Undefined', 'Image', 'Video']),
   creativeTargetId: z.number().int(),
   bidAmountInRobux: z.number().int(),
   budgetInRobux: z.number().int(),
-  adSetStatus: z.enum([
-    "Undefined",
-    "Draft",
-    "Scheduled",
-    "Running",
-    "Paused",
-    "Stopped",
-    "Completed",
-  ]),
+  adSetStatus: z.enum(['Undefined', 'Draft', 'Scheduled', 'Running', 'Paused', 'Stopped', 'Completed']),
   startDate: z.string().datetime({ offset: true }),
   endDate: z.string().datetime({ offset: true }),
-  targetGender: z.enum(["Undefined", "Male", "Female"]),
-  targetAgeBracket: z.enum([
-    "Undefined",
-    "AgeUnder13",
-    "Age13OrOver",
-    "Age13To16",
-    "Age17OrOver",
-  ]),
-  targetDeviceType: z.enum([
-    "Undefined",
-    "Computer",
-    "Phone",
-    "Tablet",
-    "Console",
-    "VR",
-  ]),
-  campaignTargetType: z.enum(["Undefined", "Universe", "Asset", "ImmersiveAd"]),
+  targetGender: z.enum(['Undefined', 'Male', 'Female']),
+  targetAgeBracket: z.enum(['Undefined', 'AgeUnder13', 'Age13OrOver', 'Age13To16', 'Age17OrOver']),
+  targetDeviceType: z.enum(['Undefined', 'Computer', 'Phone', 'Tablet', 'Console', 'VR']),
+  campaignTargetType: z.enum(['Undefined', 'Universe', 'Asset', 'ImmersiveAd']),
   campaignTargetId: z.number().int(),
   totalSpendInRobux: z.number().int(),
   totalImpressions: z.number().int(),
@@ -53,9 +26,7 @@ const Roblox_AdConfiguration_Api_SponsoredCampaignModel = z.object({
   clickConversions: z.number().int(),
 });
 const Roblox_AdConfiguration_Api_GetSponsoredCampaignsResponse = z.object({
-  sponsoredCampaigns: z.array(
-    Roblox_AdConfiguration_Api_SponsoredCampaignModel
-  ),
+  sponsoredCampaigns: z.array(Roblox_AdConfiguration_Api_SponsoredCampaignModel),
   previousPageCursor: z.string(),
   nextPageCursor: z.string(),
 });
@@ -63,46 +34,19 @@ const Roblox_AdConfiguration_Api_SponsoredGameV2Model = z.object({
   adId: z.number().int(),
   adSetId: z.number().int(),
   adName: z.string(),
-  adStatus: z.enum([
-    "Undefined",
-    "Draft",
-    "PendingApproval",
-    "Approved",
-    "Moderated",
-  ]),
-  creativeType: z.enum(["Undefined", "Image", "Video"]),
+  adStatus: z.enum(['Undefined', 'Draft', 'PendingApproval', 'Approved', 'Moderated']),
+  creativeType: z.enum(['Undefined', 'Image', 'Video']),
   creativeTargetId: z.number().int(),
   creativeUrl: z.string(),
   bidAmountInRobux: z.number().int(),
   budgetInRobux: z.number().int(),
-  adSetStatus: z.enum([
-    "Undefined",
-    "Draft",
-    "Scheduled",
-    "Running",
-    "Paused",
-    "Stopped",
-    "Completed",
-  ]),
+  adSetStatus: z.enum(['Undefined', 'Draft', 'Scheduled', 'Running', 'Paused', 'Stopped', 'Completed']),
   startDate: z.string().datetime({ offset: true }),
   endDate: z.string().datetime({ offset: true }),
-  targetGender: z.enum(["Undefined", "Male", "Female"]),
-  targetAgeBracket: z.enum([
-    "Undefined",
-    "AgeUnder13",
-    "Age13OrOver",
-    "Age13To16",
-    "Age17OrOver",
-  ]),
-  targetDeviceType: z.enum([
-    "Undefined",
-    "Computer",
-    "Phone",
-    "Tablet",
-    "Console",
-    "VR",
-  ]),
-  campaignTargetType: z.enum(["Undefined", "Universe", "Asset", "ImmersiveAd"]),
+  targetGender: z.enum(['Undefined', 'Male', 'Female']),
+  targetAgeBracket: z.enum(['Undefined', 'AgeUnder13', 'Age13OrOver', 'Age13To16', 'Age17OrOver']),
+  targetDeviceType: z.enum(['Undefined', 'Computer', 'Phone', 'Tablet', 'Console', 'VR']),
+  campaignTargetType: z.enum(['Undefined', 'Universe', 'Asset', 'ImmersiveAd']),
   campaignTargetId: z.number().int(),
   totalSpendInRobux: z.number().int(),
   totalImpressions: z.number().int(),
@@ -120,96 +64,56 @@ const Roblox_AdConfiguration_Api_Models_UniverseModel = z.object({
   id: z.number().int(),
   name: z.string(),
 });
-const Roblox_AdConfiguration_Api_Models_GetRecentAdsRankedUniversesResponse =
-  z.object({
-    universes: z.array(Roblox_AdConfiguration_Api_Models_UniverseModel),
-  });
+const Roblox_AdConfiguration_Api_Models_GetRecentAdsRankedUniversesResponse = z.object({
+  universes: z.array(Roblox_AdConfiguration_Api_Models_UniverseModel),
+});
 const Roblox_AdConfiguration_Api_CreativeModel = z.object({
   creativeId: z.number().int(),
-  creativeType: z.enum(["Undefined", "Image", "Video"]),
+  creativeType: z.enum(['Undefined', 'Image', 'Video']),
 });
-const Roblox_AdConfiguration_Api_Models_CreateSponsoredCampaignRequest =
-  z.object({
-    campaignTargetId: z.number().int(),
-    campaignTargetType: z.enum([
-      "Undefined",
-      "Universe",
-      "Asset",
-      "ImmersiveAd",
-    ]),
-    targetGender: z.enum(["Undefined", "Male", "Female"]),
-    targetAgeBracket: z.enum([
-      "Undefined",
-      "AgeUnder13",
-      "Age13OrOver",
-      "Age13To16",
-      "Age17OrOver",
-    ]),
-    startDate: z.string().datetime({ offset: true }),
-    endDate: z.string().datetime({ offset: true }),
-    targetDeviceType: z.enum([
-      "Undefined",
-      "Computer",
-      "Phone",
-      "Tablet",
-      "Console",
-      "VR",
-    ]),
-    campaignName: z.string(),
-    dailyBidAmountInRobux: z.number().int(),
-    placementLocation: z.enum([
-      "Undefined",
-      "GameSort",
-      "AvatarShop",
-      "ItemDetails",
-      "HomePage",
-      "Billboard300x250",
-      "Billboard600x300",
-      "Billboard300x600",
-    ]),
-    creativeModel: Roblox_AdConfiguration_Api_CreativeModel,
-  });
-const Roblox_AdConfiguration_Api_Models_GetEligibleCampaignTargetsRequest =
-  z.object({
-    campaignTargetTypes: z.array(
-      z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])
-    ),
-    groupId: z.number().int(),
-  });
+const Roblox_AdConfiguration_Api_Models_CreateSponsoredCampaignRequest = z.object({
+  campaignTargetId: z.number().int(),
+  campaignTargetType: z.enum(['Undefined', 'Universe', 'Asset', 'ImmersiveAd']),
+  targetGender: z.enum(['Undefined', 'Male', 'Female']),
+  targetAgeBracket: z.enum(['Undefined', 'AgeUnder13', 'Age13OrOver', 'Age13To16', 'Age17OrOver']),
+  startDate: z.string().datetime({ offset: true }),
+  endDate: z.string().datetime({ offset: true }),
+  targetDeviceType: z.enum(['Undefined', 'Computer', 'Phone', 'Tablet', 'Console', 'VR']),
+  campaignName: z.string(),
+  dailyBidAmountInRobux: z.number().int(),
+  placementLocation: z.enum([
+    'Undefined',
+    'GameSort',
+    'AvatarShop',
+    'ItemDetails',
+    'HomePage',
+    'Billboard300x250',
+    'Billboard600x300',
+    'Billboard300x600',
+  ]),
+  creativeModel: Roblox_AdConfiguration_Api_CreativeModel,
+});
+const Roblox_AdConfiguration_Api_Models_GetEligibleCampaignTargetsRequest = z.object({
+  campaignTargetTypes: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])),
+  groupId: z.number().int(),
+});
 const Roblox_AdConfiguration_Api_Models_CampaignTargetModel = z.object({
-  campaignTargetType: z.enum(["Undefined", "Universe", "Asset", "ImmersiveAd"]),
+  campaignTargetType: z.enum(['Undefined', 'Universe', 'Asset', 'ImmersiveAd']),
   campaignTargetId: z.number().int(),
   name: z.string(),
 });
 const Roblox_AdConfiguration_Api_Models_GetCampaignTargetsResponse = z.object({
-  campaignTargetModels: z.array(
-    Roblox_AdConfiguration_Api_Models_CampaignTargetModel
-  ),
+  campaignTargetModels: z.array(Roblox_AdConfiguration_Api_Models_CampaignTargetModel),
 });
-const Roblox_AdConfiguration_Api_Models_StopSponsoredCampaignRequest = z.object(
-  { adSetId: z.number().int() }
-);
+const Roblox_AdConfiguration_Api_Models_StopSponsoredCampaignRequest = z.object({ adSetId: z.number().int() });
 const Roblox_AdConfiguration_Api_CreateSponsoredGameV2Request = z.object({
   universeId: z.number().int(),
-  targetGender: z.enum(["Undefined", "Male", "Female"]),
-  targetAgeBracket: z.enum([
-    "Undefined",
-    "AgeUnder13",
-    "Age13OrOver",
-    "Age13To16",
-    "Age17OrOver",
-  ]),
+  targetGender: z.enum(['Undefined', 'Male', 'Female']),
+  targetAgeBracket: z.enum(['Undefined', 'AgeUnder13', 'Age13OrOver', 'Age13To16', 'Age17OrOver']),
   budgetInRobux: z.number().int(),
   startDate: z.string().datetime({ offset: true }),
   endDate: z.string().datetime({ offset: true }),
-  targetDeviceType: z.enum([
-    "Undefined",
-    "Computer",
-    "Phone",
-    "Tablet",
-    "Console",
-    "VR",
-  ]),
+  targetDeviceType: z.enum(['Undefined', 'Computer', 'Phone', 'Tablet', 'Console', 'VR']),
   adName: z.string(),
   bidAmountInRobux: z.number().int(),
 });
@@ -228,39 +132,34 @@ const Roblox_AdConfiguration_Api_Models_StopSponsoredGameV2Request = z.object({
  * @param pageCursor The cursor of the page to retrieve. If empty, fetches the first page
  */
 export const getSponsoredCampaigns = endpoint({
-  method: "GET",
-  path: "/v2/sponsored-campaigns",
-  baseUrl: "https://adconfiguration.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/sponsored-campaigns',
+  baseUrl: 'https://adconfiguration.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     campaignTargetType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     campaignTargetId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     includeReportingStats: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     isArchived: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     pageCursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
-    campaignTargetType: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-    ]),
+    campaignTargetType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     campaignTargetId: z.number().int(),
     includeReportingStats: z.boolean().optional(),
     isArchived: z.boolean().optional(),
@@ -290,10 +189,10 @@ Currently intended for creation of sponsorships only.
  * @param body Roblox.AdConfiguration.Api.Models.CreateSponsoredCampaignRequest
  */
 export const postSponsoredCampaignsCreate = endpoint({
-  method: "POST",
-  path: "/v2/sponsored-campaigns/create",
-  baseUrl: "https://adconfiguration.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/sponsored-campaigns/create',
+  baseUrl: 'https://adconfiguration.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -355,10 +254,10 @@ export const postSponsoredCampaignsCreate = endpoint({
  * @summary Get all asset type IDs that are eligible to be sponsored.
  */
 export const getSponsoredCampaignsEligibleAssetTypeIds = endpoint({
-  method: "GET",
-  path: "/v2/sponsored-campaigns/eligible-asset-type-ids",
-  baseUrl: "https://adconfiguration.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/sponsored-campaigns/eligible-asset-type-ids',
+  baseUrl: 'https://adconfiguration.roblox.com',
+  requestFormat: 'json',
   response: z.array(z.number()),
   errors: [
     {
@@ -377,10 +276,10 @@ export const getSponsoredCampaignsEligibleAssetTypeIds = endpoint({
  * @param body Roblox.AdConfiguration.Api.Models.GetEligibleCampaignTargetsRequest
  */
 export const postSponsoredCampaignsEligibleCampaignTargets = endpoint({
-  method: "POST",
-  path: "/v2/sponsored-campaigns/eligible-campaign-targets",
-  baseUrl: "https://adconfiguration.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/sponsored-campaigns/eligible-campaign-targets',
+  baseUrl: 'https://adconfiguration.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -411,27 +310,22 @@ if the user is authorized to sponsor the targets.
  * @param campaignTargetIds The IDs of the campaign targets.
  */
 export const getSponsoredCampaignsMultiGetCanUserSponsor = endpoint({
-  method: "GET",
-  path: "/v2/sponsored-campaigns/multi-get-can-user-sponsor",
-  baseUrl: "https://adconfiguration.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/sponsored-campaigns/multi-get-can-user-sponsor',
+  baseUrl: 'https://adconfiguration.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     campaignTargetType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     campaignTargetIds: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
-    campaignTargetType: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-    ]),
+    campaignTargetType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
     campaignTargetIds: z.array(z.number()),
   },
   response: z.boolean(),
@@ -460,10 +354,10 @@ export const getSponsoredCampaignsMultiGetCanUserSponsor = endpoint({
  * @param body Roblox.AdConfiguration.Api.Models.StopSponsoredCampaignRequest
  */
 export const postSponsoredCampaignsStop = endpoint({
-  method: "POST",
-  path: "/v2/sponsored-campaigns/stop",
-  baseUrl: "https://adconfiguration.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/sponsored-campaigns/stop',
+  baseUrl: 'https://adconfiguration.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -500,25 +394,25 @@ export const postSponsoredCampaignsStop = endpoint({
  * @param pageCursor The cursor of the page to retrieve.
  */
 export const getSponsoredGames = endpoint({
-  method: "GET",
-  path: "/v2/sponsored-games",
-  baseUrl: "https://adconfiguration.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/sponsored-games',
+  baseUrl: 'https://adconfiguration.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     includeReportingStats: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     isArchived: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     pageCursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -551,10 +445,10 @@ export const getSponsoredGames = endpoint({
  * @param body Roblox.AdConfiguration.Api.CreateSponsoredGameV2Request
  */
 export const postSponsoredGamesCreate = endpoint({
-  method: "POST",
-  path: "/v2/sponsored-games/create",
-  baseUrl: "https://adconfiguration.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/sponsored-games/create',
+  baseUrl: 'https://adconfiguration.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -617,10 +511,10 @@ export const postSponsoredGamesCreate = endpoint({
  * @param body Roblox.AdConfiguration.Api.Models.StopSponsoredGameV2Request
  */
 export const postSponsoredGamesStop = endpoint({
-  method: "POST",
-  path: "/v2/sponsored-games/stop",
-  baseUrl: "https://adconfiguration.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v2/sponsored-games/stop',
+  baseUrl: 'https://adconfiguration.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -653,21 +547,20 @@ export const postSponsoredGamesStop = endpoint({
  * @param groupId The group id, if applicable.
  */
 export const getSponsoredGamesUniverses = endpoint({
-  method: "GET",
-  path: "/v2/sponsored-games/universes",
-  baseUrl: "https://adconfiguration.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/sponsored-games/universes',
+  baseUrl: 'https://adconfiguration.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     groupId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     groupId: z.number().int().optional(),
   },
-  response:
-    Roblox_AdConfiguration_Api_Models_GetRecentAdsRankedUniversesResponse,
+  response: Roblox_AdConfiguration_Api_Models_GetRecentAdsRankedUniversesResponse,
   errors: [
     {
       status: 400,

@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "../..";
+import { z } from 'zod';
+import { endpoint } from '../..';
 
 const GamePasses_CreateGamePass_Body = z.object({
   name: z.string(),
@@ -9,12 +9,7 @@ const GamePasses_CreateGamePass_Body = z.object({
   price: z.number().int().nullish(),
   isRegionalPricingEnabled: z.boolean().nullish(),
 });
-const PricingFeature = z.enum([
-  "Invalid",
-  "PriceOptimization",
-  "UserFixedPrice",
-  "RegionalPricing",
-]);
+const PricingFeature = z.enum(['Invalid', 'PriceOptimization', 'UserFixedPrice', 'RegionalPricing']);
 const PriceInformationStruct = z.object({
   defaultPriceInRobux: z.number().int().nullable(),
   enabledFeatures: z.array(PricingFeature),
@@ -30,29 +25,29 @@ const GamePassConfigV2 = z.object({
   priceInformation: PriceInformationStruct.nullable(),
 });
 const ErrorCode = z.enum([
-  "InternalError",
-  "BadRequest",
-  "NotFound",
-  "UnauthorizedAccess",
-  "NotAuthenticated",
-  "PassNotFound",
-  "TargetUnauthorizedAccess",
-  "UniverseNotFound",
-  "MissingArgument",
-  "AssetCreationFailure",
-  "PassRevokeFailure",
-  "PassAlreadyRevoked",
-  "SalesNotFound",
-  "CommissionRateNotFound",
-  "AssetNotFound",
-  "FileTooLarge",
-  "ActiveInPO",
-  "NotForSale",
-  "NotSameUniverse",
-  "PricingConfigError",
-  "InvalidCount",
-  "Blocked",
-  "InvalidPageSize",
+  'InternalError',
+  'BadRequest',
+  'NotFound',
+  'UnauthorizedAccess',
+  'NotAuthenticated',
+  'PassNotFound',
+  'TargetUnauthorizedAccess',
+  'UniverseNotFound',
+  'MissingArgument',
+  'AssetCreationFailure',
+  'PassRevokeFailure',
+  'PassAlreadyRevoked',
+  'SalesNotFound',
+  'CommissionRateNotFound',
+  'AssetNotFound',
+  'FileTooLarge',
+  'ActiveInPO',
+  'NotForSale',
+  'NotSameUniverse',
+  'PricingConfigError',
+  'InvalidCount',
+  'Blocked',
+  'InvalidPageSize',
 ]);
 const ErrorResponse = z.object({
   errorCode: ErrorCode,
@@ -85,11 +80,11 @@ const ListGamePassConfigsByUniverseResponse = z.object({
  * @param universeId The universe ID.
  */
 export const postGamePassesV1UniversesUniverseIdGamePasses = endpoint({
-  method: "POST",
-  path: "/game-passes/v1/universes/:universeId/game-passes",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["game-pass:write"],
-  requestFormat: "form-data",
+  method: 'POST',
+  path: '/game-passes/v1/universes/:universeId/game-passes',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['game-pass:write'],
+  requestFormat: 'form-data',
   serializationMethod: {
     body: {},
     universeId: {},
@@ -131,47 +126,46 @@ Note that only fields provided in the request will be updated.
  * @param universeId The universe ID.
  * @param gamePassId The game pass ID.
  */
-export const patchGamePassesV1UniversesUniverseIdGamePassesGamePassId =
-  endpoint({
-    method: "PATCH",
-    path: "/game-passes/v1/universes/:universeId/game-passes/:gamePassId",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["game-pass:write"],
-    requestFormat: "form-data",
-    serializationMethod: {
-      body: {},
-      universeId: {},
-      gamePassId: {},
+export const patchGamePassesV1UniversesUniverseIdGamePassesGamePassId = endpoint({
+  method: 'PATCH',
+  path: '/game-passes/v1/universes/:universeId/game-passes/:gamePassId',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['game-pass:write'],
+  requestFormat: 'form-data',
+  serializationMethod: {
+    body: {},
+    universeId: {},
+    gamePassId: {},
+  },
+  parameters: {
+    universeId: z.number().int(),
+    gamePassId: z.number().int(),
+  },
+  body: GamePasses_UpdateGamePass_Body.partial(),
+  response: z.void(),
+  errors: [
+    {
+      status: 400,
+      description: `Bad Request`,
     },
-    parameters: {
-      universeId: z.number().int(),
-      gamePassId: z.number().int(),
+    {
+      status: 401,
+      description: `Unauthorized`,
     },
-    body: GamePasses_UpdateGamePass_Body.partial(),
-    response: z.void(),
-    errors: [
-      {
-        status: 400,
-        description: `Bad Request`,
-      },
-      {
-        status: 401,
-        description: `Unauthorized`,
-      },
-      {
-        status: 403,
-        description: `Forbidden`,
-      },
-      {
-        status: 404,
-        description: `Not Found`,
-      },
-      {
-        status: 409,
-        description: `Conflict`,
-      },
-    ],
-  });
+    {
+      status: 403,
+      description: `Forbidden`,
+    },
+    {
+      status: 404,
+      description: `Not Found`,
+    },
+    {
+      status: 409,
+      description: `Conflict`,
+    },
+  ],
+});
 /**
  * `BETA`
  *
@@ -183,37 +177,36 @@ export const patchGamePassesV1UniversesUniverseIdGamePassesGamePassId =
  * @param universeId The universe ID.
  * @param gamePassId The game pass ID.
  */
-export const getGamePassesV1UniversesUniverseIdGamePassesGamePassIdCreator =
-  endpoint({
-    method: "GET",
-    path: "/game-passes/v1/universes/:universeId/game-passes/:gamePassId/creator",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["game-pass:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universeId: {},
-      gamePassId: {},
+export const getGamePassesV1UniversesUniverseIdGamePassesGamePassIdCreator = endpoint({
+  method: 'GET',
+  path: '/game-passes/v1/universes/:universeId/game-passes/:gamePassId/creator',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['game-pass:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universeId: {},
+    gamePassId: {},
+  },
+  parameters: {
+    universeId: z.number().int(),
+    gamePassId: z.number().int(),
+  },
+  response: GamePassConfigV2,
+  errors: [
+    {
+      status: 401,
+      description: `Unauthorized`,
     },
-    parameters: {
-      universeId: z.number().int(),
-      gamePassId: z.number().int(),
+    {
+      status: 403,
+      description: `Forbidden`,
     },
-    response: GamePassConfigV2,
-    errors: [
-      {
-        status: 401,
-        description: `Unauthorized`,
-      },
-      {
-        status: 403,
-        description: `Forbidden`,
-      },
-      {
-        status: 404,
-        description: `Not Found`,
-      },
-    ],
-  });
+    {
+      status: 404,
+      description: `Not Found`,
+    },
+  ],
+});
 /**
  * `BETA`
  *
@@ -227,11 +220,11 @@ export const getGamePassesV1UniversesUniverseIdGamePassesGamePassIdCreator =
  * @param pageToken The cursor token for pagination.
  */
 export const getGamePassesV1UniversesUniverseIdGamePassesCreator = endpoint({
-  method: "GET",
-  path: "/game-passes/v1/universes/:universeId/game-passes/creator",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["game-pass:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/game-passes/v1/universes/:universeId/game-passes/creator',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['game-pass:read'],
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {},
     pageSize: {},

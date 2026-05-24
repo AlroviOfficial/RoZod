@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Api_Develop_AssetVersion = z.object({
   Id: z.number().int(),
@@ -12,12 +12,11 @@ const Roblox_Api_Develop_AssetVersion = z.object({
   isEqualToCurrentPublishedVersion: z.boolean(),
   isPublished: z.boolean(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_AssetVersion_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Api_Develop_AssetVersion),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_AssetVersion_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Api_Develop_AssetVersion),
+});
 const Roblox_Api_Develop_Models_PlaceModelV2 = z.object({
   maxPlayerCount: z.number().int(),
   socialSlotType: z.string(),
@@ -37,7 +36,7 @@ const Roblox_Api_Develop_Models_PlaceModelV2 = z.object({
       z.literal(14),
       z.literal(21),
       z.literal(22),
-    ])
+    ]),
   ),
   maxPlayersAllowed: z.number().int(),
   created: z.string().datetime({ offset: true }),
@@ -58,12 +57,11 @@ const Roblox_Api_Develop_Models_PlaceConfigurationModelV2 = z.object({
   allowedGearTypes: z.array(z.string()),
   isAllGenresAllowed: z.boolean(),
 });
-const Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel =
-  z.object({
-    assetID: z.number().int(),
-    assetTypeID: z.number().int(),
-    isPlayerChoice: z.boolean(),
-  });
+const Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel = z.object({
+  assetID: z.number().int(),
+  assetTypeID: z.number().int(),
+  isPlayerChoice: z.boolean(),
+});
 const Roblox_Web_Responses_Avatar_ScaleModel = z.object({
   height: z.number(),
   width: z.number(),
@@ -72,13 +70,12 @@ const Roblox_Web_Responses_Avatar_ScaleModel = z.object({
   proportion: z.number(),
   bodyType: z.number(),
 });
-const Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions =
-  z.object({
-    IsThirdPartyTeleportAllowed: z.boolean(),
-    IsThirdPartyAssetAllowed: z.boolean(),
-    IsThirdPartyPurchaseAllowed: z.boolean(),
-    IsClientTeleportAllowed: z.boolean(),
-  });
+const Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions = z.object({
+  IsThirdPartyTeleportAllowed: z.boolean(),
+  IsThirdPartyAssetAllowed: z.boolean(),
+  IsThirdPartyPurchaseAllowed: z.boolean(),
+  IsClientTeleportAllowed: z.boolean(),
+});
 const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
   allowPrivateServers: z.boolean(),
   privateServerPrice: z.number().int(),
@@ -109,124 +106,75 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
     z.literal(14),
   ]),
   playableDevices: z.array(
-    z.union([
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-    ])
+    z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
   ),
   isForSale: z.boolean(),
   price: z.number().int(),
-  universeAvatarAssetOverrides: z.array(
-    Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel
-  ),
+  universeAvatarAssetOverrides: z.array(Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel),
   universeAvatarMinScales: Roblox_Web_Responses_Avatar_ScaleModel,
   universeAvatarMaxScales: Roblox_Web_Responses_Avatar_ScaleModel,
   studioAccessToApisAllowed: z.boolean(),
-  permissions:
-    Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions,
+  permissions: Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions,
   optInRegions: z.array(z.union([z.literal(0), z.literal(1)])),
   optOutRegions: z.array(z.union([z.literal(0), z.literal(1)])),
   isMeshTextureApiAccessAllowed: z.boolean(),
   isRewardedOnDemandAdsAllowed: z.boolean(),
   fiatBasePriceId: z.string(),
-  fiatProductChangeType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-  ]),
-  audiences: z.array(
-    z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-    ])
-  ),
+  fiatProductChangeType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
 });
 const Roblox_Api_Develop_Models_UniverseModerationPolicyStatus = z.object({
-  region: z.enum(["Unknown", "China"]),
+  region: z.enum(['Unknown', 'China']),
   status: z.string(),
 });
 const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z.object({
   allowPrivateServers: z.boolean(),
   privateServerPrice: z.number().int(),
-  optInRegions: z.array(
-    Roblox_Api_Develop_Models_UniverseModerationPolicyStatus
-  ),
+  optInRegions: z.array(Roblox_Api_Develop_Models_UniverseModerationPolicyStatus),
   isMeshTextureApiAccessAllowed: z.boolean(),
   isRewardedOnDemandAdsAllowed: z.boolean(),
   id: z.number().int(),
   name: z.string(),
   description: z.string(),
-  universeAvatarType: z.enum(["MorphToR6", "PlayerChoice", "MorphToR15"]),
-  universeAnimationType: z.enum(["Standard", "PlayerChoice"]),
-  universeCollisionType: z.enum(["InnerBox", "OuterBox"]),
-  universeJointPositioningType: z.enum(["Standard", "ArtistIntent"]),
+  universeAvatarType: z.enum(['MorphToR6', 'PlayerChoice', 'MorphToR15']),
+  universeAnimationType: z.enum(['Standard', 'PlayerChoice']),
+  universeCollisionType: z.enum(['InnerBox', 'OuterBox']),
+  universeJointPositioningType: z.enum(['Standard', 'ArtistIntent']),
   engineAvatarSettings: z.string(),
   isArchived: z.boolean(),
   isFriendsOnly: z.boolean(),
   genre: z.enum([
-    "All",
-    "Tutorial",
-    "Scary",
-    "TownAndCity",
-    "War",
-    "Funny",
-    "Fantasy",
-    "Adventure",
-    "SciFi",
-    "Pirate",
-    "FPS",
-    "RPG",
-    "Sports",
-    "Ninja",
-    "WildWest",
+    'All',
+    'Tutorial',
+    'Scary',
+    'TownAndCity',
+    'War',
+    'Funny',
+    'Fantasy',
+    'Adventure',
+    'SciFi',
+    'Pirate',
+    'FPS',
+    'RPG',
+    'Sports',
+    'Ninja',
+    'WildWest',
   ]),
   playableDevices: z.array(
-    z.union([
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-      z.literal(6),
-    ])
+    z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
   ),
   isForSale: z.boolean(),
   price: z.number().int(),
-  universeAvatarAssetOverrides: z.array(
-    Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel
-  ),
+  universeAvatarAssetOverrides: z.array(Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel),
   universeAvatarMinScales: Roblox_Web_Responses_Avatar_ScaleModel,
   universeAvatarMaxScales: Roblox_Web_Responses_Avatar_ScaleModel,
   studioAccessToApisAllowed: z.boolean(),
-  permissions:
-    Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions,
+  permissions: Roblox_UniversePluginPermissionAuthority_Models_UniversePluginPermissions,
   isForSaleInFiat: z.boolean(),
   fiatBasePriceId: z.string(),
-  fiatModerationStatus: z.enum([
-    "Invalid",
-    "NotModerated",
-    "Pending",
-    "Approved",
-    "Rejected",
-  ]),
+  fiatModerationStatus: z.enum(['Invalid', 'NotModerated', 'Pending', 'Approved', 'Rejected']),
   eligibleForTextChatMigration: z.boolean(),
-  audiences: z.array(
-    z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-    ])
-  ),
+  audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
@@ -241,42 +189,41 @@ or granted by package permission.
  * @param sortOrder Sort by version number, default is desc.
  */
 export const getAssetsIdVersions = endpoint({
-  method: "GET",
-  path: "/v2/assets/:id/versions",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/assets/:id/versions',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     id: {
-      style: "simple",
+      style: 'simple',
     },
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     id: z.number().int(),
-    "Roblox-Place-Id": z.number().int(),
+    'Roblox-Place-Id': z.number().int(),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Desc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Desc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_AssetVersion_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Api_Develop_AssetVersion_,
   errors: [],
 });
 /**
@@ -285,13 +232,13 @@ export const getAssetsIdVersions = endpoint({
  * @param placeId The place id for the place to be updated.
  */
 export const getPlacesPlaceid = endpoint({
-  method: "GET",
-  path: "/v2/places/:placeId",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/places/:placeId',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     placeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -320,14 +267,14 @@ export const getPlacesPlaceid = endpoint({
  * @param placeId The place id for the place to be updated.
  */
 export const patchPlacesPlaceid = endpoint({
-  method: "PATCH",
-  path: "/v2/places/:placeId",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/v2/places/:placeId',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     placeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -358,16 +305,16 @@ export const patchPlacesPlaceid = endpoint({
  * @param gameId the Guid of the game instance System.Guid
  */
 export const deleteTeamtestPlaceid = endpoint({
-  method: "DELETE",
-  path: "/v2/teamtest/:placeId",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'DELETE',
+  path: '/v2/teamtest/:placeId',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     placeId: {
-      style: "simple",
+      style: 'simple',
     },
     gameId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -395,14 +342,14 @@ V2 Contains data for avatar scale and asset override.
  * @param universeId The universeId.
  */
 export const patchUniversesUniverseidConfiguration = endpoint({
-  method: "PATCH",
-  path: "/v2/universes/:universeId/configuration",
-  baseUrl: "https://develop.roblox.com",
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/v2/universes/:universeId/configuration',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universeId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {

@@ -1,16 +1,14 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
-const Roblox_Friends_Api_Models_Response_FriendsPageMetadataResponse = z.object(
-  {
-    isFriendsFilterBarEnabled: z.boolean(),
-    isFriendsPageSortExperimentEnabled: z.boolean(),
-    isFriendsUserDataStoreCacheEnabled: z.boolean(),
-    frequentFriendSortRollout: z.number().int(),
-    userName: z.string(),
-    displayName: z.string(),
-  }
-);
+const Roblox_Friends_Api_Models_Response_FriendsPageMetadataResponse = z.object({
+  isFriendsFilterBarEnabled: z.boolean(),
+  isFriendsPageSortExperimentEnabled: z.boolean(),
+  isFriendsUserDataStoreCacheEnabled: z.boolean(),
+  frequentFriendSortRollout: z.number().int(),
+  userName: z.string(),
+  displayName: z.string(),
+});
 const Roblox_Friends_Api_FriendsCountResponse = z.object({
   count: z.number().int(),
 });
@@ -19,17 +17,17 @@ const Roblox_Friends_Api_FriendRequest = z.object({
   senderId: z.number().int(),
   sourceUniverseId: z.number().int(),
   originSourceType: z.enum([
-    "Unknown",
-    "PlayerSearch",
-    "QrCode",
-    "InGame",
-    "UserProfile",
-    "QqContactImporter",
-    "WeChatContactImporter",
-    "ProfileShare",
-    "PhoneContactImporter",
-    "FriendRecommendations",
-    "UserCommunities",
+    'Unknown',
+    'PlayerSearch',
+    'QrCode',
+    'InGame',
+    'UserProfile',
+    'QqContactImporter',
+    'WeChatContactImporter',
+    'ProfileShare',
+    'PhoneContactImporter',
+    'FriendRecommendations',
+    'UserCommunities',
   ]),
   contactName: z.string(),
   senderNickname: z.string(),
@@ -46,26 +44,18 @@ const Roblox_Friends_Api_FriendRequestResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestResponse_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Friends_Api_FriendRequestResponse),
-  });
-const Roblox_Friends_Api_Models_Response_NewFriendRequestsCountResponse =
-  z.object({ count: z.number().int() });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Friends_Api_FriendRequestResponse),
+});
+const Roblox_Friends_Api_Models_Response_NewFriendRequestsCountResponse = z.object({ count: z.number().int() });
 const Roblox_Friends_Api_PendingFriendRequestCountModel = z.object({
   count: z.number().int(),
 });
 const Roblox_Friends_Api_Models_Response_UserResponse = z.object({
   isOnline: z.boolean(),
-  presenceType: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-  ]),
+  presenceType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   isDeleted: z.boolean(),
   friendFrequentScore: z.number().int(),
   friendFrequentRank: z.number().int(),
@@ -78,28 +68,27 @@ const Roblox_Friends_Api_Models_Response_UserResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Friends_Api_Models_Response_UserResponse),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Friends_Api_Models_Response_UserResponse),
+});
 const Roblox_Friends_Api_FollowCountResponse = z.object({
   count: z.number().int(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_ =
-  z.object({ data: z.array(Roblox_Friends_Api_Models_Response_UserResponse) });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_ = z.object({
+  data: z.array(Roblox_Friends_Api_Models_Response_UserResponse),
+});
 const Roblox_Friends_Api_Models_Response_FriendResponse = z.object({
   id: z.number().int(),
   hasVerifiedBadge: z.boolean(),
 });
-const Roblox_Paging_CursoredPagedResult_Roblox_Friends_Api_Models_Response_FriendResponse_ =
-  z.object({
-    PreviousCursor: z.string(),
-    PageItems: z.array(Roblox_Friends_Api_Models_Response_FriendResponse),
-    NextCursor: z.string(),
-    HasMore: z.boolean(),
-  });
+const Roblox_Paging_CursoredPagedResult_Roblox_Friends_Api_Models_Response_FriendResponse_ = z.object({
+  PreviousCursor: z.string(),
+  PageItems: z.array(Roblox_Friends_Api_Models_Response_FriendResponse),
+  NextCursor: z.string(),
+  HasMore: z.boolean(),
+});
 const Roblox_Friends_Api_Models_Response_UserPresenceResponseModel = z.object({
   UserPresenceType: z.string(),
   UserLocationType: z.string(),
@@ -117,16 +106,16 @@ const Roblox_Friends_Api_Models_Response_UserPresenceResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_ =
-  z.object({
-    data: z.array(Roblox_Friends_Api_Models_Response_UserPresenceResponse),
-  });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_ = z.object({
+  data: z.array(Roblox_Friends_Api_Models_Response_UserPresenceResponse),
+});
 const Roblox_Friends_Api_FriendStatusResponse = z.object({
   id: z.number().int(),
-  status: z.enum(["NotFriends", "Friends", "RequestSent", "RequestReceived"]),
+  status: z.enum(['NotFriends', 'Friends', 'RequestSent', 'RequestReceived']),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_FriendStatusResponse_ =
-  z.object({ data: z.array(Roblox_Friends_Api_FriendStatusResponse) });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_FriendStatusResponse_ = z.object({
+  data: z.array(Roblox_Friends_Api_FriendStatusResponse),
+});
 const Roblox_Friends_Api_CaptchaStatusResponseModel = z.object({
   success: z.boolean(),
   isCaptchaRequired: z.boolean(),
@@ -148,14 +137,10 @@ const Roblox_Friends_Api_Models_Response_FollowingExistsResponse = z.object({
   isFollowed: z.boolean(),
   userId: z.number().int(),
 });
-const Roblox_Friends_Api_Models_Response_FollowingExistsResponseModel =
-  z.object({
-    followings: z.array(
-      Roblox_Friends_Api_Models_Response_FollowingExistsResponse
-    ),
-  });
-const Roblox_Friends_Api_Models_Response_DeclineAllFriendRequestsResponse =
-  z.object({ backgrounded: z.boolean() });
+const Roblox_Friends_Api_Models_Response_FollowingExistsResponseModel = z.object({
+  followings: z.array(Roblox_Friends_Api_Models_Response_FollowingExistsResponse),
+});
+const Roblox_Friends_Api_Models_Response_DeclineAllFriendRequestsResponse = z.object({ backgrounded: z.boolean() });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 const Roblox_Friends_Api_Models_Request_FriendingTokenRequestModel = z.object({
   friendingToken: z.string(),
@@ -168,22 +153,21 @@ const Roblox_Web_Captcha_Models_Request_CaptchaTokenRequest = z.object({
 });
 const Roblox_Friends_Api_FriendshipRequestModel = z.object({
   friendshipOriginSourceType: z.enum([
-    "Unknown",
-    "PlayerSearch",
-    "QrCode",
-    "InGame",
-    "UserProfile",
-    "QqContactImporter",
-    "WeChatContactImporter",
-    "ProfileShare",
-    "PhoneContactImporter",
-    "FriendRecommendations",
-    "UserCommunities",
+    'Unknown',
+    'PlayerSearch',
+    'QrCode',
+    'InGame',
+    'UserProfile',
+    'QqContactImporter',
+    'WeChatContactImporter',
+    'ProfileShare',
+    'PhoneContactImporter',
+    'FriendRecommendations',
+    'UserCommunities',
   ]),
   senderNickname: z.string(),
 });
-const Roblox_Friends_Api_Models_Response_ClearNewFriendRequestResponse =
-  z.object({ status: z.boolean() });
+const Roblox_Friends_Api_Models_Response_ClearNewFriendRequestResponse = z.object({ status: z.boolean() });
 
 /**
  * @api POST https://friends.roblox.com/v1/contacts/:targetContactId/request-friendship
@@ -191,13 +175,13 @@ const Roblox_Friends_Api_Models_Response_ClearNewFriendRequestResponse =
  * @param targetContactId The target contact Id for friend request
  */
 export const postContactsTargetcontactidRequestFriendship = endpoint({
-  method: "POST",
-  path: "/v1/contacts/:targetContactId/request-friendship",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/contacts/:targetContactId/request-friendship',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     targetContactId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -235,13 +219,13 @@ export const postContactsTargetcontactidRequestFriendship = endpoint({
  * @param targetUserId
  */
 export const getMetadata = endpoint({
-  method: "GET",
-  path: "/v1/metadata",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/metadata',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     targetUserId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -256,13 +240,13 @@ export const getMetadata = endpoint({
  * @param userId user Id that shows the qr code
  */
 export const getMyFriendsUseridCheckQrSession = endpoint({
-  method: "GET",
-  path: "/v1/my/friends/:userId/check-qr-session",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/my/friends/:userId/check-qr-session',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -281,10 +265,10 @@ export const getMyFriendsUseridCheckQrSession = endpoint({
  * @summary Get the number of friends a user has
  */
 export const getMyFriendsCount = endpoint({
-  method: "GET",
-  path: "/v1/my/friends/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/my/friends/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   response: z.object({ count: z.number().int() }),
   errors: [
     {
@@ -297,10 +281,10 @@ export const getMyFriendsCount = endpoint({
  * @api POST https://friends.roblox.com/v1/my/friends/refresh-qr-session
  */
 export const postMyFriendsRefreshQrSession = endpoint({
-  method: "POST",
-  path: "/v1/my/friends/refresh-qr-session",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/my/friends/refresh-qr-session',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   response: z.object({ Success: z.boolean() }),
   errors: [
     {
@@ -322,25 +306,25 @@ export const postMyFriendsRefreshQrSession = endpoint({
  * @param friendRequestSort
  */
 export const getMyFriendsRequests = endpoint({
-  method: "GET",
-  path: "/v1/my/friends/requests",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/my/friends/requests',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sessionId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     friendRequestSort: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -353,8 +337,7 @@ export const getMyFriendsRequests = endpoint({
       .optional()
       .default(1),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestResponse_,
   errors: [
     {
       status: 400,
@@ -380,10 +363,10 @@ export const getMyFriendsRequests = endpoint({
  * @api DELETE https://friends.roblox.com/v1/my/new-friend-requests
  */
 export const deleteMyNewFriendRequests = endpoint({
-  method: "DELETE",
-  path: "/v1/my/new-friend-requests",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'DELETE',
+  path: '/v1/my/new-friend-requests',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   response: z.object({ status: z.boolean() }),
   errors: [
     {
@@ -400,10 +383,10 @@ export const deleteMyNewFriendRequests = endpoint({
  * @api GET https://friends.roblox.com/v1/my/new-friend-requests/count
  */
 export const getMyNewFriendRequestsCount = endpoint({
-  method: "GET",
-  path: "/v1/my/new-friend-requests/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/my/new-friend-requests/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   response: z.object({ count: z.number().int() }),
   errors: [
     {
@@ -417,10 +400,10 @@ export const getMyNewFriendRequestsCount = endpoint({
  * @summary Get the number of trusted friends a user has
  */
 export const getMyTrustedFriendsCount = endpoint({
-  method: "GET",
-  path: "/v1/my/trusted-friends/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/my/trusted-friends/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   response: z.object({ count: z.number().int() }),
   errors: [
     {
@@ -436,14 +419,14 @@ export const getMyTrustedFriendsCount = endpoint({
  * @param userId The requesting userId.
  */
 export const postUserUseridMultigetAreFriends = endpoint({
-  method: "POST",
-  path: "/v1/user/:userId/multiget-are-friends",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/user/:userId/multiget-are-friends',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -468,10 +451,10 @@ export const postUserUseridMultigetAreFriends = endpoint({
  * @param body The userIds potentially being followed
  */
 export const postUserFollowingExists = endpoint({
-  method: "POST",
-  path: "/v1/user/following-exists",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/user/following-exists',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -502,10 +485,10 @@ export const postUserFollowingExists = endpoint({
  * @summary Return the number of pending friend requests.
  */
 export const getUserFriendRequestsCount = endpoint({
-  method: "GET",
-  path: "/v1/user/friend-requests/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/user/friend-requests/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   response: z.object({ count: z.number().int() }),
   errors: [
     {
@@ -519,10 +502,10 @@ export const getUserFriendRequestsCount = endpoint({
  * @summary Decline all pending friend requests for the authenticated user.
  */
 export const postUserFriendRequestsDeclineAll = endpoint({
-  method: "POST",
-  path: "/v1/user/friend-requests/decline-all",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/user/friend-requests/decline-all',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   response: z.object({ backgrounded: z.boolean() }),
   errors: [
     {
@@ -541,13 +524,13 @@ export const postUserFriendRequestsDeclineAll = endpoint({
  * @param requesterUserId The user Id of the requester
  */
 export const postUsersRequesteruseridAcceptFriendRequest = endpoint({
-  method: "POST",
-  path: "/v1/users/:requesterUserId/accept-friend-request",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/users/:requesterUserId/accept-friend-request',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     requesterUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -579,13 +562,13 @@ export const postUsersRequesteruseridAcceptFriendRequest = endpoint({
  * @param requesterUserId The user Id of the requester
  */
 export const postUsersRequesteruseridDeclineFriendRequest = endpoint({
-  method: "POST",
-  path: "/v1/users/:requesterUserId/decline-friend-request",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/users/:requesterUserId/decline-friend-request',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     requesterUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -615,14 +598,14 @@ export const postUsersRequesteruseridDeclineFriendRequest = endpoint({
  * @param senderUserId The user id of the sender of the off network friend request
  */
 export const postUsersSenderuseridAcceptFriendRequestWithToken = endpoint({
-  method: "POST",
-  path: "/v1/users/:senderUserId/accept-friend-request-with-token",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/users/:senderUserId/accept-friend-request-with-token',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     senderUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -658,14 +641,14 @@ export const postUsersSenderuseridAcceptFriendRequestWithToken = endpoint({
  * @param targetUserId
  */
 export const postUsersTargetuseridFollow = endpoint({
-  method: "POST",
-  path: "/v1/users/:targetUserId/follow",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/users/:targetUserId/follow',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -706,44 +689,37 @@ export const postUsersTargetuseridFollow = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersTargetuseridFollowers = endpoint({
-  method: "GET",
-  path: "/v1/users/:targetUserId/followers",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:targetUserId/followers',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     targetUserId: z.number().int(),
     limit: z
-      .union([
-        z.literal(10),
-        z.literal(18),
-        z.literal(25),
-        z.literal(50),
-        z.literal(100),
-      ])
+      .union([z.literal(10), z.literal(18), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
   errors: [
     {
       status: 400,
@@ -767,13 +743,13 @@ export const getUsersTargetuseridFollowers = endpoint({
  * @param targetUserId
  */
 export const getUsersTargetuseridFollowersCount = endpoint({
-  method: "GET",
-  path: "/v1/users/:targetUserId/followers/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:targetUserId/followers/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -796,44 +772,37 @@ export const getUsersTargetuseridFollowersCount = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersTargetuseridFollowings = endpoint({
-  method: "GET",
-  path: "/v1/users/:targetUserId/followings",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:targetUserId/followings',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     targetUserId: z.number().int(),
     limit: z
-      .union([
-        z.literal(10),
-        z.literal(18),
-        z.literal(25),
-        z.literal(50),
-        z.literal(100),
-      ])
+      .union([z.literal(10), z.literal(18), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
   errors: [
     {
       status: 400,
@@ -857,13 +826,13 @@ export const getUsersTargetuseridFollowings = endpoint({
  * @param targetUserId
  */
 export const getUsersTargetuseridFollowingsCount = endpoint({
-  method: "GET",
-  path: "/v1/users/:targetUserId/followings/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:targetUserId/followings/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -884,14 +853,14 @@ export const getUsersTargetuseridFollowingsCount = endpoint({
  * @param targetUserId The target user Id for friend request
  */
 export const postUsersTargetuseridRequestFriendship = endpoint({
-  method: "POST",
-  path: "/v1/users/:targetUserId/request-friendship",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/users/:targetUserId/request-friendship',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -934,13 +903,13 @@ export const postUsersTargetuseridRequestFriendship = endpoint({
  * @param targetUserId
  */
 export const postUsersTargetuseridUnfollow = endpoint({
-  method: "POST",
-  path: "/v1/users/:targetUserId/unfollow",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/users/:targetUserId/unfollow',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -977,13 +946,13 @@ export const postUsersTargetuseridUnfollow = endpoint({
  * @param targetUserId The target user id to unfriend
  */
 export const postUsersTargetuseridUnfriend = endpoint({
-  method: "POST",
-  path: "/v1/users/:targetUserId/unfriend",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/users/:targetUserId/unfriend',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     targetUserId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -1012,16 +981,16 @@ export const postUsersTargetuseridUnfriend = endpoint({
  * @param userSort Specifies how to sort the returned friends.
  */
 export const getUsersUseridFriends = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId/friends",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId/friends',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     userSort: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -1029,8 +998,7 @@ export const getUsersUseridFriends = endpoint({
     userId: z.number().int(),
     userSort: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
   errors: [
     {
       status: 400,
@@ -1044,13 +1012,13 @@ export const getUsersUseridFriends = endpoint({
  * @param userId
  */
 export const getUsersUseridFriendsCount = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId/friends/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId/friends/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -1074,28 +1042,28 @@ export const getUsersUseridFriendsCount = endpoint({
  * @param findFriendsType
  */
 export const getUsersUseridFriendsFind = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId/friends/find",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId/friends/find',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     userSort: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     findFriendsType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -1109,8 +1077,7 @@ export const getUsersUseridFriendsFind = endpoint({
     limit: z.number().int().optional().default(50),
     findFriendsType: z.union([z.literal(0), z.literal(1)]).optional(),
   },
-  response:
-    Roblox_Paging_CursoredPagedResult_Roblox_Friends_Api_Models_Response_FriendResponse_,
+  response: Roblox_Paging_CursoredPagedResult_Roblox_Friends_Api_Models_Response_FriendResponse_,
   errors: [
     {
       status: 400,
@@ -1125,20 +1092,19 @@ export const getUsersUseridFriendsFind = endpoint({
  * @param userId The user Id to get the friends for.
  */
 export const getUsersUseridFriendsInactive = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId/friends/inactive",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId/friends/inactive',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
     userId: z.number().int(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserResponse_,
   errors: [
     {
       status: 400,
@@ -1158,16 +1124,16 @@ export const getUsersUseridFriendsInactive = endpoint({
  * @param userSort The sort order to return the friends.
  */
 export const getUsersUseridFriendsOnline = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId/friends/online",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId/friends/online',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     userSort: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -1175,8 +1141,7 @@ export const getUsersUseridFriendsOnline = endpoint({
     userId: z.number().int(),
     userSort: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_Models_Response_UserPresenceResponse_,
   errors: [
     {
       status: 400,
@@ -1198,24 +1163,24 @@ export const getUsersUseridFriendsOnline = endpoint({
  * @param limit The number of results per request.
  */
 export const getUsersUseridFriendsSearch = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId/friends/search",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId/friends/search',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     query: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -1225,8 +1190,7 @@ export const getUsersUseridFriendsSearch = endpoint({
     cursor: z.string().optional(),
     limit: z.number().int().optional().default(20),
   },
-  response:
-    Roblox_Paging_CursoredPagedResult_Roblox_Friends_Api_Models_Response_FriendResponse_,
+  response: Roblox_Paging_CursoredPagedResult_Roblox_Friends_Api_Models_Response_FriendResponse_,
   errors: [
     {
       status: 400,
@@ -1246,24 +1210,23 @@ export const getUsersUseridFriendsSearch = endpoint({
  * @param userIds
  */
 export const getUsersUseridFriendsStatuses = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId/friends/statuses",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId/friends/statuses',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     userIds: {
-      style: "form",
+      style: 'form',
     },
   },
   parameters: {
     userId: z.number().int(),
     userIds: z.array(z.number()),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_FriendStatusResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_FriendStatusResponse_,
   errors: [
     {
       status: 400,
@@ -1279,13 +1242,13 @@ export const getUsersUseridFriendsStatuses = endpoint({
  * @param userId
  */
 export const getUsersUseridTrustedFriendsCount = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId/trusted-friends/count",
-  baseUrl: "https://friends.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId/trusted-friends/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -1337,7 +1300,5 @@ export const getUserUseridMultigetAreTrustedFriends = endpoint({
     userIds: z.array(z.number()),
   },
   response: Patch_MultigetAreTrustedFriendsResponse,
-  errors: [
-    { status: 400, description: `1: The target user is invalid or does not exist.` },
-  ],
+  errors: [{ status: 400, description: `1: The target user is invalid or does not exist.` }],
 });

@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_EngagementPayouts_Api_PayoutResponseModel = z.object({
   engagementScore: z.number(),
@@ -16,21 +16,21 @@ const Roblox_EngagementPayouts_Api_PayoutResponseModel = z.object({
  * @param endDate The last date in the range, specified as yyyy-MM-dd.
  */
 export const getUniversePayoutHistory = endpoint({
-  method: "GET",
-  path: "/v1/universe-payout-history",
-  baseUrl: "https://engagementpayouts.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/universe-payout-history',
+  baseUrl: 'https://engagementpayouts.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     startDate: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     endDate: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },

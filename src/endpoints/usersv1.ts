@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Users_Api_BirthdateResponse = z.object({
   birthMonth: z.number().int(),
@@ -21,7 +21,7 @@ const Roblox_Users_Api_DescriptionRequest = z.object({
 });
 const Roblox_Users_Api_GenderResponse = z.object({ gender: z.number().int() });
 const Roblox_Users_Api_GenderRequest = z.object({
-  gender: z.enum(["Unknown", "Male", "Female"]),
+  gender: z.enum(['Unknown', 'Male', 'Female']),
 });
 const Roblox_Users_Api_GetUserResponse = z.object({
   description: z.string(),
@@ -34,12 +34,11 @@ const Roblox_Users_Api_GetUserResponse = z.object({
   displayName: z.string(),
 });
 const Roblox_Users_Api_UsernameHistoryResponse = z.object({ name: z.string() });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Users_Api_UsernameHistoryResponse),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Users_Api_UsernameHistoryResponse),
+});
 const Roblox_Users_Api_AuthenticatedGetUserResponse = z.object({
   id: z.number().int(),
   name: z.string(),
@@ -61,12 +60,11 @@ const Roblox_Users_Api_SearchGetUserResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_SearchGetUserResponse_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Users_Api_SearchGetUserResponse),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_SearchGetUserResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Users_Api_SearchGetUserResponse),
+});
 const Roblox_Users_Api_MultiGetByUsernameRequest = z.object({
   usernames: z.array(z.string()),
   excludeBannedUsers: z.boolean(),
@@ -78,8 +76,9 @@ const Roblox_Users_Api_MultiGetUserByNameResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_ =
-  z.object({ data: z.array(Roblox_Users_Api_MultiGetUserByNameResponse) });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_ = z.object({
+  data: z.array(Roblox_Users_Api_MultiGetUserByNameResponse),
+});
 const Roblox_Users_Api_MultiGetByUserIdRequest = z.object({
   userIds: z.array(z.number()),
   excludeBannedUsers: z.boolean(),
@@ -90,8 +89,9 @@ const Roblox_Users_Api_MultiGetUserResponse = z.object({
   name: z.string(),
   displayName: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserResponse_ =
-  z.object({ data: z.array(Roblox_Users_Api_MultiGetUserResponse) });
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserResponse_ = z.object({
+  data: z.array(Roblox_Users_Api_MultiGetUserResponse),
+});
 const Roblox_Users_Api_SetDisplayNameRequest = z.object({
   newDisplayName: z.string(),
 });
@@ -101,10 +101,10 @@ const Roblox_Users_Api_SetDisplayNameRequest = z.object({
  * @summary Get the user's birthdate
  */
 export const getBirthdate = endpoint({
-  method: "GET",
-  path: "/v1/birthdate",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/birthdate',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   response: Roblox_Users_Api_BirthdateResponse,
   errors: [
     {
@@ -123,10 +123,10 @@ export const getBirthdate = endpoint({
  * @param body The Roblox.Users.Api.BirthdateRequest
  */
 export const postBirthdate = endpoint({
-  method: "POST",
-  path: "/v1/birthdate",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/birthdate',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -162,10 +162,10 @@ export const postBirthdate = endpoint({
  * @summary Get the user's description
  */
 export const getDescription = endpoint({
-  method: "GET",
-  path: "/v1/description",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/description',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   response: z.object({ description: z.string() }),
   errors: [
     {
@@ -184,10 +184,10 @@ export const getDescription = endpoint({
  * @param body The Roblox.Users.Api.DescriptionRequest
  */
 export const postDescription = endpoint({
-  method: "POST",
-  path: "/v1/description",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/description',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -225,17 +225,17 @@ export const postDescription = endpoint({
  * @param birthdate The new user's birthdate
  */
 export const getDisplayNamesValidate = endpoint({
-  method: "GET",
-  path: "/v1/display-names/validate",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/display-names/validate',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     displayName: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     birthdate: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -265,10 +265,10 @@ export const getDisplayNamesValidate = endpoint({
  * @summary Get the user's gender
  */
 export const getGender = endpoint({
-  method: "GET",
-  path: "/v1/gender",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/gender',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   response: z.object({ gender: z.number().int() }),
   errors: [
     {
@@ -287,10 +287,10 @@ export const getGender = endpoint({
  * @param body The Roblox.Users.Api.GenderRequest
  */
 export const postGender = endpoint({
-  method: "POST",
-  path: "/v1/gender",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/gender',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -326,17 +326,16 @@ export const postGender = endpoint({
 Does not require X-CSRF-Token protection because this is essentially a get request but as a POST to avoid URI limits.
  */
 export const postUsernamesUsers = endpoint({
-  method: "POST",
-  path: "/v1/usernames/users",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/usernames/users',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
   parameters: {},
   body: Roblox_Users_Api_MultiGetByUsernameRequest,
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByNameResponse_,
   errors: [
     {
       status: 400,
@@ -351,17 +350,16 @@ export const postUsernamesUsers = endpoint({
  * @description Does not require X-CSRF-Token protection because this is essentially a get request but as a POST to avoid URI limits.
  */
 export const postUsers = endpoint({
-  method: "POST",
-  path: "/v1/users",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/users',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
   parameters: {},
   body: Roblox_Users_Api_MultiGetByUserIdRequest,
-  response:
-    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserResponse_,
   errors: [
     {
       status: 400,
@@ -375,13 +373,13 @@ export const postUsers = endpoint({
  * @param userId The user id.
  */
 export const getUsersUserid = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -402,14 +400,14 @@ export const getUsersUserid = endpoint({
  * @param userId the user id
  */
 export const patchUsersUseridDisplayNames = endpoint({
-  method: "PATCH",
-  path: "/v1/users/:userId/display-names",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/v1/users/:userId/display-names',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     userId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -448,16 +446,16 @@ export const patchUsersUseridDisplayNames = endpoint({
  * @param displayName The display name.
  */
 export const getUsersUseridDisplayNamesValidate = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId/display-names/validate",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId/display-names/validate',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     displayName: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -498,24 +496,24 @@ export const getUsersUseridDisplayNamesValidate = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridUsernameHistory = endpoint({
-  method: "GET",
-  path: "/v1/users/:userId/username-history",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/:userId/username-history',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     userId: {
-      style: "simple",
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -526,10 +524,9 @@ export const getUsersUseridUsernameHistory = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_UsernameHistoryResponse_,
   errors: [
     {
       status: 400,
@@ -542,10 +539,10 @@ export const getUsersUseridUsernameHistory = endpoint({
  * @summary Gets the minimal authenticated user.
  */
 export const getUsersAuthenticated = endpoint({
-  method: "GET",
-  path: "/v1/users/authenticated",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/authenticated',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   response: Roblox_Users_Api_AuthenticatedGetUserResponse,
   errors: [
     {
@@ -559,10 +556,10 @@ export const getUsersAuthenticated = endpoint({
  * @summary Gets the age bracket of the authenticated user.
  */
 export const getUsersAuthenticatedAgeBracket = endpoint({
-  method: "GET",
-  path: "/v1/users/authenticated/age-bracket",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/authenticated/age-bracket',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   response: z.object({ ageBracket: z.number().int() }),
   errors: [
     {
@@ -576,10 +573,10 @@ export const getUsersAuthenticatedAgeBracket = endpoint({
  * @summary Gets the country code of the authenticated user.
  */
 export const getUsersAuthenticatedCountryCode = endpoint({
-  method: "GET",
-  path: "/v1/users/authenticated/country-code",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/authenticated/country-code',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   response: z.object({ countryCode: z.string() }),
   errors: [
     {
@@ -593,10 +590,10 @@ export const getUsersAuthenticatedCountryCode = endpoint({
  * @summary Gets the (public) roles of the authenticated user, such as `"Soothsayer"` and `"BetaTester"`.
  */
 export const getUsersAuthenticatedRoles = endpoint({
-  method: "GET",
-  path: "/v1/users/authenticated/roles",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/authenticated/roles',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   response: Roblox_Users_Api_UserRolesResponse,
   errors: [
     {
@@ -614,25 +611,25 @@ export const getUsersAuthenticatedRoles = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  */
 export const getUsersSearch = endpoint({
-  method: "GET",
-  path: "/v1/users/search",
-  baseUrl: "https://users.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/users/search',
+  baseUrl: 'https://users.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     keyword: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sessionId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -645,8 +642,7 @@ export const getUsersSearch = endpoint({
       .default(10),
     cursor: z.string().optional(),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_SearchGetUserResponse_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Users_Api_SearchGetUserResponse_,
   errors: [
     {
       status: 400,

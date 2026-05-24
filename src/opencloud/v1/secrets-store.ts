@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "../..";
+import { z } from 'zod';
+import { endpoint } from '../..';
 
 const Secret = z.object({
   id: z.string().nullable(),
@@ -46,11 +46,11 @@ For an example, see the [Secrets store guide](https://create.roblox.com/docs/clo
  * @param universeId The universe ID
  */
 export const postCloudV2UniversesUniverseIdSecrets = endpoint({
-  method: "POST",
-  path: "/cloud/v2/universes/:universeId/secrets",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe.secret:write"],
-  requestFormat: "json",
+  method: 'POST',
+  path: '/cloud/v2/universes/:universeId/secrets',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.secret:write'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universeId: {},
@@ -92,11 +92,11 @@ members can list secrets.
  * @param cursor Pagination cursor from previous response
  */
 export const getCloudV2UniversesUniverseIdSecrets = endpoint({
-  method: "GET",
-  path: "/cloud/v2/universes/:universeId/secrets",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe.secret:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/universes/:universeId/secrets',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.secret:read'],
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {},
     limit: {},
@@ -146,11 +146,11 @@ For an example, see the [Secrets store guide](https://create.roblox.com/docs/clo
  * @param secretId The ID of the secret to update
  */
 export const patchCloudV2UniversesUniverseIdSecretsSecretId = endpoint({
-  method: "PATCH",
-  path: "/cloud/v2/universes/:universeId/secrets/:secretId",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe.secret:write"],
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/cloud/v2/universes/:universeId/secrets/:secretId',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.secret:write'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universeId: {},
@@ -194,11 +194,11 @@ This operation is irreversible. Make sure you no longer need the secret before d
  * @param secretId The ID of the secret to delete
  */
 export const deleteCloudV2UniversesUniverseIdSecretsSecretId = endpoint({
-  method: "DELETE",
-  path: "/cloud/v2/universes/:universeId/secrets/:secretId",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe.secret:write"],
-  requestFormat: "json",
+  method: 'DELETE',
+  path: '/cloud/v2/universes/:universeId/secrets/:secretId',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.secret:write'],
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {},
     secretId: {},
@@ -246,11 +246,11 @@ Include the key_id from the public key response in the request to create or upda
  * @param universeId The universe ID
  */
 export const getCloudV2UniversesUniverseIdSecretsPublicKey = endpoint({
-  method: "GET",
-  path: "/cloud/v2/universes/:universeId/secrets/public-key",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe.secret:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/universes/:universeId/secrets/public-key',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.secret:read'],
+  requestFormat: 'json',
   serializationMethod: {
     universeId: {},
   },

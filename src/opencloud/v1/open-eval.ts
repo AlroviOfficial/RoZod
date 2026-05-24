@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "../..";
+import { z } from 'zod';
+import { endpoint } from '../..';
 
 const CustomLlmInfo = z.object({
   name: z.string().min(1),
@@ -62,11 +62,11 @@ const EvalRecord = z.object({
  * @param body
  */
 export const postOpenEvalApiV1Eval = endpoint({
-  method: "POST",
-  path: "/open-eval-api/v1/eval",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["studio-evaluations:create"],
-  requestFormat: "json",
+  method: 'POST',
+  path: '/open-eval-api/v1/eval',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['studio-evaluations:create'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -86,11 +86,11 @@ export const postOpenEvalApiV1Eval = endpoint({
  * @param jobId The job ID of the evaluation record.
  */
 export const getOpenEvalApiV1EvalRecordsJobId = endpoint({
-  method: "GET",
-  path: "/open-eval-api/v1/eval-records/:jobId",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["studio-evaluations:create"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/open-eval-api/v1/eval-records/:jobId',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['studio-evaluations:create'],
+  requestFormat: 'json',
   serializationMethod: {
     jobId: {},
   },

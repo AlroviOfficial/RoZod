@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_Catalog_Api_BundleItemDetailModel = z.object({
   owned: z.boolean(),
@@ -29,7 +29,7 @@ const Roblox_Catalog_Api_TimedOption = z.object({
 });
 const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
   id: z.number().int(),
-  itemType: z.enum(["Asset", "Bundle"]),
+  itemType: z.enum(['Asset', 'Bundle']),
   assetType: z.union([
     z.literal(1),
     z.literal(2),
@@ -123,9 +123,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
   description: z.string(),
   productId: z.number().int(),
   bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModel),
-  itemStatus: z.array(
-    z.union([z.literal(1), z.literal(2), z.literal(7), z.literal(8)])
-  ),
+  itemStatus: z.array(z.union([z.literal(1), z.literal(2), z.literal(7), z.literal(8)])),
   itemRestrictions: z.array(
     z.union([
       z.literal(1),
@@ -137,7 +135,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
       z.literal(7),
       z.literal(8),
       z.literal(9),
-    ])
+    ]),
   ),
   creatorHasVerifiedBadge: z.boolean(),
   creatorType: z.string(),
@@ -153,14 +151,14 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
   collectibleItemId: z.string(),
   totalQuantity: z.number().int(),
   saleLocationType: z.enum([
-    "NotApplicable",
-    "ShopOnly",
-    "MyExperiencesOnly",
-    "ShopAndMyExperiences",
-    "ExperiencesById",
-    "ShopAndAllExperiences",
-    "ExperiencesDevApiOnly",
-    "ShopAndExperiencesById",
+    'NotApplicable',
+    'ShopOnly',
+    'MyExperiencesOnly',
+    'ShopAndMyExperiences',
+    'ExperiencesById',
+    'ShopAndAllExperiences',
+    'ExperiencesDevApiOnly',
+    'ShopAndExperiencesById',
   ]),
   hasResellers: z.boolean(),
   isOffSale: z.boolean(),
@@ -168,12 +166,11 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
   supportsHeadShapes: z.boolean(),
   timedOptions: z.array(Roblox_Catalog_Api_TimedOption),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_ =
-  z.object({
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Catalog_Api_CatalogSearchDetailedResponseItem),
-  });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Catalog_Api_CatalogSearchDetailedResponseItem),
+});
 const Roblox_Catalog_Api_ElasticsearchDebugInfo = z.object({
   elasticsearchQuery: z.string(),
   isFromCache: z.boolean(),
@@ -202,7 +199,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   itemCreatedUtc: z.string().datetime({ offset: true }),
   discountInformation: Roblox_Catalog_Api_DiscountInformation,
   id: z.number().int(),
-  itemType: z.enum(["Asset", "Bundle"]),
+  itemType: z.enum(['Asset', 'Bundle']),
   assetType: z.union([
     z.literal(1),
     z.literal(2),
@@ -295,9 +292,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   name: z.string(),
   description: z.string(),
   productId: z.number().int(),
-  itemStatus: z.array(
-    z.union([z.literal(1), z.literal(2), z.literal(7), z.literal(8)])
-  ),
+  itemStatus: z.array(z.union([z.literal(1), z.literal(2), z.literal(7), z.literal(8)])),
   itemRestrictions: z.array(
     z.union([
       z.literal(1),
@@ -309,7 +304,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
       z.literal(7),
       z.literal(8),
       z.literal(9),
-    ])
+    ]),
   ),
   creatorHasVerifiedBadge: z.boolean(),
   creatorType: z.string(),
@@ -325,14 +320,14 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   collectibleItemId: z.string(),
   totalQuantity: z.number().int(),
   saleLocationType: z.enum([
-    "NotApplicable",
-    "ShopOnly",
-    "MyExperiencesOnly",
-    "ShopAndMyExperiences",
-    "ExperiencesById",
-    "ShopAndAllExperiences",
-    "ExperiencesDevApiOnly",
-    "ShopAndExperiencesById",
+    'NotApplicable',
+    'ShopOnly',
+    'MyExperiencesOnly',
+    'ShopAndMyExperiences',
+    'ExperiencesById',
+    'ShopAndAllExperiences',
+    'ExperiencesDevApiOnly',
+    'ShopAndExperiencesById',
   ]),
   hasResellers: z.boolean(),
   isOffSale: z.boolean(),
@@ -340,14 +335,13 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   supportsHeadShapes: z.boolean(),
   timedOptions: z.array(Roblox_Catalog_Api_TimedOption),
 });
-const Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2_ =
-  z.object({
-    keyword: z.string(),
-    elasticsearchDebugInfo: Roblox_Catalog_Api_ElasticsearchDebugInfo,
-    previousPageCursor: z.string(),
-    nextPageCursor: z.string(),
-    data: z.array(Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2),
-  });
+const Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2_ = z.object({
+  keyword: z.string(),
+  elasticsearchDebugInfo: Roblox_Catalog_Api_ElasticsearchDebugInfo,
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2),
+});
 
 /**
  * @api GET https://catalog.roblox.com/v2/assets/:assetId/bundles
@@ -360,46 +354,45 @@ const Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSea
  * @param sortOrder The order the results are sorted in.
  */
 export const getAssetsAssetidBundles = endpoint({
-  method: "GET",
-  path: "/v2/assets/:assetId/bundles",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/assets/:assetId/bundles',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     assetId: {
-      style: "simple",
+      style: 'simple',
     },
-    "Roblox-Place-Id": {
-      style: "simple",
+    'Roblox-Place-Id': {
+      style: 'simple',
     },
-    "Roblox-Game-Id": {
-      style: "simple",
+    'Roblox-Game-Id': {
+      style: 'simple',
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
   parameters: {
     assetId: z.number().int(),
-    "Roblox-Place-Id": z.number().int(),
-    "Roblox-Game-Id": z.string(),
+    'Roblox-Place-Id': z.number().int(),
+    'Roblox-Game-Id': z.string(),
     limit: z
       .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },
-  response:
-    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_,
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItem_,
   errors: [
     {
       status: 400,
@@ -437,85 +430,85 @@ export const getAssetsAssetidBundles = endpoint({
  * @description This endpoint is for search by item type ids.
  */
 export const getSearchItemsDetails = endpoint({
-  method: "GET",
-  path: "/v2/search/items/details",
-  baseUrl: "https://catalog.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v2/search/items/details',
+  baseUrl: 'https://catalog.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     Taxonomy: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     AssetTypeIds: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     BundleTypeIds: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     CategoryFilter: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     SortAggregation: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     SortType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     CreatorType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     CreatorTargetId: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     CreatorName: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     MaxPrice: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     MinPrice: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     Keyword: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     IncludeNotForSale: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     TriggeredByTopicDiscovery: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     SalesTypeFilter: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     Topics: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     limit: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     cursor: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     sortOrder: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -533,22 +526,8 @@ export const getSearchItemsDetails = endpoint({
       z.literal(6),
       z.literal(7),
     ]),
-    SortAggregation: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-    ]),
-    SortType: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-    ]),
+    SortAggregation: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+    SortType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
     CreatorType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
     CreatorTargetId: z.number().int(),
     CreatorName: z.string(),
@@ -557,29 +536,16 @@ export const getSearchItemsDetails = endpoint({
     Keyword: z.string(),
     IncludeNotForSale: z.boolean(),
     TriggeredByTopicDiscovery: z.boolean(),
-    SalesTypeFilter: z.union([
-      z.literal(0),
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-    ]),
+    SalesTypeFilter: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     Topics: z.string(),
     limit: z
-      .union([
-        z.literal(10),
-        z.literal(28),
-        z.literal(30),
-        z.literal(60),
-        z.literal(120),
-      ])
+      .union([z.literal(10), z.literal(28), z.literal(30), z.literal(60), z.literal(120)])
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.literal("Desc").optional().default("Desc"),
+    sortOrder: z.literal('Desc').optional().default('Desc'),
   },
-  response:
-    Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2_,
+  response: Roblox_Catalog_Api_CatalogSearchPageResponse_Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2_,
   errors: [
     {
       status: 400,

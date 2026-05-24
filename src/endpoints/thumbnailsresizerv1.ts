@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 /**
  * @api GET https://thumbnailsresizer.roblox.com/v1/resize/:hash/:width/:height/:type/:format/:filterType
@@ -13,32 +13,32 @@ import { endpoint } from "..";
  * @param shouldModify
  */
 export const getResizeHashWidthHeightTypeFormatFiltertype = endpoint({
-  method: "GET",
-  path: "/v1/resize/:hash/:width/:height/:type/:format/:filterType",
-  baseUrl: "https://thumbnailsresizer.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/resize/:hash/:width/:height/:type/:format/:filterType',
+  baseUrl: 'https://thumbnailsresizer.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     hash: {
-      style: "simple",
+      style: 'simple',
     },
     width: {
-      style: "simple",
+      style: 'simple',
     },
     height: {
-      style: "simple",
+      style: 'simple',
     },
     type: {
-      style: "simple",
+      style: 'simple',
     },
     format: {
-      style: "simple",
+      style: 'simple',
     },
     filterType: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
     shouldModify: {
-      style: "form",
+      style: 'form',
       explode: true,
     },
   },
@@ -65,45 +65,44 @@ export const getResizeHashWidthHeightTypeFormatFiltertype = endpoint({
  * @param format Desired image format of the thumbnail
  * @param filterType E.g. is output circular
  */
-export const getSecureresizeThumbprintHashWidthHeightTypeFormatFiltertype =
-  endpoint({
-    method: "GET",
-    path: "/v1/secureresize/:thumbPrint/:hash/:width/:height/:type/:format/:filterType",
-    baseUrl: "https://thumbnailsresizer.roblox.com",
-    requestFormat: "json",
-    serializationMethod: {
-      thumbPrint: {
-        style: "simple",
-      },
-      hash: {
-        style: "simple",
-      },
-      width: {
-        style: "simple",
-      },
-      height: {
-        style: "simple",
-      },
-      type: {
-        style: "simple",
-      },
-      format: {
-        style: "simple",
-      },
-      filterType: {
-        style: "form",
-        explode: true,
-      },
+export const getSecureresizeThumbprintHashWidthHeightTypeFormatFiltertype = endpoint({
+  method: 'GET',
+  path: '/v1/secureresize/:thumbPrint/:hash/:width/:height/:type/:format/:filterType',
+  baseUrl: 'https://thumbnailsresizer.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    thumbPrint: {
+      style: 'simple',
     },
-    parameters: {
-      thumbPrint: z.string(),
-      hash: z.string(),
-      width: z.number().int(),
-      height: z.number().int(),
-      type: z.string(),
-      format: z.string(),
-      filterType: z.string().optional(),
+    hash: {
+      style: 'simple',
     },
-    response: z.void(),
-    errors: [],
-  });
+    width: {
+      style: 'simple',
+    },
+    height: {
+      style: 'simple',
+    },
+    type: {
+      style: 'simple',
+    },
+    format: {
+      style: 'simple',
+    },
+    filterType: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    thumbPrint: z.string(),
+    hash: z.string(),
+    width: z.number().int(),
+    height: z.number().int(),
+    type: z.string(),
+    format: z.string(),
+    filterType: z.string().optional(),
+  },
+  response: z.void(),
+  errors: [],
+});

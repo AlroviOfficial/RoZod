@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "../..";
+import { z } from 'zod';
+import { endpoint } from '../..';
 
 const Decimal = z.object({
   significand: z.number().int(),
@@ -13,12 +13,12 @@ const CreatorStoreProduct = z.object({
   published: z.boolean(),
   restrictions: z.array(
     z.enum([
-      "RESTRICTION_UNSPECIFIED",
-      "SOLD_ITEM_RESTRICTED",
-      "SELLER_TEMPORARILY_RESTRICTED",
-      "SELLER_PERMANENTLY_RESTRICTED",
-      "SELLER_NO_LONGER_ACTIVE",
-    ])
+      'RESTRICTION_UNSPECIFIED',
+      'SOLD_ITEM_RESTRICTED',
+      'SELLER_TEMPORARILY_RESTRICTED',
+      'SELLER_PERMANENTLY_RESTRICTED',
+      'SELLER_NO_LONGER_ACTIVE',
+    ]),
   ),
   purchasable: z.boolean(),
   userSeller: z.string(),
@@ -177,9 +177,7 @@ const Universe = z.object({
   description: z.string().optional(),
   user: z.string().optional(),
   group: z.string().optional(),
-  visibility: z
-    .enum(["VISIBILITY_UNSPECIFIED", "PUBLIC", "PRIVATE"])
-    .optional(),
+  visibility: z.enum(['VISIBILITY_UNSPECIFIED', 'PUBLIC', 'PRIVATE']).optional(),
   facebookSocialLink: Universe_SocialLink.optional(),
   twitterSocialLink: Universe_SocialLink.optional(),
   youtubeSocialLink: Universe_SocialLink.optional(),
@@ -189,13 +187,7 @@ const Universe = z.object({
   guildedSocialLink: Universe_SocialLink.optional(),
   voiceChatEnabled: z.boolean().optional(),
   ageRating: z
-    .enum([
-      "AGE_RATING_UNSPECIFIED",
-      "AGE_RATING_ALL",
-      "AGE_RATING_9_PLUS",
-      "AGE_RATING_13_PLUS",
-      "AGE_RATING_17_PLUS",
-    ])
+    .enum(['AGE_RATING_UNSPECIFIED', 'AGE_RATING_ALL', 'AGE_RATING_9_PLUS', 'AGE_RATING_13_PLUS', 'AGE_RATING_17_PLUS'])
     .optional(),
   privateServerPriceRobux: z.number().int().optional(),
   desktopEnabled: z.boolean().optional(),
@@ -210,7 +202,7 @@ const DataStore = z.object({
   path: z.string(),
   createTime: z.string().datetime({ offset: true }),
   expireTime: z.string().datetime({ offset: true }),
-  state: z.enum(["STATE_UNSPECIFIED", "ACTIVE", "DELETED"]),
+  state: z.enum(['STATE_UNSPECIFIED', 'ACTIVE', 'DELETED']),
   id: z.string(),
 });
 const ListDataStoresResponse = z.object({
@@ -224,7 +216,7 @@ const DataStoreEntry = z
     createTime: z.string().datetime({ offset: true }),
     revisionId: z.string(),
     revisionCreateTime: z.string().datetime({ offset: true }),
-    state: z.enum(["STATE_UNSPECIFIED", "ACTIVE", "DELETED"]),
+    state: z.enum(['STATE_UNSPECIFIED', 'ACTIVE', 'DELETED']),
     etag: z.string(),
     value: GoogleProtobufValue,
     id: z.string(),
@@ -286,7 +278,7 @@ const ListMemoryStoreSortedMapItemsResponse = z.object({
   nextPageToken: z.string(),
 });
 const FlushMemoryStoreRequest = z.object({});
-const GoogleProtobufAny = z.object({ "@type": z.string() });
+const GoogleProtobufAny = z.object({ '@type': z.string() });
 const Status = z.object({
   code: z.number().int(),
   message: z.string(),
@@ -323,13 +315,13 @@ const Place = z.object({
 const roblox_engine_Folder = z.object({});
 const roblox_engine_LocalScript = z.object({
   Enabled: z.boolean(),
-  RunContext: z.enum(["Legacy", "Server", "Client", "Plugin"]),
+  RunContext: z.enum(['Legacy', 'Server', 'Client', 'Plugin']),
   Source: z.string(),
 });
 const roblox_engine_ModuleScript = z.object({ Source: z.string() });
 const roblox_engine_Script = z.object({
   Enabled: z.boolean(),
-  RunContext: z.enum(["Legacy", "Server", "Client", "Plugin"]),
+  RunContext: z.enum(['Legacy', 'Server', 'Client', 'Plugin']),
   Source: z.string(),
 });
 const roblox_engine_InstanceDetails = z.object({
@@ -351,11 +343,11 @@ const Instance = z.object({
 });
 const LuauExecutionSessionTask_Error = z.object({
   code: z.enum([
-    "ERROR_CODE_UNSPECIFIED",
-    "SCRIPT_ERROR",
-    "DEADLINE_EXCEEDED",
-    "OUTPUT_SIZE_LIMIT_EXCEEDED",
-    "INTERNAL_ERROR",
+    'ERROR_CODE_UNSPECIFIED',
+    'SCRIPT_ERROR',
+    'DEADLINE_EXCEEDED',
+    'OUTPUT_SIZE_LIMIT_EXCEEDED',
+    'INTERNAL_ERROR',
   ]),
   message: z.string(),
 });
@@ -367,14 +359,7 @@ const LuauExecutionSessionTask = z.object({
   createTime: z.string().datetime({ offset: true }),
   updateTime: z.string().datetime({ offset: true }),
   user: z.string(),
-  state: z.enum([
-    "STATE_UNSPECIFIED",
-    "QUEUED",
-    "PROCESSING",
-    "CANCELLED",
-    "COMPLETE",
-    "FAILED",
-  ]),
+  state: z.enum(['STATE_UNSPECIFIED', 'QUEUED', 'PROCESSING', 'CANCELLED', 'COMPLETE', 'FAILED']),
   script: z.string(),
   timeout: z.string(),
   error: LuauExecutionSessionTask_Error,
@@ -405,13 +390,7 @@ const ListUserRestrictionsResponse = z.object({
 const LuauExecutionSessionTaskLog_LogMessage = z.object({
   message: z.string(),
   createTime: z.string().datetime({ offset: true }),
-  messageType: z.enum([
-    "MESSAGE_TYPE_UNSPECIFIED",
-    "OUTPUT",
-    "INFO",
-    "WARNING",
-    "ERROR",
-  ]),
+  messageType: z.enum(['MESSAGE_TYPE_UNSPECIFIED', 'OUTPUT', 'INFO', 'WARNING', 'ERROR']),
 });
 const LuauExecutionSessionTaskLog = z.object({
   path: z.string(),
@@ -424,12 +403,12 @@ const ListLuauExecutionSessionTaskLogsResponse = z.object({
 });
 const Subscription_ExpirationDetails = z.object({
   reason: z.enum([
-    "EXPIRATION_REASON_UNSPECIFIED",
-    "PRODUCT_INACTIVE",
-    "PRODUCT_DELETED",
-    "SUBSCRIBER_CANCELLED",
-    "SUBSCRIBER_REFUNDED",
-    "LAPSED",
+    'EXPIRATION_REASON_UNSPECIFIED',
+    'PRODUCT_INACTIVE',
+    'PRODUCT_DELETED',
+    'SUBSCRIBER_CANCELLED',
+    'SUBSCRIBER_REFUNDED',
+    'LAPSED',
   ]),
 });
 const Subscription = z.object({
@@ -442,26 +421,15 @@ const Subscription = z.object({
   nextRenewTime: z.string().datetime({ offset: true }),
   expireTime: z.string().datetime({ offset: true }),
   state: z.enum([
-    "STATE_UNSPECIFIED",
-    "SUBSCRIBED_WILL_RENEW",
-    "SUBSCRIBED_WILL_NOT_RENEW",
-    "SUBSCRIBED_RENEWAL_PAYMENT_PENDING",
-    "EXPIRED",
+    'STATE_UNSPECIFIED',
+    'SUBSCRIBED_WILL_RENEW',
+    'SUBSCRIBED_WILL_NOT_RENEW',
+    'SUBSCRIBED_RENEWAL_PAYMENT_PENDING',
+    'EXPIRED',
   ]),
   expirationDetails: Subscription_ExpirationDetails,
-  purchasePlatform: z.enum([
-    "PURCHASE_PLATFORM_UNSPECIFIED",
-    "DESKTOP",
-    "MOBILE",
-  ]),
-  paymentProvider: z.enum([
-    "PAYMENT_PROVIDER_UNSPECIFIED",
-    "STRIPE",
-    "APPLE",
-    "GOOGLE",
-    "ROBLOX_CREDIT",
-    "ROBUX",
-  ]),
+  purchasePlatform: z.enum(['PURCHASE_PLATFORM_UNSPECIFIED', 'DESKTOP', 'MOBILE']),
+  paymentProvider: z.enum(['PAYMENT_PROVIDER_UNSPECIFIED', 'STRIPE', 'APPLE', 'GOOGLE', 'ROBLOX_CREDIT', 'ROBUX']),
   user: z.string(),
 });
 const UserRestrictionLog_Moderator_GameServerScript = z.object({});
@@ -526,12 +494,12 @@ const User_SocialNetworkProfiles = z.object({
   twitch: z.string(),
   guilded: z.string(),
   visibility: z.enum([
-    "SOCIAL_NETWORK_VISIBILITY_UNSPECIFIED",
-    "NO_ONE",
-    "FRIENDS",
-    "FRIENDS_AND_FOLLOWING",
-    "FRIENDS_FOLLOWING_AND_FOLLOWERS",
-    "EVERYONE",
+    'SOCIAL_NETWORK_VISIBILITY_UNSPECIFIED',
+    'NO_ONE',
+    'FRIENDS',
+    'FRIENDS_AND_FOLLOWING',
+    'FRIENDS_FOLLOWING_AND_FOLLOWERS',
+    'EVERYONE',
   ]),
 });
 const User = z.object({
@@ -548,82 +516,78 @@ const User = z.object({
 });
 const AssetQuota = z.object({
   path: z.string(),
-  quotaType: z.enum([
-    "QUOTA_TYPE_UNSPECIFIED",
-    "RATE_LIMIT_UPLOAD",
-    "RATE_LIMIT_CREATOR_STORE_DISTRIBUTE",
-  ]),
+  quotaType: z.enum(['QUOTA_TYPE_UNSPECIFIED', 'RATE_LIMIT_UPLOAD', 'RATE_LIMIT_CREATOR_STORE_DISTRIBUTE']),
   assetType: z.enum([
-    "ASSET_TYPE_UNSPECIFIED",
-    "IMAGE",
-    "TSHIRT",
-    "AUDIO",
-    "MESH",
-    "LUA",
-    "HAT",
-    "PLACE",
-    "MODEL",
-    "SHIRT",
-    "PANTS",
-    "DECAL",
-    "HEAD",
-    "FACE",
-    "GEAR",
-    "ANIMATION",
-    "TORSO",
-    "RIGHT_ARM",
-    "LEFT_ARM",
-    "LEFT_LEG",
-    "RIGHT_LEG",
-    "YOUTUBE_VIDEO",
-    "APP",
-    "CODE",
-    "PLUGIN",
-    "SOLID_MODEL",
-    "MESH_PART",
-    "HAIR_ACCESSORY",
-    "FACE_ACCESSORY",
-    "NECK_ACCESSORY",
-    "SHOULDER_ACCESSORY",
-    "FRONT_ACCESSORY",
-    "BACK_ACCESSORY",
-    "WAIST_ACCESSORY",
-    "CLIMB_ANIMATION",
-    "DEATH_ANIMATION",
-    "FALL_ANIMATION",
-    "IDLE_ANIMATION",
-    "JUMP_ANIMATION",
-    "RUN_ANIMATION",
-    "SWIM_ANIMATION",
-    "WALK_ANIMATION",
-    "POSE_ANIMATION",
-    "LOCALIZATION_TABLE_MANIFEST",
-    "LOCALIZATION_TABLE_TRANSLATION",
-    "EMOTE_ANIMATION",
-    "VIDEO",
-    "TEXTURE_PACK",
-    "TSHIRT_ACCESSORY",
-    "SHIRT_ACCESSORY",
-    "PANTS_ACCESSORY",
-    "JACKET_ACCESSORY",
-    "SWEATER_ACCESSORY",
-    "SHORTS_ACCESSORY",
-    "LEFT_SHOE_ACCESSORY",
-    "RIGHT_SHOE_ACCESSORY",
-    "DRESS_SKIRT_ACCESSORY",
-    "FONT_FAMILY",
-    "FONT_FACE",
-    "MESH_HIDDEN_SURFACE_REMOVAL",
-    "EYEBROW_ACCESSORY",
-    "EYELASH_ACCESSORY",
-    "MOOD_ANIMATION",
-    "DYNAMIC_HEAD",
-    "CODE_SNIPPET",
-    "ADS_VIDEO",
+    'ASSET_TYPE_UNSPECIFIED',
+    'IMAGE',
+    'TSHIRT',
+    'AUDIO',
+    'MESH',
+    'LUA',
+    'HAT',
+    'PLACE',
+    'MODEL',
+    'SHIRT',
+    'PANTS',
+    'DECAL',
+    'HEAD',
+    'FACE',
+    'GEAR',
+    'ANIMATION',
+    'TORSO',
+    'RIGHT_ARM',
+    'LEFT_ARM',
+    'LEFT_LEG',
+    'RIGHT_LEG',
+    'YOUTUBE_VIDEO',
+    'APP',
+    'CODE',
+    'PLUGIN',
+    'SOLID_MODEL',
+    'MESH_PART',
+    'HAIR_ACCESSORY',
+    'FACE_ACCESSORY',
+    'NECK_ACCESSORY',
+    'SHOULDER_ACCESSORY',
+    'FRONT_ACCESSORY',
+    'BACK_ACCESSORY',
+    'WAIST_ACCESSORY',
+    'CLIMB_ANIMATION',
+    'DEATH_ANIMATION',
+    'FALL_ANIMATION',
+    'IDLE_ANIMATION',
+    'JUMP_ANIMATION',
+    'RUN_ANIMATION',
+    'SWIM_ANIMATION',
+    'WALK_ANIMATION',
+    'POSE_ANIMATION',
+    'LOCALIZATION_TABLE_MANIFEST',
+    'LOCALIZATION_TABLE_TRANSLATION',
+    'EMOTE_ANIMATION',
+    'VIDEO',
+    'TEXTURE_PACK',
+    'TSHIRT_ACCESSORY',
+    'SHIRT_ACCESSORY',
+    'PANTS_ACCESSORY',
+    'JACKET_ACCESSORY',
+    'SWEATER_ACCESSORY',
+    'SHORTS_ACCESSORY',
+    'LEFT_SHOE_ACCESSORY',
+    'RIGHT_SHOE_ACCESSORY',
+    'DRESS_SKIRT_ACCESSORY',
+    'FONT_FAMILY',
+    'FONT_FACE',
+    'MESH_HIDDEN_SURFACE_REMOVAL',
+    'EYEBROW_ACCESSORY',
+    'EYELASH_ACCESSORY',
+    'MOOD_ANIMATION',
+    'DYNAMIC_HEAD',
+    'CODE_SNIPPET',
+    'ADS_VIDEO',
   ]),
   usage: z.number().int(),
   capacity: z.number().int(),
-  period: z.enum(["PERIOD_UNSPECIFIED", "MONTH", "DAY"]),
+  period: z.enum(['PERIOD_UNSPECIFIED', 'MONTH', 'DAY']),
   usageResetTime: z.string().datetime({ offset: true }),
 });
 const ListAssetQuotasResponse = z.object({
@@ -633,69 +597,65 @@ const ListAssetQuotasResponse = z.object({
 const InventoryItem_CollectibleDetails = z.object({
   itemId: z.string(),
   instanceId: z.string(),
-  instanceState: z.enum([
-    "COLLECTIBLE_ITEM_INSTANCE_STATE_UNSPECIFIED",
-    "AVAILABLE",
-    "HOLD",
-  ]),
+  instanceState: z.enum(['COLLECTIBLE_ITEM_INSTANCE_STATE_UNSPECIFIED', 'AVAILABLE', 'HOLD']),
   serialNumber: z.number().int(),
 });
 const InventoryItem_AssetDetails = z.object({
   assetId: z.string(),
   inventoryItemAssetType: z.enum([
-    "INVENTORY_ITEM_ASSET_TYPE_UNSPECIFIED",
-    "CLASSIC_TSHIRT",
-    "AUDIO",
-    "HAT",
-    "MODEL",
-    "CLASSIC_SHIRT",
-    "CLASSIC_PANTS",
-    "DECAL",
-    "CLASSIC_HEAD",
-    "FACE",
-    "GEAR",
-    "ANIMATION",
-    "TORSO",
-    "RIGHT_ARM",
-    "LEFT_ARM",
-    "LEFT_LEG",
-    "RIGHT_LEG",
-    "PACKAGE",
-    "PLUGIN",
-    "MESH_PART",
-    "HAIR_ACCESSORY",
-    "FACE_ACCESSORY",
-    "NECK_ACCESSORY",
-    "SHOULDER_ACCESSORY",
-    "FRONT_ACCESSORY",
-    "BACK_ACCESSORY",
-    "WAIST_ACCESSORY",
-    "CLIMB_ANIMATION",
-    "DEATH_ANIMATION",
-    "FALL_ANIMATION",
-    "IDLE_ANIMATION",
-    "JUMP_ANIMATION",
-    "RUN_ANIMATION",
-    "SWIM_ANIMATION",
-    "WALK_ANIMATION",
-    "POSE_ANIMATION",
-    "EMOTE_ANIMATION",
-    "VIDEO",
-    "TSHIRT_ACCESSORY",
-    "SHIRT_ACCESSORY",
-    "PANTS_ACCESSORY",
-    "JACKET_ACCESSORY",
-    "SWEATER_ACCESSORY",
-    "SHORTS_ACCESSORY",
-    "LEFT_SHOE_ACCESSORY",
-    "RIGHT_SHOE_ACCESSORY",
-    "DRESS_SKIRT_ACCESSORY",
-    "EYEBROW_ACCESSORY",
-    "EYELASH_ACCESSORY",
-    "MOOD_ANIMATION",
-    "DYNAMIC_HEAD",
-    "CREATED_PLACE",
-    "PURCHASED_PLACE",
+    'INVENTORY_ITEM_ASSET_TYPE_UNSPECIFIED',
+    'CLASSIC_TSHIRT',
+    'AUDIO',
+    'HAT',
+    'MODEL',
+    'CLASSIC_SHIRT',
+    'CLASSIC_PANTS',
+    'DECAL',
+    'CLASSIC_HEAD',
+    'FACE',
+    'GEAR',
+    'ANIMATION',
+    'TORSO',
+    'RIGHT_ARM',
+    'LEFT_ARM',
+    'LEFT_LEG',
+    'RIGHT_LEG',
+    'PACKAGE',
+    'PLUGIN',
+    'MESH_PART',
+    'HAIR_ACCESSORY',
+    'FACE_ACCESSORY',
+    'NECK_ACCESSORY',
+    'SHOULDER_ACCESSORY',
+    'FRONT_ACCESSORY',
+    'BACK_ACCESSORY',
+    'WAIST_ACCESSORY',
+    'CLIMB_ANIMATION',
+    'DEATH_ANIMATION',
+    'FALL_ANIMATION',
+    'IDLE_ANIMATION',
+    'JUMP_ANIMATION',
+    'RUN_ANIMATION',
+    'SWIM_ANIMATION',
+    'WALK_ANIMATION',
+    'POSE_ANIMATION',
+    'EMOTE_ANIMATION',
+    'VIDEO',
+    'TSHIRT_ACCESSORY',
+    'SHIRT_ACCESSORY',
+    'PANTS_ACCESSORY',
+    'JACKET_ACCESSORY',
+    'SWEATER_ACCESSORY',
+    'SHORTS_ACCESSORY',
+    'LEFT_SHOE_ACCESSORY',
+    'RIGHT_SHOE_ACCESSORY',
+    'DRESS_SKIRT_ACCESSORY',
+    'EYEBROW_ACCESSORY',
+    'EYELASH_ACCESSORY',
+    'MOOD_ANIMATION',
+    'DYNAMIC_HEAD',
+    'CREATED_PLACE',
+    'PURCHASED_PLACE',
   ]),
   instanceId: z.string(),
   collectibleDetails: InventoryItem_CollectibleDetails,
@@ -729,7 +689,7 @@ const UserNotification_Payload_AnalyticsData = z.object({
   category: z.string(),
 });
 const UserNotification_Payload = z.object({
-  type: z.enum(["TYPE_UNSPECIFIED", "MOMENT"]),
+  type: z.enum(['TYPE_UNSPECIFIED', 'MOMENT']),
   messageId: z.string(),
   parameters: UserNotification_Payload_ParameterValue,
   joinExperience: UserNotification_Payload_JoinExperience,
@@ -755,11 +715,11 @@ update the product.
  * @param body 
  */
 export const postCloudV2CreatorStoreProducts = endpoint({
-  method: "POST",
-  path: "/cloud/v2/creator-store-products",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["creator-store-product:write"],
-  requestFormat: "json",
+  method: 'POST',
+  path: '/cloud/v2/creator-store-products',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['creator-store-product:write'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -779,11 +739,11 @@ export const postCloudV2CreatorStoreProducts = endpoint({
  * @param creator_store_product_id The creator-store-product ID.
  */
 export const getCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
-  method: "GET",
-  path: "/cloud/v2/creator-store-products/:creator_store_product_id",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["creator-store-product:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/creator-store-products/:creator_store_product_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['creator-store-product:read'],
+  requestFormat: 'json',
   serializationMethod: {
     creator_store_product_id: {},
   },
@@ -808,11 +768,11 @@ export const getCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
 product is created. In this situation, `update_mask` is ignored.
  */
 export const patchCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
-  method: "PATCH",
-  path: "/cloud/v2/creator-store-products/:creator_store_product_id",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["creator-store-product:write"],
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/cloud/v2/creator-store-products/:creator_store_product_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['creator-store-product:write'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     creator_store_product_id: {},
@@ -838,10 +798,10 @@ export const patchCloudV2CreatorStoreProductsCreatorStoreProductId = endpoint({
  * @param group_id The group ID.
  */
 export const getCloudV2GroupsGroupId = endpoint({
-  method: "GET",
-  path: "/cloud/v2/groups/:group_id",
-  baseUrl: "https://apis.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/groups/:group_id',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     group_id: {},
   },
@@ -876,11 +836,11 @@ archived categories are not returned. The default value is `false`.
 Example: `"filter=archived==true"`
  */
 export const getCloudV2GroupsGroupIdForumCategories = endpoint({
-  method: "GET",
-  path: "/cloud/v2/groups/:group_id/forum-categories",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["group-forum:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/groups/:group_id/forum-categories',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group-forum:read'],
+  requestFormat: 'json',
   serializationMethod: {
     group_id: {},
     maxPageSize: {},
@@ -932,34 +892,31 @@ Possible values:
   | FULL | Includes all fields but does not dereference `first_comment`. Only the `path` field is populated. |
   | FULL_WITH_FIRST_COMMENT | Includes all fields and also fully populates `first_comment`. The default view. |
  */
-export const getCloudV2GroupsGroupIdForumCategoriesForumCategoryIdPosts =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/groups/:group_id/forum-categories/:forum_category_id/posts",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["group-forum:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      group_id: {},
-      forum_category_id: {},
-      maxPageSize: {},
-      pageToken: {},
-      filter: {},
-      view: {},
-    },
-    parameters: {
-      group_id: z.string(),
-      forum_category_id: z.string(),
-      maxPageSize: z.number().int().optional(),
-      pageToken: z.string().optional(),
-      filter: z.string().optional(),
-      view: z
-        .enum(["VIEW_UNSPECIFIED", "FULL", "FULL_WITH_FIRST_COMMENT"])
-        .optional(),
-    },
-    response: ListGroupForumPostsResponse,
-    errors: [],
-  });
+export const getCloudV2GroupsGroupIdForumCategoriesForumCategoryIdPosts = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/groups/:group_id/forum-categories/:forum_category_id/posts',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group-forum:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    group_id: {},
+    forum_category_id: {},
+    maxPageSize: {},
+    pageToken: {},
+    filter: {},
+    view: {},
+  },
+  parameters: {
+    group_id: z.string(),
+    forum_category_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+    filter: z.string().optional(),
+    view: z.enum(['VIEW_UNSPECIFIED', 'FULL', 'FULL_WITH_FIRST_COMMENT']).optional(),
+  },
+  response: ListGroupForumPostsResponse,
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -989,32 +946,31 @@ comment are returned. The default value is `''`. If
 returned. Example:
 `"filter=repliesToCommentId==01234567-89ab-cdef-0123-456789abcdef"`
  */
-export const getCloudV2GroupsGroupIdForumCategoriesForumCategoryIdPostsPostIdComments =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/groups/:group_id/forum-categories/:forum_category_id/posts/:post_id/comments",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["group-forum:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      group_id: {},
-      forum_category_id: {},
-      post_id: {},
-      maxPageSize: {},
-      pageToken: {},
-      filter: {},
-    },
-    parameters: {
-      group_id: z.string(),
-      forum_category_id: z.string(),
-      post_id: z.string(),
-      maxPageSize: z.number().int().optional(),
-      pageToken: z.string().optional(),
-      filter: z.string().optional(),
-    },
-    response: ListGroupForumCommentsResponse,
-    errors: [],
-  });
+export const getCloudV2GroupsGroupIdForumCategoriesForumCategoryIdPostsPostIdComments = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/groups/:group_id/forum-categories/:forum_category_id/posts/:post_id/comments',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group-forum:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    group_id: {},
+    forum_category_id: {},
+    post_id: {},
+    maxPageSize: {},
+    pageToken: {},
+    filter: {},
+  },
+  parameters: {
+    group_id: z.string(),
+    forum_category_id: z.string(),
+    post_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+    filter: z.string().optional(),
+  },
+  response: ListGroupForumCommentsResponse,
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -1041,11 +997,11 @@ field and `==` operator are supported.
 Example: `"user == 'users/156'"`
  */
 export const getCloudV2GroupsGroupIdJoinRequests = endpoint({
-  method: "GET",
-  path: "/cloud/v2/groups/:group_id/join-requests",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["group:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/groups/:group_id/join-requests',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group:read'],
+  requestFormat: 'json',
   serializationMethod: {
     group_id: {},
     maxPageSize: {},
@@ -1073,27 +1029,25 @@ export const getCloudV2GroupsGroupIdJoinRequests = endpoint({
  * @param group_id The group ID.
  * @param join_request_id The join-request ID.
  */
-export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdAccept = endpoint(
-  {
-    method: "POST",
-    path: "/cloud/v2/groups/:group_id/join-requests/:join_request_id:accept",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["group:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      group_id: {},
-      join_request_id: {},
-    },
-    parameters: {
-      group_id: z.string(),
-      join_request_id: z.string(),
-    },
-    body: z.object({}),
-    response: z.void(),
-    errors: [],
-  }
-);
+export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdAccept = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/groups/:group_id/join-requests/:join_request_id:accept',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    group_id: {},
+    join_request_id: {},
+  },
+  parameters: {
+    group_id: z.string(),
+    join_request_id: z.string(),
+  },
+  body: z.object({}),
+  response: z.void(),
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -1106,26 +1060,25 @@ export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdAccept = endpoint(
  * @param group_id The group ID.
  * @param join_request_id The join-request ID.
  */
-export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdDecline =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/groups/:group_id/join-requests/:join_request_id:decline",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["group:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      group_id: {},
-      join_request_id: {},
-    },
-    parameters: {
-      group_id: z.string(),
-      join_request_id: z.string(),
-    },
-    body: z.object({}),
-    response: z.void(),
-    errors: [],
-  });
+export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdDecline = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/groups/:group_id/join-requests/:join_request_id:decline',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    group_id: {},
+    join_request_id: {},
+  },
+  parameters: {
+    group_id: z.string(),
+    join_request_id: z.string(),
+  },
+  body: z.object({}),
+  response: z.void(),
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -1148,10 +1101,10 @@ See the
 documentation for more information.
  */
 export const getCloudV2GroupsGroupIdMemberships = endpoint({
-  method: "GET",
-  path: "/cloud/v2/groups/:group_id/memberships",
-  baseUrl: "https://apis.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/groups/:group_id/memberships',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     group_id: {},
     maxPageSize: {},
@@ -1184,11 +1137,11 @@ rank.
  * @param membership_id The membership ID.
  */
 export const patchCloudV2GroupsGroupIdMembershipsMembershipId = endpoint({
-  method: "PATCH",
-  path: "/cloud/v2/groups/:group_id/memberships/:membership_id",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["group:write"],
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/cloud/v2/groups/:group_id/memberships/:membership_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group:write'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     group_id: {},
@@ -1215,26 +1168,25 @@ holds the specified role, no action is taken.
  * @param group_id The group ID.
  * @param membership_id The membership ID.
  */
-export const postCloudV2GroupsGroupIdMembershipsMembershipIdAssignRole =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/groups/:group_id/memberships/:membership_id:assignRole",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["group:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      group_id: {},
-      membership_id: {},
-    },
-    parameters: {
-      group_id: z.string(),
-      membership_id: z.string(),
-    },
-    body: z.object({ role: z.string() }),
-    response: GroupMembership,
-    errors: [],
-  });
+export const postCloudV2GroupsGroupIdMembershipsMembershipIdAssignRole = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/groups/:group_id/memberships/:membership_id:assignRole',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    group_id: {},
+    membership_id: {},
+  },
+  parameters: {
+    group_id: z.string(),
+    membership_id: z.string(),
+  },
+  body: z.object({ role: z.string() }),
+  response: GroupMembership,
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -1248,26 +1200,25 @@ not hold the specified role, no action is taken.
  * @param group_id The group ID.
  * @param membership_id The membership ID.
  */
-export const postCloudV2GroupsGroupIdMembershipsMembershipIdUnassignRole =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/groups/:group_id/memberships/:membership_id:unassignRole",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["group:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      group_id: {},
-      membership_id: {},
-    },
-    parameters: {
-      group_id: z.string(),
-      membership_id: z.string(),
-    },
-    body: z.object({ role: z.string() }),
-    response: GroupMembership,
-    errors: [],
-  });
+export const postCloudV2GroupsGroupIdMembershipsMembershipIdUnassignRole = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/groups/:group_id/memberships/:membership_id:unassignRole',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    group_id: {},
+    membership_id: {},
+  },
+  parameters: {
+    group_id: z.string(),
+    membership_id: z.string(),
+  },
+  body: z.object({ role: z.string() }),
+  response: GroupMembership,
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -1297,11 +1248,11 @@ When paginating, all other parameters provided to the subsequent call must
 match the call that provided the page token.
  */
 export const getCloudV2GroupsGroupIdRoles = endpoint({
-  method: "GET",
-  path: "/cloud/v2/groups/:group_id/roles",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["group:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/groups/:group_id/roles',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group:read'],
+  requestFormat: 'json',
   serializationMethod: {
     group_id: {},
     maxPageSize: {},
@@ -1327,11 +1278,11 @@ export const getCloudV2GroupsGroupIdRoles = endpoint({
  * @param role_id The role ID.
  */
 export const getCloudV2GroupsGroupIdRolesRoleId = endpoint({
-  method: "GET",
-  path: "/cloud/v2/groups/:group_id/roles/:role_id",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["group:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/groups/:group_id/roles/:role_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['group:read'],
+  requestFormat: 'json',
   serializationMethod: {
     group_id: {},
     role_id: {},
@@ -1353,10 +1304,10 @@ export const getCloudV2GroupsGroupIdRolesRoleId = endpoint({
  * @param universe_id The universe ID.
  */
 export const getCloudV2UniversesUniverseId = endpoint({
-  method: "GET",
-  path: "/cloud/v2/universes/:universe_id",
-  baseUrl: "https://apis.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universe_id: {},
   },
@@ -1382,11 +1333,11 @@ This method may additionally return the full resource.
  * @param updateMask The list of fields to update.
  */
 export const patchCloudV2UniversesUniverseId = endpoint({
-  method: "PATCH",
-  path: "/cloud/v2/universes/:universe_id",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe:write"],
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/cloud/v2/universes/:universe_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe:write'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universe_id: {},
@@ -1420,11 +1371,11 @@ could be
  * @param universe_id The universe ID.
  */
 export const postCloudV2UniversesUniverseIdGenerateSpeechAsset = endpoint({
-  method: "POST",
-  path: "/cloud/v2/universes/:universe_id:generateSpeechAsset",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe:write", "asset:read", "asset:write"],
-  requestFormat: "json",
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id:generateSpeechAsset',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe:write', 'asset:read', 'asset:write'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universe_id: {},
@@ -1451,11 +1402,11 @@ Servers can consume messages via
  * @param universe_id The universe ID.
  */
 export const postCloudV2UniversesUniverseIdPublishMessage = endpoint({
-  method: "POST",
-  path: "/cloud/v2/universes/:universe_id:publishMessage",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe-messaging-service:publish"],
-  requestFormat: "json",
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id:publishMessage',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-messaging-service:publish'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universe_id: {},
@@ -1481,11 +1432,11 @@ all servers regardless of version. Used for releasing experience updates.
  * @param universe_id The universe ID.
  */
 export const postCloudV2UniversesUniverseIdRestartServers = endpoint({
-  method: "POST",
-  path: "/cloud/v2/universes/:universe_id:restartServers",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe:write"],
-  requestFormat: "json",
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id:restartServers',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe:write'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universe_id: {},
@@ -1509,11 +1460,11 @@ export const postCloudV2UniversesUniverseIdRestartServers = endpoint({
  * @param universe_id The universe ID.
  */
 export const postCloudV2UniversesUniverseIdTranslateText = endpoint({
-  method: "POST",
-  path: "/cloud/v2/universes/:universe_id:translateText",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe:write"],
-  requestFormat: "json",
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id:translateText',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe:write'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universe_id: {},
@@ -1560,11 +1511,11 @@ Example filter: `id.startsWith("foo")`
 results.
  */
 export const getCloudV2UniversesUniverseIdDataStores = endpoint({
-  method: "GET",
-  path: "/cloud/v2/universes/:universe_id/data-stores",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe-datastores.control:list"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/data-stores',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.control:list'],
+  requestFormat: 'json',
   serializationMethod: {
     universe_id: {},
     maxPageSize: {},
@@ -1609,11 +1560,11 @@ Engine guide.
  * @param universe_id The universe ID.
  */
 export const postCloudV2UniversesUniverseIdDataStoresSnapshot = endpoint({
-  method: "POST",
-  path: "/cloud/v2/universes/:universe_id/data-stores:snapshot",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe-datastores.control:snapshot"],
-  requestFormat: "json",
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/data-stores:snapshot',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.control:snapshot'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universe_id: {},
@@ -1667,11 +1618,11 @@ no-op, and the data store is returned as-is.
  * @param data_store_id The data-store ID.
  */
 export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreId = endpoint({
-  method: "DELETE",
-  path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe-datastores.control:delete"],
-  requestFormat: "json",
+  method: 'DELETE',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.control:delete'],
+  requestFormat: 'json',
   serializationMethod: {
     universe_id: {},
     data_store_id: {},
@@ -1695,26 +1646,25 @@ export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreId = endpoint({
  * @param universe_id The universe ID.
  * @param data_store_id The data-store ID.
  */
-export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdUndelete =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id:undelete",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.control:delete"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      data_store_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-    },
-    body: z.object({}),
-    response: DataStore,
-    errors: [],
-  });
+export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdUndelete = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id:undelete',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.control:delete'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    data_store_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+  },
+  body: z.object({}),
+  response: DataStore,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -1749,32 +1699,31 @@ Example filter: `id.startsWith("foo")`
  * @param showDeleted If true, resources marked for pending deletion will be included in the
 results.
  */
-export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.objects:list"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      data_store_id: {},
-      maxPageSize: {},
-      pageToken: {},
-      filter: {},
-      showDeleted: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      maxPageSize: z.number().int().optional(),
-      pageToken: z.string().optional(),
-      filter: z.string().optional(),
-      showDeleted: z.boolean().optional(),
-    },
-    response: ListDataStoreEntriesResponse,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.objects:list'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    data_store_id: {},
+    maxPageSize: {},
+    pageToken: {},
+    filter: {},
+    showDeleted: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+    filter: z.string().optional(),
+    showDeleted: z.boolean().optional(),
+  },
+  response: ListDataStoreEntriesResponse,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -1794,28 +1743,27 @@ component of the data store entry's resource path.
 This value should be a 1-50 character string. We strongly recommend using
 only lowercase letters, numeric digits, and hyphens.
  */
-export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.objects:create"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      data_store_id: {},
-      id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      id: z.string().optional(),
-    },
-    body: DataStoreEntry,
-    response: DataStoreEntry,
-    errors: [],
-  });
+export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdEntries = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.objects:create'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    data_store_id: {},
+    id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    id: z.string().optional(),
+  },
+  body: DataStoreEntry,
+  response: DataStoreEntry,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -1852,26 +1800,25 @@ For example, to get the revision of `my-entry` that was current on
  * @param data_store_id The data-store ID.
  * @param entry_id The entry ID.
  */
-export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.objects:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      data_store_id: {},
-      entry_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      entry_id: z.string(),
-    },
-    response: DataStoreEntry,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.objects:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    data_store_id: {},
+    entry_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    entry_id: z.string(),
+  },
+  response: DataStoreEntry,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -1890,26 +1837,25 @@ On success, returns 200 OK. If the entry doesn't exist, returns
  * @param data_store_id The data-store ID.
  * @param entry_id The entry ID.
  */
-export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId =
-  endpoint({
-    method: "DELETE",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.objects:delete"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      data_store_id: {},
-      entry_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      entry_id: z.string(),
-    },
-    response: z.void(),
-    errors: [],
-  });
+export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId = endpoint({
+  method: 'DELETE',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.objects:delete'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    data_store_id: {},
+    entry_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    entry_id: z.string(),
+  },
+  response: z.void(),
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -1934,30 +1880,29 @@ be provided when updating an entry.
  * @param allowMissing If set to true, and the data store entry is not found, a data store entry
 is created.
  */
-export const patchCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId =
-  endpoint({
-    method: "PATCH",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.objects:update"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      data_store_id: {},
-      entry_id: {},
-      allowMissing: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      entry_id: z.string(),
-      allowMissing: z.boolean().optional(),
-    },
-    body: DataStoreEntry.partial(),
-    response: DataStoreEntry,
-    errors: [],
-  });
+export const patchCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryId = endpoint({
+  method: 'PATCH',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.objects:update'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    data_store_id: {},
+    entry_id: {},
+    allowMissing: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    entry_id: z.string(),
+    allowMissing: z.boolean().optional(),
+  },
+  body: DataStoreEntry.partial(),
+  response: DataStoreEntry,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -1984,31 +1929,27 @@ this API.
  * @param data_store_id The data-store ID.
  * @param entry_id The entry ID.
  */
-export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryIdIncrement =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:increment",
-    baseUrl: "https://apis.roblox.com",
-    scopes: [
-      "universe-datastores.objects:create",
-      "universe-datastores.objects:update",
-    ],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      data_store_id: {},
-      entry_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      entry_id: z.string(),
-    },
-    body: IncrementDataStoreEntryRequest,
-    response: DataStoreEntry,
-    errors: [],
-  });
+export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryIdIncrement = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:increment',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.objects:create', 'universe-datastores.objects:update'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    data_store_id: {},
+    entry_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    entry_id: z.string(),
+  },
+  body: IncrementDataStoreEntryRequest,
+  response: DataStoreEntry,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2049,32 +1990,31 @@ For example:
   `"revision_create_time >= 2000-01-01T00:00:00Z && revision_create_time <=
   2001-01-01T00:00:00Z"`
  */
-export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryIdListRevisions =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:listRevisions",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.versions:list"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      data_store_id: {},
-      entry_id: {},
-      maxPageSize: {},
-      pageToken: {},
-      filter: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      entry_id: z.string(),
-      maxPageSize: z.number().int().optional(),
-      pageToken: z.string().optional(),
-      filter: z.string().optional(),
-    },
-    response: ListDataStoreEntryRevisionsResponse,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdEntriesEntryIdListRevisions = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/entries/:entry_id:listRevisions',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.versions:list'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    data_store_id: {},
+    entry_id: {},
+    maxPageSize: {},
+    pageToken: {},
+    filter: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    entry_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+    filter: z.string().optional(),
+  },
+  response: ListDataStoreEntryRevisionsResponse,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2110,34 +2050,33 @@ Example filter: `id.startsWith("foo")`
  * @param showDeleted If true, resources marked for pending deletion will be included in the
 results.
  */
-export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntries =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.objects:list"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      data_store_id: {},
-      scope_id: {},
-      maxPageSize: {},
-      pageToken: {},
-      filter: {},
-      showDeleted: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      scope_id: z.string(),
-      maxPageSize: z.number().int().optional(),
-      pageToken: z.string().optional(),
-      filter: z.string().optional(),
-      showDeleted: z.boolean().optional(),
-    },
-    response: ListDataStoreEntriesResponse,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntries = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.objects:list'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    data_store_id: {},
+    scope_id: {},
+    maxPageSize: {},
+    pageToken: {},
+    filter: {},
+    showDeleted: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    scope_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+    filter: z.string().optional(),
+    showDeleted: z.boolean().optional(),
+  },
+  response: ListDataStoreEntriesResponse,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2158,30 +2097,29 @@ component of the data store entry's resource path.
 This value should be a 1-50 character string. We strongly recommend using
 only lowercase letters, numeric digits, and hyphens.
  */
-export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntries =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.objects:create"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      data_store_id: {},
-      scope_id: {},
-      id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      scope_id: z.string(),
-      id: z.string().optional(),
-    },
-    body: DataStoreEntry,
-    response: DataStoreEntry,
-    errors: [],
-  });
+export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntries = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.objects:create'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    data_store_id: {},
+    scope_id: {},
+    id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    scope_id: z.string(),
+    id: z.string().optional(),
+  },
+  body: DataStoreEntry,
+  response: DataStoreEntry,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2219,28 +2157,27 @@ For example, to get the revision of `my-entry` that was current on
  * @param scope_id The scope ID.
  * @param entry_id The entry ID.
  */
-export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryId =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.objects:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      data_store_id: {},
-      scope_id: {},
-      entry_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      scope_id: z.string(),
-      entry_id: z.string(),
-    },
-    response: DataStoreEntry,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.objects:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    data_store_id: {},
+    scope_id: {},
+    entry_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    scope_id: z.string(),
+    entry_id: z.string(),
+  },
+  response: DataStoreEntry,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2260,28 +2197,27 @@ On success, returns 200 OK. If the entry doesn't exist, returns
  * @param scope_id The scope ID.
  * @param entry_id The entry ID.
  */
-export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryId =
-  endpoint({
-    method: "DELETE",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.objects:delete"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      data_store_id: {},
-      scope_id: {},
-      entry_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      scope_id: z.string(),
-      entry_id: z.string(),
-    },
-    response: z.void(),
-    errors: [],
-  });
+export const deleteCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
+  method: 'DELETE',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.objects:delete'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    data_store_id: {},
+    scope_id: {},
+    entry_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    scope_id: z.string(),
+    entry_id: z.string(),
+  },
+  response: z.void(),
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2307,32 +2243,31 @@ be provided when updating an entry.
  * @param allowMissing If set to true, and the data store entry is not found, a data store entry
 is created.
  */
-export const patchCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryId =
-  endpoint({
-    method: "PATCH",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.objects:update"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      data_store_id: {},
-      scope_id: {},
-      entry_id: {},
-      allowMissing: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      scope_id: z.string(),
-      entry_id: z.string(),
-      allowMissing: z.boolean().optional(),
-    },
-    body: DataStoreEntry.partial(),
-    response: DataStoreEntry,
-    errors: [],
-  });
+export const patchCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
+  method: 'PATCH',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.objects:update'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    data_store_id: {},
+    scope_id: {},
+    entry_id: {},
+    allowMissing: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    scope_id: z.string(),
+    entry_id: z.string(),
+    allowMissing: z.boolean().optional(),
+  },
+  body: DataStoreEntry.partial(),
+  response: DataStoreEntry,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2360,33 +2295,29 @@ this API.
  * @param scope_id The scope ID.
  * @param entry_id The entry ID.
  */
-export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryIdIncrement =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:increment",
-    baseUrl: "https://apis.roblox.com",
-    scopes: [
-      "universe-datastores.objects:create",
-      "universe-datastores.objects:update",
-    ],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      data_store_id: {},
-      scope_id: {},
-      entry_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      scope_id: z.string(),
-      entry_id: z.string(),
-    },
-    body: IncrementDataStoreEntryRequest,
-    response: DataStoreEntry,
-    errors: [],
-  });
+export const postCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryIdIncrement = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:increment',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.objects:create', 'universe-datastores.objects:update'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    data_store_id: {},
+    scope_id: {},
+    entry_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    scope_id: z.string(),
+    entry_id: z.string(),
+  },
+  body: IncrementDataStoreEntryRequest,
+  response: DataStoreEntry,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2428,34 +2359,33 @@ For example:
   `"revision_create_time >= 2000-01-01T00:00:00Z && revision_create_time <=
   2001-01-01T00:00:00Z"`
  */
-export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryIdListRevisions =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:listRevisions",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe-datastores.versions:list"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      data_store_id: {},
-      scope_id: {},
-      entry_id: {},
-      maxPageSize: {},
-      pageToken: {},
-      filter: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      data_store_id: z.string(),
-      scope_id: z.string(),
-      entry_id: z.string(),
-      maxPageSize: z.number().int().optional(),
-      pageToken: z.string().optional(),
-      filter: z.string().optional(),
-    },
-    response: ListDataStoreEntryRevisionsResponse,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntriesEntryIdListRevisions = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/data-stores/:data_store_id/scopes/:scope_id/entries/:entry_id:listRevisions',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe-datastores.versions:list'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    data_store_id: {},
+    scope_id: {},
+    entry_id: {},
+    maxPageSize: {},
+    pageToken: {},
+    filter: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    data_store_id: z.string(),
+    scope_id: z.string(),
+    entry_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+    filter: z.string().optional(),
+  },
+  response: ListDataStoreEntryRevisionsResponse,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2467,24 +2397,23 @@ export const getCloudV2UniversesUniverseIdDataStoresDataStoreIdScopesScopeIdEntr
  * @param body
  * @param universe_id The universe ID.
  */
-export const postCloudV2UniversesUniverseIdLuauExecutionSessionTaskBinaryInputs =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/luau-execution-session-task-binary-inputs",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.place.luau-execution-session:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-    },
-    body: LuauExecutionSessionTaskBinaryInput,
-    response: LuauExecutionSessionTaskBinaryInput,
-    errors: [],
-  });
+export const postCloudV2UniversesUniverseIdLuauExecutionSessionTaskBinaryInputs = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/luau-execution-session-task-binary-inputs',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.place.luau-execution-session:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+  },
+  body: LuauExecutionSessionTaskBinaryInput,
+  response: LuauExecutionSessionTaskBinaryInput,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2497,11 +2426,11 @@ export const postCloudV2UniversesUniverseIdLuauExecutionSessionTaskBinaryInputs 
  * @param universe_id The universe ID.
  */
 export const postCloudV2UniversesUniverseIdMemoryStoreFlush = endpoint({
-  method: "POST",
-  path: "/cloud/v2/universes/:universe_id/memory-store:flush",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["memory-store:flush"],
-  requestFormat: "json",
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/memory-store:flush',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['memory-store:flush'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universe_id: {},
@@ -2533,26 +2462,25 @@ item will be inserted after existing values with the same priority.
  * @param universe_id The universe ID.
  * @param queue_id The queue ID.
  */
-export const postCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItems =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["memory-store.queue:add"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      queue_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      queue_id: z.string(),
-    },
-    body: MemoryStoreQueueItem,
-    response: MemoryStoreQueueItem,
-    errors: [],
-  });
+export const postCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItems = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['memory-store.queue:add'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    queue_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    queue_id: z.string(),
+  },
+  body: MemoryStoreQueueItem,
+  response: MemoryStoreQueueItem,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2567,26 +2495,25 @@ Takes a `readId` from a previous `Read` operation.
  * @param universe_id The universe ID.
  * @param queue_id The queue ID.
  */
-export const postCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItemsDiscard =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items:discard",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["memory-store.queue:discard"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      queue_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      queue_id: z.string(),
-    },
-    body: z.object({ readId: z.string() }),
-    response: z.void(),
-    errors: [],
-  });
+export const postCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItemsDiscard = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items:discard',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['memory-store.queue:discard'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    queue_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    queue_id: z.string(),
+  },
+  body: z.object({ readId: z.string() }),
+  response: z.void(),
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2616,30 +2543,29 @@ It must be written in seconds greater than 0 and end with `s`.
 
 Defaults to `30s`.
  */
-export const getCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItemsRead =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items:read",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["memory-store.queue:dequeue"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      queue_id: {},
-      count: {},
-      allOrNothing: {},
-      invisibilityWindow: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      queue_id: z.string(),
-      count: z.number().int().optional(),
-      allOrNothing: z.boolean().optional(),
-      invisibilityWindow: z.string().optional(),
-    },
-    response: ReadMemoryStoreQueueItemsResponse,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdMemoryStoreQueuesQueueIdItemsRead = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/memory-store/queues/:queue_id/items:read',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['memory-store.queue:dequeue'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    queue_id: {},
+    count: {},
+    allOrNothing: {},
+    invisibilityWindow: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    queue_id: z.string(),
+    count: z.number().int().optional(),
+    allOrNothing: z.boolean().optional(),
+    invisibilityWindow: z.string().optional(),
+  },
+  response: ReadMemoryStoreQueueItemsResponse,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2676,32 +2602,31 @@ and `&&` are allowed'
 
 Example: `id > "key-001" && id < "key-100"`
  */
-export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["memory-store.sorted-map:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      sorted_map_id: {},
-      maxPageSize: {},
-      pageToken: {},
-      orderBy: {},
-      filter: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      sorted_map_id: z.string(),
-      maxPageSize: z.number().int().optional(),
-      pageToken: z.string().optional(),
-      orderBy: z.string().optional(),
-      filter: z.string().optional(),
-    },
-    response: ListMemoryStoreSortedMapItemsResponse,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['memory-store.sorted-map:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    sorted_map_id: {},
+    maxPageSize: {},
+    pageToken: {},
+    orderBy: {},
+    filter: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    sorted_map_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+    orderBy: z.string().optional(),
+    filter: z.string().optional(),
+  },
+  response: ListMemoryStoreSortedMapItemsResponse,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2720,28 +2645,27 @@ This value should be a 1-127 character string that supports alphanumeric
 and special characters. This id is case sensitive. The id must be url
 encoded if it contains any url breaking special characters.
  */
-export const postCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["memory-store.sorted-map:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      sorted_map_id: {},
-      id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      sorted_map_id: z.string(),
-      id: z.string().optional(),
-    },
-    body: MemoryStoreSortedMapItem,
-    response: MemoryStoreSortedMapItem,
-    errors: [],
-  });
+export const postCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['memory-store.sorted-map:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    sorted_map_id: {},
+    id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    sorted_map_id: z.string(),
+    id: z.string().optional(),
+  },
+  body: MemoryStoreSortedMapItem,
+  response: MemoryStoreSortedMapItem,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2754,26 +2678,25 @@ export const postCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItems
  * @param sorted_map_id The sorted-map ID.
  * @param item_id The item ID.
  */
-export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsItemId =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["memory-store.sorted-map:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      sorted_map_id: {},
-      item_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      sorted_map_id: z.string(),
-      item_id: z.string(),
-    },
-    response: MemoryStoreSortedMapItem,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsItemId = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['memory-store.sorted-map:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    sorted_map_id: {},
+    item_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    sorted_map_id: z.string(),
+    item_id: z.string(),
+  },
+  response: MemoryStoreSortedMapItem,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2786,26 +2709,25 @@ export const getCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsI
  * @param sorted_map_id The sorted-map ID.
  * @param item_id The item ID.
  */
-export const deleteCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsItemId =
-  endpoint({
-    method: "DELETE",
-    path: "/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["memory-store.sorted-map:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      sorted_map_id: {},
-      item_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      sorted_map_id: z.string(),
-      item_id: z.string(),
-    },
-    response: z.void(),
-    errors: [],
-  });
+export const deleteCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsItemId = endpoint({
+  method: 'DELETE',
+  path: '/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['memory-store.sorted-map:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    sorted_map_id: {},
+    item_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    sorted_map_id: z.string(),
+    item_id: z.string(),
+  },
+  response: z.void(),
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2821,30 +2743,29 @@ export const deleteCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdIte
  * @param allowMissing If set to true, and the memory store sorted map item is not found, a memory
 store sorted map item is created.
  */
-export const patchCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsItemId =
-  endpoint({
-    method: "PATCH",
-    path: "/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["memory-store.sorted-map:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      sorted_map_id: {},
-      item_id: {},
-      allowMissing: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      sorted_map_id: z.string(),
-      item_id: z.string(),
-      allowMissing: z.boolean().optional(),
-    },
-    body: MemoryStoreSortedMapItem.partial(),
-    response: MemoryStoreSortedMapItem,
-    errors: [],
-  });
+export const patchCloudV2UniversesUniverseIdMemoryStoreSortedMapsSortedMapIdItemsItemId = endpoint({
+  method: 'PATCH',
+  path: '/cloud/v2/universes/:universe_id/memory-store/sorted-maps/:sorted_map_id/items/:item_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['memory-store.sorted-map:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    sorted_map_id: {},
+    item_id: {},
+    allowMissing: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    sorted_map_id: z.string(),
+    item_id: z.string(),
+    allowMissing: z.boolean().optional(),
+  },
+  body: MemoryStoreSortedMapItem.partial(),
+  response: MemoryStoreSortedMapItem,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2884,34 +2805,33 @@ filter expression must be separated by a single space.
 
 Example filters: `entry <= 10`; `entry >= 10 && entry <= 30`
  */
-export const getCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntries =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.ordered-data-store.scope.entry:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      ordered_data_store_id: {},
-      scope_id: {},
-      maxPageSize: {},
-      pageToken: {},
-      orderBy: {},
-      filter: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      ordered_data_store_id: z.string(),
-      scope_id: z.string(),
-      maxPageSize: z.number().int().optional(),
-      pageToken: z.string().optional(),
-      orderBy: z.string().optional(),
-      filter: z.string().optional(),
-    },
-    response: ListOrderedDataStoreEntriesResponse,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntries = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.ordered-data-store.scope.entry:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    ordered_data_store_id: {},
+    scope_id: {},
+    maxPageSize: {},
+    pageToken: {},
+    orderBy: {},
+    filter: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    ordered_data_store_id: z.string(),
+    scope_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+    orderBy: z.string().optional(),
+    filter: z.string().optional(),
+  },
+  response: ListOrderedDataStoreEntriesResponse,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2932,30 +2852,29 @@ component of the ordered data store entry's resource path.
 This value should be A 1-63 character string. We strongly recommend using
 only lowercase letters, numeric digits, and hyphens.
  */
-export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntries =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.ordered-data-store.scope.entry:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      ordered_data_store_id: {},
-      scope_id: {},
-      id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      ordered_data_store_id: z.string(),
-      scope_id: z.string(),
-      id: z.string().optional(),
-    },
-    body: OrderedDataStoreEntry,
-    response: OrderedDataStoreEntry,
-    errors: [],
-  });
+export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntries = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.ordered-data-store.scope.entry:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    ordered_data_store_id: {},
+    scope_id: {},
+    id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    ordered_data_store_id: z.string(),
+    scope_id: z.string(),
+    id: z.string().optional(),
+  },
+  body: OrderedDataStoreEntry,
+  response: OrderedDataStoreEntry,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -2969,28 +2888,27 @@ export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdSc
  * @param scope_id The scope ID.
  * @param entry_id The entry ID.
  */
-export const getCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryId =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.ordered-data-store.scope.entry:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      ordered_data_store_id: {},
-      scope_id: {},
-      entry_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      ordered_data_store_id: z.string(),
-      scope_id: z.string(),
-      entry_id: z.string(),
-    },
-    response: OrderedDataStoreEntry,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.ordered-data-store.scope.entry:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    ordered_data_store_id: {},
+    scope_id: {},
+    entry_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    ordered_data_store_id: z.string(),
+    scope_id: z.string(),
+    entry_id: z.string(),
+  },
+  response: OrderedDataStoreEntry,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -3007,28 +2925,27 @@ On success, returns 200 OK. If the entry doesn't exist, returns
  * @param scope_id The scope ID.
  * @param entry_id The entry ID.
  */
-export const deleteCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryId =
-  endpoint({
-    method: "DELETE",
-    path: "/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.ordered-data-store.scope.entry:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      ordered_data_store_id: {},
-      scope_id: {},
-      entry_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      ordered_data_store_id: z.string(),
-      scope_id: z.string(),
-      entry_id: z.string(),
-    },
-    response: z.void(),
-    errors: [],
-  });
+export const deleteCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
+  method: 'DELETE',
+  path: '/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.ordered-data-store.scope.entry:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    ordered_data_store_id: {},
+    scope_id: {},
+    entry_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    ordered_data_store_id: z.string(),
+    scope_id: z.string(),
+    entry_id: z.string(),
+  },
+  response: z.void(),
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -3045,32 +2962,31 @@ export const deleteCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreId
  * @param allowMissing If set to true, and the ordered data store entry is not found, a ordered
 data store entry is created.
  */
-export const patchCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryId =
-  endpoint({
-    method: "PATCH",
-    path: "/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.ordered-data-store.scope.entry:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      ordered_data_store_id: {},
-      scope_id: {},
-      entry_id: {},
-      allowMissing: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      ordered_data_store_id: z.string(),
-      scope_id: z.string(),
-      entry_id: z.string(),
-      allowMissing: z.boolean().optional(),
-    },
-    body: OrderedDataStoreEntry.partial(),
-    response: OrderedDataStoreEntry,
-    errors: [],
-  });
+export const patchCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryId = endpoint({
+  method: 'PATCH',
+  path: '/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.ordered-data-store.scope.entry:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    ordered_data_store_id: {},
+    scope_id: {},
+    entry_id: {},
+    allowMissing: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    ordered_data_store_id: z.string(),
+    scope_id: z.string(),
+    entry_id: z.string(),
+    allowMissing: z.boolean().optional(),
+  },
+  body: OrderedDataStoreEntry.partial(),
+  response: OrderedDataStoreEntry,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -3096,11 +3012,11 @@ this API.
  */
 export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdScopesScopeIdEntriesEntryIdIncrement =
   endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id:increment",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.ordered-data-store.scope.entry:write"],
-    requestFormat: "json",
+    method: 'POST',
+    path: '/cloud/v2/universes/:universe_id/ordered-data-stores/:ordered_data_store_id/scopes/:scope_id/entries/:entry_id:increment',
+    baseUrl: 'https://apis.roblox.com',
+    scopes: ['universe.ordered-data-store.scope.entry:write'],
+    requestFormat: 'json',
     serializationMethod: {
       body: {},
       universe_id: {},
@@ -3129,10 +3045,10 @@ export const postCloudV2UniversesUniverseIdOrderedDataStoresOrderedDataStoreIdSc
  * @param place_id The place ID.
  */
 export const getCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
-  method: "GET",
-  path: "/cloud/v2/universes/:universe_id/places/:place_id",
-  baseUrl: "https://apis.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/places/:place_id',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     universe_id: {},
     place_id: {},
@@ -3158,11 +3074,11 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
  * @param updateMask The list of fields to update.
  */
 export const patchCloudV2UniversesUniverseIdPlacesPlaceId = endpoint({
-  method: "PATCH",
-  path: "/cloud/v2/universes/:universe_id/places/:place_id",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe.place:write"],
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/cloud/v2/universes/:universe_id/places/:place_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.place:write'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     universe_id: {},
@@ -3195,26 +3111,25 @@ that has an error code of `422`.
  * @param place_id The place ID.
  * @param instance_id The instance ID.
  */
-export const getCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.place.instance:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      place_id: {},
-      instance_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      place_id: z.string(),
-      instance_id: z.string(),
-    },
-    response: Operation,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.place.instance:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    place_id: {},
+    instance_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    place_id: z.string(),
+    instance_id: z.string(),
+  },
+  response: Operation,
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -3232,30 +3147,29 @@ property size is 200,000 bytes after UTF-8 encoding.
  * @param instance_id The instance ID.
  * @param updateMask The list of fields to update.
  */
-export const patchCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId =
-  endpoint({
-    method: "PATCH",
-    path: "/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.place.instance:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      place_id: {},
-      instance_id: {},
-      updateMask: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      place_id: z.string(),
-      instance_id: z.string(),
-      updateMask: z.string().optional(),
-    },
-    body: Instance.partial(),
-    response: Operation,
-    errors: [],
-  });
+export const patchCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId = endpoint({
+  method: 'PATCH',
+  path: '/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.place.instance:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    place_id: {},
+    instance_id: {},
+    updateMask: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    place_id: z.string(),
+    instance_id: z.string(),
+    updateMask: z.string().optional(),
+  },
+  body: Instance.partial(),
+  response: Operation,
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -3284,30 +3198,29 @@ When paginating, all other parameters provided to
 `ListInstanceChildrenRequest` must match the call that provided the page
 token.
  */
-export const getCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceIdListChildren =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id:listChildren",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.place.instance:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      place_id: {},
-      instance_id: {},
-      maxPageSize: {},
-      pageToken: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      place_id: z.string(),
-      instance_id: z.string(),
-      maxPageSize: z.number().int().optional(),
-      pageToken: z.string().optional(),
-    },
-    response: Operation,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceIdListChildren = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/places/:place_id/instances/:instance_id:listChildren',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.place.instance:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    place_id: {},
+    instance_id: {},
+    maxPageSize: {},
+    pageToken: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    place_id: z.string(),
+    instance_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+  },
+  response: Operation,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -3328,26 +3241,25 @@ Quotas:
  * @param universe_id The universe ID.
  * @param place_id The place ID.
  */
-export const postCloudV2UniversesUniverseIdPlacesPlaceIdLuauExecutionSessionTasks =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/places/:place_id/luau-execution-session-tasks",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.place.luau-execution-session:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      place_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      place_id: z.string(),
-    },
-    body: LuauExecutionSessionTask,
-    response: LuauExecutionSessionTask,
-    errors: [],
-  });
+export const postCloudV2UniversesUniverseIdPlacesPlaceIdLuauExecutionSessionTasks = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/places/:place_id/luau-execution-session-tasks',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.place.luau-execution-session:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    place_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    place_id: z.string(),
+  },
+  body: LuauExecutionSessionTask,
+  response: LuauExecutionSessionTask,
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -3367,28 +3279,27 @@ returned. The maximum value is 100 and higher values are set to 100.
 When paginating, all other parameters provided to the subsequent call must
 match the call that provided the page token.
  */
-export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictions =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.user-restriction:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      place_id: {},
-      maxPageSize: {},
-      pageToken: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      place_id: z.string(),
-      maxPageSize: z.number().int().optional(),
-      pageToken: z.string().optional(),
-    },
-    response: ListUserRestrictionsResponse,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictions = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.user-restriction:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    place_id: {},
+    maxPageSize: {},
+    pageToken: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    place_id: z.string(),
+    maxPageSize: z.number().int().optional(),
+    pageToken: z.string().optional(),
+  },
+  response: ListUserRestrictionsResponse,
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -3401,26 +3312,25 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictions =
  * @param place_id The place ID.
  * @param user_restriction_id The user-restriction ID.
  */
-export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRestrictionId =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.user-restriction:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      place_id: {},
-      user_restriction_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      place_id: z.string(),
-      user_restriction_id: z.string(),
-    },
-    response: UserRestriction,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRestrictionId = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.user-restriction:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    place_id: {},
+    user_restriction_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    place_id: z.string(),
+    user_restriction_id: z.string(),
+  },
+  response: UserRestriction,
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -3445,37 +3355,33 @@ If this is further in the past than the lifetime of the idempotency key
 (which *may* exceed the annotated minimum lifetime), the server *must*
 return an error.
  */
-export const patchCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRestrictionId =
-  endpoint({
-    method: "PATCH",
-    path: "/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.user-restriction:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      place_id: {},
-      user_restriction_id: {},
-      updateMask: {},
-      "idempotencyKey.key": {},
-      "idempotencyKey.firstSent": {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      place_id: z.string(),
-      user_restriction_id: z.string(),
-      updateMask: z.string().optional(),
-      "idempotencyKey.key": z.string().optional(),
-      "idempotencyKey.firstSent": z
-        .string()
-        .datetime({ offset: true })
-        .optional(),
-    },
-    body: UserRestriction.partial(),
-    response: UserRestriction,
-    errors: [],
-  });
+export const patchCloudV2UniversesUniverseIdPlacesPlaceIdUserRestrictionsUserRestrictionId = endpoint({
+  method: 'PATCH',
+  path: '/cloud/v2/universes/:universe_id/places/:place_id/user-restrictions/:user_restriction_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.user-restriction:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    place_id: {},
+    user_restriction_id: {},
+    updateMask: {},
+    'idempotencyKey.key': {},
+    'idempotencyKey.firstSent': {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    place_id: z.string(),
+    user_restriction_id: z.string(),
+    updateMask: z.string().optional(),
+    'idempotencyKey.key': z.string().optional(),
+    'idempotencyKey.firstSent': z.string().datetime({ offset: true }).optional(),
+  },
+  body: UserRestriction.partial(),
+  response: UserRestriction,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -3497,28 +3403,27 @@ Quotas:
  * @param place_id The place ID.
  * @param version_id The version ID.
  */
-export const postCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExecutionSessionTasks =
-  endpoint({
-    method: "POST",
-    path: "/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-session-tasks",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.place.luau-execution-session:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      place_id: {},
-      version_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      place_id: z.string(),
-      version_id: z.string(),
-    },
-    body: LuauExecutionSessionTask,
-    response: LuauExecutionSessionTask,
-    errors: [],
-  });
+export const postCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExecutionSessionTasks = endpoint({
+  method: 'POST',
+  path: '/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-session-tasks',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.place.luau-execution-session:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    place_id: {},
+    version_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    place_id: z.string(),
+    version_id: z.string(),
+  },
+  body: LuauExecutionSessionTask,
+  response: LuauExecutionSessionTask,
+  errors: [],
+});
 /**
  * `STABLE`
  *
@@ -3551,14 +3456,11 @@ Possible values:
  */
 export const getCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExecutionSessionsLuauExecutionSessionIdTasksTaskId =
   endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: [
-      "universe.place.luau-execution-session:read",
-      "universe.place.luau-execution-session:write",
-    ],
-    requestFormat: "json",
+    method: 'GET',
+    path: '/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id',
+    baseUrl: 'https://apis.roblox.com',
+    scopes: ['universe.place.luau-execution-session:read', 'universe.place.luau-execution-session:write'],
+    requestFormat: 'json',
     serializationMethod: {
       universe_id: {},
       place_id: {},
@@ -3573,7 +3475,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExec
       version_id: z.string(),
       luau_execution_session_id: z.string(),
       task_id: z.string(),
-      view: z.enum(["VIEW_UNSPECIFIED", "BASIC", "FULL"]).optional(),
+      view: z.enum(['VIEW_UNSPECIFIED', 'BASIC', 'FULL']).optional(),
     },
     response: LuauExecutionSessionTask,
     errors: [],
@@ -3618,14 +3520,11 @@ Possible values:
  */
 export const getCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExecutionSessionsLuauExecutionSessionIdTasksTaskIdLogs =
   endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id/logs",
-    baseUrl: "https://apis.roblox.com",
-    scopes: [
-      "universe.place.luau-execution-session:read",
-      "universe.place.luau-execution-session:write",
-    ],
-    requestFormat: "json",
+    method: 'GET',
+    path: '/cloud/v2/universes/:universe_id/places/:place_id/versions/:version_id/luau-execution-sessions/:luau_execution_session_id/tasks/:task_id/logs',
+    baseUrl: 'https://apis.roblox.com',
+    scopes: ['universe.place.luau-execution-session:read', 'universe.place.luau-execution-session:write'],
+    requestFormat: 'json',
     serializationMethod: {
       universe_id: {},
       place_id: {},
@@ -3644,7 +3543,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdVersionsVersionIdLuauExec
       task_id: z.string(),
       maxPageSize: z.number().int().optional(),
       pageToken: z.string().optional(),
-      view: z.enum(["VIEW_UNSPECIFIED", "FLAT", "STRUCTURED"]).optional(),
+      view: z.enum(['VIEW_UNSPECIFIED', 'FLAT', 'STRUCTURED']).optional(),
     },
     response: ListLuauExecutionSessionTaskLogsResponse,
     errors: [],
@@ -3684,14 +3583,11 @@ Possible values:
  */
 export const getCloudV2UniversesUniverseIdSubscriptionProductsSubscriptionProductIdSubscriptionsSubscriptionId =
   endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/subscription-products/:subscription_product_id/subscriptions/:subscription_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: [
-      "universe:write",
-      "universe.subscription-product.subscription:read",
-    ],
-    requestFormat: "json",
+    method: 'GET',
+    path: '/cloud/v2/universes/:universe_id/subscription-products/:subscription_product_id/subscriptions/:subscription_id',
+    baseUrl: 'https://apis.roblox.com',
+    scopes: ['universe:write', 'universe.subscription-product.subscription:read'],
+    requestFormat: 'json',
     serializationMethod: {
       universe_id: {},
       subscription_product_id: {},
@@ -3702,7 +3598,7 @@ export const getCloudV2UniversesUniverseIdSubscriptionProductsSubscriptionProduc
       universe_id: z.string(),
       subscription_product_id: z.string(),
       subscription_id: z.string(),
-      view: z.enum(["VIEW_UNSPECIFIED", "BASIC", "FULL"]).optional(),
+      view: z.enum(['VIEW_UNSPECIFIED', 'BASIC', 'FULL']).optional(),
     },
     response: Subscription,
     errors: [],
@@ -3726,11 +3622,11 @@ When paginating, all other parameters provided to the subsequent call must
 match the call that provided the page token.
  */
 export const getCloudV2UniversesUniverseIdUserRestrictions = endpoint({
-  method: "GET",
-  path: "/cloud/v2/universes/:universe_id/user-restrictions",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe.user-restriction:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/user-restrictions',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.user-restriction:read'],
+  requestFormat: 'json',
   serializationMethod: {
     universe_id: {},
     maxPageSize: {},
@@ -3776,11 +3672,11 @@ As an example, filtering for a user and a place takes the form
 `filter="user == 'users/123'" && "place == 'places/456'"`
  */
 export const getCloudV2UniversesUniverseIdUserRestrictionsListLogs = endpoint({
-  method: "GET",
-  path: "/cloud/v2/universes/:universe_id/user-restrictions:listLogs",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["universe.user-restriction:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/user-restrictions:listLogs',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.user-restriction:read'],
+  requestFormat: 'json',
   serializationMethod: {
     universe_id: {},
     maxPageSize: {},
@@ -3807,24 +3703,23 @@ export const getCloudV2UniversesUniverseIdUserRestrictionsListLogs = endpoint({
  * @param universe_id The universe ID.
  * @param user_restriction_id The user-restriction ID.
  */
-export const getCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId =
-  endpoint({
-    method: "GET",
-    path: "/cloud/v2/universes/:universe_id/user-restrictions/:user_restriction_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.user-restriction:read"],
-    requestFormat: "json",
-    serializationMethod: {
-      universe_id: {},
-      user_restriction_id: {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      user_restriction_id: z.string(),
-    },
-    response: UserRestriction,
-    errors: [],
-  });
+export const getCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId = endpoint({
+  method: 'GET',
+  path: '/cloud/v2/universes/:universe_id/user-restrictions/:user_restriction_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.user-restriction:read'],
+  requestFormat: 'json',
+  serializationMethod: {
+    universe_id: {},
+    user_restriction_id: {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    user_restriction_id: z.string(),
+  },
+  response: UserRestriction,
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -3848,35 +3743,31 @@ If this is further in the past than the lifetime of the idempotency key
 (which *may* exceed the annotated minimum lifetime), the server *must*
 return an error.
  */
-export const patchCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId =
-  endpoint({
-    method: "PATCH",
-    path: "/cloud/v2/universes/:universe_id/user-restrictions/:user_restriction_id",
-    baseUrl: "https://apis.roblox.com",
-    scopes: ["universe.user-restriction:write"],
-    requestFormat: "json",
-    serializationMethod: {
-      body: {},
-      universe_id: {},
-      user_restriction_id: {},
-      updateMask: {},
-      "idempotencyKey.key": {},
-      "idempotencyKey.firstSent": {},
-    },
-    parameters: {
-      universe_id: z.string(),
-      user_restriction_id: z.string(),
-      updateMask: z.string().optional(),
-      "idempotencyKey.key": z.string().optional(),
-      "idempotencyKey.firstSent": z
-        .string()
-        .datetime({ offset: true })
-        .optional(),
-    },
-    body: UserRestriction.partial(),
-    response: UserRestriction,
-    errors: [],
-  });
+export const patchCloudV2UniversesUniverseIdUserRestrictionsUserRestrictionId = endpoint({
+  method: 'PATCH',
+  path: '/cloud/v2/universes/:universe_id/user-restrictions/:user_restriction_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['universe.user-restriction:write'],
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universe_id: {},
+    user_restriction_id: {},
+    updateMask: {},
+    'idempotencyKey.key': {},
+    'idempotencyKey.firstSent': {},
+  },
+  parameters: {
+    universe_id: z.string(),
+    user_restriction_id: z.string(),
+    updateMask: z.string().optional(),
+    'idempotencyKey.key': z.string().optional(),
+    'idempotencyKey.firstSent': z.string().datetime({ offset: true }).optional(),
+  },
+  body: UserRestriction.partial(),
+  response: UserRestriction,
+  errors: [],
+});
 /**
  * `BETA`
  *
@@ -3897,11 +3788,11 @@ scopes:
  * @param user_id The user ID.
  */
 export const getCloudV2UsersUserId = endpoint({
-  method: "GET",
-  path: "/cloud/v2/users/:user_id",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["user.advanced:read", "user.social:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/users/:user_id',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['user.advanced:read', 'user.social:read'],
+  requestFormat: 'json',
   serializationMethod: {
     user_id: {},
   },
@@ -3945,10 +3836,10 @@ Possible values:
   | SQUARE | Generate thumbnail as a rectangle. |
  */
 export const getCloudV2UsersUserIdGenerateThumbnail = endpoint({
-  method: "GET",
-  path: "/cloud/v2/users/:user_id:generateThumbnail",
-  baseUrl: "https://apis.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/users/:user_id:generateThumbnail',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     user_id: {},
     size: {},
@@ -3958,8 +3849,8 @@ export const getCloudV2UsersUserIdGenerateThumbnail = endpoint({
   parameters: {
     user_id: z.string(),
     size: z.number().int().optional(),
-    format: z.enum(["FORMAT_UNSPECIFIED", "PNG", "JPEG"]).optional(),
-    shape: z.enum(["SHAPE_UNSPECIFIED", "ROUND", "SQUARE"]).optional(),
+    format: z.enum(['FORMAT_UNSPECIFIED', 'PNG', 'JPEG']).optional(),
+    shape: z.enum(['SHAPE_UNSPECIFIED', 'ROUND', 'SQUARE']).optional(),
   },
   response: Operation,
   errors: [],
@@ -3990,11 +3881,11 @@ For example:
   `quotaType == RateLimitUpload && assetType == Audio`
  */
 export const getCloudV2UsersUserIdAssetQuotas = endpoint({
-  method: "GET",
-  path: "/cloud/v2/users/:user_id/asset-quotas",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["asset:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/users/:user_id/asset-quotas',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['asset:read'],
+  requestFormat: 'json',
   serializationMethod: {
     user_id: {},
     maxPageSize: {},
@@ -4045,11 +3936,11 @@ See the
 documentation for more information.
  */
 export const getCloudV2UsersUserIdInventoryItems = endpoint({
-  method: "GET",
-  path: "/cloud/v2/users/:user_id/inventory-items",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["user.inventory-item:read"],
-  requestFormat: "json",
+  method: 'GET',
+  path: '/cloud/v2/users/:user_id/inventory-items',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['user.inventory-item:read'],
+  requestFormat: 'json',
   serializationMethod: {
     user_id: {},
     maxPageSize: {},
@@ -4077,11 +3968,11 @@ export const getCloudV2UsersUserIdInventoryItems = endpoint({
  * @param user_id The user ID.
  */
 export const postCloudV2UsersUserIdNotifications = endpoint({
-  method: "POST",
-  path: "/cloud/v2/users/:user_id/notifications",
-  baseUrl: "https://apis.roblox.com",
-  scopes: ["user.user-notification:write"],
-  requestFormat: "json",
+  method: 'POST',
+  path: '/cloud/v2/users/:user_id/notifications',
+  baseUrl: 'https://apis.roblox.com',
+  scopes: ['user.user-notification:write'],
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     user_id: {},
@@ -4099,9 +3990,7 @@ export const postCloudV2UsersUserIdNotifications = endpoint({
 const Patch_ApiKeyIntrospectScope = z.object({
   name: z.string(),
   operations: z.array(z.string()),
-  universeDatastores: z
-    .array(z.object({ universeId: z.string(), datastoreName: z.string() }))
-    .optional(),
+  universeDatastores: z.array(z.object({ universeId: z.string(), datastoreName: z.string() })).optional(),
   groupIds: z.array(z.string()).optional(),
   userIds: z.array(z.string()).optional(),
 });
@@ -4116,10 +4005,10 @@ const Patch_ApiKeyIntrospectResponse = z.object({
 });
 
 export const postApiKeysIntrospect = endpoint({
-  method: "POST",
-  path: "/api-keys/v1/introspect",
-  baseUrl: "https://apis.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/api-keys/v1/introspect',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
   serializationMethod: { body: {} },
   parameters: {},
   body: z.object({ apiKey: z.string() }),
@@ -4128,11 +4017,11 @@ export const postApiKeysIntrospect = endpoint({
 });
 
 export const deleteLegacyDevelopV2TeamtestByPlaceId = endpoint({
-  method: "DELETE",
-  path: "/legacy-develop/v2/teamtest/:placeId",
-  baseUrl: "https://apis.roblox.com",
-  requestFormat: "json",
-  serializationMethod: { placeId: { style: "simple" } },
+  method: 'DELETE',
+  path: '/legacy-develop/v2/teamtest/:placeId',
+  baseUrl: 'https://apis.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: { placeId: { style: 'simple' } },
   parameters: { placeId: z.number().int() },
   response: z.object({}),
   errors: [],

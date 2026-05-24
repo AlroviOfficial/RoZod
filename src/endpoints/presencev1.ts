@@ -1,16 +1,11 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const UserPresenceRequest = z.object({
   userIds: z.array(z.number()).nullable(),
 });
 const presence_users_body = UserPresenceRequest;
-const PresenceType = z.union([
-  z.literal(0),
-  z.literal(1),
-  z.literal(2),
-  z.literal(3),
-]);
+const PresenceType = z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]);
 const UserPresence = z.object({
   userPresenceType: PresenceType,
   lastLocation: z.string().nullable(),
@@ -34,10 +29,10 @@ const ErrorResponse = z.object({ errors: z.array(Error).nullable() });
  * @param body
  */
 export const postPresenceUsers = endpoint({
-  method: "POST",
-  path: "/v1/presence/users",
-  baseUrl: "https://presence.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/presence/users',
+  baseUrl: 'https://presence.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },

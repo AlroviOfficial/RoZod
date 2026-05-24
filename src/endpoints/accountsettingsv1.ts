@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { endpoint } from "..";
+import { z } from 'zod';
+import { endpoint } from '..';
 
 const Roblox_AccountSettings_Api_Models_Response_UserAccountCountry = z.object({
   countryName: z.string(),
@@ -8,23 +8,20 @@ const Roblox_AccountSettings_Api_Models_Response_UserAccountCountry = z.object({
   localizedName: z.string(),
   countryId: z.number().int(),
 });
-const Roblox_AccountSettings_Api_Models_Response_AccountCountrySettingsResponse =
-  z.object({
-    value: Roblox_AccountSettings_Api_Models_Response_UserAccountCountry,
-  });
+const Roblox_AccountSettings_Api_Models_Response_AccountCountrySettingsResponse = z.object({
+  value: Roblox_AccountSettings_Api_Models_Response_UserAccountCountry,
+});
 const Roblox_AccountSettings_Api_UpdateAccountCountryRequest = z.object({
   targetCountryId: z.number().int(),
 });
-const Roblox_AccountSettings_Api_Models_Response_UpdateAccountCountryResponse =
-  z.object({});
-const Roblox_AccountSettings_Api_Models_AccountsSettingsMetadataModel =
-  z.object({
-    IsAccountsRestrictionsSpamBugFixEnabled: z.boolean(),
-    MaximumParentalControlsMonthlySpendLimitInUSD: z.number().int(),
-    IsParentalMonthlyLimitInUIEnabled: z.boolean(),
-    IsParentalNotificationSettingsInUIEnabled: z.boolean(),
-    IsContentControlsEnabled: z.boolean(),
-  });
+const Roblox_AccountSettings_Api_Models_Response_UpdateAccountCountryResponse = z.object({});
+const Roblox_AccountSettings_Api_Models_AccountsSettingsMetadataModel = z.object({
+  IsAccountsRestrictionsSpamBugFixEnabled: z.boolean(),
+  MaximumParentalControlsMonthlySpendLimitInUSD: z.number().int(),
+  IsParentalMonthlyLimitInUIEnabled: z.boolean(),
+  IsParentalNotificationSettingsInUIEnabled: z.boolean(),
+  IsContentControlsEnabled: z.boolean(),
+});
 const Roblox_AccountSettings_Api_EmailResponse = z.object({
   emailAddress: z.string(),
   verified: z.boolean(),
@@ -54,43 +51,25 @@ const Roblox_AccountSettings_Api_TradePrivacyResponse = z.object({
   tradePrivacy: z.string(),
 });
 const Roblox_AccountSettings_Api_UpdateTradePrivacyRequest = z.object({
-  tradePrivacy: z.enum([
-    "Undefined",
-    "Disabled",
-    "NoOne",
-    "Friends",
-    "TopFriends",
-    "Following",
-    "Followers",
-    "All",
-  ]),
+  tradePrivacy: z.enum(['Undefined', 'Disabled', 'NoOne', 'Friends', 'TopFriends', 'Following', 'Followers', 'All']),
 });
 const Roblox_AccountSettings_Api_TradePrivacyUpdateResponse = z.object({
-  tradePrivacy: z.enum([
-    "Undefined",
-    "Disabled",
-    "NoOne",
-    "Friends",
-    "TopFriends",
-    "Following",
-    "Followers",
-    "All",
-  ]),
+  tradePrivacy: z.enum(['Undefined', 'Disabled', 'NoOne', 'Friends', 'TopFriends', 'Following', 'Followers', 'All']),
   inventoryPrivacy: z.enum([
-    "NoOne",
-    "Friends",
-    "FriendsAndFollowing",
-    "FriendsFollowingAndFollowers",
-    "AllAuthenticatedUsers",
-    "AllUsers",
+    'NoOne',
+    'Friends',
+    'FriendsAndFollowing',
+    'FriendsFollowingAndFollowers',
+    'AllAuthenticatedUsers',
+    'AllUsers',
   ]),
-  privacySettingResponse: z.enum(["Success", "Conflict"]),
+  privacySettingResponse: z.enum(['Success', 'Conflict']),
 });
 const Roblox_AccountSettings_Api_TradeValueResponse = z.object({
   tradeValue: z.string(),
 });
 const Roblox_AccountSettings_Api_TradeValueRequest = z.object({
-  tradeValue: z.enum(["Undefined", "None", "Low", "Medium", "High"]),
+  tradeValue: z.enum(['Undefined', 'None', 'Low', 'Medium', 'High']),
 });
 const Roblox_AccountSettings_Api_SendVerifyEmailRequest = z.object({
   freeItem: z.boolean(),
@@ -102,12 +81,11 @@ const Roblox_AccountSettings_Api_SendVerifyEmailRequest = z.object({
  * @summary Get a user's current account country setting.
  */
 export const getAccountSettingsAccountCountry = endpoint({
-  method: "GET",
-  path: "/v1/account/settings/account-country",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
-  response:
-    Roblox_AccountSettings_Api_Models_Response_AccountCountrySettingsResponse,
+  method: 'GET',
+  path: '/v1/account/settings/account-country',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
+  response: Roblox_AccountSettings_Api_Models_Response_AccountCountrySettingsResponse,
   errors: [
     {
       status: 401,
@@ -121,10 +99,10 @@ export const getAccountSettingsAccountCountry = endpoint({
  * @param body
  */
 export const postAccountSettingsAccountCountry = endpoint({
-  method: "POST",
-  path: "/v1/account/settings/account-country",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/account/settings/account-country',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -160,10 +138,10 @@ export const postAccountSettingsAccountCountry = endpoint({
  * @summary Returns metadata used by the account settings page
  */
 export const getAccountSettingsMetadata = endpoint({
-  method: "GET",
-  path: "/v1/account/settings/metadata",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/account/settings/metadata',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   response: Roblox_AccountSettings_Api_Models_AccountsSettingsMetadataModel,
   errors: [
     {
@@ -177,10 +155,10 @@ export const getAccountSettingsMetadata = endpoint({
  * @summary Gets the authenticated user's email address and verified status
  */
 export const getEmail = endpoint({
-  method: "GET",
-  path: "/v1/email",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/email',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   response: Roblox_AccountSettings_Api_EmailResponse,
   errors: [
     {
@@ -195,10 +173,10 @@ export const getEmail = endpoint({
  * @param body The request body.
  */
 export const postEmail = endpoint({
-  method: "POST",
-  path: "/v1/email",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/email',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -243,10 +221,10 @@ export const postEmail = endpoint({
  * @param body The request body.
  */
 export const patchEmail = endpoint({
-  method: "PATCH",
-  path: "/v1/email",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/v1/email',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -291,10 +269,10 @@ export const patchEmail = endpoint({
  * @param body The request body.
  */
 export const postEmailVerify = endpoint({
-  method: "POST",
-  path: "/v1/email/verify",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/email/verify',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -335,10 +313,10 @@ export const postEmailVerify = endpoint({
  * @summary Gets the authenticated user's verified email and pending (unverified) email if one exists
  */
 export const getEmails = endpoint({
-  method: "GET",
-  path: "/v1/emails",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/emails',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   response: Roblox_AccountSettings_Api_CurrentEmailsResponse,
   errors: [
     {
@@ -354,16 +332,16 @@ export const getEmails = endpoint({
  * @param consumerId The consumer's theme configuration to get. If the consumerType is User always return the AuthenticatedUser's theme type.
  */
 export const getThemesConsumertypeConsumerid = endpoint({
-  method: "GET",
-  path: "/v1/themes/:consumerType/:consumerId",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/themes/:consumerType/:consumerId',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     consumerType: {
-      style: "simple",
+      style: 'simple',
     },
     consumerId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -390,17 +368,17 @@ export const getThemesConsumertypeConsumerid = endpoint({
  * @param consumerId The consumer's theme configuration to modify. If the consumerType is User always modify the AuthenticatedUser's theme type.
  */
 export const patchThemesConsumertypeConsumerid = endpoint({
-  method: "PATCH",
-  path: "/v1/themes/:consumerType/:consumerId",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'PATCH',
+  path: '/v1/themes/:consumerType/:consumerId',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
     consumerType: {
-      style: "simple",
+      style: 'simple',
     },
     consumerId: {
-      style: "simple",
+      style: 'simple',
     },
   },
   parameters: {
@@ -429,10 +407,10 @@ export const patchThemesConsumertypeConsumerid = endpoint({
  * @summary returns all the enabled theme types.
  */
 export const getThemesTypes = endpoint({
-  method: "GET",
-  path: "/v1/themes/types",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/themes/types',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_System_String_,
   errors: [],
 });
@@ -441,10 +419,10 @@ export const getThemesTypes = endpoint({
  * @summary Get a user's trade privacy setting
  */
 export const getTradePrivacy = endpoint({
-  method: "GET",
-  path: "/v1/trade-privacy",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/trade-privacy',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   response: z.object({ tradePrivacy: z.string() }),
   errors: [
     {
@@ -459,10 +437,10 @@ export const getTradePrivacy = endpoint({
  * @param body
  */
 export const postTradePrivacy = endpoint({
-  method: "POST",
-  path: "/v1/trade-privacy",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/trade-privacy',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
@@ -492,10 +470,10 @@ export const postTradePrivacy = endpoint({
  * @summary Get a user's trade quality filter setting
  */
 export const getTradeValue = endpoint({
-  method: "GET",
-  path: "/v1/trade-value",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'GET',
+  path: '/v1/trade-value',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   response: z.object({ tradeValue: z.string() }),
   errors: [
     {
@@ -510,10 +488,10 @@ export const getTradeValue = endpoint({
  * @param body
  */
 export const postTradeValue = endpoint({
-  method: "POST",
-  path: "/v1/trade-value",
-  baseUrl: "https://accountsettings.roblox.com",
-  requestFormat: "json",
+  method: 'POST',
+  path: '/v1/trade-value',
+  baseUrl: 'https://accountsettings.roblox.com',
+  requestFormat: 'json',
   serializationMethod: {
     body: {},
   },
