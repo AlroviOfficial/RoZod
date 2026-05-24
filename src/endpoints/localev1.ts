@@ -233,6 +233,33 @@ export const getLocalesSupportedLocalesForCreators = endpoint({
   errors: [],
 });
 /**
+ * @api GET https://locale.roblox.com/v1/locales/supported-locales-for-feature
+ * @summary Get list of Supported locales for a specific feature.
+ * @param featureName
+ */
+export const getLocalesSupportedLocalesForFeature = endpoint({
+  method: 'GET',
+  path: '/v1/locales/supported-locales-for-feature',
+  baseUrl: 'https://locale.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    featureName: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    featureName: z.string(),
+  },
+  response: Roblox_Locale_Api_SupportedLocalesResponse,
+  errors: [
+    {
+      status: 500,
+      description: `Internal server error`,
+    },
+  ],
+});
+/**
  * @api GET https://locale.roblox.com/v1/locales/user-locale
  * @summary Gets user locale. If user is absent returns, locale from http request object.
  */

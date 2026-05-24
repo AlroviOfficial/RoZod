@@ -62,6 +62,18 @@ const Roblox_Catalog_Api_CollectibleItemDetail = z.object({
   lowestAvailableResaleItemInstanceId: z.string(),
   resaleRestriction: z.enum(['Invalid', 'None', 'Disabled']),
 });
+const Roblox_Catalog_Api_Discount = z.object({
+  robuxDiscountAmount: z.number().int(),
+  robuxDiscountPercentage: z.number(),
+  discountCampaign: z.string(),
+  localizedDiscountAttribution: z.string(),
+});
+const Roblox_Catalog_Api_DiscountInformation = z.object({
+  originalPrice: z.number().int(),
+  totalDiscountPercentage: z.number(),
+  totalDiscountAmount: z.number().int(),
+  discounts: z.array(Roblox_Catalog_Api_Discount),
+});
 const Roblox_Catalog_Api_BundleDetailsModel = z.object({
   id: z.number().int(),
   name: z.string(),
@@ -85,6 +97,7 @@ const Roblox_Catalog_Api_BundleDetailsModel = z.object({
     ]),
   ),
   collectibleItemDetail: Roblox_Catalog_Api_CollectibleItemDetail,
+  discountInformation: Roblox_Catalog_Api_DiscountInformation,
 });
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Catalog_Api_BundleDetailsModel_ = z.object({
   previousPageCursor: z.string(),
@@ -128,6 +141,7 @@ const Roblox_Catalog_Api_BundleFavoriteModel = z.object({
 const Roblox_Catalog_Api_TimedOption = z.object({
   days: z.number().int(),
   price: z.number().int(),
+  discountInformation: Roblox_Catalog_Api_DiscountInformation,
   selected: z.boolean(),
 });
 const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
@@ -218,6 +232,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
     z.literal(89),
     z.literal(90),
     z.literal(91),
+    z.literal(92),
   ]),
   bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   isRecolorable: z.boolean(),
@@ -225,7 +240,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
   description: z.string(),
   productId: z.number().int(),
   bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModel),
-  itemStatus: z.array(z.union([z.literal(1), z.literal(2), z.literal(7)])),
+  itemStatus: z.array(z.union([z.literal(1), z.literal(2), z.literal(7), z.literal(8)])),
   itemRestrictions: z.array(
     z.union([
       z.literal(1),
@@ -313,6 +328,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModelV2),
   taxonomy: z.array(Roblox_Catalog_Api_TaxonomyModel),
   itemCreatedUtc: z.string().datetime({ offset: true }),
+  discountInformation: Roblox_Catalog_Api_DiscountInformation,
   id: z.number().int(),
   itemType: z.enum(['Asset', 'Bundle']),
   assetType: z.union([
@@ -400,13 +416,14 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
     z.literal(89),
     z.literal(90),
     z.literal(91),
+    z.literal(92),
   ]),
   bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   isRecolorable: z.boolean(),
   name: z.string(),
   description: z.string(),
   productId: z.number().int(),
-  itemStatus: z.array(z.union([z.literal(1), z.literal(2), z.literal(7)])),
+  itemStatus: z.array(z.union([z.literal(1), z.literal(2), z.literal(7), z.literal(8)])),
   itemRestrictions: z.array(
     z.union([
       z.literal(1),

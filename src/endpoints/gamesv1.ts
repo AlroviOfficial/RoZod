@@ -46,6 +46,7 @@ const Roblox_Games_Api_Models_Response_GameDetailResponse = z.object({
   refundLink: z.string(),
   localizedFiatPrice: z.string(),
   refundPolicy: Roblox_Games_Api_Models_Response_RefundPolicy,
+  canonicalUrlPath: z.string(),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_ = z.object({
   data: z.array(Roblox_Games_Api_Models_Response_GameDetailResponse),
@@ -74,12 +75,6 @@ const Roblox_Web_Responses_Games_GameServerResponse = z.object({
   vipServerId: z.number().int(),
   accessCode: z.string().uuid(),
   owner: Roblox_Games_Api_Models_Response_VerifiedBadgeUserResponse,
-});
-const Roblox_Games_Api_Models_Response_GetPrivateServerListResponse = z.object({
-  gameJoinRestricted: z.boolean(),
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Web_Responses_Games_GameServerResponse),
 });
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_ = z.object({
   previousPageCursor: z.string(),
@@ -152,6 +147,13 @@ const Roblox_Games_Api_Models_Response_PlayableUxTreatment = z.object({
   treatment: z.string(),
   data: Roblox_Games_Api_Models_Response_PlayableUxTreatmentData,
 });
+const Roblox_Games_Api_Models_Response_UpsellUxTreatmentData = z.object({
+  bodyText: z.string(),
+});
+const Roblox_Games_Api_Models_Response_UpsellUxTreatment = z.object({
+  treatment: z.string(),
+  data: Roblox_Games_Api_Models_Response_UpsellUxTreatmentData,
+});
 const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z.object({
   playabilityStatus: z.enum([
     'UnplayableOtherReason',
@@ -180,11 +182,22 @@ const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z.object({
     'ContextualPlayabilityUnrated',
     'ContextualPlayabilityAgeGatedByDescriptor',
     'ContextualPlayabilityGeneral',
+    'ContextualPlayabilityAgeCheckRequired',
+    'ContextualPlayabilityRequireParentApproval',
+    'ContextualPlayabilityCoreGated',
   ]),
   isPlayable: z.boolean(),
   universeId: z.number().int(),
   unplayableDisplayText: z.string(),
   playableUxTreatment: Roblox_Games_Api_Models_Response_PlayableUxTreatment,
+  upsellUxTreatment: Roblox_Games_Api_Models_Response_UpsellUxTreatment,
+});
+const Roblox_Games_Api_Models_Response_GameContentMetadataResponseModel = z.object({
+  badgePosition: z.string(),
+  badgeAnalyticsId: z.string(),
+  badgeType: z.string(),
+  badgeIcon: z.string(),
+  badgeComponentType: z.string(),
 });
 const Roblox_Games_Api_Models_Response_GameResponseModel = z.object({
   creatorId: z.number().int(),
@@ -207,21 +220,19 @@ const Roblox_Games_Api_Models_Response_GameResponseModel = z.object({
   genre: z.string(),
   minimumAge: z.number().int(),
   ageRecommendationDisplayName: z.string(),
+  contentMetadata: Roblox_Games_Api_Models_Response_GameContentMetadataResponseModel,
   canonicalUrlPath: z.string(),
 });
 const Roblox_Games_Api_Models_Response_GameRecommendationsResponse = z.object({
   games: z.array(Roblox_Games_Api_Models_Response_GameResponseModel),
   nextPaginationKey: z.string(),
 });
-const Roblox_Games_Api_Models_Response_PrivateServersEnabledInUniverseResponse = z.object({
-  privateServersEnabled: z.boolean(),
-});
 
 /**
  * @api GET https://games.roblox.com/v1/games
  * @summary Gets a list of games' detail
  * @param universeIds A list of universe Ids. Cannot exceed a maximum of 50 IDs.
- * @param languageCode The HTML language code [optional].
+ * @param fields Optional comma-separated list of field names to include in the response. When omitted, all fields are returned.
  */
 export const getGames = endpoint({
   method: 'GET',
@@ -232,14 +243,14 @@ export const getGames = endpoint({
     universeIds: {
       style: 'form',
     },
-    languageCode: {
+    fields: {
       style: 'form',
       explode: true,
     },
   },
   parameters: {
     universeIds: z.array(z.number()),
-    languageCode: z.string().optional(),
+    fields: z.string().optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_,
   errors: [
@@ -251,64 +262,6 @@ export const getGames = endpoint({
     {
       status: 429,
       description: `4: Too many requests have been made.`,
-    },
-  ],
-});
-/**
- * @api GET https://games.roblox.com/v1/games/:placeId/private-servers
- * @summary Get list of private servers user can access for given game id.
- * @param placeId The Id of the place we are geting the private server list for.
- * @param excludeFriendServers
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder The order the results are sorted in.
- */
-export const getGamesPlaceidPrivateServers = endpoint({
-  method: 'GET',
-  path: '/v1/games/:placeId/private-servers',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
-    excludeFriendServers: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    placeId: z.number().int(),
-    excludeFriendServers: z.boolean().optional(),
-    limit: z
-      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
-      .optional()
-      .default(10),
-    cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
-  },
-  response: Roblox_Games_Api_Models_Response_GetPrivateServerListResponse,
-  errors: [
-    {
-      status: 400,
-      description: `1: The place is invalid.
-7: Guest users are not allowed.`,
-    },
-    {
-      status: 404,
-      description: `1: The place is invalid.`,
     },
   ],
 });
@@ -646,32 +599,6 @@ export const getGamesRecommendationsGameUniverseid = endpoint({
     {
       status: 404,
       description: `2: The requested universe does not exist.`,
-    },
-  ],
-});
-/**
- * @api GET https://games.roblox.com/v1/private-servers/enabled-in-universe/:universeId
- * @summary Checks if the private servers are enabled in the specified universe.
- * @param universeId
- */
-export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
-  method: 'GET',
-  path: '/v1/private-servers/enabled-in-universe/:universeId',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    universeId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    universeId: z.number().int(),
-  },
-  response: z.object({ privateServersEnabled: z.boolean() }),
-  errors: [
-    {
-      status: 400,
-      description: `8: The universe IDs specified are invalid.`,
     },
   ],
 });

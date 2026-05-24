@@ -489,10 +489,6 @@ export const postOutfitsUseroutfitidDelete = endpoint({
   response: z.object({ success: z.boolean() }),
   errors: [
     {
-      status: 400,
-      description: `1: The specified userOutfitId is invalid!`,
-    },
-    {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
     },
@@ -500,6 +496,10 @@ export const postOutfitsUseroutfitidDelete = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 2: You don&#x27;t have permission to delete this outfit.`,
+    },
+    {
+      status: 404,
+      description: `1: The specified userOutfitId is invalid!`,
     },
     {
       status: 500,
@@ -534,12 +534,15 @@ export const getOutfitsUseroutfitidDetails = endpoint({
   errors: [
     {
       status: 400,
-      description: `1: The specified userOutfitId is invalid.
-2: The outfit for the specified userOutfit is invalid.`,
+      description: `2: The outfit for the specified userOutfit is invalid.`,
     },
     {
       status: 403,
       description: `3: The requester does not have access to the details for the given user outfit.`,
+    },
+    {
+      status: 404,
+      description: `1: The specified userOutfitId is invalid.`,
     },
   ],
 });

@@ -244,6 +244,7 @@ const Roblox_GameInternationalization_Api_LanguageOrLocaleSettings = z.object({
   languageCodeType: z.enum(['Language', 'Locale']),
   languageCode: z.string(),
   isAutomaticTranslationEnabled: z.boolean(),
+  isImageTranslationEnabled: z.boolean(),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_GameInternationalization_Api_LanguageOrLocaleSettings_ =
   z.object({
@@ -429,6 +430,11 @@ const Roblox_GameInternationalization_Api_EditAutomaticTranslationStatusForGameA
   gameId: z.number().int(),
   languageCode: z.string(),
   isAutomaticTranslationEnabled: z.boolean(),
+});
+const Roblox_GameInternationalization_Api_EditImageTranslationStatusForGameAndLanguageResponse = z.object({
+  gameId: z.number().int(),
+  languageCode: z.string(),
+  isImageTranslationEnabled: z.boolean(),
 });
 const Roblox_GameInternationalization_Api_UpdateUniverseDisplayInfoAutomaticTranslationSettingsResponse = z.object({
   gameId: z.number().int(),
@@ -2884,6 +2890,56 @@ export const patchSupportedLanguagesGamesGameidLanguagesLanguagecodeAutomaticTra
 53: Language is not supported for the game.
 72: Automatic translation cannot be enabled for game.
 75: Automatic translation cannot be enabled for language.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+18: You do not have permission to manage this game`,
+    },
+    {
+      status: 503,
+      description: `17: Feature is disabled`,
+    },
+  ],
+});
+/**
+ * @api PATCH https://gameinternationalization.roblox.com/v1/supported-languages/games/:gameId/languages/:languageCode/image-translation-status
+ * @summary Enable or disable image translation for a game and language.
+ * @param body Flag to indicate if image translation should be enabled or disabled.
+ * @param gameId The id of the game.
+ * @param languageCode The language to enable or disable for image translation.
+ */
+export const patchSupportedLanguagesGamesGameidLanguagesLanguagecodeImageTranslationStatus = endpoint({
+  method: 'PATCH',
+  path: '/v1/supported-languages/games/:gameId/languages/:languageCode/image-translation-status',
+  baseUrl: 'https://gameinternationalization.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    gameId: {
+      style: 'simple',
+    },
+    languageCode: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    gameId: z.number().int(),
+    languageCode: z.string(),
+  },
+  body: z.boolean(),
+  response: Roblox_GameInternationalization_Api_EditImageTranslationStatusForGameAndLanguageResponse,
+  errors: [
+    {
+      status: 400,
+      description: `14: Invalid game id
+22: Invalid language code
+53: Language is not supported for the game.
+93: Image translation cannot be enabled for language.`,
     },
     {
       status: 401,

@@ -30,6 +30,10 @@ const Roblox_ClientSettings_Api_Models_Response_OtaVersionResponse = z.object({
   assetsManifest: z.string(),
   versionV2: z.number().int(),
 });
+const Roblox_ClientSettings_Api_Models_Response_BetaProgramInfo = z.object({
+  name: z.string(),
+  id: z.string(),
+});
 const Roblox_ClientSettings_Api_Models_Response_UserChannelResponse = z.object({
   channelName: z.string(),
   channelAssignmentType: z.enum([
@@ -41,6 +45,8 @@ const Roblox_ClientSettings_Api_Models_Response_UserChannelResponse = z.object({
     'OptedInToBetaProgramWithPublicChannel',
   ]),
   token: z.string(),
+  program: Roblox_ClientSettings_Api_Models_Response_BetaProgramInfo,
+  isFlagOnly: z.boolean(),
 });
 
 /**

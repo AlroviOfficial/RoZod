@@ -1,10 +1,6 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_Contacts_Api_Models_Response_ContactsMetadataResponseModel = z.object({
-  multiGetContactsMaxSize: z.number().int(),
-  multiGetContactsCacheTTLinMS: z.number().int(),
-});
 const Roblox_Contacts_Api_Response_ValidateUserTagResponseModel = z.object({
   status: z.enum(['Success', 'Moderated', 'TooLong']),
 });
@@ -23,23 +19,6 @@ const Roblox_Contacts_Api_Response_SetUserTagResponseModel = z.object({
   status: z.enum(['Success', 'Moderated']),
 });
 
-/**
- * @api GET https://contacts.roblox.com/v1/contacts/metadata
- * @summary Gets contextual information for contacts and usertags
- */
-export const getContactsMetadata = endpoint({
-  method: 'GET',
-  path: '/v1/contacts/metadata',
-  baseUrl: 'https://contacts.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_Contacts_Api_Models_Response_ContactsMetadataResponseModel,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
 /**
  * @api POST https://contacts.roblox.com/v1/user/get-tags
  * @summary Gets the tags for multiple users

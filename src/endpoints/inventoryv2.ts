@@ -19,6 +19,16 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_AssetOwne
   nextPageCursor: z.string(),
   data: z.array(Roblox_Inventory_Api_V2_AssetOwnerResponse),
 });
+const Roblox_Inventory_Api_V2_CollectibleItemOwnerResponse = z.object({
+  collectibleItemInstanceId: z.string(),
+  serialNumber: z.number().int(),
+  owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_,
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_CollectibleItemOwnerResponse_ = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Inventory_Api_V2_CollectibleItemOwnerResponse),
+});
 const Roblox_Inventory_Api_V2_UserAssetItemModelV2 = z.object({
   assetId: z.number().int(),
   name: z.string(),
@@ -186,6 +196,61 @@ export const getAssetsAssetidOwners = endpoint({
     {
       status: 403,
       description: `2: You do not have permission to view the owners of this asset.`,
+    },
+  ],
+});
+/**
+ * @api GET https://inventory.roblox.com/v2/collectible-items/:collectibleItemId/owners
+ * @summary Gets a list of owners of a collectible item.
+ * @param collectibleItemId The collectible item ID.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
+ */
+export const getCollectibleItemsCollectibleitemidOwners = endpoint({
+  method: 'GET',
+  path: '/v2/collectible-items/:collectibleItemId/owners',
+  baseUrl: 'https://inventory.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    collectibleItemId: {
+      style: 'simple',
+    },
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    collectibleItemId: z.string(),
+    limit: z.number().int().optional().default(10),
+    cursor: z.string().optional(),
+    sortOrder: z
+      .union([z.literal(1), z.literal(2)])
+      .optional()
+      .default(1),
+  },
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_CollectibleItemOwnerResponse_,
+  errors: [
+    {
+      status: 400,
+      description: `1: The collectible item id is invalid.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `2: You do not have permission to view the owners of this item.`,
     },
   ],
 });

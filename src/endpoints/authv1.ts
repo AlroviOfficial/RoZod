@@ -1,6 +1,9 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
+const Roblox_Authentication_Api_Models_AuthMethodsMetadataResponse = z.object({
+  isEligibleForALSignup: z.boolean(),
+});
 const Roblox_Authentication_Api_Models_AccountPinStatusResponse = z.object({
   isEnabled: z.boolean(),
   unlockedUntil: z.number(),
@@ -28,6 +31,9 @@ const Roblox_Authentication_Api_Models_MetadataResponse = z.object({
   IsPasskeyFeatureEnabled: z.boolean(),
   IsAltBrowserTracker: z.boolean(),
   IsLoginRedirectPageEnabled: z.boolean(),
+});
+const Roblox_Authentication_Api_Models_Response_SilentUpgradeEligibilityResponse = z.object({
+  suEligibility: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_PasswordValidationResponse = z.object({
   code: z.enum([
@@ -106,6 +112,10 @@ const Roblox_Authentication_Api_Models_ProviderInfoModel = z.object({
 });
 const Roblox_Authentication_Api_Models_SocialProvidersResponse = z.object({
   providers: z.array(Roblox_Authentication_Api_Models_ProviderInfoModel),
+});
+const Roblox_Authentication_Api_Models_UsernameChangePriceResponse = z.object({
+  priceInRobux: z.number().int(),
+  basePriceInRobux: z.number().int(),
 });
 const Roblox_Authentication_Api_Models_UsernamesResponse = z.object({
   usernames: z.array(z.string()),
@@ -312,6 +322,7 @@ const Roblox_Authentication_Api_Models_Request_FinishPasskeyRegistrationRequest 
   sessionId: z.string(),
   credentialNickname: z.string(),
   attestationResponse: z.string(),
+  source: z.string(),
 });
 const Roblox_Authentication_Api_Models_Request_ListPasskeysRequest = z.object({
   all: z.boolean(),
@@ -453,6 +464,18 @@ const Roblox_Authentication_Api_Models_XboxCollectionsOfUserResponse = z.object(
   Users: z.array(Roblox_Authentication_Api_Models_XboxUserModel),
 });
 
+/**
+ * @api GET https://auth.roblox.com/v1/account-creation/metadata
+ * @summary Get metadata for adding auth methods.
+ */
+export const getAccountCreationMetadata = endpoint({
+  method: 'GET',
+  path: '/v1/account-creation/metadata',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  response: z.object({ isEligibleForALSignup: z.boolean() }),
+  errors: [],
+});
 /**
  * @api GET https://auth.roblox.com/v1/account/pin
  * @summary Gets the account pin status.
@@ -870,7 +893,8 @@ export const postIdentityInitializeLogin = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-2: Invalid user identifier.`,
+2: Invalid user identifier.
+4: No login methods available. Please use account recovery.`,
     },
     {
       status: 500,
@@ -1344,6 +1368,29 @@ export const postPasskeyStartregistration = endpoint({
   ],
 });
 /**
+ * @api GET https://auth.roblox.com/v1/passkey/su-eligibility
+ * @summary Checks whether the authenticated user is eligible for silent passkey upgrade.
+Route and response are intentionally obfuscated ("su-eligibility" = "silent-upgrade-eligibility").
+ */
+export const getPasskeySuEligibility = endpoint({
+  method: 'GET',
+  path: '/v1/passkey/su-eligibility',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  response: z.object({ suEligibility: z.boolean() }),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+0: An unknown error occurred with the request.`,
+    },
+    {
+      status: 503,
+      description: `2: Feature disabled.`,
+    },
+  ],
+});
+/**
  * @api GET https://auth.roblox.com/v1/passwords/validate
  * @summary Endpoint for checking if a password is valid.
  * @param Username
@@ -1796,6 +1843,23 @@ export const postUsername = endpoint({
     {
       status: 503,
       description: `4: The feature is currently not available. Please try again later.`,
+    },
+  ],
+});
+/**
+ * @api GET https://auth.roblox.com/v1/username/change/price
+ * @summary Get the current price for a username change
+ */
+export const getUsernameChangePrice = endpoint({
+  method: 'GET',
+  path: '/v1/username/change/price',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  response: Roblox_Authentication_Api_Models_UsernameChangePriceResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
     },
   ],
 });

@@ -26,6 +26,7 @@ const Roblox_Api_Develop_Models_UniverseModel = z.object({
   creatorName: z.string(),
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
+  audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
 });
 const Roblox_Api_Develop_Models_GameTemplateModel = z.object({
   gameTemplateType: z.string(),
@@ -67,6 +68,9 @@ const Roblox_Api_Develop_Models_ActivationEligibilityResponse = z.object({
   remainingPublicPublishCount: z.number().int(),
   isPublicPublish: z.boolean(),
   isPublishToExistingUniverse: z.boolean(),
+  isUniverseSelect: z.boolean(),
+  creatorTier: z.enum(['Invalid', 'Blocked', 'Private', 'Trusted', 'Everyone']),
+  allowedAudiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
 });
 const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   allowPrivateServers: z.boolean(),
@@ -100,7 +104,9 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
     'Ninja',
     'WildWest',
   ]),
-  playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
+  playableDevices: z.array(
+    z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
+  ),
   isForSale: z.boolean(),
   price: z.number().int(),
   isStudioAccessToApisAllowed: z.boolean(),
@@ -108,6 +114,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   isForSaleInFiat: z.boolean(),
   fiatBasePriceId: z.string(),
   fiatModerationStatus: z.enum(['Invalid', 'NotModerated', 'Pending', 'Approved', 'Rejected']),
+  audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
 });
 const Roblox_Api_Develop_Models_UniverseSettingsRequest = z.object({
   name: z.string(),
@@ -136,7 +143,9 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequest = z.object({
     z.literal(13),
     z.literal(14),
   ]),
-  playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
+  playableDevices: z.array(
+    z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
+  ),
   isForSale: z.boolean(),
   price: z.number().int(),
   isMeshTextureApiAccessAllowed: z.boolean(),
@@ -677,7 +686,8 @@ export const patchUniversesUniverseidConfiguration = endpoint({
 21: Invalid device type.
 22: Invalid asset type.
 23: Invalid value, the min must be less than or equal to the max
-24: Invalid scale value`,
+24: Invalid scale value
+41: You cannot change the private server price again so soon after the previous change. Please try again later.`,
     },
     {
       status: 401,

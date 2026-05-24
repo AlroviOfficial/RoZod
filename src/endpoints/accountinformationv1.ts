@@ -63,14 +63,6 @@ const Roblox_AccountInformation_Api_Models_PromotionChannelsRequest = z.object({
   twitch: z.string(),
   promotionChannelsVisibilityPrivacy: z.string(),
 });
-const Roblox_AccountInformation_Api_Models_StarCodeAffiliateResponse = z.object({
-  userId: z.number().int(),
-  name: z.string(),
-  code: z.string(),
-});
-const Roblox_AccountInformation_Api_Models_StarCodeAffiliateRequest = z.object({
-  code: z.string(),
-});
 const Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse = z.object({
   facebook: z.string(),
   twitter: z.string(),
@@ -535,87 +527,6 @@ export const postPromotionChannels = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 4: Only users who are over twelve years of age may edit social network channels.`,
-    },
-  ],
-});
-/**
- * @api GET https://accountinformation.roblox.com/v1/star-code-affiliates
- * @summary Gets a star code affiliate supporter for the authenticated user
- */
-export const getStarCodeAffiliates = endpoint({
-  method: 'GET',
-  path: '/v1/star-code-affiliates',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_AccountInformation_Api_Models_StarCodeAffiliateResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occured.`,
-    },
-  ],
-});
-/**
- * @api POST https://accountinformation.roblox.com/v1/star-code-affiliates
- * @summary Adds a star code affiliate supporter for the authenticated user
- * @param body Roblox.AccountInformation.Api.Models.StarCodeAffiliateRequest
- */
-export const postStarCodeAffiliates = endpoint({
-  method: 'POST',
-  path: '/v1/star-code-affiliates',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: z.object({ code: z.string() }),
-  response: Roblox_AccountInformation_Api_Models_StarCodeAffiliateResponse,
-  errors: [
-    {
-      status: 400,
-      description: `1: The code was invalid.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occured.`,
-    },
-  ],
-});
-/**
- * @api DELETE https://accountinformation.roblox.com/v1/star-code-affiliates
- * @summary Removes the star code affiliate supporter for the authenticated user
- */
-export const deleteStarCodeAffiliates = endpoint({
-  method: 'DELETE',
-  path: '/v1/star-code-affiliates',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
-  response: z.object({}),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occured.`,
     },
   ],
 });

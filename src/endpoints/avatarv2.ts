@@ -395,14 +395,14 @@ export const patchOutfitsUseroutfitid = endpoint({
   errors: [
     {
       status: 400,
-      description: `1: The specified userOutfit does not exist!
-1: Must provide both assetIds and bodyColors in to update outfit contents.
-3: Body colors must be valid BrickColor IDs
+      description: `3: Body colors must be valid BrickColor IDs
 4: Invalid outfit name
 5: Asset is not wearable by you
 8: Invalid Player Avatar Type. Valid types are R6 and R15
 11: Meta does not apply to specified asset type
-12: Meta is required for this specific asset type`,
+12: Meta is required for this specific asset type
+13: Invalid Outfit Type
+14: Invalid scale`,
     },
     {
       status: 401,
@@ -412,6 +412,10 @@ export const patchOutfitsUseroutfitid = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 2: You don&#x27;t have permission to update this outfit.`,
+    },
+    {
+      status: 404,
+      description: `1: The specified userOutfit does not exist!`,
     },
     {
       status: 500,
@@ -452,7 +456,9 @@ export const postOutfitsCreate = endpoint({
 7: Invalid Player Avatar Type. Valid types are R6 and R15
 8: Invalid assetIds
 9: Meta does not apply to specified asset type
-10: Required meta is not provided for the specific asset type`,
+10: Required meta is not provided for the specific asset type
+12: Outfit type invalid or not permitted
+13: Invalid Scale`,
     },
     {
       status: 401,

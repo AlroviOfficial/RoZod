@@ -119,6 +119,10 @@ const Roblox_Authentication_Api_Models_RevertAccountSubmitRequest = z.object({
   TwoStepVerificationChallengeId: z.string(),
   TwoStepVerificationToken: z.string(),
 });
+const Roblox_Authentication_Api_Models_UsernameChangePriceResponse = z.object({
+  priceInRobux: z.number().int(),
+  basePriceInRobux: z.number().int(),
+});
 const Roblox_Authentication_Api_Models_UsernamesResponse = z.object({
   usernames: z.array(z.string()),
 });
@@ -1075,6 +1079,23 @@ export const postUsername = endpoint({
     {
       status: 503,
       description: `4: The feature is currently not available. Please try again later.`,
+    },
+  ],
+});
+/**
+ * @api GET https://auth.roblox.com/v2/username/change/price
+ * @summary Get the current price for a username change
+ */
+export const getUsernameChangePrice = endpoint({
+  method: 'GET',
+  path: '/v2/username/change/price',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  response: Roblox_Authentication_Api_Models_UsernameChangePriceResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
     },
   ],
 });

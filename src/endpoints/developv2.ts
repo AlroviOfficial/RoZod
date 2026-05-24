@@ -105,7 +105,9 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
     z.literal(13),
     z.literal(14),
   ]),
-  playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
+  playableDevices: z.array(
+    z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
+  ),
   isForSale: z.boolean(),
   price: z.number().int(),
   universeAvatarAssetOverrides: z.array(Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel),
@@ -119,6 +121,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
   isRewardedOnDemandAdsAllowed: z.boolean(),
   fiatBasePriceId: z.string(),
   fiatProductChangeType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
 });
 const Roblox_Api_Develop_Models_UniverseModerationPolicyStatus = z.object({
   region: z.enum(['Unknown', 'China']),
@@ -157,7 +160,9 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z.object({
     'Ninja',
     'WildWest',
   ]),
-  playableDevices: z.array(z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])),
+  playableDevices: z.array(
+    z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
+  ),
   isForSale: z.boolean(),
   price: z.number().int(),
   universeAvatarAssetOverrides: z.array(Roblox_Platform_UniverseSettings_UniverseAvatarAssetOverrideResponseModel),
@@ -169,6 +174,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z.object({
   fiatBasePriceId: z.string(),
   fiatModerationStatus: z.enum(['Invalid', 'NotModerated', 'Pending', 'Approved', 'Rejected']),
   eligibleForTextChatMigration: z.boolean(),
+  audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
@@ -374,7 +380,9 @@ export const patchUniversesUniverseidConfiguration = endpoint({
 22: Invalid asset type.
 23: Invalid value, the min must be less than or equal to the max
 24: Invalid scale value
-28: OptIn/Out Regions Not Supported.`,
+28: OptIn/Out Regions Not Supported.
+41: You cannot change the private server price again so soon after the previous change. Please try again later.
+44: The provided audience configuration is invalid. Ensure the audience list contains only supported audience values.`,
     },
     {
       status: 401,
@@ -386,11 +394,16 @@ export const patchUniversesUniverseidConfiguration = endpoint({
 2: You are not authorized to configure this universe.
 14: You are not authorized to sell games.
 29: Luobu app terms of service user agreement is missing.
-30: Unknown error while updating Opt in out region.`,
+30: Unknown error while updating Opt in out region.
+45: The creator of this experience is not eligible to set this audience.`,
     },
     {
       status: 409,
       description: `9: Failed to shutdown all intances of game after changing AvatarType. The change has been reverted.`,
+    },
+    {
+      status: 500,
+      description: `43: Failed to update the audience configuration. The change was not applied. Please try again.`,
     },
   ],
 });

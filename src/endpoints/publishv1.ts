@@ -114,6 +114,7 @@ export const postAudio = endpoint({
       description: `3: The request did not contain a file to be uploaded.
 4: The file in the request is too large.
 5: The duration of the audio file is too long.
+7: Failed to parse the file.
 8: The file type is not supported.
 9: The file is corrupted
 11: Missing permissions to spend group funds.
@@ -138,8 +139,7 @@ export const postAudio = endpoint({
     },
     {
       status: 500,
-      description: `7: Failed to parse the file.
-19: Asset creation was unavailable. Please try again.`,
+      description: `19: Asset creation was unavailable. Please try again.`,
     },
   ],
 });
@@ -165,6 +165,7 @@ export const postAudioVerify = endpoint({
       description: `3: The request did not contain a file to be uploaded.
 4: The file in the request is too large.
 5: The duration of the audio file is too long.
+7: Failed to parse the file.
 8: The file type is not supported.
 9: The file is corrupted
 18: Too many requests. Try again later.`,
@@ -177,10 +178,6 @@ export const postAudioVerify = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed`,
-    },
-    {
-      status: 500,
-      description: `7: Failed to parse the file.`,
     },
   ],
 });

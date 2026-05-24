@@ -27,6 +27,7 @@ const Roblox_Web_Assets_IAssetItemError = z.object({
     'NotApprovedForRequestor',
     'NotApprovedByContentCompliance',
     'AssetContentRepresentationGenerating',
+    'AssetArchived',
   ]),
 });
 const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z.object({

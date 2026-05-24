@@ -327,6 +327,7 @@ const Roblox_Groups_Api_GroupSettingsResponse = z.object({
   ]),
   slowmode: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   isMemberListVisibleToPublic: z.boolean(),
+  isAutoAssignRoleDisabled: z.boolean(),
 });
 const Roblox_Groups_Api_UpdateGroupSettingsRequest = z.object({
   isApprovalRequired: z.boolean(),
@@ -1639,7 +1640,8 @@ export const getGroupsGroupidJoinRequests = endpoint({
   errors: [
     {
       status: 400,
-      description: `1: The group is invalid or does not exist.`,
+      description: `1: The group is invalid or does not exist.
+36: The pagination cursor is invalid.`,
     },
     {
       status: 401,
@@ -2738,7 +2740,8 @@ export const getGroupsGroupidRolesRolesetidUsers = endpoint({
   errors: [
     {
       status: 400,
-      description: `1: The group is invalid or does not exist.`,
+      description: `1: The group is invalid or does not exist.
+36: The pagination cursor is invalid.`,
     },
     {
       status: 403,
@@ -3298,7 +3301,8 @@ export const getGroupsGroupidUsers = endpoint({
   errors: [
     {
       status: 400,
-      description: `1: The group is invalid or does not exist.`,
+      description: `1: The group is invalid or does not exist.
+36: The pagination cursor is invalid.`,
     },
     {
       status: 403,
