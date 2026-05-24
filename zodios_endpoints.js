@@ -548,6 +548,9 @@ async function processOpenCloudApi(apiDef) {
     // Apply Zod v4 record fix to the generated file before copying to lib
     applyZodRecordFixToFile(`${outputFolder}/${apiDef.name}.ts`);
 
+    // Append any manual patches for endpoints missing from Roblox's docs
+    applyEndpointPatch(`${outputFolder}/${apiDef.name}.ts`, `opencloud-${apiDef.name}-${apiDef.version}`);
+
     // Copy to lib directory for distribution
     ensureDirExists(`./lib/opencloud/${apiDef.version}`);
     writeFileSync(
