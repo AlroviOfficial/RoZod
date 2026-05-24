@@ -1,7 +1,7 @@
-import { z } from 'zod';
-import { endpoint } from '../..';
+import { z } from "zod";
+import { endpoint } from "../..";
 
-const AssetPrivacy = z.enum(['default', 'restricted', 'openUse']);
+const AssetPrivacy = z.enum(["default", "restricted", "openUse"]);
 const Creator = z.object({
   userId: z.number().int(),
   groupId: z.number().int(),
@@ -13,7 +13,7 @@ const CreationContext = z.object({
 });
 const ModerationResult = z.object({ moderationState: z.string() });
 const Preview = z.object({ asset: z.string(), altText: z.string() });
-const State = z.enum(['Unspecified', 'Active', 'Archived']);
+const State = z.enum(["Unspecified", "Active", "Archived"]);
 const SocialLink = z.object({ title: z.string(), uri: z.string() });
 const Asset = z.object({
   assetType: z.string(),
@@ -62,11 +62,11 @@ Provide the [Asset](#Asset), binary asset file path, and [content type](/cloud/g
  * @param body 
  */
 export const postAssets = endpoint({
-  method: 'POST',
-  path: '/v1/assets',
-  baseUrl: 'https://apis.roblox.com/assets',
-  scopes: ['asset:read', 'asset:write'],
-  requestFormat: 'form-data',
+  method: "POST",
+  path: "/v1/assets",
+  baseUrl: "https://apis.roblox.com/assets",
+  scopes: ["asset:read", "asset:write"],
+  requestFormat: "form-data",
   serializationMethod: {
     body: {},
   },
@@ -99,11 +99,11 @@ export const postAssets = endpoint({
  * @param readMask Asset metadata fields to retrieve, including the description, display name, icon, social links, and previews. Examples: `description%2CdisplayName`, `previews%2CtwitchSocialLink`.
  */
 export const getAssetsAssetId = endpoint({
-  method: 'GET',
-  path: '/v1/assets/:assetId',
-  baseUrl: 'https://apis.roblox.com/assets',
-  scopes: ['asset:read'],
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/assets/:assetId",
+  baseUrl: "https://apis.roblox.com/assets",
+  scopes: ["asset:read"],
+  requestFormat: "json",
   serializationMethod: {
     assetId: {},
     readMask: {},
@@ -150,11 +150,11 @@ Provide the [Asset](#Asset), binary asset file path, and [content type](/cloud/g
  * @param updateMask Asset metadata fields to update, including the description, display name, icon, and previews. Examples: `description%2CdisplayName`, `previews%2CtwitchSocialLink`.
  */
 export const patchAssetsAssetId = endpoint({
-  method: 'PATCH',
-  path: '/v1/assets/:assetId',
-  baseUrl: 'https://apis.roblox.com/assets',
-  scopes: ['asset:read', 'asset:write'],
-  requestFormat: 'form-data',
+  method: "PATCH",
+  path: "/v1/assets/:assetId",
+  baseUrl: "https://apis.roblox.com/assets",
+  scopes: ["asset:read", "asset:write"],
+  requestFormat: "form-data",
   serializationMethod: {
     body: {},
     assetId: {},
@@ -191,11 +191,11 @@ export const patchAssetsAssetId = endpoint({
  * @param assetId The unique identifier of the asset.
  */
 export const postAssetsAssetIdArchive = endpoint({
-  method: 'POST',
-  path: '/v1/assets/:assetId:archive',
-  baseUrl: 'https://apis.roblox.com/assets',
-  scopes: ['asset:read', 'asset:write'],
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v1/assets/:assetId:archive",
+  baseUrl: "https://apis.roblox.com/assets",
+  scopes: ["asset:read", "asset:write"],
+  requestFormat: "json",
   serializationMethod: {
     assetId: {},
   },
@@ -228,11 +228,11 @@ export const postAssetsAssetIdArchive = endpoint({
  * @param assetId The unique identifier of the asset.
  */
 export const postAssetsAssetIdRestore = endpoint({
-  method: 'POST',
-  path: '/v1/assets/:assetId:restore',
-  baseUrl: 'https://apis.roblox.com/assets',
-  scopes: ['asset:read', 'asset:write'],
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v1/assets/:assetId:restore",
+  baseUrl: "https://apis.roblox.com/assets",
+  scopes: ["asset:read", "asset:write"],
+  requestFormat: "json",
   serializationMethod: {
     assetId: {},
   },
@@ -267,11 +267,11 @@ export const postAssetsAssetIdRestore = endpoint({
  * @param pageToken A token for pagination. The value is obtained from a previous request and allows for retrieving the next page of asset versions.
  */
 export const getAssetsAssetIdVersions = endpoint({
-  method: 'GET',
-  path: '/v1/assets/:assetId/versions',
-  baseUrl: 'https://apis.roblox.com/assets',
-  scopes: ['asset:read'],
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/assets/:assetId/versions",
+  baseUrl: "https://apis.roblox.com/assets",
+  scopes: ["asset:read"],
+  requestFormat: "json",
   serializationMethod: {
     assetId: {},
     maxPageSize: {},
@@ -311,11 +311,11 @@ export const getAssetsAssetIdVersions = endpoint({
  * @param assetId The unique identifier of the asset.
  */
 export const postAssetsAssetIdVersionsRollback = endpoint({
-  method: 'POST',
-  path: '/v1/assets/:assetId/versions:rollback',
-  baseUrl: 'https://apis.roblox.com/assets',
-  scopes: ['asset:read', 'asset:write'],
-  requestFormat: 'form-data',
+  method: "POST",
+  path: "/v1/assets/:assetId/versions:rollback",
+  baseUrl: "https://apis.roblox.com/assets",
+  scopes: ["asset:read", "asset:write"],
+  requestFormat: "form-data",
   serializationMethod: {
     body: {},
     assetId: {},
@@ -351,11 +351,11 @@ export const postAssetsAssetIdVersionsRollback = endpoint({
  * @param versionNumber The version number.
  */
 export const getAssetsAssetIdVersionsVersionNumber = endpoint({
-  method: 'GET',
-  path: '/v1/assets/:assetId/versions/:versionNumber',
-  baseUrl: 'https://apis.roblox.com/assets',
-  scopes: ['asset:read'],
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/assets/:assetId/versions/:versionNumber",
+  baseUrl: "https://apis.roblox.com/assets",
+  scopes: ["asset:read"],
+  requestFormat: "json",
   serializationMethod: {
     assetId: {},
     versionNumber: {},
@@ -386,11 +386,11 @@ export const getAssetsAssetIdVersionsVersionNumber = endpoint({
  * @param operationId The unique identifier of the operation.
  */
 export const getOperationsOperationId = endpoint({
-  method: 'GET',
-  path: '/v1/operations/:operationId',
-  baseUrl: 'https://apis.roblox.com/assets',
-  scopes: ['asset:read'],
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/operations/:operationId",
+  baseUrl: "https://apis.roblox.com/assets",
+  scopes: ["asset:read"],
+  requestFormat: "json",
   serializationMethod: {
     operationId: {},
   },

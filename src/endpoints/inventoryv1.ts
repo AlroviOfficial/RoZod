@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_Inventory_Api_Models_AssetIdListModel = z.object({
   assetIds: z.array(z.number()),
@@ -12,14 +12,21 @@ const Roblox_Inventory_Api_Models_CollectibleUserAssetModel = z.object({
   recentAveragePrice: z.number().int(),
   originalPrice: z.number().int(),
   assetStock: z.number().int(),
-  buildersClubMembershipType: z.enum(['None', 'BC', 'TBC', 'OBC', 'RobloxPremium']),
+  buildersClubMembershipType: z.enum([
+    "None",
+    "BC",
+    "TBC",
+    "OBC",
+    "RobloxPremium",
+  ]),
   isOnHold: z.boolean(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Inventory_Api_Models_CollectibleUserAssetModel),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Inventory_Api_Models_CollectibleUserAssetModel),
+  });
 const Roblox_Inventory_Api_Models_CanViewInventoryResponse = z.object({
   canView: z.boolean(),
 });
@@ -28,7 +35,7 @@ const Roblox_Inventory_Api_Models_AssetsExplorerCategoryItemModel = z.object({
   displayName: z.string(),
   filter: z.string(),
   id: z.number().int(),
-  type: z.enum(['AssetType', 'Bundle', 'Outfit', 'Set', 'Avatar']),
+  type: z.enum(["AssetType", "Bundle", "Outfit", "Set", "Avatar"]),
   categoryType: z.string(),
 });
 const Roblox_Inventory_Api_Models_AssetsExplorerCategoryModel = z.object({
@@ -43,18 +50,19 @@ const Roblox_Inventory_Api_Models_CategoriesModel = z.object({
 const Roblox_Inventory_Api_Models_IItemModel = z.object({
   id: z.number().int(),
   name: z.string(),
-  type: z.enum(['Asset', 'GamePass', 'Badge', 'Bundle', 'Avatar']),
+  type: z.enum(["Asset", "GamePass", "Badge", "Bundle", "Avatar"]),
   instanceId: z.number().int(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Inventory_Api_Models_IItemModel),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Inventory_Api_Models_IItemModel),
+  });
 const Roblox_Inventory_Api_Models_CreatorModel = z.object({
   id: z.number().int(),
   name: z.string(),
-  type: z.enum(['User', 'Group']),
+  type: z.enum(["User", "Group"]),
 });
 const Roblox_Inventory_Api_Models_PlaceModel = z.object({
   universeId: z.number().int(),
@@ -63,11 +71,12 @@ const Roblox_Inventory_Api_Models_PlaceModel = z.object({
   creator: Roblox_Inventory_Api_Models_CreatorModel,
   priceInRobux: z.number().int(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_PlaceModel_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Inventory_Api_Models_PlaceModel),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_PlaceModel_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Inventory_Api_Models_PlaceModel),
+  });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
@@ -77,16 +86,16 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
  * @param itemTargetId ID of the item
  */
 export const postCollectionsItemsItemtypeItemtargetid = endpoint({
-  method: 'POST',
-  path: '/v1/collections/items/:itemType/:itemTargetId',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v1/collections/items/:itemType/:itemTargetId",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     itemType: {
-      style: 'simple',
+      style: "simple",
     },
     itemTargetId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -123,16 +132,16 @@ export const postCollectionsItemsItemtypeItemtargetid = endpoint({
  * @param itemTargetId ID of the item
  */
 export const deleteCollectionsItemsItemtypeItemtargetid = endpoint({
-  method: 'DELETE',
-  path: '/v1/collections/items/:itemType/:itemTargetId',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "DELETE",
+  path: "/v1/collections/items/:itemType/:itemTargetId",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     itemType: {
-      style: 'simple',
+      style: "simple",
     },
     itemTargetId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -164,13 +173,13 @@ export const deleteCollectionsItemsItemtypeItemtargetid = endpoint({
  * @param packageID The asset ID of the package
  */
 export const getPackagesPackageidAssets = endpoint({
-  method: 'GET',
-  path: '/v1/packages/:packageId/assets',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/packages/:packageId/assets",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     packageID: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -189,28 +198,28 @@ export const getPackagesPackageidAssets = endpoint({
  * @param sortOrder Sorted by userAssetId
  */
 export const getUsersUseridAssetsCollectibles = endpoint({
-  method: 'GET',
-  path: '/v1/users/:userId/assets/collectibles',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/users/:userId/assets/collectibles",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     assetType: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     limit: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortOrder: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -308,9 +317,10 @@ export const getUsersUseridAssetsCollectibles = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_CollectibleUserAssetModel_,
   errors: [
     {
       status: 400,
@@ -328,13 +338,13 @@ export const getUsersUseridAssetsCollectibles = endpoint({
  * @param userId The user identifier.
  */
 export const getUsersUseridCanViewInventory = endpoint({
-  method: 'GET',
-  path: '/v1/users/:userId/can-view-inventory',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/users/:userId/can-view-inventory",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -354,13 +364,13 @@ export const getUsersUseridCanViewInventory = endpoint({
  * @param userId
  */
 export const getUsersUseridCategories = endpoint({
-  method: 'GET',
-  path: '/v1/users/:userId/categories',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/users/:userId/categories",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -375,13 +385,13 @@ export const getUsersUseridCategories = endpoint({
  * @param userId
  */
 export const getUsersUseridCategoriesFavorites = endpoint({
-  method: 'GET',
-  path: '/v1/users/:userId/categories/favorites',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/users/:userId/categories/favorites",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -399,27 +409,34 @@ Place creators can make requests as if they were the Game Server.
  * @param itemTargetId ID of the item in question
  */
 export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
-  method: 'GET',
-  path: '/v1/users/:userId/items/:itemType/:itemTargetId',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/users/:userId/items/:itemType/:itemTargetId",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     itemType: {
-      style: 'simple',
+      style: "simple",
     },
     itemTargetId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
     userId: z.number().int(),
-    itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    itemType: z.union([
+      z.literal(0),
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+    ]),
     itemTargetId: z.number().int(),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItemModel_,
   errors: [
     {
       status: 400,
@@ -440,24 +457,30 @@ export const getUsersUseridItemsItemtypeItemtargetid = endpoint({
  * @param itemTargetId ID of the item in question
  */
 export const getUsersUseridItemsItemtypeItemtargetidIsOwned = endpoint({
-  method: 'GET',
-  path: '/v1/users/:userId/items/:itemType/:itemTargetId/is-owned',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/users/:userId/items/:itemType/:itemTargetId/is-owned",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     itemType: {
-      style: 'simple',
+      style: "simple",
     },
     itemTargetId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
     userId: z.number().int(),
-    itemType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    itemType: z.union([
+      z.literal(0),
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+    ]),
     itemTargetId: z.number().int(),
   },
   response: z.boolean(),
@@ -482,34 +505,42 @@ export const getUsersUseridItemsItemtypeItemtargetidIsOwned = endpoint({
  * @param cursor
  */
 export const getUsersUseridPlacesInventory = endpoint({
-  method: 'GET',
-  path: '/v1/users/:userId/places/inventory',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/users/:userId/places/inventory",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     placesTab: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     itemsPerPage: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
   parameters: {
     userId: z.number().int(),
-    placesTab: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
+    placesTab: z.union([
+      z.literal(0),
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+      z.literal(5),
+    ]),
     itemsPerPage: z.number().int(),
     cursor: z.number().int(),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_PlaceModel_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_PlaceModel_,
   errors: [
     {
       status: 400,

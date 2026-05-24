@@ -1,8 +1,8 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_EconomyCreatorStats_Api_Models_StatisticsResponse = z.object({
-  dataGranularity: z.enum(['Hourly', 'Daily', 'Monthly']),
+  dataGranularity: z.enum(["Hourly", "Daily", "Monthly"]),
   data: z.array(z.array(z.number())),
 });
 
@@ -15,30 +15,30 @@ const Roblox_EconomyCreatorStats_Api_Models_StatisticsResponse = z.object({
  * @param EndTime
  */
 export const getUniversesUniverseidStats = endpoint({
-  method: 'GET',
-  path: '/v1/universes/:universeId/stats',
-  baseUrl: 'https://economycreatorstats.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/universes/:universeId/stats",
+  baseUrl: "https://economycreatorstats.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     universeId: {
-      style: 'simple',
+      style: "simple",
     },
     Type: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     StartTime: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     EndTime: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
   parameters: {
     universeId: z.number().int(),
-    Type: z.enum(['PremiumUpsells', 'PremiumVisits']),
+    Type: z.enum(["PremiumUpsells", "PremiumVisits"]),
     StartTime: z.string().datetime({ offset: true }),
     EndTime: z.string().datetime({ offset: true }),
   },

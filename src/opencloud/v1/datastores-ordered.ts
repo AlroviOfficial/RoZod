@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '../..';
+import { z } from "zod";
+import { endpoint } from "../..";
 
 const Entry = z.object({
   path: z.string(),
@@ -31,46 +31,47 @@ const IncrementEntryRequest = z.object({ amount: z.number().int() });
  * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/ordered-data-stores/{ordered_data_store_id}/scopes/{scope_id}/entries
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
-export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntries = endpoint({
-  method: 'GET',
-  path: '/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries',
-  baseUrl: 'https://apis.roblox.com/ordered-data-stores',
-  scopes: ['universe.ordered-data-store.scope.entry:read'],
-  requestFormat: 'json',
-  serializationMethod: {
-    universeId: {},
-    orderedDataStore: {},
-    scope: {},
-    max_page_size: {},
-    page_token: {},
-    order_by: {},
-    filter: {},
-  },
-  parameters: {
-    universeId: z.string(),
-    orderedDataStore: z.string(),
-    scope: z.string(),
-    max_page_size: z.number().int().optional(),
-    page_token: z.string().optional(),
-    order_by: z.string().optional(),
-    filter: z.string().optional(),
-  },
-  response: ListEntriesResponse,
-  errors: [
-    {
-      status: 400,
-      description: `Bad Request: invalid orderedDataStore, scope or entry name or encoding.`,
+export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntries =
+  endpoint({
+    method: "GET",
+    path: "/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries",
+    baseUrl: "https://apis.roblox.com/ordered-data-stores",
+    scopes: ["universe.ordered-data-store.scope.entry:read"],
+    requestFormat: "json",
+    serializationMethod: {
+      universeId: {},
+      orderedDataStore: {},
+      scope: {},
+      max_page_size: {},
+      page_token: {},
+      order_by: {},
+      filter: {},
     },
-    {
-      status: 403,
-      description: `Forbidden: studio access to APIs is not allowed, incorrect API key or scope.`,
+    parameters: {
+      universeId: z.string(),
+      orderedDataStore: z.string(),
+      scope: z.string(),
+      max_page_size: z.number().int().optional(),
+      page_token: z.string().optional(),
+      order_by: z.string().optional(),
+      filter: z.string().optional(),
     },
-    {
-      status: 429,
-      description: `Too Many Requests.`,
-    },
-  ],
-});
+    response: ListEntriesResponse,
+    errors: [
+      {
+        status: 400,
+        description: `Bad Request: invalid orderedDataStore, scope or entry name or encoding.`,
+      },
+      {
+        status: 403,
+        description: `Forbidden: studio access to APIs is not allowed, incorrect API key or scope.`,
+      },
+      {
+        status: 429,
+        description: `Too Many Requests.`,
+      },
+    ],
+  });
 /**
  * **Create** · `BETA`
  *
@@ -86,46 +87,47 @@ export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeE
  * @see POST https://apis.roblox.com/cloud/v2/universes/{universe_id}/ordered-data-stores/{ordered_data_store_id}/scopes/{scope_id}/entries
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
-export const postUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntries = endpoint({
-  method: 'POST',
-  path: '/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries',
-  baseUrl: 'https://apis.roblox.com/ordered-data-stores',
-  scopes: ['universe.ordered-data-store.scope.entry:write'],
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    universeId: {},
-    orderedDataStore: {},
-    scope: {},
-    id: {},
-  },
-  parameters: {
-    universeId: z.string(),
-    orderedDataStore: z.string(),
-    scope: z.string(),
-    id: z.string(),
-  },
-  body: z.object({ value: z.number().int() }),
-  response: Entry,
-  errors: [
-    {
-      status: 400,
-      description: `Bad Request: invalid orderedDataStore, scope or entry name or encoding.`,
+export const postUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntries =
+  endpoint({
+    method: "POST",
+    path: "/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries",
+    baseUrl: "https://apis.roblox.com/ordered-data-stores",
+    scopes: ["universe.ordered-data-store.scope.entry:write"],
+    requestFormat: "json",
+    serializationMethod: {
+      body: {},
+      universeId: {},
+      orderedDataStore: {},
+      scope: {},
+      id: {},
     },
-    {
-      status: 403,
-      description: `Forbidden: studio access to APIs is not allowed, incorrect API key or scope.`,
+    parameters: {
+      universeId: z.string(),
+      orderedDataStore: z.string(),
+      scope: z.string(),
+      id: z.string(),
     },
-    {
-      status: 404,
-      description: `Not found.`,
-    },
-    {
-      status: 429,
-      description: `Too Many Requests.`,
-    },
-  ],
-});
+    body: z.object({ value: z.number().int() }),
+    response: Entry,
+    errors: [
+      {
+        status: 400,
+        description: `Bad Request: invalid orderedDataStore, scope or entry name or encoding.`,
+      },
+      {
+        status: 403,
+        description: `Forbidden: studio access to APIs is not allowed, incorrect API key or scope.`,
+      },
+      {
+        status: 404,
+        description: `Not found.`,
+      },
+      {
+        status: 429,
+        description: `Too Many Requests.`,
+      },
+    ],
+  });
 /**
  * **Get** · `BETA`
  *
@@ -140,44 +142,45 @@ export const postUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScope
  * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/ordered-data-stores/{ordered_data_store_id}/scopes/{scope_id}/entries/{entry_id}
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
-export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntry = endpoint({
-  method: 'GET',
-  path: '/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry',
-  baseUrl: 'https://apis.roblox.com/ordered-data-stores',
-  scopes: ['universe.ordered-data-store.scope.entry:read'],
-  requestFormat: 'json',
-  serializationMethod: {
-    universeId: {},
-    orderedDataStore: {},
-    scope: {},
-    entry: {},
-  },
-  parameters: {
-    universeId: z.string(),
-    orderedDataStore: z.string(),
-    scope: z.string(),
-    entry: z.string(),
-  },
-  response: Entry,
-  errors: [
-    {
-      status: 400,
-      description: `Bad Request: invalid orderedDataStore, scope or entry name or encoding.`,
+export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntry =
+  endpoint({
+    method: "GET",
+    path: "/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry",
+    baseUrl: "https://apis.roblox.com/ordered-data-stores",
+    scopes: ["universe.ordered-data-store.scope.entry:read"],
+    requestFormat: "json",
+    serializationMethod: {
+      universeId: {},
+      orderedDataStore: {},
+      scope: {},
+      entry: {},
     },
-    {
-      status: 403,
-      description: `Forbidden: studio access to APIs is not allowed, incorrect API key or scope.`,
+    parameters: {
+      universeId: z.string(),
+      orderedDataStore: z.string(),
+      scope: z.string(),
+      entry: z.string(),
     },
-    {
-      status: 404,
-      description: `Not found.`,
-    },
-    {
-      status: 429,
-      description: `Too Many Requests.`,
-    },
-  ],
-});
+    response: Entry,
+    errors: [
+      {
+        status: 400,
+        description: `Bad Request: invalid orderedDataStore, scope or entry name or encoding.`,
+      },
+      {
+        status: 403,
+        description: `Forbidden: studio access to APIs is not allowed, incorrect API key or scope.`,
+      },
+      {
+        status: 404,
+        description: `Not found.`,
+      },
+      {
+        status: 429,
+        description: `Too Many Requests.`,
+      },
+    ],
+  });
 /**
  * **Delete** · `BETA`
  *
@@ -192,44 +195,45 @@ export const getUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeE
  * @see DELETE https://apis.roblox.com/cloud/v2/universes/{universe_id}/ordered-data-stores/{ordered_data_store_id}/scopes/{scope_id}/entries/{entry_id}
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
-export const deleteUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntry = endpoint({
-  method: 'DELETE',
-  path: '/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry',
-  baseUrl: 'https://apis.roblox.com/ordered-data-stores',
-  scopes: ['universe.ordered-data-store.scope.entry:write'],
-  requestFormat: 'json',
-  serializationMethod: {
-    universeId: {},
-    orderedDataStore: {},
-    scope: {},
-    entry: {},
-  },
-  parameters: {
-    universeId: z.string(),
-    orderedDataStore: z.string(),
-    scope: z.string(),
-    entry: z.string(),
-  },
-  response: z.void(),
-  errors: [
-    {
-      status: 400,
-      description: `Bad Request: invalid orderedDataStore, scope or entry name or encoding.`,
+export const deleteUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntry =
+  endpoint({
+    method: "DELETE",
+    path: "/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry",
+    baseUrl: "https://apis.roblox.com/ordered-data-stores",
+    scopes: ["universe.ordered-data-store.scope.entry:write"],
+    requestFormat: "json",
+    serializationMethod: {
+      universeId: {},
+      orderedDataStore: {},
+      scope: {},
+      entry: {},
     },
-    {
-      status: 403,
-      description: `Forbidden: Studio access to APIs is not allowed, incorrect API key or scope.`,
+    parameters: {
+      universeId: z.string(),
+      orderedDataStore: z.string(),
+      scope: z.string(),
+      entry: z.string(),
     },
-    {
-      status: 404,
-      description: `Not found.`,
-    },
-    {
-      status: 429,
-      description: `Too Many Requests.`,
-    },
-  ],
-});
+    response: z.void(),
+    errors: [
+      {
+        status: 400,
+        description: `Bad Request: invalid orderedDataStore, scope or entry name or encoding.`,
+      },
+      {
+        status: 403,
+        description: `Forbidden: Studio access to APIs is not allowed, incorrect API key or scope.`,
+      },
+      {
+        status: 404,
+        description: `Not found.`,
+      },
+      {
+        status: 429,
+        description: `Too Many Requests.`,
+      },
+    ],
+  });
 /**
  * **Update** · `BETA`
  *
@@ -246,52 +250,53 @@ export const deleteUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesSco
  * @see PATCH https://apis.roblox.com/cloud/v2/universes/{universe_id}/ordered-data-stores/{ordered_data_store_id}/scopes/{scope_id}/entries/{entry_id}
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
-export const patchUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntry = endpoint({
-  method: 'PATCH',
-  path: '/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry',
-  baseUrl: 'https://apis.roblox.com/ordered-data-stores',
-  scopes: ['universe.ordered-data-store.scope.entry:write'],
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    universeId: {},
-    orderedDataStore: {},
-    scope: {},
-    entry: {},
-    allow_missing: {},
-  },
-  parameters: {
-    universeId: z.string(),
-    orderedDataStore: z.string(),
-    scope: z.string(),
-    entry: z.string(),
-    allow_missing: z.boolean().optional(),
-  },
-  body: z.object({ value: z.number().int() }).partial(),
-  response: Entry,
-  errors: [
-    {
-      status: 400,
-      description: `Bad Request: invalid orderedDataStore, scope or entry name or encoding.`,
+export const patchUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntry =
+  endpoint({
+    method: "PATCH",
+    path: "/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry",
+    baseUrl: "https://apis.roblox.com/ordered-data-stores",
+    scopes: ["universe.ordered-data-store.scope.entry:write"],
+    requestFormat: "json",
+    serializationMethod: {
+      body: {},
+      universeId: {},
+      orderedDataStore: {},
+      scope: {},
+      entry: {},
+      allow_missing: {},
     },
-    {
-      status: 403,
-      description: `Forbidden: studio access to APIs is not allowed, incorrect API key or scope.`,
+    parameters: {
+      universeId: z.string(),
+      orderedDataStore: z.string(),
+      scope: z.string(),
+      entry: z.string(),
+      allow_missing: z.boolean().optional(),
     },
-    {
-      status: 404,
-      description: `Not found.`,
-    },
-    {
-      status: 409,
-      description: `Aborted.`,
-    },
-    {
-      status: 429,
-      description: `Too Many Requests.`,
-    },
-  ],
-});
+    body: z.object({ value: z.number().int() }).partial(),
+    response: Entry,
+    errors: [
+      {
+        status: 400,
+        description: `Bad Request: invalid orderedDataStore, scope or entry name or encoding.`,
+      },
+      {
+        status: 403,
+        description: `Forbidden: studio access to APIs is not allowed, incorrect API key or scope.`,
+      },
+      {
+        status: 404,
+        description: `Not found.`,
+      },
+      {
+        status: 409,
+        description: `Aborted.`,
+      },
+      {
+        status: 429,
+        description: `Too Many Requests.`,
+      },
+    ],
+  });
 /**
  * **Increment** · `BETA`
  *
@@ -309,43 +314,44 @@ Known issue: Entry values can increment past the valid range and this may persis
  * @see POST https://apis.roblox.com/cloud/v2/universes/{universe_id}/ordered-data-stores/{ordered_data_store_id}/scopes/{scope_id}/entries/{entry_id}:increment
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
-export const postUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntryIncrement = endpoint({
-  method: 'POST',
-  path: '/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry:increment',
-  baseUrl: 'https://apis.roblox.com/ordered-data-stores',
-  scopes: ['universe.ordered-data-store.scope.entry:write'],
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    universeId: {},
-    orderedDataStore: {},
-    scope: {},
-    entry: {},
-  },
-  parameters: {
-    universeId: z.string(),
-    orderedDataStore: z.string(),
-    scope: z.string(),
-    entry: z.string(),
-  },
-  body: z.object({ amount: z.number().int() }),
-  response: Entry,
-  errors: [
-    {
-      status: 400,
-      description: `Bad Request: invalid orderedDataStore, scope or entry name or encoding.`,
+export const postUniversesUniverseIdOrderedDataStoresOrderedDataStoreScopesScopeEntriesEntryIncrement =
+  endpoint({
+    method: "POST",
+    path: "/v1/universes/:universeId/orderedDataStores/:orderedDataStore/scopes/:scope/entries/:entry:increment",
+    baseUrl: "https://apis.roblox.com/ordered-data-stores",
+    scopes: ["universe.ordered-data-store.scope.entry:write"],
+    requestFormat: "json",
+    serializationMethod: {
+      body: {},
+      universeId: {},
+      orderedDataStore: {},
+      scope: {},
+      entry: {},
     },
-    {
-      status: 403,
-      description: `Forbidden: studio access to APIs is not allowed, incorrect API key or scope.`,
+    parameters: {
+      universeId: z.string(),
+      orderedDataStore: z.string(),
+      scope: z.string(),
+      entry: z.string(),
     },
-    {
-      status: 404,
-      description: `Not found.`,
-    },
-    {
-      status: 429,
-      description: `Too Many Requests.`,
-    },
-  ],
-});
+    body: z.object({ amount: z.number().int() }),
+    response: Entry,
+    errors: [
+      {
+        status: 400,
+        description: `Bad Request: invalid orderedDataStore, scope or entry name or encoding.`,
+      },
+      {
+        status: 403,
+        description: `Forbidden: studio access to APIs is not allowed, incorrect API key or scope.`,
+      },
+      {
+        status: 404,
+        description: `Not found.`,
+      },
+      {
+        status: 429,
+        description: `Too Many Requests.`,
+      },
+    ],
+  });

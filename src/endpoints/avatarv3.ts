@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_Api_Avatar_Models_AssetTypeModel = z.object({
   id: z.number().int(),
@@ -111,7 +111,13 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV3 = z.object({
   assets: z.array(Roblox_Api_Avatar_Models_AssetWearModel),
   scale: Roblox_Web_Responses_Avatar_ScaleModel,
   playerAvatarType: z.string(),
-  outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(4), z.literal(5)]),
+  outfitType: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(4),
+    z.literal(5),
+  ]),
 });
 const Roblox_Api_Avatar_Models_OutfitModel = z.object({
   id: z.number().int(),
@@ -130,36 +136,36 @@ const Roblox_Api_Avatar_Models_OutfitModel = z.object({
 Accepts partial updates.
  */
 export const patchOutfitsUseroutfitid = endpoint({
-  method: 'PATCH',
-  path: '/v3/outfits/:userOutfitId',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json',
+  method: "PATCH",
+  path: "/v3/outfits/:userOutfitId",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
     userOutfitId: {
-      style: 'simple',
+      style: "simple",
     },
-    'Roblox-Place-Id': {
-      style: 'simple',
+    "Roblox-Place-Id": {
+      style: "simple",
     },
   },
   parameters: {
     userOutfitId: z.number().int(),
-    'Roblox-Place-Id': z.number().int().optional(),
+    "Roblox-Place-Id": z.number().int().optional(),
   },
   body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
   response: Roblox_Api_Avatar_Models_OutfitModel,
   errors: [
     {
       status: 400,
-      description: `1: The specified userOutfit does not exist!
-1: Must provide both assetIds and bodyColors in to update outfit contents.
-3: Body colors must be valid BrickColor IDs
+      description: `3: Body colors must be valid BrickColor IDs
 4: Invalid outfit name
 5: Asset is not wearable by you
 8: Invalid Player Avatar Type. Valid types are R6 and R15
 11: Meta does not apply to specified asset type
-12: Meta is required for this specific asset type`,
+12: Meta is required for this specific asset type
+13: Invalid Outfit Type
+14: Invalid scale`,
     },
     {
       status: 401,
@@ -169,6 +175,10 @@ export const patchOutfitsUseroutfitid = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 2: You don&#x27;t have permission to update this outfit.`,
+    },
+    {
+      status: 404,
+      description: `1: The specified userOutfit does not exist!`,
     },
     {
       status: 500,
@@ -184,37 +194,40 @@ export const patchOutfitsUseroutfitid = endpoint({
  * @param checkAssetAvailability Whether to return assets with availability status.
  */
 export const getOutfitsUseroutfitidDetails = endpoint({
-  method: 'GET',
-  path: '/v3/outfits/:userOutfitId/details',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v3/outfits/:userOutfitId/details",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userOutfitId: {
-      style: 'simple',
+      style: "simple",
     },
-    'Roblox-Place-Id': {
-      style: 'simple',
+    "Roblox-Place-Id": {
+      style: "simple",
     },
     checkAssetAvailability: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
   parameters: {
     userOutfitId: z.number().int(),
-    'Roblox-Place-Id': z.number().int().optional(),
+    "Roblox-Place-Id": z.number().int().optional(),
     checkAssetAvailability: z.boolean().optional(),
   },
   response: Roblox_Api_Avatar_Models_OutfitDetailsModelV2,
   errors: [
     {
       status: 400,
-      description: `1: The specified userOutfitId is invalid.
-2: The outfit for the specified userOutfit is invalid.`,
+      description: `2: The outfit for the specified userOutfit is invalid.`,
     },
     {
       status: 403,
       description: `3: The requester does not have access to the details for the given user outfit.`,
+    },
+    {
+      status: 404,
+      description: `1: The specified userOutfitId is invalid.`,
     },
   ],
 });
@@ -227,18 +240,18 @@ export const getOutfitsUseroutfitidDetails = endpoint({
 The name property of the request is optional as one will be auto-generated when the request has a null name.
  */
 export const postOutfitsCreate = endpoint({
-  method: 'POST',
-  path: '/v3/outfits/create',
-  baseUrl: 'https://avatar.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v3/outfits/create",
+  baseUrl: "https://avatar.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
-    'Roblox-Place-Id': {
-      style: 'simple',
+    "Roblox-Place-Id": {
+      style: "simple",
     },
   },
   parameters: {
-    'Roblox-Place-Id': z.number().int().optional(),
+    "Roblox-Place-Id": z.number().int().optional(),
   },
   body: Roblox_Api_Avatar_Models_OutfitUpdateModelV3,
   response: Roblox_Api_Avatar_Models_OutfitModel,
@@ -251,7 +264,9 @@ export const postOutfitsCreate = endpoint({
 7: Invalid Player Avatar Type. Valid types are R6 and R15
 8: Invalid assetIds
 9: Meta does not apply to specified asset type
-10: Required meta is not provided for the specific asset type`,
+10: Required meta is not provided for the specific asset type
+12: Outfit type invalid or not permitted
+13: Invalid Scale`,
     },
     {
       status: 401,

@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_Web_Responses_Games_GameMediaItemResponseV2 = z.object({
   assetTypeId: z.number().int(),
@@ -11,135 +11,145 @@ const Roblox_Web_Responses_Games_GameMediaItemResponseV2 = z.object({
   altText: z.string(),
   videoId: z.string(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Games_GameMediaItemResponseV2_ = z.object({
-  data: z.array(Roblox_Web_Responses_Games_GameMediaItemResponseV2),
-});
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_ = z.object({
-  id: z.number().int(),
-  type: z.enum(['User', 'Group']),
-  name: z.string(),
-});
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_ = z.object({
-  id: z.number().int(),
-  type: z.enum([
-    'Image',
-    'TShirt',
-    'Audio',
-    'Mesh',
-    'Lua',
-    'HTML',
-    'Text',
-    'Hat',
-    'Place',
-    'Model',
-    'Shirt',
-    'Pants',
-    'Decal',
-    'Avatar',
-    'Head',
-    'Face',
-    'Gear',
-    'Badge',
-    'GroupEmblem',
-    'Animation',
-    'Arms',
-    'Legs',
-    'Torso',
-    'RightArm',
-    'LeftArm',
-    'LeftLeg',
-    'RightLeg',
-    'Package',
-    'YouTubeVideo',
-    'GamePass',
-    'App',
-    'Code',
-    'Plugin',
-    'SolidModel',
-    'MeshPart',
-    'HairAccessory',
-    'FaceAccessory',
-    'NeckAccessory',
-    'ShoulderAccessory',
-    'FrontAccessory',
-    'BackAccessory',
-    'WaistAccessory',
-    'ClimbAnimation',
-    'DeathAnimation',
-    'FallAnimation',
-    'IdleAnimation',
-    'JumpAnimation',
-    'RunAnimation',
-    'SwimAnimation',
-    'WalkAnimation',
-    'PoseAnimation',
-    'LocalizationTableManifest',
-    'LocalizationTableTranslation',
-    'EmoteAnimation',
-    'Video',
-    'TexturePack',
-    'TShirtAccessory',
-    'ShirtAccessory',
-    'PantsAccessory',
-    'JacketAccessory',
-    'SweaterAccessory',
-    'ShortsAccessory',
-    'LeftShoeAccessory',
-    'RightShoeAccessory',
-    'DressSkirtAccessory',
-    'FontFamily',
-    'FontFace',
-    'MeshHiddenSurfaceRemoval',
-    'EyebrowAccessory',
-    'EyelashAccessory',
-    'MoodAnimation',
-    'DynamicHead',
-    'CodeSnippet',
-    'AdsVideo',
-    'OtaUpdate',
-    'Screenshot',
-    'RuntimePropertySet',
-    'StorePreviewVideo',
-    'GamePreviewVideo',
-    'CreatorExperienceConfig',
-    'FaceMakeup',
-    'LipMakeup',
-    'EyeMakeup',
-    'VoxelFragment',
-  ]),
-  name: z.string(),
-});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Games_GameMediaItemResponseV2_ =
+  z.object({
+    data: z.array(Roblox_Web_Responses_Games_GameMediaItemResponseV2),
+  });
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_ =
+  z.object({
+    id: z.number().int(),
+    type: z.enum(["User", "Group"]),
+    name: z.string(),
+  });
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_ =
+  z.object({
+    id: z.number().int(),
+    type: z.enum([
+      "Image",
+      "TShirt",
+      "Audio",
+      "Mesh",
+      "Lua",
+      "HTML",
+      "Text",
+      "Hat",
+      "Place",
+      "Model",
+      "Shirt",
+      "Pants",
+      "Decal",
+      "Avatar",
+      "Head",
+      "Face",
+      "Gear",
+      "Badge",
+      "GroupEmblem",
+      "Animation",
+      "Arms",
+      "Legs",
+      "Torso",
+      "RightArm",
+      "LeftArm",
+      "LeftLeg",
+      "RightLeg",
+      "Package",
+      "YouTubeVideo",
+      "GamePass",
+      "App",
+      "Code",
+      "Plugin",
+      "SolidModel",
+      "MeshPart",
+      "HairAccessory",
+      "FaceAccessory",
+      "NeckAccessory",
+      "ShoulderAccessory",
+      "FrontAccessory",
+      "BackAccessory",
+      "WaistAccessory",
+      "ClimbAnimation",
+      "DeathAnimation",
+      "FallAnimation",
+      "IdleAnimation",
+      "JumpAnimation",
+      "RunAnimation",
+      "SwimAnimation",
+      "WalkAnimation",
+      "PoseAnimation",
+      "LocalizationTableManifest",
+      "LocalizationTableTranslation",
+      "EmoteAnimation",
+      "Video",
+      "TexturePack",
+      "TShirtAccessory",
+      "ShirtAccessory",
+      "PantsAccessory",
+      "JacketAccessory",
+      "SweaterAccessory",
+      "ShortsAccessory",
+      "LeftShoeAccessory",
+      "RightShoeAccessory",
+      "DressSkirtAccessory",
+      "FontFamily",
+      "FontFace",
+      "MeshHiddenSurfaceRemoval",
+      "EyebrowAccessory",
+      "EyelashAccessory",
+      "MoodAnimation",
+      "DynamicHead",
+      "CodeSnippet",
+      "AdsVideo",
+      "OtaUpdate",
+      "Screenshot",
+      "RuntimePropertySet",
+      "StorePreviewVideo",
+      "GamePreviewVideo",
+      "CreatorExperienceConfig",
+      "FaceMakeup",
+      "LipMakeup",
+      "EyeMakeup",
+      "VoxelFragment",
+      "AvatarBackground",
+    ]),
+    name: z.string(),
+  });
 const Roblox_Web_Responses_Games_GameFavoriteResponseModel = z.object({
   price: z.number().int(),
   id: z.number().int(),
   name: z.string(),
   description: z.string(),
-  creator: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_,
-  rootPlace: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_,
+  creator:
+    Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_,
+  rootPlace:
+    Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_,
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
   placeVisits: z.number().int(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameFavoriteResponseModel_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Web_Responses_Games_GameFavoriteResponseModel),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameFavoriteResponseModel_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Web_Responses_Games_GameFavoriteResponseModel),
+  });
 const Roblox_Web_Responses_Games_GameResponseV2 = z.object({
   id: z.number().int(),
   name: z.string(),
   description: z.string(),
-  creator: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_,
-  rootPlace: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_,
+  creator:
+    Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_,
+  rootPlace:
+    Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_,
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
   placeVisits: z.number().int(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameResponseV2_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Web_Responses_Games_GameResponseV2),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameResponseV2_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Web_Responses_Games_GameResponseV2),
+  });
 
 /**
  * @api GET https://games.roblox.com/v2/games/:universeId/media
@@ -148,16 +158,16 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameRe
  * @param fetchAllExperienceRelatedMedia to tell if the API query is to fetch all related media for this experience
  */
 export const getGamesUniverseidMedia = endpoint({
-  method: 'GET',
-  path: '/v2/games/:universeId/media',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/games/:universeId/media",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     universeId: {
-      style: 'simple',
+      style: "simple",
     },
     fetchAllExperienceRelatedMedia: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -165,7 +175,8 @@ export const getGamesUniverseidMedia = endpoint({
     universeId: z.number().int(),
     fetchAllExperienceRelatedMedia: z.boolean().optional(),
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Games_GameMediaItemResponseV2_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Games_GameMediaItemResponseV2_,
   errors: [
     {
       status: 400,
@@ -187,28 +198,28 @@ export const getGamesUniverseidMedia = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridFavoriteGames = endpoint({
-  method: 'GET',
-  path: '/v2/users/:userId/favorite/games',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/users/:userId/favorite/games",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     accessFilter: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     limit: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortOrder: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -223,9 +234,10 @@ export const getUsersUseridFavoriteGames = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Desc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Desc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameFavoriteResponseModel_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameFavoriteResponseModel_,
   errors: [],
 });
 /**
@@ -238,28 +250,28 @@ export const getUsersUseridFavoriteGames = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridGames = endpoint({
-  method: 'GET',
-  path: '/v2/users/:userId/games',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/users/:userId/games",
+  baseUrl: "https://games.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     accessFilter: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     limit: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortOrder: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -274,9 +286,10 @@ export const getUsersUseridGames = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameResponseV2_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameResponseV2_,
   errors: [],
 });
 
@@ -303,14 +316,8 @@ export const getGroupsGroupidGamesv2 = endpoint({
   },
   parameters: {
     groupId: z.number().int(),
-    accessFilter: z
-      .union([z.literal(1), z.literal(2), z.literal(4)])
-      .optional()
-      .default(1),
-    limit: z
-      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
-      .optional()
-      .default(10),
+    accessFilter: z.union([z.literal(1), z.literal(2), z.literal(4)]).optional().default(1),
+    limit: z.union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)]).optional().default(10),
     cursor: z.string().optional(),
     sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
   },

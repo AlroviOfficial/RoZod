@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
   id: z.number().int(),
@@ -7,7 +7,7 @@ const Roblox_Web_Responses_Users_SkinnyUserResponse = z.object({
   displayName: z.string(),
 });
 const Roblox_Trades_Api_Models_V2_ItemTarget = z.object({
-  itemType: z.enum(['Unknown', 'Asset', 'Bundle']),
+  itemType: z.enum(["Unknown", "Asset", "Bundle"]),
   targetId: z.string(),
 });
 const Roblox_Trades_Api_Models_V2_TradableItemInstance = z.object({
@@ -28,17 +28,17 @@ const Roblox_Trades_Api_Models_V2_TradeOffer = z.object({
 const Roblox_Trades_Api_Models_V2_TradeDetailsResponse = z.object({
   tradeId: z.number().int(),
   status: z.enum([
-    'Unknown',
-    'Open',
-    'Pending',
-    'Completed',
-    'Expired',
-    'Declined',
-    'RejectedDueToError',
-    'Countered',
-    'Processing',
-    'InterventionRequired',
-    'TwoStepVerificationRequired',
+    "Unknown",
+    "Open",
+    "Pending",
+    "Completed",
+    "Expired",
+    "Declined",
+    "RejectedDueToError",
+    "Countered",
+    "Processing",
+    "InterventionRequired",
+    "TwoStepVerificationRequired",
   ]),
   participantAOffer: Roblox_Trades_Api_Models_V2_TradeOffer,
   participantBOffer: Roblox_Trades_Api_Models_V2_TradeOffer,
@@ -48,12 +48,12 @@ const Roblox_Trades_Api_Models_V2_CanTradeWithResponse = z.object({
   targetUserId: z.number().int(),
   canTrade: z.boolean(),
   mutualTradeEligibility: z.enum([
-    'Unknown',
-    'Eligible',
-    'CallingUserIneligible',
-    'TargetUserIneligible',
-    'CannotTradeWithSelf',
-    'CallingUserPrivacySettingsRestricted',
+    "Unknown",
+    "Eligible",
+    "CallingUserIneligible",
+    "TargetUserIneligible",
+    "CannotTradeWithSelf",
+    "CallingUserPrivacySettingsRestricted",
   ]),
 });
 const Roblox_Trades_Api_Models_V2_TradableItem = z.object({
@@ -74,13 +74,13 @@ const Roblox_Trades_Api_Models_V2_CanTradeResponse = z.object({
   userId: z.number().int(),
   canTrade: z.boolean(),
   tradeEligibility: z.enum([
-    'Unknown',
-    'Eligible',
-    'IneligibleTradeSystemDisabled',
-    'IneligibleCannotTradeWithRoblox',
-    'IneligibleUserNotFound',
-    'IneligibleMissingPremiumMembership',
-    'IneligibleLegalOrRegulatoryRestrictions',
+    "Unknown",
+    "Eligible",
+    "IneligibleTradeSystemDisabled",
+    "IneligibleCannotTradeWithRoblox",
+    "IneligibleUserNotFound",
+    "IneligibleMissingPremiumMembership",
+    "IneligibleLegalOrRegulatoryRestrictions",
   ]),
 });
 const Roblox_Trades_Api_Models_V2_TradeOfferRequest = z.object({
@@ -102,13 +102,13 @@ const Roblox_Trades_Api_Models_V2_NewTradeResponse = z.object({
  * @param tradeId The id of the trade.
  */
 export const getTradesTradeid = endpoint({
-  method: 'GET',
-  path: '/v2/trades/:tradeId',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/trades/:tradeId",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     tradeId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -142,14 +142,14 @@ export const getTradesTradeid = endpoint({
  * @param tradeId
  */
 export const postTradesTradeidCounter = endpoint({
-  method: 'POST',
-  path: '/v2/trades/:tradeId/counter',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v2/trades/:tradeId/counter",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
     tradeId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -179,10 +179,10 @@ export const postTradesTradeidCounter = endpoint({
  * @param body
  */
 export const postTradesSend = endpoint({
-  method: 'POST',
-  path: '/v2/trades/send',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v2/trades/send",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
   },
@@ -211,13 +211,13 @@ export const postTradesSend = endpoint({
  * @param userId
  */
 export const getUsersUseridCanTradeWith = endpoint({
-  method: 'GET',
-  path: '/v2/users/:userId/can-trade-with',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/users/:userId/can-trade-with",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -244,36 +244,36 @@ export const getUsersUseridCanTradeWith = endpoint({
  * @param cursor The pagination cursor.
  */
 export const getUsersUseridTradableitems = endpoint({
-  method: 'GET',
-  path: '/v2/users/:userId/tradableItems',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/users/:userId/tradableItems",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     search: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     itemTargetTypes: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortBy: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortOrder: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     limit: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -283,28 +283,31 @@ export const getUsersUseridTradableitems = endpoint({
     itemTargetTypes: z
       .array(
         z.enum([
-          'Unknown',
-          'HatAccessory',
-          'HairAccessory',
-          'FaceAccessory',
-          'NeckAccessory',
-          'ShoulderAccessory',
-          'FrontAccessory',
-          'BackAccessory',
-          'WaistAccessory',
-          'Gear',
-          'Face',
-          'JacketAccessory',
-          'SweaterAccessory',
-          'DressSkirtAccessory',
-          'Character',
-          'DynamicHead',
-          'Shoes',
-          'Animation',
-        ]),
+          "Unknown",
+          "HatAccessory",
+          "HairAccessory",
+          "FaceAccessory",
+          "NeckAccessory",
+          "ShoulderAccessory",
+          "FrontAccessory",
+          "BackAccessory",
+          "WaistAccessory",
+          "Gear",
+          "Face",
+          "JacketAccessory",
+          "SweaterAccessory",
+          "DressSkirtAccessory",
+          "Character",
+          "DynamicHead",
+          "Shoes",
+          "Animation",
+        ])
       )
       .optional(),
-    sortBy: z.enum(['Unknown', 'CreationTime', 'AcquisitionTime']).optional().default('CreationTime'),
+    sortBy: z
+      .enum(["Unknown", "CreationTime", "AcquisitionTime"])
+      .optional()
+      .default("CreationTime"),
     sortOrder: z
       .union([z.literal(0), z.literal(1), z.literal(2)])
       .optional()
@@ -338,10 +341,10 @@ export const getUsersUseridTradableitems = endpoint({
  * @summary Checks if the calling user can trade with others.
  */
 export const getUsersMeCanTrade = endpoint({
-  method: 'GET',
-  path: '/v2/users/me/can-trade',
-  baseUrl: 'https://trades.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/users/me/can-trade",
+  baseUrl: "https://trades.roblox.com",
+  requestFormat: "json",
   response: Roblox_Trades_Api_Models_V2_CanTradeResponse,
   errors: [
     {

@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_System_String_ = z.object({
   data: z.array(z.string()),
@@ -7,28 +7,31 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_System_String_ = z.object({
 const Roblox_TranslationRoles_Api_Assignee = z.object({
   id: z.number().int(),
   name: z.string(),
-  type: z.enum(['user', 'group', 'groupRole']),
+  type: z.enum(["user", "group", "groupRole"]),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_TranslationRoles_Api_Assignee_ = z.object({
-  data: z.array(Roblox_TranslationRoles_Api_Assignee),
-});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_TranslationRoles_Api_Assignee_ =
+  z.object({ data: z.array(Roblox_TranslationRoles_Api_Assignee) });
 const Roblox_GameLocalization_Client_GameLocalizationRoles_Assignee = z.object({
-  assigneeType: z.enum(['user', 'group', 'groupRole']),
+  assigneeType: z.enum(["user", "group", "groupRole"]),
   id: z.number().int(),
 });
-const Roblox_GameLocalization_Client_GameLocalizationRoles_GameLocalizationRoleAssignment = z.object({
-  gameId: z.number().int(),
-  assignee: Roblox_GameLocalization_Client_GameLocalizationRoles_Assignee,
-});
-const Roblox_TranslationRoles_Api_GetGameLocalizationRoleAssignmentsForUserResponse = z.object({
-  games: z.array(Roblox_GameLocalization_Client_GameLocalizationRoles_GameLocalizationRoleAssignment),
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-});
+const Roblox_GameLocalization_Client_GameLocalizationRoles_GameLocalizationRoleAssignment =
+  z.object({
+    gameId: z.number().int(),
+    assignee: Roblox_GameLocalization_Client_GameLocalizationRoles_Assignee,
+  });
+const Roblox_TranslationRoles_Api_GetGameLocalizationRoleAssignmentsForUserResponse =
+  z.object({
+    games: z.array(
+      Roblox_GameLocalization_Client_GameLocalizationRoles_GameLocalizationRoleAssignment
+    ),
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+  });
 const Roblox_TranslationRoles_Api_UpdateRoleRequest = z.object({
   assigneeId: z.number().int(),
-  assigneeType: z.enum(['user', 'group', 'groupRole']),
-  role: z.literal('translator'),
+  assigneeType: z.enum(["user", "group", "groupRole"]),
+  role: z.literal("translator"),
   revoke: z.boolean(),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
@@ -40,14 +43,14 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
  * @param gameId The id of the game
  */
 export const patchGameLocalizationRolesGamesGameid = endpoint({
-  method: 'PATCH',
-  path: '/v1/game-localization-roles/games/:gameId',
-  baseUrl: 'https://translationroles.roblox.com',
-  requestFormat: 'json',
+  method: "PATCH",
+  path: "/v1/game-localization-roles/games/:gameId",
+  baseUrl: "https://translationroles.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
     gameId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -88,13 +91,13 @@ export const patchGameLocalizationRolesGamesGameid = endpoint({
  * @param gameId The id of the game
  */
 export const getGameLocalizationRolesGamesGameidCurrentUserRoles = endpoint({
-  method: 'GET',
-  path: '/v1/game-localization-roles/games/:gameId/current-user/roles',
-  baseUrl: 'https://translationroles.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/game-localization-roles/games/:gameId/current-user/roles",
+  baseUrl: "https://translationroles.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     gameId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -123,23 +126,24 @@ export const getGameLocalizationRolesGamesGameidCurrentUserRoles = endpoint({
  * @param role The Roblox.GameLocalization.Client.GameLocalizationRoles.GameLocalizationRoleType
  */
 export const getGameLocalizationRolesGamesGameidRolesRoleAssignees = endpoint({
-  method: 'GET',
-  path: '/v1/game-localization-roles/games/:gameId/roles/:role/assignees',
-  baseUrl: 'https://translationroles.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/game-localization-roles/games/:gameId/roles/:role/assignees",
+  baseUrl: "https://translationroles.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     gameId: {
-      style: 'simple',
+      style: "simple",
     },
     role: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
     gameId: z.number().int(),
-    role: z.literal('translator'),
+    role: z.literal("translator"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_TranslationRoles_Api_Assignee_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_TranslationRoles_Api_Assignee_,
   errors: [
     {
       status: 400,
@@ -168,34 +172,35 @@ export const getGameLocalizationRolesGamesGameidRolesRoleAssignees = endpoint({
  * @param groupId Optional seleted groupId of resources requested for the user and role.
  */
 export const getGameLocalizationRolesRolesRoleCurrentUser = endpoint({
-  method: 'GET',
-  path: '/v1/game-localization-roles/roles/:role/current-user',
-  baseUrl: 'https://translationroles.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/game-localization-roles/roles/:role/current-user",
+  baseUrl: "https://translationroles.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     role: {
-      style: 'simple',
+      style: "simple",
     },
     exclusiveStartKey: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     pageSize: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     groupId: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
   parameters: {
-    role: z.literal('translator'),
+    role: z.literal("translator"),
     exclusiveStartKey: z.string().optional(),
     pageSize: z.number().int().optional(),
     groupId: z.number().int().optional(),
   },
-  response: Roblox_TranslationRoles_Api_GetGameLocalizationRoleAssignmentsForUserResponse,
+  response:
+    Roblox_TranslationRoles_Api_GetGameLocalizationRoleAssignmentsForUserResponse,
   errors: [
     {
       status: 400,

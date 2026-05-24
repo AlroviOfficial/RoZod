@@ -1,135 +1,144 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_ = z.object({
-  id: z.number().int(),
-  type: z.literal('User'),
-  name: z.string(),
-});
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_ =
+  z.object({ id: z.number().int(), type: z.literal("User"), name: z.string() });
 const Roblox_Web_Responses_Groups_GroupResponseV2 = z.object({
   id: z.number().int(),
   name: z.string(),
   description: z.string(),
-  owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
+  owner:
+    Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Web_Responses_Groups_GroupOwnerType_,
   memberCount: z.number().int(),
   created: z.string().datetime({ offset: true }),
   hasVerifiedBadge: z.boolean(),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_ = z.object({
-  data: z.array(Roblox_Web_Responses_Groups_GroupResponseV2),
-});
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_ = z.object({
-  id: z.number().int(),
-  type: z.enum(['User', 'Group']),
-  name: z.string(),
-});
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_ = z.object({
-  id: z.number().int(),
-  type: z.enum([
-    'Image',
-    'TShirt',
-    'Audio',
-    'Mesh',
-    'Lua',
-    'HTML',
-    'Text',
-    'Hat',
-    'Place',
-    'Model',
-    'Shirt',
-    'Pants',
-    'Decal',
-    'Avatar',
-    'Head',
-    'Face',
-    'Gear',
-    'Badge',
-    'GroupEmblem',
-    'Animation',
-    'Arms',
-    'Legs',
-    'Torso',
-    'RightArm',
-    'LeftArm',
-    'LeftLeg',
-    'RightLeg',
-    'Package',
-    'YouTubeVideo',
-    'GamePass',
-    'App',
-    'Code',
-    'Plugin',
-    'SolidModel',
-    'MeshPart',
-    'HairAccessory',
-    'FaceAccessory',
-    'NeckAccessory',
-    'ShoulderAccessory',
-    'FrontAccessory',
-    'BackAccessory',
-    'WaistAccessory',
-    'ClimbAnimation',
-    'DeathAnimation',
-    'FallAnimation',
-    'IdleAnimation',
-    'JumpAnimation',
-    'RunAnimation',
-    'SwimAnimation',
-    'WalkAnimation',
-    'PoseAnimation',
-    'LocalizationTableManifest',
-    'LocalizationTableTranslation',
-    'EmoteAnimation',
-    'Video',
-    'TexturePack',
-    'TShirtAccessory',
-    'ShirtAccessory',
-    'PantsAccessory',
-    'JacketAccessory',
-    'SweaterAccessory',
-    'ShortsAccessory',
-    'LeftShoeAccessory',
-    'RightShoeAccessory',
-    'DressSkirtAccessory',
-    'FontFamily',
-    'FontFace',
-    'MeshHiddenSurfaceRemoval',
-    'EyebrowAccessory',
-    'EyelashAccessory',
-    'MoodAnimation',
-    'DynamicHead',
-    'CodeSnippet',
-    'AdsVideo',
-    'OtaUpdate',
-    'Screenshot',
-    'RuntimePropertySet',
-    'StorePreviewVideo',
-    'GamePreviewVideo',
-    'CreatorExperienceConfig',
-    'FaceMakeup',
-    'LipMakeup',
-    'EyeMakeup',
-    'VoxelFragment',
-  ]),
-  name: z.string(),
-});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_ =
+  z.object({ data: z.array(Roblox_Web_Responses_Groups_GroupResponseV2) });
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_ =
+  z.object({
+    id: z.number().int(),
+    type: z.enum(["User", "Group"]),
+    name: z.string(),
+  });
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_ =
+  z.object({
+    id: z.number().int(),
+    type: z.enum([
+      "Image",
+      "TShirt",
+      "Audio",
+      "Mesh",
+      "Lua",
+      "HTML",
+      "Text",
+      "Hat",
+      "Place",
+      "Model",
+      "Shirt",
+      "Pants",
+      "Decal",
+      "Avatar",
+      "Head",
+      "Face",
+      "Gear",
+      "Badge",
+      "GroupEmblem",
+      "Animation",
+      "Arms",
+      "Legs",
+      "Torso",
+      "RightArm",
+      "LeftArm",
+      "LeftLeg",
+      "RightLeg",
+      "Package",
+      "YouTubeVideo",
+      "GamePass",
+      "App",
+      "Code",
+      "Plugin",
+      "SolidModel",
+      "MeshPart",
+      "HairAccessory",
+      "FaceAccessory",
+      "NeckAccessory",
+      "ShoulderAccessory",
+      "FrontAccessory",
+      "BackAccessory",
+      "WaistAccessory",
+      "ClimbAnimation",
+      "DeathAnimation",
+      "FallAnimation",
+      "IdleAnimation",
+      "JumpAnimation",
+      "RunAnimation",
+      "SwimAnimation",
+      "WalkAnimation",
+      "PoseAnimation",
+      "LocalizationTableManifest",
+      "LocalizationTableTranslation",
+      "EmoteAnimation",
+      "Video",
+      "TexturePack",
+      "TShirtAccessory",
+      "ShirtAccessory",
+      "PantsAccessory",
+      "JacketAccessory",
+      "SweaterAccessory",
+      "ShortsAccessory",
+      "LeftShoeAccessory",
+      "RightShoeAccessory",
+      "DressSkirtAccessory",
+      "FontFamily",
+      "FontFace",
+      "MeshHiddenSurfaceRemoval",
+      "EyebrowAccessory",
+      "EyelashAccessory",
+      "MoodAnimation",
+      "DynamicHead",
+      "CodeSnippet",
+      "AdsVideo",
+      "OtaUpdate",
+      "Screenshot",
+      "RuntimePropertySet",
+      "StorePreviewVideo",
+      "GamePreviewVideo",
+      "CreatorExperienceConfig",
+      "FaceMakeup",
+      "LipMakeup",
+      "EyeMakeup",
+      "VoxelFragment",
+      "AvatarBackground",
+    ]),
+    name: z.string(),
+  });
 const Roblox_Groups_Api_Models_Response_GroupExperienceResponse = z.object({
   id: z.number().int(),
   name: z.string(),
   description: z.string(),
-  creator: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_,
-  rootPlace: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_,
+  creator:
+    Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_,
+  rootPlace:
+    Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_AssetType_,
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
   placeVisits: z.number().int(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_GroupExperienceResponse_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Groups_Api_Models_Response_GroupExperienceResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_GroupExperienceResponse_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Groups_Api_Models_Response_GroupExperienceResponse),
+  });
 const Roblox_Groups_Api_Models_Response_UserModel = z.object({
-  buildersClubMembershipType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  buildersClubMembershipType: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+  ]),
   hasVerifiedBadge: z.boolean(),
   userId: z.number().int(),
   username: z.string(),
@@ -154,16 +163,20 @@ const Roblox_Groups_Api_GroupDetailResponse = z.object({
   hasVerifiedBadge: z.boolean(),
   hasSocialModules: z.boolean(),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupDetailResponse_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Groups_Api_GroupDetailResponse),
-});
-const Roblox_Groups_Api_Models_Response_GroupRelationshipsV2Response = z.object({
-  groupId: z.number().int(),
-  relationshipType: z.enum(['Allies', 'Enemies']),
-  groupResponses: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupDetailResponse_,
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupDetailResponse_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Groups_Api_GroupDetailResponse),
+  });
+const Roblox_Groups_Api_Models_Response_GroupRelationshipsV2Response = z.object(
+  {
+    groupId: z.number().int(),
+    relationshipType: z.enum(["Allies", "Enemies"]),
+    groupResponses:
+      Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupDetailResponse_,
+  }
+);
 const Roblox_Groups_Api_GroupRoleResponse = z.object({
   id: z.number().int(),
   name: z.string(),
@@ -172,23 +185,23 @@ const Roblox_Groups_Api_GroupRoleResponse = z.object({
   memberCount: z.number().int(),
   isBase: z.boolean(),
   color: z.enum([
-    'Invalid',
-    'Blue',
-    'Green',
-    'Purple',
-    'Yellow',
-    'Orange',
-    'Red',
-    'Magenta',
-    'Teal',
-    'Turquoise',
-    'Rust',
-    'Pistachio',
-    'Midnight',
-    'Lavender',
-    'Pink',
-    'Crimson',
-    'Plum',
+    "Invalid",
+    "Blue",
+    "Green",
+    "Purple",
+    "Yellow",
+    "Orange",
+    "Red",
+    "Magenta",
+    "Teal",
+    "Turquoise",
+    "Rust",
+    "Pistachio",
+    "Midnight",
+    "Lavender",
+    "Pink",
+    "Crimson",
+    "Plum",
   ]),
 });
 const Roblox_Groups_Api_UserGroupRoleResponse = z.object({
@@ -202,11 +215,12 @@ const Roblox_Groups_Api_GroupWallPostV2Model = z.object({
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Groups_Api_GroupWallPostV2Model),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Groups_Api_GroupWallPostV2Model),
+  });
 const Roblox_Groups_Api_CreateWallPostRequest = z.object({
   body: z.string(),
   captchaId: z.string(),
@@ -227,11 +241,11 @@ const Roblox_Web_Responses_Groups_GroupRoleBasicResponse = z.object({
 });
 const Roblox_Groups_Api_GroupNotificationPreferenceData = z.object({
   type: z.enum([
-    'AnnouncementCreatedNotification',
-    'ForumPostCreatedNotification',
-    'ForumCommentCreatedNotification',
-    'ForumCommentReplyCreatedNotification',
-    'ForumSubscriberNotification',
+    "AnnouncementCreatedNotification",
+    "ForumPostCreatedNotification",
+    "ForumCommentCreatedNotification",
+    "ForumCommentReplyCreatedNotification",
+    "ForumSubscriberNotification",
   ]),
   enabled: z.boolean(),
   name: z.string(),
@@ -241,11 +255,12 @@ const Roblox_Groups_Api_GroupMembershipResponse = z.object({
   group: Roblox_Web_Responses_Groups_GroupBasicResponse,
   role: Roblox_Web_Responses_Groups_GroupRoleBasicResponse,
   isNotificationsEnabled: z.boolean(),
-  notificationPreferences: z.array(Roblox_Groups_Api_GroupNotificationPreferenceData),
+  notificationPreferences: z.array(
+    Roblox_Groups_Api_GroupNotificationPreferenceData
+  ),
 });
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_ = z.object({
-  data: z.array(Roblox_Groups_Api_GroupMembershipResponse),
-});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_ =
+  z.object({ data: z.array(Roblox_Groups_Api_GroupMembershipResponse) });
 
 /**
  * @api GET https://groups.roblox.com/v2/groups
@@ -254,19 +269,20 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershi
  * @description If a group comes back as null, it will not be returned in the response.
  */
 export const getGroups = endpoint({
-  method: 'GET',
-  path: '/v2/groups',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/groups",
+  baseUrl: "https://groups.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     groupIds: {
-      style: 'form',
+      style: "form",
     },
   },
   parameters: {
     groupIds: z.array(z.number()),
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Groups_GroupResponseV2_,
   errors: [
     {
       status: 400,
@@ -285,28 +301,28 @@ export const getGroups = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidExperiences = endpoint({
-  method: 'GET',
-  path: '/v2/groups/:groupId/experiences',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/groups/:groupId/experiences",
+  baseUrl: "https://groups.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     groupId: {
-      style: 'simple',
+      style: "simple",
     },
     accessFilter: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     limit: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortOrder: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -321,9 +337,10 @@ export const getGroupsGroupidExperiences = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_GroupExperienceResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_Models_Response_GroupExperienceResponse_,
   errors: [
     {
       status: 501,
@@ -341,27 +358,27 @@ export const getGroupsGroupidExperiences = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getGroupsGroupidRelationshipsGrouprelationshiptype = endpoint({
-  method: 'GET',
-  path: '/v2/groups/:groupId/relationships/:groupRelationshipType',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/groups/:groupId/relationships/:groupRelationshipType",
+  baseUrl: "https://groups.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     groupId: {
-      style: 'simple',
+      style: "simple",
     },
     groupRelationshipType: {
-      style: 'simple',
+      style: "simple",
     },
     limit: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortOrder: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -373,7 +390,7 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptype = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
   response: Roblox_Groups_Api_Models_Response_GroupRelationshipsV2Response,
   errors: [
@@ -394,59 +411,60 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptype = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  * @param sortOrder The order the results are sorted in.
  */
-export const getGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoint({
-  method: 'GET',
-  path: '/v2/groups/:groupId/relationships/:groupRelationshipType/requests',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    groupId: {
-      style: 'simple',
+export const getGroupsGroupidRelationshipsGrouprelationshiptypeRequests =
+  endpoint({
+    method: "GET",
+    path: "/v2/groups/:groupId/relationships/:groupRelationshipType/requests",
+    baseUrl: "https://groups.roblox.com",
+    requestFormat: "json",
+    serializationMethod: {
+      groupId: {
+        style: "simple",
+      },
+      groupRelationshipType: {
+        style: "simple",
+      },
+      limit: {
+        style: "form",
+        explode: true,
+      },
+      cursor: {
+        style: "form",
+        explode: true,
+      },
+      sortOrder: {
+        style: "form",
+        explode: true,
+      },
     },
-    groupRelationshipType: {
-      style: 'simple',
+    parameters: {
+      groupId: z.number().int(),
+      groupRelationshipType: z.string(),
+      limit: z
+        .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
+        .optional()
+        .default(10),
+      cursor: z.string().optional(),
+      sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
     },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    groupId: z.number().int(),
-    groupRelationshipType: z.string(),
-    limit: z
-      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
-      .optional()
-      .default(10),
-    cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
-  },
-  response: Roblox_Groups_Api_Models_Response_GroupRelationshipsV2Response,
-  errors: [
-    {
-      status: 400,
-      description: `1: Group is invalid or does not exist.
+    response: Roblox_Groups_Api_Models_Response_GroupRelationshipsV2Response,
+    errors: [
+      {
+        status: 400,
+        description: `1: Group is invalid or does not exist.
 4: Group relationship type or request type is invalid.
 8: Invalid or missing pagination parameters`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `5: You don&#x27;t have permission to manage this group&#x27;s relationships.`,
-    },
-  ],
-});
+      },
+      {
+        status: 401,
+        description: `0: Authorization has been denied for this request.`,
+      },
+      {
+        status: 403,
+        description: `5: You don&#x27;t have permission to manage this group&#x27;s relationships.`,
+      },
+    ],
+  });
 /**
  * @api GET https://groups.roblox.com/v2/groups/:groupId/wall/posts
  * @summary Gets a list of group wall posts.
@@ -456,24 +474,24 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoi
  * @param sortOrder Sorted by group wall post Id
  */
 export const getGroupsGroupidWallPosts = endpoint({
-  method: 'GET',
-  path: '/v2/groups/:groupId/wall/posts',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/groups/:groupId/wall/posts",
+  baseUrl: "https://groups.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     groupId: {
-      style: 'simple',
+      style: "simple",
     },
     limit: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortOrder: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -484,9 +502,10 @@ export const getGroupsGroupidWallPosts = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_,
   errors: [
     {
       status: 400,
@@ -505,14 +524,14 @@ export const getGroupsGroupidWallPosts = endpoint({
  * @param groupId The group id.
  */
 export const postGroupsGroupidWallPosts = endpoint({
-  method: 'POST',
-  path: '/v2/groups/:groupId/wall/posts',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v2/groups/:groupId/wall/posts",
+  baseUrl: "https://groups.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
     groupId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -551,24 +570,24 @@ export const postGroupsGroupidWallPosts = endpoint({
  * @param discoveryType
  */
 export const getUsersUseridGroupsRoles = endpoint({
-  method: 'GET',
-  path: '/v2/users/:userId/groups/roles',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/users/:userId/groups/roles",
+  baseUrl: "https://groups.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     includeLocked: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     includeNotificationPreferences: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     discoveryType: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -578,7 +597,8 @@ export const getUsersUseridGroupsRoles = endpoint({
     includeNotificationPreferences: z.boolean(),
     discoveryType: z.union([z.literal(0), z.literal(1)]),
   },
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_,
   errors: [
     {
       status: 400,

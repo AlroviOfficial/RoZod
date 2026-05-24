@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '../..';
+import { z } from "zod";
+import { endpoint } from "../..";
 
 const DataStore = z.object({
   name: z.instanceof(File),
@@ -22,11 +22,11 @@ const DataStore = z.object({
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const getUniversesUniverseIdDatastores = endpoint({
-  method: 'GET',
-  path: '/v1/universes/:universeId/standard-datastores',
-  baseUrl: 'https://apis.roblox.com/datastores',
-  scopes: ['universe-datastores.control:list'],
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/universes/:universeId/standard-datastores",
+  baseUrl: "https://apis.roblox.com/datastores",
+  scopes: ["universe-datastores.control:list"],
+  requestFormat: "json",
   serializationMethod: {
     universeId: {},
     cursor: {},
@@ -67,11 +67,11 @@ export const getUniversesUniverseIdDatastores = endpoint({
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const getUniversesUniverseIdDatastoresDatastoreEntries = endpoint({
-  method: 'GET',
-  path: '/v1/universes/:universeId/standard-datastores/datastore/entries',
-  baseUrl: 'https://apis.roblox.com/datastores',
-  scopes: ['universe-datastores.objects:list'],
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/universes/:universeId/standard-datastores/datastore/entries",
+  baseUrl: "https://apis.roblox.com/datastores",
+  scopes: ["universe-datastores.objects:list"],
+  requestFormat: "json",
   serializationMethod: {
     universeId: {},
     datastoreName: {},
@@ -135,11 +135,11 @@ roblox-entry-userids: [1, 2, 3]
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const getUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
-  method: 'GET',
-  path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry',
-  baseUrl: 'https://apis.roblox.com/datastores',
-  scopes: ['universe-datastores.objects:read'],
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/universes/:universeId/standard-datastores/datastore/entries/entry",
+  baseUrl: "https://apis.roblox.com/datastores",
+  scopes: ["universe-datastores.objects:read"],
+  requestFormat: "json",
   serializationMethod: {
     universeId: {},
     datastoreName: {},
@@ -150,7 +150,7 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
     universeId: z.number().int(),
     datastoreName: z.string().nullish(),
     entryKey: z.string().nullish(),
-    scope: z.string().nullish().default('global'),
+    scope: z.string().nullish().default("global"),
   },
   response: z.object({}),
   errors: [],
@@ -180,15 +180,15 @@ export const getUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
 export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
-  method: 'POST',
-  path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry',
-  baseUrl: 'https://apis.roblox.com/datastores',
+  method: "POST",
+  path: "/v1/universes/:universeId/standard-datastores/datastore/entries/entry",
+  baseUrl: "https://apis.roblox.com/datastores",
   scopes: [
-    'universe-datastores.objects:update',
-    'universe-datastores.objects:create',
-    'universe-datastores.control:create',
+    "universe-datastores.objects:update",
+    "universe-datastores.objects:create",
+    "universe-datastores.control:create",
   ],
-  requestFormat: 'json',
+  requestFormat: "json",
   serializationMethod: {
     body: {},
     universeId: {},
@@ -197,9 +197,9 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
     matchVersion: {},
     exclusiveCreate: {},
     scope: {},
-    'roblox-entry-attributes': {},
-    'roblox-entry-userids': {},
-    'content-md5': {},
+    "roblox-entry-attributes": {},
+    "roblox-entry-userids": {},
+    "content-md5": {},
   },
   parameters: {
     universeId: z.number().int(),
@@ -207,10 +207,10 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
     entryKey: z.string().nullish(),
     matchVersion: z.string().nullish(),
     exclusiveCreate: z.boolean().optional(),
-    scope: z.string().nullish().default('global'),
-    'roblox-entry-attributes': z.string().nullish(),
-    'roblox-entry-userids': z.string().nullish(),
-    'content-md5': z.string().nullish(),
+    scope: z.string().nullish().default("global"),
+    "roblox-entry-attributes": z.string().nullish(),
+    "roblox-entry-userids": z.string().nullish(),
+    "content-md5": z.string().nullish(),
   },
   body: z.string().max(4194304),
   response: z.void(),
@@ -232,27 +232,28 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
  * @see DELETE https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/scopes/{scope_id}/entries/{entry_id}
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
-export const deleteUniversesUniverseIdDatastoresDatastoreEntriesEntry = endpoint({
-  method: 'DELETE',
-  path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry',
-  baseUrl: 'https://apis.roblox.com/datastores',
-  scopes: ['universe-datastores.objects:delete'],
-  requestFormat: 'json',
-  serializationMethod: {
-    universeId: {},
-    datastoreName: {},
-    entryKey: {},
-    scope: {},
-  },
-  parameters: {
-    universeId: z.number().int(),
-    datastoreName: z.string().nullish(),
-    entryKey: z.string().nullish(),
-    scope: z.string().nullish().default('global'),
-  },
-  response: z.void(),
-  errors: [],
-});
+export const deleteUniversesUniverseIdDatastoresDatastoreEntriesEntry =
+  endpoint({
+    method: "DELETE",
+    path: "/v1/universes/:universeId/standard-datastores/datastore/entries/entry",
+    baseUrl: "https://apis.roblox.com/datastores",
+    scopes: ["universe-datastores.objects:delete"],
+    requestFormat: "json",
+    serializationMethod: {
+      universeId: {},
+      datastoreName: {},
+      entryKey: {},
+      scope: {},
+    },
+    parameters: {
+      universeId: z.number().int(),
+      datastoreName: z.string().nullish(),
+      entryKey: z.string().nullish(),
+      scope: z.string().nullish().default("global"),
+    },
+    response: z.void(),
+    errors: [],
+  });
 /**
  * **Increment Entry** · `BETA`
  *
@@ -292,37 +293,38 @@ roblox-entry-userids: [1, 2, 3]
  * @see POST https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/scopes/{scope_id}/entries/{entry_id}:increment
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
-export const postUniversesUniverseIdDatastoresDatastoreEntriesEntryIncrement = endpoint({
-  method: 'POST',
-  path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment',
-  baseUrl: 'https://apis.roblox.com/datastores',
-  scopes: [
-    'universe-datastores.objects:update',
-    'universe-datastores.objects:create',
-    'universe-datastores.control:create',
-  ],
-  requestFormat: 'json',
-  serializationMethod: {
-    universeId: {},
-    datastoreName: {},
-    entryKey: {},
-    incrementBy: {},
-    scope: {},
-    'roblox-entry-attributes': {},
-    'roblox-entry-userids': {},
-  },
-  parameters: {
-    universeId: z.number().int(),
-    datastoreName: z.string().nullish(),
-    entryKey: z.string().nullish(),
-    incrementBy: z.number().int().optional().default(1),
-    scope: z.string().nullish().default('global'),
-    'roblox-entry-attributes': z.string().nullish(),
-    'roblox-entry-userids': z.string().nullish(),
-  },
-  response: z.object({}),
-  errors: [],
-});
+export const postUniversesUniverseIdDatastoresDatastoreEntriesEntryIncrement =
+  endpoint({
+    method: "POST",
+    path: "/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment",
+    baseUrl: "https://apis.roblox.com/datastores",
+    scopes: [
+      "universe-datastores.objects:update",
+      "universe-datastores.objects:create",
+      "universe-datastores.control:create",
+    ],
+    requestFormat: "json",
+    serializationMethod: {
+      universeId: {},
+      datastoreName: {},
+      entryKey: {},
+      incrementBy: {},
+      scope: {},
+      "roblox-entry-attributes": {},
+      "roblox-entry-userids": {},
+    },
+    parameters: {
+      universeId: z.number().int(),
+      datastoreName: z.string().nullish(),
+      entryKey: z.string().nullish(),
+      incrementBy: z.number().int().optional().default(1),
+      scope: z.string().nullish().default("global"),
+      "roblox-entry-attributes": z.string().nullish(),
+      "roblox-entry-userids": z.string().nullish(),
+    },
+    response: z.object({}),
+    errors: [],
+  });
 /**
  * **List Entry Versions** · `BETA`
  *
@@ -344,54 +346,55 @@ export const postUniversesUniverseIdDatastoresDatastoreEntriesEntryIncrement = e
  * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/scopes/{scope_id}/entries/{entry_id}:listRevisions
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
-export const getUniversesUniverseIdDatastoresDatastoreEntriesEntryVersions = endpoint({
-  method: 'GET',
-  path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions',
-  baseUrl: 'https://apis.roblox.com/datastores',
-  scopes: ['universe-datastores.versions:list'],
-  requestFormat: 'json',
-  serializationMethod: {
-    universeId: {},
-    datastoreName: {},
-    entryKey: {},
-    scope: {},
-    cursor: {},
-    startTime: {},
-    endTime: {},
-    sortOrder: {},
-    limit: {},
-  },
-  parameters: {
-    universeId: z.number().int(),
-    datastoreName: z.string().nullish(),
-    entryKey: z.string().nullish(),
-    scope: z.string().nullish().default('global'),
-    cursor: z.string().datetime({ offset: true }).nullish(),
-    startTime: z.string().datetime({ offset: true }).nullish(),
-    endTime: z.string().nullish(),
-    sortOrder: z.string().nullish().default('Ascending'),
-    limit: z.number().int().optional().default(16),
-  },
-  response: z.void(),
-  errors: [
-    {
-      status: 400,
-      description: `Invalid request / Invalid file content.`,
+export const getUniversesUniverseIdDatastoresDatastoreEntriesEntryVersions =
+  endpoint({
+    method: "GET",
+    path: "/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions",
+    baseUrl: "https://apis.roblox.com/datastores",
+    scopes: ["universe-datastores.versions:list"],
+    requestFormat: "json",
+    serializationMethod: {
+      universeId: {},
+      datastoreName: {},
+      entryKey: {},
+      scope: {},
+      cursor: {},
+      startTime: {},
+      endTime: {},
+      sortOrder: {},
+      limit: {},
     },
-    {
-      status: 403,
-      description: `Publish not allowed on place.`,
+    parameters: {
+      universeId: z.number().int(),
+      datastoreName: z.string().nullish(),
+      entryKey: z.string().nullish(),
+      scope: z.string().nullish().default("global"),
+      cursor: z.string().datetime({ offset: true }).nullish(),
+      startTime: z.string().datetime({ offset: true }).nullish(),
+      endTime: z.string().nullish(),
+      sortOrder: z.string().nullish().default("Ascending"),
+      limit: z.number().int().optional().default(16),
     },
-    {
-      status: 404,
-      description: `The experience or data store was not found.`,
-    },
-    {
-      status: 429,
-      description: `Too Many Requests.`,
-    },
-  ],
-});
+    response: z.void(),
+    errors: [
+      {
+        status: 400,
+        description: `Invalid request / Invalid file content.`,
+      },
+      {
+        status: 403,
+        description: `Publish not allowed on place.`,
+      },
+      {
+        status: 404,
+        description: `The experience or data store was not found.`,
+      },
+      {
+        status: 429,
+        description: `Too Many Requests.`,
+      },
+    ],
+  });
 /**
  * **Get Entry Version** · `BETA`
  *
@@ -429,26 +432,27 @@ roblox-entry-userids: [1, 2, 3]
  * @see GET https://apis.roblox.com/cloud/v2/universes/{universe_id}/data-stores/{data_store_id}/scopes/{scope_id}/entries/{entry_id}
  * @deprecated Prefer the v2 alternative(s) listed above.
  */
-export const getUniversesUniverseIdDatastoresDatastoreEntriesEntryVersionsVersion = endpoint({
-  method: 'GET',
-  path: '/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version',
-  baseUrl: 'https://apis.roblox.com/datastores',
-  scopes: ['universe-datastores.versions:read'],
-  requestFormat: 'json',
-  serializationMethod: {
-    universeId: {},
-    datastoreName: {},
-    entryKey: {},
-    versionId: {},
-    scope: {},
-  },
-  parameters: {
-    universeId: z.number().int(),
-    datastoreName: z.string().nullish(),
-    entryKey: z.string().nullish(),
-    versionId: z.string().nullish(),
-    scope: z.string().nullish().default('global'),
-  },
-  response: z.object({}),
-  errors: [],
-});
+export const getUniversesUniverseIdDatastoresDatastoreEntriesEntryVersionsVersion =
+  endpoint({
+    method: "GET",
+    path: "/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version",
+    baseUrl: "https://apis.roblox.com/datastores",
+    scopes: ["universe-datastores.versions:read"],
+    requestFormat: "json",
+    serializationMethod: {
+      universeId: {},
+      datastoreName: {},
+      entryKey: {},
+      versionId: {},
+      scope: {},
+    },
+    parameters: {
+      universeId: z.number().int(),
+      datastoreName: z.string().nullish(),
+      entryKey: z.string().nullish(),
+      versionId: z.string().nullish(),
+      scope: z.string().nullish().default("global"),
+    },
+    response: z.object({}),
+    errors: [],
+  });

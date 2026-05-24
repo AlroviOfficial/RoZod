@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_AccountInformation_Api_Models_BirthdateResponse = z.object({
   birthMonth: z.number().int(),
@@ -45,17 +45,17 @@ const Roblox_AccountInformation_Api_Models_PhoneRequest = z.object({
   password: z.string(),
   verificationChannel: z.string(),
 });
-const Roblox_Platform_UserPhoneNumberVerification_Models_PendingVerificationResponse = z.object({
-  verificationChannel: z.string(),
-  data: z.string(),
-});
-const Roblox_AccountInformation_Api_Models_PromotionChannelsResponse = z.object({
-  promotionChannelsVisibilityPrivacy: z.string(),
-  facebook: z.string(),
-  twitter: z.string(),
-  youtube: z.string(),
-  twitch: z.string(),
-});
+const Roblox_Platform_UserPhoneNumberVerification_Models_PendingVerificationResponse =
+  z.object({ verificationChannel: z.string(), data: z.string() });
+const Roblox_AccountInformation_Api_Models_PromotionChannelsResponse = z.object(
+  {
+    promotionChannelsVisibilityPrivacy: z.string(),
+    facebook: z.string(),
+    twitter: z.string(),
+    youtube: z.string(),
+    twitch: z.string(),
+  }
+);
 const Roblox_AccountInformation_Api_Models_PromotionChannelsRequest = z.object({
   facebook: z.string(),
   twitter: z.string(),
@@ -63,20 +63,13 @@ const Roblox_AccountInformation_Api_Models_PromotionChannelsRequest = z.object({
   twitch: z.string(),
   promotionChannelsVisibilityPrivacy: z.string(),
 });
-const Roblox_AccountInformation_Api_Models_StarCodeAffiliateResponse = z.object({
-  userId: z.number().int(),
-  name: z.string(),
-  code: z.string(),
-});
-const Roblox_AccountInformation_Api_Models_StarCodeAffiliateRequest = z.object({
-  code: z.string(),
-});
-const Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse = z.object({
-  facebook: z.string(),
-  twitter: z.string(),
-  youtube: z.string(),
-  twitch: z.string(),
-});
+const Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse =
+  z.object({
+    facebook: z.string(),
+    twitter: z.string(),
+    youtube: z.string(),
+    twitch: z.string(),
+  });
 const Roblox_AccountInformation_Api_RobloxBadgeResponse = z.object({
   id: z.number().int(),
   name: z.string(),
@@ -99,10 +92,10 @@ const Roblox_AccountInformation_Api_Models_VerifyPhoneRequest = z.object({
  * @summary Get the user's birthdate
  */
 export const getBirthdate = endpoint({
-  method: 'GET',
-  path: '/v1/birthdate',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/birthdate",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   response: Roblox_AccountInformation_Api_Models_BirthdateResponse,
   errors: [
     {
@@ -120,10 +113,10 @@ export const getBirthdate = endpoint({
  * @summary Get the user's description
  */
 export const getDescription = endpoint({
-  method: 'GET',
-  path: '/v1/description',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/description",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   response: z.object({ description: z.string() }),
   errors: [
     {
@@ -142,10 +135,10 @@ export const getDescription = endpoint({
  * @param body The Roblox.AccountInformation.Api.Models.DescriptionRequest
  */
 export const postDescription = endpoint({
-  method: 'POST',
-  path: '/v1/description',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v1/description",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
   },
@@ -181,10 +174,10 @@ export const postDescription = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.VerifyEmailRequest
  */
 export const postEmailVerify = endpoint({
-  method: 'POST',
-  path: '/v1/email/verify',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v1/email/verify",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
   },
@@ -203,10 +196,10 @@ export const postEmailVerify = endpoint({
  * @summary Get the user's gender
  */
 export const getGender = endpoint({
-  method: 'GET',
-  path: '/v1/gender',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/gender",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   response: z.object({ gender: z.number().int() }),
   errors: [
     {
@@ -225,10 +218,10 @@ export const getGender = endpoint({
  * @param body The Roblox.AccountInformation.Api.Models.GenderRequest
  */
 export const postGender = endpoint({
-  method: 'POST',
-  path: '/v1/gender',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v1/gender",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
   },
@@ -260,10 +253,10 @@ export const postGender = endpoint({
  * @summary Get the metadata
  */
 export const getMetadata = endpoint({
-  method: 'GET',
-  path: '/v1/metadata',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/metadata",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   response: Roblox_AccountInformation_Api_Models_MetadataResponse,
   errors: [],
 });
@@ -272,10 +265,10 @@ export const getMetadata = endpoint({
  * @summary Get Verified Phone Number
  */
 export const getPhone = endpoint({
-  method: 'GET',
-  path: '/v1/phone',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/phone",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   response: Roblox_AccountInformation_Api_Models_PhoneResponse,
   errors: [
     {
@@ -294,16 +287,17 @@ export const getPhone = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhone = endpoint({
-  method: 'POST',
-  path: '/v1/phone',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v1/phone",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
   },
   parameters: {},
   body: Roblox_AccountInformation_Api_Models_PhoneRequest,
-  response: Roblox_Platform_UserPhoneNumberVerification_Models_PendingVerificationResponse,
+  response:
+    Roblox_Platform_UserPhoneNumberVerification_Models_PendingVerificationResponse,
   errors: [
     {
       status: 400,
@@ -341,10 +335,10 @@ export const postPhone = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhoneDelete = endpoint({
-  method: 'POST',
-  path: '/v1/phone/delete',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v1/phone/delete",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
   },
@@ -381,10 +375,10 @@ export const postPhoneDelete = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.PhoneRequest
  */
 export const postPhoneResend = endpoint({
-  method: 'POST',
-  path: '/v1/phone/resend',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v1/phone/resend",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
   },
@@ -420,10 +414,10 @@ export const postPhoneResend = endpoint({
  * @param body Roblox.AccountInformation.Api.Models.VerifyPhoneRequest
  */
 export const postPhoneVerify = endpoint({
-  method: 'POST',
-  path: '/v1/phone/verify',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v1/phone/verify",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
   },
@@ -467,21 +461,21 @@ export const postPhoneVerify = endpoint({
  * @param onlyShortenTwitter Whether all promotion channels links except for Twitter should be returned as full URLs. If false, all promotion channels will be shortened.
  */
 export const getPromotionChannels = endpoint({
-  method: 'GET',
-  path: '/v1/promotion-channels',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/promotion-channels",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     alwaysReturnUrls: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     filterLink: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     onlyShortenTwitter: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -508,10 +502,10 @@ export const getPromotionChannels = endpoint({
  * @param body The Roblox.AccountInformation.Api.Models.PromotionChannelsRequest
  */
 export const postPromotionChannels = endpoint({
-  method: 'POST',
-  path: '/v1/promotion-channels',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v1/promotion-channels",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
   },
@@ -539,87 +533,6 @@ export const postPromotionChannels = endpoint({
   ],
 });
 /**
- * @api GET https://accountinformation.roblox.com/v1/star-code-affiliates
- * @summary Gets a star code affiliate supporter for the authenticated user
- */
-export const getStarCodeAffiliates = endpoint({
-  method: 'GET',
-  path: '/v1/star-code-affiliates',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_AccountInformation_Api_Models_StarCodeAffiliateResponse,
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occured.`,
-    },
-  ],
-});
-/**
- * @api POST https://accountinformation.roblox.com/v1/star-code-affiliates
- * @summary Adds a star code affiliate supporter for the authenticated user
- * @param body Roblox.AccountInformation.Api.Models.StarCodeAffiliateRequest
- */
-export const postStarCodeAffiliates = endpoint({
-  method: 'POST',
-  path: '/v1/star-code-affiliates',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-  },
-  parameters: {},
-  body: z.object({ code: z.string() }),
-  response: Roblox_AccountInformation_Api_Models_StarCodeAffiliateResponse,
-  errors: [
-    {
-      status: 400,
-      description: `1: The code was invalid.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occured.`,
-    },
-  ],
-});
-/**
- * @api DELETE https://accountinformation.roblox.com/v1/star-code-affiliates
- * @summary Removes the star code affiliate supporter for the authenticated user
- */
-export const deleteStarCodeAffiliates = endpoint({
-  method: 'DELETE',
-  path: '/v1/star-code-affiliates',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
-  response: z.object({}),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-    {
-      status: 500,
-      description: `0: An unknown error occured.`,
-    },
-  ],
-});
-/**
  * @api GET https://accountinformation.roblox.com/v1/users/:userId/promotion-channels
  * @summary Get promotion channels for a given user ID
  * @param userId The ID of the user to fetch the promotion channels for.
@@ -627,20 +540,20 @@ export const deleteStarCodeAffiliates = endpoint({
  * @param filterLink Whether all promotion channel links should be filtered.
  */
 export const getUsersUseridPromotionChannels = endpoint({
-  method: 'GET',
-  path: '/v1/users/:userId/promotion-channels',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/users/:userId/promotion-channels",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     alwaysReturnUrls: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     filterLink: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -649,7 +562,8 @@ export const getUsersUseridPromotionChannels = endpoint({
     alwaysReturnUrls: z.boolean().optional(),
     filterLink: z.boolean().optional(),
   },
-  response: Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse,
+  response:
+    Roblox_AccountInformation_Api_Models_PromotionChannelsByUserIdResponse,
   errors: [
     {
       status: 400,
@@ -663,13 +577,13 @@ export const getUsersUseridPromotionChannels = endpoint({
  * @param userId
  */
 export const getUsersUseridRobloxBadges = endpoint({
-  method: 'GET',
-  path: '/v1/users/:userId/roblox-badges',
-  baseUrl: 'https://accountinformation.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/users/:userId/roblox-badges",
+  baseUrl: "https://accountinformation.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -677,4 +591,54 @@ export const getUsersUseridRobloxBadges = endpoint({
   },
   response: z.array(Roblox_AccountInformation_Api_RobloxBadgeResponse),
   errors: [],
+});
+
+// Patched endpoints removed from Roblox API docs
+
+const Patch_StarCodeAffiliateResponse = z.object({
+  userId: z.number().int(),
+  name: z.string(),
+  code: z.string(),
+});
+
+export const getStarCodeAffiliates = endpoint({
+  method: 'GET',
+  path: '/v1/star-code-affiliates',
+  baseUrl: 'https://accountinformation.roblox.com',
+  requestFormat: 'json',
+  response: Patch_StarCodeAffiliateResponse,
+  errors: [
+    { status: 401, description: `0: Authorization has been denied for this request.` },
+    { status: 500, description: `0: An unknown error occured.` },
+  ],
+});
+
+export const postStarCodeAffiliates = endpoint({
+  method: 'POST',
+  path: '/v1/star-code-affiliates',
+  baseUrl: 'https://accountinformation.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: { body: {} },
+  parameters: {},
+  body: z.object({ code: z.string() }),
+  response: Patch_StarCodeAffiliateResponse,
+  errors: [
+    { status: 400, description: `1: The code was invalid.` },
+    { status: 401, description: `0: Authorization has been denied for this request.` },
+    { status: 403, description: `0: Token Validation Failed` },
+    { status: 500, description: `0: An unknown error occured.` },
+  ],
+});
+
+export const deleteStarCodeAffiliates = endpoint({
+  method: 'DELETE',
+  path: '/v1/star-code-affiliates',
+  baseUrl: 'https://accountinformation.roblox.com',
+  requestFormat: 'json',
+  response: z.object({}),
+  errors: [
+    { status: 401, description: `0: Authorization has been denied for this request.` },
+    { status: 403, description: `0: Token Validation Failed` },
+    { status: 500, description: `0: An unknown error occured.` },
+  ],
 });

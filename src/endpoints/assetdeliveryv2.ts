@@ -1,8 +1,8 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_AssetDelivery_Api_AssetMetadata = z.object({
-  metadataType: z.literal('UncompressedSize'),
+  metadataType: z.literal("UncompressedSize"),
   value: z.string(),
 });
 const Roblox_Web_Assets_AssetFormatLocation = z.object({
@@ -14,28 +14,29 @@ const Roblox_Web_Assets_IAssetItemError = z.object({
   Code: z.number().int(),
   Message: z.string(),
   CustomErrorCode: z.enum([
-    'UnknownError',
-    'NoPermissionToAsset',
-    'AssetPermissionCheckFailed',
-    'NotAuthorizedForAgeRecommendation',
-    'AgeRecommendationCheckFailed',
-    'InvalidPlaceRequestFromGameServer',
-    'BlockedAssetTypeRequestedFromInsertService',
-    'BlockedAssetTypeRequestedFromGameServer',
-    'AssetTypeMismatch',
-    'MissingAssetTypeInRequestHeader',
-    'AssetNotTrustedForPlace',
-    'NoAuthentication',
-    'AssetContentRepresentationBlockedDueToModeration',
-    'AssetNotFound',
-    'AssetVersionNotFound',
-    'AssetContentRepresentationNotFound',
-    'BlockedByAgeGeoRestriction',
-    'BlockedAssetTypeRequestedFromNonGameServer',
-    'AssetPendingReview',
-    'NotApprovedForRequestor',
-    'NotApprovedByContentCompliance',
-    'AssetContentRepresentationGenerating',
+    "UnknownError",
+    "NoPermissionToAsset",
+    "AssetPermissionCheckFailed",
+    "NotAuthorizedForAgeRecommendation",
+    "AgeRecommendationCheckFailed",
+    "InvalidPlaceRequestFromGameServer",
+    "BlockedAssetTypeRequestedFromInsertService",
+    "BlockedAssetTypeRequestedFromGameServer",
+    "AssetTypeMismatch",
+    "MissingAssetTypeInRequestHeader",
+    "AssetNotTrustedForPlace",
+    "NoAuthentication",
+    "AssetContentRepresentationBlockedDueToModeration",
+    "AssetNotFound",
+    "AssetVersionNotFound",
+    "AssetContentRepresentationNotFound",
+    "BlockedByAgeGeoRestriction",
+    "BlockedAssetTypeRequestedFromNonGameServer",
+    "AssetPendingReview",
+    "NotApprovedForRequestor",
+    "NotApprovedByContentCompliance",
+    "AssetContentRepresentationGenerating",
+    "AssetArchived",
   ]),
 });
 const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z.object({
@@ -50,7 +51,8 @@ const Roblox_Web_Assets_AssetResponseItemV2 = z.object({
   requestId: z.string(),
   isArchived: z.boolean(),
   assetTypeId: z.number().int(),
-  contentRepresentationSpecifier: Roblox_Web_Assets_AssetContentRepresentationSpecifier,
+  contentRepresentationSpecifier:
+    Roblox_Web_Assets_AssetContentRepresentationSpecifier,
   isRecordable: z.boolean(),
 });
 const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
@@ -71,7 +73,7 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
   assetVersionId: z.number().int(),
   modulePlaceId: z.number().int(),
   assetFormat: z.string(),
-  'roblox-assetFormat': z.string(),
+  "roblox-assetFormat": z.string(),
   assetResolutionMode: z.string(),
   accessContext: z.string(),
   contentRepresentationPriorityList: z.string(),
@@ -96,69 +98,69 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
  * @param accessContext
  */
 export const getAliasAlias = endpoint({
-  method: 'GET',
-  path: '/v2/alias/:alias',
-  baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/alias/:alias",
+  baseUrl: "https://assetdelivery.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     alias: {
-      style: 'simple',
+      style: "simple",
     },
-    'Accept-Encoding': {
-      style: 'simple',
+    "Accept-Encoding": {
+      style: "simple",
     },
-    'Roblox-Place-Id': {
-      style: 'simple',
+    "Roblox-Place-Id": {
+      style: "simple",
     },
     AssetType: {
-      style: 'simple',
+      style: "simple",
     },
     Accept: {
-      style: 'simple',
+      style: "simple",
     },
     AssetFormat: {
-      style: 'simple',
+      style: "simple",
     },
-    'Roblox-AssetFormat': {
-      style: 'simple',
+    "Roblox-AssetFormat": {
+      style: "simple",
     },
     skipSigningScripts: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     clientInsert: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     scriptinsert: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     modulePlaceId: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     serverplaceid: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     expectedAssetType: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     accessContext: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
   parameters: {
     alias: z.string().regex(/^[0-9]+\/.+/),
-    'Accept-Encoding': z.string(),
-    'Roblox-Place-Id': z.number().int(),
+    "Accept-Encoding": z.string(),
+    "Roblox-Place-Id": z.number().int(),
     AssetType: z.string(),
     Accept: z.string(),
     AssetFormat: z.string(),
-    'Roblox-AssetFormat': z.string(),
+    "Roblox-AssetFormat": z.string(),
     skipSigningScripts: z.boolean().optional(),
     clientInsert: z.number().int().optional(),
     scriptinsert: z.number().int().optional(),
@@ -199,113 +201,113 @@ export const getAliasAlias = endpoint({
  * @param accessContext
  */
 export const getAsset = endpoint({
-  method: 'GET',
-  path: '/v2/asset',
-  baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/asset",
+  baseUrl: "https://assetdelivery.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
-    'Accept-Encoding': {
-      style: 'simple',
+    "Accept-Encoding": {
+      style: "simple",
     },
-    'Roblox-Place-Id': {
-      style: 'simple',
+    "Roblox-Place-Id": {
+      style: "simple",
     },
     AssetType: {
-      style: 'simple',
+      style: "simple",
     },
     Accept: {
-      style: 'simple',
+      style: "simple",
     },
     AssetFormat: {
-      style: 'simple',
+      style: "simple",
     },
-    'Roblox-AssetFormat': {
-      style: 'simple',
+    "Roblox-AssetFormat": {
+      style: "simple",
     },
     id: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     userAssetId: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     assetVersionId: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     version: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     universeId: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     clientInsert: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     scriptinsert: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     modulePlaceId: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     serverplaceid: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     assetName: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     hash: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     marAssetHash: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     marCheckSum: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     expectedAssetType: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     skipSigningScripts: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     permissionContext: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     doNotFallbackToBaselineRepresentation: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     contentRepresentationPriorityList: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     accessContext: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
   parameters: {
-    'Accept-Encoding': z.string(),
-    'Roblox-Place-Id': z.number().int(),
+    "Accept-Encoding": z.string(),
+    "Roblox-Place-Id": z.number().int(),
     AssetType: z.string(),
     Accept: z.string(),
     AssetFormat: z.string(),
-    'Roblox-AssetFormat': z.string(),
+    "Roblox-AssetFormat": z.string(),
     id: z.number().int().optional(),
     userAssetId: z.number().int().optional(),
     assetVersionId: z.number().int().optional(),
@@ -349,77 +351,77 @@ export const getAsset = endpoint({
  * @param accessContext
  */
 export const getAssetidAssetid = endpoint({
-  method: 'GET',
-  path: '/v2/assetId/:assetId',
-  baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/assetId/:assetId",
+  baseUrl: "https://assetdelivery.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     assetId: {
-      style: 'simple',
+      style: "simple",
     },
-    'Accept-Encoding': {
-      style: 'simple',
+    "Accept-Encoding": {
+      style: "simple",
     },
-    'Roblox-Place-Id': {
-      style: 'simple',
+    "Roblox-Place-Id": {
+      style: "simple",
     },
     AssetType: {
-      style: 'simple',
+      style: "simple",
     },
     Accept: {
-      style: 'simple',
+      style: "simple",
     },
     AssetFormat: {
-      style: 'simple',
+      style: "simple",
     },
-    'Roblox-AssetFormat': {
-      style: 'simple',
+    "Roblox-AssetFormat": {
+      style: "simple",
     },
     skipSigningScripts: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     clientInsert: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     scriptinsert: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     modulePlaceId: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     serverplaceid: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     expectedAssetType: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     doNotFallbackToBaselineRepresentation: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     contentRepresentationPriorityList: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     accessContext: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
   parameters: {
     assetId: z.number().int(),
-    'Accept-Encoding': z.string(),
-    'Roblox-Place-Id': z.number().int(),
+    "Accept-Encoding": z.string(),
+    "Roblox-Place-Id": z.number().int(),
     AssetType: z.string(),
     Accept: z.string(),
     AssetFormat: z.string(),
-    'Roblox-AssetFormat': z.string(),
+    "Roblox-AssetFormat": z.string(),
     skipSigningScripts: z.boolean().optional(),
     clientInsert: z.number().int().optional(),
     scriptinsert: z.number().int().optional(),
@@ -454,81 +456,81 @@ export const getAssetidAssetid = endpoint({
  * @param accessContext
  */
 export const getAssetidAssetidVersionVersionnumber = endpoint({
-  method: 'GET',
-  path: '/v2/assetId/:assetId/version/:versionNumber',
-  baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/assetId/:assetId/version/:versionNumber",
+  baseUrl: "https://assetdelivery.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     assetId: {
-      style: 'simple',
+      style: "simple",
     },
     versionNumber: {
-      style: 'simple',
+      style: "simple",
     },
-    'Accept-Encoding': {
-      style: 'simple',
+    "Accept-Encoding": {
+      style: "simple",
     },
-    'Roblox-Place-Id': {
-      style: 'simple',
+    "Roblox-Place-Id": {
+      style: "simple",
     },
     AssetType: {
-      style: 'simple',
+      style: "simple",
     },
     Accept: {
-      style: 'simple',
+      style: "simple",
     },
     AssetFormat: {
-      style: 'simple',
+      style: "simple",
     },
-    'Roblox-AssetFormat': {
-      style: 'simple',
+    "Roblox-AssetFormat": {
+      style: "simple",
     },
     skipSigningScripts: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     clientInsert: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     scriptinsert: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     modulePlaceId: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     serverplaceid: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     expectedAssetType: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     doNotFallbackToBaselineRepresentation: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     contentRepresentationPriorityList: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     accessContext: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
   parameters: {
     assetId: z.number().int(),
     versionNumber: z.number().int(),
-    'Accept-Encoding': z.string(),
-    'Roblox-Place-Id': z.number().int(),
+    "Accept-Encoding": z.string(),
+    "Roblox-Place-Id": z.number().int(),
     AssetType: z.string(),
     Accept: z.string(),
     AssetFormat: z.string(),
-    'Roblox-AssetFormat': z.string(),
+    "Roblox-AssetFormat": z.string(),
     skipSigningScripts: z.boolean().optional(),
     clientInsert: z.number().int().optional(),
     scriptinsert: z.number().int().optional(),
@@ -550,26 +552,26 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
  * @param Roblox-Browser-Asset-Request
  */
 export const postAssetsBatch = endpoint({
-  method: 'POST',
-  path: '/v2/assets/batch',
-  baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json',
+  method: "POST",
+  path: "/v2/assets/batch",
+  baseUrl: "https://assetdelivery.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     body: {},
-    'Roblox-Place-Id': {
-      style: 'simple',
+    "Roblox-Place-Id": {
+      style: "simple",
     },
     Accept: {
-      style: 'simple',
+      style: "simple",
     },
-    'Roblox-Browser-Asset-Request': {
-      style: 'simple',
+    "Roblox-Browser-Asset-Request": {
+      style: "simple",
     },
   },
   parameters: {
-    'Roblox-Place-Id': z.number().int(),
+    "Roblox-Place-Id": z.number().int(),
     Accept: z.string(),
-    'Roblox-Browser-Asset-Request': z.string(),
+    "Roblox-Browser-Asset-Request": z.string(),
   },
   body: z.array(Roblox_Web_Assets_BatchAssetRequestItem),
   response: z.array(Roblox_Web_Assets_AssetResponseItemV2),
@@ -593,69 +595,69 @@ export const postAssetsBatch = endpoint({
  * @param expectedAssetType
  */
 export const getMarassethashMarassethashMarchecksumMarchecksum = endpoint({
-  method: 'GET',
-  path: '/v2/marAssetHash/:marAssetHash/marCheckSum/:marCheckSum',
-  baseUrl: 'https://assetdelivery.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/marAssetHash/:marAssetHash/marCheckSum/:marCheckSum",
+  baseUrl: "https://assetdelivery.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     marAssetHash: {
-      style: 'simple',
+      style: "simple",
     },
     marCheckSum: {
-      style: 'simple',
+      style: "simple",
     },
-    'Accept-Encoding': {
-      style: 'simple',
+    "Accept-Encoding": {
+      style: "simple",
     },
-    'Roblox-Place-Id': {
-      style: 'simple',
+    "Roblox-Place-Id": {
+      style: "simple",
     },
     AssetType: {
-      style: 'simple',
+      style: "simple",
     },
     Accept: {
-      style: 'simple',
+      style: "simple",
     },
     AssetFormat: {
-      style: 'simple',
+      style: "simple",
     },
-    'Roblox-AssetFormat': {
-      style: 'simple',
+    "Roblox-AssetFormat": {
+      style: "simple",
     },
     skipSigningScripts: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     clientInsert: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     scriptinsert: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     modulePlaceId: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     serverplaceid: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     expectedAssetType: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
   parameters: {
     marAssetHash: z.string(),
     marCheckSum: z.string(),
-    'Accept-Encoding': z.string(),
-    'Roblox-Place-Id': z.number().int(),
+    "Accept-Encoding": z.string(),
+    "Roblox-Place-Id": z.number().int(),
     AssetType: z.string(),
     Accept: z.string(),
     AssetFormat: z.string(),
-    'Roblox-AssetFormat': z.string(),
+    "Roblox-AssetFormat": z.string(),
     skipSigningScripts: z.boolean().optional(),
     clientInsert: z.number().int().optional(),
     scriptinsert: z.number().int().optional(),

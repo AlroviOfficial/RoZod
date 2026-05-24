@@ -1,123 +1,145 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_ = z.object({
-  id: z.number().int(),
-  type: z.enum(['User', 'Group']),
-  name: z.string(),
-});
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_ =
+  z.object({
+    id: z.number().int(),
+    type: z.enum(["User", "Group"]),
+    name: z.string(),
+  });
 const Roblox_Inventory_Api_V2_AssetOwnerResponse = z.object({
   id: z.number().int(),
   collectibleItemInstanceId: z.string(),
   serialNumber: z.number().int(),
-  owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_,
+  owner:
+    Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_,
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_AssetOwnerResponse_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Inventory_Api_V2_AssetOwnerResponse),
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_AssetOwnerResponse_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Inventory_Api_V2_AssetOwnerResponse),
+  });
+const Roblox_Inventory_Api_V2_CollectibleItemOwnerResponse = z.object({
+  collectibleItemInstanceId: z.string(),
+  serialNumber: z.number().int(),
+  owner:
+    Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_,
 });
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_CollectibleItemOwnerResponse_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Inventory_Api_V2_CollectibleItemOwnerResponse),
+  });
 const Roblox_Inventory_Api_V2_UserAssetItemModelV2 = z.object({
   assetId: z.number().int(),
   name: z.string(),
   assetType: z.enum([
-    'Image',
-    'TShirt',
-    'Audio',
-    'Mesh',
-    'Lua',
-    'HTML',
-    'Text',
-    'Hat',
-    'Place',
-    'Model',
-    'Shirt',
-    'Pants',
-    'Decal',
-    'Avatar',
-    'Head',
-    'Face',
-    'Gear',
-    'Badge',
-    'GroupEmblem',
-    'Animation',
-    'Arms',
-    'Legs',
-    'Torso',
-    'RightArm',
-    'LeftArm',
-    'LeftLeg',
-    'RightLeg',
-    'Package',
-    'YouTubeVideo',
-    'GamePass',
-    'App',
-    'Code',
-    'Plugin',
-    'SolidModel',
-    'MeshPart',
-    'HairAccessory',
-    'FaceAccessory',
-    'NeckAccessory',
-    'ShoulderAccessory',
-    'FrontAccessory',
-    'BackAccessory',
-    'WaistAccessory',
-    'ClimbAnimation',
-    'DeathAnimation',
-    'FallAnimation',
-    'IdleAnimation',
-    'JumpAnimation',
-    'RunAnimation',
-    'SwimAnimation',
-    'WalkAnimation',
-    'PoseAnimation',
-    'LocalizationTableManifest',
-    'LocalizationTableTranslation',
-    'EmoteAnimation',
-    'Video',
-    'TexturePack',
-    'TShirtAccessory',
-    'ShirtAccessory',
-    'PantsAccessory',
-    'JacketAccessory',
-    'SweaterAccessory',
-    'ShortsAccessory',
-    'LeftShoeAccessory',
-    'RightShoeAccessory',
-    'DressSkirtAccessory',
-    'FontFamily',
-    'FontFace',
-    'MeshHiddenSurfaceRemoval',
-    'EyebrowAccessory',
-    'EyelashAccessory',
-    'MoodAnimation',
-    'DynamicHead',
-    'CodeSnippet',
-    'AdsVideo',
-    'OtaUpdate',
-    'Screenshot',
-    'RuntimePropertySet',
-    'StorePreviewVideo',
-    'GamePreviewVideo',
-    'CreatorExperienceConfig',
-    'FaceMakeup',
-    'LipMakeup',
-    'EyeMakeup',
+    "Image",
+    "TShirt",
+    "Audio",
+    "Mesh",
+    "Lua",
+    "HTML",
+    "Text",
+    "Hat",
+    "Place",
+    "Model",
+    "Shirt",
+    "Pants",
+    "Decal",
+    "Avatar",
+    "Head",
+    "Face",
+    "Gear",
+    "Badge",
+    "GroupEmblem",
+    "Animation",
+    "Arms",
+    "Legs",
+    "Torso",
+    "RightArm",
+    "LeftArm",
+    "LeftLeg",
+    "RightLeg",
+    "Package",
+    "YouTubeVideo",
+    "GamePass",
+    "App",
+    "Code",
+    "Plugin",
+    "SolidModel",
+    "MeshPart",
+    "HairAccessory",
+    "FaceAccessory",
+    "NeckAccessory",
+    "ShoulderAccessory",
+    "FrontAccessory",
+    "BackAccessory",
+    "WaistAccessory",
+    "ClimbAnimation",
+    "DeathAnimation",
+    "FallAnimation",
+    "IdleAnimation",
+    "JumpAnimation",
+    "RunAnimation",
+    "SwimAnimation",
+    "WalkAnimation",
+    "PoseAnimation",
+    "LocalizationTableManifest",
+    "LocalizationTableTranslation",
+    "EmoteAnimation",
+    "Video",
+    "TexturePack",
+    "TShirtAccessory",
+    "ShirtAccessory",
+    "PantsAccessory",
+    "JacketAccessory",
+    "SweaterAccessory",
+    "ShortsAccessory",
+    "LeftShoeAccessory",
+    "RightShoeAccessory",
+    "DressSkirtAccessory",
+    "FontFamily",
+    "FontFace",
+    "MeshHiddenSurfaceRemoval",
+    "EyebrowAccessory",
+    "EyelashAccessory",
+    "MoodAnimation",
+    "DynamicHead",
+    "CodeSnippet",
+    "AdsVideo",
+    "OtaUpdate",
+    "Screenshot",
+    "RuntimePropertySet",
+    "StorePreviewVideo",
+    "GamePreviewVideo",
+    "CreatorExperienceConfig",
+    "FaceMakeup",
+    "LipMakeup",
+    "EyeMakeup",
   ]),
   created: z.string().datetime({ offset: true }),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_UserAssetItemModelV2_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Inventory_Api_V2_UserAssetItemModelV2),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_UserAssetItemModelV2_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Inventory_Api_V2_UserAssetItemModelV2),
+  });
 const Roblox_Inventory_Api_Models_UserModel = z.object({
   userId: z.number().int(),
   username: z.string(),
-  buildersClubMembershipType: z.enum(['None', 'BC', 'TBC', 'OBC', 'RobloxPremium']),
+  buildersClubMembershipType: z.enum([
+    "None",
+    "BC",
+    "TBC",
+    "OBC",
+    "RobloxPremium",
+  ]),
 });
 const Roblox_Inventory_Api_Models_InventoryItemModel = z.object({
   expireAt: z.string().datetime({ offset: true }),
@@ -131,11 +153,12 @@ const Roblox_Inventory_Api_Models_InventoryItemModel = z.object({
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
 });
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_InventoryItemModel_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Inventory_Api_Models_InventoryItemModel),
-});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_InventoryItemModel_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Inventory_Api_Models_InventoryItemModel),
+  });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
 /**
@@ -147,24 +170,24 @@ const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
  * @param sortOrder Sorted by userAssetId
  */
 export const getAssetsAssetidOwners = endpoint({
-  method: 'GET',
-  path: '/v2/assets/:assetId/owners',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/assets/:assetId/owners",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     assetId: {
-      style: 'simple',
+      style: "simple",
     },
     limit: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortOrder: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -175,9 +198,10 @@ export const getAssetsAssetidOwners = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_AssetOwnerResponse_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_AssetOwnerResponse_,
   errors: [
     {
       status: 400,
@@ -190,6 +214,62 @@ export const getAssetsAssetidOwners = endpoint({
   ],
 });
 /**
+ * @api GET https://inventory.roblox.com/v2/collectible-items/:collectibleItemId/owners
+ * @summary Gets a list of owners of a collectible item.
+ * @param collectibleItemId The collectible item ID.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder The order the results are sorted in.
+ */
+export const getCollectibleItemsCollectibleitemidOwners = endpoint({
+  method: "GET",
+  path: "/v2/collectible-items/:collectibleItemId/owners",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
+  serializationMethod: {
+    collectibleItemId: {
+      style: "simple",
+    },
+    limit: {
+      style: "form",
+      explode: true,
+    },
+    cursor: {
+      style: "form",
+      explode: true,
+    },
+    sortOrder: {
+      style: "form",
+      explode: true,
+    },
+  },
+  parameters: {
+    collectibleItemId: z.string(),
+    limit: z.number().int().optional().default(10),
+    cursor: z.string().optional(),
+    sortOrder: z
+      .union([z.literal(1), z.literal(2)])
+      .optional()
+      .default(1),
+  },
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_CollectibleItemOwnerResponse_,
+  errors: [
+    {
+      status: 400,
+      description: `1: The collectible item id is invalid.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `2: You do not have permission to view the owners of this item.`,
+    },
+  ],
+});
+/**
  * @api DELETE https://inventory.roblox.com/v2/inventory/asset/:assetId
  * @summary Give up an asset owned by the authenticated user.
 Assets that are created by Roblox user or are limited edition are not eligible for deletion
@@ -197,13 +277,13 @@ and will return NotEligibleForDelete.
  * @param assetId ID of the asset to delete.
  */
 export const deleteInventoryAssetAssetid = endpoint({
-  method: 'DELETE',
-  path: '/v2/inventory/asset/:assetId',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "DELETE",
+  path: "/v2/inventory/asset/:assetId",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     assetId: {
-      style: 'simple',
+      style: "simple",
     },
   },
   parameters: {
@@ -245,35 +325,35 @@ export const deleteInventoryAssetAssetid = endpoint({
  * @description GamePass and Badges not allowed.
  */
 export const getUsersUseridInventory = endpoint({
-  method: 'GET',
-  path: '/v2/users/:userId/inventory',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/users/:userId/inventory",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     assetTypes: {
-      style: 'form',
+      style: "form",
     },
     filterDisapprovedAssets: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     showApprovedOnly: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     limit: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortOrder: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -287,9 +367,10 @@ export const getUsersUseridInventory = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_UserAssetItemModelV2_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_UserAssetItemModelV2_,
   errors: [
     {
       status: 400,
@@ -313,27 +394,27 @@ export const getUsersUseridInventory = endpoint({
  * @param sortOrder The order the results are sorted in.
  */
 export const getUsersUseridInventoryAssettypeid = endpoint({
-  method: 'GET',
-  path: '/v2/users/:userId/inventory/:assetTypeId',
-  baseUrl: 'https://inventory.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v2/users/:userId/inventory/:assetTypeId",
+  baseUrl: "https://inventory.roblox.com",
+  requestFormat: "json",
   serializationMethod: {
     userId: {
-      style: 'simple',
+      style: "simple",
     },
     assetTypeId: {
-      style: 'simple',
+      style: "simple",
     },
     limit: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     cursor: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
     sortOrder: {
-      style: 'form',
+      style: "form",
       explode: true,
     },
   },
@@ -345,9 +426,10 @@ export const getUsersUseridInventoryAssettypeid = endpoint({
       .optional()
       .default(10),
     cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+    sortOrder: z.enum(["Asc", "Desc"]).optional().default("Asc"),
   },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_InventoryItemModel_,
+  response:
+    Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_InventoryItemModel_,
   errors: [
     {
       status: 400,

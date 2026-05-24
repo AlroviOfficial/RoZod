@@ -330,3 +330,52 @@ export const postGamesVipServersUniverseid = endpoint({
     { status: 500, description: `16: We are having a problem completing your purchase. Please try again in a few minutes.` },
   ],
 });
+
+const Patch_GetPrivateServerListResponse = z.object({
+  gameJoinRestricted: z.boolean(),
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_Web_Responses_Games_GameServerResponse),
+});
+
+export const getGamesPlaceidPrivateServers = endpoint({
+  method: 'GET',
+  path: '/v1/games/:placeId/private-servers',
+  baseUrl: 'https://games.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    placeId: { style: 'simple' },
+    excludeFriendServers: { style: 'form', explode: true },
+    limit: { style: 'form', explode: true },
+    cursor: { style: 'form', explode: true },
+    sortOrder: { style: 'form', explode: true },
+  },
+  parameters: {
+    placeId: z.number().int(),
+    excludeFriendServers: z.boolean().optional(),
+    limit: z
+      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
+      .optional()
+      .default(10),
+    cursor: z.string().optional(),
+    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
+  },
+  response: Patch_GetPrivateServerListResponse,
+  errors: [
+    { status: 400, description: `1: The place is invalid.\n7: Guest users are not allowed.` },
+    { status: 404, description: `1: The place is invalid.` },
+  ],
+});
+
+export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
+  method: 'GET',
+  path: '/v1/private-servers/enabled-in-universe/:universeId',
+  baseUrl: 'https://games.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: { universeId: { style: 'simple' } },
+  parameters: { universeId: z.number().int() },
+  response: z.object({ privateServersEnabled: z.boolean() }),
+  errors: [
+    { status: 400, description: `8: The universe IDs specified are invalid.` },
+  ],
+});

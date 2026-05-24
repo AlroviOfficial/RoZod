@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { endpoint } from '..';
+import { z } from "zod";
+import { endpoint } from "..";
 
 const Roblox_Web_Responses_Economy_CurrencyResponse = z.object({
   robux: z.number().int(),
@@ -11,10 +11,10 @@ const Roblox_Web_Responses_Economy_CurrencyResponse = z.object({
  * @description Currency can only be retrieved for the authenticated user.
  */
 export const getUserCurrency = endpoint({
-  method: 'GET',
-  path: '/v1/user/currency',
-  baseUrl: 'https://economy.roblox.com',
-  requestFormat: 'json',
+  method: "GET",
+  path: "/v1/user/currency",
+  baseUrl: "https://economy.roblox.com",
+  requestFormat: "json",
   response: z.object({ robux: z.number().int() }),
   errors: [
     {
