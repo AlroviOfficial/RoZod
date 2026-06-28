@@ -277,7 +277,6 @@ const ListMemoryStoreSortedMapItemsResponse = z.object({
   memoryStoreSortedMapItems: z.array(MemoryStoreSortedMapItem),
   nextPageToken: z.string(),
 });
-const FlushMemoryStoreRequest = z.object({});
 const GoogleProtobufAny = z.object({ '@type': z.string() });
 const Status = z.object({
   code: z.number().int(),
@@ -814,7 +813,7 @@ export const getCloudV2GroupsGroupId = endpoint({
 /**
  * `BETA`
  *
- * Lists forum categories in the group.
+ * Lists forum categories in the group. Supports filtering.
  *
  * **Scopes:** `group-forum:read`
  * **Engine:** Usable with HttpService
@@ -859,7 +858,7 @@ export const getCloudV2GroupsGroupIdForumCategories = endpoint({
 /**
  * `BETA`
  *
- * Lists forum posts in the group's forum category.
+ * Lists forum posts in the group's forum category. Supports filtering.
  *
  * **Scopes:** `group-forum:read`
  * **Engine:** Usable with HttpService
@@ -920,7 +919,7 @@ export const getCloudV2GroupsGroupIdForumCategoriesForumCategoryIdPosts = endpoi
 /**
  * `BETA`
  *
- * Lists forum comments on a group's forum post.
+ * Lists forum comments on a group's forum post. Supports filtering.
  *
  * **Scopes:** `group-forum:read`
  * **Engine:** Usable with HttpService
@@ -974,7 +973,7 @@ export const getCloudV2GroupsGroupIdForumCategoriesForumCategoryIdPostsPostIdCom
 /**
  * `BETA`
  *
- * List join requests under a group.
+ * List join requests under a group. Supports filtering.
  *
  * **Scopes:** `group:read`
  * **Engine:** Usable with HttpService
@@ -1082,7 +1081,7 @@ export const postCloudV2GroupsGroupIdJoinRequestsJoinRequestIdDecline = endpoint
 /**
  * `BETA`
  *
- * List group members in a group.
+ * List group members in a group. Supports filtering.
  *
  * **Engine:** Usable with HttpService
  *
@@ -2422,8 +2421,15 @@ export const postCloudV2UniversesUniverseIdLuauExecutionSessionTaskBinaryInputs 
  * **Scopes:** `memory-store:flush`
  * **Engine:** Not available in-engine
  *
- * @param body
  * @param universe_id The universe ID.
+ * @param scope The scope of the memory store to flush.
+
+Possible values:
+
+  | Value | Description |
+  | --- | --- |
+  | LIVE |  Flush the live memory store scope. This is the default. |
+  | TEST | Flush the test memory store scope. |
  */
 export const postCloudV2UniversesUniverseIdMemoryStoreFlush = endpoint({
   method: 'POST',
@@ -2432,13 +2438,13 @@ export const postCloudV2UniversesUniverseIdMemoryStoreFlush = endpoint({
   scopes: ['memory-store:flush'],
   requestFormat: 'json',
   serializationMethod: {
-    body: {},
     universe_id: {},
+    scope: {},
   },
   parameters: {
     universe_id: z.string(),
+    scope: z.enum(['LIVE', 'TEST']).optional(),
   },
-  body: z.object({}),
   response: Operation,
   errors: [],
 });

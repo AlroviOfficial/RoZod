@@ -284,6 +284,10 @@ export const getUniversesUniverseidBadges = endpoint({
   response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Badges_Api_BadgeResponse_,
   errors: [
     {
+      status: 400,
+      description: `26: The pagination cursor is invalid or incompatible with the current request.`,
+    },
+    {
       status: 404,
       description: `3: The game is invalid or does not exist.`,
     },

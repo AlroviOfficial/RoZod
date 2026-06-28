@@ -28,6 +28,7 @@ const Roblox_Friends_Api_FriendRequest = z.object({
     'PhoneContactImporter',
     'FriendRecommendations',
     'UserCommunities',
+    'TrustedFriend',
   ]),
   contactName: z.string(),
   senderNickname: z.string(),
@@ -116,10 +117,6 @@ const Roblox_Friends_Api_FriendStatusResponse = z.object({
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Friends_Api_FriendStatusResponse_ = z.object({
   data: z.array(Roblox_Friends_Api_FriendStatusResponse),
 });
-const Roblox_Friends_Api_CaptchaStatusResponseModel = z.object({
-  success: z.boolean(),
-  isCaptchaRequired: z.boolean(),
-});
 const Roblox_Friends_Api_Models_Response_RefreshQrSessionResponse = z.object({
   Success: z.boolean(),
 });
@@ -140,80 +137,18 @@ const Roblox_Friends_Api_Models_Response_FollowingExistsResponse = z.object({
 const Roblox_Friends_Api_Models_Response_FollowingExistsResponseModel = z.object({
   followings: z.array(Roblox_Friends_Api_Models_Response_FollowingExistsResponse),
 });
-const Roblox_Friends_Api_Models_Response_DeclineAllFriendRequestsResponse = z.object({ backgrounded: z.boolean() });
-const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
-const Roblox_Friends_Api_Models_Request_FriendingTokenRequestModel = z.object({
-  friendingToken: z.string(),
-});
 const Roblox_Web_Captcha_Models_Request_CaptchaTokenRequest = z.object({
   captchaId: z.string(),
   captchaToken: z.string(),
   captchaProvider: z.string(),
   challengeId: z.string(),
 });
-const Roblox_Friends_Api_FriendshipRequestModel = z.object({
-  friendshipOriginSourceType: z.enum([
-    'Unknown',
-    'PlayerSearch',
-    'QrCode',
-    'InGame',
-    'UserProfile',
-    'QqContactImporter',
-    'WeChatContactImporter',
-    'ProfileShare',
-    'PhoneContactImporter',
-    'FriendRecommendations',
-    'UserCommunities',
-  ]),
-  senderNickname: z.string(),
+const Roblox_Friends_Api_CaptchaStatusResponseModel = z.object({
+  success: z.boolean(),
+  isCaptchaRequired: z.boolean(),
 });
-const Roblox_Friends_Api_Models_Response_ClearNewFriendRequestResponse = z.object({ status: z.boolean() });
+const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
-/**
- * @api POST https://friends.roblox.com/v1/contacts/:targetContactId/request-friendship
- * @summary Send a contact friend request to target user
- * @param targetContactId The target contact Id for friend request
- */
-export const postContactsTargetcontactidRequestFriendship = endpoint({
-  method: 'POST',
-  path: '/v1/contacts/:targetContactId/request-friendship',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    targetContactId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    targetContactId: z.string(),
-  },
-  response: Roblox_Friends_Api_CaptchaStatusResponseModel,
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.
-5: The target user is already a friend.
-6: Invalid parameters.
-7: The user cannot be friends with itself.
-31: User with max friends sent friend request.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-2: The user is banned from performing operation.
-3: The user is blocked from performing this action.
-14: The user has not passed the captcha.`,
-    },
-    {
-      status: 429,
-      description: `9: The flood limit has been exceeded.`,
-    },
-  ],
-});
 /**
  * @api GET https://friends.roblox.com/v1/metadata
  * @param targetUserId
@@ -360,26 +295,6 @@ export const getMyFriendsRequests = endpoint({
   ],
 });
 /**
- * @api DELETE https://friends.roblox.com/v1/my/new-friend-requests
- */
-export const deleteMyNewFriendRequests = endpoint({
-  method: 'DELETE',
-  path: '/v1/my/new-friend-requests',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  response: z.object({ status: z.boolean() }),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
  * @api GET https://friends.roblox.com/v1/my/new-friend-requests/count
  */
 export const getMyNewFriendRequestsCount = endpoint({
@@ -494,143 +409,6 @@ export const getUserFriendRequestsCount = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
-    },
-  ],
-});
-/**
- * @api POST https://friends.roblox.com/v1/user/friend-requests/decline-all
- * @summary Decline all pending friend requests for the authenticated user.
- */
-export const postUserFriendRequestsDeclineAll = endpoint({
-  method: 'POST',
-  path: '/v1/user/friend-requests/decline-all',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  response: z.object({ backgrounded: z.boolean() }),
-  errors: [
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api POST https://friends.roblox.com/v1/users/:requesterUserId/accept-friend-request
- * @summary Accept a friend request.
- * @param requesterUserId The user Id of the requester
- */
-export const postUsersRequesteruseridAcceptFriendRequest = endpoint({
-  method: 'POST',
-  path: '/v1/users/:requesterUserId/accept-friend-request',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    requesterUserId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    requesterUserId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.
-10: The friend request does not exist.
-11: The current users friends limit has been exceeded.
-12: The target users friends limit has been exceeded.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-3: The user is blocked from performing this action.`,
-    },
-  ],
-});
-/**
- * @api POST https://friends.roblox.com/v1/users/:requesterUserId/decline-friend-request
- * @summary Decline a friend request.
- * @param requesterUserId The user Id of the requester
- */
-export const postUsersRequesteruseridDeclineFriendRequest = endpoint({
-  method: 'POST',
-  path: '/v1/users/:requesterUserId/decline-friend-request',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    requesterUserId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    requesterUserId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.
-10: The friend request does not exist.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
-    },
-  ],
-});
-/**
- * @api POST https://friends.roblox.com/v1/users/:senderUserId/accept-friend-request-with-token
- * @summary Accept a friend request with an Off Network Friending token.
- * @param body
- * @param senderUserId The user id of the sender of the off network friend request
- */
-export const postUsersSenderuseridAcceptFriendRequestWithToken = endpoint({
-  method: 'POST',
-  path: '/v1/users/:senderUserId/accept-friend-request-with-token',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    senderUserId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    senderUserId: z.number().int(),
-  },
-  body: z.object({ friendingToken: z.string() }),
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.
-3: The user is blocked from performing this action.
-5: The target user is already a friend.
-6: Invalid parameters.
-7: The user cannot be friends with itself.
-11: The current users friends limit has been exceeded.
-12: The target users friends limit has been exceeded.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
     },
   ],
 });
@@ -847,57 +625,6 @@ export const getUsersTargetuseridFollowingsCount = endpoint({
   ],
 });
 /**
- * @api POST https://friends.roblox.com/v1/users/:targetUserId/request-friendship
- * @summary Send a friend request to target user
- * @param body The source which the friend request originated from
- * @param targetUserId The target user Id for friend request
- */
-export const postUsersTargetuseridRequestFriendship = endpoint({
-  method: 'POST',
-  path: '/v1/users/:targetUserId/request-friendship',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    targetUserId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    targetUserId: z.number().int(),
-  },
-  body: Roblox_Friends_Api_FriendshipRequestModel,
-  response: Roblox_Friends_Api_CaptchaStatusResponseModel,
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.
-5: The target user is already a friend.
-6: Invalid parameters.
-7: The user cannot be friends with itself.
-10: The friend request does not exist.
-13: The users are not in the same game.
-31: User with max friends sent friend request.
-35: Invalid nickname.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-2: The user is banned from performing operation.
-3: The user is blocked from performing this action.
-14: The user has not passed the captcha.`,
-    },
-    {
-      status: 429,
-      description: `9: The flood limit has been exceeded.`,
-    },
-  ],
-});
-/**
  * @api POST https://friends.roblox.com/v1/users/:targetUserId/unfollow
  * @summary Deletes the following between a user and user with targetUserId
  * @param targetUserId
@@ -937,40 +664,6 @@ export const postUsersTargetuseridUnfollow = endpoint({
     {
       status: 429,
       description: `9: The flood limit has been exceeded.`,
-    },
-  ],
-});
-/**
- * @api POST https://friends.roblox.com/v1/users/:targetUserId/unfriend
- * @summary Unfriend a user
- * @param targetUserId The target user id to unfriend
- */
-export const postUsersTargetuseridUnfriend = endpoint({
-  method: 'POST',
-  path: '/v1/users/:targetUserId/unfriend',
-  baseUrl: 'https://friends.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    targetUserId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    targetUserId: z.number().int(),
-  },
-  response: z.object({}),
-  errors: [
-    {
-      status: 400,
-      description: `1: The target user is invalid or does not exist.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed`,
     },
   ],
 });

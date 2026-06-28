@@ -47,6 +47,7 @@ const Roblox_Games_Api_Models_Response_GameDetailResponse = z.object({
   localizedFiatPrice: z.string(),
   refundPolicy: Roblox_Games_Api_Models_Response_RefundPolicy,
   canonicalUrlPath: z.string(),
+  isContentRestricted: z.boolean(),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_ = z.object({
   data: z.array(Roblox_Games_Api_Models_Response_GameDetailResponse),
@@ -191,6 +192,7 @@ const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z.object({
   unplayableDisplayText: z.string(),
   playableUxTreatment: Roblox_Games_Api_Models_Response_PlayableUxTreatment,
   upsellUxTreatment: Roblox_Games_Api_Models_Response_UpsellUxTreatment,
+  demoModeAvailable: z.boolean(),
 });
 const Roblox_Games_Api_Models_Response_GameContentMetadataResponseModel = z.object({
   badgePosition: z.string(),

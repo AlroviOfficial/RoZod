@@ -109,6 +109,13 @@ const Roblox_Groups_Client_CreateBlockedKeywordsResponse = z.object({
   hadModeratedKeywords: z.boolean(),
   hadDuplicateKeywords: z.boolean(),
 });
+const Roblox_Groups_Api_CommunityFeatureFreezeStatus = z.object({
+  feature: z.string(),
+  isDisabled: z.boolean(),
+});
+const Roblox_Groups_Api_GetCommunityFeatureFreezesResponse = z.object({
+  features: z.array(Roblox_Groups_Api_CommunityFeatureFreezeStatus),
+});
 const Roblox_Groups_Api_GroupConfigurationDetailsResponse = z.object({
   groupId: z.number().int(),
   emblemId: z.number().int(),
@@ -127,7 +134,14 @@ const Roblox_Groups_Client_GetGroupEmoteSetsResponse = z.object({
   emoteSets: z.array(Roblox_Groups_Client_EmoteSetModel),
 });
 const Roblox_Groups_Api_GroupFeatureResponse = z.object({
-  feature: z.enum(['Payouts', 'ContentUpload', 'GroupOwnershipTransfer', 'GameOwnershipTransfer']),
+  feature: z.enum([
+    'Payouts',
+    'ContentUpload',
+    'GroupOwnershipTransfer',
+    'GameOwnershipTransfer',
+    'ForumRead',
+    'ForumWrite',
+  ]),
   isFeatureBlocked: z.boolean(),
   expiration: z.string().datetime({ offset: true }),
 });
@@ -244,6 +258,7 @@ const Roblox_Groups_Api_GroupMembershipMetadataResponse = z.object({
   notificationPreferences: z.array(Roblox_Groups_Api_GroupNotificationPreferenceData),
   isBannedFromGroup: z.boolean(),
   canViewMemberList: z.boolean(),
+  isOwner: z.boolean(),
 });
 const Roblox_Groups_Api_Models_Response_GroupNameHistoryResponseItem = z.object({
   name: z.string(),
@@ -271,10 +286,15 @@ const Roblox_Groups_Api_PayoutRecipientRequest = z.object({
   recipientType: z.enum(['User', 'Group']),
   amount: z.number().int(),
 });
+const Roblox_Groups_Api_WatermarkContributionRequest = z.object({
+  balanceKey: z.enum(['Standard', 'O18Boosted']),
+  amount: z.number().int(),
+});
 const Roblox_Groups_Api_PayoutRequest = z.object({
   PayoutType: z.enum(['FixedAmount', 'Percentage']),
   Recipients: z.array(Roblox_Groups_Api_PayoutRecipientRequest),
   IdempotencyKey: z.string(),
+  WatermarkContributions: z.array(Roblox_Groups_Api_WatermarkContributionRequest),
 });
 const Roblox_Groups_Api_OneTimePayoutResponse = z.object({
   status: z.enum(['NotHeld', 'Held']),
@@ -853,6 +873,8 @@ export const getGroupsGroupidAuditLog = endpoint({
         'UpdateGroupCoverPhoto',
         'AssignRole',
         'UnassignRole',
+        'PublishAnnouncement',
+        'DeleteAnnouncement',
       ])
       .optional(),
     userId: z.number().int().optional(),
@@ -1388,6 +1410,27 @@ export const postGroupsGroupidClaimOwnership = endpoint({
       description: `18: The operation is temporarily unavailable. Please try again later.`,
     },
   ],
+});
+/**
+ * @api GET https://groups.roblox.com/v1/groups/:groupId/community-feature-freezes
+ * @summary Gets the freeze status of the community features for a group.
+ * @param groupId
+ */
+export const getGroupsGroupidCommunityFeatureFreezes = endpoint({
+  method: 'GET',
+  path: '/v1/groups/:groupId/community-feature-freezes',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+  },
+  response: Roblox_Groups_Api_GetCommunityFeatureFreezesResponse,
+  errors: [],
 });
 /**
  * @api GET https://groups.roblox.com/v1/groups/:groupId/configuration
@@ -2154,7 +2197,8 @@ export const postGroupsGroupidPayouts = endpoint({
       description: `0: Token Validation Failed
 23: Insufficient permissions to complete the request.
 28: Group has paid out too recently. Please wait and try again.
-35: 2-Step Verification is required to make further transactions. Go to Settings &gt; Security to complete 2-Step Verification.`,
+35: 2-Step Verification is required to make further transactions. Go to Settings &gt; Security to complete 2-Step Verification.
+52: Group has paid out to this recipient too many times recently. Please try again later.`,
     },
     {
       status: 503,

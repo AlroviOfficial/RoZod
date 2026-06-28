@@ -28,6 +28,7 @@ const Roblox_Web_Assets_IAssetItemError = z.object({
     'NotApprovedByContentCompliance',
     'AssetContentRepresentationGenerating',
     'AssetArchived',
+    'AssetUsageNotAllowed',
   ]),
 });
 const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z.object({
@@ -71,6 +72,7 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
   'roblox-assetFormat': z.string(),
   assetResolutionMode: z.string(),
   accessContext: z.string(),
+  usageContext: z.number().int(),
   contentRepresentationPriorityList: z.string(),
   doNotFallbackToBaselineRepresentation: z.boolean(),
 });
@@ -92,6 +94,7 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
  * @param serverplaceid
  * @param expectedAssetType
  * @param accessContext
+ * @param usageContext
  */
 export const getAliasAlias = endpoint({
   method: 'GET',
@@ -148,6 +151,10 @@ export const getAliasAlias = endpoint({
       style: 'form',
       explode: true,
     },
+    usageContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     alias: z.string().regex(/^[0-9]+\/.+/),
@@ -164,6 +171,7 @@ export const getAliasAlias = endpoint({
     serverplaceid: z.number().int().optional(),
     expectedAssetType: z.string().optional(),
     accessContext: z.string().optional(),
+    usageContext: z.number().int().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV1,
   errors: [],
@@ -196,6 +204,7 @@ export const getAliasAlias = endpoint({
  * @param contentRepresentationPriorityList
  * @param assetResolutionMode
  * @param accessContext
+ * @param usageContext
  */
 export const getAsset = endpoint({
   method: 'GET',
@@ -301,6 +310,10 @@ export const getAsset = endpoint({
       style: 'form',
       explode: true,
     },
+    usageContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     'Accept-Encoding': z.string(),
@@ -329,6 +342,7 @@ export const getAsset = endpoint({
     contentRepresentationPriorityList: z.string().optional(),
     assetResolutionMode: z.string().optional(),
     accessContext: z.string().optional(),
+    usageContext: z.number().int().optional(),
   },
   response: z.void(),
   errors: [],
@@ -352,6 +366,7 @@ export const getAsset = endpoint({
  * @param doNotFallbackToBaselineRepresentation
  * @param contentRepresentationPriorityList
  * @param accessContext
+ * @param usageContext
  */
 export const getAssetidAssetid = endpoint({
   method: 'GET',
@@ -416,6 +431,10 @@ export const getAssetidAssetid = endpoint({
       style: 'form',
       explode: true,
     },
+    usageContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     assetId: z.number().int(),
@@ -434,6 +453,7 @@ export const getAssetidAssetid = endpoint({
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
     accessContext: z.string().optional(),
+    usageContext: z.number().int().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV1,
   errors: [],
@@ -458,6 +478,7 @@ export const getAssetidAssetid = endpoint({
  * @param doNotFallbackToBaselineRepresentation
  * @param contentRepresentationPriorityList
  * @param accessContext
+ * @param usageContext
  */
 export const getAssetidAssetidVersionVersionnumber = endpoint({
   method: 'GET',
@@ -525,6 +546,10 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
       style: 'form',
       explode: true,
     },
+    usageContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     assetId: z.number().int(),
@@ -544,6 +569,7 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
     accessContext: z.string().optional(),
+    usageContext: z.number().int().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV1,
   errors: [],
@@ -702,6 +728,7 @@ export const getMarassethashMarassethashMarchecksumMarchecksum = endpoint({
  * @param doNotFallbackToBaselineRepresentation Whether to prevent fallback to baseline representation when specific content representations are not available.
  * @param contentRepresentationPriorityList Base64URL-encoded JSON string specifying the priority list of desired content representations (format, version, fidelity).
  * @param accessContext 
+ * @param usageContext 
  * @description Returns an object containing a `location` property which is a temporary CDN URL for the asset content. All asset types are supported.
 You should request that URL with the `Accept-Encoding: gzip` header and decompress the result if the response is gzipped. If you are using cURL, the `--compressed` flag will automate these steps for you.
 This endpoint is expected to be called with API key authentication through `apis.roblox.com/asset-delivery-api/v1/assetId/{assetId}`.
@@ -771,6 +798,10 @@ export const getOpencloudAssetidAssetid = endpoint({
       style: 'form',
       explode: true,
     },
+    usageContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     assetId: z.number().int(),
@@ -789,6 +820,7 @@ export const getOpencloudAssetidAssetid = endpoint({
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
     accessContext: z.string().optional(),
+    usageContext: z.number().int().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV1,
   errors: [
@@ -818,6 +850,7 @@ export const getOpencloudAssetidAssetid = endpoint({
  * @param doNotFallbackToBaselineRepresentation 
  * @param contentRepresentationPriorityList 
  * @param accessContext 
+ * @param usageContext 
  * @description Refer to the assetId endpoint for details on usage.
 This endpoint is expected to be called with API key authentication through `apis.roblox.com/asset-delivery-api/v1/assetId/{assetId}/version/{versionNumber}`.
 While you are able to make requests to this endpoint with Cookie authentication via `assetdelivery.roblox.com/v1/openCloud/assetId/{assetId}/version/{versionNumber}`, we highly discourage use this way.
@@ -889,6 +922,10 @@ export const getOpencloudAssetidAssetidVersionVersionnumber = endpoint({
       style: 'form',
       explode: true,
     },
+    usageContext: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     assetId: z.number().int(),
@@ -908,6 +945,7 @@ export const getOpencloudAssetidAssetidVersionVersionnumber = endpoint({
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
     accessContext: z.string().optional(),
+    usageContext: z.number().int().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV1,
   errors: [

@@ -313,10 +313,12 @@ const Roblox_Authentication_Api_Models_Request_FinishARPreAuthPasskeyRegistratio
   passkeyRegistrationResponse: z.string(),
   userId: z.number().int(),
   isPostRecovery: z.boolean(),
+  source: z.string(),
 });
 const Roblox_Authentication_Api_Models_Request_FinishPasskeyPreauthRegistrationRequest = z.object({
   sessionId: z.string(),
   registrationResponse: z.string(),
+  source: z.string(),
 });
 const Roblox_Authentication_Api_Models_Request_FinishPasskeyRegistrationRequest = z.object({
   sessionId: z.string(),
@@ -1881,7 +1883,7 @@ export const getUsernames = endpoint({
     },
   },
   parameters: {
-    username: z.string().optional(),
+    username: z.string(),
   },
   response: Roblox_Authentication_Api_Models_UsernamesResponse,
   errors: [],
