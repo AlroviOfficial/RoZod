@@ -1,6 +1,30 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
+const Roblox_Web_Responses_Thumbnails_ThumbnailResponse = z.object({
+  targetId: z.number().int(),
+  state: z.enum(['Error', 'Completed', 'InReview', 'Pending', 'Blocked', 'TemporarilyUnavailable']),
+  imageUrl: z.string(),
+  version: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_ = z.object({
+  data: z.array(Roblox_Web_Responses_Thumbnails_ThumbnailResponse),
+});
+const Roblox_Web_WebAPI_Models_ApiErrorModel = z.object({
+  code: z.number().int(),
+  message: z.string(),
+  userFacingMessage: z.string(),
+  field: z.string(),
+  fieldData: z.object({}),
+});
+const Roblox_Thumbnails_Api_Models_UniverseThumbnailsResponse = z.object({
+  universeId: z.number().int(),
+  error: Roblox_Web_WebAPI_Models_ApiErrorModel,
+  thumbnails: z.array(Roblox_Web_Responses_Thumbnails_ThumbnailResponse),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Thumbnails_Api_Models_UniverseThumbnailsResponse_ = z.object({
+  data: z.array(Roblox_Thumbnails_Api_Models_UniverseThumbnailsResponse),
+});
 const Roblox_Thumbnails_Apis_Models_ThumbnailBatchRequest = z.object({
   requestId: z.string(),
   targetId: z.number().int(),
@@ -34,6 +58,18 @@ const Roblox_Thumbnails_Apis_Models_ThumbnailBatchRequest = z.object({
   headShape: z.string(),
   includeBackground: z.boolean(),
 });
+const Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse = z.object({
+  requestId: z.string(),
+  errorCode: z.number().int(),
+  errorMessage: z.string(),
+  targetId: z.number().int(),
+  state: z.enum(['Error', 'Completed', 'InReview', 'Pending', 'Blocked', 'TemporarilyUnavailable']),
+  imageUrl: z.string(),
+  version: z.string(),
+});
+const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse_ = z.object({
+  data: z.array(Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse),
+});
 
 /**
  * @api GET https://thumbnails.roblox.com/v1/asset-thumbnail-animated
@@ -59,7 +95,7 @@ export const getAssetThumbnailAnimated = endpoint({
     assetId: z.number().int(),
     'Roblox-Place-Id': z.number().int().optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_Responses_Thumbnails_ThumbnailResponse,
   errors: [
     {
       status: 400,
@@ -151,7 +187,7 @@ export const getAssets = endpoint({
     format: z.enum(['Png', 'Jpeg', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
@@ -198,7 +234,7 @@ export const getAssetsThumbnail3d = endpoint({
     useGltf: z.boolean().optional(),
     'Roblox-Place-Id': z.number().int().optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_Responses_Thumbnails_ThumbnailResponse,
   errors: [
     {
       status: 400,
@@ -242,7 +278,7 @@ export const getBadgesIcons = endpoint({
     format: z.enum(['Png', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
@@ -294,7 +330,7 @@ export const postBatch = endpoint({
     'Roblox-Place-Id': z.number().int().optional(),
   },
   body: z.array(Roblox_Thumbnails_Apis_Models_ThumbnailBatchRequest),
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse_,
   errors: [
     {
       status: 400,
@@ -346,7 +382,7 @@ export const getBundlesThumbnails = endpoint({
     format: z.enum(['Png', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
@@ -394,7 +430,7 @@ export const getDeveloperProductsIcons = endpoint({
     format: z.enum(['Png', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
@@ -442,7 +478,7 @@ export const getGamePasses = endpoint({
     format: z.enum(['Png', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
@@ -495,7 +531,7 @@ export const getGamesUniverseidThumbnails = endpoint({
     format: z.enum(['Png', 'Jpeg', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
@@ -558,7 +594,7 @@ export const getGamesIcons = endpoint({
     format: z.enum(['Png', 'Jpeg', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
@@ -623,7 +659,7 @@ export const getGamesMultigetThumbnails = endpoint({
     format: z.enum(['Png', 'Jpeg', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Thumbnails_Api_Models_UniverseThumbnailsResponse_,
   errors: [
     {
       status: 400,
@@ -671,7 +707,7 @@ export const getGroupsIcons = endpoint({
     format: z.enum(['Png', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
@@ -728,7 +764,7 @@ export const getPlacesGameicons = endpoint({
     format: z.enum(['Png', 'Jpeg', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
@@ -749,10 +785,10 @@ export const getPlacesGameicons = endpoint({
  * @api GET https://thumbnails.roblox.com/v1/users/avatar
  * @summary Get Avatar Full body shots for the given CSV of userIds
  * @param userIds CSV for the userIds to get avatar full body shots
- * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  * @param size The thumbnail size, formatted widthxheight
  * @param format The thumbnail format
  * @param isCircular The circle thumbnail output parameter, true or false
+ * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  */
 export const getUsersAvatar = endpoint({
   method: 'GET',
@@ -762,10 +798,6 @@ export const getUsersAvatar = endpoint({
   serializationMethod: {
     userIds: {
       style: 'form',
-    },
-    includeBackground: {
-      style: 'form',
-      explode: true,
     },
     size: {
       style: 'form',
@@ -779,10 +811,13 @@ export const getUsersAvatar = endpoint({
       style: 'form',
       explode: true,
     },
+    includeBackground: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userIds: z.array(z.number()),
-    includeBackground: z.boolean().optional(),
     size: z
       .enum([
         '30x30',
@@ -804,8 +839,9 @@ export const getUsersAvatar = endpoint({
       .default('30x30'),
     format: z.enum(['Png', 'Jpeg', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
+    includeBackground: z.boolean().optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
@@ -836,7 +872,7 @@ export const getUsersAvatar3d = endpoint({
   parameters: {
     userId: z.number().int(),
   },
-  response: z.void(),
+  response: Roblox_Web_Responses_Thumbnails_ThumbnailResponse,
   errors: [
     {
       status: 400,
@@ -848,10 +884,10 @@ export const getUsersAvatar3d = endpoint({
  * @api GET https://thumbnails.roblox.com/v1/users/avatar-bust
  * @summary Get Avatar Busts for the given CSV of userIds
  * @param userIds CSV for the userIds to get avatar headshots
- * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  * @param size The thumbnail size, formatted widthxheight
  * @param format The thumbnail format
  * @param isCircular The circle thumbnail output parameter, true or false
+ * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  */
 export const getUsersAvatarBust = endpoint({
   method: 'GET',
@@ -861,10 +897,6 @@ export const getUsersAvatarBust = endpoint({
   serializationMethod: {
     userIds: {
       style: 'form',
-    },
-    includeBackground: {
-      style: 'form',
-      explode: true,
     },
     size: {
       style: 'form',
@@ -878,18 +910,22 @@ export const getUsersAvatarBust = endpoint({
       style: 'form',
       explode: true,
     },
+    includeBackground: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userIds: z.array(z.number()),
-    includeBackground: z.boolean().optional(),
     size: z
       .enum(['48x48', '50x50', '60x60', '75x75', '100x100', '150x150', '180x180', '352x352', '420x420'])
       .optional()
       .default('48x48'),
     format: z.enum(['Png', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
+    includeBackground: z.boolean().optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
@@ -905,10 +941,10 @@ export const getUsersAvatarBust = endpoint({
  * @api GET https://thumbnails.roblox.com/v1/users/avatar-headshot
  * @summary Get Avatar Headshots for the given CSV of userIds
  * @param userIds CSV for the userIds to get avatar headshots
- * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  * @param size The thumbnail size, formatted widthxheight
  * @param format The thumbnail format
  * @param isCircular The circle thumbnail output parameter, true or false
+ * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  */
 export const getUsersAvatarHeadshot = endpoint({
   method: 'GET',
@@ -918,10 +954,6 @@ export const getUsersAvatarHeadshot = endpoint({
   serializationMethod: {
     userIds: {
       style: 'form',
-    },
-    includeBackground: {
-      style: 'form',
-      explode: true,
     },
     size: {
       style: 'form',
@@ -935,10 +967,13 @@ export const getUsersAvatarHeadshot = endpoint({
       style: 'form',
       explode: true,
     },
+    includeBackground: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userIds: z.array(z.number()),
-    includeBackground: z.boolean().optional(),
     size: z
       .enum([
         '48x48',
@@ -957,8 +992,9 @@ export const getUsersAvatarHeadshot = endpoint({
       .default('48x48'),
     format: z.enum(['Png', 'Jpeg', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
+    includeBackground: z.boolean().optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
@@ -989,17 +1025,17 @@ export const getUsersOutfit3d = endpoint({
   parameters: {
     outfitId: z.number().int(),
   },
-  response: z.void(),
+  response: Roblox_Web_Responses_Thumbnails_ThumbnailResponse,
   errors: [],
 });
 /**
  * @api GET https://thumbnails.roblox.com/v1/users/outfits
  * @summary Get outfits for the given CSV of userOutfitIds
  * @param userOutfitIds CSV for the userOutfitIds to get user outfits
- * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  * @param size The thumbnail size, formatted widthxheight
  * @param format The thumbnail format
  * @param isCircular The circle thumbnail output parameter, true or false
+ * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  */
 export const getUsersOutfits = endpoint({
   method: 'GET',
@@ -1009,10 +1045,6 @@ export const getUsersOutfits = endpoint({
   serializationMethod: {
     userOutfitIds: {
       style: 'form',
-    },
-    includeBackground: {
-      style: 'form',
-      explode: true,
     },
     size: {
       style: 'form',
@@ -1026,15 +1058,19 @@ export const getUsersOutfits = endpoint({
       style: 'form',
       explode: true,
     },
+    includeBackground: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     userOutfitIds: z.array(z.number()),
-    includeBackground: z.boolean().optional(),
     size: z.enum(['150x150', '420x420']).optional().default('150x150'),
     format: z.enum(['Png', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
+    includeBackground: z.boolean().optional(),
   },
-  response: z.void(),
+  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
     {
       status: 400,
