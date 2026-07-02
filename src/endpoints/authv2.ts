@@ -1117,7 +1117,7 @@ export const getUsernames = endpoint({
     },
   },
   parameters: {
-    username: z.string().optional(),
+    username: z.string(),
   },
   response: Roblox_Authentication_Api_Models_UsernamesResponse,
   errors: [],

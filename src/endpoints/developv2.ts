@@ -122,6 +122,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
   fiatBasePriceId: z.string(),
   fiatProductChangeType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
+  demoModeEnabled: z.boolean(),
 });
 const Roblox_Api_Develop_Models_UniverseModerationPolicyStatus = z.object({
   region: z.enum(['Unknown', 'China']),
@@ -173,8 +174,9 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z.object({
   isForSaleInFiat: z.boolean(),
   fiatBasePriceId: z.string(),
   fiatModerationStatus: z.enum(['Invalid', 'NotModerated', 'Pending', 'Approved', 'Rejected']),
-  eligibleForTextChatMigration: z.boolean(),
   audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
+  demoModeEnabled: z.boolean(),
+  demoModeLastChangedTime: z.string().datetime({ offset: true }),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 

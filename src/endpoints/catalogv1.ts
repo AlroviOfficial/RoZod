@@ -655,8 +655,9 @@ export const getBundlesDetails = endpoint({
 });
 /**
  * @api POST https://catalog.roblox.com/v1/catalog/items/details
- * @summary Returns list of item details.
+ * @summary Returns details for one or more catalog items.
  * @param body Roblox.Catalog.Api.MultigetItemDetailsRequestModel.
+ * @description There is an item count limit per request. Exceeding this returns 400 Bad Request.
  */
 export const postCatalogItemsDetails = endpoint({
   method: 'POST',

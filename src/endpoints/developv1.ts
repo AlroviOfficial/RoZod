@@ -115,6 +115,8 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   fiatBasePriceId: z.string(),
   fiatModerationStatus: z.enum(['Invalid', 'NotModerated', 'Pending', 'Approved', 'Rejected']),
   audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
+  demoModeEnabled: z.boolean(),
+  demoModeLastChangedTime: z.string().datetime({ offset: true }),
 });
 const Roblox_Api_Develop_Models_UniverseSettingsRequest = z.object({
   name: z.string(),
@@ -152,6 +154,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequest = z.object({
   isRewardedOnDemandAdsAllowed: z.boolean(),
   fiatBasePriceId: z.string(),
   fiatProductChangeType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  demoModeEnabled: z.boolean(),
 });
 const Roblox_Api_Develop_Models_PrivateServerDetailsResponse = z.object({
   isEnabled: z.boolean(),

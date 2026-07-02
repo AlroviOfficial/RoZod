@@ -14,6 +14,13 @@ const Roblox_Web_Responses_Games_GameMediaItemResponseV2 = z.object({
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Games_GameMediaItemResponseV2_ = z.object({
   data: z.array(Roblox_Web_Responses_Games_GameMediaItemResponseV2),
 });
+const Roblox_Games_Api_Models_Response_GameContentMetadataResponseModel = z.object({
+  badgePosition: z.string(),
+  badgeAnalyticsId: z.string(),
+  badgeType: z.string(),
+  badgeIcon: z.string(),
+  badgeComponentType: z.string(),
+});
 const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Core_CreatorType_ = z.object({
   id: z.number().int(),
   type: z.enum(['User', 'Group']),
@@ -107,11 +114,13 @@ const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_Asse
     'EyeMakeup',
     'VoxelFragment',
     'AvatarBackground',
+    'TextDocument',
   ]),
   name: z.string(),
 });
 const Roblox_Web_Responses_Games_GameFavoriteResponseModel = z.object({
   price: z.number().int(),
+  contentMetadata: Roblox_Games_Api_Models_Response_GameContentMetadataResponseModel,
   id: z.number().int(),
   name: z.string(),
   description: z.string(),

@@ -54,7 +54,7 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_Models_IItem
 const Roblox_Inventory_Api_Models_CreatorModel = z.object({
   id: z.number().int(),
   name: z.string(),
-  type: z.enum(['User', 'Group']),
+  type: z.enum(['User', 'Group', 'Experience']),
 });
 const Roblox_Inventory_Api_Models_PlaceModel = z.object({
   universeId: z.number().int(),
@@ -301,6 +301,8 @@ export const getUsersUseridAssetsCollectibles = endpoint({
         z.literal(88),
         z.literal(89),
         z.literal(90),
+        z.literal(91),
+        z.literal(92),
       ])
       .optional(),
     limit: z

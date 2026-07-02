@@ -116,6 +116,8 @@ const Roblox_Inventory_Api_V2_UserAssetItemModelV2 = z.object({
     'FaceMakeup',
     'LipMakeup',
     'EyeMakeup',
+    'VoxelFragment',
+    'AvatarBackground',
   ]),
   created: z.string().datetime({ offset: true }),
 });

@@ -111,6 +111,7 @@ const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_Asse
     'EyeMakeup',
     'VoxelFragment',
     'AvatarBackground',
+    'TextDocument',
   ]),
   name: z.string(),
 });
