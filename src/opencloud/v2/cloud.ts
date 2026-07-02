@@ -701,6 +701,11 @@ const UserNotification = z.object({
   payload: UserNotification_Payload,
 });
 
+const FlushMemoryStoreResponse = z.object({});
+const ListInstanceChildrenResponse = z.object({ instances: z.array(Instance), nextPageToken: z.string() });
+const GenerateSpeechAssetResponse = z.object({ assetId: z.string(), remainingQuota: z.number().int() });
+const GenerateUserThumbnailResponse = z.object({ imageUri: z.string() });
+
 /**
  * `BETA`
  *
@@ -1384,6 +1389,7 @@ export const postCloudV2UniversesUniverseIdGenerateSpeechAsset = endpoint({
   },
   body: GenerateSpeechAssetRequest,
   response: Operation,
+  resultResponse: GenerateSpeechAssetResponse,
   errors: [],
 });
 /**
@@ -2446,6 +2452,7 @@ export const postCloudV2UniversesUniverseIdMemoryStoreFlush = endpoint({
     scope: z.enum(['LIVE', 'TEST']).optional(),
   },
   response: Operation,
+  resultResponse: FlushMemoryStoreResponse,
   errors: [],
 });
 /**
@@ -3134,6 +3141,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId = end
     instance_id: z.string(),
   },
   response: Operation,
+  resultResponse: Instance,
   errors: [],
 });
 /**
@@ -3174,6 +3182,7 @@ export const patchCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceId = e
   },
   body: Instance.partial(),
   response: Operation,
+  resultResponse: Instance,
   errors: [],
 });
 /**
@@ -3225,6 +3234,7 @@ export const getCloudV2UniversesUniverseIdPlacesPlaceIdInstancesInstanceIdListCh
     pageToken: z.string().optional(),
   },
   response: Operation,
+  resultResponse: ListInstanceChildrenResponse,
   errors: [],
 });
 /**
@@ -3859,6 +3869,7 @@ export const getCloudV2UsersUserIdGenerateThumbnail = endpoint({
     shape: z.enum(['SHAPE_UNSPECIFIED', 'ROUND', 'SQUARE']).optional(),
   },
   response: Operation,
+  resultResponse: GenerateUserThumbnailResponse,
   errors: [],
 });
 /**

@@ -4,7 +4,7 @@ import { promisify } from 'util';
 import { exec as execOld } from 'child_process';
 const exec = promisify(execOld);
 import pLimit from 'p-limit';
-import { generateZodClientFromOpenAPI } from '@alexop/openapi-zod-client';
+import { generateZodClientFromOpenAPI, getZodClientTemplateContext } from '@alexop/openapi-zod-client';
 import parser from '@apidevtools/swagger-parser';
 
 const limit = pLimit(2);
@@ -545,6 +545,9 @@ async function processOpenCloudApi(apiDef) {
       },
     });
 
+    // Attach typed result schemas to long-running-operation endpoints
+    applyOperationResultSchemas(`${outputFolder}/${apiDef.name}.ts`, openApiDoc);
+
     // Apply Zod v4 record fix to the generated file before copying to lib
     applyZodRecordFixToFile(`${outputFolder}/${apiDef.name}.ts`);
 
@@ -562,6 +565,88 @@ async function processOpenCloudApi(apiDef) {
   } catch (error) {
     console.error(`Error generating OpenCloud API for ${apiDef.name} ${apiDef.version}: ${error}`);
   }
+}
+
+/**
+ * Roblox types long-running-operation endpoints' `response` as `Operation`, whose `response`
+ * field is an opaque `GoogleProtobufAny` — so the concrete result shape is never emitted. But
+ * each such operation carries an `x-long-running-operation-parameters` extension naming the real
+ * result schema. This attaches that schema to the endpoint as `resultResponse: <Schema>`, so
+ * `pollOperation` / `fetchApiOperation` can type and validate the result without a manual schema.
+ *
+ * Mutates the generated file in place. Idempotent.
+ */
+function applyOperationResultSchemas(outputPath, openApiDoc) {
+  if (!/\.(ts|d\.ts)$/.test(outputPath)) return;
+
+  // Map each LRO endpoint (by generated-style "METHOD /path") to its result schema name.
+  const resultNameByEndpoint = {};
+  const resultNames = new Set();
+  for (const [specPath, methods] of Object.entries(openApiDoc.paths || {})) {
+    for (const [method, op] of Object.entries(methods)) {
+      if (!op || typeof op !== 'object' || Array.isArray(op)) continue;
+      const ref = op['x-long-running-operation-parameters']?.response?.$ref;
+      if (!ref) continue;
+      const name = ref.split('/').pop();
+      const genPath = specPath.replace(/\{([^}]+)\}/g, ':$1');
+      resultNameByEndpoint[`${method.toUpperCase()} ${genPath}`] = name;
+      resultNames.add(name);
+    }
+  }
+  if (resultNames.size === 0) return;
+
+  // These result schemas are unreferenced elsewhere, so the generator never emitted them.
+  // Re-run the Zod conversion over a synthetic doc that references each one to obtain their
+  // (transitively-complete) Zod source, reusing the same generator for correct naming/nesting.
+  const synthPaths = {};
+  for (const name of resultNames) {
+    synthPaths[`/__lro__/${name}`] = {
+      get: {
+        operationId: `__lro_${name}`,
+        responses: { 200: { description: 'result', content: { 'application/json': { schema: { $ref: `#/components/schemas/${name}` } } } } },
+      },
+    };
+  }
+  const ctx = getZodClientTemplateContext({ ...openApiDoc, paths: synthPaths }, { withImplicitRequiredProps: true });
+
+  let file = readFileSync(outputPath, 'utf-8');
+  const existingConsts = new Set([...file.matchAll(/^const (\w+)\b/gm)].map((m) => m[1]));
+
+  // Inject only schemas not already declared, preserving the generator's dependency order.
+  // A result schema is only referenceable if it's emitted as a named const — the generator
+  // inlines primitive/array schemas instead, so track which names are actually available.
+  const availableResultNames = new Set(existingConsts);
+  const injections = [];
+  for (const [name, zodSource] of Object.entries(ctx.schemas)) {
+    availableResultNames.add(name);
+    if (existingConsts.has(name)) continue;
+    injections.push(`const ${name} = ${zodSource.replace(/\.passthrough\(\)/g, '')};`);
+  }
+  if (injections.length) {
+    // Insert after the top-of-file schema block but before the first endpoint's JSDoc, so the
+    // comment stays attached to its endpoint. Schemas carry no `/**`, so the first `/**` in the
+    // file marks the first endpoint's doc comment.
+    const firstDoc = file.indexOf('\n/**');
+    const firstExport = file.indexOf('\nexport const');
+    let insertAt = file.length;
+    if (firstDoc !== -1 && (firstExport === -1 || firstDoc < firstExport)) insertAt = firstDoc + 1;
+    else if (firstExport !== -1) insertAt = firstExport + 1;
+    file = file.slice(0, insertAt) + injections.join('\n') + '\n\n' + file.slice(insertAt);
+  }
+
+  // Attach `resultResponse: <Schema>` to each matching endpoint block.
+  file = file.replace(/export const \w+ = endpoint\(\{[\s\S]*?\n\}\);/g, (block) => {
+    if (/resultResponse:/.test(block)) return block;
+    const path = block.match(/path:\s*['"]([^'"]+)['"]/)?.[1];
+    const method = block.match(/method:\s*['"]([^'"]+)['"]/)?.[1];
+    if (!path || !method) return block;
+    const resultName = resultNameByEndpoint[`${method.toUpperCase()} ${path}`];
+    if (!resultName || !availableResultNames.has(resultName)) return block;
+    return block.replace(/(\n[ \t]*response:[^\n]*\n)/, (line) => `${line}  resultResponse: ${resultName},\n`);
+  });
+
+  writeFileSync(outputPath, file, 'utf-8');
+  console.log(`Applied operation result schemas to ${outputPath} (${injections.length} schema(s) injected)`);
 }
 
 /**

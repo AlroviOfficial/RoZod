@@ -191,6 +191,70 @@ const dataStoreEntries = await fetchApi(getCloudV2UniversesUniverseIdDataStoresD
 });
 ```
 
+### Long-Running Operations
+
+Some OpenCloud endpoints such as `generateThumbnail` or `generateAsset` don't return
+their result directly. Instead they return an `Operation`:
+
+```ts
+{
+  path: 'users/123/operations/abc',  // poll this until the work finishes
+  done: false,                        // true once the result is ready
+  response: undefined,                // the payload, populated only when done
+}
+```
+
+When the result isn't already cached, `done` is `false` and you have to GET the operation's
+`path` (against the API's base URL and version prefix) until it flips to `true`. `fetchApiOperation`
+handles everything in one line:
+
+```ts
+import { fetchApiOperation } from 'rozod';
+import { getCloudV2UsersUserIdGenerateThumbnail } from 'rozod/opencloud/v2/cloud';
+
+const { imageUri } = await fetchApiOperation(getCloudV2UsersUserIdGenerateThumbnail, {
+  user_id: robloxId,
+  shape: 'SQUARE',
+  format: 'PNG',
+});
+```
+
+If you already hold an `Operation`, use `pollOperation`
+directly:
+
+```ts
+import { fetchApi, pollOperation } from 'rozod';
+import { getCloudV2UsersUserIdGenerateThumbnail } from 'rozod/opencloud/v2/cloud';
+
+const operation = await fetchApi(
+  getCloudV2UsersUserIdGenerateThumbnail,
+  { user_id: robloxId, shape: 'SQUARE', format: 'PNG' },
+  { throwOnError: true },
+);
+const { imageUri } = await pollOperation(getCloudV2UsersUserIdGenerateThumbnail, operation);
+```
+
+For custom endpoints (or to override the payload type), pass a Zod schema as the last positional
+argument before options:
+
+```ts
+import { z } from 'zod';
+const result = await pollOperation(customEndpoint, operation, z.object({ imageUri: z.string() }));
+```
+
+Both `fetchApiOperation(endpoint, params, [resultSchema], options?)` and
+`pollOperation(endpoint, operation, [resultSchema], options?)` return as soon as the operation is
+`done` (no extra request when it's already complete), otherwise poll until completion. Options:
+
+| Option | Default | Description |
+| --- | --- | --- |
+| `interval` | `1000` | Milliseconds between polls. |
+| `timeout` | `30000` | Give up and throw after this many milliseconds. |
+| `signal` | – | An `AbortSignal` to cancel the poll. |
+| `baseUrl` | endpoint's `baseUrl` | Override the base URL the operation path resolves against. |
+| `pathPrefix` | derived from the endpoint | Override the version prefix (e.g. `/assets/v1` for asset-generation operations). |
+| `requestOptions` | – | Forwarded to each request (headers such as the API key, retries, credentials). |
+
 ## Authentication
 
 RoZod handles Roblox authentication automatically with comprehensive security features:

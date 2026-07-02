@@ -38,16 +38,23 @@ export type EndpointSchema = EndpointBase & {
   parameters?: any;
   body?: any;
   response: any;
+  /**
+   * For long-running-operation endpoints (response is an `Operation`), the schema of the
+   * completed operation's `response` payload. Lets {@link pollOperation}/{@link fetchApiOperation}
+   * validate and type the result without an explicit schema. Populated by codegen.
+   */
+  resultResponse?: any;
 };
 
 /**
  * This is a hack to allow us to show the parameters and response types of an endpoint
  * as the inferred types of the parameters and response properties.
  */
-export type EndpointGeneric<T, U, E> = EndpointBase & {
+export type EndpointGeneric<T, U, E, RR = undefined> = EndpointBase & {
   parameters?: T;
   body?: E;
   response: U;
+  resultResponse?: RR;
 };
 
 // Infer zod object to include optional properties
@@ -70,9 +77,15 @@ const endpoint = <
   T extends Record<string, z.Schema<any>>,
   U extends z.ZodTypeAny,
   E extends z.ZodTypeAny | undefined = undefined,
+  RR extends z.ZodTypeAny | undefined = undefined,
 >(
-  endpoint: EndpointGeneric<T, U, E>,
-): EndpointGeneric<InferNonEmpty<T>, z.infer<U>, E extends z.ZodTypeAny ? z.infer<E> : undefined> => {
+  endpoint: EndpointGeneric<T, U, E, RR>,
+): EndpointGeneric<
+  InferNonEmpty<T>,
+  z.infer<U>,
+  E extends z.ZodTypeAny ? z.infer<E> : undefined,
+  RR extends z.ZodTypeAny ? z.infer<RR> : undefined
+> => {
   return endpoint as any;
 };
 
@@ -89,6 +102,14 @@ type ExtractParams<S extends EndpointGeneric<any, any, any>> = S['parameters'] e
     : S['parameters'] & { body: S['body'] };
 
 type ExtractResponse<S extends EndpointGeneric<any, any, any>> = S['response'];
+
+// The inferred result payload of a long-running-operation endpoint, or `unknown` when the
+// endpoint carries no `resultResponse` (in which case a schema must be supplied explicitly).
+// `resultResponse` is an optional property, so read it via indexed access rather than a
+// required-property conditional (which an optional member would fail to satisfy).
+type ExtractOperationResult<S extends EndpointSchema> = [S['resultResponse']] extends [undefined]
+  ? unknown
+  : NonNullable<S['resultResponse']>;
 
 function extractDefaultValues<S extends EndpointSchema>(endpoint: S): Partial<ExtractParams<S>> {
   const defaultValues: Partial<ExtractParams<S>> = {};
@@ -1385,4 +1406,238 @@ async function* fetchApiPagesGenerator<S extends EndpointSchema, R extends boole
   }
 }
 
-export { fetchApi, fetchApiSplit, fetchApiPages, fetchApiPagesGenerator, ExtractResponse, ExtractParams, endpoint };
+/**
+ * Roblox Open Cloud long-running operation envelope. Endpoints such as
+ * `generateThumbnail` / `generateAsset` return this instead of the final
+ * result: `done` is false until the work completes, at which point `response`
+ * holds the payload. Fields are optional because the API omits `response`
+ * (and sometimes `done`) while the operation is still in progress.
+ */
+export const OperationSchema = z.object({
+  path: z.string(),
+  metadata: z.record(z.string(), z.any()).optional(),
+  done: z.boolean().optional(),
+  error: z
+    .object({
+      code: z.number().optional(),
+      message: z.string().optional(),
+      details: z.array(z.any()).optional(),
+    })
+    .partial()
+    .optional(),
+  response: z.record(z.string(), z.any()).optional(),
+});
+
+export type Operation = z.infer<typeof OperationSchema>;
+
+/** Minimal shape accepted by {@link pollOperation} — assignable from any generated Operation response. */
+type OperationLike = {
+  path: string;
+  done?: boolean;
+  response?: unknown;
+  error?: { code?: number; message?: string } | null;
+};
+
+type PollOperationOptions<R extends boolean = false> = {
+  /** Delay between polls in milliseconds. Default 1000. */
+  interval?: number;
+  /** Give up after this many milliseconds and throw. Default 30000. */
+  timeout?: number;
+  /** Abort the poll early; rejects with the signal's reason. */
+  signal?: AbortSignal;
+  /** Override the base URL the operation path is resolved against. Defaults to the originating endpoint's `baseUrl`. */
+  baseUrl?: string;
+  /**
+   * Override the API-version prefix inserted between the base URL and the
+   * operation path (e.g. `/assets/v1`). By default it is derived from the
+   * originating endpoint's path, which works for operations whose path is
+   * relative to the endpoint's own version (e.g. `users/123/operations/…`).
+   */
+  pathPrefix?: string;
+  /** Forwarded to each poll request (headers such as the API key, retries, credentials, …). */
+  requestOptions?: RequestOptions<R>;
+};
+
+function sleep(ms: number, signal?: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(signal.reason ?? new Error('Aborted'));
+      return;
+    }
+    const timer = setTimeout(() => {
+      signal?.removeEventListener('abort', onAbort);
+      resolve();
+    }, ms);
+    const onAbort = () => {
+      clearTimeout(timer);
+      reject(signal?.reason ?? new Error('Aborted'));
+    };
+    signal?.addEventListener('abort', onAbort, { once: true });
+  });
+}
+
+function buildOperationUrl(endpoint: EndpointSchema, operationPath: string, options?: PollOperationOptions): string {
+  const base = (options?.baseUrl ?? endpoint.baseUrl).replace(/\/+$/, '');
+
+  let prefix = options?.pathPrefix;
+  if (prefix === undefined) {
+    // Derive the version prefix by locating the operation path's leading segment
+    // within the originating endpoint's path (e.g. `/cloud/v2/users/:id:generate…` → `/cloud/v2`).
+    const firstSegment = operationPath.replace(/^\/+/, '').split('/')[0];
+    const marker = '/' + firstSegment + '/';
+    const idx = firstSegment ? endpoint.path.indexOf(marker) : -1;
+    prefix = idx > 0 ? endpoint.path.slice(0, idx) : '';
+  }
+
+  const cleanPrefix = prefix ? '/' + prefix.replace(/^\/+|\/+$/g, '') : '';
+  const cleanPath = operationPath.replace(/^\/+/, '');
+  return `${base}${cleanPrefix}/${cleanPath}`;
+}
+
+function isZodSchema(value: unknown): value is z.ZodTypeAny {
+  return typeof (value as { safeParse?: unknown } | undefined)?.safeParse === 'function';
+}
+
+/**
+ * Polls a Roblox Open Cloud long-running {@link Operation} until it completes,
+ * then returns its final `response` payload.
+ *
+ * Generate-style endpoints (e.g. `getCloudV2UsersUserIdGenerateThumbnail`)
+ * return an {@link Operation} rather than the result itself. When the result
+ * isn't cached, `done` is false and you must GET the operation's `path` until
+ * it flips true. This helper does that, resolving the path against the
+ * originating endpoint's base URL and version prefix.
+ *
+ * The result is validated against `resultSchema` if given; otherwise it falls
+ * back to the endpoint's codegen'd `resultResponse` schema (so generated
+ * operation endpoints need no explicit schema). With neither, the raw payload
+ * is returned as `unknown`.
+ *
+ * @example
+ * // Typed automatically from the endpoint's result schema:
+ * const { imageUri } = await pollOperation(getCloudV2UsersUserIdGenerateThumbnail, op);
+ * // Or with an explicit schema for custom/unknown payloads:
+ * const result = await pollOperation(customEndpoint, op, z.object({ imageUri: z.string() }));
+ */
+function pollOperation<S extends EndpointSchema, T extends z.ZodTypeAny>(
+  endpoint: S,
+  operation: OperationLike,
+  resultSchema: T,
+  options?: PollOperationOptions,
+): Promise<z.infer<T>>;
+function pollOperation<S extends EndpointSchema>(
+  endpoint: S,
+  operation: OperationLike,
+  options?: PollOperationOptions,
+): Promise<ExtractOperationResult<S>>;
+async function pollOperation<S extends EndpointSchema>(
+  endpoint: S,
+  operation: OperationLike,
+  resultSchemaOrOptions?: z.ZodTypeAny | PollOperationOptions,
+  maybeOptions: PollOperationOptions = {},
+): Promise<unknown> {
+  const explicitSchema = isZodSchema(resultSchemaOrOptions) ? resultSchemaOrOptions : undefined;
+  const options = explicitSchema ? maybeOptions : ((resultSchemaOrOptions as PollOperationOptions) ?? {});
+  const schema = explicitSchema ?? (endpoint.resultResponse as z.ZodTypeAny | undefined);
+
+  const interval = options.interval ?? 1000;
+  const timeout = options.timeout ?? 30000;
+  const deadline = Date.now() + timeout;
+
+  const finish = (op: OperationLike): unknown => {
+    if (op.error && (op.error.message || op.error.code)) {
+      throw new Error(op.error.message ?? `Operation failed with code ${op.error.code}`);
+    }
+    return schema ? schema.parse(op.response) : op.response;
+  };
+
+  if (operation.done) {
+    return finish(operation);
+  }
+
+  const url = buildOperationUrl(endpoint, operation.path, options);
+  const pollEndpoint: EndpointSchema = {
+    method: 'GET',
+    path: '',
+    baseUrl: url,
+    requestFormat: 'json',
+    parameters: {},
+    response: OperationSchema,
+    errors: [],
+  };
+
+  while (true) {
+    await sleep(interval, options.signal);
+
+    const polled = (await fetchApi(
+      pollEndpoint,
+      {},
+      {
+        ...options.requestOptions,
+        throwOnError: true,
+      },
+    )) as OperationLike;
+
+    if (polled.done) {
+      return finish(polled);
+    }
+
+    if (Date.now() >= deadline) {
+      throw new Error(`Operation "${operation.path}" did not complete within ${timeout}ms`);
+    }
+  }
+}
+
+/**
+ * Fires a long-running-operation endpoint and waits for its result in one call —
+ * `fetchApi` followed by {@link pollOperation}, using a single endpoint reference.
+ *
+ * The result is typed from the endpoint's codegen'd `resultResponse` schema when
+ * present; pass an explicit `resultSchema` for custom endpoints or to override it.
+ *
+ * @example
+ * const { imageUri } = await fetchApiOperation(getCloudV2UsersUserIdGenerateThumbnail, {
+ *   user_id: robloxId, shape: 'SQUARE', format: 'PNG',
+ * });
+ */
+function fetchApiOperation<S extends EndpointSchema, T extends z.ZodTypeAny>(
+  endpoint: S,
+  params: ExtractParams<S>,
+  resultSchema: T,
+  options?: PollOperationOptions,
+): Promise<z.infer<T>>;
+function fetchApiOperation<S extends EndpointSchema>(
+  endpoint: S,
+  params: ExtractParams<S>,
+  options?: PollOperationOptions,
+): Promise<ExtractOperationResult<S>>;
+async function fetchApiOperation<S extends EndpointSchema>(
+  endpoint: S,
+  params: ExtractParams<S>,
+  resultSchemaOrOptions?: z.ZodTypeAny | PollOperationOptions,
+  maybeOptions: PollOperationOptions = {},
+): Promise<unknown> {
+  const explicitSchema = isZodSchema(resultSchemaOrOptions) ? resultSchemaOrOptions : undefined;
+  const options = explicitSchema ? maybeOptions : ((resultSchemaOrOptions as PollOperationOptions) ?? {});
+
+  const operation = (await fetchApi(endpoint, params, {
+    ...options.requestOptions,
+    throwOnError: true,
+  })) as OperationLike;
+
+  return explicitSchema
+    ? pollOperation(endpoint, operation, explicitSchema, options)
+    : pollOperation(endpoint, operation, options);
+}
+
+export {
+  fetchApi,
+  fetchApiSplit,
+  fetchApiPages,
+  fetchApiPagesGenerator,
+  pollOperation,
+  fetchApiOperation,
+  ExtractResponse,
+  ExtractParams,
+  endpoint,
+};
