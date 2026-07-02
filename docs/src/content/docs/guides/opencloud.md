@@ -99,6 +99,23 @@ const entries = await fetchApi(
 );
 ```
 
+## Long-Running Operations
+
+Some OpenCloud endpoints (e.g. `generateThumbnail`, `generateAsset`) return an `Operation` to poll instead of the result itself. Use `fetchApiOperation` to fire and wait in one call:
+
+```ts
+import { fetchApiOperation } from 'rozod';
+import { getCloudV2UsersUserIdGenerateThumbnail } from 'rozod/opencloud/v2/cloud';
+
+const { imageUri } = await fetchApiOperation(getCloudV2UsersUserIdGenerateThumbnail, {
+  user_id: '123456789',
+  shape: 'SQUARE',
+  format: 'PNG',
+});
+```
+
+See the [Long-Running Operations guide](/guides/long-running-operations/) for polling options, custom result schemas, and `pollOperation`.
+
 ## Scopes
 
 Each OpenCloud endpoint declares its required permission scopes. You can inspect these on the endpoint object:

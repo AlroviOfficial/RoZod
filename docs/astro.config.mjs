@@ -32,8 +32,11 @@ export default defineConfig({
             { label: 'Batch Requests', slug: 'guides/batch-requests' },
             { label: 'Caching', slug: 'guides/caching' },
             { label: 'OpenCloud', slug: 'guides/opencloud' },
+            { label: 'Long-Running Operations', slug: 'guides/long-running-operations' },
+            { label: 'Custom Endpoints', slug: 'guides/custom-endpoints' },
           ],
         },
+        { label: 'Core API', slug: 'reference/core-api' },
         {
           label: 'Classic API Reference',
           collapsed: true,

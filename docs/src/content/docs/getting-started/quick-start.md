@@ -127,4 +127,6 @@ console.log(data.name);
 - [Authentication](/guides/authentication/) — Cookie pools, OpenCloud keys, cookie rotation
 - [Error Handling](/guides/error-handling/) — Understanding Roblox error responses
 - [Pagination](/guides/pagination/) — Fetching all pages of results
+- [Custom Endpoints](/guides/custom-endpoints/) — Define your own type-safe endpoints
+- [Core API](/reference/core-api/) — Full reference for every exported function
 - [Coming from noblox.js?](/getting-started/migration-from-nobloxjs/) — Migration guide
