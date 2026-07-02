@@ -159,6 +159,46 @@ describe('Path parameters in URL construction', () => {
   });
 });
 
+describe('Undefined and null query parameters', () => {
+  test('optional query parameter passed as undefined is omitted', async () => {
+    const testEndpoint = endpoint({
+      method: 'GET',
+      baseUrl: 'https://avatar.roblox.com',
+      path: '/v2/avatar/users/:userId/outfits',
+      serializationMethod: {
+        paginationToken: { style: 'form', explode: true },
+        itemsPerPage: { style: 'form', explode: true },
+      },
+      response: z.object({ success: z.boolean() }),
+      parameters: {
+        userId: z.number(),
+        itemsPerPage: z.number().optional(),
+        paginationToken: z.string().optional(),
+      },
+    });
+
+    await fetchApi(testEndpoint, { userId: 1234, itemsPerPage: 100, paginationToken: undefined });
+    // paginationToken must NOT be serialized as the literal string "undefined".
+    expect(lastFetchUrl).toBe('https://avatar.roblox.com/v2/avatar/users/1234/outfits?itemsPerPage=100');
+  });
+
+  test('optional query parameter passed as null is omitted', async () => {
+    const testEndpoint = endpoint({
+      method: 'GET',
+      baseUrl: 'https://api.example.com',
+      path: '/items',
+      response: z.object({ success: z.boolean() }),
+      parameters: {
+        limit: z.number(),
+        cursor: z.string().nullable().optional(),
+      },
+    });
+
+    await fetchApi(testEndpoint, { limit: 10, cursor: null });
+    expect(lastFetchUrl).toBe('https://api.example.com/items?limit=10');
+  });
+});
+
 describe('Array serialization with explode', () => {
   test('exploded array creates separate query params without double-encoding', async () => {
     const testEndpoint = endpoint({

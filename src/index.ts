@@ -173,6 +173,9 @@ function prepareRequestUrl<S extends EndpointSchema>(endpoint: S, extendedParams
     if (key === 'body' || usedPathParams.has(key)) continue;
 
     const value = paramsObject[key];
+    // An unset optional parameter must be omitted, not serialized as the literal
+    // string "undefined"/"null" (which the API would reject as an invalid value).
+    if (value === undefined || value === null) continue;
     const serializationMethod = endpoint.serializationMethod?.[key];
 
     // Handle exploded arrays by creating separate query params for each element
