@@ -785,10 +785,10 @@ export const getPlacesGameicons = endpoint({
  * @api GET https://thumbnails.roblox.com/v1/users/avatar
  * @summary Get Avatar Full body shots for the given CSV of userIds
  * @param userIds CSV for the userIds to get avatar full body shots
+ * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  * @param size The thumbnail size, formatted widthxheight
  * @param format The thumbnail format
  * @param isCircular The circle thumbnail output parameter, true or false
- * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  */
 export const getUsersAvatar = endpoint({
   method: 'GET',
@@ -798,6 +798,10 @@ export const getUsersAvatar = endpoint({
   serializationMethod: {
     userIds: {
       style: 'form',
+    },
+    includeBackground: {
+      style: 'form',
+      explode: true,
     },
     size: {
       style: 'form',
@@ -811,13 +815,10 @@ export const getUsersAvatar = endpoint({
       style: 'form',
       explode: true,
     },
-    includeBackground: {
-      style: 'form',
-      explode: true,
-    },
   },
   parameters: {
     userIds: z.array(z.number()),
+    includeBackground: z.boolean().optional(),
     size: z
       .enum([
         '30x30',
@@ -839,7 +840,6 @@ export const getUsersAvatar = endpoint({
       .default('30x30'),
     format: z.enum(['Png', 'Jpeg', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
-    includeBackground: z.boolean().optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
@@ -884,10 +884,10 @@ export const getUsersAvatar3d = endpoint({
  * @api GET https://thumbnails.roblox.com/v1/users/avatar-bust
  * @summary Get Avatar Busts for the given CSV of userIds
  * @param userIds CSV for the userIds to get avatar headshots
+ * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  * @param size The thumbnail size, formatted widthxheight
  * @param format The thumbnail format
  * @param isCircular The circle thumbnail output parameter, true or false
- * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  */
 export const getUsersAvatarBust = endpoint({
   method: 'GET',
@@ -897,6 +897,10 @@ export const getUsersAvatarBust = endpoint({
   serializationMethod: {
     userIds: {
       style: 'form',
+    },
+    includeBackground: {
+      style: 'form',
+      explode: true,
     },
     size: {
       style: 'form',
@@ -910,20 +914,16 @@ export const getUsersAvatarBust = endpoint({
       style: 'form',
       explode: true,
     },
-    includeBackground: {
-      style: 'form',
-      explode: true,
-    },
   },
   parameters: {
     userIds: z.array(z.number()),
+    includeBackground: z.boolean().optional(),
     size: z
       .enum(['48x48', '50x50', '60x60', '75x75', '100x100', '150x150', '180x180', '352x352', '420x420'])
       .optional()
       .default('48x48'),
     format: z.enum(['Png', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
-    includeBackground: z.boolean().optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
@@ -941,10 +941,10 @@ export const getUsersAvatarBust = endpoint({
  * @api GET https://thumbnails.roblox.com/v1/users/avatar-headshot
  * @summary Get Avatar Headshots for the given CSV of userIds
  * @param userIds CSV for the userIds to get avatar headshots
+ * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  * @param size The thumbnail size, formatted widthxheight
  * @param format The thumbnail format
  * @param isCircular The circle thumbnail output parameter, true or false
- * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  */
 export const getUsersAvatarHeadshot = endpoint({
   method: 'GET',
@@ -954,6 +954,10 @@ export const getUsersAvatarHeadshot = endpoint({
   serializationMethod: {
     userIds: {
       style: 'form',
+    },
+    includeBackground: {
+      style: 'form',
+      explode: true,
     },
     size: {
       style: 'form',
@@ -967,13 +971,10 @@ export const getUsersAvatarHeadshot = endpoint({
       style: 'form',
       explode: true,
     },
-    includeBackground: {
-      style: 'form',
-      explode: true,
-    },
   },
   parameters: {
     userIds: z.array(z.number()),
+    includeBackground: z.boolean().optional(),
     size: z
       .enum([
         '48x48',
@@ -992,7 +993,6 @@ export const getUsersAvatarHeadshot = endpoint({
       .default('48x48'),
     format: z.enum(['Png', 'Jpeg', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
-    includeBackground: z.boolean().optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [
@@ -1032,10 +1032,10 @@ export const getUsersOutfit3d = endpoint({
  * @api GET https://thumbnails.roblox.com/v1/users/outfits
  * @summary Get outfits for the given CSV of userOutfitIds
  * @param userOutfitIds CSV for the userOutfitIds to get user outfits
+ * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  * @param size The thumbnail size, formatted widthxheight
  * @param format The thumbnail format
  * @param isCircular The circle thumbnail output parameter, true or false
- * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
  */
 export const getUsersOutfits = endpoint({
   method: 'GET',
@@ -1045,6 +1045,10 @@ export const getUsersOutfits = endpoint({
   serializationMethod: {
     userOutfitIds: {
       style: 'form',
+    },
+    includeBackground: {
+      style: 'form',
+      explode: true,
     },
     size: {
       style: 'form',
@@ -1058,17 +1062,13 @@ export const getUsersOutfits = endpoint({
       style: 'form',
       explode: true,
     },
-    includeBackground: {
-      style: 'form',
-      explode: true,
-    },
   },
   parameters: {
     userOutfitIds: z.array(z.number()),
+    includeBackground: z.boolean().optional(),
     size: z.enum(['150x150', '420x420']).optional().default('150x150'),
     format: z.enum(['Png', 'Webp']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
-    includeBackground: z.boolean().optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
   errors: [

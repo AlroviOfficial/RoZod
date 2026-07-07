@@ -291,7 +291,11 @@ function autoFixDescriptionEnums(openApiDoc) {
 
 /**
  * Apply schema overrides from schema_overrides.json to fix incorrect types in the OpenAPI spec.
- * Supports both per-endpoint overrides and "_global" overrides that apply to all endpoints.
+ * Supports per-endpoint property overrides and "_global" overrides that apply to all endpoints.
+ * Two reserved per-endpoint keys handle specs where Roblox has removed data entirely:
+ *   "_addSchemas":  component schemas to (re-)define in the spec
+ *   "_responses":   map of "METHOD /spec/path" -> JSON schema for the 200 response,
+ *                   for operations whose response schema was dropped upstream
  * Mutates the openApiDoc in-place before it's passed to the Zod code generator.
  */
 function applySchemaOverrides(openApiDoc, endpointName) {
@@ -314,7 +318,30 @@ function applySchemaOverrides(openApiDoc, endpointName) {
   const endpointOverrides = schemaOverrides[endpointName];
   if (!endpointOverrides) return;
 
-  for (const [schemaName, propertyOverrides] of Object.entries(endpointOverrides)) {
+  const { _addSchemas, _responses, ...propertyOverridesBySchema } = endpointOverrides;
+
+  if (_addSchemas) {
+    for (const [schemaName, schema] of Object.entries(_addSchemas)) {
+      schemas[schemaName] = schema;
+      console.log(`Schema override: ${endpointName} added schema ${schemaName}`);
+    }
+  }
+
+  if (_responses) {
+    for (const [endpointKey, schema] of Object.entries(_responses)) {
+      const [method, specPath] = endpointKey.split(' ');
+      const op = openApiDoc.paths?.[specPath]?.[method.toLowerCase()];
+      if (!op) {
+        console.warn(`Response override: "${endpointKey}" not found in ${endpointName}`);
+        continue;
+      }
+      const response = (op.responses ??= {})['200'] ?? (op.responses['200'] = { description: 'OK' });
+      response.content = { 'application/json': { schema } };
+      console.log(`Response override: ${endpointName} ${endpointKey}`);
+    }
+  }
+
+  for (const [schemaName, propertyOverrides] of Object.entries(propertyOverridesBySchema)) {
     const schema = schemas[schemaName];
     if (!schema?.properties) {
       console.warn(`Schema override: "${schemaName}" not found in ${endpointName}`);
@@ -468,6 +495,9 @@ async function processOpenCloudApi(apiDef) {
   const outputFolder = `${FOLDER_OPENCLOUD}/${apiDef.version}`;
   ensureDirExists(outputFolder);
 
+  const outputPath = `${outputFolder}/${apiDef.name}.ts`;
+  const previousContent = existsSync(outputPath) ? readFileSync(outputPath, 'utf-8') : null;
+
   try {
     const openApiDoc = await downloadGithubRawFile(apiDef.url);
 
@@ -554,6 +584,8 @@ async function processOpenCloudApi(apiDef) {
     // Append any manual patches for endpoints missing from Roblox's docs
     applyEndpointPatch(`${outputFolder}/${apiDef.name}.ts`, `opencloud-${apiDef.name}-${apiDef.version}`);
 
+    warnOnDegradedEndpoints(outputPath, previousContent);
+
     // Copy to lib directory for distribution
     ensureDirExists(`./lib/opencloud/${apiDef.version}`);
     writeFileSync(
@@ -634,19 +666,66 @@ function applyOperationResultSchemas(outputPath, openApiDoc) {
     file = file.slice(0, insertAt) + injections.join('\n') + '\n\n' + file.slice(insertAt);
   }
 
-  // Attach `resultResponse: <Schema>` to each matching endpoint block.
-  file = file.replace(/export const \w+ = endpoint\(\{[\s\S]*?\n\}\);/g, (block) => {
+  // Attach `resultResponse: <Schema>` to each matching endpoint block. Long endpoint names
+  // get line-wrapped by the generator's formatter (`=\n  endpoint({` with an indented `});`),
+  // so both the declaration and the closing brace must tolerate arbitrary whitespace.
+  file = file.replace(/export const \w+ =\s*endpoint\(\{[\s\S]*?\n[ \t]*\}\);/g, (block) => {
     if (/resultResponse:/.test(block)) return block;
     const path = block.match(/path:\s*['"]([^'"]+)['"]/)?.[1];
     const method = block.match(/method:\s*['"]([^'"]+)['"]/)?.[1];
     if (!path || !method) return block;
     const resultName = resultNameByEndpoint[`${method.toUpperCase()} ${path}`];
     if (!resultName || !availableResultNames.has(resultName)) return block;
-    return block.replace(/(\n[ \t]*response:[^\n]*\n)/, (line) => `${line}  resultResponse: ${resultName},\n`);
+    return block.replace(/(\n([ \t]*)response:[^\n]*\n)/, (line, _full, indent) => `${line}${indent}resultResponse: ${resultName},\n`);
   });
 
   writeFileSync(outputPath, file, 'utf-8');
   console.log(`Applied operation result schemas to ${outputPath} (${injections.length} schema(s) injected)`);
+}
+
+/**
+ * Compare a freshly generated endpoints file against its previous content and warn loudly
+ * when data was lost: a response degrading to z.void(), a resultResponse disappearing, or an
+ * endpoint vanishing entirely. Roblox periodically strips schemas from its published specs,
+ * which would otherwise silently propagate into the generated output.
+ */
+function warnOnDegradedEndpoints(outputPath, oldContent) {
+  if (!oldContent) return;
+  const newContent = readFileSync(outputPath, 'utf-8');
+
+  const extractEndpoints = (content) => {
+    const map = new Map();
+    for (const m of content.matchAll(/export const (\w+)\s*=\s*endpoint\(\{[\s\S]*?\n[ \t]*\}\);/g)) {
+      map.set(m[1], {
+        response: m[0].match(/\n[ \t]*response:\s*(.+?),?\n/)?.[1],
+        hasResultResponse: /resultResponse:/.test(m[0]),
+      });
+    }
+    return map;
+  };
+
+  const oldEndpoints = extractEndpoints(oldContent);
+  const newEndpoints = extractEndpoints(newContent);
+  const degraded = [];
+  for (const [name, oldE] of oldEndpoints) {
+    const newE = newEndpoints.get(name);
+    if (!newE) {
+      degraded.push(`${name}: endpoint removed (add it to patches/ if it still works)`);
+      continue;
+    }
+    if (oldE.response && oldE.response !== 'z.void()' && newE.response === 'z.void()') {
+      degraded.push(`${name}: response ${oldE.response} -> z.void()`);
+    }
+    if (oldE.hasResultResponse && !newE.hasResultResponse) {
+      degraded.push(`${name}: resultResponse dropped`);
+    }
+  }
+
+  if (degraded.length) {
+    console.warn(`\n!! DATA LOSS in ${outputPath} — upstream spec was likely stripped; fix via schema_overrides.json or patches/ instead of shipping this:`);
+    for (const d of degraded) console.warn(`  - ${d}`);
+    console.warn('');
+  }
 }
 
 /**
@@ -708,6 +787,8 @@ Promise.all(
     if (matchingUrl) {
       const subdomain = matchingUrl.match(/\/legacy\/([^/]+)\/v\d+/)[1];
       const domain = 'roblox.com';
+      const outputPath = `${FOLDER_ZODIOS}/${fileName}.ts`;
+      const previousContent = existsSync(outputPath) ? readFileSync(outputPath, 'utf-8') : null;
       try {
         const openApiDoc = await parser.parse(`${FOLDER_OPENAPI}/${folder}/openapi.yaml`);
         autoFixDescriptionEnums(openApiDoc);
@@ -741,6 +822,7 @@ Promise.all(
         applyZodRecordFixToFile(`${FOLDER_ZODIOS}/${fileName}.ts`);
         // Append any manual patches for endpoints removed from Roblox's docs
         applyEndpointPatch(`${FOLDER_ZODIOS}/${fileName}.ts`, fileName);
+        warnOnDegradedEndpoints(outputPath, previousContent);
       } catch (error) {
         console.error(`Error generating Zodios for ${folder}: ${error}`);
       }

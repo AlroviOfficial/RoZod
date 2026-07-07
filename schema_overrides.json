@@ -1,13 +1,227 @@
 {
   "_global": {
-    "creatorType": { "type": "string", "description": "The creator type." }
+    "creatorType": {
+      "type": "string",
+      "description": "The creator type."
+    }
+  },
+  "thumbnailsv1": {
+    "_addSchemas": {
+      "Roblox.Web.Responses.Thumbnails.ThumbnailResponse": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "Error",
+              "Completed",
+              "InReview",
+              "Pending",
+              "Blocked",
+              "TemporarilyUnavailable"
+            ]
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Roblox.Web.Responses.Thumbnails.ThumbnailResponse"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.Web.WebAPI.Models.ApiErrorModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "userFacingMessage": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          },
+          "fieldData": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.Thumbnails.Api.Models.UniverseThumbnailsResponse": {
+        "type": "object",
+        "properties": {
+          "universeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "error": {
+            "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiErrorModel"
+          },
+          "thumbnails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Roblox.Web.Responses.Thumbnails.ThumbnailResponse"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Thumbnails.Api.Models.UniverseThumbnailsResponse]": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Roblox.Thumbnails.Api.Models.UniverseThumbnailsResponse"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.Web.Responses.Thumbnails.ThumbnailBatchResponse": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "targetId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "Error",
+              "Completed",
+              "InReview",
+              "Pending",
+              "Blocked",
+              "TemporarilyUnavailable"
+            ]
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailBatchResponse]": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Roblox.Web.Responses.Thumbnails.ThumbnailBatchResponse"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "_responses": {
+      "GET /v1/asset-thumbnail-animated": {
+        "$ref": "#/components/schemas/Roblox.Web.Responses.Thumbnails.ThumbnailResponse"
+      },
+      "GET /v1/assets": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      },
+      "GET /v1/assets-thumbnail-3d": {
+        "$ref": "#/components/schemas/Roblox.Web.Responses.Thumbnails.ThumbnailResponse"
+      },
+      "GET /v1/badges/icons": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      },
+      "POST /v1/batch": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailBatchResponse]"
+      },
+      "GET /v1/bundles/thumbnails": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      },
+      "GET /v1/developer-products/icons": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      },
+      "GET /v1/game-passes": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      },
+      "GET /v1/games/{universeId}/thumbnails": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      },
+      "GET /v1/games/icons": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      },
+      "GET /v1/games/multiget/thumbnails": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Thumbnails.Api.Models.UniverseThumbnailsResponse]"
+      },
+      "GET /v1/groups/icons": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      },
+      "GET /v1/places/gameicons": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      },
+      "GET /v1/users/avatar": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      },
+      "GET /v1/users/avatar-3d": {
+        "$ref": "#/components/schemas/Roblox.Web.Responses.Thumbnails.ThumbnailResponse"
+      },
+      "GET /v1/users/avatar-bust": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      },
+      "GET /v1/users/avatar-headshot": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      },
+      "GET /v1/users/outfit-3d": {
+        "$ref": "#/components/schemas/Roblox.Web.Responses.Thumbnails.ThumbnailResponse"
+      },
+      "GET /v1/users/outfits": {
+        "$ref": "#/components/schemas/Roblox.Web.WebAPI.Models.ApiArrayResponse[Roblox.Web.Responses.Thumbnails.ThumbnailResponse]"
+      }
+    }
   },
   "catalogv1": {
     "Roblox.Catalog.Api.CategoryModel": {
-      "category": { "type": "string", "description": "Category type." }
+      "category": {
+        "type": "string",
+        "description": "Category type."
+      }
     },
     "Roblox.Catalog.Api.SubcategoryModel": {
-      "subcategory": { "type": "string", "description": "Subcategory type." }
+      "subcategory": {
+        "type": "string",
+        "description": "Subcategory type."
+      }
     }
   }
 }
