@@ -200,6 +200,7 @@ Sets default credentials and headers applied to all requests in server environme
 | `userAgents` | `string[]` | Custom user-agent pool. Empty array disables injection; omit for built-in defaults. |
 | `userAgentRotation` | `PoolRotation` | User-agent selection mode. Default: `'none'`. |
 | `onCookieRefresh` | `CookieRefreshCallback` | Invoked when Roblox rotates a cookie, so you can persist the new value. |
+| `hbaKeys` | `CryptoKeyPair \| Array<CryptoKeyPair \| null>` | Session-registered ECDSA P-256 key pair(s) for hardware-backed auth (BAT) signing. An array aligns index-for-index with `cookies` (`null` = no BAT for that cookie) and must be re-passed on every reconfigure. See the [Authentication guide](/guides/authentication/#hardware-backed-authentication-advanced). |
 
 ### `getServerConfig()`
 
@@ -249,7 +250,7 @@ setHandleGenericChallenge(async (challenge) => {
 
 ### `changeHBAKeys(keys?)`
 
-Overrides the crypto key pair used for hardware-backed authentication signatures (Node.js only). Call with no arguments to revert to automatically generated keys.
+Sets the crypto key pair used for hardware-backed authentication signatures (Node.js only). The pair applies to all requests and discards any per-cookie keys configured via `configureServer({ hbaKeys: [...] })`. Call with no arguments to remove the pair, after which requests send no BAT.
 
 ```ts
 function changeHBAKeys(keys?: CryptoKeyPair): void;

@@ -256,9 +256,134 @@ function prepareRequestBody<S extends EndpointSchema>(
 }
 
 const onRobloxSite = 'document' in globalThis && globalThis.location.href.includes('.roblox.com');
-export const hbaClient = new HBAClient({
+
+type TokenMetadata = Awaited<ReturnType<HBAClient['getTokenMetadata']>>;
+
+/** How long a failed token metadata lookup is remembered before retrying. */
+const HBA_METADATA_FAILURE_TTL = 5 * 60 * 1000;
+/** Upper bound on the token metadata page fetch. */
+const HBA_METADATA_FETCH_TIMEOUT = 10_000;
+
+/**
+ * HBAClient hardened for server (Node/Bun) usage:
+ *
+ * - `generateBaseHeaders` short-circuits when no crypto key source exists
+ *   (no supplied key pair and no IndexedDB): a BAT can never be signed, so
+ *   the token metadata page must not be fetched at all.
+ * - `getTokenMetadata` remembers failed lookups for a TTL. The base class
+ *   only caches successes, so an unparseable metadata page (e.g. a bot
+ *   challenge served to a datacenter IP) would otherwise be refetched on
+ *   every request — unbounded network and memory churn on hot paths.
+ * - The metadata page fetch is bounded by a timeout and sent with the
+ *   configured server user agent instead of the runtime default, which is
+ *   far more likely to receive a challenge page.
+ */
+class ServerSafeHBAClient extends HBAClient {
+  private metadataFailureAt = 0;
+  private metadataInFlight?: Promise<TokenMetadata>;
+  private readonly metadataSource?: ServerSafeHBAClient;
+
+  constructor(props?: ConstructorParameters<typeof HBAClient>[0] & { metadataSource?: ServerSafeHBAClient }) {
+    super(props);
+    this.metadataSource = props?.metadataSource;
+  }
+
+  /**
+   * Forget a remembered metadata failure so the next lookup retries
+   * immediately. Called when HBA keys are (re)configured — a lookup that
+   * failed under the old configuration says nothing about the new one.
+   */
+  resetMetadataFailure(): void {
+    this.metadataFailureAt = 0;
+  }
+
+  override async generateBaseHeaders(
+    requestUrl: string | URL,
+    requestMethod?: string,
+    includeCredentials?: boolean,
+    body?: unknown,
+  ): Promise<Record<string, string>> {
+    if (!this.suppliedCryptoKeyPair && !('indexedDB' in globalThis)) {
+      return {};
+    }
+    return super.generateBaseHeaders(requestUrl, requestMethod, includeCredentials, body);
+  }
+
+  override async getTokenMetadata(uncached?: boolean): Promise<TokenMetadata> {
+    // Token metadata is account-agnostic; per-cookie clients delegate to
+    // one shared client so its caches (success, failure TTL, in-flight)
+    // apply pool-wide instead of once per account.
+    if (this.metadataSource) {
+      return this.metadataSource.getTokenMetadata(uncached);
+    }
+    if (!uncached) {
+      if (this.metadataFailureAt && Date.now() - this.metadataFailureAt < HBA_METADATA_FAILURE_TTL) {
+        return null;
+      }
+      // The base class only shares in-flight lookups that resolve
+      // successfully; sharing here makes concurrent callers ride one
+      // lookup even when it fails, instead of each retrying in turn.
+      if (this.metadataInFlight) {
+        return this.metadataInFlight;
+      }
+    }
+    let promise!: Promise<TokenMetadata>;
+    promise = (async () => {
+      try {
+        const metadata = await super.getTokenMetadata(uncached);
+        this.metadataFailureAt = metadata ? 0 : Date.now();
+        return metadata;
+      } finally {
+        // Guarded so an overlapping lookup's reference is not clobbered
+        if (this.metadataInFlight === promise) {
+          this.metadataInFlight = undefined;
+        }
+      }
+    })();
+    this.metadataInFlight = promise;
+    return promise;
+  }
+}
+
+export const hbaClient = new ServerSafeHBAClient({
   onSite: onRobloxSite,
+  // Applies to every non-on-site context, including extension background
+  // and popup pages: the timeout is desirable everywhere, and browsers
+  // silently drop the user-agent header (it is fetch-forbidden), so this
+  // only takes effect in Node/Bun.
+  ...(onRobloxSite
+    ? {}
+    : {
+        fetch: (url: string, params?: RequestInit) => {
+          const headers = new Headers(params?.headers);
+          if (!headers.has('user-agent')) {
+            const userAgent = getServerUserAgent();
+            if (userAgent) {
+              headers.set('user-agent', userAgent);
+            }
+          }
+          return globalThis.fetch(url, {
+            ...params,
+            headers,
+            signal: AbortSignal.timeout(HBA_METADATA_FETCH_TIMEOUT),
+          });
+        },
+      }),
 });
+
+/**
+ * BAT signing clients aligned index-for-index with the configured cookie
+ * pool. `null` marks cookies whose sessions have no registered key. Unset
+ * when hbaKeys was not configured as an array.
+ */
+let perCookieHbaClients: Array<ServerSafeHBAClient | null> | undefined;
+
+function hbaClientForCookie(cookieIndex?: number): ServerSafeHBAClient {
+  if (cookieIndex === undefined || !perCookieHbaClients) {
+    return hbaClient;
+  }
+  return perCookieHbaClients[cookieIndex] ?? hbaClient;
+}
 
 // ============================================================================
 // Server/Node.js Configuration
@@ -365,6 +490,26 @@ export type ServerConfig = {
    * ```
    */
   onCookieRefresh?: CookieRefreshCallback;
+  /**
+   * ECDSA P-256 key pair(s) used to sign hardware-backed auth (BAT) tokens.
+   * Keys are bound to a session: Roblox validates signatures against the
+   * public key registered when the cookie's session was authenticated, so a
+   * freshly generated pair produces invalid tokens. Without keys, BAT
+   * generation is skipped entirely on the server (there is no IndexedDB to
+   * load browser-registered keys from).
+   *
+   * Pass an array to bind keys per cookie: entries align index-for-index
+   * with the `cookies` array (lengths must match), and `null` entries mark
+   * cookies whose sessions have no registered key — those requests send no
+   * BAT. A single (non-array) pair applies to all requests and is only
+   * sensible with a single cookie.
+   *
+   * Per-cookie keys are bound to the `cookies` array passed in the same
+   * call: a later `configureServer` call that omits `hbaKeys` drops them
+   * (requests then send no BAT). Re-pass the array together with the
+   * cookies whenever you reconfigure.
+   */
+  hbaKeys?: CryptoKeyPair | Array<CryptoKeyPair | null>;
 };
 
 type ServerConfigInternal = ServerConfig & {
@@ -422,6 +567,40 @@ export function configureServer(config: ServerConfig): void {
   serverConfig.userAgents = config.userAgents;
   serverConfig.userAgentRotation = config.userAgentRotation;
   serverConfig.onCookieRefresh = config.onCookieRefresh;
+  // Keys live on the HBA clients, not in serverConfig — they are the single
+  // source of truth that getServerConfig() reads back from. A single shared
+  // pair is kept when hbaKeys is omitted so changeHBAKeys() callers keep
+  // theirs, but per-cookie keys are positionally bound to the cookies array
+  // passed in the same call: reconfiguring without them must drop them, or
+  // a changed pool would sign with other sessions' keys.
+  if (config.hbaKeys === undefined) {
+    perCookieHbaClients = undefined;
+  } else {
+    if (Array.isArray(config.hbaKeys)) {
+      const poolSize = Array.isArray(config.cookies) ? config.cookies.length : config.cookies ? 1 : 0;
+      if (config.hbaKeys.length !== poolSize) {
+        throw new Error(
+          `hbaKeys array length (${config.hbaKeys.length}) must match the cookie pool length (${poolSize}); use null for cookies without registered keys`,
+        );
+      }
+      perCookieHbaClients = config.hbaKeys.map((keys) =>
+        keys
+          ? new ServerSafeHBAClient({
+              onSite: onRobloxSite,
+              keys,
+              metadataSource: hbaClient,
+            })
+          : null,
+      );
+      // The shared client must not sign: requests that bypass the cookie
+      // pool have no session to match a key to.
+      hbaClient.suppliedCryptoKeyPair = undefined;
+    } else {
+      hbaClient.suppliedCryptoKeyPair = config.hbaKeys;
+      perCookieHbaClients = undefined;
+    }
+    hbaClient.resetMetadataFailure();
+  }
   // Reset indices and session values when config changes
   serverConfig._cookieIndex = 0;
   serverConfig._userAgentIndex = 0;
@@ -439,6 +618,8 @@ export function clearServerConfig(): void {
   serverConfig.userAgents = undefined;
   serverConfig.userAgentRotation = undefined;
   serverConfig.onCookieRefresh = undefined;
+  hbaClient.suppliedCryptoKeyPair = undefined;
+  perCookieHbaClients = undefined;
   serverConfig._cookieIndex = 0;
   serverConfig._userAgentIndex = 0;
   serverConfig._sessionUserAgent = undefined;
@@ -456,6 +637,9 @@ export function getServerConfig(): Readonly<ServerConfig> {
     userAgents: serverConfig.userAgents,
     userAgentRotation: serverConfig.userAgentRotation,
     onCookieRefresh: serverConfig.onCookieRefresh,
+    hbaKeys: perCookieHbaClients
+      ? perCookieHbaClients.map((client) => client?.suppliedCryptoKeyPair ?? null)
+      : hbaClient.suppliedCryptoKeyPair,
   };
 }
 
@@ -926,10 +1110,11 @@ async function fetch(
     cookieSelection = applyServerDefaults(headers, url);
   }
 
+  const activeHbaClient = hbaClientForCookie(cookieSelection?.index);
   if (!onRobloxSite) {
-    hbaClient.isAuthenticated = headers.get('cookie')?.includes('.ROBLOSECURITY');
+    activeHbaClient.isAuthenticated = headers.get('cookie')?.includes('.ROBLOSECURITY');
   }
-  const setHeaders = await hbaClient.generateBaseHeaders(
+  const setHeaders = await activeHbaClient.generateBaseHeaders(
     url,
     info?.method,
     info?.credentials === 'include',
@@ -993,10 +1178,18 @@ async function fetch(
 /**
  * Allows you to change the Crypto Key pair used by the internal hardware-based authentication signatures. This should only be used in a NodeJS context.
  *
+ * The pair applies to every request: any per-cookie keys configured via
+ * `configureServer({ hbaKeys: [...] })` are discarded. To key individual
+ * cookies in a pool, use `configureServer` instead.
+ *
  * @param keys The crypto key pair.
  */
 export function changeHBAKeys(keys?: CryptoKeyPair) {
   hbaClient.suppliedCryptoKeyPair = keys;
+  perCookieHbaClients = undefined;
+  if (keys) {
+    hbaClient.resetMetadataFailure();
+  }
 }
 async function handleRetryFetch(
   url: string,

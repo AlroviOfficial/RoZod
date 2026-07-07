@@ -169,21 +169,32 @@ The handler receives the parsed challenge from the response headers and may retu
 
 ## Hardware-Backed Authentication (Advanced)
 
-RoZod generates hardware-backed authentication (HBA) signatures automatically via [roblox-bat](https://github.com/RoSeal-Extension/Roblox-BAT). In Node.js environments you can supply your own key pair if you need signatures to persist across processes:
+RoZod generates hardware-backed authentication (HBA) signatures — the `x-bound-auth-token` header — via [roblox-bat](https://github.com/RoSeal-Extension/Roblox-BAT). In a browser on a `.roblox.com` page this is fully automatic: the keys registered by the Roblox site live in IndexedDB.
+
+On a server there is no IndexedDB, so BAT signing is **skipped entirely** unless you supply keys. The keys must be the ECDSA P-256 pair registered when the cookie's session was authenticated — Roblox validates signatures against the session's registered public key, so a freshly generated pair produces tokens Roblox rejects.
+
+Supply keys through `configureServer`:
 
 ```ts
-import { changeHBAKeys } from 'rozod';
+import { configureServer } from 'rozod';
 
-const keyPair = await crypto.subtle.generateKey(
-  { name: 'ECDSA', namedCurve: 'P-256' },
-  true,
-  ['sign', 'verify'],
-);
+// One session, one pair
+configureServer({ cookies: cookieA, hbaKeys: keyPairA });
 
-changeHBAKeys(keyPair);
+// Cookie pool: keys align index-for-index with the cookies.
+// Use null for sessions without a registered key — those requests send no BAT.
+configureServer({
+  cookies: [cookieA, cookieB, cookieC],
+  cookieRotation: 'round-robin',
+  hbaKeys: [keyPairA, keyPairB, null],
+});
 ```
 
-Call `changeHBAKeys()` with no arguments to revert to the automatically generated keys. Most applications never need this.
+The `hbaKeys` array length must match the cookie pool length. Per-cookie keys are bound to the `cookies` passed in the same call: if you call `configureServer` again without `hbaKeys`, they are dropped and requests send no BAT — re-pass the array whenever you reconfigure.
+
+`changeHBAKeys(keyPair)` remains as a lower-level escape hatch: it applies one pair to **all** requests and discards any per-cookie keys. Call it with no arguments to remove the pair.
+
+To decide whether a request needs a BAT, roblox-bat consults Roblox's token metadata page. RoZod fetches that page at most once: successful lookups are cached, failed ones (e.g. a challenge page served to a datacenter IP) are remembered for 5 minutes before retrying, concurrent requests share a single in-flight lookup, and the fetch itself is bounded by a 10-second timeout and sent with your configured user agent.
 
 ## Browser Usage
 
