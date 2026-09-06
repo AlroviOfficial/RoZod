@@ -151,7 +151,78 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV2 = z.object({
   outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(4), z.literal(5)]),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
+const Roblox_Api_Avatar_Models_UpdateAvatarDataModel = z.object({
+  scales: Roblox_Web_Responses_Avatar_ScaleModel,
+  playerAvatarType: z.union([z.literal(1), z.literal(3)]),
+  bodyColors: Roblox_Api_Avatar_Models_BodyColors3Model,
+  assets: z.array(Roblox_Api_Avatar_Models_AssetWearModel),
+});
+const Roblox_Api_Avatar_Models_UpdateAvatarRequestModel = z.object({
+  updateMask: z.array(
+    z.union([
+      z.literal(0),
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+      z.literal(5),
+      z.literal(6),
+      z.literal(7),
+      z.literal(8),
+    ]),
+  ),
+  data: Roblox_Api_Avatar_Models_UpdateAvatarDataModel,
+});
+const Roblox_Api_Avatar_Models_UpdateAvatarResponseModel = z.object({
+  invalidAssets: z.array(Roblox_Api_Avatar_Models_AssetModelV2),
+  success: z.boolean(),
+});
 
+/**
+ * @api PATCH https://avatar.roblox.com/v2/avatar
+ * @summary Sets the avatar to the incoming avatar using field masks.
+ * @param body Model of avatar that we are updating to.
+ * @param Roblox-Place-Id 
+ * @description Only allows items that you own, are not expired, and are wearable asset types.
+Any assets being worn before this method is called are automatically removed.
+ */
+export const patchAvatar = endpoint({
+  method: 'PATCH',
+  path: '/v2/avatar',
+  baseUrl: 'https://avatar.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    'Roblox-Place-Id': {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    'Roblox-Place-Id': z.number().int().optional(),
+  },
+  body: Roblox_Api_Avatar_Models_UpdateAvatarRequestModel,
+  response: Roblox_Api_Avatar_Models_UpdateAvatarResponseModel,
+  errors: [
+    {
+      status: 400,
+      description: `3: Invalid assetId
+5: Meta does not apply to specified asset type
+7: Required meta is not provided for the specific asset type`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+    {
+      status: 500,
+      description: `2: Failed to wear asset.`,
+    },
+  ],
+});
 /**
  * @api GET https://avatar.roblox.com/v2/avatar/avatar
  * @summary Returns details about the authenticated user's avatar.

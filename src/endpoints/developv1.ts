@@ -61,6 +61,61 @@ const Roblox_Web_Responses_Plugins_PluginResponse = z.object({
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Plugins_PluginResponse_ = z.object({
   data: z.array(Roblox_Web_Responses_Plugins_PluginResponse),
 });
+const Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_AgeRecommendationModel = z.object({
+  displayName: z.string(),
+  minimumAge: z.number().int(),
+  displayNameWithHeaderShort: z.string(),
+  minimumAgeDisplay: z.string(),
+  contentMaturity: z.string(),
+  igrsRating: z.string(),
+  igrsRatingDisplayMessage: z.string(),
+});
+const Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_AgeRecommendationSummaryModel = z.object({
+  ageRecommendation: Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_AgeRecommendationModel,
+});
+const Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_ExperienceDescriptorModel = z.object({
+  name: z.string(),
+  displayName: z.string(),
+  complianceApiSupported: z.boolean(),
+  iconUrl: z.string(),
+});
+const Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_ExperienceDescriptorDimensionUsageModel = z.object({
+  dimensionName: z.string(),
+  dimensionValue: z.string(),
+});
+const Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_AgeRangeModel = z.object({
+  minAgeInclusive: z.number().int(),
+  maxAgeInclusive: z.number().int(),
+});
+const Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_ExperienceDescriptorUsageModel = z.object({
+  name: z.string(),
+  followsComplianceApi: z.boolean(),
+  experienceDescriptor: Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_ExperienceDescriptorModel,
+  experienceDescriptorDimensionUsages: z.array(
+    Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_ExperienceDescriptorDimensionUsageModel,
+  ),
+  contains: z.boolean(),
+  ageRange: Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_AgeRangeModel,
+  descriptorDisplayName: z.string(),
+  ageRangeDisplayName: z.string(),
+});
+const Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_AgeRecommendationDetailsModel = z.object({
+  ageRecommendationSummary: Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_AgeRecommendationSummaryModel,
+  experienceDescriptorUsages: z.array(
+    Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_ExperienceDescriptorUsageModel,
+  ),
+});
+const Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_RestrictedCountryModel = z.object({
+  countryCode: z.string(),
+  experienceDescriptorUsages: z.array(
+    Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_ExperienceDescriptorUsageModel,
+  ),
+  countryDisplayName: z.string(),
+});
+const Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse = z.object({
+  ageRecommendationDetails: Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_AgeRecommendationDetailsModel,
+  restrictedCountries: z.array(Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse_RestrictedCountryModel),
+});
 const Roblox_Api_Develop_Models_ActivationEligibilityResponse = z.object({
   isEligible: z.boolean(),
   maturityRated: z.boolean(),
@@ -71,6 +126,8 @@ const Roblox_Api_Develop_Models_ActivationEligibilityResponse = z.object({
   isUniverseSelect: z.boolean(),
   creatorTier: z.enum(['Invalid', 'Blocked', 'Private', 'Trusted', 'Everyone']),
   allowedAudiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
+  provisionalRatingAllowed: z.boolean(),
+  provisionalRating: Roblox_Api_Develop_Models_BuildGeneratedRatingPreviewResponse,
 });
 const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   allowPrivateServers: z.boolean(),
@@ -116,7 +173,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponse = z.object({
   fiatModerationStatus: z.enum(['Invalid', 'NotModerated', 'Pending', 'Approved', 'Rejected']),
   audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
   demoModeEnabled: z.boolean(),
-  demoModeLastChangedTime: z.string().datetime({ offset: true }),
+  demoModeChangeableAfter: z.string().datetime({ offset: true }),
 });
 const Roblox_Api_Develop_Models_UniverseSettingsRequest = z.object({
   name: z.string(),
@@ -155,6 +212,12 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequest = z.object({
   fiatBasePriceId: z.string(),
   fiatProductChangeType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   demoModeEnabled: z.boolean(),
+});
+const Roblox_Api_Develop_Models_PlaytestersResponse = z.object({
+  playtesters: z.array(z.number()),
+});
+const Roblox_Api_Develop_Models_PlaytestersRequest = z.object({
+  playtesters: z.array(z.number()),
 });
 const Roblox_Api_Develop_Models_PrivateServerDetailsResponse = z.object({
   isEnabled: z.boolean(),
@@ -705,6 +768,121 @@ export const patchUniversesUniverseidConfiguration = endpoint({
     {
       status: 409,
       description: `9: Failed to shutdown all intances of game after changing AvatarType. The change has been reverted.`,
+    },
+  ],
+});
+/**
+ * @api GET https://develop.roblox.com/v1/universes/:universeId/configuration/playtesters
+ * @summary Get the list of playtesters for an owned universe.
+ * @param universeId The universe Id.
+ */
+export const getUniversesUniverseidConfigurationPlaytesters = endpoint({
+  method: 'GET',
+  path: '/v1/universes/:universeId/configuration/playtesters',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    universeId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    universeId: z.number().int(),
+  },
+  response: Roblox_Api_Develop_Models_PlaytestersResponse,
+  errors: [
+    {
+      status: 400,
+      description: `1: The universe does not exist.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `2: You are not authorized to configure this universe.`,
+    },
+  ],
+});
+/**
+ * @api POST https://develop.roblox.com/v1/universes/:universeId/configuration/playtesters
+ * @summary Add playtesters to an owned universe. Existing ids are ignored (additive union).
+ * @param body The playtesters to add.
+ * @param universeId The universe Id.
+ */
+export const postUniversesUniverseidConfigurationPlaytesters = endpoint({
+  method: 'POST',
+  path: '/v1/universes/:universeId/configuration/playtesters',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    universeId: z.number().int(),
+  },
+  body: Roblox_Api_Develop_Models_PlaytestersRequest,
+  response: Roblox_Api_Develop_Models_PlaytestersResponse,
+  errors: [
+    {
+      status: 400,
+      description: `1: The universe does not exist.
+48: The playtesters list is missing or empty.
+49: Too many playtesters were specified in a single request.
+51: One or more playtesters cannot be added due to safety restrictions.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+2: You are not authorized to configure this universe.`,
+    },
+  ],
+});
+/**
+ * @api DELETE https://develop.roblox.com/v1/universes/:universeId/configuration/playtesters
+ * @summary Remove playtesters from an owned universe.
+ * @param body The playtesters to remove.
+ * @param universeId The universe Id.
+ */
+export const deleteUniversesUniverseidConfigurationPlaytesters = endpoint({
+  method: 'DELETE',
+  path: '/v1/universes/:universeId/configuration/playtesters',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    universeId: z.number().int(),
+  },
+  body: Roblox_Api_Develop_Models_PlaytestersRequest,
+  response: Roblox_Api_Develop_Models_PlaytestersResponse,
+  errors: [
+    {
+      status: 400,
+      description: `1: The universe does not exist.
+48: The playtesters list is missing or empty.
+49: Too many playtesters were specified in a single request.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+2: You are not authorized to configure this universe.`,
     },
   ],
 });

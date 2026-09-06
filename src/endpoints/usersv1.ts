@@ -80,7 +80,7 @@ const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Users_Api_MultiGetUserByN
   data: z.array(Roblox_Users_Api_MultiGetUserByNameResponse),
 });
 const Roblox_Users_Api_MultiGetByUserIdRequest = z.object({
-  userIds: z.array(z.number()),
+  userIds: z.array(z.number()).max(200),
   excludeBannedUsers: z.boolean(),
 });
 const Roblox_Users_Api_MultiGetUserResponse = z.object({

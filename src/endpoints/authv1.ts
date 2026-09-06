@@ -105,6 +105,7 @@ const Roblox_Authentication_Api_Models_LoginResponse = z.object({
   shouldAutoLoginFromRecovery: z.boolean(),
   shouldPrompt2svRemoval: z.boolean(),
   shouldPromptPasskeyAddition: z.boolean(),
+  shouldPromptCredentialInvalidation: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_ProviderInfoModel = z.object({
   provider: z.string(),
@@ -163,6 +164,13 @@ const Roblox_Authentication_Api_Models_XboxLoginConsecutiveDaysResponse = z.obje
 const Roblox_Authentication_Api_Models_AccountPinResponse = z.object({
   unlockedUntil: z.number(),
 });
+const Roblox_Authentication_Api_Models_Response_ExternalIdentityGateway_ExternalIdentityNonceResponse = z.object({
+  nonce: z.string(),
+});
+const saml_assertionconsumerservice_body = z.object({
+  SAMLResponse: z.string(),
+  RelayState: z.string(),
+});
 const Roblox_Authentication_Api_Models_Request_ExternalAccessRequest = z.object({
   authenticationProof: z.string(),
   identityProviderPlatformType: z.enum(['Undefined', 'Xbox', 'Playstation', 'Web']),
@@ -184,6 +192,7 @@ const Roblox_Authentication_Api_Models_Request_ExternalLoginRequest = z.object({
     z.literal(6),
     z.literal(7),
     z.literal(8),
+    z.literal(9),
     z.literal(999),
   ]),
   additionalData: z.object({}),
@@ -204,6 +213,7 @@ const Roblox_Authentication_Api_Models_Request_ExternalLoginAndLinkRequest = z.o
     'TwoStepVerification',
     'XboxLive',
     'PlatformLive',
+    'MagicLink',
   ]),
   cvalue: z.string(),
   password: z.string(),
@@ -241,6 +251,7 @@ const Roblox_Authentication_Api_Models_Request_InitializeLoginRequest = z.object
     z.literal(7),
     z.literal(8),
     z.literal(9),
+    z.literal(10),
   ]),
   cvalue: z.string().min(1),
   captchaId: z.string().optional(),
@@ -272,6 +283,7 @@ const Roblox_Authentication_Api_Models_AccountLinkParameters = z.object({
     'RobloxGroupCreator',
     'Playstation',
     'ExternalProvider',
+    'Steam',
     'Example',
   ]),
 });
@@ -287,6 +299,7 @@ const Roblox_Authentication_Api_Models_LoginRequest = z.object({
     'TwoStepVerification',
     'XboxLive',
     'PlatformLive',
+    'MagicLink',
   ]),
   cvalue: z.string(),
   password: z.string(),
@@ -305,6 +318,7 @@ const Roblox_Authentication_Api_Models_Request_LogoutFromAllSessionsAndReauthent
   SecureAuthenticationIntent: Roblox_Authentication_Api_Models_Request_SecureAuthenticationIntentModel,
 });
 const Roblox_Authentication_Api_Models_Request_DeletePasskeysRequest = z.object({
+  credentialIDs: z.array(z.string()),
   credentialNicknames: z.array(z.string()),
 });
 const Roblox_Authentication_Api_Models_Request_FinishARPreAuthPasskeyRegistrationRequest = z.object({
@@ -331,9 +345,14 @@ const Roblox_Authentication_Api_Models_Request_ListPasskeysRequest = z.object({
 });
 const Roblox_Authentication_Api_Models_Response_PasskeyCredential = z.object({
   nickname: z.string(),
+  credentialID: z.string(),
 });
 const Roblox_Authentication_Api_Models_Response_ListPasskeyCredentialResponse = z.object({
   credentials: z.array(Roblox_Authentication_Api_Models_Response_PasskeyCredential),
+});
+const Roblox_Authentication_Api_Models_Request_RenamePasskeyRequest = z.object({
+  credentialID: z.string(),
+  newNickname: z.string(),
 });
 const Roblox_Authentication_Api_Models_Request_StartAuthenticationByUserRequest = z.object({
   ctype: z.union([
@@ -347,6 +366,7 @@ const Roblox_Authentication_Api_Models_Request_StartAuthenticationByUserRequest 
     z.literal(7),
     z.literal(8),
     z.literal(9),
+    z.literal(10),
   ]),
   cvalue: z.string().min(1),
 });
@@ -406,6 +426,7 @@ const Roblox_Authentication_Api_Models_SignupRequest = z.object({
   birthday: z.string().datetime({ offset: true }),
   displayName: z.string(),
   isTosAgreementBoxChecked: z.boolean(),
+  signupType: z.enum(['Regular', 'Express']),
   email: z.string(),
   locale: z.string(),
   assetIds: z.array(z.number()),
@@ -654,8 +675,37 @@ export const getClientAssertion = endpoint({
   ],
 });
 /**
+ * @api POST https://auth.roblox.com/v1/external/:identityProviderId/sso/native/nonce
+ * @summary Reserves a nonce for a native SSO sign-in attempt.
+ * @param identityProviderId 
+ * @description The web flow gets its nonce from M:Roblox.Authentication.Api.Controllers.V1.ExternalIdentitiesGatewayController.OAuthInit(System.Int64,System.Threading.CancellationToken), which native clients never call
+because they have no authorization redirect. They call this instead, pass the nonce to the
+provider SDK, and post the resulting id_token to /access.
+            
+The client must pass this value to the SDK verbatim. Both providers treat the nonce as an
+opaque string and echo it into the id_token unchanged, and redemption looks the value up as
+issued. The SHA256(nonce) convention seen in Apple examples belongs to Firebase, which hashes
+on its own side before comparing; hashing here would make the lookup miss.
+ */
+export const postExternalIdentityprovideridSsoNativeNonce = endpoint({
+  method: 'POST',
+  path: '/v1/external/:identityProviderId/sso/native/nonce',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    identityProviderId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    identityProviderId: z.number().int(),
+  },
+  response: z.object({ nonce: z.string() }),
+  errors: [],
+});
+/**
  * @api GET https://auth.roblox.com/v1/external/:identityProviderId/sso/oauth/callback
- * @summary Callback function that external identity provider calls post user authentication.
+ * @summary OAuth callback for identity providers that return the authorization code on a GET redirect (Okta, Google).
  * @param identityProviderId
  * @param code
  * @param state
@@ -692,8 +742,39 @@ export const getExternalIdentityprovideridSsoOauthCallback = endpoint({
   ],
 });
 /**
+ * @api POST https://auth.roblox.com/v1/external/:identityProviderId/sso/oauth/callback
+ * @summary OAuth callback for identity providers that POST the authorization code as form fields (Apple form_post).
+Extra form fields such as Apple's first-auth `id_token` and `user` are ignored;
+web login exchanges code via PKCE and does not treat a form id_token as proof.
+ * @param body 
+ * @param identityProviderId 
+ */
+export const postExternalIdentityprovideridSsoOauthCallback = endpoint({
+  method: 'POST',
+  path: '/v1/external/:identityProviderId/sso/oauth/callback',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'text',
+  serializationMethod: {
+    body: {},
+    identityProviderId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    identityProviderId: z.number().int(),
+  },
+  body: z.object({}).optional(),
+  response: z.void(),
+  errors: [
+    {
+      status: 302,
+      description: `Redirect`,
+    },
+  ],
+});
+/**
  * @api GET https://auth.roblox.com/v1/external/:identityProviderId/sso/oauth/init
- * @summary Signs a user up for Roblox and links the account to the authenticated external provider ID.
+ * @summary Signs a user up for Roblox and links the account to the authenticated external provider ID via OAuth.
  * @param identityProviderId
  */
 export const getExternalIdentityprovideridSsoOauthInit = endpoint({
@@ -709,6 +790,35 @@ export const getExternalIdentityprovideridSsoOauthInit = endpoint({
   parameters: {
     identityProviderId: z.number().int(),
   },
+  response: z.void(),
+  errors: [
+    {
+      status: 302,
+      description: `Redirect`,
+    },
+  ],
+});
+/**
+ * @api POST https://auth.roblox.com/v1/external/:identityProviderId/sso/saml/assertion-consumer-service
+ * @summary SAML Assertion Consumer Service endpoint that external identity provider calls post user authentication.
+ * @param body
+ * @param identityProviderId
+ */
+export const postExternalIdentityprovideridSsoSamlAssertionConsumerService = endpoint({
+  method: 'POST',
+  path: '/v1/external/:identityProviderId/sso/saml/assertion-consumer-service',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'form-data',
+  serializationMethod: {
+    body: {},
+    identityProviderId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    identityProviderId: z.number().int(),
+  },
+  body: saml_assertionconsumerservice_body,
   response: z.void(),
   errors: [
     {
@@ -993,7 +1103,8 @@ export const postLoginLinked = endpoint({
 12: Existing login session found. Please log out first.
 14: The account is unable to log in. Please log in to the LuoBu app.
 15: Too many attempts. Please wait a bit.
-27: The account is unable to login. Please log in with the VNG app.`,
+27: The account is unable to login. Please log in with the VNG app.
+43: This account is not eligible for this platform.`,
     },
     {
       status: 429,
@@ -1068,7 +1179,7 @@ export const getMetadata = endpoint({
 /**
  * @api POST https://auth.roblox.com/v1/passkey/DeleteCredentialBatch
  * @summary Disables a batch of credentials for the specified user.
- * @param body The request body!:DisableTwoStepVerificationRequest.
+ * @param body The request bodyRoblox.Authentication.Api.Models.Request.DeletePasskeysRequest.
  */
 export const postPasskeyDeletecredentialbatch = endpoint({
   method: 'POST',
@@ -1082,6 +1193,10 @@ export const postPasskeyDeletecredentialbatch = endpoint({
   body: Roblox_Authentication_Api_Models_Request_DeletePasskeysRequest,
   response: z.object({}),
   errors: [
+    {
+      status: 400,
+      description: `3: Invalid security key nickname.`,
+    },
     {
       status: 401,
       description: `0: Authorization has been denied for this request.
@@ -1241,6 +1356,44 @@ export const postPasskeyListcredentials = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed`,
+    },
+    {
+      status: 503,
+      description: `2: Feature disabled.`,
+    },
+  ],
+});
+/**
+ * @api POST https://auth.roblox.com/v1/passkey/RenameCredential
+ * @summary Rename a credential for the specified user.
+ * @param body The request bodyRoblox.Authentication.Api.Models.Request.RenamePasskeyRequest.
+ */
+export const postPasskeyRenamecredential = endpoint({
+  method: 'POST',
+  path: '/v1/passkey/RenameCredential',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_Request_RenamePasskeyRequest,
+  response: z.object({}),
+  errors: [
+    {
+      status: 400,
+      description: `3: Invalid security key nickname.
+7: Invalid passkey ID.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+0: An unknown error occurred with the request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+3: Invalid security key nickname.`,
     },
     {
       status: 503,

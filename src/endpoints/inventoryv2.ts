@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_ = z.object({
+const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Users_Client_AssociatedEntityType_ = z.object({
   id: z.number().int(),
   type: z.enum(['User', 'Group']),
   name: z.string(),
@@ -10,7 +10,7 @@ const Roblox_Inventory_Api_V2_AssetOwnerResponse = z.object({
   id: z.number().int(),
   collectibleItemInstanceId: z.string(),
   serialNumber: z.number().int(),
-  owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_,
+  owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Users_Client_AssociatedEntityType_,
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
 });
@@ -22,7 +22,7 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_AssetOwne
 const Roblox_Inventory_Api_V2_CollectibleItemOwnerResponse = z.object({
   collectibleItemInstanceId: z.string(),
   serialNumber: z.number().int(),
-  owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Agents_AgentType_,
+  owner: Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Users_Client_AssociatedEntityType_,
 });
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Inventory_Api_V2_CollectibleItemOwnerResponse_ = z.object({
   previousPageCursor: z.string(),
@@ -118,6 +118,9 @@ const Roblox_Inventory_Api_V2_UserAssetItemModelV2 = z.object({
     'EyeMakeup',
     'VoxelFragment',
     'AvatarBackground',
+    'TextDocument',
+    'Post',
+    'AnimatedImage',
   ]),
   created: z.string().datetime({ offset: true }),
 });

@@ -176,7 +176,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z.object({
   fiatModerationStatus: z.enum(['Invalid', 'NotModerated', 'Pending', 'Approved', 'Rejected']),
   audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
   demoModeEnabled: z.boolean(),
-  demoModeLastChangedTime: z.string().datetime({ offset: true }),
+  demoModeChangeableAfter: z.string().datetime({ offset: true }),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 

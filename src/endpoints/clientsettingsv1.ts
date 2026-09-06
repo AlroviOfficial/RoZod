@@ -7,6 +7,7 @@ const Roblox_ClientSettings_Api_Models_Response_ClientVersionResponse = z.object
   bootstrapperVersion: z.string(),
   nextClientVersionUpload: z.string(),
   nextClientVersion: z.string(),
+  forceInstall: z.boolean(),
 });
 const Roblox_ClientSettings_Api_Models_Response_MobileClientVersionResponseData = z.object({
   UpgradeAction: z.string(),

@@ -115,6 +115,7 @@ const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_Asse
     'VoxelFragment',
     'AvatarBackground',
     'TextDocument',
+    'Post',
   ]),
   name: z.string(),
 });

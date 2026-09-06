@@ -7,14 +7,6 @@ const Roblox_LocalizationTables_Api_AutoLocalizationMetadataResponse = z.object(
   isAutomaticTranslationToggleUIEnabled: z.boolean(),
   isAutomaticTranslationQuotaUIEnabled: z.boolean(),
 });
-const Roblox_LocalizationTables_Api_Language = z.object({
-  name: z.string(),
-  nativeName: z.string(),
-  languageCode: z.string(),
-});
-const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_LocalizationTables_Api_Language_ = z.object({
-  data: z.array(Roblox_LocalizationTables_Api_Language),
-});
 const Roblox_LocalizationTables_Api_EntryOperationLimits = z.object({
   maxContextLength: z.number().int(),
   maxKeyLength: z.number().int(),
@@ -110,6 +102,21 @@ const Roblox_LocalizationTables_Api_UpdateTableContentsResponse = z.object({
   failedEntriesAndTranslations: z.array(Roblox_LocalizationTables_Api_FailedEntry),
   modifiedEntriesAndTranslations: z.array(Roblox_LocalizationTables_Api_ModifiedEntry),
 });
+const Roblox_LocalizationTables_Api_AssetEntry = z.object({
+  sourceAssetId: z.number().int(),
+  assetType: z.number().int(),
+  assetClass: z.number().int(),
+  assetProp: z.number().int(),
+  translations: z.array(Roblox_LocalizationTables_Api_Translation),
+  creator: Roblox_LocalizationTables_Api_Translator,
+  gameLocations: z.array(Roblox_InGameContentTables_Client_GameLocation),
+  createdTime: z.string().datetime({ offset: true }),
+});
+const Roblox_LocalizationTables_Api_GetTableAssetEntriesPagedResponse = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Roblox_LocalizationTables_Api_AssetEntry),
+});
 const Roblox_LocalizationTables_Api_Entry = z.object({
   identifier: Roblox_LocalizationTables_Api_EntryIdentifier,
   metadata: Roblox_LocalizationTables_Api_EntryMetadata,
@@ -137,6 +144,8 @@ const Roblox_LocalizationTables_Api_GameAutolocalizationInformationResponse = z.
   autoLocalizationTableId: z.string().uuid(),
   sourceLanguage: z.string(),
   assetId: z.number().int(),
+  shouldUseImageLocalizationTable: z.boolean(),
+  isAutoLocalizationForImageEnabled: z.boolean(),
 });
 const Roblox_LocalizationTables_Api_SetAutolocalizationTableForGameRequest = z.object({ tableId: z.string().uuid() });
 const Roblox_LocalizationTables_Api_CreateTableRequest = z.object({
@@ -234,6 +243,8 @@ const Roblox_LocalizationTables_Api_SetAutolocalizationSettingsForGameRequest = 
   isAutomaticEntriesSettingEnabled: z.boolean(),
   isAutomaticEntriesDeletionsEnabled: z.boolean(),
   shouldUseLocalizationTable: z.boolean(),
+  shouldUseImageLocalizationTable: z.boolean(),
+  isAutoLocalizationForImageEnabled: z.boolean(),
 });
 
 /**
@@ -488,18 +499,6 @@ export const getAutolocalizationMetadata = endpoint({
   ],
 });
 /**
- * @api GET https://localizationtables.roblox.com/v1/localization-table/available-languages
- * @summary Gets the supported language codes that can be used by localization tables.
- */
-export const getLocalizationTableAvailableLanguages = endpoint({
-  method: 'GET',
-  path: '/v1/localization-table/available-languages',
-  baseUrl: 'https://localizationtables.roblox.com',
-  requestFormat: 'json',
-  response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_LocalizationTables_Api_Language_,
-  errors: [],
-});
-/**
  * @api GET https://localizationtables.roblox.com/v1/localization-table/limits
  * @summary Get limits for translation table entries operations
  */
@@ -674,6 +673,55 @@ export const patchLocalizationTableTablesTableid = endpoint({
     {
       status: 503,
       description: `17: Feature is disabled`,
+    },
+  ],
+});
+/**
+ * @api GET https://localizationtables.roblox.com/v1/localization-table/tables/:tableId/asset-entries
+ * @summary Gets a page of asset (image) entries for the specified table, along with the table's
+per-locale asset translations.
+ * @param tableId The table id.
+ * @param cursor The source asset id to start after. If null, starts from the first page. A null cursor in the response means there are no more entries.
+ * @param gameId The universe id that owns the table.
+ */
+export const getLocalizationTableTablesTableidAssetEntries = endpoint({
+  method: 'GET',
+  path: '/v1/localization-table/tables/:tableId/asset-entries',
+  baseUrl: 'https://localizationtables.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    tableId: {
+      style: 'simple',
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    gameId: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    tableId: z.string().uuid(),
+    cursor: z.string().optional(),
+    gameId: z.number().int().optional(),
+  },
+  response: Roblox_LocalizationTables_Api_GetTableAssetEntriesPagedResponse,
+  errors: [
+    {
+      status: 400,
+      description: `3: Invalid table id.
+14: Invalid game id
+25: Invalid cursor`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `2: You do not have permission to get this table.`,
     },
   ],
 });

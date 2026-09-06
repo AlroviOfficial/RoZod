@@ -1554,10 +1554,6 @@ export const getGameIconGamesGameid = endpoint({
 52: Image dimensions are invalid`,
     },
     {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
       status: 500,
       description: `0: An unknown error occurred.`,
     },
