@@ -123,6 +123,7 @@ const Roblox_Api_Notifications_Models_RegisterIOSNativeRequestModel = z.object({
   authorizeForUser: z.boolean(),
   oldNotificationToken: z.string(),
   deviceName: z.string(),
+  isProvisional: z.boolean(),
 });
 const Roblox_Api_Notifications_Models_RegisterIOSPushKitRequestModel = z.object({
   notificationToken: z.string(),

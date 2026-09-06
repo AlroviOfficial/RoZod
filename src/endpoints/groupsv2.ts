@@ -112,6 +112,8 @@ const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_Asse
     'VoxelFragment',
     'AvatarBackground',
     'TextDocument',
+    'Post',
+    'AnimatedImage',
   ]),
   name: z.string(),
 });
@@ -143,6 +145,28 @@ const Roblox_Groups_Api_ShoutResponse = z.object({
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
 });
+const Roblox_Groups_Client_TierRequirement = z.object({
+  key: z.enum([
+    'OwnerModerationStatusOk',
+    'OwnerAgeEstimationVerified',
+    'OwnerIdVerified',
+    'OwnerTwoStepVerified',
+    'CommunityMeetsPlayerRequirement',
+  ]),
+  satisfied: z.boolean(),
+});
+const Roblox_Groups_Client_TierCapabilities = z.object({
+  isEligibleForUnrestrictedMessages: z.boolean(),
+});
+const Roblox_Groups_Client_CommunityTierInfoResponse = z.object({
+  groupId: z.number().int(),
+  currentTier: z.number().int(),
+  previousTier: z.number().int(),
+  tierUpdatedTime: z.string().datetime({ offset: true }),
+  lastEvaluatedTime: z.string().datetime({ offset: true }),
+  requirements: z.array(Roblox_Groups_Client_TierRequirement),
+  capabilities: Roblox_Groups_Client_TierCapabilities,
+});
 const Roblox_Groups_Api_GroupDetailResponse = z.object({
   id: z.number().int(),
   name: z.string(),
@@ -155,6 +179,7 @@ const Roblox_Groups_Api_GroupDetailResponse = z.object({
   isLocked: z.boolean(),
   hasVerifiedBadge: z.boolean(),
   hasSocialModules: z.boolean(),
+  communityTier: Roblox_Groups_Client_CommunityTierInfoResponse,
 });
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupDetailResponse_ = z.object({
   previousPageCursor: z.string(),
@@ -165,56 +190,6 @@ const Roblox_Groups_Api_Models_Response_GroupRelationshipsV2Response = z.object(
   groupId: z.number().int(),
   relationshipType: z.enum(['Allies', 'Enemies']),
   groupResponses: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupDetailResponse_,
-});
-const Roblox_Groups_Api_GroupRoleResponse = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  description: z.string(),
-  rank: z.number().int(),
-  memberCount: z.number().int(),
-  isBase: z.boolean(),
-  color: z.enum([
-    'Invalid',
-    'Blue',
-    'Green',
-    'Purple',
-    'Yellow',
-    'Orange',
-    'Red',
-    'Magenta',
-    'Teal',
-    'Turquoise',
-    'Rust',
-    'Pistachio',
-    'Midnight',
-    'Lavender',
-    'Pink',
-    'Crimson',
-    'Plum',
-  ]),
-});
-const Roblox_Groups_Api_UserGroupRoleResponse = z.object({
-  user: Roblox_Groups_Api_Models_Response_UserModel,
-  role: Roblox_Groups_Api_GroupRoleResponse,
-});
-const Roblox_Groups_Api_GroupWallPostV2Model = z.object({
-  id: z.number().int(),
-  poster: Roblox_Groups_Api_UserGroupRoleResponse,
-  body: z.string(),
-  created: z.string().datetime({ offset: true }),
-  updated: z.string().datetime({ offset: true }),
-});
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Groups_Api_GroupWallPostV2Model),
-});
-const Roblox_Groups_Api_CreateWallPostRequest = z.object({
-  body: z.string(),
-  captchaId: z.string(),
-  captchaToken: z.string(),
-  captchaProvider: z.string(),
-  challengeId: z.string(),
 });
 const Roblox_Web_Responses_Groups_GroupBasicResponse = z.object({
   id: z.number().int(),
@@ -450,101 +425,6 @@ export const getGroupsGroupidRelationshipsGrouprelationshiptypeRequests = endpoi
   ],
 });
 /**
- * @api GET https://groups.roblox.com/v2/groups/:groupId/wall/posts
- * @summary Gets a list of group wall posts.
- * @param groupId The group id.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- * @param sortOrder Sorted by group wall post Id
- */
-export const getGroupsGroupidWallPosts = endpoint({
-  method: 'GET',
-  path: '/v2/groups/:groupId/wall/posts',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    groupId: {
-      style: 'simple',
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    groupId: z.number().int(),
-    limit: z
-      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
-      .optional()
-      .default(10),
-    cursor: z.string().optional(),
-    sortOrder: z.enum(['Asc', 'Desc']).optional().default('Asc'),
-  },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Groups_Api_GroupWallPostV2Model_,
-  errors: [
-    {
-      status: 400,
-      description: `1: The group is invalid or does not exist.`,
-    },
-    {
-      status: 403,
-      description: `2: You do not have permission to access this group wall.`,
-    },
-  ],
-});
-/**
- * @api POST https://groups.roblox.com/v2/groups/:groupId/wall/posts
- * @summary Creates a post on a group wall
- * @param body The Roblox.Groups.Api.CreateWallPostRequest.
- * @param groupId The group id.
- */
-export const postGroupsGroupidWallPosts = endpoint({
-  method: 'POST',
-  path: '/v2/groups/:groupId/wall/posts',
-  baseUrl: 'https://groups.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    body: {},
-    groupId: {
-      style: 'simple',
-    },
-  },
-  parameters: {
-    groupId: z.number().int(),
-  },
-  body: Roblox_Groups_Api_CreateWallPostRequest,
-  response: Roblox_Groups_Api_GroupWallPostV2Model,
-  errors: [
-    {
-      status: 400,
-      description: `1: The group is invalid or does not exist.
-5: Your post was empty, white space, or more than 500 characters.
-9: The provided content was moderated.`,
-    },
-    {
-      status: 401,
-      description: `0: Authorization has been denied for this request.`,
-    },
-    {
-      status: 403,
-      description: `0: Token Validation Failed
-2: You do not have permission to access this group wall.`,
-    },
-    {
-      status: 429,
-      description: `4: You are posting too fast, please try again in a few minutes.`,
-    },
-  ],
-});
-/**
  * @api GET https://groups.roblox.com/v2/users/:userId/groups/roles
  * @summary Gets a list of all group roles for groups the specified user is in.
  * @param userId The user id.
@@ -578,7 +458,7 @@ export const getUsersUseridGroupsRoles = endpoint({
     userId: z.number().int(),
     includeLocked: z.boolean(),
     includeNotificationPreferences: z.boolean(),
-    discoveryType: z.union([z.literal(0), z.literal(1)]),
+    discoveryType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Groups_Api_GroupMembershipResponse_,
   errors: [

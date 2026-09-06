@@ -48,39 +48,10 @@ const Roblox_Games_Api_Models_Response_GameDetailResponse = z.object({
   refundPolicy: Roblox_Games_Api_Models_Response_RefundPolicy,
   canonicalUrlPath: z.string(),
   isContentRestricted: z.boolean(),
+  creationSource: z.string(),
 });
 const Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Games_Api_Models_Response_GameDetailResponse_ = z.object({
   data: z.array(Roblox_Games_Api_Models_Response_GameDetailResponse),
-});
-const Roblox_Games_Api_GameServerPlayerResponse = z.object({
-  playerToken: z.string(),
-  id: z.number().int(),
-  name: z.string(),
-  displayName: z.string(),
-});
-const Roblox_Games_Api_Models_Response_VerifiedBadgeUserResponse = z.object({
-  hasVerifiedBadge: z.boolean(),
-  id: z.number().int(),
-  name: z.string(),
-  displayName: z.string(),
-});
-const Roblox_Web_Responses_Games_GameServerResponse = z.object({
-  id: z.string().uuid(),
-  maxPlayers: z.number().int(),
-  playing: z.number().int(),
-  playerTokens: z.array(z.string()),
-  players: z.array(Roblox_Games_Api_GameServerPlayerResponse),
-  fps: z.number(),
-  ping: z.number().int(),
-  name: z.string(),
-  vipServerId: z.number().int(),
-  accessCode: z.string().uuid(),
-  owner: Roblox_Games_Api_Models_Response_VerifiedBadgeUserResponse,
-});
-const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_ = z.object({
-  previousPageCursor: z.string(),
-  nextPageCursor: z.string(),
-  data: z.array(Roblox_Web_Responses_Games_GameServerResponse),
 });
 const Roblox_Games_Api_Models_Response_GameFavoriteResponse = z.object({
   isFavorited: z.boolean(),
@@ -264,73 +235,6 @@ export const getGames = endpoint({
     {
       status: 429,
       description: `4: Too many requests have been made.`,
-    },
-  ],
-});
-/**
- * @api GET https://games.roblox.com/v1/games/:placeId/servers/:serverType
- * @summary Get the game server list
- * @param placeId The Id of the place we are geting the server list for.
- * @param serverType The type of the server we geting the server list for.
- * @param sortOrder The sort order of the servers.
- * @param excludeFullGames Exclude full servers.
- * @param limit The number of results per request.
- * @param cursor The paging cursor for the previous or next page.
- */
-export const getGamesPlaceidServersServertype = endpoint({
-  method: 'GET',
-  path: '/v1/games/:placeId/servers/:serverType',
-  baseUrl: 'https://games.roblox.com',
-  requestFormat: 'json',
-  serializationMethod: {
-    placeId: {
-      style: 'simple',
-    },
-    serverType: {
-      style: 'simple',
-    },
-    sortOrder: {
-      style: 'form',
-      explode: true,
-    },
-    excludeFullGames: {
-      style: 'form',
-      explode: true,
-    },
-    limit: {
-      style: 'form',
-      explode: true,
-    },
-    cursor: {
-      style: 'form',
-      explode: true,
-    },
-  },
-  parameters: {
-    placeId: z.number().int(),
-    serverType: z.union([z.literal(0), z.literal(1)]),
-    sortOrder: z
-      .union([z.literal(1), z.literal(2)])
-      .optional()
-      .default(2),
-    excludeFullGames: z.boolean().optional(),
-    limit: z
-      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
-      .optional()
-      .default(10),
-    cursor: z.string().optional(),
-  },
-  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Web_Responses_Games_GameServerResponse_,
-  errors: [
-    {
-      status: 400,
-      description: `1: The place is invalid.
-6: The server type is invalid. For fetching private servers, please use https://games.roblox.com/v1/games/{placeId}/private-servers.
-7: Guest users are not allowed.`,
-    },
-    {
-      status: 404,
-      description: `1: The place is invalid.`,
     },
   ],
 });
@@ -552,6 +456,10 @@ export const getGamesMultigetPlayabilityStatus = endpoint({
       status: 400,
       description: `8: The universe IDs specified are invalid.
 9: Too many universe IDs were requested.`,
+    },
+    {
+      status: 429,
+      description: `4: Too many requests have been made.`,
     },
   ],
 });

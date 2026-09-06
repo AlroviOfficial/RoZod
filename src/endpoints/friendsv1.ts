@@ -29,6 +29,7 @@ const Roblox_Friends_Api_FriendRequest = z.object({
     'FriendRecommendations',
     'UserCommunities',
     'TrustedFriend',
+    'SchoolMemberList',
   ]),
   contactName: z.string(),
   senderNickname: z.string(),
@@ -37,6 +38,7 @@ const Roblox_Friends_Api_FriendRequestResponse = z.object({
   friendRequest: Roblox_Friends_Api_FriendRequest,
   mutualFriendsList: z.array(z.string()),
   hasVerifiedBadge: z.boolean(),
+  isUnseen: z.boolean(),
   description: z.string(),
   created: z.string().datetime({ offset: true }),
   isBanned: z.boolean(),
@@ -51,6 +53,16 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestR
   data: z.array(Roblox_Friends_Api_FriendRequestResponse),
 });
 const Roblox_Friends_Api_Models_Response_NewFriendRequestsCountResponse = z.object({ count: z.number().int() });
+const Roblox_Friends_Api_Models_Response_TrustedFriendRequestResponse = z.object({
+  sentAt: z.string().datetime({ offset: true }),
+  senderId: z.number().int(),
+});
+const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_TrustedFriendRequestResponse_ =
+  z.object({
+    previousPageCursor: z.string(),
+    nextPageCursor: z.string(),
+    data: z.array(Roblox_Friends_Api_Models_Response_TrustedFriendRequestResponse),
+  });
 const Roblox_Friends_Api_PendingFriendRequestCountModel = z.object({
   count: z.number().int(),
 });
@@ -146,6 +158,7 @@ const Roblox_Web_Captcha_Models_Request_CaptchaTokenRequest = z.object({
 const Roblox_Friends_Api_CaptchaStatusResponseModel = z.object({
   success: z.boolean(),
   isCaptchaRequired: z.boolean(),
+  notificationMuted: z.boolean(),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
@@ -239,6 +252,7 @@ export const postMyFriendsRefreshQrSession = endpoint({
  * @param cursor The paging cursor for the previous or next page.
  * @param sessionId Optional session identifier.
  * @param friendRequestSort
+ * @param uprankUnseen Whether to uprank unseen friend requests and return isUnseen per friend request.
  */
 export const getMyFriendsRequests = endpoint({
   method: 'GET',
@@ -262,6 +276,10 @@ export const getMyFriendsRequests = endpoint({
       style: 'form',
       explode: true,
     },
+    uprankUnseen: {
+      style: 'form',
+      explode: true,
+    },
   },
   parameters: {
     limit: z.number().int().optional().default(10),
@@ -271,6 +289,7 @@ export const getMyFriendsRequests = endpoint({
       .union([z.literal(0), z.literal(1), z.literal(2)])
       .optional()
       .default(1),
+    uprankUnseen: z.boolean().optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_FriendRequestResponse_,
   errors: [
@@ -324,6 +343,62 @@ export const getMyTrustedFriendsCount = endpoint({
     {
       status: 401,
       description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
+ * @api GET https://friends.roblox.com/v1/my/trusted-friends/requests
+ * @summary Get all incoming trusted friend requests using exclusive start paging.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * @param sortOrder Specifies how to sort the returned trusted friend requests.
+ */
+export const getMyTrustedFriendsRequests = endpoint({
+  method: 'GET',
+  path: '/v1/my/trusted-friends/requests',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    limit: {
+      style: 'form',
+      explode: true,
+    },
+    cursor: {
+      style: 'form',
+      explode: true,
+    },
+    sortOrder: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    limit: z.number().int().optional().default(10),
+    cursor: z.string().optional(),
+    sortOrder: z
+      .union([z.literal(0), z.literal(1)])
+      .optional()
+      .default(1),
+  },
+  response: Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Friends_Api_Models_Response_TrustedFriendRequestResponse_,
+  errors: [
+    {
+      status: 400,
+      description: `1: The target user is invalid or does not exist.
+6: Invalid parameters.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `2: The user is banned from performing operation.
+3: The user is blocked from performing this action.`,
+    },
+    {
+      status: 429,
+      description: `9: The flood limit has been exceeded.`,
     },
   ],
 });
@@ -402,6 +477,23 @@ export const postUserFollowingExists = endpoint({
 export const getUserFriendRequestsCount = endpoint({
   method: 'GET',
   path: '/v1/user/friend-requests/count',
+  baseUrl: 'https://friends.roblox.com',
+  requestFormat: 'json',
+  response: z.object({ count: z.number().int() }),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
+ * @api GET https://friends.roblox.com/v1/user/trusted-friend-requests/count
+ * @summary Return the number of pending trusted friend requests.
+ */
+export const getUserTrustedFriendRequestsCount = endpoint({
+  method: 'GET',
+  path: '/v1/user/trusted-friend-requests/count',
   baseUrl: 'https://friends.roblox.com',
   requestFormat: 'json',
   response: z.object({ count: z.number().int() }),
