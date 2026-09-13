@@ -303,6 +303,10 @@ export const getUsersUseridAssetsCollectibles = endpoint({
         z.literal(90),
         z.literal(91),
         z.literal(92),
+        z.literal(93),
+        z.literal(94),
+        z.literal(95),
+        z.literal(96),
       ])
       .optional(),
     limit: z

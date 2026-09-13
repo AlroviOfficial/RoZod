@@ -78,6 +78,7 @@ const Roblox_Authentication_Api_Models_LoginResponse = z.object({
   shouldAutoLoginFromRecovery: z.boolean(),
   shouldPrompt2svRemoval: z.boolean(),
   shouldPromptPasskeyAddition: z.boolean(),
+  shouldPromptCredentialInvalidation: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_PasswordValidationResponse = z.object({
   code: z.enum([
@@ -162,6 +163,7 @@ const Roblox_Authentication_Api_Models_AccountLinkParameters = z.object({
     'RobloxGroupCreator',
     'Playstation',
     'ExternalProvider',
+    'Steam',
     'Example',
   ]),
 });
@@ -177,6 +179,7 @@ const Roblox_Authentication_Api_Models_LoginRequest = z.object({
     'TwoStepVerification',
     'XboxLive',
     'PlatformLive',
+    'MagicLink',
   ]),
   cvalue: z.string(),
   password: z.string(),
@@ -252,6 +255,7 @@ const Roblox_Authentication_Api_Models_SignupRequest = z.object({
   birthday: z.string().datetime({ offset: true }),
   displayName: z.string(),
   isTosAgreementBoxChecked: z.boolean(),
+  signupType: z.enum(['Regular', 'Express']),
   email: z.string(),
   locale: z.string(),
   assetIds: z.array(z.number()),
@@ -424,7 +428,8 @@ export const postLoginLinked = endpoint({
 12: Existing login session found. Please log out first.
 14: The account is unable to log in. Please log in to the LuoBu app.
 15: Too many attempts. Please wait a bit.
-27: The account is unable to login. Please log in with the VNG app.`,
+27: The account is unable to login. Please log in with the VNG app.
+43: This account is not eligible for this platform.`,
     },
     {
       status: 429,

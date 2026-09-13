@@ -1,60 +1,6 @@
 import { z } from 'zod';
 import { endpoint } from '..';
 
-const Roblox_AssetDelivery_Api_AssetMetadata = z.object({
-  metadataType: z.literal('UncompressedSize'),
-  value: z.string(),
-});
-const Roblox_Web_Assets_AssetFormatLocation = z.object({
-  assetFormat: z.string(),
-  location: z.string(),
-  assetMetadatas: z.array(Roblox_AssetDelivery_Api_AssetMetadata),
-});
-const Roblox_Web_Assets_IAssetItemError = z.object({
-  Code: z.number().int(),
-  Message: z.string(),
-  CustomErrorCode: z.enum([
-    'UnknownError',
-    'NoPermissionToAsset',
-    'AssetPermissionCheckFailed',
-    'NotAuthorizedForAgeRecommendation',
-    'AgeRecommendationCheckFailed',
-    'InvalidPlaceRequestFromGameServer',
-    'BlockedAssetTypeRequestedFromInsertService',
-    'BlockedAssetTypeRequestedFromGameServer',
-    'AssetTypeMismatch',
-    'MissingAssetTypeInRequestHeader',
-    'AssetNotTrustedForPlace',
-    'NoAuthentication',
-    'AssetContentRepresentationBlockedDueToModeration',
-    'AssetNotFound',
-    'AssetVersionNotFound',
-    'AssetContentRepresentationNotFound',
-    'BlockedByAgeGeoRestriction',
-    'BlockedAssetTypeRequestedFromNonGameServer',
-    'AssetPendingReview',
-    'NotApprovedForRequestor',
-    'NotApprovedByContentCompliance',
-    'AssetContentRepresentationGenerating',
-    'AssetArchived',
-    'AssetUsageNotAllowed',
-  ]),
-});
-const Roblox_Web_Assets_AssetContentRepresentationSpecifier = z.object({
-  format: z.string(),
-  majorVersion: z.string(),
-  fidelity: z.string(),
-  skipGenerationIfNotExist: z.boolean(),
-});
-const Roblox_Web_Assets_AssetResponseItemV2 = z.object({
-  locations: z.array(Roblox_Web_Assets_AssetFormatLocation),
-  errors: z.array(Roblox_Web_Assets_IAssetItemError),
-  requestId: z.string(),
-  isArchived: z.boolean(),
-  assetTypeId: z.number().int(),
-  contentRepresentationSpecifier: Roblox_Web_Assets_AssetContentRepresentationSpecifier,
-  isRecordable: z.boolean(),
-});
 const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
   assetName: z.string(),
   assetType: z.string(),
@@ -79,6 +25,7 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
   usageContext: z.number().int(),
   contentRepresentationPriorityList: z.string(),
   doNotFallbackToBaselineRepresentation: z.boolean(),
+  xcachesplit: z.number().int(),
 });
 
 /**
@@ -176,7 +123,7 @@ export const getAliasAlias = endpoint({
     accessContext: z.string().optional(),
     usageContext: z.number().int().optional(),
   },
-  response: Roblox_Web_Assets_AssetResponseItemV2,
+  response: z.void(),
   errors: [],
 });
 /**
@@ -341,7 +288,7 @@ export const getAsset = endpoint({
     accessContext: z.string().optional(),
     usageContext: z.number().int().optional(),
   },
-  response: Roblox_Web_Assets_AssetResponseItemV2,
+  response: z.void(),
   errors: [],
 });
 /**
@@ -451,7 +398,7 @@ export const getAssetidAssetid = endpoint({
     accessContext: z.string().optional(),
     usageContext: z.number().int().optional(),
   },
-  response: Roblox_Web_Assets_AssetResponseItemV2,
+  response: z.void(),
   errors: [],
 });
 /**
@@ -566,7 +513,7 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
     accessContext: z.string().optional(),
     usageContext: z.number().int().optional(),
   },
-  response: Roblox_Web_Assets_AssetResponseItemV2,
+  response: z.void(),
   errors: [],
 });
 /**
@@ -599,7 +546,7 @@ export const postAssetsBatch = endpoint({
     'Roblox-Browser-Asset-Request': z.string(),
   },
   body: z.array(Roblox_Web_Assets_BatchAssetRequestItem),
-  response: z.array(Roblox_Web_Assets_AssetResponseItemV2),
+  response: z.void(),
   errors: [],
 });
 /**
@@ -690,6 +637,6 @@ export const getMarassethashMarassethashMarchecksumMarchecksum = endpoint({
     serverplaceid: z.number().int().optional(),
     expectedAssetType: z.string().optional(),
   },
-  response: Roblox_Web_Assets_AssetResponseItemV2,
+  response: z.void(),
   errors: [],
 });

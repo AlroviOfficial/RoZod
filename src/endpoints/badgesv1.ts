@@ -35,6 +35,7 @@ const Roblox_Badges_Api_BadgeMetadataResponse = z.object({
   badgeCreationPrice: z.number().int(),
   maxBadgeNameLength: z.number().int(),
   maxBadgeDescriptionLength: z.number().int(),
+  defaultBadgeIconImageId: z.number().int(),
 });
 const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Badges_Api_BadgeResponse_ = z.object({
   previousPageCursor: z.string(),
@@ -44,7 +45,7 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_Badges_Api_BadgeResponse_ 
 const universeId_badges_body = z.object({
   name: z.string(),
   description: z.string(),
-  paymentSourceType: z.enum(['User', 'Group']),
+  paymentSourceType: z.union([z.literal(1), z.literal(2)]),
   files: z.instanceof(File),
   expectedCost: z.number().int(),
   isActive: z.boolean(),
@@ -109,6 +110,7 @@ const Roblox_Badges_Api_IconUploadResponse = z.object({
  * @api GET https://badges.roblox.com/v1/badges/:badgeId
  * @summary Gets badge information by the badge Id.
  * @param badgeId The badge Id.
+ * @description Returns display fields, award statistics, and owning universe for a single badge.
  */
 export const getBadgesBadgeid = endpoint({
   method: 'GET',
@@ -137,6 +139,7 @@ export const getBadgesBadgeid = endpoint({
  * @summary Updates badge configuration.
  * @param body The request body.
  * @param badgeId The badge Id.
+ * @description Managers may change enabled state, name, and description when authorized for the badge.
  */
 export const patchBadgesBadgeid = endpoint({
   method: 'PATCH',
@@ -182,6 +185,7 @@ export const patchBadgesBadgeid = endpoint({
  * @summary Overwrites a badge icon with a new one.
  * @param body
  * @param badgeId The badge Id.
+ * @description Accepts a moderated image upload and updates the badge's icon asset.
  */
 export const postBadgesBadgeidIcon = endpoint({
   method: 'POST',
@@ -227,6 +231,7 @@ export const postBadgesBadgeidIcon = endpoint({
 /**
  * @api GET https://badges.roblox.com/v1/badges/metadata
  * @summary Gets metadata about the badges system.
+ * @description Returns creation price and field length limits. Callers use this before creating or editing badges.
  */
 export const getBadgesMetadata = endpoint({
   method: 'GET',
@@ -244,6 +249,7 @@ export const getBadgesMetadata = endpoint({
  * @param limit The number of results per request.
  * @param cursor The paging cursor for the previous or next page.
  * @param sortOrder The order the results are sorted in.
+ * @description Lists badges created under the universe's root place, with paging and optional sort.
  */
 export const getUniversesUniverseidBadges = endpoint({
   method: 'GET',
@@ -298,6 +304,7 @@ export const getUniversesUniverseidBadges = endpoint({
  * @summary Creates a new badge.
  * @param body
  * @param universeId The ID of the universe to create the badge for.
+ * @description Charges the selected payment source and creates the badge under the universe's root place.
  */
 export const postUniversesUniverseidBadges = endpoint({
   method: 'POST',
@@ -349,6 +356,7 @@ export const postUniversesUniverseidBadges = endpoint({
  * @api GET https://badges.roblox.com/v1/universes/:universeId/free-badges-quota
  * @summary Gets the number of free badges left for the current UTC day by their awarding game.
  * @param universeId The universe Id.
+ * @description Reflects daily free-creation allowance for the universe when the feature is enabled.
  */
 export const getUniversesUniverseidFreeBadgesQuota = endpoint({
   method: 'GET',
@@ -375,6 +383,7 @@ export const getUniversesUniverseidFreeBadgesQuota = endpoint({
  * @api DELETE https://badges.roblox.com/v1/user/badges/:badgeId
  * @summary Removes a badge from the authenticated user.
  * @param badgeId The badge Id.
+ * @description Revokes the caller's own awarded badge instance when the badge exists on their account.
  */
 export const deleteUserBadgesBadgeid = endpoint({
   method: 'DELETE',
@@ -412,6 +421,7 @@ export const deleteUserBadgesBadgeid = endpoint({
  * @param limit The number of results per request.
  * @param cursor The paging cursor for the previous or next page.
  * @param sortOrder The order the results are sorted in.
+ * @description Respects inventory privacy settings when evaluating which awarded badges are visible.
  */
 export const getUsersUseridBadges = endpoint({
   method: 'GET',
@@ -457,6 +467,7 @@ export const getUsersUseridBadges = endpoint({
  * @summary Gets timestamp for when a single badge was awarded to a user.
  * @param userId User id.
  * @param badgeId Badge id.
+ * @description Returns 204 when the user has not been awarded the badge or the badge is filtered from view.
  */
 export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
   method: 'GET',
@@ -488,6 +499,7 @@ export const getUsersUseridBadgesBadgeidAwardedDate = endpoint({
  * @summary Gets timestamps for when badges were awarded to a user.
  * @param userId The user Id.
  * @param badgeIds The CSV of badge Ids.
+ * @description Batch form of awarded-date lookup with a maximum number of badge ids per request.
  */
 export const getUsersUseridBadgesAwardedDates = endpoint({
   method: 'GET',
