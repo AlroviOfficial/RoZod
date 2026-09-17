@@ -667,9 +667,10 @@ function applyOperationResultSchemas(outputPath, openApiDoc) {
   }
 
   // Attach `resultResponse: <Schema>` to each matching endpoint block. Long endpoint names
-  // get line-wrapped by the generator's formatter (`=\n  endpoint({` with an indented `});`),
-  // so both the declaration and the closing brace must tolerate arbitrary whitespace.
-  file = file.replace(/export const \w+ =\s*endpoint\(\{[\s\S]*?\n[ \t]*\}\);/g, (block) => {
+  // get line-wrapped by the generator's formatter, either as `=\n  endpoint({` with an
+  // indented `});` or as `endpoint(\n  {` closed by `}\n);`, so the declaration, the opening
+  // brace and the closing brace must all tolerate arbitrary whitespace.
+  file = file.replace(/export const \w+ =\s*endpoint\(\s*\{[\s\S]*?\n[ \t]*\}\s*\);/g, (block) => {
     if (/resultResponse:/.test(block)) return block;
     const path = block.match(/path:\s*['"]([^'"]+)['"]/)?.[1];
     const method = block.match(/method:\s*['"]([^'"]+)['"]/)?.[1];
@@ -695,7 +696,7 @@ function warnOnDegradedEndpoints(outputPath, oldContent) {
 
   const extractEndpoints = (content) => {
     const map = new Map();
-    for (const m of content.matchAll(/export const (\w+)\s*=\s*endpoint\(\{[\s\S]*?\n[ \t]*\}\);/g)) {
+    for (const m of content.matchAll(/export const (\w+)\s*=\s*endpoint\(\s*\{[\s\S]*?\n[ \t]*\}\s*\);/g)) {
       map.set(m[1], {
         response: m[0].match(/\n[ \t]*response:\s*(.+?),?\n/)?.[1],
         hasResultResponse: /resultResponse:/.test(m[0]),

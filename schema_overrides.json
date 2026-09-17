@@ -223,5 +223,313 @@
         "description": "Subcategory type."
       }
     }
+  },
+  "assetdeliveryv1": {
+    "_addSchemas": {
+      "Roblox.Web.Assets.IAssetItemError": {
+        "type": "object",
+        "properties": {
+          "Code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Message": {
+            "type": "string"
+          },
+          "CustomErrorCode": {
+            "type": "string",
+            "enum": [
+              "UnknownError",
+              "NoPermissionToAsset",
+              "AssetPermissionCheckFailed",
+              "NotAuthorizedForAgeRecommendation",
+              "AgeRecommendationCheckFailed",
+              "InvalidPlaceRequestFromGameServer",
+              "BlockedAssetTypeRequestedFromInsertService",
+              "BlockedAssetTypeRequestedFromGameServer",
+              "AssetTypeMismatch",
+              "MissingAssetTypeInRequestHeader",
+              "AssetNotTrustedForPlace",
+              "NoAuthentication",
+              "AssetContentRepresentationBlockedDueToModeration",
+              "AssetNotFound",
+              "AssetVersionNotFound",
+              "AssetContentRepresentationNotFound",
+              "BlockedByAgeGeoRestriction",
+              "BlockedAssetTypeRequestedFromNonGameServer",
+              "AssetPendingReview",
+              "NotApprovedForRequestor",
+              "NotApprovedByContentCompliance",
+              "AssetContentRepresentationGenerating",
+              "AssetArchived",
+              "AssetUsageNotAllowed"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.Web.Assets.AssetContentRepresentationSpecifier": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "type": "string"
+          },
+          "majorVersion": {
+            "type": "string"
+          },
+          "fidelity": {
+            "type": "string"
+          },
+          "skipGenerationIfNotExist": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.AssetDelivery.Api.AssetMetadata": {
+        "type": "object",
+        "properties": {
+          "metadataType": {
+            "type": "string",
+            "enum": [
+              "UncompressedSize"
+            ]
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.Web.Assets.AssetResponseItemV1": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Roblox.Web.Assets.IAssetItemError"
+            }
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "isArchived": {
+            "type": "boolean"
+          },
+          "assetTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contentRepresentationSpecifier": {
+            "$ref": "#/components/schemas/Roblox.Web.Assets.AssetContentRepresentationSpecifier"
+          },
+          "assetMetadatas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Roblox.AssetDelivery.Api.AssetMetadata"
+            }
+          },
+          "isRecordable": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "_responses": {
+      "GET /v1/alias/{alias}": {
+        "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV1"
+      },
+      "GET /v1/assetId/{assetId}": {
+        "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV1"
+      },
+      "GET /v1/assetId/{assetId}/version/{versionNumber}": {
+        "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV1"
+      },
+      "POST /v1/assets/batch": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV1"
+        }
+      },
+      "GET /v1/marAssetHash/{marAssetHash}/marCheckSum/{marCheckSum}": {
+        "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV1"
+      },
+      "GET /v1/openCloud/assetId/{assetId}": {
+        "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV1"
+      },
+      "GET /v1/openCloud/assetId/{assetId}/version/{versionNumber}": {
+        "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV1"
+      }
+    }
+  },
+  "assetdeliveryv2": {
+    "_addSchemas": {
+      "Roblox.Web.Assets.IAssetItemError": {
+        "type": "object",
+        "properties": {
+          "Code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Message": {
+            "type": "string"
+          },
+          "CustomErrorCode": {
+            "type": "string",
+            "enum": [
+              "UnknownError",
+              "NoPermissionToAsset",
+              "AssetPermissionCheckFailed",
+              "NotAuthorizedForAgeRecommendation",
+              "AgeRecommendationCheckFailed",
+              "InvalidPlaceRequestFromGameServer",
+              "BlockedAssetTypeRequestedFromInsertService",
+              "BlockedAssetTypeRequestedFromGameServer",
+              "AssetTypeMismatch",
+              "MissingAssetTypeInRequestHeader",
+              "AssetNotTrustedForPlace",
+              "NoAuthentication",
+              "AssetContentRepresentationBlockedDueToModeration",
+              "AssetNotFound",
+              "AssetVersionNotFound",
+              "AssetContentRepresentationNotFound",
+              "BlockedByAgeGeoRestriction",
+              "BlockedAssetTypeRequestedFromNonGameServer",
+              "AssetPendingReview",
+              "NotApprovedForRequestor",
+              "NotApprovedByContentCompliance",
+              "AssetContentRepresentationGenerating",
+              "AssetArchived",
+              "AssetUsageNotAllowed"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.Web.Assets.AssetContentRepresentationSpecifier": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "type": "string"
+          },
+          "majorVersion": {
+            "type": "string"
+          },
+          "fidelity": {
+            "type": "string"
+          },
+          "skipGenerationIfNotExist": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.AssetDelivery.Api.AssetMetadata": {
+        "type": "object",
+        "properties": {
+          "metadataType": {
+            "type": "string",
+            "enum": [
+              "UncompressedSize"
+            ]
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.Web.Assets.AssetFormatLocation": {
+        "type": "object",
+        "properties": {
+          "assetFormat": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "assetMetadatas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Roblox.AssetDelivery.Api.AssetMetadata"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roblox.Web.Assets.AssetResponseItemV2": {
+        "type": "object",
+        "properties": {
+          "locations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Roblox.Web.Assets.AssetFormatLocation"
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Roblox.Web.Assets.IAssetItemError"
+            }
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "isArchived": {
+            "type": "boolean"
+          },
+          "assetTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contentRepresentationSpecifier": {
+            "$ref": "#/components/schemas/Roblox.Web.Assets.AssetContentRepresentationSpecifier"
+          },
+          "isRecordable": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "_responses": {
+      "GET /v2/alias/{alias}": {
+        "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV2"
+      },
+      "GET /v2/asset": {
+        "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV2"
+      },
+      "GET /v2/assetId/{assetId}": {
+        "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV2"
+      },
+      "GET /v2/assetId/{assetId}/version/{versionNumber}": {
+        "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV2"
+      },
+      "POST /v2/assets/batch": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV2"
+        }
+      },
+      "GET /v2/marAssetHash/{marAssetHash}/marCheckSum/{marCheckSum}": {
+        "$ref": "#/components/schemas/Roblox.Web.Assets.AssetResponseItemV2"
+      }
+    }
+  },
+  "badgesv1": {
+    "universeId_badges_body": {
+      "paymentSourceType": {
+        "type": "string",
+        "enum": [
+          "User",
+          "Group"
+        ],
+        "description": "Whether or not to pay for the badge with user funds, or group funds."
+      }
+    }
   }
 }

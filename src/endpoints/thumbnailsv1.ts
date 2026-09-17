@@ -57,6 +57,7 @@ const Roblox_Thumbnails_Apis_Models_ThumbnailBatchRequest = z.object({
   accessContext: z.string(),
   headShape: z.string(),
   includeBackground: z.boolean(),
+  includeProfileFrame: z.boolean(),
 });
 const Roblox_Web_Responses_Thumbnails_ThumbnailBatchResponse = z.object({
   requestId: z.string(),
@@ -942,6 +943,7 @@ export const getUsersAvatarBust = endpoint({
  * @summary Get Avatar Headshots for the given CSV of userIds
  * @param userIds CSV for the userIds to get avatar headshots
  * @param includeBackground Whether to include a background in the thumbnail (defaults to false)
+ * @param includeProfileFrame Whether to composite the user's equipped profile frame into the thumbnail (defaults to false)
  * @param size The thumbnail size, formatted widthxheight
  * @param format The thumbnail format
  * @param isCircular The circle thumbnail output parameter, true or false
@@ -956,6 +958,10 @@ export const getUsersAvatarHeadshot = endpoint({
       style: 'form',
     },
     includeBackground: {
+      style: 'form',
+      explode: true,
+    },
+    includeProfileFrame: {
       style: 'form',
       explode: true,
     },
@@ -975,6 +981,7 @@ export const getUsersAvatarHeadshot = endpoint({
   parameters: {
     userIds: z.array(z.number()),
     includeBackground: z.boolean().optional(),
+    includeProfileFrame: z.boolean().optional(),
     size: z
       .enum([
         '48x48',

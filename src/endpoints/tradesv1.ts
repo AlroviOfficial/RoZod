@@ -87,6 +87,7 @@ const Roblox_Trades_Api_CanTradeResponse = z.object({
     'SenderPrivacyTooStrict',
     'UsersCannotTrade',
     'TradeAccepterNeedsFriction',
+    'SenderAgeCheckRequired',
   ]),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});

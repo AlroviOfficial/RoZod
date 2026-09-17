@@ -76,9 +76,10 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
   'roblox-assetFormat': z.string(),
   assetResolutionMode: z.string(),
   accessContext: z.string(),
-  usageContext: z.number().int(),
+  usageContext: z.string(),
   contentRepresentationPriorityList: z.string(),
   doNotFallbackToBaselineRepresentation: z.boolean(),
+  xcachesplit: z.number().int(),
 });
 
 /**
@@ -87,9 +88,9 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
- * @param Accept
  * @param AssetFormat
  * @param Roblox-AssetFormat
+ * @param Roblox-Usage-Context
  * @param skipSigningScripts
  * @param clientInsert
  * @param scriptinsert
@@ -97,7 +98,6 @@ const Roblox_Web_Assets_BatchAssetRequestItem = z.object({
  * @param serverplaceid
  * @param expectedAssetType
  * @param accessContext
- * @param usageContext
  */
 export const getAliasAlias = endpoint({
   method: 'GET',
@@ -117,13 +117,13 @@ export const getAliasAlias = endpoint({
     AssetType: {
       style: 'simple',
     },
-    Accept: {
-      style: 'simple',
-    },
     AssetFormat: {
       style: 'simple',
     },
     'Roblox-AssetFormat': {
+      style: 'simple',
+    },
+    'Roblox-Usage-Context': {
       style: 'simple',
     },
     skipSigningScripts: {
@@ -154,19 +154,15 @@ export const getAliasAlias = endpoint({
       style: 'form',
       explode: true,
     },
-    usageContext: {
-      style: 'form',
-      explode: true,
-    },
   },
   parameters: {
     alias: z.string().regex(/^[0-9]+\/.+/),
     'Accept-Encoding': z.string(),
     'Roblox-Place-Id': z.number().int(),
     AssetType: z.string(),
-    Accept: z.string(),
     AssetFormat: z.string(),
     'Roblox-AssetFormat': z.string(),
+    'Roblox-Usage-Context': z.string().optional(),
     skipSigningScripts: z.boolean().optional(),
     clientInsert: z.number().int().optional(),
     scriptinsert: z.number().int().optional(),
@@ -174,7 +170,6 @@ export const getAliasAlias = endpoint({
     serverplaceid: z.number().int().optional(),
     expectedAssetType: z.string().optional(),
     accessContext: z.string().optional(),
-    usageContext: z.number().int().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
@@ -184,9 +179,9 @@ export const getAliasAlias = endpoint({
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
- * @param Accept
  * @param AssetFormat
  * @param Roblox-AssetFormat
+ * @param Roblox-Usage-Context
  * @param id
  * @param userAssetId
  * @param assetVersionId
@@ -206,7 +201,6 @@ export const getAliasAlias = endpoint({
  * @param doNotFallbackToBaselineRepresentation
  * @param contentRepresentationPriorityList
  * @param accessContext
- * @param usageContext
  */
 export const getAsset = endpoint({
   method: 'GET',
@@ -223,13 +217,13 @@ export const getAsset = endpoint({
     AssetType: {
       style: 'simple',
     },
-    Accept: {
-      style: 'simple',
-    },
     AssetFormat: {
       style: 'simple',
     },
     'Roblox-AssetFormat': {
+      style: 'simple',
+    },
+    'Roblox-Usage-Context': {
       style: 'simple',
     },
     id: {
@@ -308,18 +302,14 @@ export const getAsset = endpoint({
       style: 'form',
       explode: true,
     },
-    usageContext: {
-      style: 'form',
-      explode: true,
-    },
   },
   parameters: {
     'Accept-Encoding': z.string(),
     'Roblox-Place-Id': z.number().int(),
     AssetType: z.string(),
-    Accept: z.string(),
     AssetFormat: z.string(),
     'Roblox-AssetFormat': z.string(),
+    'Roblox-Usage-Context': z.string().optional(),
     id: z.number().int().optional(),
     userAssetId: z.number().int().optional(),
     assetVersionId: z.number().int().optional(),
@@ -339,7 +329,6 @@ export const getAsset = endpoint({
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
     accessContext: z.string().optional(),
-    usageContext: z.number().int().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
@@ -350,9 +339,9 @@ export const getAsset = endpoint({
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
- * @param Accept
  * @param AssetFormat
  * @param Roblox-AssetFormat
+ * @param Roblox-Usage-Context
  * @param skipSigningScripts
  * @param clientInsert
  * @param scriptinsert
@@ -362,7 +351,6 @@ export const getAsset = endpoint({
  * @param doNotFallbackToBaselineRepresentation
  * @param contentRepresentationPriorityList
  * @param accessContext
- * @param usageContext
  */
 export const getAssetidAssetid = endpoint({
   method: 'GET',
@@ -382,13 +370,13 @@ export const getAssetidAssetid = endpoint({
     AssetType: {
       style: 'simple',
     },
-    Accept: {
-      style: 'simple',
-    },
     AssetFormat: {
       style: 'simple',
     },
     'Roblox-AssetFormat': {
+      style: 'simple',
+    },
+    'Roblox-Usage-Context': {
       style: 'simple',
     },
     skipSigningScripts: {
@@ -427,19 +415,15 @@ export const getAssetidAssetid = endpoint({
       style: 'form',
       explode: true,
     },
-    usageContext: {
-      style: 'form',
-      explode: true,
-    },
   },
   parameters: {
     assetId: z.number().int(),
     'Accept-Encoding': z.string(),
     'Roblox-Place-Id': z.number().int(),
     AssetType: z.string(),
-    Accept: z.string(),
     AssetFormat: z.string(),
     'Roblox-AssetFormat': z.string(),
+    'Roblox-Usage-Context': z.string().optional(),
     skipSigningScripts: z.boolean().optional(),
     clientInsert: z.number().int().optional(),
     scriptinsert: z.number().int().optional(),
@@ -449,7 +433,6 @@ export const getAssetidAssetid = endpoint({
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
     accessContext: z.string().optional(),
-    usageContext: z.number().int().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
@@ -461,9 +444,9 @@ export const getAssetidAssetid = endpoint({
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
- * @param Accept
  * @param AssetFormat
  * @param Roblox-AssetFormat
+ * @param Roblox-Usage-Context
  * @param skipSigningScripts
  * @param clientInsert
  * @param scriptinsert
@@ -473,7 +456,6 @@ export const getAssetidAssetid = endpoint({
  * @param doNotFallbackToBaselineRepresentation
  * @param contentRepresentationPriorityList
  * @param accessContext
- * @param usageContext
  */
 export const getAssetidAssetidVersionVersionnumber = endpoint({
   method: 'GET',
@@ -496,13 +478,13 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
     AssetType: {
       style: 'simple',
     },
-    Accept: {
-      style: 'simple',
-    },
     AssetFormat: {
       style: 'simple',
     },
     'Roblox-AssetFormat': {
+      style: 'simple',
+    },
+    'Roblox-Usage-Context': {
       style: 'simple',
     },
     skipSigningScripts: {
@@ -541,10 +523,6 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
       style: 'form',
       explode: true,
     },
-    usageContext: {
-      style: 'form',
-      explode: true,
-    },
   },
   parameters: {
     assetId: z.number().int(),
@@ -552,9 +530,9 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
     'Accept-Encoding': z.string(),
     'Roblox-Place-Id': z.number().int(),
     AssetType: z.string(),
-    Accept: z.string(),
     AssetFormat: z.string(),
     'Roblox-AssetFormat': z.string(),
+    'Roblox-Usage-Context': z.string().optional(),
     skipSigningScripts: z.boolean().optional(),
     clientInsert: z.number().int().optional(),
     scriptinsert: z.number().int().optional(),
@@ -564,7 +542,6 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
     doNotFallbackToBaselineRepresentation: z.boolean().optional(),
     contentRepresentationPriorityList: z.string().optional(),
     accessContext: z.string().optional(),
-    usageContext: z.number().int().optional(),
   },
   response: Roblox_Web_Assets_AssetResponseItemV2,
   errors: [],
@@ -573,7 +550,6 @@ export const getAssetidAssetidVersionVersionnumber = endpoint({
  * @api POST https://assetdelivery.roblox.com/v2/assets/batch
  * @param body
  * @param Roblox-Place-Id
- * @param Accept
  * @param Roblox-Browser-Asset-Request
  */
 export const postAssetsBatch = endpoint({
@@ -586,16 +562,12 @@ export const postAssetsBatch = endpoint({
     'Roblox-Place-Id': {
       style: 'simple',
     },
-    Accept: {
-      style: 'simple',
-    },
     'Roblox-Browser-Asset-Request': {
       style: 'simple',
     },
   },
   parameters: {
     'Roblox-Place-Id': z.number().int(),
-    Accept: z.string(),
     'Roblox-Browser-Asset-Request': z.string(),
   },
   body: z.array(Roblox_Web_Assets_BatchAssetRequestItem),
@@ -609,7 +581,6 @@ export const postAssetsBatch = endpoint({
  * @param Accept-Encoding
  * @param Roblox-Place-Id
  * @param AssetType
- * @param Accept
  * @param AssetFormat
  * @param Roblox-AssetFormat
  * @param skipSigningScripts
@@ -638,9 +609,6 @@ export const getMarassethashMarassethashMarchecksumMarchecksum = endpoint({
       style: 'simple',
     },
     AssetType: {
-      style: 'simple',
-    },
-    Accept: {
       style: 'simple',
     },
     AssetFormat: {
@@ -680,7 +648,6 @@ export const getMarassethashMarassethashMarchecksumMarchecksum = endpoint({
     'Accept-Encoding': z.string(),
     'Roblox-Place-Id': z.number().int(),
     AssetType: z.string(),
-    Accept: z.string(),
     AssetFormat: z.string(),
     'Roblox-AssetFormat': z.string(),
     skipSigningScripts: z.boolean().optional(),

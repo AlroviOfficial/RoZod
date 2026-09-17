@@ -184,6 +184,7 @@ const Roblox_TwoStepVerification_Api_EnableVerifyAuthenticatorResponse = z.objec
 });
 const Roblox_TwoStepVerification_Api_DisableSecurityKeyRequest = z.object({
   credentialNicknames: z.array(z.string()),
+  credentialIDs: z.array(z.string()),
 });
 const Roblox_TwoStepVerification_Api_EnableSecurityKeyResponse = z.object({
   creationOptions: z.string(),
@@ -196,9 +197,14 @@ const Roblox_TwoStepVerification_Api_EnableVerifySecurityKeyRequest = z.object({
 });
 const Roblox_TwoStepVerification_Api_SecurityKeyCredential = z.object({
   nickname: z.string(),
+  credentialID: z.string(),
 });
 const Roblox_TwoStepVerification_Api_ListSecurityKeyResponse = z.object({
   credentials: z.array(Roblox_TwoStepVerification_Api_SecurityKeyCredential),
+});
+const Roblox_TwoStepVerification_Api_RenameSecurityKeyRequest = z.object({
+  credentialID: z.string(),
+  newNickname: z.string(),
 });
 const Roblox_TwoStepVerification_Api_ClearRecoveryCodesRequest = z.object({
   password: z.string(),
@@ -1266,6 +1272,49 @@ export const postUsersUseridConfigurationSecurityKeyList = endpoint({
     {
       status: 400,
       description: `2: The user ID is invalid.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+    {
+      status: 503,
+      description: `7: Two step verification is currently under maintenance.`,
+    },
+  ],
+});
+/**
+ * @api POST https://twostepverification.roblox.com/v1/users/:userId/configuration/security-key/rename
+ * @summary Rename a user's security key.
+ * @param body The request bodyRoblox.TwoStepVerification.Api.RenameSecurityKeyRequest.
+ * @param userId The user ID.
+ */
+export const postUsersUseridConfigurationSecurityKeyRename = endpoint({
+  method: 'POST',
+  path: '/v1/users/:userId/configuration/security-key/rename',
+  baseUrl: 'https://twostepverification.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    userId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    userId: z.number().int(),
+  },
+  body: Roblox_TwoStepVerification_Api_RenameSecurityKeyRequest,
+  response: z.object({}),
+  errors: [
+    {
+      status: 400,
+      description: `2: The user ID is invalid.
+17: Invalid security key nickname.
+21: Invalid security key id.`,
     },
     {
       status: 401,

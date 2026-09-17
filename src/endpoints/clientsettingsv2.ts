@@ -13,6 +13,7 @@ const Roblox_ClientSettings_Api_Models_Response_ClientVersionResponse = z.object
   bootstrapperVersion: z.string(),
   nextClientVersionUpload: z.string(),
   nextClientVersion: z.string(),
+  forceInstall: z.boolean(),
 });
 const Roblox_ClientSettings_Api_Models_Response_OtaVersionResponse = z.object({
   name: z.string(),
@@ -216,6 +217,10 @@ export const getOtaVersionBinarytype = endpoint({
     {
       status: 401,
       description: `5: Not authorized to perform this action.`,
+    },
+    {
+      status: 501,
+      description: `9: The requested tag is not implemented.`,
     },
   ],
 });
