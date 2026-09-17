@@ -40,12 +40,12 @@ export default defineConfig({
         {
           label: 'Classic API Reference',
           collapsed: true,
-          autogenerate: { directory: 'reference/classic' },
+          items: [{ autogenerate: { directory: 'reference/classic' } }],
         },
         {
           label: 'OpenCloud Reference',
           collapsed: true,
-          autogenerate: { directory: 'reference/opencloud' },
+          items: [{ autogenerate: { directory: 'reference/opencloud' } }],
         },
       ],
     }),
