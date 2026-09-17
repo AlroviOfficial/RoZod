@@ -116,6 +116,36 @@ const Patch_VipServerUpdateSubscriptionRequest = z.object({
   active: z.boolean(),
   price: z.number().int(),
 });
+const Patch_GameServerPlayerResponse = z.object({
+  playerToken: z.string(),
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Patch_VerifiedBadgeUserResponse = z.object({
+  hasVerifiedBadge: z.boolean(),
+  id: z.number().int(),
+  name: z.string(),
+  displayName: z.string(),
+});
+const Patch_GameServerResponse = z.object({
+  id: z.string().uuid(),
+  maxPlayers: z.number().int(),
+  playing: z.number().int(),
+  playerTokens: z.array(z.string()),
+  players: z.array(Patch_GameServerPlayerResponse),
+  fps: z.number(),
+  ping: z.number().int(),
+  name: z.string(),
+  vipServerId: z.number().int(),
+  accessCode: z.string().uuid(),
+  owner: Patch_VerifiedBadgeUserResponse,
+});
+const Patch_ApiPageResponse_GameServerResponse = z.object({
+  previousPageCursor: z.string(),
+  nextPageCursor: z.string(),
+  data: z.array(Patch_GameServerResponse),
+});
 
 export const getGamesUniverseidGamePasses = endpoint({
   method: 'GET',
@@ -321,7 +351,7 @@ export const postGamesVipServersUniverseid = endpoint({
   serializationMethod: { body: {}, universeId: { style: 'simple' } },
   parameters: { universeId: z.number().int() },
   body: Patch_CreateVipServersRequest,
-  response: Roblox_Web_Responses_Games_GameServerResponse,
+  response: Patch_GameServerResponse,
   errors: [
     { status: 400, description: `15: The price for purchasing this private server has changed. Please refresh the page and try again.` },
     { status: 401, description: `0: Authorization has been denied for this request.` },
@@ -335,7 +365,7 @@ const Patch_GetPrivateServerListResponse = z.object({
   gameJoinRestricted: z.boolean(),
   previousPageCursor: z.string(),
   nextPageCursor: z.string(),
-  data: z.array(Roblox_Web_Responses_Games_GameServerResponse),
+  data: z.array(Patch_GameServerResponse),
 });
 
 export const getGamesPlaceidPrivateServers = endpoint({
@@ -377,5 +407,54 @@ export const getPrivateServersEnabledInUniverseUniverseid = endpoint({
   response: z.object({ privateServersEnabled: z.boolean() }),
   errors: [
     { status: 400, description: `8: The universe IDs specified are invalid.` },
+  ],
+});
+
+/**
+ * @api GET https://games.roblox.com/v1/games/:placeId/servers/:serverType
+ * @summary Get the game server list
+ * @param placeId The Id of the place we are geting the server list for.
+ * @param serverType The type of the server we geting the server list for.
+ * @param sortOrder The sort order of the servers.
+ * @param excludeFullGames Exclude full servers.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ */
+export const getGamesPlaceidServersServertype = endpoint({
+  method: 'GET',
+  path: '/v1/games/:placeId/servers/:serverType',
+  baseUrl: 'https://games.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    placeId: { style: 'simple' },
+    serverType: { style: 'simple' },
+    sortOrder: { style: 'form', explode: true },
+    excludeFullGames: { style: 'form', explode: true },
+    limit: { style: 'form', explode: true },
+    cursor: { style: 'form', explode: true },
+  },
+  parameters: {
+    placeId: z.number().int(),
+    serverType: z.union([z.literal(0), z.literal(1)]),
+    sortOrder: z
+      .union([z.literal(1), z.literal(2)])
+      .optional()
+      .default(2),
+    excludeFullGames: z.boolean().optional(),
+    limit: z
+      .union([z.literal(10), z.literal(25), z.literal(50), z.literal(100)])
+      .optional()
+      .default(10),
+    cursor: z.string().optional(),
+  },
+  response: Patch_ApiPageResponse_GameServerResponse,
+  errors: [
+    {
+      status: 400,
+      description: `1: The place is invalid.
+6: The server type is invalid. For fetching private servers, please use https://games.roblox.com/v1/games/{placeId}/private-servers.
+7: Guest users are not allowed.`,
+    },
+    { status: 404, description: `1: The place is invalid.` },
   ],
 });

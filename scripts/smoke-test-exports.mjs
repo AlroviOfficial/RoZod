@@ -5,7 +5,7 @@
 import assert from 'node:assert/strict';
 
 import { getUsersUserid, postUsernamesUsers } from 'rozod/endpoints/usersv1';
-import { getGroupsGroupidWallPosts } from 'rozod/endpoints/groupsv2';
+import { getUsersUseridGroupsRoles } from 'rozod/endpoints/groupsv2';
 import { getGamesIcons } from 'rozod/endpoints/thumbnailsv1';
 import { v1, v2 } from 'rozod/opencloud';
 import { getCloudV2GroupsGroupId } from 'rozod/opencloud/v2/cloud';
@@ -17,7 +17,7 @@ import { v1 as v1Legacy } from 'rozod/lib/opencloud';
 
 assert.equal(typeof getUsersUserid, 'object', 'rozod/endpoints/usersv1 → getUsersUserid');
 assert.equal(typeof postUsernamesUsers, 'object', 'rozod/endpoints/usersv1 → postUsernamesUsers');
-assert.equal(typeof getGroupsGroupidWallPosts, 'object', 'rozod/endpoints/groupsv2 → getGroupsGroupidWallPosts');
+assert.equal(typeof getUsersUseridGroupsRoles, 'object', 'rozod/endpoints/groupsv2 → getUsersUseridGroupsRoles');
 assert.equal(typeof getGamesIcons, 'object', 'rozod/endpoints/thumbnailsv1 → getGamesIcons');
 
 assert.ok(v1 && typeof v1 === 'object', 'rozod/opencloud → v1');

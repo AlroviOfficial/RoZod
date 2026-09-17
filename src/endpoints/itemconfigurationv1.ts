@@ -10,17 +10,62 @@ const Roblox_Web_WebAPI_Models_ApiPageResponse_Roblox_ItemConfiguration_Api_Asse
   nextPageCursor: z.string(),
   data: z.array(Roblox_ItemConfiguration_Api_AssetCreationsResponse),
 });
+const Roblox_ItemConfiguration_Api_Models_Response_PublishingPreferences_PublishingPreferencesResponse = z.object({
+  id: z.string(),
+  creatorUserId: z.number().int(),
+  creatorGroupId: z.number().int(),
+  publishingType: z.enum(['Invalid', 'Limited', 'NonLimited']),
+  saleLocationType: z.enum([
+    'SALE_LOCATION_TYPE_INVALID',
+    'SALE_LOCATION_TYPE_SHOP_AND_ALL_EXPERIENCES',
+    'SALE_LOCATION_EXPERIENCES_AND_DEV_API_ONLY',
+    'SALE_LOCATION_TYPE_SHOP_ONLY',
+    'SALE_LOCATION_TYPE_SHOP_AND_EXPERIENCES_BY_ID',
+  ]),
+  places: z.array(z.number()),
+  priceInRobux: z.number().int(),
+  priceOffset: z.number().int(),
+  isFree: z.boolean(),
+  enableRegionalPricing: z.boolean(),
+  isRentalOptIn: z.boolean(),
+  autoPublishEnabled: z.boolean(),
+  created: z.string().datetime({ offset: true }),
+  updated: z.string().datetime({ offset: true }),
+});
+const Roblox_ItemConfiguration_Api_Models_Request_PublishingPreferences_CreatePublishingPreferencesRequest = z.object({
+  creatorUserId: z.number().int(),
+  creatorGroupId: z.number().int(),
+  publishingType: z.enum(['Invalid', 'Limited', 'NonLimited']),
+  saleLocationType: z.enum([
+    'SALE_LOCATION_TYPE_INVALID',
+    'SALE_LOCATION_TYPE_SHOP_AND_ALL_EXPERIENCES',
+    'SALE_LOCATION_EXPERIENCES_AND_DEV_API_ONLY',
+    'SALE_LOCATION_TYPE_SHOP_ONLY',
+    'SALE_LOCATION_TYPE_SHOP_AND_EXPERIENCES_BY_ID',
+  ]),
+  places: z.array(z.number()),
+  priceInRobux: z.number().int(),
+  priceOffset: z.number().int(),
+  isFree: z.boolean(),
+  enableRegionalPricing: z.boolean(),
+  isRentalOptIn: z.boolean(),
+  autoPublishEnabled: z.boolean(),
+});
+const Roblox_ItemConfiguration_Api_Models_Request_PublishingPreferences_UpdatePublishingPreferencesRequest = z.object({
+  creatorUserId: z.number().int(),
+  creatorGroupId: z.number().int(),
+  publishingType: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  saleLocationType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  places: z.array(z.number()),
+  priceInRobux: z.number().int(),
+  priceOffset: z.number().int(),
+  isFree: z.boolean(),
+  enableRegionalPricing: z.boolean(),
+  isRentalOptIn: z.boolean(),
+  autoPublishEnabled: z.boolean(),
+});
 const Roblox_ItemConfiguration_Api_AssetCreationsDetailsRequest = z.object({
   AssetIds: z.array(z.number()),
-});
-const Roblox_ItemConfiguration_Api_PriceConfigurationModel = z.object({
-  priceInRobux: z.number().int(),
-  premiumDiscountPercentage: z.number().int(),
-  premiumPriceInRobux: z.number().int(),
-  priceOffset: z.number().int(),
-});
-const Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel = z.object({
-  saleAvailabilityLocations: z.array(z.enum(['Undefined', 'Catalog', 'AllUniverses', 'MyUniverses'])),
 });
 const Roblox_ItemConfiguration_Api_AssetCreationsDetailsResponse = z.object({
   assetId: z.number().int(),
@@ -38,15 +83,10 @@ const Roblox_ItemConfiguration_Api_AssetCreationsDetailsResponse = z.object({
   description: z.string(),
   creatorType: z.string(),
   creatorTargetId: z.number().int(),
-  price: z.number().int(),
-  priceConfiguration: Roblox_ItemConfiguration_Api_PriceConfigurationModel,
   isArchived: z.boolean(),
   assetType: z.string(),
-  releaseConfiguration: Roblox_ItemConfiguration_Api_ReleaseConfigurationResponseModel,
   created: z.string().datetime({ offset: true }),
   updated: z.string().datetime({ offset: true }),
-  isDelisted: z.boolean(),
-  isCreatedForBundle: z.boolean(),
 });
 
 /**
@@ -162,6 +202,114 @@ export const getCreationsGetAssets = endpoint({
     {
       status: 503,
       description: `6: Service Unavailable`,
+    },
+  ],
+});
+/**
+ * @api GET https://itemconfiguration.roblox.com/v1/preferences/publishing
+ * @param groupId
+ */
+export const getPreferencesPublishing = endpoint({
+  method: 'GET',
+  path: '/v1/preferences/publishing',
+  baseUrl: 'https://itemconfiguration.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    groupId: z.number().int().optional(),
+  },
+  response: Roblox_ItemConfiguration_Api_Models_Response_PublishingPreferences_PublishingPreferencesResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+  ],
+});
+/**
+ * @api POST https://itemconfiguration.roblox.com/v1/preferences/publishing
+ * @param body
+ */
+export const postPreferencesPublishing = endpoint({
+  method: 'POST',
+  path: '/v1/preferences/publishing',
+  baseUrl: 'https://itemconfiguration.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_ItemConfiguration_Api_Models_Request_PublishingPreferences_CreatePublishingPreferencesRequest,
+  response: Roblox_ItemConfiguration_Api_Models_Response_PublishingPreferences_PublishingPreferencesResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+  ],
+});
+/**
+ * @api DELETE https://itemconfiguration.roblox.com/v1/preferences/publishing
+ * @param groupId
+ */
+export const deletePreferencesPublishing = endpoint({
+  method: 'DELETE',
+  path: '/v1/preferences/publishing',
+  baseUrl: 'https://itemconfiguration.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'form',
+      explode: true,
+    },
+  },
+  parameters: {
+    groupId: z.number().int().optional(),
+  },
+  response: z.void(),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
+    },
+  ],
+});
+/**
+ * @api PATCH https://itemconfiguration.roblox.com/v1/preferences/publishing
+ * @param body
+ */
+export const patchPreferencesPublishing = endpoint({
+  method: 'PATCH',
+  path: '/v1/preferences/publishing',
+  baseUrl: 'https://itemconfiguration.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_ItemConfiguration_Api_Models_Request_PublishingPreferences_UpdatePublishingPreferencesRequest,
+  response: Roblox_ItemConfiguration_Api_Models_Response_PublishingPreferences_PublishingPreferencesResponse,
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed`,
     },
   ],
 });

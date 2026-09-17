@@ -43,6 +43,10 @@ const Roblox_Trades_Api_Models_V2_TradeDetailsResponse = z.object({
   participantAOffer: Roblox_Trades_Api_Models_V2_TradeOffer,
   participantBOffer: Roblox_Trades_Api_Models_V2_TradeOffer,
 });
+const Roblox_Trades_Api_Models_V2_CurrencyTransferEligibilityResponse = z.object({
+  canSend: z.boolean(),
+  canRequest: z.boolean(),
+});
 const Roblox_Trades_Api_Models_V2_CanTradeWithResponse = z.object({
   userId: z.number().int(),
   targetUserId: z.number().int(),
@@ -54,7 +58,9 @@ const Roblox_Trades_Api_Models_V2_CanTradeWithResponse = z.object({
     'TargetUserIneligible',
     'CannotTradeWithSelf',
     'CallingUserPrivacySettingsRestricted',
+    'CallingUserAgeCheckRequired',
   ]),
+  currencyTransferEligibility: Roblox_Trades_Api_Models_V2_CurrencyTransferEligibilityResponse,
 });
 const Roblox_Trades_Api_Models_V2_TradableItem = z.object({
   collectibleItemId: z.string(),
@@ -70,6 +76,11 @@ const Roblox_Trades_Api_Models_V2_GetUserTradableItemsResponse = z.object({
   items: z.array(Roblox_Trades_Api_Models_V2_TradableItem),
   nextPageCursor: z.string(),
 });
+const Roblox_Trades_Api_Models_V2_FreeTradesAllowanceResponse = z.object({
+  limit: z.number().int(),
+  remaining: z.number().int(),
+  window: z.enum(['day', 'week', 'month', 'year', 'lifetime']),
+});
 const Roblox_Trades_Api_Models_V2_CanTradeResponse = z.object({
   userId: z.number().int(),
   canTrade: z.boolean(),
@@ -81,7 +92,11 @@ const Roblox_Trades_Api_Models_V2_CanTradeResponse = z.object({
     'IneligibleUserNotFound',
     'IneligibleMissingPremiumMembership',
     'IneligibleLegalOrRegulatoryRestrictions',
+    'IneligibleFreeTradesLimitReached',
+    'IneligibleAgeCheckRequired',
   ]),
+  freeTradesAllowance: Roblox_Trades_Api_Models_V2_FreeTradesAllowanceResponse,
+  currencyTransferEligibility: Roblox_Trades_Api_Models_V2_CurrencyTransferEligibilityResponse,
 });
 const Roblox_Trades_Api_Models_V2_TradeOfferRequest = z.object({
   userId: z.number().int(),

@@ -233,6 +233,9 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
     z.literal(90),
     z.literal(91),
     z.literal(92),
+    z.literal(93),
+    z.literal(94),
+    z.literal(95),
   ]),
   bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   isRecolorable: z.boolean(),
@@ -324,11 +327,16 @@ const Roblox_Catalog_Api_TaxonomyModel = z.object({
   taxonomyId: z.string(),
   taxonomyName: z.string(),
 });
+const Roblox_Catalog_Api_CollectibleLicense = z.object({
+  id: z.string(),
+  licenseType: z.enum(['Invalid', 'ThirdParty', 'FirstParty']),
+});
 const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModelV2),
   taxonomy: z.array(Roblox_Catalog_Api_TaxonomyModel),
   itemCreatedUtc: z.string().datetime({ offset: true }),
   discountInformation: Roblox_Catalog_Api_DiscountInformation,
+  license: Roblox_Catalog_Api_CollectibleLicense,
   id: z.number().int(),
   itemType: z.enum(['Asset', 'Bundle']),
   assetType: z.union([
@@ -417,6 +425,9 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
     z.literal(90),
     z.literal(91),
     z.literal(92),
+    z.literal(93),
+    z.literal(94),
+    z.literal(95),
   ]),
   bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   isRecolorable: z.boolean(),
@@ -490,6 +501,7 @@ const Roblox_MarketplaceTopicDiscovery_TopicDiscoveryService_V1Beta1_Error = z.o
 });
 const Roblox_Catalog_Api_TopicResponse = z.object({
   topics: z.array(Roblox_Catalog_Api_TopicModel),
+  queries: z.array(z.string()),
   error: Roblox_MarketplaceTopicDiscovery_TopicDiscoveryService_V1Beta1_Error,
 });
 
@@ -1153,8 +1165,9 @@ export const getSubcategories = endpoint({
 });
 /**
  * @api POST https://catalog.roblox.com/v1/topic/get-topics
- * @summary Get topic given TopicRequestModel.
- * @param body
+ * @summary Gets topics for a populated request, or trending queries when the request has no topic inputs.
+Topics and queries are mutually exclusive in the response.
+ * @param body 
  */
 export const postTopicGetTopics = endpoint({
   method: 'POST',
@@ -1224,10 +1237,10 @@ export const getUsersUseridBundles = endpoint({
 /**
  * @api GET https://catalog.roblox.com/v1/users/:userId/bundles/:bundleType
  * @param userId
- * @param bundleType
+ * @param bundleType  ['BodyParts' = 1, 'AvatarAnimations' = 2, 'Shoes' = 3, 'DynamicHead' = 4]
  * @param cursor
  * @param limit
- * @param sortOrder
+ * @param sortOrder  ['Asc' = 1, 'Desc' = 2]
  */
 export const getUsersUseridBundlesBundletype = endpoint({
   method: 'GET',

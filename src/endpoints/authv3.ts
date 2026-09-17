@@ -24,6 +24,7 @@ const Roblox_Authentication_Api_Models_AccountLinkParameters = z.object({
     'RobloxGroupCreator',
     'Playstation',
     'ExternalProvider',
+    'Steam',
     'Example',
   ]),
 });

@@ -81,6 +81,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsRequestV2 = z.object({
   privateServerPrice: z.number().int(),
   name: z.string(),
   description: z.string(),
+  promotionalText: z.string(),
   universeAvatarType: z.union([z.literal(1), z.literal(2), z.literal(3)]),
   universeAnimationType: z.union([z.literal(1), z.literal(2)]),
   universeCollisionType: z.union([z.literal(1), z.literal(2)]),
@@ -137,6 +138,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z.object({
   id: z.number().int(),
   name: z.string(),
   description: z.string(),
+  promotionalText: z.string(),
   universeAvatarType: z.enum(['MorphToR6', 'PlayerChoice', 'MorphToR15']),
   universeAnimationType: z.enum(['Standard', 'PlayerChoice']),
   universeCollisionType: z.enum(['InnerBox', 'OuterBox']),
@@ -176,7 +178,7 @@ const Roblox_Api_Develop_Models_UniverseSettingsResponseV2 = z.object({
   fiatModerationStatus: z.enum(['Invalid', 'NotModerated', 'Pending', 'Approved', 'Rejected']),
   audiences: z.array(z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])),
   demoModeEnabled: z.boolean(),
-  demoModeLastChangedTime: z.string().datetime({ offset: true }),
+  demoModeChangeableAfter: z.string().datetime({ offset: true }),
 });
 const Roblox_Web_WebAPI_ApiEmptyResponseModel = z.object({});
 
@@ -384,7 +386,8 @@ export const patchUniversesUniverseidConfiguration = endpoint({
 24: Invalid scale value
 28: OptIn/Out Regions Not Supported.
 41: You cannot change the private server price again so soon after the previous change. Please try again later.
-44: The provided audience configuration is invalid. Ensure the audience list contains only supported audience values.`,
+44: The provided audience configuration is invalid. Ensure the audience list contains only supported audience values.
+52: Promotional text has been rejected.`,
     },
     {
       status: 401,
@@ -406,6 +409,10 @@ export const patchUniversesUniverseidConfiguration = endpoint({
     {
       status: 500,
       description: `43: Failed to update the audience configuration. The change was not applied. Please try again.`,
+    },
+    {
+      status: 503,
+      description: `53: Promotional text safety validation is temporarily unavailable.`,
     },
   ],
 });
