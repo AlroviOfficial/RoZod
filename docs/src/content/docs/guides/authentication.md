@@ -69,6 +69,8 @@ configureServer({
 });
 ```
 
+Rotations are matched by cookie value. If `configureServer` replaced the pool while a request was in flight, that request's rotation is still reported, but with `poolIndex` set to `-1` and the new pool left unchanged. Use `oldCookie` to find the account in that case.
+
 ## Manual Cookie Management
 
 ```ts
@@ -144,6 +146,8 @@ const user = await fetchApi(
 ## CSRF Tokens
 
 RoZod automatically handles CSRF token management for mutating requests (POST, PATCH, PUT, DELETE). If a request fails with a CSRF error, RoZod retries with the new token automatically. No configuration needed.
+
+In the browser, requests share one token cache across accounts. If the signed-in account changes, call `clearCsrfTokens()` so the previous account's token is not reused.
 
 ## Challenge Handling
 

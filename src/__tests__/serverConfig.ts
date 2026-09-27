@@ -700,6 +700,53 @@ describe('Cookie Rotation Handling', () => {
     // Cookie should still be updated
     expect(getCookies()).toEqual(['rotated']);
   });
+
+  test.each([
+    { pool: 'single cookie replaced', before: 'cookie-a', after: 'cookie-b', expected: ['cookie-b'], poolIndex: -1 },
+    {
+      pool: 'cookie pool replaced',
+      before: ['cookie-a', 'cookie-x'],
+      after: ['cookie-b', 'cookie-y'],
+      expected: ['cookie-b', 'cookie-y'],
+      poolIndex: -1,
+    },
+    {
+      pool: 'cookie pool reordered',
+      before: ['cookie-a', 'cookie-x'],
+      after: ['cookie-x', 'cookie-a'],
+      expected: ['cookie-x', 'cookie-a-rotated'],
+      poolIndex: 1,
+    },
+  ])(
+    'rotation from a request started before reconfiguring updates the cookie by value ($pool)',
+    async ({ before, after, expected, poolIndex }) => {
+      const callback = jest.fn();
+      configureServer({ cookies: before });
+
+      let release!: (res: Response) => void;
+      let markSent!: () => void;
+      const sent = new Promise<void>((resolve) => (markSent = resolve));
+      globalThis.fetch = jest.fn(() => {
+        markSent();
+        return new Promise<Response>((resolve) => (release = resolve));
+      }) as typeof fetch;
+
+      const request = fetchApi(testEndpoint, undefined);
+      await sent;
+      configureServer({ cookies: after, onCookieRefresh: callback });
+      release(
+        new Response(JSON.stringify({ success: true }), {
+          status: 200,
+          headers: { 'content-type': 'application/json', 'set-cookie': '.ROBLOSECURITY=cookie-a-rotated; Path=/' },
+        }),
+      );
+      await request;
+
+      expect(getCookies()).toEqual(expected);
+      // Reported even when the cookie has left the pool, so the rotated value can still be persisted.
+      expect(callback).toHaveBeenCalledWith({ oldCookie: 'cookie-a', newCookie: 'cookie-a-rotated', poolIndex });
+    },
+  );
 });
 
 describe('refreshCookie', () => {
@@ -763,8 +810,8 @@ describe('refreshCookie', () => {
     // Verify cookie pool was updated
     expect(getCookies()).toEqual(['new-refreshed-cookie']);
 
-    // Verify callback was invoked
-    expect(callback).toHaveBeenCalled();
+    // Verify callback was invoked once for the one rotation
+    expect(callback).toHaveBeenCalledTimes(1);
     expect(refreshEvents.length).toBeGreaterThan(0);
   });
 
