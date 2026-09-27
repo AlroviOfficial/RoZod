@@ -248,6 +248,16 @@ setHandleGenericChallenge(async (challenge) => {
 });
 ```
 
+### `clearCsrfTokens()`
+
+Clears all cached CSRF tokens. Call it when the signed-in account changes and RoZod does not pick the cookie itself, for example in a browser or extension where requests use `credentials: 'include'` and share one token cache. Requests that use `configureServer` cookies already cache tokens per cookie and don't need it.
+
+Mutating requests (POST, PATCH, PUT, DELETE) sent with a `.ROBLOSECURITY` cookie have their own token slot and continue normally. Any other request in flight during the clear returns its response as-is: the CSRF token from that response is not stored, and the CSRF or challenge retry is skipped. Retries configured with `retries` still run.
+
+```ts
+function clearCsrfTokens(): void;
+```
+
 ### `changeHBAKeys(keys?)`
 
 Sets the crypto key pair used for hardware-backed authentication signatures (Node.js only). The pair applies to all requests and discards any per-cookie keys configured via `configureServer({ hbaKeys: [...] })`. Call with no arguments to remove the pair, after which requests send no BAT.
@@ -280,6 +290,6 @@ type Operation = {
 | `ExtractResponse<S>` | The success response type for an endpoint. |
 | `EndpointSchema` | The general shape of an endpoint definition. |
 | `PoolRotation` | `'none' \| 'random' \| 'round-robin'` |
-| `CookieRefreshEvent` | `{ oldCookie, newCookie, poolIndex }` — passed to `onCookieRefresh`. |
+| `CookieRefreshEvent` | `{ oldCookie, newCookie, poolIndex }` — passed to `onCookieRefresh`. `poolIndex` is `-1` if the old cookie was no longer in the pool. |
 | `CookieRefreshCallback` | `(event: CookieRefreshEvent) => void \| Promise<void>` |
 | `RefreshCookieResult` | Return type of `refreshCookie`. |
