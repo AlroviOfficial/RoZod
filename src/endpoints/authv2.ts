@@ -123,6 +123,7 @@ const Roblox_Authentication_Api_Models_RevertAccountSubmitRequest = z.object({
 const Roblox_Authentication_Api_Models_UsernameChangePriceResponse = z.object({
   priceInRobux: z.number().int(),
   basePriceInRobux: z.number().int(),
+  isFreeUsernameChange: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_UsernamesResponse = z.object({
   usernames: z.array(z.string()),
@@ -339,7 +340,8 @@ export const postIdentityVerificationLogin = endpoint({
 1: Invalid login ticket.
 2: Invalid result token.
 3: Invalid user.
-4: Authentication failure.`,
+4: Authentication failure.
+44: Login is unavailable in your country.`,
     },
   ],
 });
@@ -379,7 +381,8 @@ export const postLogin = endpoint({
 12: Existing login session found. Please log out first.
 14: The account is unable to log in. Please log in to the LuoBu app.
 15: Too many attempts. Please wait a bit.
-27: The account is unable to login. Please log in with the VNG app.`,
+27: The account is unable to login. Please log in with the VNG app.
+44: Login is unavailable in your country.`,
     },
     {
       status: 429,
@@ -429,7 +432,8 @@ export const postLoginLinked = endpoint({
 14: The account is unable to log in. Please log in to the LuoBu app.
 15: Too many attempts. Please wait a bit.
 27: The account is unable to login. Please log in with the VNG app.
-43: This account is not eligible for this platform.`,
+43: This account is not eligible for this platform.
+44: Login is unavailable in your country.`,
     },
     {
       status: 429,
@@ -597,7 +601,8 @@ export const postPasswordsReset = endpoint({
       status: 403,
       description: `0: Token Validation Failed
 16: The ticket is expired.
-17: The nonce is expired.`,
+17: The nonce is expired.
+44: Login is unavailable in your country.`,
     },
     {
       status: 500,
@@ -925,7 +930,8 @@ export const postSignup = endpoint({
 11: Asset is invalid.
 12: Too many attempts. Please wait a bit.
 17: One time Passcode session was not valid
-22: Maximum logged in accounts limit reached.`,
+22: Maximum logged in accounts limit reached.
+44: Login is unavailable in your country.`,
     },
     {
       status: 429,
@@ -982,7 +988,8 @@ export const postSignupLinked = endpoint({
 17: One time Passcode session was not valid
 22: Maximum logged in accounts limit reached.
 29: Account Linking already exists on this account
-30: Account Linking required but failed`,
+30: Account Linking required but failed
+44: Login is unavailable in your country.`,
     },
     {
       status: 429,

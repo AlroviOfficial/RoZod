@@ -79,7 +79,7 @@ const Roblox_Trades_Api_Models_V2_GetUserTradableItemsResponse = z.object({
 const Roblox_Trades_Api_Models_V2_FreeTradesAllowanceResponse = z.object({
   limit: z.number().int(),
   remaining: z.number().int(),
-  window: z.enum(['day', 'week', 'month', 'year', 'lifetime']),
+  window: z.enum(['day', 'week', 'month', 'year', 'lifetime']).default('month'),
 });
 const Roblox_Trades_Api_Models_V2_CanTradeResponse = z.object({
   userId: z.number().int(),

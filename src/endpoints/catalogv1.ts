@@ -236,6 +236,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItem = z.object({
     z.literal(93),
     z.literal(94),
     z.literal(95),
+    z.literal(96),
   ]),
   bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   isRecolorable: z.boolean(),
@@ -330,6 +331,8 @@ const Roblox_Catalog_Api_TaxonomyModel = z.object({
 const Roblox_Catalog_Api_CollectibleLicense = z.object({
   id: z.string(),
   licenseType: z.enum(['Invalid', 'ThirdParty', 'FirstParty']),
+  licenseHolder: z.string(),
+  licenseDisplayName: z.string(),
 });
 const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
   bundledItems: z.array(Roblox_Catalog_Api_BundleItemDetailModelV2),
@@ -428,6 +431,7 @@ const Roblox_Catalog_Api_CatalogSearchDetailedResponseItemV2 = z.object({
     z.literal(93),
     z.literal(94),
     z.literal(95),
+    z.literal(96),
   ]),
   bundleType: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
   isRecolorable: z.boolean(),
