@@ -162,6 +162,7 @@ const Roblox_Games_Api_Models_Response_PrivatePlaytestInfoResponse = z.object({
     'PlusSubscriptionRequired',
     'ContextualPlayabilityPlaytestDisabled',
     'InsufficientPermissionEditorsOnly',
+    'InsufficientPermissionPlayTestersOnly',
   ]),
 });
 const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z.object({
@@ -199,6 +200,7 @@ const Roblox_Games_Api_Models_Response_PlayabilityStatusResponse = z.object({
     'PlusSubscriptionRequired',
     'ContextualPlayabilityPlaytestDisabled',
     'InsufficientPermissionEditorsOnly',
+    'InsufficientPermissionPlayTestersOnly',
   ]),
   isPlayable: z.boolean(),
   universeId: z.number().int(),

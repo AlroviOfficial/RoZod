@@ -114,6 +114,7 @@ const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_Asse
     'TextDocument',
     'Post',
     'AnimatedImage',
+    'ComputeFunction',
   ]),
   name: z.string(),
 });
