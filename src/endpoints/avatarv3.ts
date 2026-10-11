@@ -111,7 +111,7 @@ const Roblox_Api_Avatar_Models_OutfitUpdateModelV3 = z.object({
   assets: z.array(Roblox_Api_Avatar_Models_AssetWearModel),
   scale: Roblox_Web_Responses_Avatar_ScaleModel,
   playerAvatarType: z.string(),
-  outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(4), z.literal(5)]),
+  outfitType: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(4), z.literal(5), z.literal(6)]),
 });
 const Roblox_Api_Avatar_Models_OutfitModel = z.object({
   id: z.number().int(),

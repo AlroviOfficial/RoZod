@@ -114,6 +114,7 @@ const Roblox_Web_Responses_RelatedEntityTypeResponse_Roblox_Platform_Assets_Asse
     'TextDocument',
     'Post',
     'AnimatedImage',
+    'ComputeFunction',
   ]),
   name: z.string(),
 });
@@ -177,6 +178,7 @@ const Roblox_Groups_Api_GroupDetailResponse = z.object({
   isBuildersClubOnly: z.boolean(),
   publicEntryAllowed: z.boolean(),
   isLocked: z.boolean(),
+  isDeactivated: z.boolean(),
   hasVerifiedBadge: z.boolean(),
   hasSocialModules: z.boolean(),
   communityTier: Roblox_Groups_Client_CommunityTierInfoResponse,

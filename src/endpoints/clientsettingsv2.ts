@@ -3,9 +3,9 @@ import { endpoint } from '..';
 
 const Roblox_ClientSettings_Api_Models_Response_AndroidBinaryLibraryNames = z.object({ engine: z.string() });
 const Roblox_ClientSettings_Api_Models_Response_AndroidBinaryResponse = z.object({
-  moduleName: z.string(),
+  moduleName: z.string().optional(),
   libraryNames: Roblox_ClientSettings_Api_Models_Response_AndroidBinaryLibraryNames,
-  supportsAndroidBinaries: z.boolean(),
+  supportsAndroidBinaries: z.boolean().optional(),
 });
 const Roblox_ClientSettings_Api_Models_Response_ClientVersionResponse = z.object({
   version: z.string(),
@@ -19,17 +19,17 @@ const Roblox_ClientSettings_Api_Models_Response_OtaVersionResponse = z.object({
   name: z.string(),
   version: z.string(),
   downloadUrl: z.string(),
-  isStandalone: z.boolean(),
-  assetId: z.string(),
-  assetVersion: z.string(),
-  maxAppVersion: z.string(),
-  tryoutName: z.string(),
-  localAssetURI: z.string(),
-  isForcedUpdate: z.boolean(),
-  appStorageResetId: z.string(),
-  isDevelopmentConfig: z.boolean(),
-  assetsManifest: z.string(),
-  versionV2: z.number().int(),
+  isStandalone: z.boolean().optional(),
+  assetId: z.string().optional(),
+  assetVersion: z.string().optional(),
+  maxAppVersion: z.string().optional(),
+  tryoutName: z.string().optional(),
+  localAssetURI: z.string().optional(),
+  isForcedUpdate: z.boolean().optional(),
+  appStorageResetId: z.string().optional(),
+  isDevelopmentConfig: z.boolean().optional(),
+  assetsManifest: z.string().optional(),
+  versionV2: z.number().int().optional(),
 });
 const Roblox_ClientSettings_Api_Models_Response_BetaProgramInfo = z.object({
   name: z.string(),

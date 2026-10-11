@@ -284,6 +284,13 @@ const Roblox_Api_Develop_Models_PlaceModel = z.object({
   name: z.string(),
   description: z.string(),
 });
+const Roblox_Api_Develop_Models_PlaytesterEligibility = z.object({
+  userId: z.number().int(),
+  isEligible: z.boolean(),
+});
+const Roblox_Api_Develop_Models_PlaytesterEligibilityResponse = z.object({
+  playtesters: z.array(Roblox_Api_Develop_Models_PlaytesterEligibility),
+});
 const Roblox_Develop_Api_UpdatePluginRequest = z.object({
   name: z.string(),
   description: z.string(),
@@ -869,6 +876,46 @@ export const deleteUniversesUniverseidConfigurationPlaytesters = endpoint({
   },
   body: Roblox_Api_Develop_Models_PlaytestersRequest,
   response: Roblox_Api_Develop_Models_PlaytestersResponse,
+  errors: [
+    {
+      status: 400,
+      description: `1: The universe does not exist.
+48: The playtesters list is missing or empty.
+49: Too many playtesters were specified in a single request.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+2: You are not authorized to configure this universe.`,
+    },
+  ],
+});
+/**
+ * @api POST https://develop.roblox.com/v1/universes/:universeId/configuration/playtesters/eligibility
+ * @summary Check whether each candidate user can currently be added as a private playtester.
+ * @param body The candidate playtesters to evaluate.
+ * @param universeId The universe Id.
+ */
+export const postUniversesUniverseidConfigurationPlaytestersEligibility = endpoint({
+  method: 'POST',
+  path: '/v1/universes/:universeId/configuration/playtesters/eligibility',
+  baseUrl: 'https://develop.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+    universeId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    universeId: z.number().int(),
+  },
+  body: Roblox_Api_Develop_Models_PlaytestersRequest,
+  response: Roblox_Api_Develop_Models_PlaytesterEligibilityResponse,
   errors: [
     {
       status: 400,

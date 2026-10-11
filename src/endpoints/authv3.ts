@@ -96,7 +96,8 @@ export const postUsersUseridTwoStepVerificationLogin = endpoint({
     {
       status: 403,
       description: `0: Token Validation Failed
-11: Maxium logged in accounts limit reached.`,
+11: Maxium logged in accounts limit reached.
+44: Login is unavailable in your country.`,
     },
   ],
 });

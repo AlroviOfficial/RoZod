@@ -30,6 +30,7 @@ const Roblox_Friends_Api_FriendRequest = z.object({
     'UserCommunities',
     'TrustedFriend',
     'SchoolMemberList',
+    'SocialTabsPage',
   ]),
   contactName: z.string(),
   senderNickname: z.string(),
@@ -825,7 +826,7 @@ export const getUsersUseridFriendsCount = endpoint({
  * @param userSort Specifies how to sort the returned friends.
  * @param cursor The paging cursor for the previous or next page.
  * @param limit The number of results per request.
- * @param findFriendsType
+ * @param findFriendsType  ['FindFriends' = 0, 'FindTrustedFriends' = 1]
  */
 export const getUsersUseridFriendsFind = endpoint({
   method: 'GET',

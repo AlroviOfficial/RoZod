@@ -592,7 +592,7 @@ export const getGamesIcons = endpoint({
       .optional()
       .default('PlaceHolder'),
     size: z.enum(['50x50', '128x128', '150x150', '256x256', '420x420', '512x512']).optional().default('50x50'),
-    format: z.enum(['Png', 'Jpeg', 'Webp']).optional().default('Png'),
+    format: z.enum(['Png', 'Jpeg', 'Webp', 'Ico', 'Icns']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
@@ -762,7 +762,7 @@ export const getPlacesGameicons = endpoint({
       .optional()
       .default('PlaceHolder'),
     size: z.enum(['50x50', '128x128', '150x150', '256x256', '420x420', '512x512']).optional().default('50x50'),
-    format: z.enum(['Png', 'Jpeg', 'Webp']).optional().default('Png'),
+    format: z.enum(['Png', 'Jpeg', 'Webp', 'Ico', 'Icns']).optional().default('Png'),
     isCircular: z.union([z.literal(true), z.literal(false)]).optional(),
   },
   response: Roblox_Web_WebAPI_Models_ApiArrayResponse_Roblox_Web_Responses_Thumbnails_ThumbnailResponse_,
