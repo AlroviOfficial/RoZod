@@ -79,8 +79,7 @@ export const postUsersUseridUniversesUniverseid = endpoint({
     },
     {
       status: 403,
-      description: `User is not authorized for this action.
-0: Token Validation Failed`,
+      description: `User is not authorized for this action.`,
     },
   ],
 });
@@ -115,8 +114,7 @@ export const deleteUsersUseridUniversesUniverseid = endpoint({
     },
     {
       status: 403,
-      description: `User is not authorized for this action.
-0: Token Validation Failed`,
+      description: `User is not authorized for this action.`,
     },
   ],
 });

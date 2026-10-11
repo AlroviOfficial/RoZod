@@ -43,6 +43,8 @@ const Roblox_Authentication_Api_Models_PasswordValidationResponse = z.object({
     'PasswordSameAsUsernameError',
     'ForbiddenPasswordError',
     'DumbStringsError',
+    'PasswordLowComplexityError',
+    'PasswordTooSimilarToUsernameError',
   ]),
   message: z.string(),
 });
@@ -117,6 +119,7 @@ const Roblox_Authentication_Api_Models_SocialProvidersResponse = z.object({
 const Roblox_Authentication_Api_Models_UsernameChangePriceResponse = z.object({
   priceInRobux: z.number().int(),
   basePriceInRobux: z.number().int(),
+  isFreeUsernameChange: z.boolean(),
 });
 const Roblox_Authentication_Api_Models_UsernamesResponse = z.object({
   usernames: z.array(z.string()),
@@ -164,6 +167,18 @@ const Roblox_Authentication_Api_Models_XboxLoginConsecutiveDaysResponse = z.obje
 const Roblox_Authentication_Api_Models_AccountPinResponse = z.object({
   unlockedUntil: z.number(),
 });
+const Roblox_Authentication_Api_Models_AccountUpgradeRequest = z.object({
+  upgradeType: z.enum(['Unknown', 'Pioneer', 'OAuth', 'Guest', 'PioneerU13']),
+  username: z.string(),
+  password: z.string(),
+  birthday: z.string().datetime({ offset: true }),
+  email: z.string(),
+  gender: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+});
+const Roblox_Authentication_Api_Models_AccountUpgradeResponse = z.object({
+  userId: z.number().int(),
+  username: z.string(),
+});
 const Roblox_Authentication_Api_Models_Response_ExternalIdentityGateway_ExternalIdentityNonceResponse = z.object({
   nonce: z.string(),
 });
@@ -173,7 +188,7 @@ const saml_assertionconsumerservice_body = z.object({
 });
 const Roblox_Authentication_Api_Models_Request_ExternalAccessRequest = z.object({
   authenticationProof: z.string(),
-  identityProviderPlatformType: z.enum(['Undefined', 'Xbox', 'Playstation', 'Web', 'Steam']),
+  identityProviderPlatformType: z.enum(['Undefined', 'Xbox', 'Playstation', 'Web', 'Steam', 'Android', 'Ios', 'MacOs']),
   postAuthenticationIntentId: z.string(),
   additionalInfoPayload: z.object({}),
 });
@@ -219,7 +234,7 @@ const Roblox_Authentication_Api_Models_Request_ExternalLoginAndLinkRequest = z.o
   cvalue: z.string(),
   password: z.string(),
   authenticationProof: z.string(),
-  IdentityProviderPlatformType: z.enum(['Undefined', 'Xbox', 'Playstation', 'Web', 'Steam']),
+  IdentityProviderPlatformType: z.enum(['Undefined', 'Xbox', 'Playstation', 'Web', 'Steam', 'Android', 'Ios', 'MacOs']),
   additionalInfoPayload: z.object({}),
 });
 const Roblox_Authentication_Api_Models_Request_ExternalSignupRequest = z.object({
@@ -228,11 +243,11 @@ const Roblox_Authentication_Api_Models_Request_ExternalSignupRequest = z.object(
   birthday: z.string().datetime({ offset: true }),
   locale: z.string(),
   authenticationProof: z.string(),
-  IdentityProviderPlatformType: z.enum(['Undefined', 'Xbox', 'Playstation', 'Web', 'Steam']),
+  IdentityProviderPlatformType: z.enum(['Undefined', 'Xbox', 'Playstation', 'Web', 'Steam', 'Android', 'Ios', 'MacOs']),
   additionalInfoPayload: z.object({}),
 });
 const Roblox_Authentication_Api_Models_Request_ExternalUnlinkRequest = z.object({
-  IdentityProviderPlatformType: z.enum(['Undefined', 'Xbox', 'Playstation', 'Web', 'Steam']),
+  IdentityProviderPlatformType: z.enum(['Undefined', 'Xbox', 'Playstation', 'Web', 'Steam', 'Android', 'Ios', 'MacOs']),
   additionalInfoPayload: z.object({}),
 });
 const Roblox_Authentication_Api_Models_Request_IdentityVerificationLoginRequest = z.object({
@@ -647,6 +662,71 @@ export const postAccountPinUnlock = endpoint({
   ],
 });
 /**
+ * @api POST https://auth.roblox.com/v1/account/upgrade
+ * @summary Attaches a sign-in credential to the calling account.
+ * @param body The Roblox.Authentication.Api.Models.AccountUpgradeRequest.
+ * @description The caller is the account being upgraded, so the request carries no user ID and the
+session is the authorization. The call is safe to retry: each field is compared against
+the account first, and a field the account already holds is dropped rather than rewritten.
+
+The moderation filter is bypassed because an account held by a birthday compliance
+restriction is Suppressed and lifts that restriction through this call. Every upgrade type
+still passes its own eligibility gate.
+ */
+export const postAccountUpgrade = endpoint({
+  method: 'POST',
+  path: '/v1/account/upgrade',
+  baseUrl: 'https://auth.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    body: {},
+  },
+  parameters: {},
+  body: Roblox_Authentication_Api_Models_AccountUpgradeRequest,
+  response: Roblox_Authentication_Api_Models_AccountUpgradeResponse,
+  errors: [
+    {
+      status: 400,
+      description: `5: Account upgrade requires a password.
+6: Invalid Birthday.
+8: The upgrade type is missing, unknown, or not available.
+9: A supplied field is not allowed for the declared upgrade type.
+10: A birthday is required for this account.
+11: Invalid username.
+12: This username is already in use.
+13: Invalid password.
+14: Invalid email address.
+15: Too many accounts use this email address.
+17: Password is not complex enough.
+18: Password is too similar to username.`,
+    },
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.
+3: Not eligible for account upgrade.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+3: Not eligible for account upgrade.
+16: This account already holds a sign-in credential.`,
+    },
+    {
+      status: 429,
+      description: `4: Too many attempts. Please wait a bit.`,
+    },
+    {
+      status: 500,
+      description: `1: Unknown Error
+7: Account upgrade failed.`,
+    },
+    {
+      status: 503,
+      description: `2: Account upgrade is disabled.`,
+    },
+  ],
+});
+/**
  * @api GET https://auth.roblox.com/v1/auth/metadata
  * @summary Gets Auth meta data
  */
@@ -738,7 +818,7 @@ export const getExternalIdentityprovideridSsoOauthCallback = endpoint({
   errors: [
     {
       status: 302,
-      description: `Redirect`,
+      description: `Found`,
     },
   ],
 });
@@ -748,16 +828,14 @@ export const getExternalIdentityprovideridSsoOauthCallback = endpoint({
 Apple's first-auth `user` JSON is parsed and carried to identity storage; the form
 `id_token` is ignored. Web login exchanges code via PKCE and does
 not treat a form id_token as proof.
- * @param body 
  * @param identityProviderId 
  */
 export const postExternalIdentityprovideridSsoOauthCallback = endpoint({
   method: 'POST',
   path: '/v1/external/:identityProviderId/sso/oauth/callback',
   baseUrl: 'https://auth.roblox.com',
-  requestFormat: 'text',
+  requestFormat: 'json',
   serializationMethod: {
-    body: {},
     identityProviderId: {
       style: 'simple',
     },
@@ -765,12 +843,11 @@ export const postExternalIdentityprovideridSsoOauthCallback = endpoint({
   parameters: {
     identityProviderId: z.number().int(),
   },
-  body: z.object({}).optional(),
   response: z.void(),
   errors: [
     {
       status: 302,
-      description: `Redirect`,
+      description: `Found`,
     },
   ],
 });
@@ -805,7 +882,7 @@ export const getExternalIdentityprovideridSsoOauthInit = endpoint({
   errors: [
     {
       status: 302,
-      description: `Redirect`,
+      description: `Found`,
     },
   ],
 });
@@ -834,7 +911,7 @@ export const postExternalIdentityprovideridSsoSamlAssertionConsumerService = end
   errors: [
     {
       status: 302,
-      description: `Redirect`,
+      description: `Found`,
     },
   ],
 });
@@ -883,7 +960,8 @@ export const postExternalLogin = endpoint({
     },
     {
       status: 403,
-      description: `0: Token Validation Failed`,
+      description: `0: Token Validation Failed
+44: Login is unavailable in your country.`,
     },
     {
       status: 500,
@@ -915,7 +993,8 @@ export const postExternalLoginandlink = endpoint({
   errors: [
     {
       status: 403,
-      description: `0: Token Validation Failed`,
+      description: `0: Token Validation Failed
+44: Login is unavailable in your country.`,
     },
   ],
 });
@@ -938,7 +1017,9 @@ export const postExternalSignup = endpoint({
   errors: [
     {
       status: 403,
-      description: `0: Token Validation Failed`,
+      description: `0: Token Validation Failed
+36: Password is not complex enough.
+37: Password is too similar to username.`,
     },
   ],
 });
@@ -988,7 +1069,8 @@ export const postIdentityVerificationLogin = endpoint({
 1: Invalid login ticket.
 2: Invalid result token.
 3: Invalid user.
-4: Authentication failure.`,
+4: Authentication failure.
+44: Login is unavailable in your country.`,
     },
   ],
 });
@@ -1065,7 +1147,8 @@ export const postLogin = endpoint({
 12: Existing login session found. Please log out first.
 14: The account is unable to log in. Please log in to the LuoBu app.
 15: Too many attempts. Please wait a bit.
-27: The account is unable to login. Please log in with the VNG app.`,
+27: The account is unable to login. Please log in with the VNG app.
+44: Login is unavailable in your country.`,
     },
     {
       status: 429,
@@ -1115,7 +1198,8 @@ export const postLoginLinked = endpoint({
 14: The account is unable to log in. Please log in to the LuoBu app.
 15: Too many attempts. Please wait a bit.
 27: The account is unable to login. Please log in with the VNG app.
-43: This account is not eligible for this platform.`,
+43: This account is not eligible for this platform.
+44: Login is unavailable in your country.`,
     },
     {
       status: 429,
@@ -1691,7 +1775,9 @@ export const postRevertAccount = endpoint({
 3: Password is not valid
 4: Passwords do not match
 5: Password cannot be used
-8: The account security ticket is expired.`,
+8: The account security ticket is expired.
+14: Password is not complex enough
+15: Password is too similar to username`,
     },
     {
       status: 403,
@@ -1788,7 +1874,10 @@ export const postSignup = endpoint({
 11: Asset is invalid.
 12: Too many attempts. Please wait a bit.
 17: One time Passcode session was not valid
-22: Maximum logged in accounts limit reached.`,
+22: Maximum logged in accounts limit reached.
+36: Password is not complex enough.
+37: Password is too similar to username.
+44: Login is unavailable in your country.`,
     },
     {
       status: 429,
@@ -1845,7 +1934,10 @@ export const postSignupLinked = endpoint({
 17: One time Passcode session was not valid
 22: Maximum logged in accounts limit reached.
 29: Account Linking already exists on this account
-30: Account Linking required but failed`,
+30: Account Linking required but failed
+36: Password is not complex enough.
+37: Password is too similar to username.
+44: Login is unavailable in your country.`,
     },
     {
       status: 429,
@@ -1948,7 +2040,11 @@ export const postUserPasswordsChange = endpoint({
       status: 400,
       description: `Roblox.Web.Authentication.Passwords.PasswordResponseCodes.InvalidCurrentPassword
             OR
-            Roblox.Web.Authentication.Passwords.PasswordResponseCodes.InvalidPassword`,
+            Roblox.Web.Authentication.Passwords.PasswordResponseCodes.InvalidPassword
+            OR
+            Roblox.Web.Authentication.Passwords.PasswordResponseCodes.PasswordLowComplexity
+            OR
+            Roblox.Web.Authentication.Passwords.PasswordResponseCodes.PasswordTooSimilarToUsername`,
     },
     {
       status: 401,

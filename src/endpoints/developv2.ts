@@ -384,6 +384,7 @@ export const patchUniversesUniverseidConfiguration = endpoint({
 22: Invalid asset type.
 23: Invalid value, the min must be less than or equal to the max
 24: Invalid scale value
+26: Invalid private server price
 28: OptIn/Out Regions Not Supported.
 41: You cannot change the private server price again so soon after the previous change. Please try again later.
 44: The provided audience configuration is invalid. Ensure the audience list contains only supported audience values.
@@ -398,6 +399,7 @@ export const patchUniversesUniverseidConfiguration = endpoint({
       description: `0: Token Validation Failed
 2: You are not authorized to configure this universe.
 14: You are not authorized to sell games.
+25: Not authorized to update private server settings
 29: Luobu app terms of service user agreement is missing.
 30: Unknown error while updating Opt in out region.
 45: The creator of this experience is not eligible to set this audience.`,
@@ -408,7 +410,8 @@ export const patchUniversesUniverseidConfiguration = endpoint({
     },
     {
       status: 500,
-      description: `43: Failed to update the audience configuration. The change was not applied. Please try again.`,
+      description: `27: Unknown error while updating private server settings
+43: Failed to update the audience configuration. The change was not applied. Please try again.`,
     },
     {
       status: 503,

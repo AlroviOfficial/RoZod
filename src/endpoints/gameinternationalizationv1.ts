@@ -295,6 +295,8 @@ const Roblox_GameInternationalization_Api_Models_Response_SetUserLocalizationSet
 const Roblox_GameInternationalization_Api_GameAutolocalizationInformationResponse = z.object({
   isAutolocalizationEnabled: z.boolean(),
   shouldUseLocalizationTable: z.boolean(),
+  shouldUseImageLocalizationTable: z.boolean(),
+  isAutoLocalizationForImageEnabled: z.boolean(),
   autoLocalizationTableId: z.string().uuid(),
   assetId: z.number().int(),
 });

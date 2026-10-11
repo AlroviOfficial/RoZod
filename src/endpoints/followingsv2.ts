@@ -2,9 +2,9 @@ import { z } from 'zod';
 import { endpoint } from '..';
 
 const Roblox_Followings_Api_Models_FollowsByTypeResponse = z.object({
-  followerType: z.enum(['Invalid', 'User']),
+  followerType: z.union([z.literal(0), z.literal(1)]),
   followerId: z.number().int(),
-  sourceType: z.enum(['Invalid', 'Universe']),
+  sourceType: z.union([z.literal(0), z.literal(1)]),
   followedSources: z.string().datetime({ offset: true }),
 });
 

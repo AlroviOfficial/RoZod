@@ -51,6 +51,7 @@ const Roblox_Groups_Api_GroupDetailResponse = z.object({
   isBuildersClubOnly: z.boolean(),
   publicEntryAllowed: z.boolean(),
   isLocked: z.boolean(),
+  isDeactivated: z.boolean(),
   hasVerifiedBadge: z.boolean(),
   hasSocialModules: z.boolean(),
   communityTier: Roblox_Groups_Client_CommunityTierInfoResponse,
@@ -370,6 +371,7 @@ const Roblox_Groups_Api_GroupSettingsResponse = z.object({
   slowmode: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   isMemberListVisibleToPublic: z.boolean(),
   isAutoAssignRoleDisabled: z.boolean(),
+  hasLegacyAutoAssignRole: z.boolean(),
   communityTier: Roblox_Groups_Client_CommunityTierInfoResponse,
 });
 const Roblox_Groups_Api_UpdateGroupSettingsRequest = z.object({
@@ -890,6 +892,7 @@ export const getGroupsGroupidAuditLog = endpoint({
         'UpdateGroupSecuritySettings',
         'GrantEnterpriseTier',
         'RevokeEnterpriseTier',
+        'DeactivateGroup',
       ])
       .optional(),
     userId: z.number().int().optional(),
@@ -1516,6 +1519,49 @@ export const getGroupsGroupidConfiguration = endpoint({
     {
       status: 503,
       description: `31: Service is currently unavailable.`,
+    },
+  ],
+});
+/**
+ * @api POST https://groups.roblox.com/v1/groups/:groupId/deactivate
+ * @summary Deactivates the group as its owner.
+ * @param groupId The group Id.
+ */
+export const postGroupsGroupidDeactivate = endpoint({
+  method: 'POST',
+  path: '/v1/groups/:groupId/deactivate',
+  baseUrl: 'https://groups.roblox.com',
+  requestFormat: 'json',
+  serializationMethod: {
+    groupId: {
+      style: 'simple',
+    },
+  },
+  parameters: {
+    groupId: z.number().int(),
+  },
+  response: z.object({}),
+  errors: [
+    {
+      status: 401,
+      description: `0: Authorization has been denied for this request.`,
+    },
+    {
+      status: 403,
+      description: `0: Token Validation Failed
+19: You have insufficient permissions for this request.`,
+    },
+    {
+      status: 404,
+      description: `1: The group is invalid or does not exist.`,
+    },
+    {
+      status: 409,
+      description: `18: The operation is temporarily unavailable. Please try again later.`,
+    },
+    {
+      status: 500,
+      description: `0: Something went wrong.`,
     },
   ],
 });

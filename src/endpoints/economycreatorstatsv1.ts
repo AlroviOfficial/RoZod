@@ -10,7 +10,7 @@ const Roblox_EconomyCreatorStats_Api_Models_StatisticsResponse = z.object({
  * @api GET https://economycreatorstats.roblox.com/v1/universes/:universeId/stats
  * @summary Get statistics data for a universe.
  * @param universeId The universe id.
- * @param Type
+ * @param Type The type of a statistics dataset. ['PremiumUpsells' = 0, 'PremiumVisits' = 1]
  * @param StartTime
  * @param EndTime
  */
